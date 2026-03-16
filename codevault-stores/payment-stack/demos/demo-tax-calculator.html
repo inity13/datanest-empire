@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tax Calculator — Demo | Payment Stack</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#76FF03}.header .back{color:#76FF03;text-decoration:none;font-size:.85rem}
+  .container{max-width:860px;margin:0 auto;padding:28px 20px}
+  h2{font-size:1.5rem;margin-bottom:6px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+  @media(max-width:600px){.grid2{grid-template-columns:1fr}}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#76FF03;margin-bottom:14px}
+  label{display:block;font-size:.8rem;color:#8899aa;margin-bottom:4px}
+  input,select{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:8px 10px;font-size:.88rem;margin-bottom:12px;outline:none;transition:border-color .2s}
+  input:focus,select:focus{border-color:#76FF03}
+  .btn{padding:11px;border:none;border-radius:8px;font-size:.92rem;font-weight:600;cursor:pointer;background:#76FF03;color:#0A0E1A;transition:all .2s;width:100%}
+  .btn:hover{background:#8fff1a}
+  .result-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #1e2a3a;font-size:.88rem}
+  .result-row:last-child{border:none}
+  .result-row span:first-child{color:#8899aa}
+  .result-row span:last-child{color:#76FF03;font-weight:500}
+  .total-row{font-size:1.1rem;font-weight:700;padding-top:10px}
+  .total-row span:last-child{font-size:1.3rem}
+  .rate-table{width:100%;border-collapse:collapse;font-size:.8rem;margin-top:8px}
+  .rate-table th{text-align:left;color:#8899aa;padding:5px 6px;border-bottom:1px solid #1e2a3a;font-weight:500}
+  .rate-table td{padding:5px 6px;border-bottom:1px solid #111827;color:#ccc}
+  .rate-table tr:hover td{background:#111827}
+  .rate-table td:last-child{color:#76FF03}
+  .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.7rem;font-weight:600}
+  .badge-vat{background:rgba(118,255,3,.15);color:#76FF03}
+  .badge-gst{background:rgba(0,176,255,.15);color:#00b0ff}
+  .badge-sales{background:rgba(255,171,0,.15);color:#ffab00}
+  .info-box{background:rgba(118,255,3,.06);border:1px solid rgba(118,255,3,.15);border-radius:8px;padding:12px;font-size:.82rem;color:#76FF03;margin-top:10px}
+  .cta-bar{background:linear-gradient(135deg,#0d1321,#111827);border:1px solid #76FF03;border-radius:12px;padding:20px;text-align:center;margin-top:18px}
+  .cta-bar p{color:#8899aa;font-size:.85rem;margin-bottom:12px;margin-top:6px}
+  .cta-btn{display:inline-block;background:#76FF03;color:#0A0E1A;padding:12px 26px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s}
+  .cta-btn:hover{background:#8fff1a;transform:translateY(-2px)}
+  .footer-note{text-align:center;color:#445566;font-size:.77rem;margin-top:16px;padding-top:12px;border-top:1px solid #1e2a3a}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>⚡ Payment Stack — Tax Calculator Demo</h1>
+  <a class="back" href="../index.html">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>VAT / GST / Sales Tax Calculator</h2>
+  <p class="subtitle">Calculate applicable taxes by region and product type. Supports EU VAT, Australian GST, Canadian HST, and US sales tax.</p>
+  <div class="grid2">
+    <div class="panel">
+      <h3>🧾 Transaction Details</h3>
+      <label>Amount (before tax)</label>
+      <input id="amount" type="number" value="199" min="0" step="0.01" oninput="calculate()">
+      <label>Customer Country</label>
+      <select id="country" onchange="updateRegions();calculate()">
+        <optgroup label="EU"><option value="DE">Germany 🇩🇪</option><option value="FR">France 🇫🇷</option><option value="GB">United Kingdom 🇬🇧</option><option value="NL">Netherlands 🇳🇱</option><option value="SE">Sweden 🇸🇪</option></optgroup>
+        <optgroup label="Americas"><option value="US">United States 🇺🇸</option><option value="CA">Canada 🇨🇦</option><option value="MX">Mexico 🇲🇽</option></optgroup>
+        <optgroup label="Asia-Pacific"><option value="AU">Australia 🇦🇺</option><option value="NZ">New Zealand 🇳🇿</option><option value="SG">Singapore 🇸🇬</option><option value="JP">Japan 🇯🇵</option></optgroup>
+      </select>
+      <label>State / Province (US/CA)</label>
+      <select id="region" onchange="calculate()" style="display:none"></select>
+      <label>Product Type</label>
+      <select id="productType" onchange="calculate()">
+        <option value="digital">Digital goods / SaaS</option>
+        <option value="physical">Physical goods</option>
+        <option value="services">Professional services</option>
+        <option value="food">Food & grocery</option>
+        <option value="books">Books / educational</option>
+      </select>
+      <label>B2B Sale (customer has VAT number)</label>
+      <select id="b2b" onchange="calculate()">
+        <option value="no">No — B2C consumer</option>
+        <option value="yes">Yes — B2B (reverse charge)</option>
+      </select>
+    </div>
+    <div class="panel">
+      <h3>💰 Tax Breakdown</h3>
+      <div id="result">
+        <div class="result-row"><span>Net amount</span><span id="rNet">—</span></div>
+        <div class="result-row"><span>Tax type</span><span id="rType">—</span></div>
+        <div class="result-row"><span>Tax rate</span><span id="rRate">—</span></div>
+        <div class="result-row"><span>Tax amount</span><span id="rTax">—</span></div>
+        <div class="result-row total-row"><span>Total (incl. tax)</span><span id="rTotal">—</span></div>
+      </div>
+      <div id="infoBox" class="info-box" style="display:none"></div>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>🌍 Quick Reference — Tax Rates by Region</h3>
+    <table class="rate-table">
+      <thead><tr><th>Country</th><th>Tax Type</th><th>Standard Rate</th><th>Digital Goods</th></tr></thead>
+      <tbody>
+        <tr><td>Germany 🇩🇪</td><td><span class="badge badge-vat">VAT</span></td><td>19%</td><td class="td-right">19%</td></tr>
+        <tr><td>France 🇫🇷</td><td><span class="badge badge-vat">VAT</span></td><td>20%</td><td>20%</td></tr>
+        <tr><td>United Kingdom 🇬🇧</td><td><span class="badge badge-vat">VAT</span></td><td>20%</td><td>20%</td></tr>
+        <tr><td>Australia 🇦🇺</td><td><span class="badge badge-gst">GST</span></td><td>10%</td><td>10%</td></tr>
+        <tr><td>Canada 🇨🇦</td><td><span class="badge badge-gst">HST/GST</span></td><td>5–15%</td><td>5–15%</td></tr>
+        <tr><td>Japan 🇯🇵</td><td><span class="badge badge-gst">JCT</span></td><td>10%</td><td>10%</td></tr>
+        <tr><td>California, US 🇺🇸</td><td><span class="badge badge-sales">Sales Tax</span></td><td>7.25%</td><td>0%*</td></tr>
+        <tr><td>New York, US 🇺🇸</td><td><span class="badge badge-sales">Sales Tax</span></td><td>8%</td><td>4%</td></tr>
+        <tr><td>Texas, US 🇺🇸</td><td><span class="badge badge-sales">Sales Tax</span></td><td>8.25%</td><td>6.25%</td></tr>
+      </tbody>
+    </table>
+    <p style="color:#445566;font-size:.72rem;margin-top:8px">*Most US states exempt SaaS/digital goods. Rules vary by state.</p>
+  </div>
+  <div class="cta-bar">
+    <h3>Get the Full Tax Calculator</h3>
+    <p>Python library: 150+ countries, OSS threshold tracking, VAT validation, Stripe Tax integration, and CSV export.</p>
+    <a class="cta-btn" href="https://buy.stripe.com/bJe3cv5eDb54eRI3e1gjJ1t">Buy Full Version — $39.00</a>
+    <button class="crypto-pay-btn" data-product-slug="tax-calculator" data-store-slug="payment-stack" data-product-name="Tax Calculator" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+const TAX = {
+  DE:{name:'Germany',type:'VAT',symbol:'€',rates:{standard:19,digital:19,physical:19,services:19,food:7,books:7}},
+  FR:{name:'France',type:'VAT',symbol:'€',rates:{standard:20,digital:20,physical:20,services:20,food:5.5,books:5.5}},
+  GB:{name:'United Kingdom',type:'VAT',symbol:'£',rates:{standard:20,digital:20,physical:20,services:20,food:0,books:0}},
+  NL:{name:'Netherlands',type:'VAT',symbol:'€',rates:{standard:21,digital:21,physical:21,services:21,food:9,books:9}},
+  SE:{name:'Sweden',type:'VAT',symbol:'kr',rates:{standard:25,digital:25,physical:25,services:25,food:12,books:6}},
+  AU:{name:'Australia',type:'GST',symbol:'A$',rates:{standard:10,digital:10,physical:10,services:10,food:0,books:0}},
+  NZ:{name:'New Zealand',type:'GST',symbol:'NZ$',rates:{standard:15,digital:15,physical:15,services:15,food:15,books:15}},
+  SG:{name:'Singapore',type:'GST',symbol:'S$',rates:{standard:9,digital:9,physical:9,services:9,food:9,books:9}},
+  JP:{name:'Japan',type:'JCT',symbol:'¥',rates:{standard:10,digital:10,physical:10,services:10,food:8,books:10}},
+  CA:{name:'Canada',type:'HST/GST',symbol:'C$',rates:{standard:13,digital:13,physical:13,services:13,food:5,books:5}},
+  MX:{name:'Mexico',type:'IVA',symbol:'MX$',rates:{standard:16,digital:16,physical:16,services:16,food:0,books:0}},
+  US:{name:'United States',type:'Sales Tax',symbol:'$',states:{CA:7.25,NY:8,TX:8.25,FL:7,WA:10.1,OR:0,MT:0,NH:0},rates:{standard:8,digital:0,physical:8,services:0,food:0,books:0}},
+};
+
+const US_STATES = {CA:'California (7.25%)',NY:'New York (8%)',TX:'Texas (8.25%)',FL:'Florida (7%)',WA:'Washington (10.1%)',OR:'Oregon (0%)',MT:'Montana (0%)',NH:'New Hampshire (0%)'};
+const US_RATES = {CA:7.25,NY:8,TX:8.25,FL:7,WA:10.1,OR:0,MT:0,NH:0};
+
+function updateRegions(){
+  const c = document.getElementById('country').value;
+  const rSel = document.getElementById('region');
+  if(c==='US'){
+    rSel.style.display='block';
+    rSel.innerHTML = Object.entries(US_STATES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
+  } else rSel.style.display='none';
+}
+
+function calculate(){
+  const amount = parseFloat(document.getElementById('amount').value)||0;
+  const country = document.getElementById('country').value;
+  const productType = document.getElementById('productType').value;
+  const isB2B = document.getElementById('b2b').value==='yes';
+  const info = TAX[country];
+  if(!info){return;}
+  
+  let rate = 0, notes = '';
+  if(isB2B && ['DE','FR','GB','NL','SE'].includes(country)){
+    rate=0; notes='🔄 B2B Reverse Charge applies — customer accounts for VAT in their jurisdiction.';
+  } else if(country==='US'){
+    const state = document.getElementById('region').value||'CA';
+    rate = productType==='digital' ? 0 : (US_RATES[state]||0);
+    notes = productType==='digital' ? '💡 Most US states exempt digital goods from sales tax.' : '';
+  } else {
+    rate = info.rates[productType]??info.rates.standard;
+  }
+  
+  const tax = amount * rate/100;
+  const total = amount + tax;
+  
+  document.getElementById('rNet').textContent = `$${amount.toFixed(2)}`;
+  document.getElementById('rType').textContent = `${info.type}${country==='US'?` (${document.getElementById('region').value||'select state'})` : ` (${info.name})`}`;
+  document.getElementById('rRate').textContent = `${rate}%`;
+  document.getElementById('rTax').textContent = `$${tax.toFixed(2)}`;
+  document.getElementById('rTotal').textContent = `$${total.toFixed(2)}`;
+  
+  const infoBox = document.getElementById('infoBox');
+  if(notes){infoBox.style.display='block';infoBox.textContent=notes;}
+  else infoBox.style.display='none';
+}
+
+updateRegions();
+calculate();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

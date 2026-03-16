@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Batch Processor Demo — Automation Hub</title>
+<style>
+  :root { --brand: #18FFFF; --bg: #0A0E1A; --panel: #0d1321; --border: #1e2a3a; --text: #e2e8f0; --muted: #64748b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; }
+  header { background: var(--panel); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  header h1 { font-size: 1.1rem; color: var(--brand); }
+  header a { color: var(--muted); font-size: 0.85rem; text-decoration: none; }
+  header a:hover { color: var(--brand); }
+  .container { max-width: 900px; margin: 0 auto; padding: 28px 16px 60px; }
+  .intro { margin-bottom: 24px; }
+  .intro h2 { font-size: 1.4rem; margin-bottom: 6px; }
+  .intro p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
+  .badge { display: inline-block; background: var(--brand); color: #000; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+  .panel h3 { color: var(--brand); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px; }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .field { flex: 1; min-width: 140px; }
+  label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 5px; }
+  select, input[type=number], input[type=text] { width: 100%; background: #0a0f1e; border: 1px solid var(--border); color: var(--text); padding: 8px 10px; border-radius: 6px; font-size: 0.9rem; }
+  select:focus, input:focus { outline: none; border-color: var(--brand); }
+  .btn { background: var(--brand); color: #000; border: none; padding: 10px 22px; border-radius: 6px; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: opacity 0.15s; }
+  .btn:hover { opacity: 0.85; }
+  .btn-outline { background: transparent; border: 1px solid var(--brand); color: var(--brand); }
+  /* Pipeline */
+  .pipeline { display: flex; align-items: center; gap: 0; margin: 16px 0; overflow-x: auto; padding-bottom: 4px; }
+  .step { background: #0a0f1e; border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; min-width: 100px; text-align: center; position: relative; flex-shrink: 0; transition: border-color 0.3s, background 0.3s; }
+  .step.active { border-color: var(--brand); background: #001a1a; }
+  .step.done { border-color: #4ade80; background: #001a0a; }
+  .step.err  { border-color: #f87171; background: #1a0000; }
+  .step-icon { font-size: 1.3rem; }
+  .step-name { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+  .step-status { font-size: 0.7rem; margin-top: 2px; }
+  .step.active .step-status { color: var(--brand); }
+  .step.done  .step-status { color: #4ade80; }
+  .step.err   .step-status { color: #f87171; }
+  .connector { width: 24px; height: 2px; background: var(--border); flex-shrink: 0; }
+  .connector.done { background: #4ade80; }
+  /* Items table */
+  .items-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .items-table th { text-align: left; color: var(--muted); padding: 6px 10px; border-bottom: 1px solid var(--border); }
+  .items-table td { padding: 6px 10px; border-bottom: 1px solid #141f2e; }
+  .items-table tr:last-child td { border-bottom: none; }
+  .tag { display: inline-block; font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+  .tag.pending  { background: #1e2a3a; color: var(--muted); }
+  .tag.running  { background: #001a1a; color: var(--brand); }
+  .tag.done     { background: #002a10; color: #4ade80; }
+  .tag.failed   { background: #2a0000; color: #f87171; }
+  .tag.retrying { background: #2a1a00; color: #f59e0b; }
+  .summary-bar { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 14px; }
+  .summ { font-size: 0.85rem; }
+  .summ span { font-weight: 700; }
+  .summ .ok { color: #4ade80; }
+  .summ .fail { color: #f87171; }
+  .summ .warn { color: #f59e0b; }
+  .summ .brand { color: var(--brand); }
+  .progress-bar { background: var(--border); border-radius: 4px; height: 6px; overflow: hidden; margin: 10px 0 4px; }
+  .progress-fill { height: 100%; background: var(--brand); border-radius: 4px; transition: width 0.3s; width: 0%; }
+  .cta-bar { background: linear-gradient(135deg, #001a1a, #002a2a); border: 1px solid var(--brand); border-radius: 10px; padding: 24px 28px; text-align: center; margin-top: 28px; }
+  .cta-bar h3 { font-size: 1.15rem; margin-bottom: 6px; }
+  .cta-bar p { color: var(--muted); font-size: 0.9rem; margin-bottom: 16px; }
+  .price { font-size: 1.5rem; font-weight: 700; color: var(--brand); }
+  .buy-btn { display: inline-block; background: var(--brand); color: #000; font-weight: 700; padding: 12px 32px; border-radius: 7px; text-decoration: none; font-size: 1rem; margin-top: 10px; transition: opacity 0.15s; }
+  .buy-btn:hover { opacity: 0.85; }
+  footer { text-align: center; color: var(--muted); font-size: 0.8rem; padding: 20px; border-top: 1px solid var(--border); margin-top: 20px; }
+  .elapsed { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <h1>⚡ Automation Hub <span class="badge">DEMO</span></h1>
+  <a href="../index.html">← Back to Store</a>
+</header>
+<div class="container">
+  <div class="intro">
+    <h2>Batch Processor <span style="color:var(--brand)">Tool</span></h2>
+    <p>Configure a multi-stage processing pipeline and watch items flow through each stage — with retries, error handling, and throughput metrics. The full tool supports custom processors, parallel workers, and dead-letter queues.</p>
+  </div>
+
+  <!-- Config -->
+  <div class="panel">
+    <h3>Pipeline Configuration</h3>
+    <div class="row">
+      <div class="field">
+        <label>Job Type</label>
+        <select id="jobType">
+          <option>Image Resize + Compress</option>
+          <option>CSV → Database Import</option>
+          <option>Email Campaign Send</option>
+          <option>PDF Report Generation</option>
+          <option>API Data Enrichment</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Total Items</label>
+        <input type="number" id="totalItems" value="24" min="5" max="100">
+      </div>
+      <div class="field">
+        <label>Concurrency</label>
+        <input type="number" id="concurrency" value="3" min="1" max="8">
+      </div>
+      <div class="field">
+        <label>Error Rate (%)</label>
+        <input type="number" id="errRate" value="10" min="0" max="50">
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label>Retry Attempts</label>
+        <input type="number" id="retries" value="2" min="0" max="5">
+      </div>
+      <div class="field">
+        <label>Step Speed</label>
+        <select id="speed">
+          <option value="400">Normal</option>
+          <option value="150">Fast</option>
+          <option value="800">Slow</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" onclick="startBatch()">▶ Run Batch</button>
+    <button class="btn btn-outline" onclick="resetBatch()" style="margin-left:8px">Reset</button>
+  </div>
+
+  <!-- Pipeline stages -->
+  <div class="panel">
+    <h3>Pipeline Stages</h3>
+    <div class="pipeline" id="pipeline"></div>
+    <div class="progress-bar"><div class="progress-fill" id="pgFill"></div></div>
+    <div class="elapsed" id="elapsed">Idle</div>
+  </div>
+
+  <!-- Items -->
+  <div class="panel">
+    <h3>Item Queue</h3>
+    <div style="overflow-x:auto">
+      <table class="items-table">
+        <thead><tr><th>Item</th><th>Status</th><th>Stage</th><th>Attempts</th><th>Duration</th></tr></thead>
+        <tbody id="itemsTbody"></tbody>
+      </table>
+    </div>
+    <div class="summary-bar">
+      <div class="summ">Done: <span class="ok" id="sDone">0</span></div>
+      <div class="summ">Failed: <span class="fail" id="sFail">0</span></div>
+      <div class="summ">Retrying: <span class="warn" id="sRetry">0</span></div>
+      <div class="summ">Pending: <span class="brand" id="sPend">0</span></div>
+      <div class="summ">Throughput: <span class="brand" id="sTput">—</span></div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Full Batch Processor</h3>
+    <p>Custom processors · Parallel workers · Dead-letter queue · Webhook notifications · CLI runner</p>
+    <div class="price">$19.00</div>
+    <br>
+    <a class="buy-btn" href="https://buy.stripe.com/eVqeVdcH5gpocJA7uhgjJ0s">Buy Full Version — $19</a>
+    <button class="crypto-pay-btn" data-product-slug="etl-pipeline" data-store-slug="automation-hub" data-product-name="ETL Pipeline" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo simulates batch processing in-browser. The full tool runs real workloads with configurable Python processors.</footer>
+
+<script>
+// Stage definitions per job type
+const JOB_STAGES = {
+  'Image Resize + Compress':  [{icon:'📥',name:'Load'},{icon:'✂️',name:'Resize'},{icon:'🗜️',name:'Compress'},{icon:'📤',name:'Upload'},{icon:'✅',name:'Done'}],
+  'CSV → Database Import':    [{icon:'📥',name:'Read'},{icon:'🔍',name:'Validate'},{icon:'🔄',name:'Transform'},{icon:'💾',name:'Insert'},{icon:'✅',name:'Done'}],
+  'Email Campaign Send':      [{icon:'📥',name:'Load'},{icon:'✏️',name:'Render'},{icon:'📧',name:'Send'},{icon:'📊',name:'Track'},{icon:'✅',name:'Done'}],
+  'PDF Report Generation':    [{icon:'📥',name:'Fetch'},{icon:'📊',name:'Aggregate'},{icon:'🖨️',name:'Render'},{icon:'📤',name:'Deliver'},{icon:'✅',name:'Done'}],
+  'API Data Enrichment':      [{icon:'📥',name:'Load'},{icon:'🌐',name:'Enrich'},{icon:'🔄',name:'Merge'},{icon:'💾',name:'Save'},{icon:'✅',name:'Done'}],
+};
+
+let batchTimer = null, batchStart = 0;
+
+function buildPipeline(stages) {
+  const el = document.getElementById('pipeline');
+  el.innerHTML = '';
+  stages.forEach((s, i) => {
+    const div = document.createElement('div');
+    div.className = 'step';
+    div.id = 'stage-' + i;
+    div.innerHTML = `<div class="step-icon">${s.icon}</div><div class="step-name">${s.name}</div><div class="step-status">—</div>`;
+    el.appendChild(div);
+    if (i < stages.length - 1) {
+      const conn = document.createElement('div');
+      conn.className = 'connector';
+      conn.id = 'conn-' + i;
+      el.appendChild(conn);
+    }
+  });
+}
+
+function buildItems(n) {
+  const tbody = document.getElementById('itemsTbody');
+  tbody.innerHTML = '';
+  for (let i = 1; i <= n; i++) {
+    const tr = document.createElement('tr');
+    tr.id = 'item-' + i;
+    tr.innerHTML = `<td>item_${String(i).padStart(3,'0')}</td><td><span class="tag pending" id="ist-${i}">pending</span></td><td id="istg-${i}">—</td><td id="iat-${i}">0</td><td id="idt-${i}">—</td>`;
+    tbody.appendChild(tr);
+  }
+}
+
+function resetBatch() {
+  if (batchTimer) clearInterval(batchTimer);
+  batchTimer = null;
+  document.getElementById('pgFill').style.width = '0%';
+  document.getElementById('elapsed').textContent = 'Idle';
+  ['sDone','sFail','sRetry','sPend'].forEach(id => document.getElementById(id).textContent = '0');
+  document.getElementById('sTput').textContent = '—';
+  document.getElementById('pipeline').innerHTML = '';
+  document.getElementById('itemsTbody').innerHTML = '';
+}
+
+function startBatch() {
+  resetBatch();
+  const total     = Math.max(5, Math.min(100, parseInt(document.getElementById('totalItems').value) || 24));
+  const conc      = Math.max(1, Math.min(8, parseInt(document.getElementById('concurrency').value) || 3));
+  const errPct    = parseInt(document.getElementById('errRate').value) / 100;
+  const maxRetry  = parseInt(document.getElementById('retries').value) || 0;
+  const speed     = parseInt(document.getElementById('speed').value) || 400;
+  const jobType   = document.getElementById('jobType').value;
+  const stages    = JOB_STAGES[jobType];
+
+  buildPipeline(stages);
+  buildItems(total);
+
+  // Item state
+  const items = Array.from({length: total}, (_, i) => ({
+    id: i + 1,
+    status: 'pending',
+    stage: -1,
+    attempts: 0,
+    startMs: 0,
+  }));
+
+  document.getElementById('sPend').textContent = total;
+  batchStart = Date.now();
+
+  // Track active stage counts
+  const stageCounts = new Array(stages.length).fill(0);
+
+  function updateStageBadge(si) {
+    const el = document.getElementById('stage-' + si);
+    if (!el) return;
+    el.querySelector('.step-status').textContent = stageCounts[si] > 0 ? `${stageCounts[si]} active` : (si === stages.length-1 ? 'Final' : 'Idle');
+  }
+
+  function tick() {
+    const now = Date.now();
+    const elapsedSec = (now - batchStart) / 1000;
+    document.getElementById('elapsed').textContent = `Running — ${elapsedSec.toFixed(1)}s elapsed`;
+
+    // Count statuses
+    let done = 0, failed = 0, retrying = 0, pending = 0, running = 0;
+    items.forEach(it => {
+      if (it.status === 'done')    done++;
+      else if (it.status === 'failed') failed++;
+      else if (it.status === 'retrying') retrying++;
+      else if (it.status === 'pending') pending++;
+      else running++;
+    });
+
+    document.getElementById('sDone').textContent  = done;
+    document.getElementById('sFail').textContent  = failed;
+    document.getElementById('sRetry').textContent = retrying;
+    document.getElementById('sPend').textContent  = pending + running;
+    const pct = Math.round(((done + failed) / total) * 100);
+    document.getElementById('pgFill').style.width = pct + '%';
+
+    if (done + failed >= total) {
+      clearInterval(batchTimer);
+      const totalTime = ((Date.now() - batchStart) / 1000).toFixed(1);
+      document.getElementById('elapsed').textContent = `Complete in ${totalTime}s — ${done} done, ${failed} failed`;
+      document.getElementById('sTput').textContent = (done / parseFloat(totalTime)).toFixed(1) + '/s';
+      return;
+    }
+
+    // Advance items
+    // Pick up to conc pending items to start
+    let active = items.filter(it => it.status === 'running').length;
+    items.forEach(it => {
+      if (it.status === 'retrying' && Math.random() < 0.4) {
+        it.status = 'running';
+        it.stage = Math.max(0, it.stage - 1);
+      }
+    });
+
+    items.filter(it => it.status === 'pending').slice(0, conc - active).forEach(it => {
+      it.status = 'running';
+      it.stage = 0;
+      it.startMs = Date.now();
+      it.attempts++;
+      stageCounts[0]++;
+      updateStageBadge(0);
+      document.getElementById('stage-0').className = 'step active';
+    });
+
+    // Advance running items
+    items.filter(it => it.status === 'running').forEach(it => {
+      if (Math.random() < 0.35) { // 35% chance to advance each tick
+        stageCounts[it.stage] = Math.max(0, stageCounts[it.stage] - 1);
+        updateStageBadge(it.stage);
+
+        if (Math.random() < errPct && it.stage < stages.length - 2) {
+          // Error at this stage
+          if (it.attempts <= maxRetry) {
+            it.status = 'retrying';
+            const row = document.getElementById('ist-' + it.id);
+            if (row) { row.className = 'tag retrying'; row.textContent = 'retrying'; }
+            document.getElementById('iat-' + it.id).textContent = it.attempts;
+            document.getElementById('istg-' + it.id).textContent = stages[it.stage].name;
+            it.attempts++;
+          } else {
+            it.status = 'failed';
+            const row = document.getElementById('ist-' + it.id);
+            if (row) { row.className = 'tag failed'; row.textContent = 'failed'; }
+            document.getElementById('istg-' + it.id).textContent = stages[it.stage].name;
+            document.getElementById('idt-' + it.id).textContent = ((Date.now() - it.startMs)/1000).toFixed(1) + 's';
+          }
+        } else {
+          it.stage++;
+          if (it.stage >= stages.length) {
+            it.stage = stages.length - 1;
+            it.status = 'done';
+            const row = document.getElementById('ist-' + it.id);
+            if (row) { row.className = 'tag done'; row.textContent = 'done'; }
+            document.getElementById('istg-' + it.id).textContent = stages[it.stage].name;
+            document.getElementById('idt-' + it.id).textContent = ((Date.now() - it.startMs)/1000).toFixed(1) + 's';
+            document.getElementById('conn-' + (it.stage - 1)).className = 'connector done';
+          } else {
+            stageCounts[it.stage]++;
+            updateStageBadge(it.stage);
+            document.getElementById('stage-' + it.stage).className = 'step active';
+            document.getElementById('ist-' + it.id).className = 'tag running';
+            document.getElementById('ist-' + it.id).textContent = 'running';
+            document.getElementById('istg-' + it.id).textContent = stages[it.stage].name;
+          }
+        }
+      }
+    });
+  }
+
+  batchTimer = setInterval(tick, speed);
+}
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

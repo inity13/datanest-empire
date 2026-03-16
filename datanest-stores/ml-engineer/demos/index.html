@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ML Engineer Toolkit Demos | Digital Stores Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#0f1117;color:#e2e8f0;font-family:'Inter', 'SF Pro', system-ui, sans-serif;line-height:1.6}
+    a{color:#3b82f6;text-decoration:none} a:hover{text-decoration:underline}
+    .container{max-width:1000px;margin:0 auto;padding:24px 16px}
+    .btn{display:inline-block;padding:10px 24px;background:#3b82f6;color:#fff;
+          font-weight:600;border:none;border-radius:6px;cursor:pointer;font-size:14px}
+    .btn:hover{opacity:0.85;text-decoration:none}
+    .price{font-size:20px;font-weight:700;color:#3b82f6}
+    .muted{color:#94a3b8;font-size:13px}
+    .card{background:#1a1d27;border-radius:8px;padding:16px;border:1px solid #2a2d37}
+    .tag{display:inline-block;padding:2px 8px;background:#3b82f622;color:#3b82f6;
+         border-radius:4px;font-size:11px;font-weight:600}
+    code,.mono{font-family:'JetBrains Mono',monospace}
+    </style>
+</head>
+<body>
+<div class="container">
+
+<h1 style="font-size:20px;margin-bottom:4px">ML Engineer Toolkit Demos</h1>
+<p class="muted" style="margin-bottom:20px">Machine learning pipelines, model serving, and MLOps templates &mdash; 11 interactive demos</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px">
+
+<a href="mlops-pipeline-templates.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(92,75,139);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">MLOps Pipeline Templates</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">End-to-end ML pipeline templates with feature engineering, training, evaluation, and deployment stages.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$49.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="model-serving-toolkit.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(101,216,44);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Model Serving Toolkit</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Deploy models with FastAPI, TensorFlow Serving, Triton, and BentoML. Includes A/B testing and canary patterns.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$39.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="feature-store-setup.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(167,54,248);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Feature Store Setup Guide</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Build a feature store with Feast or custom implementation. Feature engineering, versioning, and serving patterns.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$39.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="experiment-tracking-setup.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(132,9,241);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Experiment Tracking Setup</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">MLflow and Weights & Biases configurations with experiment comparison, model registry, and artifact management.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$29.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="data-labeling-pipeline.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(215,135,252);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Data Labeling Pipeline</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Annotation workflow tools, quality assurance scripts, active learning selectors, and labeling interface templates.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$29.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="model-monitoring-dashboard.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(133,115,48);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Model Monitoring Dashboard</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Drift detection, performance monitoring, and alerting for deployed models with Grafana dashboards and alerting rules.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$39.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="nlp-starter-kit.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(157,18,143);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">NLP Starter Kit</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Text processing pipelines, embedding workflows, fine-tuning scripts, and RAG implementation patterns.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$39.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="computer-vision-toolkit.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(21,20,51);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Computer Vision Toolkit</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Image classification, object detection, and segmentation pipelines with data augmentation and evaluation frameworks.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$39.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="llm-application-framework.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(106,50,103);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">LLM Application Framework</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Build LLM-powered apps with prompt management, RAG pipelines, guardrails, evaluation harnesses, and cost tracking.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$59.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="ml-testing-framework.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(238,129,36);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">ML Testing Framework</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Test ML code: data validation, model performance, fairness checks, integration tests, and regression detection.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$29.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="gpu-optimization-guide.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(134,121,21);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">GPU Optimization Guide</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">CUDA memory management, mixed precision training, distributed training configs, and GPU utilization monitoring.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$39.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+</div>
+<div style="margin-top:24px"><a href="../../../demos/index.html">&larr; All Stores</a></div>
+
+</div>
+<script></script>
+</body>
+</html>

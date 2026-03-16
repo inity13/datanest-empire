@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Manager &mdash; Auth Vault &mdash; CodeVault</title>
+    <meta name="description" content="Production-ready Python session management with HMAC-signed cookies, pluggable storage, automatic expiration, and CSRF protection. Zero dependencies.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F510;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#E91E63">
+    <script defer data-domain="auth-vault.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Auth Vault</a>
+        <h1 class="preview-page__title">Session Manager</h1>
+        <p class="preview-page__price">$4.99</p>
+        <p class="preview-page__desc">Production-ready session management with cryptographically signed cookies, pluggable storage backends (in-memory with Redis-compatible interface), automatic expiration, session fingerprinting, and CSRF token generation. Runs on Python 3.10+ stdlib only.</p>
+
+        <ul class="preview-page__features">
+            <li>HMAC-signed session cookies (tamper-proof)</li>
+            <li>In-memory store with Redis-compatible interface</li>
+            <li>Automatic session expiration and cleanup</li>
+            <li>Session fingerprinting: IP + User-Agent binding</li>
+            <li>CSRF token generation and validation</li>
+            <li>HTTP middleware with configurable cookie options</li>
+            <li>CLI for session inspection and cleanup</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Start demo server with session management
+python main.py serve --port 8080 --secret my-session-secret
+
+# Create a session
+python main.py create --user alice --ttl 3600
+
+# List active sessions
+python main.py list --format json</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_session_manager"
+               data-product="session-manager">
+                Grab This &mdash; $4.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Session Manager"
+                    data-crypto-price="424">
+                Pay with Crypto ($4.24)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

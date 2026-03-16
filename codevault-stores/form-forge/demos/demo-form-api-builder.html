@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form API Builder Demo — Form Forge</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:900px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#7C4DFF20;color:#7C4DFF;border:1px solid #7C4DFF40;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .layout{display:grid;grid-template-columns:340px 1fr;gap:20px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:20px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#7C4DFF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px}
+  label{display:block;font-size:12px;color:#94a3b8;margin-bottom:5px;font-weight:500;margin-top:10px}
+  label:first-child{margin-top:0}
+  input,select,textarea{width:100%;background:#0A0E1A;border:1px solid #2d3748;border-radius:6px;padding:9px 12px;color:#e2e8f0;font-size:13px;outline:none;transition:border-color .2s;font-family:inherit}
+  input:focus,select:focus,textarea:focus{border-color:#7C4DFF}
+  select option{background:#111827}
+  .method-row{display:flex;gap:8px;margin-bottom:12px}
+  .method-btn{flex:1;padding:9px;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;border:1px solid #2d3748;background:#0A0E1A;color:#94a3b8;transition:all .2s}
+  .method-btn.active-get{background:#22c55e20;color:#22c55e;border-color:#22c55e40}
+  .method-btn.active-post{background:#FF336620;color:#FF3366;border-color:#FF336640}
+  .method-btn.active-put{background:#f59e0b20;color:#f59e0b;border-color:#f59e0b40}
+  .method-btn.active-delete{background:#ef444420;color:#ef4444;border-color:#ef444440}
+  .field-row{display:flex;gap:6px;align-items:center;margin-bottom:6px}
+  .field-row input,.field-row select{flex:1}
+  .del-btn{background:none;border:none;color:#475569;cursor:pointer;font-size:14px;padding:5px;transition:color .2s;flex-shrink:0}
+  .del-btn:hover{color:#ef4444}
+  .add-field-btn{background:#7C4DFF10;border:1px dashed #7C4DFF40;border-radius:6px;padding:8px;width:100%;color:#7C4DFF;font-size:12px;cursor:pointer;transition:all .2s;margin-top:4px}
+  .add-field-btn:hover{background:#7C4DFF20}
+  .btn-generate{background:#7C4DFF;color:#fff;border:none;border-radius:8px;padding:11px;width:100%;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;margin-top:12px}
+  .btn-generate:hover{background:#6B3FEE}
+  /* Code output */
+  .code-tabs{display:flex;gap:6px;margin-bottom:12px}
+  .code-tab{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #2d3748;background:transparent;color:#94a3b8;transition:all .2s}
+  .code-tab.active{background:#7C4DFF20;color:#7C4DFF;border-color:#7C4DFF40}
+  .code-output{background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:16px;font-family:'Courier New',monospace;font-size:12px;color:#e2e8f0;overflow-x:auto;line-height:1.7;white-space:pre;max-height:480px;overflow-y:auto}
+  .hl-key{color:#7C4DFF}
+  .hl-str{color:#00FF88}
+  .hl-num{color:#f59e0b}
+  .hl-met{color:#FF3366}
+  .copy-btn{background:#1e293b;border:1px solid #2d3748;color:#94a3b8;border-radius:6px;padding:7px 14px;font-size:12px;cursor:pointer;transition:all .2s;margin-top:8px;width:100%}
+  .copy-btn:hover{border-color:#7C4DFF;color:#7C4DFF}
+  .cta-bar{background:linear-gradient(135deg,#7C4DFF15,#7C4DFF05);border:1px solid #7C4DFF30;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#7C4DFF;color:#fff;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#6B3FEE;transform:translateY(-1px);box-shadow:0 8px 24px #7C4DFF40}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  @media(max-width:680px){.layout{grid-template-columns:1fr}}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Form API Builder</h1>
+    <p class="subtitle">Generate API-ready form schemas with endpoint code and client examples</p>
+  </div>
+
+  <div class="layout">
+    <div>
+      <div class="card">
+        <div class="card-title">Endpoint Configuration</div>
+        <label>API Base URL</label>
+        <input type="text" id="baseUrl" value="https://api.yourdomain.com/v1" oninput="generate()">
+        <label>Endpoint Path</label>
+        <input type="text" id="endpointPath" value="/forms/contact/submit" oninput="generate()">
+        <label>HTTP Method</label>
+        <div class="method-row">
+          <button class="method-btn" id="m-GET" onclick="setMethod('GET')">GET</button>
+          <button class="method-btn active-post" id="m-POST" onclick="setMethod('POST')">POST</button>
+          <button class="method-btn" id="m-PUT" onclick="setMethod('PUT')">PUT</button>
+          <button class="method-btn" id="m-DELETE" onclick="setMethod('DELETE')">DEL</button>
+        </div>
+        <label>Auth Method</label>
+        <select id="authMethod" onchange="generate()">
+          <option value="none">None</option>
+          <option value="bearer">Bearer Token</option>
+          <option value="apikey" selected>API Key (header)</option>
+          <option value="basic">Basic Auth</option>
+        </select>
+        <label>Response Format</label>
+        <select id="responseFormat" onchange="generate()">
+          <option value="json" selected>JSON</option>
+          <option value="jsonapi">JSON:API</option>
+        </select>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Form Fields</div>
+        <div id="fieldsList"></div>
+        <button class="add-field-btn" onclick="addField()">+ Add Field</button>
+        <button class="btn-generate" onclick="generate()">Generate Code</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Generated Code</div>
+      <div class="code-tabs">
+        <button class="code-tab active" onclick="showCodeTab('curl')">cURL</button>
+        <button class="code-tab" onclick="showCodeTab('js')">JavaScript</button>
+        <button class="code-tab" onclick="showCodeTab('python')">Python</button>
+        <button class="code-tab" onclick="showCodeTab('schema')">JSON Schema</button>
+      </div>
+      <div class="code-output" id="codeOutput"></div>
+      <button class="copy-btn" onclick="copyCode()">Copy to Clipboard</button>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <p>Full version: auto-generates OpenAPI spec, Postman collection, server-side validation middleware, and SDKs for React, Vue, and native mobile.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/6oU6oH9uT5KK24W5m9gjJ17">Buy Full Version — $59.00</a>
+    <button class="crypto-pay-btn" data-product-slug="form-api-builder" data-store-slug="form-forge" data-product-name="Form API Builder" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows limited functionality. Buy the full tool for all features.</div>
+</div>
+<script>
+let method = 'POST';
+let fields = [
+  {id:1, name:'name', type:'string', required:true},
+  {id:2, name:'email', type:'string', required:true},
+  {id:3, name:'message', type:'string', required:false},
+];
+let fid = 4;
+let currentTab = 'curl';
+
+function setMethod(m) {
+  method = m;
+  ['GET','POST','PUT','DELETE'].forEach(x => {
+    const btn = document.getElementById('m-'+x);
+    btn.className = 'method-btn' + (x===m ? ' active-'+x.toLowerCase() : '');
+  });
+  generate();
+}
+
+function addField() {
+  fields.push({id:fid++, name:'field'+fid, type:'string', required:false});
+  renderFields();
+  generate();
+}
+
+function removeField(id) { fields = fields.filter(f=>f.id!==id); renderFields(); generate(); }
+function updateField(id, key, val) { const f=fields.find(x=>x.id===id); if(f){f[key]=val;} generate(); }
+
+function renderFields() {
+  document.getElementById('fieldsList').innerHTML = fields.map(f => `
+    <div class="field-row">
+      <input type="text" value="${f.name}" placeholder="field name" oninput="updateField(${f.id},'name',this.value)" style="flex:1.5">
+      <select onchange="updateField(${f.id},'type',this.value)">
+        <option${f.type==='string'?' selected':''}>string</option>
+        <option${f.type==='number'?' selected':''}>number</option>
+        <option${f.type==='boolean'?' selected':''}>boolean</option>
+        <option${f.type==='email'?' selected':''}>email</option>
+        <option${f.type==='array'?' selected':''}>array</option>
+      </select>
+      <select onchange="updateField(${f.id},'required',this.value==='true')">
+        <option value="true"${f.required?' selected':''}>required</option>
+        <option value="false"${!f.required?' selected':''}>optional</option>
+      </select>
+      <button class="del-btn" onclick="removeField(${f.id})">✕</button>
+    </div>`).join('');
+}
+
+function getUrl() {
+  return (document.getElementById('baseUrl').value||'https://api.example.com') +
+         (document.getElementById('endpointPath').value||'/submit');
+}
+
+function getAuthHeader() {
+  const auth = document.getElementById('authMethod').value;
+  if (auth === 'bearer') return '-H "Authorization: Bearer YOUR_TOKEN" \\';
+  if (auth === 'apikey') return '-H "X-API-Key: YOUR_API_KEY" \\';
+  if (auth === 'basic') return '-H "Authorization: Basic BASE64_CREDENTIALS" \\';
+  return '';
+}
+
+function getBody() {
+  const obj = {};
+  fields.forEach(f => {
+    if (f.type === 'string' || f.type === 'email') obj[f.name] = f.type === 'email' ? 'user@example.com' : 'example value';
+    else if (f.type === 'number') obj[f.name] = 42;
+    else if (f.type === 'boolean') obj[f.name] = true;
+    else if (f.type === 'array') obj[f.name] = ['item1', 'item2'];
+  });
+  return JSON.stringify(obj, null, 2);
+}
+
+function generateCurl() {
+  const url = getUrl();
+  const auth = getAuthHeader();
+  const hasBody = ['POST','PUT'].includes(method);
+  let code = `curl -X ${method} "${url}" \\\n`;
+  code += `-H "Content-Type: application/json" \\\n`;
+  if (auth) code += `${auth}\n`;
+  if (hasBody) code += `-d '${getBody()}'`;
+  return code;
+}
+
+function generateJS() {
+  const url = getUrl();
+  const auth = document.getElementById('authMethod').value;
+  const hasBody = ['POST','PUT'].includes(method);
+  let headers = `  'Content-Type': 'application/json',\n`;
+  if (auth === 'bearer') headers += `  'Authorization': 'Bearer YOUR_TOKEN',\n`;
+  if (auth === 'apikey') headers += `  'X-API-Key': 'YOUR_API_KEY',\n`;
+  if (auth === 'basic') headers += `  'Authorization': 'Basic BASE64_CREDENTIALS',\n`;
+  return `const response = await fetch('${url}', {\n  method: '${method}',\n  headers: {\n${headers}  },\n${hasBody?`  body: JSON.stringify(${getBody()}),\n`:''
+}});\n\nconst data = await response.json();\nconsole.log(data);`;
+}
+
+function generatePython() {
+  const url = getUrl();
+  const auth = document.getElementById('authMethod').value;
+  const hasBody = ['POST','PUT'].includes(method);
+  let headers = `    'Content-Type': 'application/json',\n`;
+  if (auth === 'bearer') headers += `    'Authorization': 'Bearer YOUR_TOKEN',\n`;
+  if (auth === 'apikey') headers += `    'X-API-Key': 'YOUR_API_KEY',\n`;
+  if (auth === 'basic') headers += `    'Authorization': 'Basic BASE64_CREDENTIALS',\n`;
+  return `import requests\n\nurl = '${url}'\nheaders = {\n${headers}}\n${hasBody?`payload = ${getBody()}\n\nresponse = requests.${method.toLowerCase()}(url, json=payload, headers=headers)`
+  :`response = requests.${method.toLowerCase()}(url, headers=headers)`}\n\nprint(response.json())`;
+}
+
+function generateSchema() {
+  const schema = {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "title": "Form Submission",
+    "required": fields.filter(f=>f.required).map(f=>f.name),
+    "properties": {}
+  };
+  fields.forEach(f => {
+    schema.properties[f.name] = {
+      "type": f.type === 'email' ? 'string' : f.type,
+      ...(f.type === 'email' ? {"format":"email"} : {}),
+      "description": `The ${f.name} field`
+    };
+  });
+  return JSON.stringify(schema, null, 2);
+}
+
+function showCodeTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.code-tab').forEach((el,i) => {
+    el.classList.toggle('active', ['curl','js','python','schema'][i] === tab);
+  });
+  generate();
+}
+
+function generate() {
+  renderFields();
+  let code = '';
+  if (currentTab === 'curl') code = generateCurl();
+  else if (currentTab === 'js') code = generateJS();
+  else if (currentTab === 'python') code = generatePython();
+  else code = generateSchema();
+  document.getElementById('codeOutput').textContent = code;
+}
+
+function copyCode() {
+  const text = document.getElementById('codeOutput').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = 'Copy to Clipboard', 2000);
+  });
+}
+
+renderFields();
+generate();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

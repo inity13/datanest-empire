@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Preview Renderer &mdash; Email Arsenal &mdash; CodeVault</title>
+    <meta name="description" content="Python tool to render HTML emails and check rendering compatibility across different email clients. Catch layout bugs before you send.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F4E7;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#FF3366">
+    <script defer data-domain="email-arsenal.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Email Arsenal</a>
+        <h1 class="preview-page__title">Email Preview Renderer</h1>
+        <p class="preview-page__price">$9.99</p>
+        <p class="preview-page__desc">Python tool to render HTML emails and check rendering compatibility across different email clients. Catch layout bugs before you send &mdash; simulates CSS stripping, image blocking, and client-specific quirks.</p>
+
+        <ul class="preview-page__features">
+            <li>HTML email rendering with CSS inlining engine</li>
+            <li>Client simulation profiles (Gmail, Outlook, Apple Mail, Yahoo)</li>
+            <li>Dark mode rendering simulation</li>
+            <li>Image blocking preview mode</li>
+            <li>Responsive breakpoint testing (mobile, tablet, desktop)</li>
+            <li>CSS property compatibility warnings</li>
+            <li>Accessibility check (alt tags, contrast ratios, font sizes)</li>
+            <li>Local preview server with hot reload</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Preview an HTML email
+python email_preview_renderer.py preview --file email.html
+
+# Check compatibility issues
+python email_preview_renderer.py check --file email.html --clients gmail,outlook
+
+# Render with CSS inlined
+python email_preview_renderer.py inline --file email.html --output inlined.html</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_email_preview_renderer"
+               data-product="email-preview-renderer">
+                Grab This &mdash; $9.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Email Preview Renderer"
+                    data-crypto-price="999">
+                Pay with Crypto ($7.99)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

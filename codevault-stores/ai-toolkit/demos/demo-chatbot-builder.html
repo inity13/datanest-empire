@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chatbot Builder — Demo | AI Toolkit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#FF1744}.header .back{color:#FF1744;text-decoration:none;font-size:.85rem}
+  .container{max-width:960px;margin:0 auto;padding:28px 20px}
+  h2{font-size:1.5rem;margin-bottom:6px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .layout{display:grid;grid-template-columns:320px 1fr;gap:18px}
+  @media(max-width:700px){.layout{grid-template-columns:1fr}}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:18px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#FF1744;margin-bottom:12px}
+  label{display:block;font-size:.8rem;color:#8899aa;margin-bottom:4px}
+  input,select,textarea{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:8px 10px;font-size:.85rem;margin-bottom:10px;outline:none;transition:border-color .2s;font-family:inherit}
+  input:focus,select:focus,textarea:focus{border-color:#FF1744}
+  .btn{width:100%;padding:10px;border:none;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer;background:#FF1744;color:#fff;transition:all .2s}
+  .btn:hover{background:#ff4060}
+  /* Chat UI */
+  .chat-window{background:#060a12;border:1px solid #1e2a3a;border-radius:10px;overflow:hidden;display:flex;flex-direction:column;height:480px}
+  .chat-header{padding:12px 16px;border-bottom:1px solid #1e2a3a;display:flex;align-items:center;gap:10px}
+  .bot-avatar{width:32px;height:32px;border-radius:50%;background:#FF1744;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+  .bot-name{font-size:.9rem;font-weight:600}
+  .bot-status{font-size:.72rem;color:#76FF03;margin-top:1px}
+  .chat-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+  .msg{max-width:80%;padding:10px 12px;border-radius:12px;font-size:.85rem;line-height:1.5}
+  .msg-bot{background:#1e2a3a;color:#fff;align-self:flex-start;border-bottom-left-radius:3px}
+  .msg-user{background:#FF1744;color:#fff;align-self:flex-end;border-bottom-right-radius:3px}
+  .msg-typing{background:#1e2a3a;color:#8899aa;align-self:flex-start}
+  .chat-input{border-top:1px solid #1e2a3a;padding:10px;display:flex;gap:8px}
+  .chat-input input{margin-bottom:0;flex:1}
+  .chat-input button{background:#FF1744;border:none;border-radius:6px;color:#fff;padding:8px 14px;cursor:pointer;font-size:.88rem;font-weight:600;white-space:nowrap}
+  .chat-input button:hover{background:#ff4060}
+  .quick-replies{padding:0 14px 10px;display:flex;flex-wrap:wrap;gap:6px}
+  .qr-btn{background:none;border:1px solid #1e2a3a;border-radius:20px;color:#8899aa;padding:4px 10px;cursor:pointer;font-size:.75rem;transition:all .2s}
+  .qr-btn:hover{border-color:#FF1744;color:#FF1744}
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .toggle-label{font-size:.82rem;color:#8899aa}
+  .toggle{position:relative;width:36px;height:20px}
+  .toggle input{opacity:0;width:0;height:0}
+  .toggle-slider{position:absolute;inset:0;background:#1e2a3a;border-radius:20px;cursor:pointer;transition:.2s}
+  .toggle-slider::before{content:'';position:absolute;width:14px;height:14px;left:3px;bottom:3px;background:#8899aa;border-radius:50%;transition:.2s}
+  .toggle input:checked+.toggle-slider{background:#FF1744}
+  .toggle input:checked+.toggle-slider::before{transform:translateX(16px);background:#fff}
+  .cta-bar{background:linear-gradient(135deg,#0d1321,#111827);border:1px solid #FF1744;border-radius:12px;padding:20px;text-align:center;margin-top:18px}
+  .cta-bar p{color:#8899aa;font-size:.85rem;margin-bottom:12px;margin-top:6px}
+  .cta-btn{display:inline-block;background:#FF1744;color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s}
+  .cta-btn:hover{background:#ff4060;transform:translateY(-2px)}
+  .footer-note{text-align:center;color:#445566;font-size:.77rem;margin-top:16px;padding-top:12px;border-top:1px solid #1e2a3a}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🤖 AI Toolkit — Chatbot Builder Demo</h1>
+  <a class="back" href="../index.html">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>Interactive Chatbot Builder</h2>
+  <p class="subtitle">Configure your chatbot's persona, knowledge base, and behavior. Chat with it live to test the flow.</p>
+  <div class="layout">
+    <div>
+      <div class="panel" style="margin-bottom:12px">
+        <h3>🤖 Bot Persona</h3>
+        <label>Bot Name</label>
+        <input id="botName" value="Aria" oninput="updateHeader()">
+        <label>Persona / Role</label>
+        <select id="persona" onchange="updateResponses()">
+          <option value="support">Customer Support Agent</option>
+          <option value="sales">Sales Assistant</option>
+          <option value="tutor">Learning Tutor</option>
+          <option value="dev">Dev Helper</option>
+        </select>
+        <label>Tone</label>
+        <select id="tone">
+          <option value="friendly">Friendly & casual</option>
+          <option value="professional">Professional</option>
+          <option value="concise">Concise & direct</option>
+        </select>
+      </div>
+      <div class="panel" style="margin-bottom:12px">
+        <h3>📚 Knowledge Base</h3>
+        <label>Company/Context Info</label>
+        <textarea id="knowledge" rows="4" placeholder="Add facts your bot should know...">We are CodeVault. We sell developer tools and Python libraries. Our refund policy is 30 days. Support email: hello@codevault.dev</textarea>
+      </div>
+      <div class="panel">
+        <h3>⚙ Behavior</h3>
+        <div class="toggle-row"><span class="toggle-label">Quick reply buttons</span><label class="toggle"><input type="checkbox" id="tQR" checked onchange="renderChat()"><span class="toggle-slider"></span></label></div>
+        <div class="toggle-row"><span class="toggle-label">Typing indicator</span><label class="toggle"><input type="checkbox" id="tTyping" checked><span class="toggle-slider"></span></label></div>
+        <div class="toggle-row"><span class="toggle-label">Fallback to human</span><label class="toggle"><input type="checkbox" id="tFallback"><span class="toggle-slider"></span></label></div>
+        <button class="btn" onclick="resetChat()">↺ Reset Chat</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>💬 Live Chat Preview</h3>
+      <div class="chat-window">
+        <div class="chat-header">
+          <div class="bot-avatar" id="botAvatar">🤖</div>
+          <div><div class="bot-name" id="botNameDisplay">Aria</div><div class="bot-status">● Online</div></div>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="quick-replies" id="quickReplies"></div>
+        <div class="chat-input">
+          <input id="userInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMsg()">
+          <button onclick="sendMsg()">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cta-bar">
+    <h3>Get the Full Chatbot Builder</h3>
+    <p>Python framework: conversation memory, intent detection, multi-turn flows, OpenAI/Anthropic backends, and widget embed code.</p>
+    <a class="cta-btn" href="https://buy.stripe.com/5kQdR9fThgpo24W8ylgjI3K">Buy Full Version — $54.00</a>
+    <button class="crypto-pay-btn" data-product-slug="chatbot-builder" data-store-slug="ai-toolkit" data-product-name="Chatbot Builder" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+const RESPONSES = {
+  support: {
+    greet: ["Hi! I'm here to help. What can I assist you with today?"],
+    pricing: ["Our plans start at $9/month. Would you like to see a full comparison?","We have Starter ($9), Pro ($29), and Enterprise ($99) plans."],
+    refund: ["No problem! Our refund policy is 30 days. Just email hello@codevault.dev with your order number."],
+    help: ["I can help with: pricing, refunds, product questions, and technical support. What do you need?"],
+    thanks: ["You're welcome! Is there anything else I can help with? 😊"],
+    fallback: ["That's a great question! Let me find the right information for you... You can also reach our team at hello@codevault.dev."],
+  },
+  sales: {
+    greet: ["👋 Welcome! I'm here to help you find the perfect tool. What are you building?"],
+    pricing: ["Great news — our tools save developers 10+ hours per project! Starting at just $9. Want to see which fits your needs?"],
+    refund: ["We offer a 30-day money-back guarantee — zero risk to try!"],
+    help: ["I can help you choose the right product, answer pricing questions, or set up a demo. What's your use case?"],
+    thanks: ["Happy to help! 🎉 Ready to get started? I can set you up with the right plan."],
+    fallback: ["Interesting! Tell me more about your project — I'll find the perfect tool for you."],
+  },
+  tutor: {
+    greet: ["Hello! Ready to learn? What topic would you like to explore today?"],
+    pricing: ["Learning resources are available at different levels. What's your current skill level?"],
+    refund: ["If you're not satisfied with any learning material, we offer refunds within 30 days."],
+    help: ["I can explain concepts, answer questions, give examples, or quiz you. What would you like to learn?"],
+    thanks: ["Keep up the great work! 🎓 Learning is a journey — what's next?"],
+    fallback: ["That's an interesting question! Let me break it down for you step by step..."],
+  },
+  dev: {
+    greet: ["Hey dev! What are you building? I can help with code, APIs, or architecture."],
+    pricing: ["Our SDK pricing: starter ($9), pro ($29), enterprise ($99). All include source code."],
+    refund: ["30-day refund policy. If the code doesn't work for your use case, we'll refund it."],
+    help: ["I can help with: API docs, code examples, debugging, architecture questions. What's the issue?"],
+    thanks: ["Anytime! Happy coding! 💻"],
+    fallback: ["Hmm, let me think about that... Could you share more context or a code snippet?"],
+  }
+};
+
+const QUICK_REPLIES = ['Pricing', 'Refund policy', 'How to get started', 'Talk to a human'];
+
+let chatHistory = [];
+
+function getPersona(){return document.getElementById('persona').value;}
+
+function updateHeader(){
+  const n=document.getElementById('botName').value||'Bot';
+  document.getElementById('botNameDisplay').textContent=n;
+}
+
+function updateResponses(){renderQuickReplies();}
+
+function addMsg(text,role){
+  const msgs=document.getElementById('chatMessages');
+  const div=document.createElement('div');
+  div.className=`msg msg-${role}`;
+  div.textContent=text;
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+  chatHistory.push({role,text});
+}
+
+function renderQuickReplies(){
+  const qr=document.getElementById('quickReplies');
+  if(!document.getElementById('tQR').checked){qr.innerHTML='';return;}
+  qr.innerHTML=QUICK_REPLIES.map(r=>`<button class="qr-btn" onclick="sendQuick('${r}')">${r}</button>`).join('');
+}
+
+async function getBotResponse(input){
+  const p=getPersona();
+  const R=RESPONSES[p];
+  const il=input.toLowerCase();
+  if(il.match(/price|cost|plan|how much/)) return R.pricing[Math.floor(Math.random()*R.pricing.length)];
+  if(il.match(/refund|money back|return/)) return R.refund[0];
+  if(il.match(/help|what can|support/)) return R.help[0];
+  if(il.match(/thank|thanks/)) return R.thanks[0];
+  if(il.match(/human|agent|person/)) {
+    if(document.getElementById('tFallback').checked) return '👤 Connecting you to a human agent... (In production, this would open a live chat)';
+  }
+  // Try to use knowledge base
+  const kb=document.getElementById('knowledge').value;
+  if(kb&&input.length>3) {
+    const words=input.toLowerCase().split(/\W+/).filter(w=>w.length>3);
+    const kbLower=kb.toLowerCase();
+    if(words.some(w=>kbLower.includes(w))) return `Based on our information: ${kb.slice(0,150)}...`;
+  }
+  return R.fallback[0];
+}
+
+async function sendMsg(){
+  const inp=document.getElementById('userInput');
+  const text=inp.value.trim();
+  if(!text)return;
+  inp.value='';
+  addMsg(text,'user');
+
+  if(document.getElementById('tTyping').checked){
+    const msgs=document.getElementById('chatMessages');
+    const typing=document.createElement('div');
+    typing.className='msg msg-typing';typing.id='typing';
+    typing.innerHTML='<span>Typing</span><span style="animation:dots 1s infinite">...</span>';
+    msgs.appendChild(typing);msgs.scrollTop=msgs.scrollHeight;
+    await new Promise(r=>setTimeout(r,600+Math.random()*400));
+    typing.remove();
+  }
+
+  const resp=await getBotResponse(text);
+  addMsg(resp,'bot');
+  renderQuickReplies();
+}
+
+function sendQuick(text){
+  document.getElementById('userInput').value=text;
+  sendMsg();
+}
+
+function resetChat(){
+  chatHistory=[];
+  document.getElementById('chatMessages').innerHTML='';
+  const p=getPersona();
+  addMsg(RESPONSES[p].greet[0],'bot');
+  renderQuickReplies();
+}
+
+function renderChat(){renderQuickReplies();}
+updateHeader();
+resetChat();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

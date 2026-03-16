@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Analytics — Demo | Payment Stack</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#76FF03}.header .back{color:#76FF03;text-decoration:none;font-size:.85rem}
+  .container{max-width:960px;margin:0 auto;padding:28px 20px}
+  h2{font-size:1.5rem;margin-bottom:6px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+  @media(max-width:700px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+  .kpi{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:16px}
+  .kpi-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:#8899aa;margin-bottom:4px}
+  .kpi-val{font-size:1.8rem;font-weight:700;color:#76FF03}
+  .kpi-change{font-size:.75rem;margin-top:4px}
+  .kpi-change.up{color:#76FF03}.kpi-change.down{color:#ff6060}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+  @media(max-width:640px){.grid2{grid-template-columns:1fr}}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#76FF03;margin-bottom:14px}
+  .bar-chart{display:flex;align-items:flex-end;gap:6px;height:140px;padding-bottom:20px;position:relative}
+  .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+  .bar{width:100%;background:linear-gradient(180deg,#76FF03,#4db800);border-radius:3px 3px 0 0;transition:height .4s;min-height:2px;cursor:pointer}
+  .bar:hover{background:linear-gradient(180deg,#8fff1a,#76FF03)}
+  .bar-label{font-size:.65rem;color:#8899aa;white-space:nowrap}
+  .cohort-table{width:100%;border-collapse:collapse;font-size:.78rem}
+  .cohort-table th{padding:6px 8px;text-align:center;color:#8899aa;border-bottom:1px solid #1e2a3a}
+  .cohort-table td{padding:5px 8px;text-align:center;border-bottom:1px solid #111827}
+  .cohort-cell{border-radius:4px;padding:4px 8px}
+  .controls{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+  .ctrl-btn{padding:6px 14px;border:1px solid #1e2a3a;border-radius:6px;background:none;color:#8899aa;cursor:pointer;font-size:.8rem;transition:all .2s}
+  .ctrl-btn.active{background:#76FF03;color:#0A0E1A;border-color:#76FF03}
+  .ctrl-btn:hover:not(.active){border-color:#76FF03;color:#76FF03}
+  .funnel-step{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .funnel-bar-wrap{flex:1;background:#1e2a3a;border-radius:4px;height:28px;overflow:hidden}
+  .funnel-bar{height:100%;background:linear-gradient(90deg,#76FF03,#4db800);border-radius:4px;transition:width .5s;display:flex;align-items:center;padding-left:8px;font-size:.78rem;color:#0A0E1A;font-weight:600}
+  .funnel-label{width:140px;font-size:.8rem;color:#8899aa}
+  .funnel-pct{width:50px;text-align:right;font-size:.78rem;color:#76FF03}
+  .cta-bar{background:linear-gradient(135deg,#0d1321,#111827);border:1px solid #76FF03;border-radius:12px;padding:20px;text-align:center;margin-top:18px}
+  .cta-bar p{color:#8899aa;font-size:.85rem;margin-bottom:12px;margin-top:6px}
+  .cta-btn{display:inline-block;background:#76FF03;color:#0A0E1A;padding:12px 26px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s}
+  .cta-btn:hover{background:#8fff1a;transform:translateY(-2px)}
+  .footer-note{text-align:center;color:#445566;font-size:.77rem;margin-top:16px;padding-top:12px;border-top:1px solid #1e2a3a}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>⚡ Payment Stack — Payment Analytics Demo</h1>
+  <a class="back" href="../index.html">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>MRR / Churn / LTV Dashboard</h2>
+  <p class="subtitle">Live SaaS metrics dashboard with MRR growth, churn analysis, customer LTV, and revenue cohorts.</p>
+
+  <div class="controls">
+    <button class="ctrl-btn active" onclick="setRange(this,'3m')">3 Months</button>
+    <button class="ctrl-btn" onclick="setRange(this,'6m')">6 Months</button>
+    <button class="ctrl-btn" onclick="setRange(this,'12m')">12 Months</button>
+    <button class="ctrl-btn" onclick="regenerate(this)">↻ Regenerate Data</button>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-label">MRR</div><div class="kpi-val" id="kMRR">$0</div><div class="kpi-change up" id="kMRRc">+0%</div></div>
+    <div class="kpi"><div class="kpi-label">Churn Rate</div><div class="kpi-val" id="kChurn">0%</div><div class="kpi-change down" id="kChurnc">—</div></div>
+    <div class="kpi"><div class="kpi-label">Avg LTV</div><div class="kpi-val" id="kLTV">$0</div><div class="kpi-change up" id="kLTVc">—</div></div>
+    <div class="kpi"><div class="kpi-label">Active Subs</div><div class="kpi-val" id="kSubs">0</div><div class="kpi-change up" id="kSubsc">+0%</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="panel">
+      <h3>📈 MRR Growth</h3>
+      <div class="bar-chart" id="mrrChart"></div>
+    </div>
+    <div class="panel">
+      <h3>📉 Churn Breakdown</h3>
+      <div id="churnFunnel"></div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-bottom:18px">
+    <h3>🧮 Revenue Cohort Retention</h3>
+    <div style="overflow-x:auto">
+      <table class="cohort-table" id="cohortTable"></table>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Get the Full Payment Analytics Tool</h3>
+    <p>Python + Stripe Data: automated MRR tracking, cohort exports to CSV/Excel, Slack alerts on churn spikes, and custom dashboards.</p>
+    <a class="cta-btn" href="https://buy.stripe.com/8x25kD7mLb544d4aGtgjJ1v">Buy Full Version — $59.00</a>
+    <button class="crypto-pay-btn" data-product-slug="payment-analytics" data-store-slug="payment-stack" data-product-name="Payment Analytics" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+let range = 3;
+function setRange(btn, r){
+  document.querySelectorAll('.ctrl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  range = r==='3m'?3:r==='6m'?6:12;
+  render();
+}
+function regenerate(btn){ btn.classList.add('active');setTimeout(()=>btn.classList.remove('active'),200);render(); }
+
+function rnd(min,max){return Math.round(min+Math.random()*(max-min));}
+function fmt(n){return n>=1000?`$${(n/1000).toFixed(1)}k`:`$${n}`;}
+
+function render(){
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const now = new Date();
+  const labels = [];
+  const mrr = [];
+  let base = rnd(8000,15000);
+  for(let i=range-1;i>=0;i--){
+    const d = new Date(now); d.setMonth(d.getMonth()-i);
+    labels.push(months[d.getMonth()]);
+    base = Math.round(base * (1 + (Math.random()*.12-.02)));
+    mrr.push(base);
+  }
+
+  const currentMRR = mrr[mrr.length-1];
+  const prevMRR = mrr[mrr.length-2]||mrr[0];
+  const mrrChange = ((currentMRR-prevMRR)/prevMRR*100).toFixed(1);
+  const churn = (Math.random()*3+1.5).toFixed(1);
+  const subs = rnd(120,800);
+  const arpu = rnd(25,80);
+  const ltv = Math.round(arpu / (parseFloat(churn)/100));
+
+  document.getElementById('kMRR').textContent = fmt(currentMRR);
+  document.getElementById('kMRRc').textContent = `+${mrrChange}% MoM`;
+  document.getElementById('kChurn').textContent = `${churn}%`;
+  document.getElementById('kChurnc').textContent = churn<3?'✓ Healthy':'⚠ Watch this';
+  document.getElementById('kChurnc').className = 'kpi-change '+(churn<3?'up':'down');
+  document.getElementById('kLTV').textContent = fmt(ltv);
+  document.getElementById('kLTVc').textContent = `ARPU $${arpu}/mo`;
+  document.getElementById('kSubs').textContent = subs;
+  document.getElementById('kSubsc').textContent = `+${rnd(5,15)}% MoM`;
+
+  // MRR Chart
+  const maxMRR = Math.max(...mrr);
+  document.getElementById('mrrChart').innerHTML = mrr.map((v,i)=>`
+    <div class="bar-col">
+      <div class="bar" style="height:${(v/maxMRR*110).toFixed(0)}px" title="${labels[i]}: ${fmt(v)}"></div>
+      <div class="bar-label">${labels[i]}</div>
+    </div>`).join('');
+
+  // Churn funnel
+  const total = subs + rnd(20,60);
+  const churned = Math.round(total*parseFloat(churn)/100);
+  const vol_churned = Math.round(churned*.6);
+  const inv_churned = Math.round(churned*.25);
+  const paused = Math.round(churned*.15);
+  const steps = [
+    ['Subscribers (start)',total,100],
+    ['Voluntary churn',vol_churned,((total-vol_churned)/total*100).toFixed(0)],
+    ['Involuntary churn',inv_churned,((total-vol_churned-inv_churned)/total*100).toFixed(0)],
+    ['Paused/downgraded',paused,((total-churned)/total*100).toFixed(0)],
+    ['Active end of period',total-churned,((total-churned)/total*100).toFixed(0)],
+  ];
+  document.getElementById('churnFunnel').innerHTML = steps.map(([l,v,p])=>`
+    <div class="funnel-step">
+      <div class="funnel-label">${l}</div>
+      <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:${p}%">${v}</div></div>
+      <div class="funnel-pct">${p}%</div>
+    </div>`).join('');
+
+  // Cohort table
+  const cohorts = labels.slice(-4);
+  const header = `<thead><tr><th>Cohort</th>${cohorts.map((_,i)=>i===0?'<th>Month 0</th>':`<th>M+${i}</th>`).join('')}</tr></thead>`;
+  const body = cohorts.map((c,ci)=>{
+    let ret = 100;
+    const cells = cohorts.slice(0,cohorts.length-ci).map((_,j)=>{
+      if(j>0) ret = Math.max(0,ret-rnd(5,15));
+      const col = ret>70?'rgba(118,255,3,.25)':ret>40?'rgba(255,171,0,.2)':'rgba(255,60,60,.15)';
+      return `<td><span class="cohort-cell" style="background:${col}">${j<cohorts.length-ci?ret+'%':'—'}</span></td>`;
+    }).join('');
+    return `<tr><td style="color:#76FF03">${c}</td>${cells}</tr>`;
+  }).join('');
+  document.getElementById('cohortTable').innerHTML = header+`<tbody>${body}</tbody>`;
+}
+render();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding Flow &mdash; SaaS Starter &mdash; CodeVault</title>
+    <meta name="description" content="Python onboarding wizard: progressive profiling, setup steps, welcome emails, and checklist tracking. Nail the first-run experience.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F680;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#FFD600">
+    <script defer data-domain="saas-starter.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to SaaS Starter</a>
+        <h1 class="preview-page__title">Onboarding Flow</h1>
+        <p class="preview-page__price">$4.99</p>
+        <p class="preview-page__desc">Python onboarding wizard: progressive profiling, setup steps, welcome emails, and checklist tracking. Nail the first-run experience. Runs on Python 3.10+ stdlib only.</p>
+
+        <ul class="preview-page__features">
+            <li>Multi-step wizard engine with branching logic</li>
+            <li>Progressive profiling: collect data across multiple sessions</li>
+            <li>Welcome email templates with SMTP delivery</li>
+            <li>Setup checklist with completion tracking and percentages</li>
+            <li>Customizable step definitions via JSON config</li>
+            <li>Skip/defer logic for optional steps</li>
+            <li>User progress persistence across sessions</li>
+            <li>Webhook notifications on milestone completion</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Run the onboarding demo
+python src/main.py --demo
+
+# Create a new onboarding flow
+python src/main.py --create --config examples/saas_onboarding.json
+
+# Check user progress
+python src/main.py --status --user user@example.com</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_onboarding_flow"
+               data-product="onboarding-flow">
+                Grab This &mdash; $4.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Onboarding Flow"
+                    data-crypto-price="499">
+                Pay with Crypto ($3.99)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

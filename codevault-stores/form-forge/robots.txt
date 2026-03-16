@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Sitemap: https://form-forge.codevault.dev/sitemap.xml
+
+# Block crawlers from success/download pages
+User-agent: *
+Disallow: /success.html

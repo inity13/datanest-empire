@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Demos — Payment Stack | CodeVault</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#76FF03}
+  .header .back{color:#76FF03;text-decoration:none;font-size:.85rem}
+  .container{max-width:960px;margin:0 auto;padding:40px 24px}
+  .hero{text-align:center;margin-bottom:48px}
+  .hero h2{font-size:2rem;font-weight:700;margin-bottom:12px}
+  .hero p{color:#8899aa;font-size:1.05rem;max-width:520px;margin:0 auto}
+  .badge{display:inline-block;background:rgba(118,255,3,.12);color:#76FF03;border:1px solid rgba(118,255,3,.3);border-radius:20px;padding:4px 14px;font-size:.8rem;font-weight:600;margin-bottom:16px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+  .card{background:#0d1321;border:1px solid #1e2a3a;border-radius:14px;padding:24px;transition:border-color .2s,transform .2s;text-decoration:none;color:inherit;display:block}
+  .card:hover{border-color:#76FF03;transform:translateY(-3px)}
+  .card-icon{font-size:2rem;margin-bottom:12px}
+  .card h3{font-size:1rem;font-weight:600;margin-bottom:8px;color:#fff}
+  .card p{font-size:.83rem;color:#8899aa;line-height:1.5;margin-bottom:16px}
+  .card-cta{font-size:.82rem;color:#76FF03;font-weight:600}
+  .cta-bar{text-align:center;margin-top:48px;padding:32px;background:#0d1321;border-radius:16px;border:1px solid #1e2a3a}
+  .cta-bar p{color:#8899aa;margin-bottom:16px}
+  .btn-buy{display:inline-block;background:#76FF03;color:#0A0E1A;padding:14px 32px;border-radius:10px;font-weight:700;font-size:1rem;text-decoration:none;transition:background .2s}
+  .btn-buy:hover{background:#8fff1a}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>⚡ Payment Stack Demos</h1>
+  <a href="../index.html" class="back">← Back to Store</a>
+</div>
+<div class="container">
+  <div class="hero">
+    <div class="badge">10 Interactive Demos</div>
+    <h2>Try Before You Buy</h2>
+    <p>Each demo runs live in your browser. See exactly what you're getting before purchasing.</p>
+  </div>
+  <div class="grid">
+    <a href="demo-stripe-integration-kit.html" class="card">
+      <div class="card-icon">💳</div>
+      <h3>Stripe Integration Kit</h3>
+      <p>Simulate checkout sessions, payment intents, and webhook event processing.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-crypto-payment-handler.html" class="card">
+      <div class="card-icon">₿</div>
+      <h3>Crypto Payment Handler</h3>
+      <p>Validate crypto addresses across BTC, ETH, SOL, and MATIC chains.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-invoice-generator.html" class="card">
+      <div class="card-icon">🧾</div>
+      <h3>Invoice Generator</h3>
+      <p>Build professional invoices with line items, taxes, and discounts. Preview HTML output.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-subscription-billing.html" class="card">
+      <div class="card-icon">🔄</div>
+      <h3>Subscription Billing</h3>
+      <p>Configure plans, trials, and proration. See billing cycle math live.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-payment-retry-logic.html" class="card">
+      <div class="card-icon">🔁</div>
+      <h3>Payment Retry Logic</h3>
+      <p>Classify payment failures and calculate exponential backoff retry schedules.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-receipt-emailer.html" class="card">
+      <div class="card-icon">📧</div>
+      <h3>Receipt Emailer</h3>
+      <p>Generate branded HTML email receipts with inline CSS and download links.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-refund-processor.html" class="card">
+      <div class="card-icon">↩️</div>
+      <h3>Refund Processor</h3>
+      <p>Process full and partial refunds with auto-approval policy engine and audit trail.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-tax-calculator.html" class="card">
+      <div class="card-icon">🧮</div>
+      <h3>Tax Calculator</h3>
+      <p>Calculate VAT, GST, and sales tax for 45+ countries and all 50 US states.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-checkout-builder.html" class="card">
+      <div class="card-icon">🛒</div>
+      <h3>Checkout Builder</h3>
+      <p>Generate responsive multi-step checkout flows with payment method selection.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-payment-analytics.html" class="card">
+      <div class="card-icon">📊</div>
+      <h3>Payment Analytics</h3>
+      <p>Calculate MRR, churn, LTV, and failure rates from your transaction data.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+  </div>
+  <div class="cta-bar">
+    <p>Ready to ship payment features in minutes?</p>
+    <a href="javascript:void(0)" onclick="alert('Bundle coming soon! Browse individual products below.')" style="opacity:0.7" class="btn-buy">Get Payment Stack Pro — $49</a>
+  </div>
+</div>
+</body>
+</html>

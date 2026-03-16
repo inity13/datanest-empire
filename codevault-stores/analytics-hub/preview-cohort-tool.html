@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cohort Tool &mdash; Analytics Hub &mdash; CodeVault</title>
+    <meta name="description" content="Python cohort analysis: user retention heatmaps, behavior segmentation, and time-series grouping. Understand how user behavior changes over time.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F4CA;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#00E5FF">
+    <script defer data-domain="analytics-hub.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Analytics Hub</a>
+        <h1 class="preview-page__title">Cohort Tool</h1>
+        <p class="preview-page__price">$9.99</p>
+        <p class="preview-page__desc">Python cohort analysis: user retention heatmaps, behavior segmentation, and time-series grouping. Understand how user behavior changes over time. Runs on Python 3.10+ stdlib only &mdash; no pip installs needed.</p>
+
+        <ul class="preview-page__features">
+            <li>Group users into cohorts by signup date (weekly or monthly)</li>
+            <li>Generate retention tables showing period-over-period retention</li>
+            <li>HTML heatmap output with color-coded retention rates</li>
+            <li>Behavior segmentation by custom event properties</li>
+            <li>Compare retention across different user segments</li>
+            <li>CSV and JSON data input support</li>
+            <li>Summary statistics: average retention, best/worst cohorts</li>
+            <li>CLI interface with flexible date range options</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Generate a retention table from event data
+python cohort_tool.py --input events.json --period monthly
+
+# Segment by user property
+python cohort_tool.py --input events.json --segment plan --period weekly
+
+# Export HTML heatmap
+python cohort_tool.py --input events.json --output retention.html --format html</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_cohort_tool"
+               data-product="cohort-tool">
+                Grab This &mdash; $9.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Cohort Tool"
+                    data-crypto-price="999">
+                Pay with Crypto ($7.99)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

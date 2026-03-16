@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Versioning Toolkit Demo — API Launchpad</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0A0E1A;color:#E2E8F0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+header{background:#0F1628;border-bottom:1px solid #1E2A45;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+header h1{font-size:1.1rem;color:#FF9100;font-weight:700}
+header span{font-size:0.8rem;color:#64748B;background:#1E2A45;padding:4px 10px;border-radius:20px}
+.container{flex:1;padding:24px;max-width:860px;margin:0 auto;width:100%}
+h2{font-size:1.3rem;margin-bottom:6px;color:#F1F5F9}
+.subtitle{color:#64748B;font-size:0.9rem;margin-bottom:20px}
+.strategy-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.strat-btn{padding:8px 18px;border-radius:6px;background:#1E2A45;border:1px solid #2D3748;color:#94A3B8;cursor:pointer;font-size:.85rem;font-weight:600;transition:.2s}
+.strat-btn.active{background:#FF9100;color:#0A0E1A;border-color:#FF9100}
+.strat-btn:hover:not(.active){border-color:#FF9100;color:#FF9100}
+.section{background:#0F1628;border:1px solid #1E2A45;border-radius:12px;padding:20px;margin-bottom:16px}
+.section-title{font-size:.88rem;font-weight:700;color:#FF9100;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px}
+.comparison-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:580px){.comparison-grid{grid-template-columns:1fr}}
+.version-card{background:#0A0E1A;border:1px solid #1E2A45;border-radius:8px;overflow:hidden}
+.version-card-header{padding:10px 14px;display:flex;justify-content:space-between;align-items:center}
+.version-label{font-weight:700;font-size:.9rem}
+.v1-label{color:#93C5FD}
+.v2-label{color:#4ADE80}
+.deprecated-badge{font-size:.7rem;background:#7F1D1D;color:#FCA5A5;padding:2px 8px;border-radius:10px}
+.new-badge{font-size:.7rem;background:#065F46;color:#6EE7B7;padding:2px 8px;border-radius:10px}
+pre{padding:14px;font-family:'Courier New',monospace;font-size:.8rem;color:#94E2C8;overflow-x:auto;background:#0A0E1A}
+.diff-added{color:#4ADE80}
+.diff-removed{color:#F87171}
+.diff-neutral{color:#94E2C8}
+.simulator{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px}
+label{font-size:.8rem;color:#94A3B8;display:block;margin-bottom:4px}
+input,select{background:#0A0E1A;border:1px solid #1E2A45;color:#F1F5F9;padding:8px 11px;border-radius:5px;font-size:.85rem;outline:none}
+input:focus,select:focus{border-color:#FF9100}
+.sim-group{flex:1;min-width:140px}
+.btn{padding:10px 20px;border-radius:6px;font-size:.88rem;font-weight:600;cursor:pointer;border:none;transition:.2s}
+.btn-primary{background:#FF9100;color:#0A0E1A}
+.btn-primary:hover{background:#FFA733}
+.response-box{background:#0A0E1A;border:1px solid #1E2A45;border-radius:8px;padding:14px;font-family:'Courier New',monospace;font-size:.82rem;color:#93C5FD;white-space:pre-wrap;min-height:100px}
+.tip{background:#1A2035;border-left:3px solid #FF9100;padding:10px 14px;border-radius:0 6px 6px 0;font-size:.82rem;color:#CBD5E1;margin-bottom:14px}
+.cta{background:linear-gradient(135deg,#FF9100,#FF5F00);color:#0A0E1A;border:none;padding:14px 32px;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px;transition:opacity .2s}
+.cta:hover{opacity:.9}
+footer{text-align:center;padding:16px;color:#475569;font-size:0.8rem;border-top:1px solid #1E2A45;margin-top:auto}
+footer a{color:#FF9100;text-decoration:none}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <h1>🔀 API Versioning Toolkit</h1>
+  <span>Demo — Limited Features</span>
+</header>
+<div class="container">
+  <h2>API Versioning Strategy Demonstrator</h2>
+  <p class="subtitle">Compare versioning strategies, see routing logic, and preview how breaking changes are handled across API versions.</p>
+
+  <div class="strategy-tabs">
+    <button class="strat-btn active" onclick="selectStrategy('url', this)">URL Path</button>
+    <button class="strat-btn" onclick="selectStrategy('header', this)">Accept Header</button>
+    <button class="strat-btn" onclick="selectStrategy('param', this)">Query Param</button>
+    <button class="strat-btn" onclick="selectStrategy('subdomain', this)">Subdomain</button>
+  </div>
+
+  <div id="strategy-content"></div>
+
+  <div class="section">
+    <div class="section-title">Breaking Change Simulator</div>
+    <p class="tip">See how a request to a deprecated endpoint is handled with backward compatibility routing.</p>
+    <div class="simulator">
+      <div class="sim-group">
+        <label>API Version</label>
+        <select id="sim-version"><option value="v1">v1 (deprecated)</option><option value="v2" selected>v2 (current)</option><option value="v3">v3 (beta)</option></select>
+      </div>
+      <div class="sim-group">
+        <label>Endpoint</label>
+        <select id="sim-endpoint">
+          <option value="users">/users</option>
+          <option value="users-id">/users/{id}</option>
+          <option value="profile">/profile</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="simulateRequest()">Simulate Request</button>
+    </div>
+    <div class="response-box" id="sim-response">// Simulation output will appear here</div>
+  </div>
+
+  <a class="cta" href="https://buy.stripe.com/bJe4gzbD1flk4d4eWJgjJ08">Buy Full Version — $29.00 →</a>
+    <button class="crypto-pay-btn" data-product-slug="api-versioning-toolkit" data-store-slug="api-launchpad" data-product-name="API Versioning Toolkit" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+</div>
+<footer>
+  This demo shows limited functionality. Buy the full tool for all features.<br>
+  <a href="../index.html">← Back to API Launchpad Store</a>
+</footer>
+
+<script>
+const STRATEGIES = {
+  url: {
+    title: 'URL Path Versioning',
+    desc: 'Version embedded directly in the URL path. Most explicit and widely adopted.',
+    examples: ['GET /api/v1/users', 'GET /api/v2/users'],
+    v1: `{
+  "users": [
+    {"id": 1, "name": "Alice", "email": "alice@example.com"},
+    {"id": 2, "name": "Bob", "email": "bob@example.com"}
+  ],
+  "total": 2
+}`,
+    v2: `{
+  "data": {
+    "items": [
+      {"id": 1, "name": "Alice", "email": "alice@example.com", "createdAt": "2025-01-15"},
+      {"id": 2, "name": "Bob", "email": "bob@example.com", "createdAt": "2025-02-10"}
+    ],
+    "pagination": {"page": 1, "perPage": 20, "total": 2}
+  },
+  "meta": {"version": "2.0", "requestId": "req_abc123"}
+}`,
+    pros: ['Simple and visible', 'Easy to test with curl/browser', 'No special client config'],
+    cons: ['URLs change between versions', 'Can accumulate many routes']
+  },
+  header: {
+    title: 'Accept Header Versioning',
+    desc: 'Version passed via HTTP Accept header. Clean URLs, but less discoverable.',
+    examples: ['Accept: application/vnd.api.v1+json', 'Accept: application/vnd.api.v2+json'],
+    v1: `// Request: Accept: application/vnd.myapi.v1+json\n{\n  "users": [{"id":1,"name":"Alice"}]\n}`,
+    v2: `// Request: Accept: application/vnd.myapi.v2+json\n{\n  "data": {"items": [{"id":1,"name":"Alice","createdAt":"2025-01-15"}]},\n  "meta": {"version": "2.0"}\n}`,
+    pros: ['Clean URLs stay stable', 'RESTful purist approach'],
+    cons: ['Harder to test manually', 'Less visible to developers']
+  },
+  param: {
+    title: 'Query Parameter Versioning',
+    desc: 'Version passed as a query string parameter. Easy to override per-request.',
+    examples: ['GET /api/users?version=1', 'GET /api/users?v=2'],
+    v1: `// GET /api/users?version=1\n{\n  "users": [{"id":1,"name":"Alice"}]\n}`,
+    v2: `// GET /api/users?version=2\n{\n  "data": {"items": [{"id":1,"name":"Alice"}]},\n  "meta": {"version": "2.0"}\n}`,
+    pros: ['Easy to switch per-request', 'Backward compatible'],
+    cons: ['Easy to accidentally omit', 'Query params can conflict']
+  },
+  subdomain: {
+    title: 'Subdomain Versioning',
+    desc: 'Each version lives on its own subdomain. Full isolation between versions.',
+    examples: ['v1.api.example.com/users', 'v2.api.example.com/users'],
+    v1: `// v1.api.example.com/users\n{\n  "users": [{"id":1,"name":"Alice"}]\n}`,
+    v2: `// v2.api.example.com/users\n{\n  "data": {"items": [{"id":1,"name":"Alice"}]},\n  "meta": {"version": "2.0"}\n}`,
+    pros: ['Complete isolation', 'Independent deployments', 'Easy load balancing'],
+    cons: ['DNS configuration required', 'CORS complexity']
+  }
+};
+
+function selectStrategy(key, btn) {
+  document.querySelectorAll('.strat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const s = STRATEGIES[key];
+  document.getElementById('strategy-content').innerHTML = `
+    <div class="section">
+      <div class="section-title">${s.title}</div>
+      <p style="font-size:.85rem;color:#94A3B8;margin-bottom:14px">${s.desc}</p>
+      <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+        ${s.examples.map(e => '<code style="background:#1E2A45;padding:4px 10px;border-radius:4px;font-family:Courier New,monospace;font-size:.8rem;color:#FF9100">'+e+'</code>').join('')}
+      </div>
+      <div class="comparison-grid">
+        <div class="version-card">
+          <div class="version-card-header">
+            <span class="version-label v1-label">v1</span>
+            <span class="deprecated-badge">Deprecated</span>
+          </div>
+          <pre>${s.v1}</pre>
+        </div>
+        <div class="version-card">
+          <div class="version-card-header">
+            <span class="version-label v2-label">v2</span>
+            <span class="new-badge">Current</span>
+          </div>
+          <pre>${s.v2}</pre>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px">
+        <div>
+          <div style="font-size:.78rem;color:#4ADE80;font-weight:700;margin-bottom:6px">✓ Pros</div>
+          ${s.pros.map(p => '<div style="font-size:.8rem;color:#CBD5E1;padding:3px 0">• '+p+'</div>').join('')}
+        </div>
+        <div>
+          <div style="font-size:.78rem;color:#F87171;font-weight:700;margin-bottom:6px">✗ Cons</div>
+          ${s.cons.map(c => '<div style="font-size:.8rem;color:#CBD5E1;padding:3px 0">• '+c+'</div>').join('')}
+        </div>
+      </div>
+    </div>`;
+}
+
+function simulateRequest() {
+  const version = document.getElementById('sim-version').value;
+  const endpoint = document.getElementById('sim-endpoint').value;
+  const box = document.getElementById('sim-response');
+
+  const responses = {
+    v1: {
+      users: '// v1 Response (deprecated — will be removed 2026-06-01)\n// Deprecation-Warning: Use /api/v2/users instead\n{\n  "users": [\n    {"id": 1, "name": "Alice"},\n    {"id": 2, "name": "Bob"}\n  ]\n}',
+      'users-id': '// v1 Response\n{"id": 1, "name": "Alice", "email": "alice@example.com"}',
+      profile: '// v1 Response\n// X-Deprecated: This endpoint moved to /api/v2/users/me\n{"username": "alice", "email": "alice@example.com"}'
+    },
+    v2: {
+      users: '// v2 Response (current)\n{\n  "data": {\n    "items": [\n      {"id": 1, "name": "Alice", "email": "alice@example.com", "createdAt": "2025-01-15"},\n      {"id": 2, "name": "Bob", "email": "bob@example.com", "createdAt": "2025-02-10"}\n    ],\n    "pagination": {"page": 1, "perPage": 20, "total": 2}\n  },\n  "meta": {"version": "2.0", "requestId": "req_abc123"}\n}',
+      'users-id': '// v2 Response\n{\n  "data": {"id": 1, "name": "Alice", "email": "alice@example.com", "createdAt": "2025-01-15", "role": "admin"},\n  "meta": {"version": "2.0"}\n}',
+      profile: '// v2 Response\n// Endpoint renamed to /api/v2/users/me\n{\n  "data": {"id": 1, "name": "Alice", "preferences": {"theme": "dark"}},\n  "meta": {"version": "2.0"}\n}'
+    },
+    v3: {
+      users: '// v3 Response (beta — breaking changes expected)\n// X-API-Warning: v3 is in beta, expect changes\n{\n  "users": {\n    "list": [...],\n    "cursor": "eyJpZCI6MjB9",\n    "hasMore": false\n  }\n}',
+      'users-id': '// v3 Response (beta)\n// Cursor-based pagination coming in v3\n{"user": {"id": 1, "name": "Alice", "profile": {...}}}',
+      profile: '// v3: /profile merged into /users/me\n// 308 Permanent Redirect → /api/v3/users/me'
+    }
+  };
+
+  box.textContent = responses[version][endpoint] || '{"error": "endpoint not found in this version"}';
+}
+
+selectStrategy('url', document.querySelector('.strat-btn.active'));
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

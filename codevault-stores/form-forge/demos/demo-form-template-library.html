@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Template Library Demo — Form Forge</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:940px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#7C4DFF20;color:#7C4DFF;border:1px solid #7C4DFF40;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .search-row{display:flex;gap:12px;margin-bottom:20px}
+  .search-input{flex:1;background:#111827;border:1px solid #1e293b;border-radius:8px;padding:11px 16px;color:#e2e8f0;font-size:14px;outline:none;transition:border-color .2s}
+  .search-input:focus{border-color:#7C4DFF}
+  select{background:#111827;border:1px solid #1e293b;border-radius:8px;padding:11px 14px;color:#e2e8f0;font-size:14px;outline:none;cursor:pointer}
+  select option{background:#111827}
+  .template-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:24px}
+  .template-card{background:#111827;border:1px solid #1e293b;border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s}
+  .template-card:hover{border-color:#7C4DFF60;transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,77,255,.15)}
+  .template-card.selected{border-color:#7C4DFF;box-shadow:0 0 0 2px #7C4DFF30}
+  .template-thumb{height:100px;display:flex;align-items:center;justify-content:center;font-size:40px;position:relative}
+  .template-cat-badge{position:absolute;top:8px;right:8px;background:#0A0E1A;color:#7C4DFF;border:1px solid #7C4DFF40;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
+  .template-body{padding:14px}
+  .template-name{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
+  .template-desc{font-size:12px;color:#64748b;margin-bottom:10px;line-height:1.5}
+  .template-meta{display:flex;justify-content:space-between;align-items:center;font-size:11px}
+  .template-fields{color:#94a3b8}
+  .template-uses{color:#475569}
+  .btn-preview{background:#7C4DFF20;color:#7C4DFF;border:1px solid #7C4DFF40;border-radius:6px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer;width:100%;margin-top:10px;transition:all .2s}
+  .btn-preview:hover{background:#7C4DFF30}
+  /* Preview panel */
+  .preview-panel{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px;display:none}
+  .preview-panel.open{display:block}
+  .panel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .panel-title{font-size:16px;font-weight:700;color:#fff}
+  .close-btn{background:none;border:none;color:#64748b;cursor:pointer;font-size:18px;padding:4px}
+  .close-btn:hover{color:#fff}
+  .form-preview{background:#fff;border-radius:10px;padding:24px;font-family:Arial,sans-serif;max-width:520px}
+  .fp-title{font-size:18px;font-weight:700;color:#111;margin-bottom:4px}
+  .fp-desc{font-size:13px;color:#666;margin-bottom:20px}
+  .fp-field{margin-bottom:14px}
+  .fp-label{font-size:13px;font-weight:600;color:#333;margin-bottom:5px;display:block}
+  .fp-input{width:100%;border:2px solid #e2e8f0;border-radius:6px;padding:9px 12px;font-family:Arial;font-size:13px;color:#333;outline:none}
+  .fp-submit{background:#7C4DFF;color:#fff;border:none;border-radius:8px;padding:11px 24px;font-weight:700;font-family:Arial;font-size:14px;cursor:pointer;margin-top:4px}
+  .cta-bar{background:linear-gradient(135deg,#7C4DFF15,#7C4DFF05);border:1px solid #7C4DFF30;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#7C4DFF;color:#fff;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#6B3FEE;transform:translateY(-1px);box-shadow:0 8px 24px #7C4DFF40}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Form Template Library</h1>
+    <p class="subtitle">50+ ready-to-use form templates — click to preview and customize</p>
+  </div>
+
+  <div class="search-row">
+    <input class="search-input" type="text" id="searchInput" placeholder="Search templates..." oninput="filterTemplates()">
+    <select id="catFilter" onchange="filterTemplates()">
+      <option value="">All Categories</option>
+      <option value="Lead Gen">Lead Gen</option>
+      <option value="Support">Support</option>
+      <option value="Events">Events</option>
+      <option value="HR">HR</option>
+      <option value="Feedback">Feedback</option>
+      <option value="eCommerce">eCommerce</option>
+    </select>
+  </div>
+
+  <div id="previewPanel" class="preview-panel">
+    <div class="panel-header">
+      <div class="panel-title" id="panelTitle"></div>
+      <button class="close-btn" onclick="closePreview()">✕</button>
+    </div>
+    <div id="panelForm"></div>
+  </div>
+
+  <div class="template-grid" id="templateGrid"></div>
+
+  <div class="cta-bar">
+    <p>Full library includes 50+ templates. All templates are fully customizable, include validation rules, conditional logic presets, and can be deployed with one click.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/aFacN5cH55KK10S29XgjJ16">Buy Full Version — $49.00</a>
+    <button class="crypto-pay-btn" data-product-slug="form-template-library" data-store-slug="form-forge" data-product-name="Form Template Library" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows limited functionality. Buy the full tool for all features.</div>
+</div>
+<script>
+const TEMPLATES = [
+  {id:1, name:'Contact Us', cat:'Lead Gen', icon:'📬', color:'#7C4DFF', desc:'Simple contact form with name, email and message.', fields:3, uses:'12.4k',
+   preview:[{l:'Full Name *',t:'text',p:'John Doe'},{l:'Email Address *',t:'email',p:'john@example.com'},{l:'Message *',t:'textarea'}], cta:'Send Message'},
+  {id:2, name:'Event Registration', cat:'Events', icon:'🎟️', color:'#00BFD8', desc:'Register attendees for webinars and in-person events.', fields:5, uses:'8.1k',
+   preview:[{l:'Full Name *',t:'text',p:'Jane Smith'},{l:'Email *',t:'email',p:'jane@company.com'},{l:'Company',t:'text',p:'Acme Corp'},{l:'Ticket Type *',t:'select',opts:['General Admission','VIP','Online Only']}], cta:'Register Now'},
+  {id:3, name:'Bug Report', cat:'Support', icon:'🐛', color:'#ef4444', desc:'Let users report bugs with reproduction steps.', fields:4, uses:'5.7k',
+   preview:[{l:'Summary *',t:'text',p:'Bug title'},{l:'Steps to Reproduce *',t:'textarea'},{l:'Severity',t:'select',opts:['Low','Medium','High','Critical']}], cta:'Submit Report'},
+  {id:4, name:'Job Application', cat:'HR', icon:'💼', color:'#f59e0b', desc:'Full job application form with resume upload.', fields:7, uses:'9.3k',
+   preview:[{l:'Full Name *',t:'text',p:'Alex Johnson'},{l:'Email *',t:'email',p:'alex@email.com'},{l:'Position Applied For *',t:'text',p:'Senior Developer'},{l:'LinkedIn Profile',t:'text',p:'linkedin.com/in/alex'}], cta:'Apply Now'},
+  {id:5, name:'Product Feedback', cat:'Feedback', icon:'⭐', color:'#00FF88', desc:'Collect structured feedback on your product.', fields:4, uses:'7.2k',
+   preview:[{l:'What do you like most?',t:'textarea'},{l:'What could be improved?',t:'textarea'},{l:'Overall Rating *',t:'select',opts:['5 - Excellent','4 - Good','3 - Average','2 - Poor','1 - Very Poor']}], cta:'Submit Feedback'},
+  {id:6, name:'Newsletter Signup', cat:'Lead Gen', icon:'📩', color:'#FF3366', desc:'Simple email capture with GDPR consent checkbox.', fields:2, uses:'18.9k',
+   preview:[{l:'First Name',t:'text',p:'John'},{l:'Email Address *',t:'email',p:'john@example.com'}], cta:'Subscribe'},
+  {id:7, name:'Order Return', cat:'eCommerce', icon:'📦', color:'#FF9100', desc:'Process customer return requests with order details.', fields:5, uses:'3.4k',
+   preview:[{l:'Order Number *',t:'text',p:'#12345'},{l:'Reason for Return *',t:'select',opts:['Damaged','Wrong Item','Not as Described','Changed Mind']},{l:'Additional Details',t:'textarea'}], cta:'Request Return'},
+  {id:8, name:'Employee Onboarding', cat:'HR', icon:'👤', color:'#A78BFA', desc:'Collect new hire details and preferences.', fields:8, uses:'2.1k',
+   preview:[{l:'Legal Full Name *',t:'text',p:'Chris Taylor'},{l:'Start Date *',t:'text',p:'2026-03-14'},{l:'T-Shirt Size',t:'select',opts:['XS','S','M','L','XL','XXL']},{l:'Emergency Contact',t:'text',p:'Name and phone'}], cta:'Submit'},
+];
+
+let filtered = [...TEMPLATES];
+
+function filterTemplates() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const cat = document.getElementById('catFilter').value;
+  filtered = TEMPLATES.filter(t =>
+    (!q || t.name.toLowerCase().includes(q) || t.cat.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q)) &&
+    (!cat || t.cat === cat)
+  );
+  renderGrid();
+}
+
+function renderGrid() {
+  document.getElementById('templateGrid').innerHTML = filtered.map(t => `
+    <div class="template-card" id="tc-${t.id}" onclick="selectTemplate(${t.id})">
+      <div class="template-thumb" style="background:${t.color}15">
+        <span>${t.icon}</span>
+        <div class="template-cat-badge">${t.cat}</div>
+      </div>
+      <div class="template-body">
+        <div class="template-name">${t.name}</div>
+        <div class="template-desc">${t.desc}</div>
+        <div class="template-meta">
+          <span class="template-fields">${t.fields} fields</span>
+          <span class="template-uses">${t.uses} uses</span>
+        </div>
+        <button class="btn-preview" onclick="event.stopPropagation();previewTemplate(${t.id})">Preview Template</button>
+      </div>
+    </div>`).join('') || '<p style="color:#64748b;font-size:14px;grid-column:1/-1">No templates match your search.</p>';
+}
+
+function selectTemplate(id) {
+  document.querySelectorAll('.template-card').forEach(el => el.classList.remove('selected'));
+  const el = document.getElementById('tc-'+id);
+  if (el) el.classList.add('selected');
+  previewTemplate(id);
+}
+
+function previewTemplate(id) {
+  const t = TEMPLATES.find(x=>x.id===id);
+  if (!t) return;
+  document.getElementById('panelTitle').textContent = t.icon + ' ' + t.name + ' — Preview';
+  document.getElementById('panelForm').innerHTML = `
+    <div class="form-preview">
+      <div class="fp-title">${t.name}</div>
+      <div class="fp-desc">${t.desc}</div>
+      ${t.preview.map(f => `<div class="fp-field">
+        <label class="fp-label">${f.l}</label>
+        ${f.t === 'textarea'
+          ? `<textarea class="fp-input" rows="3" placeholder="${f.p||''}"></textarea>`
+          : f.t === 'select'
+          ? `<select class="fp-input"><option>${(f.opts||[]).join('</option><option>')}</option></select>`
+          : `<input class="fp-input" type="${f.t}" placeholder="${f.p||''}">`
+        }
+      </div>`).join('')}
+      <button class="fp-submit" style="background:${t.color}" onclick="this.textContent='✓ Submitted!'">${t.cta}</button>
+    </div>`;
+  const panel = document.getElementById('previewPanel');
+  panel.classList.add('open');
+  panel.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function closePreview() {
+  document.getElementById('previewPanel').classList.remove('open');
+  document.querySelectorAll('.template-card').forEach(el => el.classList.remove('selected'));
+}
+
+renderGrid();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

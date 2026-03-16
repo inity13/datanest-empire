@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSP Builder &mdash; Security Kit &mdash; CodeVault</title>
+    <meta name="description" content="Generate strict, battle-tested Content Security Policy headers from a simple config. Includes nonce support, report-uri, and framework-specific presets for Flask and FastAPI.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F6E1;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#D500F9">
+    <script defer data-domain="security-kit.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Security Kit</a>
+        <h1 class="preview-page__title">&#x1F6E1;&#xFE0F; CSP Builder</h1>
+        <p class="preview-page__price">$4.99</p>
+        <p class="preview-page__desc">Build a strict Content Security Policy from a declarative config file. Handles nonce generation, hash-based source allowlisting, and report-uri setup. Ships with ready-to-use middleware for Flask, FastAPI, and bare WSGI.</p>
+
+        <ul class="preview-page__features">
+            <li>Declarative YAML/JSON config &rarr; valid CSP header string</li>
+            <li>Per-request nonce generation with automatic template injection</li>
+            <li>Hash-based allowlisting for inline scripts and styles</li>
+            <li>report-uri and report-to endpoint configuration</li>
+            <li>Flask, FastAPI, and WSGI middleware included</li>
+            <li>Report-only mode for testing before enforcing</li>
+            <li>CSP validator: parse and explain any existing header</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Generate a CSP header from config
+python csp.py build --config csp.yaml
+
+# Validate an existing CSP header
+python csp.py validate --header "default-src 'self'; script-src 'nonce-abc123'"
+
+# Flask middleware usage
+from csp_builder import CSPMiddleware
+app.wsgi_app = CSPMiddleware(app.wsgi_app, config='csp.yaml')</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="https://buy.stripe.com/PLACEHOLDER_csp-builder"
+               class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/PLACEHOLDER_csp-builder"
+               data-product="csp-builder">
+                Buy Now &mdash; $4.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="CSP Builder"
+                    data-crypto-price="424">
+                Pay with Crypto ($4.24)
+            </button>
+        </div>
+
+        <hr style="border-color: var(--cv-border); margin: 32px 0;">
+        <h2 style="font-size: 1rem; margin-bottom: 16px; color: var(--cv-text-muted);">Related tools</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <a href="preview-compliance-checker.html" class="btn btn--secondary" style="font-size: 0.85rem;">Compliance Checker</a>
+            <a href="preview-vulnerability-scanner.html" class="btn btn--secondary" style="font-size: 0.85rem;">Vulnerability Scanner</a>
+            <a href="preview-security-report-generator.html" class="btn btn--secondary" style="font-size: 0.85rem;">Security Report Generator</a>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

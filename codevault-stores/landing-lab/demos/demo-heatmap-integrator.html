@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heatmap Integrator Demo — Landing Lab</title>
+<style>
+  :root { --brand: #FFAB00; --bg: #0A0E1A; --panel: #0d1321; --border: #1e2a3a; --text: #e2e8f0; --muted: #64748b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 820px; margin: 0 auto; }
+  h1 { color: var(--brand); font-size: 1.6rem; margin-bottom: 0.3rem; }
+  .subtitle { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem; }
+  .panel h2 { color: var(--brand); font-size: 1rem; margin-bottom: 1rem; }
+  label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 0.3rem; margin-top: 0.75rem; }
+  select, input { width: 100%; background: #0a1020; border: 1px solid var(--border); border-radius: 4px; color: var(--text); padding: 0.5rem 0.75rem; font-size: 0.9rem; }
+  select:focus, input:focus { outline: none; border-color: var(--brand); }
+  .btn { background: var(--brand); color: #000; border: none; border-radius: 6px; padding: 0.6rem 1.4rem; font-weight: 700; cursor: pointer; font-size: 0.9rem; margin-top: 1rem; }
+  .btn:hover { opacity: 0.85; }
+  /* Heatmap canvas area */
+  .heatmap-wrapper { position: relative; border-radius: 8px; overflow: hidden; background: #f8fafc; }
+  .page-wireframe { width: 100%; display: block; }
+  canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+  .heatmap-controls { display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; }
+  .ctrl-btn { background: #1e2a3a; border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 0.35rem 0.85rem; font-size: 0.8rem; cursor: pointer; }
+  .ctrl-btn.active, .ctrl-btn:hover { border-color: var(--brand); color: var(--brand); }
+  .legend { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem; }
+  .legend-bar { height: 12px; width: 140px; border-radius: 6px; background: linear-gradient(to right, #3b82f6, #22c55e, #eab308, #ef4444); }
+  .insight-list { margin-top: 0.75rem; }
+  .insight { background: #060d1a; border-left: 3px solid var(--brand); border-radius: 0 6px 6px 0; padding: 0.5rem 0.75rem; margin-bottom: 0.4rem; font-size: 0.85rem; }
+  .insight .pct { color: var(--brand); font-weight: 700; }
+  .cta-bar { background: linear-gradient(135deg, #1a1200, #2a1e00); border: 1px solid var(--brand); border-radius: 8px; padding: 1.25rem; margin-top: 1.5rem; text-align: center; }
+  .cta-bar h3 { color: var(--brand); margin-bottom: 0.4rem; }
+  .cta-bar p { color: var(--muted); font-size: 0.85rem; margin-bottom: 1rem; }
+  .buy-btn { display: inline-block; background: var(--brand); color: #000; text-decoration: none; padding: 0.75rem 2rem; border-radius: 6px; font-weight: 700; font-size: 1rem; }
+  .buy-btn:hover { opacity: 0.85; }
+  .footer-note { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 1rem; }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🔥 Heatmap Integrator</h1>
+  <p class="subtitle">Visualize where visitors click on your landing page. Simulated heatmap with actionable insights.</p>
+
+  <div class="panel">
+    <h2>Page & Data Settings</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div>
+        <label>Page Template</label>
+        <select id="pageTpl" onchange="renderHeatmap()">
+          <option value="saas">SaaS Landing Page</option>
+          <option value="ecom">E-commerce Product</option>
+          <option value="blog">Blog Post</option>
+        </select>
+      </div>
+      <div>
+        <label>Data Mode</label>
+        <select id="dataMode" onchange="renderHeatmap()">
+          <option value="click">Click Map</option>
+          <option value="scroll">Scroll Depth</option>
+          <option value="attention">Attention Map</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" onclick="renderHeatmap()">Generate Heatmap</button>
+  </div>
+
+  <div class="panel">
+    <h2>Heatmap View</h2>
+    <div class="heatmap-controls">
+      <button class="ctrl-btn active" onclick="setOpacity(0.7,this)">Default</button>
+      <button class="ctrl-btn" onclick="setOpacity(0.4,this)">Light</button>
+      <button class="ctrl-btn" onclick="setOpacity(1.0,this)">Intense</button>
+    </div>
+    <div class="heatmap-wrapper" id="hmWrapper">
+      <svg id="pageWireframe" width="100%" viewBox="0 0 600 480" xmlns="http://www.w3.org/2000/svg"></svg>
+      <canvas id="hmCanvas"></canvas>
+    </div>
+    <div class="legend">
+      <span>Low</span><div class="legend-bar"></div><span>High</span>
+    </div>
+    <div class="insight-list" id="insightList"></div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Get the Full Heatmap Integrator — $19</h3>
+    <p>Real click tracking via JS snippet, Hotjar/Microsoft Clarity import, session recordings, and CSV export.</p>
+    <a class="buy-btn" href="https://buy.stripe.com/00w6oHcH5ehgcJA9CpgjJ1h">Buy Full Version — $19</a>
+    <button class="crypto-pay-btn" data-product-slug="heatmap-integrator" data-store-slug="landing-lab" data-product-name="Heatmap Integrator" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows simulated heatmap data. Full version connects to real visitor interaction tracking.</p>
+</div>
+<script>
+  let heatOpacity = 0.7;
+
+  const PAGE_WIREFRAMES = {
+    saas: [
+      { type:'rect', x:0, y:0, w:600, h:60, fill:'#1e293b', label:'Navigation' },
+      { type:'rect', x:50, y:80, w:500, h:120, fill:'#f0f9ff', label:'Hero Section' },
+      { type:'rect', x:200, y:160, w:200, h:36, fill:'#3b82f6', label:'CTA Button', hot:true },
+      { type:'rect', x:20, y:230, w:170, h:80, fill:'#e2e8f0', label:'Feature 1' },
+      { type:'rect', x:215, y:230, w:170, h:80, fill:'#e2e8f0', label:'Feature 2' },
+      { type:'rect', x:410, y:230, w:170, h:80, fill:'#e2e8f0', label:'Feature 3' },
+      { type:'rect', x:50, y:330, w:500, h:80, fill:'#f0fdf4', label:'Social Proof' },
+      { type:'rect', x:150, y:430, w:300, h:40, fill:'#fef3c7', label:'Email Capture' },
+    ],
+    ecom: [
+      { type:'rect', x:0, y:0, w:600, h:60, fill:'#1e293b', label:'Navigation' },
+      { type:'rect', x:20, y:80, w:280, h:240, fill:'#e2e8f0', label:'Product Image' },
+      { type:'rect', x:320, y:80, w:260, h:60, fill:'#f8fafc', label:'Product Title' },
+      { type:'rect', x:320, y:150, w:120, h:30, fill:'#fef3c7', label:'Price' },
+      { type:'rect', x:320, y:195, w:260, h:44, fill:'#22c55e', label:'Add to Cart', hot:true },
+      { type:'rect', x:320, y:252, w:260, h:60, fill:'#f8fafc', label:'Description' },
+      { type:'rect', x:20, y:340, w:560, h:100, fill:'#f1f5f9', label:'Reviews' },
+      { type:'rect', x:20, y:455, w:560, h:20, fill:'#e2e8f0', label:'Footer' },
+    ],
+    blog: [
+      { type:'rect', x:0, y:0, w:600, h:50, fill:'#1e293b', label:'Navigation' },
+      { type:'rect', x:50, y:60, w:500, h:50, fill:'#f8fafc', label:'Article Title' },
+      { type:'rect', x:50, y:120, w:340, h:280, fill:'#f1f5f9', label:'Article Body', hot:true },
+      { type:'rect', x:410, y:120, w:170, h:130, fill:'#fef9c3', label:'Sidebar CTA' },
+      { type:'rect', x:410, y:260, w:170, h:80, fill:'#e0f2fe', label:'Related Posts' },
+      { type:'rect', x:50, y:410, w:500, h:60, fill:'#f0fdf4', label:'Newsletter CTA' },
+    ]
+  };
+
+  // Click hotspot data per template/mode
+  const HOTSPOTS = {
+    saas: { click: [{x:300,y:178,r:55,i:1},{x:300,y:80,r:40,i:0.6},{x:105,y:270,r:35,i:0.5},{x:300,y:450,r:45,i:0.7},{x:510,y:270,r:30,i:0.3}],
+             scroll: [{x:300,y:100,r:220,i:0.9,type:'scroll'},{x:300,y:260,r:180,i:0.6,type:'scroll'},{x:300,y:400,r:130,i:0.3,type:'scroll'}],
+             attention: [{x:300,y:140,r:80,i:1},{x:300,y:270,r:60,i:0.7},{x:105,y:270,r:45,i:0.5}] },
+    ecom:  { click: [{x:450,y:217,r:60,i:1},{x:420,y:165,r:40,i:0.5},{x:160,y:200,r:70,i:0.6},{x:300,y:380,r:50,i:0.4}],
+             scroll: [{x:300,y:80,r:200,i:0.9},{x:300,y:300,r:150,i:0.5},{x:300,y:430,r:80,i:0.2}],
+             attention: [{x:160,y:200,r:90,i:0.9},{x:450,y:217,r:65,i:1},{x:420,y:165,r:40,i:0.6}] },
+    blog:  { click: [{x:220,y:270,r:80,i:0.8},{x:495,y:185,r:60,i:1},{x:300,y:440,r:55,i:0.7},{x:495,y:300,r:40,i:0.4}],
+             scroll: [{x:300,y:100,r:210,i:1},{x:300,y:280,r:160,i:0.7},{x:300,y:420,r:90,i:0.3}],
+             attention: [{x:220,y:270,r:90,i:1},{x:495,y:185,r:70,i:0.85},{x:300,y:440,r:60,i:0.5}] },
+  };
+
+  const INSIGHTS = {
+    saas:  { click: ['<span class="pct">64%</span> of clicks land on the primary CTA button', '<span class="pct">18%</span> of clicks are in the navigation — consider simplifying', '<span class="pct">11%</span> of users click on Feature 1 card'],
+             scroll: ['<span class="pct">91%</span> scroll depth to hero section', '<span class="pct">54%</span> reach the features section', '<span class="pct">22%</span> reach the email capture — try moving it higher'],
+             attention: ['Hero headline holds <span class="pct">8.3s</span> average attention', 'Feature cards get <span class="pct">3.1s</span> each — consider visual improvements'] },
+    ecom:  { click: ['"Add to Cart" gets <span class="pct">52%</span> of all clicks', 'Product images attract <span class="pct">28%</span> of clicks (zoom intent)', 'Price label clicked by <span class="pct">9%</span> — add "best value" badge'],
+             scroll: ['<span class="pct">88%</span> view above-the-fold product section', '<span class="pct">41%</span> scroll to reviews — critical trust section'],
+             attention: ['Product image holds <span class="pct">6.2s</span> average attention', '"Add to Cart" button gets <span class="pct">4.1s</span>'] },
+    blog:  { click: ['Sidebar CTA drives <span class="pct">44%</span> of all clicks', 'Newsletter CTA gets <span class="pct">31%</span> of clicks', 'Body links average <span class="pct">12%</span> CTR'],
+             scroll: ['<span class="pct">100%</span> read above-the-fold content', '<span class="pct">63%</span> reach mid-article', '<span class="pct">28%</span> reach newsletter CTA at bottom'],
+             attention: ['Article body gets <span class="pct">15.2s</span> average time', 'Sidebar CTA captures <span class="pct">4.8s</span> attention'] },
+  };
+
+  function setOpacity(val, btn) {
+    heatOpacity = val;
+    document.querySelectorAll('.ctrl-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderHeatmap();
+  }
+
+  function renderHeatmap() {
+    const tpl = document.getElementById('pageTpl').value;
+    const mode = document.getElementById('dataMode').value;
+    const svg = document.getElementById('pageWireframe');
+    const wrapper = document.getElementById('hmWrapper');
+
+    // Draw wireframe
+    const rects = PAGE_WIREFRAMES[tpl];
+    svg.innerHTML = rects.map(r =>
+      `<rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" fill="${r.fill}" stroke="#cbd5e1" stroke-width="1" rx="3"/>
+       <text x="${r.x+r.w/2}" y="${r.y+r.h/2+4}" text-anchor="middle" font-size="10" fill="#64748b">${r.label}</text>`
+    ).join('');
+
+    // Draw heatmap on canvas
+    const canvas = document.getElementById('hmCanvas');
+    const svgRect = svg.getBoundingClientRect();
+    const svgW = svg.viewBox.baseVal.width;
+    const svgH = svg.viewBox.baseVal.height;
+    canvas.width = svgW;
+    canvas.height = svgH;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, svgW, svgH);
+
+    const spots = HOTSPOTS[tpl][mode];
+    spots.forEach(spot => {
+      if (spot.type === 'scroll') {
+        // Horizontal scroll band
+        const grad = ctx.createLinearGradient(0, spot.x-spot.r/2, 0, spot.x+spot.r/2);
+        grad.addColorStop(0, `rgba(239,68,68,0)`);
+        grad.addColorStop(0.4, `rgba(239,68,68,${spot.i * heatOpacity * 0.7})`);
+        grad.addColorStop(0.6, `rgba(239,68,68,${spot.i * heatOpacity * 0.7})`);
+        grad.addColorStop(1, `rgba(239,68,68,0)`);
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, spot.x-spot.r/2, svgW, spot.r);
+      } else {
+        const grad = ctx.createRadialGradient(spot.x, spot.y, 0, spot.x, spot.y, spot.r);
+        const alpha = spot.i * heatOpacity;
+        grad.addColorStop(0, `rgba(239,68,68,${alpha})`);
+        grad.addColorStop(0.3, `rgba(251,191,36,${alpha*0.7})`);
+        grad.addColorStop(0.6, `rgba(34,197,94,${alpha*0.4})`);
+        grad.addColorStop(1, `rgba(59,130,246,0)`);
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(spot.x, spot.y, spot.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+    });
+
+    // Insights
+    const ins = INSIGHTS[tpl][mode];
+    document.getElementById('insightList').innerHTML = ins.map(i => `<div class="insight">📌 ${i}</div>`).join('');
+  }
+
+  renderHeatmap();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email A/B Tester Demo — Email Arsenal</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:860px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#FF336620;color:#FF3366;border:1px solid #FF336640;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#FF3366;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+  label{display:block;font-size:13px;color:#94a3b8;margin-bottom:5px;font-weight:500;margin-top:12px}
+  label:first-child{margin-top:0}
+  input,select{width:100%;background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:10px 14px;color:#e2e8f0;font-size:14px;outline:none;transition:border-color .2s;font-family:inherit}
+  input:focus,select:focus{border-color:#FF3366}
+  select option{background:#111827}
+  .ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .variant-card{background:#0A0E1A;border:1px solid #2d3748;border-radius:10px;padding:16px}
+  .variant-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+  .v-a .variant-label{color:#FF3366}
+  .v-b .variant-label{color:#00BFFF}
+  .btn{display:block;padding:12px 24px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+  .btn-primary{background:#FF3366;color:#fff;width:100%;margin-top:16px}
+  .btn-primary:hover{background:#e02d5a}
+  /* Results */
+  .results-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+  .result-card{background:#0A0E1A;border-radius:10px;padding:20px;border:2px solid transparent;position:relative}
+  .result-card.winner{border-color:#00FF88}
+  .winner-badge{position:absolute;top:10px;right:10px;background:#00FF8820;color:#00FF88;border:1px solid #00FF8840;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+  .metric-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:14px}
+  .metric-label{color:#94a3b8}
+  .metric-val{font-weight:700;color:#fff}
+  .bar-container{background:#1e293b;border-radius:4px;height:8px;margin-bottom:16px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:4px;transition:width .8s cubic-bezier(.22,1,.36,1)}
+  .stat-sig{background:#111827;border:1px solid #1e293b;border-radius:10px;padding:20px}
+  .stat-sig-title{font-size:14px;font-weight:600;color:#94a3b8;margin-bottom:12px}
+  .sig-result{display:flex;align-items:center;gap:12px}
+  .sig-icon{font-size:32px}
+  .sig-text h3{font-size:18px;font-weight:700;margin-bottom:4px}
+  .sig-text p{font-size:13px;color:#94a3b8}
+  .confidence-bar{background:#1e293b;border-radius:20px;height:12px;overflow:hidden;margin-top:12px;position:relative}
+  .confidence-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#ef4444,#f59e0b,#00FF88);transition:width .8s}
+  .confidence-marker{position:absolute;top:-4px;width:2px;height:20px;background:#fff;border-radius:2px}
+  .confidence-labels{display:flex;justify-content:space-between;font-size:11px;color:#475569;margin-top:4px}
+  .summary-row{display:flex;gap:12px;margin-bottom:16px}
+  .summary-box{flex:1;background:#0A0E1A;border-radius:8px;padding:14px;text-align:center;border:1px solid #1e293b}
+  .summary-num{font-size:22px;font-weight:700;color:#FF3366}
+  .summary-label{font-size:11px;color:#64748b;margin-top:3px}
+  .cta-bar{background:linear-gradient(135deg,#FF336615,#FF336605);border:1px solid #FF336630;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#FF3366;color:#fff;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#e02d5a;transform:translateY(-1px);box-shadow:0 8px 24px #FF336640}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  @media(max-width:600px){.ab-grid,.results-grid,.summary-row{grid-template-columns:1fr;flex-direction:column}}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Email A/B Tester</h1>
+    <p class="subtitle">Calculate statistical significance and find winning email variants</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Configure A/B Test</div>
+    <div class="ab-grid">
+      <div class="variant-card v-a">
+        <div class="variant-label">Variant A (Control)</div>
+        <label>Subject Line</label>
+        <input type="text" id="subA" value="5 ways to grow your email list" oninput="calculate()">
+        <label>Emails Sent</label>
+        <input type="number" id="sentA" value="2500" min="1" oninput="calculate()">
+        <label>Opens</label>
+        <input type="number" id="opensA" value="485" min="0" oninput="calculate()">
+        <label>Clicks</label>
+        <input type="number" id="clicksA" value="97" min="0" oninput="calculate()">
+        <label>Conversions</label>
+        <input type="number" id="convsA" value="18" min="0" oninput="calculate()">
+      </div>
+      <div class="variant-card v-b">
+        <div class="variant-label">Variant B (Challenger)</div>
+        <label>Subject Line</label>
+        <input type="text" id="subB" value="🚀 How I 3x'd my list in 90 days" oninput="calculate()">
+        <label>Emails Sent</label>
+        <input type="number" id="sentB" value="2500" min="1" oninput="calculate()">
+        <label>Opens</label>
+        <input type="number" id="opensB" value="623" min="0" oninput="calculate()">
+        <label>Clicks</label>
+        <input type="number" id="clicksB" value="145" min="0" oninput="calculate()">
+        <label>Conversions</label>
+        <input type="number" id="convsB" value="31" min="0" oninput="calculate()">
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="calculate()">Analyze Results</button>
+  </div>
+
+  <div id="resultsSection" class="card">
+    <div class="card-title">Results Analysis</div>
+    <div class="summary-row">
+      <div class="summary-box"><div class="summary-num" id="sumOpenLift">—</div><div class="summary-label">Open Rate Lift</div></div>
+      <div class="summary-box"><div class="summary-num" id="sumClickLift">—</div><div class="summary-label">Click Rate Lift</div></div>
+      <div class="summary-box"><div class="summary-num" id="sumConvLift">—</div><div class="summary-label">Conv. Lift</div></div>
+      <div class="summary-box"><div class="summary-num" id="sumConfidence">—</div><div class="summary-label">Confidence</div></div>
+    </div>
+
+    <div class="results-grid" id="variantResults"></div>
+
+    <div class="stat-sig" id="statSigBlock">
+      <div class="stat-sig-title">Statistical Significance (open rates)</div>
+      <div class="sig-result" id="sigResult">
+        <div class="sig-icon">⏳</div>
+        <div class="sig-text"><h3 style="color:#94a3b8">Enter data above</h3><p>Results will appear here</p></div>
+      </div>
+      <div class="confidence-bar" style="margin-top:16px">
+        <div class="confidence-fill" id="confFill" style="width:0%"></div>
+        <div class="confidence-marker" id="confMarker95" style="left:95%"></div>
+      </div>
+      <div class="confidence-labels">
+        <span>0%</span><span>50%</span><span>90%</span><span style="color:#fff">95%</span><span>100%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <p>Full tool includes: automated multi-variant testing, Bayesian significance testing, time-series analysis, integration with ESP open/click data, and automatic winner deployment.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/5kQ14ndL98WWdNE6qdgjJ0M">Buy Full Version — $39.00</a>
+    <button class="crypto-pay-btn" data-product-slug="email-verifier" data-store-slug="email-arsenal" data-product-name="Email Verifier" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows limited functionality. Buy the full tool for all features.</div>
+</div>
+<script>
+// Two-proportion Z-test for statistical significance
+function zTest(p1, n1, p2, n2) {
+  if (n1 < 1 || n2 < 1) return {z:0, confidence:0};
+  const p = (p1*n1 + p2*n2) / (n1 + n2);
+  const se = Math.sqrt(p*(1-p)*(1/n1 + 1/n2));
+  if (se === 0) return {z:0, confidence:0};
+  const z = Math.abs((p1 - p2) / se);
+  // Normal CDF approximation
+  const confidence = normalCDF(z) * 100;
+  return {z, confidence};
+}
+
+function normalCDF(z) {
+  // Abramowitz and Stegun approximation
+  const t = 1 / (1 + 0.2316419 * Math.abs(z));
+  const d = 0.3989422820 * Math.exp(-z*z/2);
+  const p = d*t*(0.3193815 + t*(-0.3565638 + t*(1.7814779 + t*(-1.8212560 + t*1.3302744))));
+  return z > 0 ? 1 - p : p;
+}
+
+function pct(n, d) { return d > 0 ? (n/d*100).toFixed(1) : '0.0'; }
+function lift(a, b) {
+  if (a === 0) return '—';
+  const l = (b - a) / a * 100;
+  return (l >= 0 ? '+' : '') + l.toFixed(1) + '%';
+}
+
+function calculate() {
+  const sentA = +document.getElementById('sentA').value || 0;
+  const opensA = +document.getElementById('opensA').value || 0;
+  const clicksA = +document.getElementById('clicksA').value || 0;
+  const convsA = +document.getElementById('convsA').value || 0;
+  const sentB = +document.getElementById('sentB').value || 0;
+  const opensB = +document.getElementById('opensB').value || 0;
+  const clicksB = +document.getElementById('clicksB').value || 0;
+  const convsB = +document.getElementById('convsB').value || 0;
+  const subA = document.getElementById('subA').value;
+  const subB = document.getElementById('subB').value;
+
+  const orA = sentA > 0 ? opensA/sentA : 0;
+  const orB = sentB > 0 ? opensB/sentB : 0;
+  const crA = opensA > 0 ? clicksA/opensA : 0;
+  const crB = opensB > 0 ? clicksB/opensB : 0;
+  const cvA = sentA > 0 ? convsA/sentA : 0;
+  const cvB = sentB > 0 ? convsB/sentB : 0;
+
+  // Stat sig on opens
+  const {z, confidence} = zTest(orA, sentA, orB, sentB);
+  const confRound = Math.min(99.9, confidence);
+
+  // Lifts
+  const orLift = lift(orA, orB);
+  const clLift = lift(crA, crB);
+  const cvLift = lift(cvA, cvB);
+
+  document.getElementById('sumOpenLift').textContent = orLift;
+  document.getElementById('sumOpenLift').style.color = orLift.startsWith('+') ? '#00FF88' : orLift.startsWith('-') ? '#ef4444' : '#94a3b8';
+  document.getElementById('sumClickLift').textContent = clLift;
+  document.getElementById('sumClickLift').style.color = clLift.startsWith('+') ? '#00FF88' : clLift.startsWith('-') ? '#ef4444' : '#94a3b8';
+  document.getElementById('sumConvLift').textContent = cvLift;
+  document.getElementById('sumConvLift').style.color = cvLift.startsWith('+') ? '#00FF88' : cvLift.startsWith('-') ? '#ef4444' : '#94a3b8';
+  document.getElementById('sumConfidence').textContent = confRound.toFixed(1) + '%';
+  document.getElementById('sumConfidence').style.color = confRound >= 95 ? '#00FF88' : confRound >= 80 ? '#f59e0b' : '#ef4444';
+
+  // Determine winner
+  const aBetter = orA >= orB;
+  const makeVariant = (label, sub, sent, opens, clicks, convs, or_, cr, cv, isWinner, colorClass) => `
+    <div class="result-card${isWinner?' winner':''}">
+      ${isWinner ? '<div class="winner-badge">🏆 WINNER</div>' : ''}
+      <div class="variant-label" style="color:${colorClass};font-size:13px;font-weight:700;margin-bottom:12px">${label}</div>
+      <div style="font-size:13px;color:#94a3b8;margin-bottom:14px;font-style:italic">"${sub}"</div>
+      <div class="metric-row"><span class="metric-label">Open Rate</span><span class="metric-val" style="color:${colorClass}">${pct(opens,sent)}%</span></div>
+      <div class="bar-container"><div class="bar-fill" style="width:${Math.min(or_*300,100)}%;background:${colorClass}"></div></div>
+      <div class="metric-row"><span class="metric-label">Click Rate</span><span class="metric-val">${pct(clicks,opens)}%</span></div>
+      <div class="bar-container"><div class="bar-fill" style="width:${Math.min(cr*300,100)}%;background:${colorClass}80"></div></div>
+      <div class="metric-row"><span class="metric-label">Conv. Rate</span><span class="metric-val">${pct(convs,sent)}%</span></div>
+      <div class="metric-row"><span class="metric-label">Total Sent</span><span class="metric-val">${sent.toLocaleString()}</span></div>
+    </div>`;
+
+  document.getElementById('variantResults').innerHTML =
+    makeVariant('Variant A', subA, sentA, opensA, clicksA, convsA, orA, crA, cvA, aBetter, '#FF3366') +
+    makeVariant('Variant B', subB, sentB, opensB, clicksB, convsB, orB, crB, cvB, !aBetter, '#00BFFF');
+
+  // Stat sig display
+  let icon, title, desc, color;
+  if (confRound >= 95) {
+    icon = '✅'; title = 'Statistically Significant!'; color = '#00FF88';
+    desc = `${confRound.toFixed(1)}% confidence. ${!aBetter?'Variant B':'Variant A'} wins. Safe to declare a winner.`;
+  } else if (confRound >= 80) {
+    icon = '⚠️'; title = 'Trending, Not Significant Yet'; color = '#f59e0b';
+    desc = `${confRound.toFixed(1)}% confidence. Need 95% to declare a winner. Collect more data.`;
+  } else {
+    icon = '🔄'; title = 'Inconclusive — Too Early'; color = '#ef4444';
+    desc = `${confRound.toFixed(1)}% confidence. Results may be random. Keep running the test.`;
+  }
+  document.getElementById('sigResult').innerHTML = `
+    <div class="sig-icon">${icon}</div>
+    <div class="sig-text">
+      <h3 style="color:${color}">${title}</h3>
+      <p>${desc}</p>
+    </div>`;
+  document.getElementById('confFill').style.width = confRound + '%';
+}
+
+// Auto-run on load
+calculate();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

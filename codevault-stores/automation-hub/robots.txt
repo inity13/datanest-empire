@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://automation-hub.codevault.dev/sitemap.xml

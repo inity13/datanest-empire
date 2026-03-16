@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Landing Page Templates Demo — Landing Lab</title>
+<style>
+  :root { --brand: #FFAB00; --bg: #0A0E1A; --panel: #0d1321; --border: #1e2a3a; --text: #e2e8f0; --muted: #64748b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 820px; margin: 0 auto; }
+  h1 { color: var(--brand); font-size: 1.6rem; margin-bottom: 0.3rem; }
+  .subtitle { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem; }
+  .panel h2 { color: var(--brand); font-size: 1rem; margin-bottom: 1rem; }
+  label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 0.3rem; margin-top: 0.75rem; }
+  input, select, textarea { width: 100%; background: #0a1020; border: 1px solid var(--border); border-radius: 4px; color: var(--text); padding: 0.5rem 0.75rem; font-size: 0.9rem; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--brand); }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn { background: var(--brand); color: #000; border: none; border-radius: 6px; padding: 0.6rem 1.4rem; font-weight: 700; cursor: pointer; font-size: 0.9rem; margin-top: 1rem; }
+  .btn:hover { opacity: 0.85; }
+  .preview-box { background: #fff; border-radius: 8px; overflow: hidden; margin-top: 1rem; min-height: 260px; }
+  .preview-frame { width: 100%; height: 340px; border: none; display: block; }
+  .template-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+  .template-card { background: #0a1020; border: 2px solid var(--border); border-radius: 6px; padding: 0.75rem; cursor: pointer; transition: border-color 0.2s; }
+  .template-card:hover, .template-card.active { border-color: var(--brand); }
+  .template-card .name { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.2rem; }
+  .template-card .type { font-size: 0.75rem; color: var(--muted); }
+  .cta-bar { background: linear-gradient(135deg, #1a1200, #2a1e00); border: 1px solid var(--brand); border-radius: 8px; padding: 1.25rem; margin-top: 1.5rem; text-align: center; }
+  .cta-bar h3 { color: var(--brand); margin-bottom: 0.4rem; }
+  .cta-bar p { color: var(--muted); font-size: 0.85rem; margin-bottom: 1rem; }
+  .buy-btn { display: inline-block; background: var(--brand); color: #000; text-decoration: none; padding: 0.75rem 2rem; border-radius: 6px; font-weight: 700; font-size: 1rem; }
+  .buy-btn:hover { opacity: 0.85; }
+  .footer-note { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 1rem; }
+  @media (max-width: 600px) { .row { grid-template-columns: 1fr; } .template-grid { grid-template-columns: 1fr 1fr; } }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🎨 Landing Page Templates</h1>
+  <p class="subtitle">Pick a template, customize your copy, and preview the result — demo shows 3 of 25 templates.</p>
+
+  <div class="panel">
+    <h2>1. Choose Template</h2>
+    <div class="template-grid">
+      <div class="template-card active" data-tpl="saas" onclick="selectTemplate(this,'saas')">
+        <div class="name">SaaS Launch</div>
+        <div class="type">Hero + Features + CTA</div>
+      </div>
+      <div class="template-card" data-tpl="lead" onclick="selectTemplate(this,'lead')">
+        <div class="name">Lead Capture</div>
+        <div class="type">Headline + Form + Trust</div>
+      </div>
+      <div class="template-card" data-tpl="product" onclick="selectTemplate(this,'product')">
+        <div class="name">Product Launch</div>
+        <div class="type">Waitlist + Countdown</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>2. Customize Copy</h2>
+    <div class="row">
+      <div>
+        <label>Headline</label>
+        <input id="headline" type="text" value="Ship Faster. Convert More." />
+        <label>Subheadline</label>
+        <input id="sub" type="text" value="The toolkit that every SaaS founder needs." />
+      </div>
+      <div>
+        <label>CTA Button Text</label>
+        <input id="cta" type="text" value="Start Free Trial" />
+        <label>Accent Color</label>
+        <input id="accent" type="text" value="#FFAB00" />
+      </div>
+    </div>
+    <button class="btn" onclick="renderPreview()">Generate Preview</button>
+  </div>
+
+  <div class="panel">
+    <h2>3. Live Preview</h2>
+    <iframe class="preview-frame" id="previewFrame" srcdoc="<p style='color:#64748b;padding:2rem;text-align:center'>Click Generate Preview above</p>"></iframe>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Get All 25 Templates — $29</h3>
+    <p>SaaS, lead gen, product launch, agency, e-commerce & more. Fully responsive, conversion-optimized HTML.</p>
+    <a class="buy-btn" href="https://buy.stripe.com/cNi28r0Yn0qq7pg9CpgjJ1a">Buy Full Version — $29</a>
+    <button class="crypto-pay-btn" data-product-slug="landing-page-templates" data-store-slug="landing-lab" data-product-name="Landing Page Templates" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows 3 of 25 templates with limited customization. Full version includes all templates, dark/light variants, and export to ZIP.</p>
+</div>
+<script>
+  let currentTpl = 'saas';
+
+  function selectTemplate(el, tpl) {
+    document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    currentTpl = tpl;
+  }
+
+  // Generate preview HTML based on template and inputs
+  function renderPreview() {
+    const h = document.getElementById('headline').value || 'Your Headline Here';
+    const s = document.getElementById('sub').value || 'Your subheadline goes here.';
+    const c = document.getElementById('cta').value || 'Get Started';
+    const accent = document.getElementById('accent').value || '#FFAB00';
+    let body = '';
+
+    if (currentTpl === 'saas') {
+      body = `<section style="background:#0f172a;color:#e2e8f0;font-family:sans-serif;padding:3rem 2rem;text-align:center">
+        <h1 style="font-size:2rem;margin-bottom:0.75rem;color:${accent}">${h}</h1>
+        <p style="color:#94a3b8;max-width:480px;margin:0 auto 1.5rem">${s}</p>
+        <a href="#" style="background:${accent};color:#000;padding:0.75rem 2rem;border-radius:6px;text-decoration:none;font-weight:700">${c}</a>
+        <div style="display:flex;justify-content:center;gap:2rem;margin-top:2.5rem">
+          <div style="text-align:center"><div style="font-size:1.5rem;color:${accent}">⚡</div><div style="font-size:0.8rem;color:#64748b">Fast Setup</div></div>
+          <div style="text-align:center"><div style="font-size:1.5rem;color:${accent}">🔒</div><div style="font-size:0.8rem;color:#64748b">Secure</div></div>
+          <div style="text-align:center"><div style="font-size:1.5rem;color:${accent}">📈</div><div style="font-size:0.8rem;color:#64748b">Scalable</div></div>
+        </div></section>`;
+    } else if (currentTpl === 'lead') {
+      body = `<section style="background:#0f172a;color:#e2e8f0;font-family:sans-serif;padding:3rem 2rem;text-align:center">
+        <h1 style="font-size:2rem;margin-bottom:0.75rem;color:${accent}">${h}</h1>
+        <p style="color:#94a3b8;max-width:440px;margin:0 auto 1.5rem">${s}</p>
+        <div style="max-width:360px;margin:0 auto">
+          <input type="email" placeholder="Enter your email" style="width:100%;padding:0.75rem;border-radius:6px 6px 0 0;border:none;background:#1e293b;color:#e2e8f0;margin-bottom:0.25rem">
+          <button style="width:100%;background:${accent};color:#000;padding:0.75rem;border:none;border-radius:0 0 6px 6px;font-weight:700;cursor:pointer">${c}</button>
+        </div>
+        <p style="color:#475569;font-size:0.75rem;margin-top:1rem">No spam. Unsubscribe anytime.</p>
+        </section>`;
+    } else {
+      body = `<section style="background:#0f172a;color:#e2e8f0;font-family:sans-serif;padding:3rem 2rem;text-align:center">
+        <div style="display:inline-block;background:${accent}22;border:1px solid ${accent};color:${accent};padding:0.3rem 1rem;border-radius:20px;font-size:0.8rem;margin-bottom:1rem">Coming Soon</div>
+        <h1 style="font-size:2rem;margin-bottom:0.75rem">${h}</h1>
+        <p style="color:#94a3b8;margin-bottom:1.5rem">${s}</p>
+        <div style="display:flex;justify-content:center;gap:1rem;margin-bottom:1.5rem">
+          ${['12','08','33','00'].map((v,i)=>['Days','Hours','Mins','Secs'][i]&&`<div style="background:#1e293b;border-radius:6px;padding:0.75rem 1rem;min-width:70px"><div style="font-size:1.8rem;font-weight:700;color:${accent}">${v}</div><div style="font-size:0.7rem;color:#64748b">${['Days','Hours','Mins','Secs'][i]}</div></div>`).join('')}
+        </div>
+        <button style="background:${accent};color:#000;padding:0.75rem 2rem;border:none;border-radius:6px;font-weight:700;cursor:pointer">${c}</button>
+        </section>`;
+    }
+
+    document.getElementById('previewFrame').srcdoc = `<!DOCTYPE html><html><body style="margin:0">${body}<script src="../crypto-checkout.js"></script>
+</body></html>`;
+  }
+
+  renderPreview();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

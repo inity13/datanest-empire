@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session Manager — Interactive Demo | Auth Vault</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#E91E63;--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;--red:#FF4B6E;--yellow:#FFD600;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;}
+  .badge{background:var(--accent);color:#fff;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+  @media(max-width:750px){.grid2{grid-template-columns:1fr;}}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}
+  h3{font-size:1rem;font-weight:700;margin-bottom:1rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+  input,select{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.55rem .8rem;border-radius:8px;font-size:.88rem;margin-bottom:.85rem;font-family:inherit;}
+  input:focus,select:focus{outline:none;border-color:var(--accent);}
+  .btn{padding:.6rem 1.2rem;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;background:var(--accent);color:#fff;}
+  .btn:hover{opacity:.85;}
+  .btn-sm{padding:.35rem .75rem;font-size:.78rem;}
+  .btn-danger{background:#FF4B6E;}
+  .btn-green{background:#00C066;color:#0A0E1A;}
+  .btn-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;}
+  /* Session table */
+  .session-table{width:100%;border-collapse:collapse;font-size:.82rem;}
+  .session-table th{text-align:left;padding:.5rem .75rem;color:var(--muted);font-size:.75rem;text-transform:uppercase;border-bottom:1px solid var(--border);}
+  .session-table td{padding:.6rem .75rem;border-bottom:1px solid rgba(42,46,62,.5);vertical-align:middle;}
+  .session-table tr:last-child td{border-bottom:none;}
+  .session-table tr.current-session{background:rgba(233,30,99,.05);}
+  .status-pill{display:inline-flex;align-items:center;gap:.35rem;padding:.2rem .55rem;border-radius:20px;font-size:.72rem;font-weight:600;}
+  .status-active{background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.25);}
+  .status-idle{background:rgba(255,214,0,.1);color:var(--yellow);border:1px solid rgba(255,214,0,.25);}
+  .status-expired{background:rgba(255,75,110,.1);color:var(--red);border:1px solid rgba(255,75,110,.25);}
+  .device-icon{font-size:1rem;}
+  /* Stats */
+  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem;}
+  @media(max-width:600px){.stats-row{grid-template-columns:repeat(2,1fr);}}
+  .stat-card{background:var(--surface2);border-radius:10px;padding:1rem;text-align:center;border:1px solid var(--border);}
+  .stat-value{font-size:1.6rem;font-weight:700;color:var(--accent);}
+  .stat-label{font-size:.72rem;color:var(--muted);text-transform:uppercase;margin-top:.25rem;}
+  /* Config */
+  .config-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+  @media(max-width:500px){.config-grid{grid-template-columns:1fr;}}
+  .toast{position:fixed;bottom:2rem;right:2rem;background:var(--surface);border:1px solid var(--green);color:var(--green);padding:.65rem 1.2rem;border-radius:10px;font-size:.85rem;font-weight:600;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;z-index:999;}
+  .toast.show{opacity:1;transform:translateY(0);}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a1025);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#fff;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">🖥️</span>
+  <h1>Session Manager</h1>
+  <span style="color:var(--muted);font-size:.9rem">Interactive Demo</span>
+  <span class="badge">Auth Vault</span>
+</header>
+
+<div class="container">
+  <h2>Live Session Management Dashboard</h2>
+  <p class="subtitle">Create, inspect, invalidate, and monitor user sessions in real time. Demonstrates session lifecycle, device tracking, and concurrent session policy.</p>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-value" id="statTotal">0</div><div class="stat-label">Total Sessions</div></div>
+    <div class="stat-card"><div class="stat-value" id="statActive">0</div><div class="stat-label">Active</div></div>
+    <div class="stat-card"><div class="stat-value" id="statIdle">0</div><div class="stat-label">Idle</div></div>
+    <div class="stat-card"><div class="stat-value" id="statExpired">0</div><div class="stat-label">Expired</div></div>
+  </div>
+
+  <div class="grid2" style="margin-bottom:1.5rem">
+    <!-- Create Session -->
+    <div class="panel">
+      <h3>Create New Session</h3>
+      <label>Username</label>
+      <input type="text" id="newUser" value="alice@example.com" placeholder="user@example.com">
+      <label>Device Type</label>
+      <select id="newDevice">
+        <option value="desktop">🖥️ Desktop Browser</option>
+        <option value="mobile">📱 Mobile Browser</option>
+        <option value="tablet">📟 Tablet</option>
+        <option value="api">⚡ API Client</option>
+        <option value="cli">💻 CLI Tool</option>
+      </select>
+      <label>Session TTL (minutes)</label>
+      <input type="number" id="newTtl" value="60" min="5" max="10080">
+      <button class="btn" onclick="createSession()" style="width:100%">+ Create Session</button>
+    </div>
+
+    <!-- Session Config -->
+    <div class="panel">
+      <h3>Session Policy</h3>
+      <div class="config-grid">
+        <div>
+          <label>Max Concurrent Sessions</label>
+          <select id="maxSessions">
+            <option value="1">1 (strict)</option>
+            <option value="3" selected>3 (default)</option>
+            <option value="5">5</option>
+            <option value="0">Unlimited</option>
+          </select>
+        </div>
+        <div>
+          <label>Idle Timeout (min)</label>
+          <input type="number" id="idleTimeout" value="30" min="5" max="1440">
+        </div>
+        <div>
+          <label>Sliding Expiry</label>
+          <select id="slidingExpiry">
+            <option value="true" selected>Enabled</option>
+            <option value="false">Disabled</option>
+          </select>
+        </div>
+        <div>
+          <label>Require Same IP</label>
+          <select id="requireSameIp">
+            <option value="false" selected>No</option>
+            <option value="true">Yes</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-row" style="margin-top:.5rem">
+        <button class="btn btn-danger btn-sm" onclick="revokeAll()">Revoke All Sessions</button>
+        <button class="btn btn-sm" style="background:var(--surface2);border:1px solid var(--border);color:var(--text)" onclick="pruneExpired()">Prune Expired</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Session List -->
+  <div class="panel">
+    <h3>Active Sessions</h3>
+    <div style="overflow-x:auto">
+      <table class="session-table">
+        <thead>
+          <tr>
+            <th>Session ID</th>
+            <th>User</th>
+            <th>Device</th>
+            <th>IP Address</th>
+            <th>Created</th>
+            <th>Expires</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="sessionTbody"></tbody>
+      </table>
+    </div>
+    <div id="emptyMsg" style="text-align:center;color:var(--muted);padding:2rem;font-size:.9rem">No sessions yet — create one above.</div>
+  </div>
+
+  <div class="cta-box">
+    <p>Full version includes Redis/PostgreSQL backends, refresh token rotation, fingerprinting, geo-blocking, suspicious activity detection, and admin API.</p>
+    <a href="https://buy.stripe.com/00w28rePd2yyfVMcOBgjJ0g" class="cta-btn">Buy Full Version — $14.99</a>
+    <button class="crypto-pay-btn" data-product-slug="session-manager" data-store-slug="auth-vault" data-product-name="Session Manager" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+
+<script>
+const DEVICES = { desktop:'🖥️', mobile:'📱', tablet:'📟', api:'⚡', cli:'💻' };
+const DEVICE_NAMES = { desktop:'Desktop', mobile:'Mobile', tablet:'Tablet', api:'API Client', cli:'CLI' };
+const IPS = ['192.168.1.42','10.0.0.15','172.16.0.8','203.0.113.55','198.51.100.3'];
+
+let sessions = [];
+let sessionCounter = 0;
+
+function randHex(n) { return [...Array(n)].map(()=>Math.floor(Math.random()*16).toString(16)).join(''); }
+function randIP() { return IPS[Math.floor(Math.random()*IPS.length)]; }
+
+function createSession() {
+  const user = document.getElementById('newUser').value.trim() || 'user@example.com';
+  const device = document.getElementById('newDevice').value;
+  const ttl = parseInt(document.getElementById('newTtl').value) || 60;
+  const maxS = parseInt(document.getElementById('maxSessions').value);
+  const userSessions = sessions.filter(s => s.user === user && s.status !== 'expired');
+  if (maxS > 0 && userSessions.length >= maxS) {
+    showToast('Max concurrent sessions reached for this user!', 'error');
+    return;
+  }
+  const now = Date.now();
+  sessions.unshift({
+    id: 'ses_' + randHex(12),
+    user,
+    device,
+    ip: randIP(),
+    created: now,
+    expires: now + ttl * 60000,
+    lastActive: now,
+    status: 'active',
+    ttl,
+    isCurrent: sessions.length === 0
+  });
+  sessionCounter++;
+  render();
+  showToast('Session created');
+}
+
+function revokeSession(id) {
+  sessions = sessions.filter(s => s.id !== id);
+  render();
+  showToast('Session revoked');
+}
+
+function refreshSession(id) {
+  const s = sessions.find(s => s.id === id);
+  if (s) {
+    const ttl = parseInt(document.getElementById('newTtl').value) || 60;
+    s.expires = Date.now() + ttl * 60000;
+    s.lastActive = Date.now();
+    s.status = 'active';
+    render();
+    showToast('Session refreshed');
+  }
+}
+
+function revokeAll() {
+  sessions = [];
+  render();
+  showToast('All sessions revoked', 'error');
+}
+
+function pruneExpired() {
+  const before = sessions.length;
+  sessions = sessions.filter(s => s.status !== 'expired');
+  render();
+  showToast(`Pruned ${before - sessions.length} expired sessions`);
+}
+
+function getStatus(s) {
+  const now = Date.now();
+  if (s.expires < now) return 'expired';
+  const idle = parseInt(document.getElementById('idleTimeout').value) || 30;
+  if (Date.now() - s.lastActive > idle * 60000) return 'idle';
+  return 'active';
+}
+
+function formatTime(ts) {
+  return new Date(ts).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+
+function formatExpiry(ts) {
+  const diff = ts - Date.now();
+  if (diff < 0) return 'Expired';
+  const m = Math.floor(diff / 60000);
+  const h = Math.floor(m / 60);
+  if (h > 0) return `${h}h ${m % 60}m`;
+  return `${m}m`;
+}
+
+function render() {
+  // Update statuses
+  sessions.forEach(s => { s.status = getStatus(s); });
+
+  const tbody = document.getElementById('sessionTbody');
+  const emptyMsg = document.getElementById('emptyMsg');
+
+  document.getElementById('statTotal').textContent = sessions.length;
+  document.getElementById('statActive').textContent = sessions.filter(s=>s.status==='active').length;
+  document.getElementById('statIdle').textContent = sessions.filter(s=>s.status==='idle').length;
+  document.getElementById('statExpired').textContent = sessions.filter(s=>s.status==='expired').length;
+
+  if (sessions.length === 0) {
+    tbody.innerHTML = '';
+    emptyMsg.style.display = 'block';
+    return;
+  }
+  emptyMsg.style.display = 'none';
+
+  const statusBadge = s => ({
+    active: `<span class="status-pill status-active">● Active</span>`,
+    idle:   `<span class="status-pill status-idle">● Idle</span>`,
+    expired:`<span class="status-pill status-expired">● Expired</span>`,
+  }[s]);
+
+  tbody.innerHTML = sessions.map(s => `
+    <tr${s.isCurrent?' class="current-session"':''}>
+      <td><code style="font-size:.72rem;color:#cba6f7">${s.id}</code>${s.isCurrent?'<span style="color:var(--accent);font-size:.7rem;margin-left:.4rem">(current)</span>':''}</td>
+      <td style="font-size:.82rem">${s.user}</td>
+      <td>${DEVICES[s.device]} ${DEVICE_NAMES[s.device]}</td>
+      <td style="font-family:monospace;font-size:.78rem">${s.ip}</td>
+      <td style="font-size:.78rem;color:var(--muted)">${formatTime(s.created)}</td>
+      <td style="font-size:.78rem;color:${s.status==='expired'?'var(--red)':'var(--muted)'}">${formatExpiry(s.expires)}</td>
+      <td>${statusBadge(s.status)}</td>
+      <td>
+        <button class="btn btn-sm btn-green" onclick="refreshSession('${s.id}')" style="margin-right:.3rem;padding:.25rem .6rem">↺</button>
+        <button class="btn btn-sm btn-danger" onclick="revokeSession('${s.id}')" style="padding:.25rem .6rem">✕</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.borderColor = type==='error' ? 'var(--red)' : 'var(--green)';
+  t.style.color = type==='error' ? 'var(--red)' : 'var(--green)';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// Seed a couple of demo sessions
+function seed() {
+  const users = ['alice@example.com','bob@example.com','carol@example.com'];
+  const devices = ['desktop','mobile','api'];
+  users.forEach((u, i) => {
+    sessions.push({
+      id: 'ses_' + randHex(12),
+      user: u,
+      device: devices[i],
+      ip: randIP(),
+      created: Date.now() - i * 900000,
+      expires: Date.now() + (60 - i * 20) * 60000,
+      lastActive: Date.now() - i * 600000,
+      status: 'active',
+      ttl: 60,
+      isCurrent: i === 0
+    });
+  });
+  render();
+}
+
+seed();
+// Auto-refresh status every 30s
+setInterval(render, 30000);
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

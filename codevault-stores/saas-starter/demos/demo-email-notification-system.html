@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Notification System — Interactive Demo | SaaS Starter</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#FFD600;--accent-dim:rgba(255,214,0,.1);--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;--red:#FF4B6E;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;}
+  .badge{background:var(--accent);color:#0A0E1A;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1050px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+  @media(max-width:750px){.grid2{grid-template-columns:1fr;}}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;}
+  h3{font-size:1rem;font-weight:700;margin-bottom:1rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+  input,select,textarea{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.55rem .8rem;border-radius:8px;font-size:.88rem;margin-bottom:.85rem;font-family:inherit;}
+  textarea{min-height:120px;resize:vertical;font-family:'Courier New',monospace;font-size:.8rem;}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);}
+  .btn{padding:.6rem 1.2rem;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;background:var(--accent);color:#0A0E1A;}
+  .btn:hover{opacity:.85;}
+  /* Email preview */
+  .email-preview{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.4);}
+  .ep-header{padding:1rem 1.5rem;border-bottom:1px solid #eee;}
+  .ep-meta{font-size:.78rem;color:#666;line-height:1.8;}
+  .ep-body{padding:1.5rem;}
+  .ep-banner{background:var(--accent);padding:1.25rem 1.5rem;color:#0A0E1A;}
+  .ep-banner h2{font-size:1.1rem;}
+  .ep-content{padding:1.25rem 0;color:#333;font-size:.88rem;line-height:1.7;}
+  .ep-cta{display:block;background:#0A0E1A;color:#FFD600;text-align:center;padding:.7rem;border-radius:8px;text-decoration:none;font-weight:700;font-size:.85rem;margin:1rem 0;}
+  .ep-footer{padding:.75rem 1.5rem;background:#f9f9f9;font-size:.72rem;color:#999;border-top:1px solid #eee;}
+  /* Template list */
+  .tmpl-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:1rem;margin-bottom:.75rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:1rem;}
+  .tmpl-card.selected{border-color:var(--accent);}
+  .tmpl-card:hover:not(.selected){border-color:var(--muted);}
+  .tmpl-icon{font-size:1.5rem;flex-shrink:0;}
+  .tmpl-name{font-weight:700;font-size:.88rem;}
+  .tmpl-desc{font-size:.75rem;color:var(--muted);}
+  /* Send log */
+  .send-log{font-size:.8rem;}
+  .sl-item{display:flex;align-items:center;gap:.75rem;padding:.5rem;border-bottom:1px solid rgba(42,46,62,.4);}
+  .sl-status{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .sl-ok{background:var(--green);}
+  .sl-fail{background:var(--red);}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a1a0a);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#0A0E1A;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">📧</span>
+  <h1>Email Notification System</h1>
+  <span style="color:var(--muted);font-size:.9rem">Interactive Demo</span>
+  <span class="badge">SaaS Starter</span>
+</header>
+<div class="container">
+  <h2>Transactional Email Builder &amp; Sender</h2>
+  <p class="subtitle">Browse email templates, customize content with variable substitution, preview the rendered email, and simulate sending.</p>
+
+  <div class="grid2">
+    <!-- Left: Template + compose -->
+    <div>
+      <div class="panel">
+        <h3>Email Templates</h3>
+        <div id="templateList"></div>
+      </div>
+      <div class="panel">
+        <h3>Customize &amp; Send</h3>
+        <label>Recipient</label>
+        <input type="email" id="recipient" value="user@example.com">
+        <label>Subject</label>
+        <input type="text" id="subject" id="subject">
+        <label>Template Variables (JSON)</label>
+        <textarea id="variables"></textarea>
+        <button class="btn" onclick="sendEmail()" style="width:100%">📤 Send Email</button>
+        <div id="sendMsg" style="margin-top:.75rem"></div>
+      </div>
+    </div>
+
+    <!-- Right: Preview + log -->
+    <div>
+      <div class="panel">
+        <h3>Email Preview</h3>
+        <div class="email-preview" id="emailPreview"></div>
+      </div>
+      <div class="panel">
+        <h3>Send Log</h3>
+        <div class="send-log" id="sendLog"><div style="color:var(--muted);text-align:center;padding:1rem">No emails sent yet</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <p>Full version includes SMTP/SendGrid/Postmark integration, open/click tracking, unsubscribe management, rate limiting, and bulk sending with batching.</p>
+    <a href="https://buy.stripe.com/5kQ4gzayX2yy5h8dSFgjJ1G" class="cta-btn">Buy Full Version — $14.99</a>
+    <button class="crypto-pay-btn" data-product-slug="email-notification-system" data-store-slug="saas-starter" data-product-name="email-notification-system" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+<script>
+const TEMPLATES = [
+  {id:'welcome',icon:'👋',name:'Welcome Email',desc:'New user onboarding',subject:'Welcome to {{app_name}}, {{first_name}}!',vars:{app_name:'MyApp',first_name:'Alice',cta_url:'https://myapp.com/dashboard',cta_text:'Go to Dashboard'},body:'<p>Hi <strong>{{first_name}}</strong>, welcome to <strong>{{app_name}}</strong>! We\'re thrilled to have you on board.</p><p>Your account is all set up and ready to go. Click below to get started.</p>'},
+  {id:'password_reset',icon:'🔑',name:'Password Reset',desc:'Forgot password flow',subject:'Reset your {{app_name}} password',vars:{app_name:'MyApp',first_name:'Alice',reset_url:'https://myapp.com/reset?token=abc123',expires_in:'1 hour'},body:'<p>Hi <strong>{{first_name}}</strong>, we received a request to reset your password.</p><p>This link expires in <strong>{{expires_in}}</strong>. If you didn\'t request this, you can safely ignore this email.</p>'},
+  {id:'invoice',icon:'🧾',name:'Invoice Receipt',desc:'Payment confirmation',subject:'Your invoice for {{amount}} is ready',vars:{first_name:'Alice',amount:'$29.00',plan:'Pro',invoice_id:'INV-2026-001',period:'March 2026'},body:'<p>Hi <strong>{{first_name}}</strong>, your payment of <strong>{{amount}}</strong> for the <strong>{{plan}}</strong> plan has been processed.</p><p>Invoice #: <strong>{{invoice_id}}</strong> · Period: {{period}}</p>'},
+  {id:'trial_ending',icon:'⏰',name:'Trial Ending',desc:'Trial expiry reminder',subject:'Your {{app_name}} trial ends in {{days_left}} days',vars:{app_name:'MyApp',first_name:'Alice',days_left:'3',upgrade_url:'https://myapp.com/upgrade'},body:'<p>Hi <strong>{{first_name}}</strong>, your free trial of <strong>{{app_name}}</strong> ends in <strong>{{days_left}} days</strong>.</p><p>Upgrade now to keep all your work and never lose access.</p>'},
+  {id:'activity',icon:'📊',name:'Weekly Digest',desc:'Usage summary email',subject:'Your weekly activity report',vars:{first_name:'Alice',api_calls:'4,821',period:'Mar 8–14',top_feature:'Analytics Dashboard'},body:'<p>Hi <strong>{{first_name}}</strong>, here\'s your activity summary for <strong>{{period}}</strong>:</p><p>API Calls: <strong>{{api_calls}}</strong><br>Most used: <strong>{{top_feature}}</strong></p>'},
+];
+
+let selected = TEMPLATES[0];
+let sendLog = [];
+
+function renderTemplates() {
+  document.getElementById('templateList').innerHTML = TEMPLATES.map(t=>`
+    <div class="tmpl-card${t.id===selected.id?' selected':''}" onclick="selectTemplate('${t.id}')">
+      <div class="tmpl-icon">${t.icon}</div>
+      <div><div class="tmpl-name">${t.name}</div><div class="tmpl-desc">${t.desc}</div></div>
+    </div>`).join('');
+}
+
+function selectTemplate(id) {
+  selected = TEMPLATES.find(t=>t.id===id);
+  document.getElementById('subject').value = selected.subject;
+  document.getElementById('variables').value = JSON.stringify(selected.vars, null, 2);
+  renderTemplates();
+  renderPreview();
+}
+
+function renderPreview() {
+  let vars = {};
+  try { vars = JSON.parse(document.getElementById('variables').value); } catch(e){}
+  const subj = fillVars(selected.subject, vars);
+  const body = fillVars(selected.body, vars);
+  const cta = vars.cta_url || vars.reset_url || vars.upgrade_url || '#';
+  const ctaTxt = vars.cta_text || (selected.id==='password_reset'?'Reset Password':selected.id==='trial_ending'?'Upgrade Now':'View Details');
+  document.getElementById('emailPreview').innerHTML = `
+    <div class="ep-header">
+      <div class="ep-meta"><strong>From:</strong> noreply@myapp.com<br><strong>To:</strong> ${document.getElementById('recipient').value||'user@example.com'}<br><strong>Subject:</strong> ${subj}</div>
+    </div>
+    <div class="ep-banner"><h2>📧 ${vars.app_name||'MyApp'}</h2></div>
+    <div class="ep-body">
+      <div class="ep-content">${body}</div>
+      <a href="#" class="ep-cta">${ctaTxt}</a>
+    </div>
+    <div class="ep-footer">© 2026 ${vars.app_name||'MyApp'} · Unsubscribe · Privacy Policy</div>`;
+}
+
+function fillVars(str, vars) {
+  return str.replace(/\{\{(\w+)\}\}/g, (_, k) => vars[k] || `{{${k}}}`);
+}
+
+function sendEmail() {
+  const to = document.getElementById('recipient').value.trim();
+  if(!to.includes('@')) { document.getElementById('sendMsg').innerHTML='<span style="color:var(--red);font-size:.82rem">Invalid email address.</span>'; return; }
+  const success = Math.random() > 0.1;
+  const entry = {to, template:selected.name, time:new Date().toLocaleTimeString(),success};
+  sendLog.unshift(entry);
+  if(sendLog.length>10) sendLog.pop();
+  document.getElementById('sendMsg').innerHTML=success
+    ?`<div style="background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);border-radius:8px;padding:.6rem;color:var(--green);font-size:.82rem">✓ Email sent to ${to}</div>`
+    :`<div style="background:rgba(255,75,110,.08);border:1px solid rgba(255,75,110,.2);border-radius:8px;padding:.6rem;color:var(--red);font-size:.82rem">✗ Delivery failed — simulated SMTP error</div>`;
+  renderSendLog();
+}
+
+function renderSendLog() {
+  document.getElementById('sendLog').innerHTML = sendLog.map(e=>`
+    <div class="sl-item">
+      <div class="sl-status ${e.success?'sl-ok':'sl-fail'}"></div>
+      <div style="flex:1">${e.to}</div>
+      <div style="color:var(--muted)">${e.template}</div>
+      <div style="color:var(--muted)">${e.time}</div>
+    </div>`).join('');
+}
+
+document.getElementById('variables').addEventListener('input', renderPreview);
+document.getElementById('recipient').addEventListener('input', renderPreview);
+
+selectTemplate('welcome');
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

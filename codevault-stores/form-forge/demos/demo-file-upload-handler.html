@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>File Upload Handler Demo — Form Forge</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:780px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#7C4DFF20;color:#7C4DFF;border:1px solid #7C4DFF40;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#7C4DFF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+  /* Config */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  label{display:block;font-size:13px;color:#94a3b8;margin-bottom:5px;font-weight:500}
+  input[type=number],input[type=text],select{width:100%;background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:10px 14px;color:#e2e8f0;font-size:14px;outline:none;transition:border-color .2s;font-family:inherit}
+  input:focus,select:focus{border-color:#7C4DFF}
+  select option{background:#111827}
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #1e293b}
+  .toggle-row:last-child{border-bottom:none}
+  .toggle-label{font-size:13px;color:#94a3b8}
+  .toggle{width:38px;height:22px;background:#1e293b;border-radius:11px;position:relative;cursor:pointer;transition:background .2s}
+  .toggle.on{background:#7C4DFF}
+  .toggle::after{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .2s}
+  .toggle.on::after{transform:translateX(16px)}
+  /* Upload zone */
+  .upload-zone{border:2px dashed #2d3748;border-radius:12px;padding:40px;text-align:center;cursor:pointer;transition:all .3s;background:#0A0E1A;position:relative}
+  .upload-zone:hover,.upload-zone.drag-over{border-color:#7C4DFF;background:#7C4DFF08}
+  .upload-icon{font-size:40px;margin-bottom:12px}
+  .upload-title{font-size:16px;font-weight:600;color:#e2e8f0;margin-bottom:6px}
+  .upload-sub{font-size:13px;color:#64748b;margin-bottom:16px}
+  .upload-btn{background:#7C4DFF;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
+  .upload-btn:hover{background:#6B3FEE}
+  .hidden-input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+  /* File list */
+  .file-item{background:#0A0E1A;border:1px solid #1e293b;border-radius:8px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px}
+  .file-icon{font-size:28px;flex-shrink:0}
+  .file-info{flex:1;min-width:0}
+  .file-name{font-size:14px;font-weight:600;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .file-meta{font-size:12px;color:#64748b;margin-top:2px}
+  .file-status{flex-shrink:0;text-align:right}
+  .progress-bar{background:#1e293b;border-radius:4px;height:6px;overflow:hidden;margin-top:6px}
+  .progress-fill{height:100%;border-radius:4px;background:#7C4DFF;transition:width .1s}
+  .file-pct{font-size:12px;color:#94a3b8;margin-top:3px;text-align:right}
+  .file-complete{color:#00FF88;font-size:13px;font-weight:600}
+  .file-error{color:#ef4444;font-size:13px;font-weight:600}
+  .file-delete{background:none;border:none;color:#475569;cursor:pointer;font-size:16px;transition:color .2s;padding:4px}
+  .file-delete:hover{color:#ef4444}
+  .allowed-types{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .type-chip{background:#1e293b;color:#94a3b8;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600}
+  .limit-warning{background:#f59e0b10;border:1px solid #f59e0b30;border-radius:8px;padding:10px 14px;font-size:13px;color:#f59e0b;margin-bottom:10px;display:none}
+  .cta-bar{background:linear-gradient(135deg,#7C4DFF15,#7C4DFF05);border:1px solid #7C4DFF30;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#7C4DFF;color:#fff;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#6B3FEE;transform:translateY(-1px);box-shadow:0 8px 24px #7C4DFF40}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  @media(max-width:600px){.grid-2{grid-template-columns:1fr}}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>File Upload Handler</h1>
+    <p class="subtitle">Drag-and-drop file uploads with progress tracking, validation, and previews</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Upload Configuration</div>
+    <div class="grid-2">
+      <div>
+        <label>Max File Size (MB)</label>
+        <input type="number" id="maxSize" value="10" min="1" max="100">
+      </div>
+      <div>
+        <label>Max Files</label>
+        <input type="number" id="maxFiles" value="5" min="1" max="20">
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <label>Allowed File Types</label>
+      <select id="allowedTypes" multiple style="height:100px" onchange="updateAllowed()">
+        <option value="image" selected>Images (JPG, PNG, GIF, WebP)</option>
+        <option value="pdf" selected>PDF Documents</option>
+        <option value="doc">Word Documents (DOC, DOCX)</option>
+        <option value="csv">Spreadsheets (CSV, XLSX)</option>
+        <option value="video">Videos (MP4, MOV)</option>
+        <option value="zip">Archives (ZIP, TAR)</option>
+      </select>
+      <div style="font-size:11px;color:#475569;margin-top:4px">Hold Ctrl/Cmd to select multiple</div>
+    </div>
+    <div style="margin-top:16px">
+      <div class="toggle-row">
+        <span class="toggle-label">Show image previews</span>
+        <div class="toggle on" id="togglePreview" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="toggle-row">
+        <span class="toggle-label">Allow duplicate filenames</span>
+        <div class="toggle" id="toggleDups" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="toggle-row">
+        <span class="toggle-label">Auto-compress images</span>
+        <div class="toggle on" id="toggleCompress" onclick="this.classList.toggle('on')"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Upload Zone</div>
+    <div id="limitWarning" class="limit-warning"></div>
+    <div class="upload-zone" id="uploadZone"
+         ondragover="event.preventDefault();this.classList.add('drag-over')"
+         ondragleave="this.classList.remove('drag-over')"
+         ondrop="handleDrop(event)">
+      <input type="file" class="hidden-input" id="fileInput" multiple onchange="handleFiles(this.files)">
+      <div class="upload-icon">☁️</div>
+      <div class="upload-title">Drag files here or click to browse</div>
+      <div class="upload-sub">Simulated upload with progress animation</div>
+      <div class="allowed-types" id="allowedDisplay"></div>
+    </div>
+    <div id="fileList" style="margin-top:16px"></div>
+  </div>
+
+  <div class="cta-bar">
+    <p>Full version: actual file uploads to S3/Cloudflare R2, virus scanning, image resizing, thumbnail generation, and signed URL delivery.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/3cIfZh22r4GG4d45m9gjJ12">Buy Full Version — $59.00</a>
+    <button class="crypto-pay-btn" data-product-slug="file-upload-handler" data-store-slug="form-forge" data-product-name="File Upload Handler" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows limited functionality. Buy the full tool for all features.</div>
+</div>
+<script>
+const TYPE_MAP = {
+  image:{ext:['jpg','jpeg','png','gif','webp'],icon:'🖼️'},
+  pdf:{ext:['pdf'],icon:'📄'},
+  doc:{ext:['doc','docx'],icon:'📝'},
+  csv:{ext:['csv','xlsx'],icon:'📊'},
+  video:{ext:['mp4','mov','avi'],icon:'🎬'},
+  zip:{ext:['zip','tar','gz'],icon:'📦'},
+};
+let files = [];
+let fileId = 0;
+
+function updateAllowed() {
+  const sel = Array.from(document.getElementById('allowedTypes').selectedOptions).map(o=>o.value);
+  const exts = sel.flatMap(t => TYPE_MAP[t]?.ext || []);
+  document.getElementById('allowedDisplay').innerHTML = exts.map(e=>`<span class="type-chip">.${e}</span>`).join('');
+}
+
+function getIcon(name) {
+  const ext = name.split('.').pop().toLowerCase();
+  for (const [,v] of Object.entries(TYPE_MAP)) {
+    if (v.ext.includes(ext)) return v.icon;
+  }
+  return '📎';
+}
+
+function isAllowed(name) {
+  const ext = name.split('.').pop().toLowerCase();
+  const sel = Array.from(document.getElementById('allowedTypes').selectedOptions).map(o=>o.value);
+  const allowed = sel.flatMap(t => TYPE_MAP[t]?.ext || []);
+  return allowed.includes(ext);
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('uploadZone').classList.remove('drag-over');
+  handleFiles(e.dataTransfer.files);
+}
+
+function handleFiles(fileList) {
+  const maxSize = +document.getElementById('maxSize').value * 1024 * 1024;
+  const maxFiles = +document.getElementById('maxFiles').value;
+
+  for (const file of fileList) {
+    if (files.length >= maxFiles) {
+      showWarning(`Max ${maxFiles} files allowed.`); break;
+    }
+    if (!isAllowed(file.name)) {
+      showWarning(`"${file.name}" is not an allowed file type.`); continue;
+    }
+    if (file.size > maxSize) {
+      showWarning(`"${file.name}" exceeds ${document.getElementById('maxSize').value}MB limit.`); continue;
+    }
+    const id = fileId++;
+    files.push({id, name:file.name, size:file.size, progress:0, done:false});
+    renderFileList();
+    simulateUpload(id);
+  }
+}
+
+function showWarning(msg) {
+  const w = document.getElementById('limitWarning');
+  w.textContent = '⚠️ ' + msg;
+  w.style.display = 'block';
+  setTimeout(() => w.style.display='none', 3000);
+}
+
+function simulateUpload(id) {
+  let p = 0;
+  const interval = setInterval(() => {
+    p += Math.random() * 15 + 5;
+    if (p >= 100) { p = 100; clearInterval(interval); files.find(f=>f.id===id).done = true; }
+    files.find(f=>f.id===id).progress = Math.min(100, p);
+    renderFileList();
+  }, 80);
+}
+
+function removeFile(id) { files = files.filter(f=>f.id!==id); renderFileList(); }
+
+function formatSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+  return (bytes/(1024*1024)).toFixed(1) + ' MB';
+}
+
+function renderFileList() {
+  document.getElementById('fileList').innerHTML = files.map(f => `
+    <div class="file-item">
+      <div class="file-icon">${getIcon(f.name)}</div>
+      <div class="file-info">
+        <div class="file-name">${f.name}</div>
+        <div class="file-meta">${formatSize(f.size)}${f.done?' · Uploaded':''}</div>
+        ${!f.done ? `<div class="progress-bar"><div class="progress-fill" style="width:${f.progress}%"></div></div>` : ''}
+      </div>
+      <div class="file-status">
+        ${f.done ? '<div class="file-complete">✓</div>' : `<div class="file-pct">${Math.round(f.progress)}%</div>`}
+        <button class="file-delete" onclick="removeFile(${f.id})">✕</button>
+      </div>
+    </div>`).join('');
+}
+
+// Init
+updateAllowed();
+
+// Simulate demo files on load
+setTimeout(() => {
+  const demoFiles = [
+    {name:'profile-photo.jpg', size:243000},
+    {name:'contract.pdf', size:1240000},
+    {name:'data-export.csv', size:89000},
+  ];
+  demoFiles.forEach(f => {
+    const id = fileId++;
+    files.push({id, name:f.name, size:f.size, progress:0, done:false});
+    renderFileList();
+    simulateUpload(id);
+  });
+}, 300);
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fine-Tuning Pipeline — Demo | AI Toolkit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#FF1744}.header .back{color:#FF1744;text-decoration:none;font-size:.85rem}
+  .container{max-width:900px;margin:0 auto;padding:28px 20px}
+  h2{font-size:1.5rem;margin-bottom:6px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px;margin-bottom:16px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#FF1744;margin-bottom:14px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:600px){.grid2{grid-template-columns:1fr}}
+  label{display:block;font-size:.8rem;color:#8899aa;margin-bottom:4px}
+  textarea,input,select{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:8px 10px;font-size:.85rem;margin-bottom:10px;outline:none;transition:border-color .2s;font-family:'Courier New',monospace}
+  textarea:focus,input:focus,select:focus{border-color:#FF1744}
+  .btn{padding:10px 16px;border:none;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer;background:#FF1744;color:#fff;transition:all .2s;margin-right:6px}
+  .btn:hover{background:#ff4060}
+  .btn-sec{background:#1e2a3a;color:#FF1744;font-family:inherit}.btn-sec:hover{background:#253545}
+  .output-box{background:#060a12;border:1px solid #1e2a3a;border-radius:8px;padding:14px;font-family:'Courier New',monospace;font-size:.8rem;white-space:pre;overflow-x:auto;max-height:260px;overflow-y:auto}
+  .valid{color:#76FF03}.invalid{color:#ff6060}.warn{color:#ffab00}.neutral{color:#8899aa}
+  .stats-row{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px}
+  .stat{background:#060a12;border:1px solid #1e2a3a;border-radius:6px;padding:10px 14px}
+  .stat-val{font-size:1.1rem;font-weight:700;color:#FF1744}
+  .stat-label{font-size:.7rem;color:#8899aa;margin-top:2px}
+  .format-tabs{display:flex;gap:6px;margin-bottom:12px}
+  .ftab{padding:6px 12px;border:1px solid #1e2a3a;border-radius:6px;background:none;color:#8899aa;cursor:pointer;font-size:.8rem;transition:all .2s}
+  .ftab.active{background:#FF1744;border-color:#FF1744;color:#fff}
+  .ftab:hover:not(.active){border-color:#FF1744;color:#FF1744}
+  .cta-bar{background:linear-gradient(135deg,#0d1321,#111827);border:1px solid #FF1744;border-radius:12px;padding:20px;text-align:center;margin-top:18px}
+  .cta-bar p{color:#8899aa;font-size:.85rem;margin-bottom:12px;margin-top:6px}
+  .cta-btn{display:inline-block;background:#FF1744;color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s}
+  .cta-btn:hover{background:#ff4060;transform:translateY(-2px)}
+  .footer-note{text-align:center;color:#445566;font-size:.77rem;margin-top:16px;padding-top:12px;border-top:1px solid #1e2a3a}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🤖 AI Toolkit — Fine-Tuning Pipeline Demo</h1>
+  <a class="back" href="../index.html">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>Training Data Format Validator & Converter</h2>
+  <p class="subtitle">Paste raw training data in any format. Validate, inspect, and convert to OpenAI fine-tuning JSONL format.</p>
+
+  <div class="grid2">
+    <div class="panel">
+      <h3>📥 Input Data</h3>
+      <div class="format-tabs">
+        <button class="ftab active" onclick="setFormat('raw',this)">Raw Q&A</button>
+        <button class="ftab" onclick="setFormat('csv',this)">CSV</button>
+        <button class="ftab" onclick="setFormat('jsonl',this)">JSONL</button>
+      </div>
+      <textarea id="inputData" rows="12" oninput="validate()">Q: What is your return policy?
+A: We offer a 30-day full refund on all products.
+
+Q: How do I reset my password?
+A: Go to Settings > Security > Reset Password and follow the prompts.
+
+Q: Can I use your API for commercial projects?
+A: Yes, all our licenses include commercial use rights.
+
+Q: What payment methods do you accept?
+A: We accept Visa, Mastercard, PayPal, and cryptocurrency.</textarea>
+      <button class="btn" onclick="convert()">▶ Validate & Convert</button>
+      <button class="btn btn-sec" onclick="loadSample()">Load Sample</button>
+    </div>
+    <div class="panel">
+      <h3>✅ Validation Report</h3>
+      <div id="validReport" style="color:#445566;padding:20px;text-align:center">Paste data and click Validate</div>
+      <div class="stats-row" id="statsRow" style="display:none">
+        <div class="stat"><div class="stat-val" id="sTotal">0</div><div class="stat-label">Examples</div></div>
+        <div class="stat"><div class="stat-val" id="sValid">0</div><div class="stat-label">Valid</div></div>
+        <div class="stat"><div class="stat-val" id="sTokens">0</div><div class="stat-label">Avg tokens</div></div>
+        <div class="stat"><div class="stat-val" id="sCost">$0</div><div class="stat-label">Est. FT cost</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>📤 Converted JSONL Output</h3>
+    <div class="output-box neutral" id="outputBox">// Output will appear here after conversion...</div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Get the Full Fine-Tuning Pipeline</h3>
+    <p>Python toolkit: data augmentation, deduplication, quality filtering, OpenAI fine-tune job management, and evaluation harness.</p>
+    <a class="cta-btn" href="https://buy.stripe.com/9B64gz4az8WWcJA15TgjI3R">Buy Full Version — $54.00</a>
+    <button class="crypto-pay-btn" data-product-slug="fine-tuning-pipeline" data-store-slug="ai-toolkit" data-product-name="Fine-Tuning Pipeline" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+let currentFormat = 'raw';
+
+function setFormat(fmt, btn){
+  currentFormat=fmt;
+  document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(fmt==='csv') document.getElementById('inputData').value='prompt,completion\n"What is the return policy?","30-day full refund on all products"\n"How to reset password?","Go to Settings > Security > Reset Password"';
+  else if(fmt==='jsonl') document.getElementById('inputData').value='{"messages":[{"role":"user","content":"What is your return policy?"},{"role":"assistant","content":"30-day full refund."}]}\n{"messages":[{"role":"user","content":"How do I reset my password?"},{"role":"assistant","content":"Go to Settings > Security > Reset Password."}]}';
+  else document.getElementById('inputData').value='Q: What is your return policy?\nA: We offer a 30-day full refund on all products.\n\nQ: How do I reset my password?\nA: Go to Settings > Security > Reset Password and follow the prompts.';
+  validate();
+}
+
+function parseRaw(text){
+  const pairs=[];
+  const blocks=text.trim().split(/\n\n+/);
+  for(const block of blocks){
+    const qm=block.match(/^Q:\s*(.+)/m);
+    const am=block.match(/^A:\s*(.+)/m);
+    if(qm&&am) pairs.push({q:qm[1].trim(),a:am[1].trim(),valid:true});
+    else if(block.trim()) pairs.push({q:block.slice(0,50),a:'',valid:false,err:'Missing Q: or A: format'});
+  }
+  return pairs;
+}
+
+function parseCSV(text){
+  const lines=text.trim().split('\n').slice(1);
+  return lines.map(l=>{
+    const parts=l.match(/^"?([^",]+)"?,\s*"?([^"]+)"?/);
+    if(parts) return {q:parts[1].trim(),a:parts[2].trim(),valid:true};
+    return {q:l.slice(0,40),a:'',valid:false,err:'Invalid CSV format'};
+  });
+}
+
+function parseJSONL(text){
+  return text.trim().split('\n').map((l,i)=>{
+    try{
+      const obj=JSON.parse(l);
+      const msgs=obj.messages||[];
+      const q=(msgs.find(m=>m.role==='user')||{}).content||'';
+      const a=(msgs.find(m=>m.role==='assistant')||{}).content||'';
+      return {q,a,valid:!!q&&!!a,err:(!q||!a)?'Missing user or assistant message':null};
+    }catch(e){return {q:`Line ${i+1}`,a:'',valid:false,err:'Invalid JSON: '+e.message};}
+  });
+}
+
+function validate(){
+  const text=document.getElementById('inputData').value;
+  let pairs=[];
+  if(currentFormat==='raw') pairs=parseRaw(text);
+  else if(currentFormat==='csv') pairs=parseCSV(text);
+  else pairs=parseJSONL(text);
+  const valid=pairs.filter(p=>p.valid).length;
+  document.getElementById('validReport').innerHTML=pairs.map((p,i)=>`
+    <div style="display:flex;align-items:flex-start;gap:6px;padding:5px 0;border-bottom:1px solid #111827;font-size:.78rem">
+      <span style="color:${p.valid?'#76FF03':'#ff6060'};width:14px">${p.valid?'✓':'✗'}</span>
+      <div style="flex:1"><span style="color:#ccc">${p.q.slice(0,50)}</span>${p.err?`<span style="color:#ff6060;font-size:.7rem"> — ${p.err}</span>`:''}</div>
+    </div>`).join('');
+  document.getElementById('statsRow').style.display='flex';
+  document.getElementById('sTotal').textContent=pairs.length;
+  document.getElementById('sValid').textContent=valid;
+  const avgTok=Math.round(pairs.filter(p=>p.valid).reduce((s,p)=>(s+(p.q.length+p.a.length)/4),0)/Math.max(valid,1));
+  document.getElementById('sTokens').textContent=avgTok;
+  document.getElementById('sCost').textContent=`$${(valid*avgTok*0.008/1000).toFixed(3)}`;
+}
+
+function convert(){
+  const text=document.getElementById('inputData').value;
+  let pairs=[];
+  if(currentFormat==='raw') pairs=parseRaw(text);
+  else if(currentFormat==='csv') pairs=parseCSV(text);
+  else pairs=parseJSONL(text);
+  const out=pairs.filter(p=>p.valid).map(p=>JSON.stringify({
+    messages:[
+      {role:'system',content:'You are a helpful assistant.'},
+      {role:'user',content:p.q},
+      {role:'assistant',content:p.a}
+    ]
+  })).join('\n');
+  document.getElementById('outputBox').className='output-box valid';
+  document.getElementById('outputBox').textContent=out||'// No valid examples found';
+  validate();
+}
+
+function loadSample(){
+  currentFormat='raw';
+  document.querySelectorAll('.ftab').forEach((b,i)=>{b.classList.toggle('active',i===0)});
+  document.getElementById('inputData').value='Q: What is your return policy?\nA: We offer a 30-day full refund on all products.\n\nQ: How do I reset my password?\nA: Go to Settings > Security > Reset Password and follow the prompts.\n\nQ: Can I use your API for commercial projects?\nA: Yes, all our licenses include commercial use rights.';
+  validate();
+}
+validate();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

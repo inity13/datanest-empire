@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Stack — Accept payments. Track revenue. Sleep well. | CodeVault</title>
+    <meta name="description" content="Production-ready Python payment tools: Stripe integration, crypto payments, invoice generator, subscription billing, tax calculator, and more. Zero dependencies. Instant download.">
+    <meta name="keywords" content="python stripe, crypto payments, invoice generator, subscription billing, payment webhooks, tax calculator, python payments, codevault">
+    <link rel="canonical" href="https://payment-stack.codevault.dev/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Payment Stack — CodeVault">
+    <meta property="og:description" content="Production-ready Python payment tools: Stripe integration, crypto payments, invoice generator, subscription billing, and more. Zero dependencies. Instant download.">
+    <meta property="og:site_name" content="CodeVault">
+    <meta property="og:url" content="https://payment-stack.codevault.dev/">
+    <meta property="og:image" content="https://payment-stack.codevault.dev/og-image.svg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Payment Stack — CodeVault">
+    <meta name="twitter:description" content="Production-ready Python payment tools: Stripe integration, crypto payments, invoice generator, subscription billing, and more. Zero dependencies.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💳</text></svg>">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#76FF03">
+
+    <!-- Plausible Analytics -->
+    <script defer data-domain="payment-stack.codevault.dev" src="https://plausible.io/js/script.js"></script>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Store",
+        "name": "Payment Stack",
+        "description": "Production-ready Python payment tools: Stripe integration, crypto payments, invoice generator, subscription billing, tax calculator, and more.",
+        "url": "https://payment-stack.codevault.dev/",
+        "brand": { "@type": "Brand", "name": "CodeVault" },
+        "offers": {
+            "@type": "AggregateOffer",
+            "lowPrice": "4.99",
+            "highPrice": "39.99",
+            "priceCurrency": "USD",
+            "offerCount": "12"
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- Cross-Store Navigation -->
+    <nav class="cross-nav" aria-label="CodeVault stores">
+        <div class="cross-nav__inner">
+            <span class="cross-nav__brand">CodeVault</span>
+            <a href="../seo-toolkit/storefront/index.html" class="cross-nav__link">SEO Toolkit</a>
+            <a href="../email-arsenal/storefront/index.html" class="cross-nav__link">Email Arsenal</a>
+            <a href="../form-forge/storefront/index.html" class="cross-nav__link">Form Forge</a>
+            <a href="../api-launchpad/storefront/index.html" class="cross-nav__link">API Launchpad</a>
+            <a href="../deploy-kit/storefront/index.html" class="cross-nav__link">Deploy Kit</a>
+            <a href="../auth-vault/storefront/index.html" class="cross-nav__link">Auth Vault</a>
+            <a href="../saas-starter/storefront/index.html" class="cross-nav__link">SaaS Starter</a>
+            <a href="../analytics-hub/storefront/index.html" class="cross-nav__link">Analytics Hub</a>
+            <a href="#" class="cross-nav__link cross-nav__link--active">Payment Stack</a>
+            <a href="../ai-toolkit/storefront/index.html" class="cross-nav__link">AI Toolkit</a>
+            <a href="../security-kit/storefront/index.html" class="cross-nav__link">Security Kit</a>
+            <a href="../landing-lab/storefront/index.html" class="cross-nav__link">Landing Lab</a>
+            <a href="../automation-hub/storefront/index.html" class="cross-nav__link">Automation Hub</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="top">
+        <div class="container">
+            <h1 class="hero__title glitch" data-text="Payment Stack">Payment Stack</h1>
+            <p class="hero__subtitle">Accept payments. Track revenue. Sleep well.</p>
+            <div class="hero__cta-row">
+                <a href="#products" class="btn btn--primary">Browse Tools</a>
+                <a href="#faq" class="btn btn--secondary">How it works</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Products Section -->
+    <section class="section" id="products">
+        <div class="container">
+            <h2 class="section__heading">What&rsquo;s in stock</h2>
+            <p class="section__subheading">10 production-ready payment tools. No filler, no fluff.</p>
+
+            <div class="filter-bar">
+                <span class="filter-bar__label">Filter:</span>
+                <button class="filter-tag active" data-filter="all">All</button>
+                <button class="filter-tag" data-filter="bundle">bundle</button>
+                <button class="filter-tag" data-filter="stripe">stripe</button>
+                <button class="filter-tag" data-filter="crypto">crypto</button>
+                <button class="filter-tag" data-filter="billing">billing</button>
+                <button class="filter-tag" data-filter="analytics">analytics</button>
+                <button class="filter-tag" data-filter="compliance">compliance</button>
+                <button class="filter-tag" data-filter="email">email</button>
+                <select class="sort-select" aria-label="Sort products">
+                    <option value="default">Sort: Featured</option>
+                    <option value="price-asc">Price: Low &rarr; High</option>
+                    <option value="price-desc">Price: High &rarr; Low</option>
+                </select>
+            </div>
+
+            <div class="product-grid">
+
+                <!-- Bundle: Starter -->
+                <article class="product-card product-card--bundle fade-in"
+                         data-tags="bundle,starter"
+                         data-price="1999"
+                         data-slug="payment-stack-starter-bundle">
+                    <div class="product-card__inner">
+                        <div>
+                            <span class="bundle-badge">&#127881; BUNDLE DEAL</span>
+                            <h3 class="product-card__name" style="margin-top: 12px">Payment Stack Starter Bundle</h3>
+                            <p class="product-card__desc">Stripe Integration Kit + Invoice Generator + Receipt Emailer + Payment Retry Logic in one bundle. The essentials to start accepting money.</p>
+                            <div class="product-card__tags">
+                                <span class="product-card__tag">bundle</span>
+                                <span class="product-card__tag">starter</span>
+                            </div>
+                            <ul class="product-card__bundle-list">
+                                <li>Stripe Integration Kit ($9.99)</li>
+                                <li>Invoice Generator ($4.99)</li>
+                                <li>Receipt Emailer ($4.99)</li>
+                                <li>Payment Retry Logic ($4.99)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 4px">$19.99</p>
+                            <p style="font-size: 0.8rem; color: var(--cv-text-dim); margin-bottom: 16px;">Save $4.97 vs buying individually</p>
+                            <div class="product-card__actions">
+                                <a href="https://buy.stripe.com/PLACEHOLDER_payment-stack-starter-bundle"
+                                   class="btn btn--primary btn--card"
+                                   data-product="payment-stack-starter-bundle">
+                                    Grab This Bundle
+                                </a>
+                                <button class="btn btn--crypto btn--card"
+                                        data-crypto-product="Payment Stack Starter Bundle"
+                                        data-crypto-price="1999">
+                                    Pay with Crypto ($15.99)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Bundle: Pro -->
+                <article class="product-card product-card--bundle fade-in"
+                         data-tags="bundle,pro"
+                         data-price="3999"
+                         data-slug="payment-stack-pro-bundle">
+                    <div class="product-card__inner">
+                        <div>
+                            <span class="bundle-badge">&#9889; PRO BUNDLE</span>
+                            <h3 class="product-card__name" style="margin-top: 12px">Payment Stack Pro Bundle</h3>
+                            <p class="product-card__desc">Every tool in Payment Stack &mdash; all 10 products. The complete Python payment arsenal at a massive discount.</p>
+                            <div class="product-card__tags">
+                                <span class="product-card__tag">bundle</span>
+                                <span class="product-card__tag">pro</span>
+                            </div>
+                            <ul class="product-card__bundle-list">
+                                <li>Stripe Integration Kit</li>
+                                <li>Crypto Payment Handler</li>
+                                <li>Invoice Generator</li>
+                                <li>Subscription Billing</li>
+                                <li>Payment Retry Logic</li>
+                                <li>Receipt Emailer</li>
+                                <li>Refund Processor</li>
+                                <li>Tax Calculator</li>
+                                <li>Checkout Builder</li>
+                                <li>Payment Analytics</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 4px">$39.99</p>
+                            <p style="font-size: 0.8rem; color: var(--cv-text-dim); margin-bottom: 16px;">Save $29.91 vs buying individually</p>
+                            <div class="product-card__actions">
+                                <a href="https://buy.stripe.com/PLACEHOLDER_payment-stack-pro-bundle"
+                                   class="btn btn--primary btn--card"
+                                   data-product="payment-stack-pro-bundle">
+                                    Grab This Bundle
+                                </a>
+                                <button class="btn btn--crypto btn--card"
+                                        data-crypto-product="Payment Stack Pro Bundle"
+                                        data-crypto-price="3999">
+                                    Pay with Crypto ($31.99)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product: Stripe Integration Kit -->
+                <article class="product-card fade-in"
+                         data-tags="stripe,payments,webhooks"
+                         data-price="999"
+                         data-slug="stripe-integration-kit">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">&#128179; Stripe Integration Kit</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Checkout sessions, webhooks, customer portal, payment intents &mdash; everything you need to go live with Stripe.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">stripe</span>
+                        <span class="product-card__tag">payments</span>
+                        <span class="product-card__tag">webhooks</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_stripe-integration-kit"
+                           class="btn btn--primary btn--card"
+                           data-product="stripe-integration-kit">
+                            Grab This
+                        </a>
+                        <a href="preview-stripe-integration-kit.html" class="btn btn--secondary btn--card">Preview</a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Stripe Integration Kit"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Crypto Payment Handler -->
+                <article class="product-card fade-in"
+                         data-tags="crypto,wallets,blockchain"
+                         data-price="999"
+                         data-slug="crypto-payment-handler">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">&#128142; Crypto Payment Handler</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Wallet verification, transaction monitoring, multi-chain support &mdash; accept BTC, ETH, and more in pure Python.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">crypto</span>
+                        <span class="product-card__tag">wallets</span>
+                        <span class="product-card__tag">blockchain</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_crypto-payment-handler"
+                           class="btn btn--primary btn--card"
+                           data-product="crypto-payment-handler">
+                            Grab This
+                        </a>
+                        <a href="preview-crypto-payment-handler.html" class="btn btn--secondary btn--card">Preview</a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Crypto Payment Handler"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Invoice Generator -->
+                <article class="product-card fade-in"
+                         data-tags="invoices,pdf,billing"
+                         data-price="499"
+                         data-slug="invoice-generator">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">&#128196; Invoice Generator</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">PDF/HTML invoices, line items, taxes, payment terms, and branding &mdash; send professional invoices from the command line.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">invoices</span>
+                        <span class="product-card__tag">pdf</span>
+                        <span class="product-card__tag">billing</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_invoice-generator"
+                           class="btn btn--primary btn--card"
+                           data-product="invoice-generator">
+                            Grab This
+                        </a>
+                        <a href="preview-invoice-generator.html" class="btn btn--secondary btn--card">Preview</a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Invoice Generator"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Subscription Billing -->
+                <article class="product-card fade-in"
+                         data-tags="subscriptions,billing,plans"
+                         data-price="999"
+                         data-slug="subscription-billing">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">&#128260; Subscription Billing</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Plan management, proration, trial periods, grace periods, dunning &mdash; full subscription lifecycle in Python.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">subscriptions</span>
+                        <span class="product-card__tag">billing</span>
+                        <span class="product-card__tag">plans</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_subscription-billing"
+                           class="btn btn--primary btn--card"
+                           data-product="subscription-billing">
+                            Grab This
+                        </a>
+                        <a href="preview-subscription-billing.html" class="btn btn--secondary btn--card">Preview</a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Subscription Billing"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Payment Retry Logic -->
+                <article class="product-card fade-in"
+                         data-tags="retry,payments,backoff"
+                         data-price="499"
+                         data-slug="payment-retry-logic">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">&#128260; Payment Retry Logic</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Exponential backoff, smart retry scheduling, failure categorization &mdash; stop losing money to recoverable payment errors.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">retry</span>
+                        <span class="product-card__tag">payments</span>
+                        <span class="product-card__tag">backoff</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_payment-retry-logic"
+                           class="btn btn--primary btn--card"
+                           data-product="payment-retry-logic">
+                            Grab This
+                        </a>
+                        <a href="preview-payment-retry-logic.html" class="btn btn--secondary btn--card">Preview</a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Payment Retry Logic"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Receipt Emailer -->
+                <article class="product-card fade-in"
+                         data-tags="receipts,email,templates"
+                         data-price="499"
+                         data-slug="receipt-emailer">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">&#128231; Receipt Emailer</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Branded receipts, download links, refund notices &mdash; automate your post-purchase email flow in Python.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">receipts</span>
+                        <span class="product-card__tag">email</span>
+                        <span class="product-card__tag">templates</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_receipt-emailer"
+                           class="btn btn--primary btn--card"
+                           data-product="receipt-emailer">
+                            Grab This
+                        </a>
+                        <a href="preview-receipt-emailer.html" class="btn btn--secondary btn--card">Preview</a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Receipt Emailer"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Refund Processor -->
+                <article class="product-card fade-in"
+                         data-tags="refunds,workflow,audit"
+                         data-price="499"
+                         data-slug="refund-processor">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">&#8617; Refund Processor</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Partial/full refunds, reason tracking, balance adjustments, audit trail &mdash; handle refunds cleanly and confidently.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">refunds</span>
+                        <span class="product-card__tag">workflow</span>
+                        <span class="product-card__tag">audit</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_refund-processor"
+                           class="btn btn--primary btn--card"
+                           data-product="refund-processor">
+                            Grab This
+                        </a>
+                        <a href="preview-refund-processor.html" class="btn btn--secondary btn--card">Preview</a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Refund Processor"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Tax Calculator -->
+                <article class="product-card fade-in"
+                         data-tags="taxes,vat,compliance"
+                         data-price="999"
+                         data-slug="tax-calculator">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">&#127758; Tax Calculator</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">VAT/GST/sales tax rules, geo-based rates, exemptions, invoice formatting &mdash; stay compliant in every jurisdiction.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">taxes</span>
+                        <span class="product-card__tag">vat</span>
+                        <span class="product-card__tag">compliance</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_tax-calculator"
+                           class="btn btn--primary btn--card"
+                           data-product="tax-calculator">
+                            Grab This
+                        </a>
+                        <a href="preview-tax-calculator.html" class="btn btn--secondary btn--card">Preview</a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Tax Calculator"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Checkout Builder -->
+                <article class="product-card fade-in"
+                         data-tags="checkout,forms,ui"
+                         data-price="999"
+                         data-slug="checkout-builder">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">&#128736; Checkout Builder</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Multi-step checkout, payment method selection, coupon codes, order summary &mdash; generate polished checkout pages fast.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">checkout</span>
+                        <span class="product-card__tag">forms</span>
+                        <span class="product-card__tag">ui</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_checkout-builder"
+                           class="btn btn--primary btn--card"
+                           data-product="checkout-builder">
+                            Grab This
+                        </a>
+                        <a href="preview-checkout-builder.html" class="btn btn--secondary btn--card">Preview</a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Checkout Builder"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Payment Analytics -->
+                <article class="product-card fade-in"
+                         data-tags="analytics,mrr,revenue"
+                         data-price="499"
+                         data-slug="payment-analytics">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">&#128200; Payment Analytics</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">MRR, churn, LTV, failed payment tracking, revenue forecasting &mdash; know your numbers without a BI tool.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">analytics</span>
+                        <span class="product-card__tag">mrr</span>
+                        <span class="product-card__tag">revenue</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_payment-analytics"
+                           class="btn btn--primary btn--card"
+                           data-product="payment-analytics">
+                            Grab This
+                        </a>
+                        <a href="preview-payment-analytics.html" class="btn btn--secondary btn--card">Preview</a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Payment Analytics"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Signals -->
+    <section class="trust-section" id="trust">
+        <div class="container">
+            <h2 class="section__heading">Why devs grab from here</h2>
+            <p class="section__subheading">Built by developers, for developers</p>
+            <div class="trust-grid">
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#9889;</div>
+                    <p class="trust-card__text">
+                        <strong>Instant digital download</strong>
+                        Unzip and run. No setup, no accounts, no waiting.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128274;</div>
+                    <p class="trust-card__text">
+                        <strong>MIT License &mdash; use anywhere</strong>
+                        Personal projects, client work, SaaS products. You own it.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128142;</div>
+                    <p class="trust-card__text">
+                        <strong>Python stdlib only &mdash; zero dependencies</strong>
+                        No pip install, no virtualenv, no dependency hell.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128187;</div>
+                    <p class="trust-card__text">
+                        <strong>Works on any OS with Python 3.10+</strong>
+                        macOS, Linux, Windows &mdash; if Python runs, these tools run.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- License Tiers -->
+    <section class="tier-section" id="tiers">
+        <div class="container">
+            <h2 class="section__heading">License tiers</h2>
+            <p class="section__subheading">Every purchase is MIT-licensed. Pick what fits.</p>
+            <div class="tier-grid">
+                <div class="tier-card fade-in">
+                    <h3 class="tier-card__name">Personal</h3>
+                    <p class="tier-card__desc">For solo devs and side projects</p>
+                    <ul class="tier-card__features">
+                        <li>Use on unlimited personal projects</li>
+                        <li>Full source code access</li>
+                        <li>Lifetime updates</li>
+                        <li>MIT License included</li>
+                    </ul>
+                    <a href="#products" class="btn btn--secondary btn--sm">Browse tools</a>
+                </div>
+                <div class="tier-card tier-card--featured fade-in">
+                    <h3 class="tier-card__name">Team</h3>
+                    <p class="tier-card__desc">For small teams and agencies</p>
+                    <ul class="tier-card__features">
+                        <li>Everything in Personal</li>
+                        <li>Share with up to 10 team members</li>
+                        <li>Use in client deliverables</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <a href="#products" class="btn btn--primary btn--sm">Grab the Pro Bundle</a>
+                </div>
+                <div class="tier-card fade-in">
+                    <h3 class="tier-card__name">Enterprise</h3>
+                    <p class="tier-card__desc">For large teams and SaaS products</p>
+                    <ul class="tier-card__features">
+                        <li>Everything in Team</li>
+                        <li>Unlimited team members</li>
+                        <li>Embed in commercial SaaS</li>
+                        <li>Dedicated support channel</li>
+                    </ul>
+                    <a href="mailto:support@codevault.dev" class="btn btn--secondary btn--sm">Contact us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter-section" id="newsletter">
+        <div class="container">
+            <div class="newsletter-box fade-in">
+                <h2 class="newsletter-box__title">Stay in the loop</h2>
+                <p class="newsletter-box__desc">Get notified when we ship new payment tools. No spam, just releases.</p>
+                <!-- ConvertKit Form ID: PLACEHOLDER -->
+                <form class="newsletter-form" action="https://app.convertkit.com/forms/PLACEHOLDER/subscriptions" method="post" onsubmit="return false;">
+                    <input type="email" class="newsletter-form__input" placeholder="you@example.com" required aria-label="Email address">
+                    <button type="submit" class="newsletter-form__btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Companion App -->
+    <section class="app-section" id="app">
+        <div class="container">
+            <div class="app-promo fade-in">
+                <div class="app-promo__content">
+                    <span class="app-promo__badge">ANDROID APP</span>
+                    <h2 class="app-promo__title">Payment Stack Mobile</h2>
+                    <p class="app-promo__desc">Take your payment toolkit on the go. Dashboard, community templates, daily challenges, and streak rewards &mdash; all in a dark-themed Material&nbsp;3 interface.</p>
+                    <ul class="app-promo__features">
+                        <li>Transaction monitoring and revenue dashboard</li>
+                        <li>Invoice generator and payment tracker</li>
+                        <li>Community sharing &amp; daily challenges</li>
+                        <li>Premium tools via in-app purchase ($0.99&ndash;$4.99)</li>
+                    </ul>
+                    <div class="app-promo__actions">
+                        <a href="https://play.google.com/store/apps/details?id=com.codevault.paymentstack" class="btn btn--primary">Get on Google Play</a>
+                        <a href="https://github.com/codevault/payment-stack-android" class="btn btn--secondary">View Source</a>
+                    </div>
+                </div>
+                <div class="app-promo__visual">
+                    <div class="app-mockup" style="--app-color: #76FF03">
+                        <div class="app-mockup__screen">
+                            <div class="app-mockup__header">Payment Stack</div>
+                            <div class="app-mockup__tabs">
+                                <span class="app-mockup__tab app-mockup__tab--active">Dashboard</span>
+                                <span class="app-mockup__tab">Invoices</span>
+                                <span class="app-mockup__tab">Community</span>
+                                <span class="app-mockup__tab">Store</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section__heading">Got questions?</h2>
+            <p class="section__subheading">We got answers.</p>
+            <div class="faq-list">
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Do these tools require any pip packages?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Nope. Every tool runs on Python 3.10+ stdlib only.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I use these to process real payments?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Yes. The Stripe integration is production-ready. Crypto handler works with real wallets.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do I get my download?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Instant download after payment.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What Python version do I need?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Python 3.10 or newer.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Do I need a Stripe account?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">You need a Stripe account for the Stripe tools. Crypto tools work without any third-party accounts.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I get a refund?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">If a tool doesn&rsquo;t work as described, absolutely. Email <a href="mailto:support@codevault.dev">support@codevault.dev</a>.</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__brand">CodeVault</p>
+            <p class="footer__tagline">Ship faster. Build smarter.</p>
+            <nav class="footer__links" aria-label="Other stores">
+                <a href="../seo-toolkit/storefront/index.html" class="footer__link">SEO Toolkit</a>
+                <a href="../email-arsenal/storefront/index.html" class="footer__link">Email Arsenal</a>
+                <a href="../form-forge/storefront/index.html" class="footer__link">Form Forge</a>
+                <a href="../api-launchpad/storefront/index.html" class="footer__link">API Launchpad</a>
+                <a href="../deploy-kit/storefront/index.html" class="footer__link">Deploy Kit</a>
+                <a href="../auth-vault/storefront/index.html" class="footer__link">Auth Vault</a>
+                <a href="../saas-starter/storefront/index.html" class="footer__link">SaaS Starter</a>
+                <a href="../analytics-hub/storefront/index.html" class="footer__link">Analytics Hub</a>
+                <a href="../ai-toolkit/storefront/index.html" class="footer__link">AI Toolkit</a>
+                <a href="../security-kit/storefront/index.html" class="footer__link">Security Kit</a>
+                <a href="../landing-lab/storefront/index.html" class="footer__link">Landing Lab</a>
+                <a href="../automation-hub/storefront/index.html" class="footer__link">Automation Hub</a>
+            </nav>
+            <p class="footer__copy">&copy; 2026 CodeVault. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

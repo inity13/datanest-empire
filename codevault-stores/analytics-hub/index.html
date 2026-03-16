@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Hub &mdash; CodeVault</title>
+    <link rel="canonical" href="https://analytics-hub.codevault.dev/">
+
+    <meta name="description" content="Production-ready analytics tools for indie hackers and developers. Dashboard generation, event tracking, funnel analysis, cohort retention, A/B testing, and more — all Python stdlib, zero dependencies.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Analytics Hub — CodeVault">
+    <meta property="og:description" content="Production-ready analytics tools for indie hackers and developers. Dashboard generation, event tracking, funnel analysis, cohort retention, A/B testing, and more.">
+    <meta property="og:site_name" content="CodeVault">
+    <meta property="og:url" content="https://analytics-hub.codevault.dev/">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Analytics Hub — CodeVault">
+    <meta name="twitter:description" content="Production-ready analytics tools for indie hackers and developers. Dashboard generation, event tracking, funnel analysis, cohort retention, A/B testing, and more.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F4CA;</text></svg>">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#00E5FF">
+
+    <!-- Plausible Analytics -->
+    <script defer data-domain="analytics-hub.codevault.dev" src="https://plausible.io/js/script.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Analytics Hub",
+      "description": "Python analytics and reporting tools for developers.",
+      "url": "https://analytics-hub.codevault.dev/",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any (Python 3.10+)",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "USD",
+        "lowPrice": "4.99",
+        "highPrice": "39.99",
+        "offerCount": "12"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "CodeVault",
+        "url": "https://codevault.dev"
+      }
+    }
+    </script>
+</head>
+<body>
+    <nav class="cross-nav" aria-label="CodeVault stores">
+        <div class="cross-nav__inner">
+            <span class="cross-nav__brand">CodeVault</span>
+            <a href="../email-arsenal/storefront/index.html" class="cross-nav__link">Email Arsenal</a>
+            <a href="../seo-toolkit/storefront/index.html" class="cross-nav__link">SEO Toolkit</a>
+            <a href="../form-forge/storefront/index.html" class="cross-nav__link">Form Forge</a>
+            <a href="../api-launchpad/storefront/index.html" class="cross-nav__link">API Launchpad</a>
+            <a href="../deploy-kit/storefront/index.html" class="cross-nav__link">Deploy Kit</a>
+            <a href="../auth-vault/storefront/index.html" class="cross-nav__link">Auth Vault</a>
+            <a href="../saas-starter/storefront/index.html" class="cross-nav__link">SaaS Starter</a>
+            <a href="#" class="cross-nav__link cross-nav__link--active">Analytics Hub</a>
+            <a href="../payment-stack/storefront/index.html" class="cross-nav__link">Payment Stack</a>
+            <a href="../ai-toolkit/storefront/index.html" class="cross-nav__link">AI Toolkit</a>
+            <a href="../security-kit/storefront/index.html" class="cross-nav__link">Security Kit</a>
+            <a href="../landing-lab/storefront/index.html" class="cross-nav__link">Landing Lab</a>
+            <a href="../automation-hub/storefront/index.html" class="cross-nav__link">Automation Hub</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="top">
+        <div class="container">
+            <h1 class="hero__title glitch" data-text="Analytics Hub">Analytics Hub</h1>
+            <p class="hero__subtitle">Know your numbers. Grow your business.</p>
+            <div class="hero__cta-row">
+                <a href="#products" class="btn btn--primary">Browse tools</a>
+                <a href="#faq" class="btn btn--secondary">How it works</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Products Section -->
+    <section class="section" id="products">
+        <div class="container">
+            <h2 class="section__heading">The toolkit</h2>
+            <p class="section__subheading">Production-ready Python scripts. No pip installs. No fluff.</p>
+
+            <div class="filter-bar">
+                <span class="filter-bar__label">Filter:</span>
+                <button class="filter-tag active" data-filter="all">All</button>
+                <button class="filter-tag" data-filter="bundle">bundle</button>
+                <button class="filter-tag" data-filter="dashboard">dashboard</button>
+                <button class="filter-tag" data-filter="tracking">tracking</button>
+                <button class="filter-tag" data-filter="funnel">funnel</button>
+                <button class="filter-tag" data-filter="cohort">cohort</button>
+                <button class="filter-tag" data-filter="ab-test">ab-test</button>
+                <button class="filter-tag" data-filter="metrics">metrics</button>
+                <button class="filter-tag" data-filter="visualization">visualization</button>
+                <button class="filter-tag" data-filter="logs">logs</button>
+                <button class="filter-tag" data-filter="reports">reports</button>
+                <select class="sort-select" aria-label="Sort products">
+                    <option value="default">Sort: Featured</option>
+                    <option value="price-asc">Price: Low &rarr; High</option>
+                    <option value="price-desc">Price: High &rarr; Low</option>
+                </select>
+            </div>
+
+            <div class="product-grid">
+
+        <!-- ===== BUNDLES ===== -->
+        <article class="product-card product-card--bundle fade-in"
+                 data-tags="bundle,starter"
+                 data-price="1999"
+                 data-slug="analytics-hub-starter-bundle">
+            <div class="product-card__inner">
+                <div>
+                    <span class="bundle-badge">BUNDLE DEAL</span>
+                    <h3 class="product-card__name" style="margin-top: 12px">Analytics Hub Starter Bundle</h3>
+                    <p class="product-card__desc">The essential analytics toolkit &mdash; Dashboard Generator, Event Tracker, Metric Calculator, and Report Generator in one bundle. Save 33%.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">bundle</span>
+                        <span class="product-card__tag">starter</span>
+                    </div>
+                    <ul class="product-card__bundle-list">
+                        <li>Dashboard Generator</li>
+                        <li>Event Tracker</li>
+                        <li>Metric Calculator</li>
+                        <li>Report Generator</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$19.99</p>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card"
+                           data-stripe-link="https://buy.stripe.com/placeholder_starter_bundle"
+                           data-product="analytics-hub-starter-bundle">
+                            Grab This Bundle
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Analytics Hub Starter Bundle"
+                                data-crypto-price="1999">
+                            Pay with Crypto ($15.99)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="product-card product-card--bundle fade-in"
+                 data-tags="bundle,pro"
+                 data-price="3999"
+                 data-slug="analytics-hub-pro-bundle">
+            <div class="product-card__inner">
+                <div>
+                    <span class="bundle-badge">BUNDLE DEAL</span>
+                    <h3 class="product-card__name" style="margin-top: 12px">Analytics Hub Pro Bundle</h3>
+                    <p class="product-card__desc">Every tool in the Analytics Hub &mdash; all 10 products at a massive discount. The complete analytics infrastructure toolkit.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">bundle</span>
+                        <span class="product-card__tag">pro</span>
+                    </div>
+                    <ul class="product-card__bundle-list">
+                        <li>Dashboard Generator</li>
+                        <li>Event Tracker</li>
+                        <li>Funnel Analyzer</li>
+                        <li>Cohort Tool</li>
+                        <li>A/B Test Framework</li>
+                        <li>Report Generator</li>
+                        <li>Metric Calculator</li>
+                        <li>Log Analyzer</li>
+                        <li>Data Visualizer</li>
+                        <li>KPI Dashboard</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$39.99</p>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card"
+                           data-stripe-link="https://buy.stripe.com/placeholder_pro_bundle"
+                           data-product="analytics-hub-pro-bundle">
+                            Grab This Bundle
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Analytics Hub Pro Bundle"
+                                data-crypto-price="3999">
+                            Pay with Crypto ($31.99)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ===== INDIVIDUAL PRODUCTS ===== -->
+        <article class="product-card fade-in"
+                 data-tags="dashboard,html,visualization"
+                 data-price="999"
+                 data-slug="dashboard-generator">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Dashboard Generator</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python tool to generate interactive HTML dashboards from JSON/CSV data. Charts, tables, KPI cards, and responsive layout &mdash; all stdlib, zero dependencies.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">dashboard</span>
+                <span class="product-card__tag">html</span>
+                <span class="product-card__tag">visualization</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_dashboard_generator"
+                   data-product="dashboard-generator">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Dashboard Generator"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+                <a href="preview-dashboard-generator.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="tracking,events,sqlite"
+                 data-price="499"
+                 data-slug="event-tracker">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Event Tracker</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Python event tracking script for custom events, user actions, and page views. Stores to JSON or SQLite with querying and aggregation built in.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">tracking</span>
+                <span class="product-card__tag">events</span>
+                <span class="product-card__tag">sqlite</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_event_tracker"
+                   data-product="event-tracker">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Event Tracker"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+                <a href="preview-event-tracker.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="funnel,conversion,analysis"
+                 data-price="999"
+                 data-slug="funnel-analyzer">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Funnel Analyzer</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python funnel analysis tool: step-by-step conversion rates, drop-off points, and cohort comparison. Find where users bail and fix your flow.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">funnel</span>
+                <span class="product-card__tag">conversion</span>
+                <span class="product-card__tag">analysis</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_funnel_analyzer"
+                   data-product="funnel-analyzer">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Funnel Analyzer"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+                <a href="preview-funnel-analyzer.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="cohort,retention,segmentation"
+                 data-price="999"
+                 data-slug="cohort-tool">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Cohort Tool</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python cohort analysis: user retention heatmaps, behavior segmentation, and time-series grouping. Understand how user behavior changes over time.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">cohort</span>
+                <span class="product-card__tag">retention</span>
+                <span class="product-card__tag">segmentation</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_cohort_tool"
+                   data-product="cohort-tool">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Cohort Tool"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+                <a href="preview-cohort-tool.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="ab-test,statistics,experiments"
+                 data-price="999"
+                 data-slug="ab-test-framework">
+            <div class="product-card__header">
+                <h3 class="product-card__name">A/B Test Framework</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python A/B testing framework: experiment setup, statistical significance, chi-squared and z-test analysis. Know when a winner is real, not noise.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">ab-test</span>
+                <span class="product-card__tag">statistics</span>
+                <span class="product-card__tag">experiments</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_ab_test_framework"
+                   data-product="ab-test-framework">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="A/B Test Framework"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+                <a href="preview-ab-test-framework.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="reports,automation,html"
+                 data-price="499"
+                 data-slug="report-generator">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Report Generator</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Python reporting tool: automated reports from data sources with HTML output, scheduling via cron, and configurable templates.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">reports</span>
+                <span class="product-card__tag">automation</span>
+                <span class="product-card__tag">html</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_report_generator"
+                   data-product="report-generator">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Report Generator"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+                <a href="preview-report-generator.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="metrics,saas,calculator"
+                 data-price="499"
+                 data-slug="metric-calculator">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Metric Calculator</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Python metric library: MRR, ARR, churn rate, LTV, CAC, NPS &mdash; all the SaaS metrics with formulas, examples, and trend detection.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">metrics</span>
+                <span class="product-card__tag">saas</span>
+                <span class="product-card__tag">calculator</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_metric_calculator"
+                   data-product="metric-calculator">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Metric Calculator"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+                <a href="preview-metric-calculator.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="logs,parsing,anomaly"
+                 data-price="499"
+                 data-slug="log-analyzer">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Log Analyzer</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Python log analysis tool: parse access logs, detect error patterns, analyze traffic, and spot anomalies. Turn raw logs into insights.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">logs</span>
+                <span class="product-card__tag">parsing</span>
+                <span class="product-card__tag">anomaly</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_log_analyzer"
+                   data-product="log-analyzer">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Log Analyzer"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+                <a href="preview-log-analyzer.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="visualization,svg,charts"
+                 data-price="999"
+                 data-slug="data-visualizer">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Data Visualizer</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python data visualization: generate SVG charts (line, bar, pie, scatter) from JSON/CSV. Publication-ready graphics, zero dependencies.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">visualization</span>
+                <span class="product-card__tag">svg</span>
+                <span class="product-card__tag">charts</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_data_visualizer"
+                   data-product="data-visualizer">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Data Visualizer"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+                <a href="preview-data-visualizer.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="kpi,dashboard,alerts"
+                 data-price="499"
+                 data-slug="kpi-dashboard">
+            <div class="product-card__header">
+                <h3 class="product-card__name">KPI Dashboard</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Python KPI dashboard builder: real-time metrics display, threshold alerts, trend indicators, and traffic-light status. Know your numbers at a glance.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">kpi</span>
+                <span class="product-card__tag">dashboard</span>
+                <span class="product-card__tag">alerts</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_kpi_dashboard"
+                   data-product="kpi-dashboard">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="KPI Dashboard"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+                <a href="preview-kpi-dashboard.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Signals -->
+    <section class="trust-section" id="trust">
+        <div class="container">
+            <h2 class="section__heading">Why devs grab from here</h2>
+            <p class="section__subheading">No fluff &mdash; here&rsquo;s why this store ships</p>
+            <div class="trust-grid">
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x26A1;</div>
+                    <p class="trust-card__text">
+                        <strong>Instant digital download</strong>
+                        Pay, unzip, run. Your tools are ready in seconds.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x1F512;</div>
+                    <p class="trust-card__text">
+                        <strong>MIT License &mdash; use anywhere</strong>
+                        SaaS, client work, side projects. No restrictions.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x1F48E;</div>
+                    <p class="trust-card__text">
+                        <strong>Python stdlib only &mdash; zero pip installs</strong>
+                        No virtual envs, no requirements.txt, no dependency hell.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x1F6E0;&#xFE0F;</div>
+                    <p class="trust-card__text">
+                        <strong>Battle-tested by indie hackers</strong>
+                        Built for devs who ship fast and break nothing.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Companion App -->
+    <section class="app-section" id="app">
+        <div class="container">
+            <div class="app-promo fade-in">
+                <div class="app-promo__content">
+                    <span class="app-promo__badge">ANDROID APP</span>
+                    <h2 class="app-promo__title">Analytics Hub Mobile</h2>
+                    <p class="app-promo__desc">Take your analytics toolkit on the go. Dashboard, community templates, daily challenges, and streak rewards &mdash; all in a dark-themed Material&nbsp;3 interface.</p>
+                    <ul class="app-promo__features">
+                        <li>Real-time analytics dashboard with KPI cards</li>
+                        <li>Custom report builder and funnel analyzer</li>
+                        <li>Community sharing &amp; daily challenges</li>
+                        <li>Premium tools via in-app purchase ($0.99&ndash;$4.99)</li>
+                    </ul>
+                    <div class="app-promo__actions">
+                        <a href="https://play.google.com/store/apps/details?id=com.codevault.analyticshub" class="btn btn--primary">Get on Google Play</a>
+                        <a href="https://github.com/codevault/analytics-hub-android" class="btn btn--secondary">View Source</a>
+                    </div>
+                </div>
+                <div class="app-promo__visual">
+                    <div class="app-mockup" style="--app-color: #FF6B6B">
+                        <div class="app-mockup__screen">
+                            <div class="app-mockup__header">Analytics Hub</div>
+                            <div class="app-mockup__tabs">
+                                <span class="app-mockup__tab app-mockup__tab--active">Dashboard</span>
+                                <span class="app-mockup__tab">Reports</span>
+                                <span class="app-mockup__tab">Community</span>
+                                <span class="app-mockup__tab">Store</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section__heading">Got questions?</h2>
+            <p class="section__subheading">Straight answers. No runaround.</p>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Do these tools require any pip packages?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Nope. Every tool runs on Python 3.10+ stdlib only. No virtual environments, no requirements.txt, no dependency hell.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I use these in my SaaS product?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Absolutely. MIT license &mdash; use them in personal projects, client work, SaaS products, whatever. Just don&rsquo;t resell the tools as-is.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do I get my download?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Instant download after payment. Unzip, read the README, run the script.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What Python version do I need?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Python 3.10 or newer. We use modern syntax like match statements, type hints, and the walrus operator where it makes sense.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What&rsquo;s the difference between bundles and individual tools?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Bundles give you multiple tools at a discount. The Starter Bundle covers the essentials, the Pro Bundle gets you everything.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I get a refund?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">If a tool doesn&rsquo;t work as described, absolutely. Email <a href="mailto:support@codevault.dev">support@codevault.dev</a> and we&rsquo;ll sort it out.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__brand">CodeVault</p>
+            <p class="footer__tagline">Ship faster. Build smarter.</p>
+            <nav class="footer__links" aria-label="Other stores">
+                <a href="../email-arsenal/storefront/index.html" class="footer__link">Email Arsenal</a>
+                <a href="../seo-toolkit/storefront/index.html" class="footer__link">SEO Toolkit</a>
+                <a href="../form-forge/storefront/index.html" class="footer__link">Form Forge</a>
+                <a href="../api-launchpad/storefront/index.html" class="footer__link">API Launchpad</a>
+                <a href="../deploy-kit/storefront/index.html" class="footer__link">Deploy Kit</a>
+                <a href="../auth-vault/storefront/index.html" class="footer__link">Auth Vault</a>
+                <a href="../saas-starter/storefront/index.html" class="footer__link">SaaS Starter</a>
+                <a href="../payment-stack/storefront/index.html" class="footer__link">Payment Stack</a>
+                <a href="../ai-toolkit/storefront/index.html" class="footer__link">AI Toolkit</a>
+                <a href="../security-kit/storefront/index.html" class="footer__link">Security Kit</a>
+                <a href="../landing-lab/storefront/index.html" class="footer__link">Landing Lab</a>
+                <a href="../automation-hub/storefront/index.html" class="footer__link">Automation Hub</a>
+            </nav>
+            <p class="footer__copy">&copy; 2026 CodeVault. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

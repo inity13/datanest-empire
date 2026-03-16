@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Tracker &mdash; Analytics Hub &mdash; CodeVault</title>
+    <meta name="description" content="Python event tracking script for custom events, user actions, and page views. Stores to JSON or SQLite with querying and aggregation built in.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F4CA;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#00E5FF">
+    <script defer data-domain="analytics-hub.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Analytics Hub</a>
+        <h1 class="preview-page__title">Event Tracker</h1>
+        <p class="preview-page__price">$4.99</p>
+        <p class="preview-page__desc">Python event tracking script for custom events, user actions, and page views. Stores to JSON or SQLite with querying and aggregation built in. Runs on Python 3.10+ stdlib only &mdash; no pip installs needed.</p>
+
+        <ul class="preview-page__features">
+            <li>Track custom events with name, category, and arbitrary properties</li>
+            <li>Dual storage backends: JSON files or SQLite database</li>
+            <li>Built-in aggregation: count, group-by, and time-series queries</li>
+            <li>Event filtering by date range, category, and custom properties</li>
+            <li>Automatic timestamping with ISO 8601 format</li>
+            <li>Bulk event import from JSON files</li>
+            <li>Summary reports with top events and activity timelines</li>
+            <li>CLI interface for tracking and querying from the terminal</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Track a custom event
+python event_tracker.py track --name "signup" --category "user" --props '{"plan": "pro"}'
+
+# Query events by date range
+python event_tracker.py query --from 2026-01-01 --to 2026-03-14
+
+# Generate event summary
+python event_tracker.py summary --backend sqlite --db events.db</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_event_tracker"
+               data-product="event-tracker">
+                Grab This &mdash; $4.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Event Tracker"
+                    data-crypto-price="499">
+                Pay with Crypto ($3.99)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

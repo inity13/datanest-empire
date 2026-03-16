@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GraphQL Boilerplate Demo — API Launchpad</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0A0E1A;color:#E2E8F0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+header{background:#0F1628;border-bottom:1px solid #1E2A45;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+header h1{font-size:1.1rem;color:#FF9100;font-weight:700}
+header span{font-size:0.8rem;color:#64748B;background:#1E2A45;padding:4px 10px;border-radius:20px}
+.container{flex:1;padding:24px;max-width:900px;margin:0 auto;width:100%}
+h2{font-size:1.3rem;margin-bottom:6px;color:#F1F5F9}
+.subtitle{color:#64748B;font-size:0.9rem;margin-bottom:24px}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.layout{grid-template-columns:1fr}}
+.panel{background:#0F1628;border:1px solid #1E2A45;border-radius:12px;overflow:hidden}
+.panel-header{background:#1E2A45;padding:10px 16px;font-size:0.85rem;color:#94A3B8;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+textarea{width:100%;background:#0A0E1A;border:none;color:#94E2C8;padding:14px;font-family:'Courier New',monospace;font-size:0.83rem;resize:vertical;min-height:200px;outline:none}
+.output{padding:14px;font-family:'Courier New',monospace;font-size:0.83rem;color:#93C5FD;white-space:pre-wrap;min-height:200px;background:#0A0E1A}
+.controls{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.btn{padding:9px 18px;border-radius:6px;font-size:0.85rem;font-weight:600;cursor:pointer;border:none;transition:.2s}
+.btn-primary{background:#FF9100;color:#0A0E1A}
+.btn-primary:hover{background:#FFA733}
+.btn-secondary{background:#1E2A45;color:#CBD5E1;border:1px solid #2D3748}
+.btn-secondary:hover{border-color:#FF9100;color:#FF9100}
+.schema-preview{background:#1A2035;border:1px solid #2D3748;border-radius:8px;padding:14px;font-family:'Courier New',monospace;font-size:0.82rem;color:#E879F9;white-space:pre-wrap;margin-bottom:16px;max-height:180px;overflow-y:auto}
+.cta{background:linear-gradient(135deg,#FF9100,#FF5F00);color:#0A0E1A;border:none;padding:14px 32px;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px;transition:opacity .2s}
+.cta:hover{opacity:.9}
+footer{text-align:center;padding:16px;color:#475569;font-size:0.8rem;border-top:1px solid #1E2A45;margin-top:auto}
+footer a{color:#FF9100;text-decoration:none}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <h1>⚡ GraphQL Boilerplate</h1>
+  <span>Demo — Limited Features</span>
+</header>
+<div class="container">
+  <h2>GraphQL Query Builder & Validator</h2>
+  <p class="subtitle">Write GraphQL queries with syntax highlighting, validate against a schema, and preview generated boilerplate code.</p>
+
+  <div class="schema-preview" id="schema-display">type Query {
+  user(id: ID!): User
+  posts(limit: Int, offset: Int): [Post!]!
+  search(term: String!): [SearchResult!]!
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  posts: [Post!]!
+}
+
+type Post {
+  id: ID!
+  title: String!
+  body: String
+  author: User!
+  createdAt: String!
+}</div>
+
+  <div class="controls">
+    <button class="btn btn-primary" onclick="runQuery()">▶ Run Query</button>
+    <button class="btn btn-secondary" onclick="loadExample('user')">User Query</button>
+    <button class="btn btn-secondary" onclick="loadExample('posts')">Posts Query</button>
+    <button class="btn btn-secondary" onclick="loadExample('mutation')">Mutation</button>
+    <button class="btn btn-secondary" onclick="generateBoilerplate()">Generate Code</button>
+  </div>
+
+  <div class="layout">
+    <div class="panel">
+      <div class="panel-header">Query Editor <span style="color:#4ADE80;font-size:.75rem">● Ready</span></div>
+      <textarea id="query-editor" spellcheck="false">query GetUser {
+  user(id: "1") {
+    id
+    name
+    email
+    posts {
+      id
+      title
+    }
+  }
+}</textarea>
+    </div>
+    <div class="panel">
+      <div class="panel-header">Response / Output</div>
+      <div class="output" id="output">// Click "Run Query" to execute</div>
+    </div>
+  </div>
+
+  <a class="cta" href="https://buy.stripe.com/fZu4gzdL9c98bFw3e1gjJ01">Buy Full Version — $34.00 →</a>
+    <button class="crypto-pay-btn" data-product-slug="graphql-boilerplate" data-store-slug="api-launchpad" data-product-name="GraphQL Boilerplate" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+</div>
+<footer>
+  This demo shows limited functionality. Buy the full tool for all features.<br>
+  <a href="../index.html">← Back to API Launchpad Store</a>
+</footer>
+
+<script>
+const MOCK_DB = {
+  users: [
+    {id:"1",name:"Alice Johnson",email:"alice@example.com",posts:[{id:"101",title:"Getting Started with GraphQL"},{id:"102",title:"Advanced Query Patterns"}]},
+    {id:"2",name:"Bob Smith",email:"bob@example.com",posts:[{id:"103",title:"REST vs GraphQL"}]}
+  ],
+  posts: [
+    {id:"101",title:"Getting Started with GraphQL",body:"GraphQL is a query language for APIs...",author:{id:"1",name:"Alice Johnson"},createdAt:"2026-01-15"},
+    {id:"102",title:"Advanced Query Patterns",body:"Fragments, aliases, and directives...",author:{id:"1",name:"Alice Johnson"},createdAt:"2026-02-20"},
+    {id:"103",title:"REST vs GraphQL",body:"Comparing API paradigms...",author:{id:"2",name:"Bob Smith"},createdAt:"2026-03-01"}
+  ]
+};
+
+const EXAMPLES = {
+  user: `query GetUser {
+  user(id: "1") {
+    id
+    name
+    email
+    posts {
+      id
+      title
+    }
+  }
+}`,
+  posts: `query GetPosts {
+  posts(limit: 2, offset: 0) {
+    id
+    title
+    body
+    author {
+      name
+    }
+    createdAt
+  }
+}`,
+  mutation: `mutation UpdateUser {
+  updateUser(id: "1", input: {
+    name: "Alice Williams"
+    email: "alice.w@example.com"
+  }) {
+    id
+    name
+    email
+  }
+}`
+};
+
+function loadExample(key) {
+  document.getElementById('query-editor').value = EXAMPLES[key];
+}
+
+function runQuery() {
+  const q = document.getElementById('query-editor').value.trim();
+  const out = document.getElementById('output');
+  if (!q) { out.textContent = '// No query to run'; return; }
+
+  // Simple mock resolution
+  let result = {};
+  if (q.includes('user(id:') || q.includes('user(id: ')) {
+    const match = q.match(/id:\s*"(\d+)"/);
+    const id = match ? match[1] : '1';
+    const user = MOCK_DB.users.find(u => u.id === id) || MOCK_DB.users[0];
+    result = { data: { user } };
+  } else if (q.includes('posts(')) {
+    const lm = q.match(/limit:\s*(\d+)/);
+    const limit = lm ? parseInt(lm[1]) : 10;
+    result = { data: { posts: MOCK_DB.posts.slice(0, limit) } };
+  } else if (q.includes('mutation')) {
+    result = { data: { updateUser: { id:"1", name:"Alice Williams", email:"alice.w@example.com" } } };
+  } else {
+    result = { data: {}, errors: [{ message: "Field not found in schema (demo limitation)" }] };
+  }
+
+  out.textContent = JSON.stringify(result, null, 2);
+}
+
+function generateBoilerplate() {
+  const q = document.getElementById('query-editor').value.trim();
+  const out = document.getElementById('output');
+  const code = `// Generated Apollo Client query
+import { gql, useQuery } from '@apollo/client';
+
+const QUERY = gql\`
+${q}
+\`;
+
+export function useGraphQLQuery(variables = {}) {
+  const { loading, error, data } = useQuery(QUERY, {
+    variables,
+    fetchPolicy: 'cache-and-network',
+  });
+
+  return { loading, error, data };
+}
+
+// Usage:
+// const { loading, data } = useGraphQLQuery({ id: '1' });`;
+  out.textContent = code;
+}
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

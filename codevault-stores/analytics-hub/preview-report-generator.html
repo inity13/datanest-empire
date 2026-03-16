@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Generator &mdash; Analytics Hub &mdash; CodeVault</title>
+    <meta name="description" content="Python reporting tool: automated reports from data sources with HTML output, scheduling via cron, and configurable templates.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F4CA;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#00E5FF">
+    <script defer data-domain="analytics-hub.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Analytics Hub</a>
+        <h1 class="preview-page__title">Report Generator</h1>
+        <p class="preview-page__price">$4.99</p>
+        <p class="preview-page__desc">Python reporting tool: automated reports from data sources with HTML output, scheduling via cron, and configurable templates. Runs on Python 3.10+ stdlib only &mdash; no pip installs needed.</p>
+
+        <ul class="preview-page__features">
+            <li>Generate HTML reports from CSV and JSON data sources</li>
+            <li>Built-in report templates: summary, detailed, and comparison</li>
+            <li>Automatic data aggregation: sum, average, min, max, count</li>
+            <li>Configurable sections: header, metrics, tables, and footer</li>
+            <li>Date-stamped output files for historical tracking</li>
+            <li>Cron-friendly CLI for scheduled report generation</li>
+            <li>Custom CSS injection for branded reports</li>
+            <li>Multi-source reports combining multiple data files</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Generate a report from CSV data
+python report_generator.py --input revenue.csv --output report.html
+
+# Use a custom template
+python report_generator.py --input data.csv --template detailed --title "Monthly Revenue"
+
+# Schedule with cron (runs daily at 8am)
+# 0 8 * * * python /path/to/report_generator.py --input data.csv --output /reports/daily.html</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_report_generator"
+               data-product="report-generator">
+                Grab This &mdash; $4.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Report Generator"
+                    data-crypto-price="499">
+                Pay with Crypto ($3.99)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

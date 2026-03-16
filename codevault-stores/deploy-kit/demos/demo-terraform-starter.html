@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terraform Starter — Interactive Demo | Deploy Kit</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#00BCD4;--text:#EAEAFF;--muted:#8888AA;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;} .badge{background:var(--accent);color:#000;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1000px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .layout{display:grid;grid-template-columns:280px 1fr;gap:1.5rem;}
+  @media(max-width:700px){.layout{grid-template-columns:1fr;}}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;}
+  select,input{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.6rem .8rem;border-radius:8px;font-size:.9rem;margin-bottom:1rem;}
+  select:focus{outline:none;border-color:var(--accent);}
+  .checks{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem;}
+  .checks label{display:flex;align-items:center;gap:.5rem;font-size:.88rem;color:var(--text);text-transform:none;letter-spacing:0;margin:0;cursor:pointer;}
+  .checks input[type=checkbox]{width:auto;margin:0;}
+  .btn{display:block;width:100%;padding:.75rem;background:var(--accent);color:#000;border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;transition:opacity .2s;}
+  .btn:hover{opacity:.85;}
+  .tabs{display:flex;gap:.5rem;padding:.75rem 1.25rem;background:var(--surface2);border-bottom:1px solid var(--border);}
+  .tab{padding:.35rem .75rem;border-radius:6px;font-size:.8rem;cursor:pointer;border:1px solid transparent;color:var(--muted);}
+  .tab.active{background:rgba(0,188,212,.15);border-color:var(--accent);color:var(--accent);}
+  .output-panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  .tab-content{display:none;} .tab-content.active{display:block;}
+  pre{padding:1.25rem;font-family:'Courier New',monospace;font-size:.78rem;line-height:1.65;overflow-x:auto;color:#cdd6f4;max-height:460px;overflow-y:auto;}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a2040);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#000;font-weight:700;padding:.75rem 2rem;border-radius:8px;text-decoration:none;font-size:.95rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .hdr-row{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1.25rem;background:var(--surface2);border-bottom:1px solid var(--border);}
+  .copy-btn{background:transparent;border:1px solid var(--border);color:var(--accent);padding:.3rem .7rem;border-radius:6px;font-size:.75rem;cursor:pointer;}
+  .copy-btn:hover{background:var(--accent);color:#000;}
+  .file-label{font-size:.8rem;font-family:monospace;color:var(--muted);}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">🏗️</span>
+  <h1>Terraform Starter</h1>
+  <span>Interactive Demo</span>
+  <span class="badge">Deploy Kit</span>
+</header>
+<div class="container">
+  <h2>Generate Terraform Infrastructure Config</h2>
+  <p class="subtitle">Pick your cloud and services — get ready-to-deploy .tf files.</p>
+  <div class="layout">
+    <div class="panel">
+      <label>Cloud Provider</label>
+      <select id="cloud" onchange="generate()">
+        <option value="aws">AWS</option>
+        <option value="gcp">GCP</option>
+        <option value="azure">Azure</option>
+      </select>
+      <label>Environment</label>
+      <select id="env" onchange="generate()">
+        <option value="staging">Staging</option>
+        <option value="production">Production</option>
+      </select>
+      <label>Services to Provision</label>
+      <div class="checks">
+        <label><input type="checkbox" id="vpc" checked> VPC / Networking</label>
+        <label><input type="checkbox" id="compute" checked> Compute (EC2/VM)</label>
+        <label><input type="checkbox" id="db" checked> Managed Database (RDS/Cloud SQL)</label>
+        <label><input type="checkbox" id="s3"> Object Storage (S3/GCS)</label>
+        <label><input type="checkbox" id="lb"> Load Balancer</label>
+        <label><input type="checkbox" id="cdn"> CDN</label>
+        <label><input type="checkbox" id="dns"> DNS (Route53/Cloud DNS)</label>
+      </div>
+      <button class="btn" onclick="generate()">⚡ Generate Terraform</button>
+    </div>
+    <div class="output-panel">
+      <div class="tabs">
+        <div class="tab active" onclick="showTab('main')">main.tf</div>
+        <div class="tab" onclick="showTab('vars')">variables.tf</div>
+        <div class="tab" onclick="showTab('out')">outputs.tf</div>
+      </div>
+      <div class="hdr-row">
+        <span class="file-label" id="activeFile">main.tf</span>
+        <button class="copy-btn" onclick="copyActive()">Copy</button>
+      </div>
+      <div id="tab-main" class="tab-content active"><pre id="out-main"></pre></div>
+      <div id="tab-vars" class="tab-content"><pre id="out-vars"></pre></div>
+      <div id="tab-out" class="tab-content"><pre id="out-out"></pre></div>
+    </div>
+  </div>
+  <div class="cta-box">
+    <h3>🏗️ Full Terraform Starter Kit — 12+ Modules</h3>
+    <p>Includes EKS/GKE clusters, Redis ElastiCache, CloudFront CDN, Route53, IAM roles, remote state, and Terragrunt configs.</p>
+    <a href="https://buy.stripe.com/bJedR94azb54bFw4i5gjJ0C" class="cta-btn">Buy Full Version — $19.99</a>
+    <button class="crypto-pay-btn" data-product-slug="terraform-starter" data-store-slug="deploy-kit" data-product-name="Terraform Starter" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+<script>
+function showTab(name){
+  document.querySelectorAll('.tab').forEach((t,i)=>{
+    const names=['main','vars','out'];
+    t.classList.toggle('active',names[i]===name);
+  });
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  document.getElementById('activeFile').textContent=name==='main'?'main.tf':name==='vars'?'variables.tf':'outputs.tf';
+}
+
+function g(id){return document.getElementById(id);}
+function ch(id){return document.getElementById(id).checked;}
+
+function generate(){
+  const cloud=g('cloud').value, env=g('env').value;
+  const isProd=env==='production';
+  const providers={aws:'aws',gcp:'google',azure:'azurerm'};
+  const regions={aws:'us-east-1',gcp:'us-central1',azure:'East US'};
+  const prov=providers[cloud], region=regions[cloud];
+
+  let main=`# Generated by Deploy Kit — terraform-starter\n# Cloud: ${cloud.toUpperCase()} | Env: ${env}\n# https://deploy-kit.codevault.dev\n\nterraform {\n  required_version = ">= 1.5.0"\n  required_providers {\n    ${prov} = {\n      source  = "hashicorp/${prov}"\n      version = "~> 5.0"\n    }\n  }\n\n  backend "s3" {\n    bucket = "\${var.project_name}-tfstate"\n    key    = "${env}/terraform.tfstate"\n    region = "${regions.aws}"\n  }\n}\n\nprovider "${prov}" {\n  ${cloud==='aws'?`region = var.aws_region`:cloud==='gcp'?`project = var.project_id\n  region  = var.gcp_region`:`subscription_id = var.subscription_id`}\n}\n\n`;
+
+  if(ch('vpc')){
+    main+=cloud==='aws'
+      ?`module "vpc" {\n  source  = "terraform-aws-modules/vpc/aws"\n  version = "5.0.0"\n\n  name = "\${var.project_name}-vpc"\n  cidr = "10.0.0.0/16"\n\n  azs             = ["\${var.aws_region}a", "\${var.aws_region}b"]\n  private_subnets = ["10.0.1.0/24", "10.0.2.0/24"]\n  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24"]\n\n  enable_nat_gateway = true\n  single_nat_gateway = ${isProd?'false':'true'}\n\n  tags = var.tags\n}\n\n`
+      :`resource "google_compute_network" "vpc" {\n  name                    = "\${var.project_name}-vpc"\n  auto_create_subnetworks = false\n}\n\nresource "google_compute_subnetwork" "subnet" {\n  name          = "\${var.project_name}-subnet"\n  ip_cidr_range = "10.0.0.0/24"\n  region        = var.gcp_region\n  network       = google_compute_network.vpc.id\n}\n\n`;
+  }
+
+  if(ch('compute')){
+    main+=cloud==='aws'
+      ?`resource "aws_instance" "app" {\n  ami           = "ami-0c55b159cbfafe1f0"  # Amazon Linux 2023\n  instance_type = "${isProd?'t3.medium':'t3.small'}"\n  subnet_id     = module.vpc.private_subnets[0]\n\n  root_block_device {\n    volume_size = ${isProd?50:20}\n    encrypted   = true\n  }\n\n  tags = merge(var.tags, { Name = "\${var.project_name}-app" })\n}\n\n`
+      :`resource "google_compute_instance" "app" {\n  name         = "\${var.project_name}-app"\n  machine_type = "${isProd?'n2-standard-2':'e2-medium'}"\n  zone         = "\${var.gcp_region}-a"\n\n  boot_disk {\n    initialize_params { image = "debian-cloud/debian-12" }\n  }\n\n  network_interface {\n    subnetwork = google_compute_subnetwork.subnet.id\n  }\n}\n\n`;
+  }
+
+  if(ch('db')){
+    main+=cloud==='aws'
+      ?`resource "aws_db_instance" "main" {\n  identifier        = "\${var.project_name}-db"\n  engine            = "postgres"\n  engine_version    = "15.4"\n  instance_class    = "${isProd?'db.t3.medium':'db.t3.micro'}"\n  allocated_storage = ${isProd?100:20}\n  storage_encrypted = true\n\n  db_name  = var.db_name\n  username = var.db_user\n  password = var.db_password\n\n  multi_az               = ${isProd?'true':'false'}\n  deletion_protection    = ${isProd?'true':'false'}\n  backup_retention_period = ${isProd?7:1}\n\n  tags = var.tags\n}\n\n`
+      :`resource "google_sql_database_instance" "main" {\n  name             = "\${var.project_name}-db"\n  database_version = "POSTGRES_15"\n  region           = var.gcp_region\n\n  settings {\n    tier              = "${isProd?'db-custom-2-7680':'db-f1-micro'}"\n    availability_type = "${isProd?'REGIONAL':'ZONAL'}"\n    backup_configuration { enabled = true }\n  }\n}\n\n`;
+  }
+
+  if(ch('s3')&&cloud==='aws'){
+    main+=`resource "aws_s3_bucket" "assets" {\n  bucket = "\${var.project_name}-assets-\${data.aws_caller_identity.current.account_id}"\n  tags   = var.tags\n}\n\nresource "aws_s3_bucket_versioning" "assets" {\n  bucket = aws_s3_bucket.assets.id\n  versioning_configuration { status = "Enabled" }\n}\n\n`;
+  }
+
+  if(ch('lb')&&cloud==='aws'){
+    main+=`resource "aws_lb" "main" {\n  name               = "\${var.project_name}-alb"\n  internal           = false\n  load_balancer_type = "application"\n  subnets            = module.vpc.public_subnets\n\n  enable_deletion_protection = ${isProd?'true':'false'}\n  tags = var.tags\n}\n\n`;
+  }
+
+  const vars=`variable "project_name" {\n  description = "Project name prefix for all resources"\n  type        = string\n  default     = "my-app"\n}\n\nvariable "aws_region" {\n  description = "AWS region"\n  type        = string\n  default     = "${regions.aws}"\n}\n\nvariable "db_name" {\n  description = "Database name"\n  type        = string\n  default     = "appdb"\n}\n\nvariable "db_user" {\n  description = "Database username"\n  type        = string\n  default     = "appuser"\n}\n\nvariable "db_password" {\n  description = "Database password"\n  type        = string\n  sensitive   = true\n}\n\nvariable "tags" {\n  description = "Common resource tags"\n  type        = map(string)\n  default = {\n    Environment = "${env}"\n    ManagedBy   = "terraform"\n    Project     = "my-app"\n  }\n}\n`;
+
+  let outputs=`output "project_name" {\n  value = var.project_name\n}\n\n`;
+  if(ch('vpc')&&cloud==='aws') outputs+=`output "vpc_id" {\n  value = module.vpc.vpc_id\n}\n\noutput "private_subnets" {\n  value = module.vpc.private_subnets\n}\n\n`;
+  if(ch('compute')&&cloud==='aws') outputs+=`output "instance_id" {\n  value = aws_instance.app.id\n}\n\n`;
+  if(ch('db')&&cloud==='aws') outputs+=`output "db_endpoint" {\n  value     = aws_db_instance.main.endpoint\n  sensitive = true\n}\n\n`;
+
+  g('out-main').textContent=main;
+  g('out-vars').textContent=vars;
+  g('out-out').textContent=outputs;
+}
+
+function copyActive(){
+  const activeTab=document.querySelector('.tab-content.active pre');
+  navigator.clipboard.writeText(activeTab.textContent).then(()=>{
+    const b=document.querySelector('.copy-btn');
+    b.textContent='✓ Copied!';setTimeout(()=>b.textContent='Copy',1500);
+  });
+}
+generate();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

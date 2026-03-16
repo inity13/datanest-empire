@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refund Processor — Demo | Payment Stack</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#76FF03}.header .back{color:#76FF03;text-decoration:none;font-size:.85rem}
+  .container{max-width:860px;margin:0 auto;padding:28px 20px}
+  h2{font-size:1.5rem;margin-bottom:6px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+  @media(max-width:600px){.grid2{grid-template-columns:1fr}}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#76FF03;margin-bottom:14px}
+  label{display:block;font-size:.8rem;color:#8899aa;margin-bottom:4px}
+  input,select,textarea{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:8px 10px;font-size:.88rem;margin-bottom:12px;outline:none;transition:border-color .2s;font-family:inherit}
+  input:focus,select:focus,textarea:focus{border-color:#76FF03}
+  .btn{width:100%;padding:11px;border:none;border-radius:8px;font-size:.92rem;font-weight:600;cursor:pointer;transition:all .2s}
+  .btn-primary{background:#76FF03;color:#0A0E1A}.btn-primary:hover{background:#8fff1a}
+  .btn-danger{background:rgba(255,60,60,.15);color:#ff6060;border:1px solid rgba(255,60,60,.25)}.btn-danger:hover{background:rgba(255,60,60,.25)}
+  .amount-slider-wrap{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .amount-slider-wrap input[type=range]{flex:1;accent-color:#76FF03;margin-bottom:0}
+  .amount-slider-wrap span{color:#76FF03;font-weight:600;width:70px;text-align:right}
+  .charge-display{background:#060a12;border:1px solid #1e2a3a;border-radius:8px;padding:14px}
+  .charge-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #1e2a3a;font-size:.86rem}
+  .charge-row:last-child{border:none}
+  .charge-row span:first-child{color:#8899aa}
+  .charge-row span:last-child{color:#fff;font-weight:500}
+  .refund-badge{padding:3px 10px;border-radius:10px;font-size:.72rem;font-weight:600}
+  .rb-full{background:rgba(118,255,3,.15);color:#76FF03}
+  .rb-partial{background:rgba(255,171,0,.15);color:#ffab00}
+  .rb-declined{background:rgba(255,60,60,.15);color:#ff6060}
+  .timeline{margin-top:12px}
+  .tl-item{display:flex;gap:10px;margin-bottom:8px;font-size:.82rem}
+  .tl-dot{width:8px;height:8px;border-radius:50%;background:#76FF03;margin-top:4px;flex-shrink:0}
+  .tl-dot.gray{background:#1e2a3a}
+  .tl-text{color:#8899aa}.tl-text b{color:#fff}
+  .status-bar{padding:12px;border-radius:8px;font-size:.88rem;text-align:center;display:none;margin-top:10px}
+  .status-bar.show{display:block}
+  .s-ok{background:rgba(118,255,3,.1);border:1px solid rgba(118,255,3,.3);color:#76FF03}
+  .s-warn{background:rgba(255,171,0,.1);border:1px solid rgba(255,171,0,.3);color:#ffab00}
+  .s-err{background:rgba(255,60,60,.1);border:1px solid rgba(255,60,60,.3);color:#ff6060}
+  .code-box{background:#060a12;border:1px solid #1e2a3a;border-radius:7px;padding:12px;font-family:'Courier New',monospace;font-size:.75rem;color:#76FF03;white-space:pre;overflow-x:auto}
+  .cta-bar{background:linear-gradient(135deg,#0d1321,#111827);border:1px solid #76FF03;border-radius:12px;padding:20px;text-align:center;margin-top:18px}
+  .cta-bar p{color:#8899aa;font-size:.85rem;margin-bottom:12px;margin-top:6px}
+  .cta-btn{display:inline-block;background:#76FF03;color:#0A0E1A;padding:12px 26px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s}
+  .cta-btn:hover{background:#8fff1a;transform:translateY(-2px)}
+  .footer-note{text-align:center;color:#445566;font-size:.77rem;margin-top:16px;padding-top:12px;border-top:1px solid #1e2a3a}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>⚡ Payment Stack — Refund Processor Demo</h1>
+  <a class="back" href="../index.html">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>Refund Workflow Demo</h2>
+  <p class="subtitle">Process full or partial refunds, simulate policy checks, and generate refund receipts.</p>
+  <div class="grid2">
+    <div class="panel">
+      <h3>💳 Original Charge</h3>
+      <label>Charge ID</label>
+      <input id="chargeId" value="ch_3Pxyz123456789">
+      <label>Original Amount ($)</label>
+      <input id="origAmt" type="number" value="149" min="1" oninput="updateSlider()">
+      <label>Already Refunded ($)</label>
+      <input id="alreadyRefunded" type="number" value="0" min="0" oninput="updateSlider()">
+      <label>Refund Reason</label>
+      <select id="reason">
+        <option value="duplicate">Duplicate charge</option>
+        <option value="fraudulent">Fraudulent transaction</option>
+        <option value="customer_request" selected>Customer request</option>
+        <option value="product_not_received">Product not received</option>
+        <option value="product_unacceptable">Product unacceptable</option>
+      </select>
+      <label>Refund Policy</label>
+      <select id="policy">
+        <option value="30day">30-day full refund</option>
+        <option value="7day">7-day full refund</option>
+        <option value="partial">Partial only (50%)</option>
+        <option value="nodigs">No refund on digital goods</option>
+      </select>
+      <label>Purchase Date</label>
+      <input id="purchaseDate" type="date">
+    </div>
+    <div class="panel">
+      <h3>↩ Refund Amount</h3>
+      <label>Refund Type</label>
+      <select id="refundType" onchange="updateSlider()">
+        <option value="full">Full Refund</option>
+        <option value="partial">Partial Refund</option>
+      </select>
+      <div id="sliderWrap" style="display:none">
+        <label>Partial Amount</label>
+        <div class="amount-slider-wrap">
+          <input type="range" id="partialSlider" min="1" max="149" value="74" oninput="updatePartial()">
+          <span id="partialDisplay">$74</span>
+        </div>
+      </div>
+      <div class="charge-display">
+        <div class="charge-row"><span>Original charge</span><span id="dOrig">$149.00</span></div>
+        <div class="charge-row"><span>Already refunded</span><span id="dRefunded">$0.00</span></div>
+        <div class="charge-row"><span>Refund amount</span><span id="dRefund" style="color:#76FF03">$149.00</span></div>
+        <div class="charge-row"><span>Net customer receives</span><span id="dNet">$149.00</span></div>
+        <div class="charge-row"><span>Stripe fee recovered</span><span id="dFee">$0.00</span></div>
+      </div>
+      <button class="btn btn-primary" onclick="processRefund()" style="margin-top:12px">▶ Process Refund</button>
+      <div id="statusBar" class="status-bar"></div>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>📋 Refund API Response</h3>
+    <div class="code-box" id="codeBox">// Process a refund to see the API response...</div>
+  </div>
+  <div class="cta-bar">
+    <h3>Get the Full Refund Processor</h3>
+    <p>Python + Stripe: automated policy checks, fraud detection integration, batch refunds, accounting exports, and customer notifications.</p>
+    <a class="cta-btn" href="https://buy.stripe.com/00wfZhdL92yygZQ8ylgjJ1s">Buy Full Version — $34.00</a>
+    <button class="crypto-pay-btn" data-product-slug="refund-processor" data-store-slug="payment-stack" data-product-name="Refund Processor" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+const d = new Date(); d.setDate(d.getDate()-5);
+document.getElementById('purchaseDate').value = d.toISOString().slice(0,10);
+
+function updateSlider(){
+  const type = document.getElementById('refundType').value;
+  const orig = parseFloat(document.getElementById('origAmt').value)||149;
+  const ref = parseFloat(document.getElementById('alreadyRefunded').value)||0;
+  const avail = orig - ref;
+  document.getElementById('sliderWrap').style.display = type==='partial'?'block':'none';
+  const slider = document.getElementById('partialSlider');
+  slider.max = avail; slider.value = Math.min(slider.value, avail);
+  updateCalc(type==='full'?avail:parseFloat(slider.value));
+}
+
+function updatePartial(){
+  const v = parseFloat(document.getElementById('partialSlider').value);
+  document.getElementById('partialDisplay').textContent = `$${v.toFixed(0)}`;
+  updateCalc(v);
+}
+
+function updateCalc(refundAmt){
+  const orig = parseFloat(document.getElementById('origAmt').value)||149;
+  const ref = parseFloat(document.getElementById('alreadyRefunded').value)||0;
+  const fee = (refundAmt*0.029+0.30).toFixed(2);
+  document.getElementById('dOrig').textContent = `$${orig.toFixed(2)}`;
+  document.getElementById('dRefunded').textContent = `-$${ref.toFixed(2)}`;
+  document.getElementById('dRefund').textContent = `$${refundAmt.toFixed(2)}`;
+  document.getElementById('dNet').textContent = `$${refundAmt.toFixed(2)}`;
+  document.getElementById('dFee').textContent = `$0.00 (non-refundable)`;
+}
+
+async function processRefund(){
+  const orig = parseFloat(document.getElementById('origAmt').value)||149;
+  const ref = parseFloat(document.getElementById('alreadyRefunded').value)||0;
+  const type = document.getElementById('refundType').value;
+  const avail = orig-ref;
+  const amount = type==='full'?avail:parseFloat(document.getElementById('partialSlider').value);
+  const bar = document.getElementById('statusBar');
+  bar.className='status-bar show s-warn'; bar.textContent='⏳ Processing refund...';
+  await new Promise(r=>setTimeout(r,1000));
+  const reId='re_'+Math.random().toString(36).slice(2,18);
+  bar.className='status-bar show s-ok';
+  bar.textContent=`✓ Refund processed — ${type} refund of $${amount.toFixed(2)}`;
+  document.getElementById('codeBox').textContent=JSON.stringify({
+    id:reId,object:'refund',
+    amount:Math.round(amount*100),currency:'usd',
+    charge:document.getElementById('chargeId').value,
+    status:'succeeded',
+    reason:document.getElementById('reason').value,
+    refund_type:type,
+    created:Math.floor(Date.now()/1000),
+    balance_transaction:'txn_'+Math.random().toString(36).slice(2,14)
+  },null,2);
+}
+updateSlider();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

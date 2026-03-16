@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>File Watcher Demo — Automation Hub</title>
+<style>
+  :root { --brand: #18FFFF; --bg: #0A0E1A; --panel: #0d1321; --border: #1e2a3a; --text: #e2e8f0; --muted: #64748b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 820px; margin: 0 auto; }
+  h1 { color: var(--brand); font-size: 1.6rem; margin-bottom: 0.3rem; }
+  .subtitle { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem; }
+  .panel h2 { color: var(--brand); font-size: 1rem; margin-bottom: 1rem; }
+  label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 0.3rem; margin-top: 0.75rem; }
+  input, select { width: 100%; background: #0a1020; border: 1px solid var(--border); border-radius: 4px; color: var(--text); padding: 0.5rem 0.75rem; font-size: 0.9rem; }
+  input:focus, select:focus { outline: none; border-color: var(--brand); }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn { background: var(--brand); color: #000; border: none; border-radius: 6px; padding: 0.6rem 1.4rem; font-weight: 700; cursor: pointer; font-size: 0.9rem; margin-top: 1rem; }
+  .btn:hover { opacity: 0.85; }
+  .stop-btn { background: #ef4444; color: #fff; border: none; border-radius: 6px; padding: 0.6rem 1.4rem; font-weight: 700; cursor: pointer; font-size: 0.9rem; margin-top: 1rem; margin-left: 0.5rem; }
+  .stop-btn:hover { opacity: 0.85; }
+  /* Event log */
+  .event-log { background: #020810; border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem; font-family: monospace; font-size: 0.82rem; min-height: 220px; max-height: 340px; overflow-y: auto; }
+  .event-line { padding: 0.2rem 0; border-bottom: 1px solid #0d1a2a; display: flex; gap: 0.75rem; }
+  .event-line:last-child { border-bottom: none; }
+  .ev-time { color: #475569; flex-shrink: 0; }
+  .ev-type { font-weight: 700; min-width: 80px; }
+  .ev-created { color: #4ade80; }
+  .ev-modified { color: var(--brand); }
+  .ev-deleted { color: #f87171; }
+  .ev-moved { color: #fb923c; }
+  .ev-path { color: #94a3b8; }
+  .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 0.4rem; }
+  .status-active { background: #4ade80; animation: pulse 1s infinite; }
+  .status-idle { background: #475569; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .rule-chip { display: inline-flex; align-items: center; gap: 0.4rem; background: #060d1a; border: 1px solid var(--border); border-radius: 20px; padding: 0.25rem 0.7rem; font-size: 0.8rem; margin: 0.2rem; }
+  .rule-chip .del { color: #ef4444; cursor: pointer; font-size: 0.75rem; }
+  .code-snippet { background: #060d1a; border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem; font-family: monospace; font-size: 0.8rem; color: #94a3b8; white-space: pre; overflow-x: auto; margin-top: 1rem; }
+  .cta-bar { background: linear-gradient(135deg, #001a1a, #002a2a); border: 1px solid var(--brand); border-radius: 8px; padding: 1.25rem; margin-top: 1.5rem; text-align: center; }
+  .cta-bar h3 { color: var(--brand); margin-bottom: 0.4rem; }
+  .cta-bar p { color: var(--muted); font-size: 0.85rem; margin-bottom: 1rem; }
+  .buy-btn { display: inline-block; background: var(--brand); color: #000; text-decoration: none; padding: 0.75rem 2rem; border-radius: 6px; font-weight: 700; font-size: 1rem; }
+  .buy-btn:hover { opacity: 0.85; }
+  .footer-note { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 1rem; }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>👁️ File Watcher</h1>
+  <p class="subtitle">Configure file monitoring rules and simulate real-time file system events.</p>
+
+  <div class="panel">
+    <h2>Watch Configuration</h2>
+    <div class="row">
+      <div>
+        <label>Watch Directory</label>
+        <input id="watchDir" type="text" value="/data/uploads" />
+        <label>File Pattern (glob)</label>
+        <input id="pattern" type="text" value="*.csv" />
+      </div>
+      <div>
+        <label>On Event — Trigger Action</label>
+        <select id="action">
+          <option value="process">Run processing script</option>
+          <option value="move">Move to archive folder</option>
+          <option value="notify">Send Slack notification</option>
+          <option value="backup">Copy to backup</option>
+          <option value="transform">Run ETL transform</option>
+        </select>
+        <label>Event Types to Watch</label>
+        <select id="events" multiple style="height:72px">
+          <option value="created" selected>Created</option>
+          <option value="modified" selected>Modified</option>
+          <option value="deleted">Deleted</option>
+          <option value="moved">Moved</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" id="startBtn" onclick="startWatcher()">▶ Start Watcher (Simulation)</button>
+    <button class="stop-btn" id="stopBtn" onclick="stopWatcher()" style="display:none">■ Stop</button>
+  </div>
+
+  <div class="panel">
+    <h2>
+      <span class="status-dot status-idle" id="statusDot"></span>
+      <span id="statusText">Watcher idle</span>
+    </h2>
+    <div class="event-log" id="eventLog">
+      <div style="color:var(--muted);padding:0.5rem">Start the watcher to see simulated file events...</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Python Config Preview</h2>
+    <div class="code-snippet" id="codeSnippet"></div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Get the Full File Watcher — $19</h3>
+    <p>Powered by Python watchdog. Real filesystem events, regex filtering, debounce, queued processing, and persistent logs.</p>
+    <a class="buy-btn" href="https://buy.stripe.com/bJedR97mLa10aBs29XgjJ0w">Buy Full Version — $19</a>
+    <button class="crypto-pay-btn" data-product-slug="file-watcher" data-store-slug="automation-hub" data-product-name="File Watcher" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo simulates file events. Full version uses Python watchdog for real filesystem monitoring.</p>
+</div>
+<script>
+  const EVENT_TYPES = {
+    created: { label: 'CREATED', cls: 'ev-created', files: ['report_2026Q1.csv','users_export.csv','sales_data.csv','new_batch.csv','metrics_daily.csv'] },
+    modified: { label: 'MODIFIED', cls: 'ev-modified', files: ['config.yaml','existing_data.csv','log_file.txt'] },
+    deleted: { label: 'DELETED', cls: 'ev-deleted', files: ['temp_file.csv','old_backup.csv'] },
+    moved: { label: 'MOVED', cls: 'ev-moved', files: ['processed/old.csv → archive/old.csv'] },
+  };
+
+  const ACTIONS = {
+    process: 'python3 /opt/scripts/process_file.py',
+    move: 'mv {file} /data/archive/',
+    notify: 'curl -X POST slack_webhook -d "New file: {file}"',
+    backup: 'cp {file} /data/backup/',
+    transform: 'python3 /opt/etl/transform.py --input {file}',
+  };
+
+  let watchInterval = null;
+  let eventCount = 0;
+
+  function startWatcher() {
+    const dir = document.getElementById('watchDir').value || '/data';
+    const pat = document.getElementById('pattern').value || '*';
+    const action = document.getElementById('action').value;
+    const selectedEvents = Array.from(document.getElementById('events').selectedOptions).map(o => o.value);
+
+    if (selectedEvents.length === 0) { alert('Select at least one event type'); return; }
+
+    document.getElementById('startBtn').style.display = 'none';
+    document.getElementById('stopBtn').style.display = '';
+    document.getElementById('statusDot').className = 'status-dot status-active';
+    document.getElementById('statusText').textContent = `Watching ${dir} for ${pat}`;
+    document.getElementById('eventLog').innerHTML = '';
+    eventCount = 0;
+
+    updateCode(dir, pat, action, selectedEvents);
+
+    watchInterval = setInterval(() => {
+      if (eventCount >= 20) { stopWatcher(); return; }
+      const evType = selectedEvents[Math.floor(Math.random() * selectedEvents.length)];
+      const ev = EVENT_TYPES[evType];
+      const file = ev.files[Math.floor(Math.random() * ev.files.length)];
+      const now = new Date().toTimeString().slice(0,8);
+      const actionCmd = ACTIONS[action].replace('{file}', `${dir}/${file}`);
+
+      const line = document.createElement('div');
+      line.className = 'event-line';
+      line.innerHTML = `<span class="ev-time">${now}</span><span class="ev-type ${ev.cls}">${ev.label}</span><span class="ev-path">${dir}/${file}</span>`;
+      document.getElementById('eventLog').appendChild(line);
+
+      const actionLine = document.createElement('div');
+      actionLine.className = 'event-line';
+      actionLine.innerHTML = `<span class="ev-time"></span><span style="color:#475569;font-size:0.75rem">→ ${actionCmd}</span>`;
+      document.getElementById('eventLog').appendChild(actionLine);
+
+      document.getElementById('eventLog').scrollTop = 9999;
+      eventCount++;
+    }, 800 + Math.random() * 1200);
+  }
+
+  function stopWatcher() {
+    if (watchInterval) clearInterval(watchInterval);
+    watchInterval = null;
+    document.getElementById('startBtn').style.display = '';
+    document.getElementById('stopBtn').style.display = 'none';
+    document.getElementById('statusDot').className = 'status-dot status-idle';
+    document.getElementById('statusText').textContent = `Watcher stopped (${eventCount} events captured)`;
+  }
+
+  function updateCode(dir, pat, action, events) {
+    const evStr = events.map(e => `"${e}"`).join(', ');
+    document.getElementById('codeSnippet').textContent =
+`from automation_hub import FileWatcher
+
+watcher = FileWatcher(
+    watch_dir="${dir}",
+    pattern="${pat}",
+    events=[${evStr}]
+)
+
+@watcher.on_event
+def handle(event):
+    print(f"[{event.type}] {event.path}")
+    # ${ACTIONS[action]}
+
+watcher.start()`;
+  }
+
+  updateCode('/data/uploads', '*.csv', 'process', ['created','modified']);
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Penetration Test Reporter — Demo | Security Kit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#D500F9}.header .back{color:#D500F9;text-decoration:none;font-size:.85rem}
+  .container{max-width:1060px;margin:0 auto;padding:28px 20px}
+  h2{font-size:1.5rem;margin-bottom:8px}.subtitle{color:#8899aa;margin-bottom:20px}
+  .layout{display:grid;grid-template-columns:420px 1fr;gap:18px}
+  @media(max-width:800px){.layout{grid-template-columns:1fr}}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:18px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#D500F9;margin-bottom:12px}
+  label{display:block;font-size:.78rem;color:#8899aa;margin-bottom:3px;margin-top:8px}
+  input,select,textarea{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:7px 10px;font-size:.83rem;outline:none;font-family:inherit;resize:vertical;transition:border-color .2s}
+  input:focus,select:focus,textarea:focus{border-color:#D500F9}
+  .btn{padding:8px 18px;border:none;border-radius:7px;font-size:.85rem;font-weight:600;cursor:pointer;background:#D500F9;color:#fff;transition:all .2s;margin-top:8px}
+  .btn:hover{background:#e040fb}
+  .btn-outline{background:none;border:1px solid #D500F9;color:#D500F9}
+  .btn-outline:hover{background:rgba(213,0,249,.1)}
+  .finding-form{background:#0A0E1A;border:1px solid #1e2a3a;border-radius:8px;padding:12px;margin-bottom:10px}
+  .finding-form h4{font-size:.82rem;color:#D500F9;margin-bottom:8px}
+  .btn-add{background:none;border:1px dashed #1e2a3a;color:#8899aa;border-radius:8px;padding:8px;width:100%;cursor:pointer;font-size:.8rem;transition:all .2s;margin-top:4px}
+  .btn-add:hover{border-color:#D500F9;color:#D500F9}
+  .btn-remove{background:none;border:none;color:#ef5350;font-size:.8rem;cursor:pointer;float:right}
+  /* Preview */
+  .preview{background:#fff;color:#111;border-radius:8px;padding:24px;font-size:.82rem;line-height:1.6;overflow-y:auto;max-height:600px}
+  .preview h1{font-size:1.4rem;margin-bottom:4px;color:#111}
+  .preview h2{font-size:1.1rem;margin:16px 0 8px;color:#222;border-bottom:1px solid #ddd;padding-bottom:4px}
+  .preview h3{font-size:.95rem;margin:10px 0 4px;color:#333}
+  .preview .meta{color:#666;font-size:.78rem;margin-bottom:16px}
+  .preview .sev{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.72rem;font-weight:700;margin-right:6px}
+  .preview .c{background:#fde8e8;color:#c00}.preview .h{background:#fef3e8;color:#c73}.preview .m{background:#fefbe8;color:#aa8800}.preview .l{background:#e8f8e8;color:#383}
+  .cta-bar{text-align:center;margin-top:20px;padding:22px;background:#0d1321;border-radius:12px;border:1px solid #1e2a3a}
+  .cta-bar p{color:#8899aa;font-size:.85rem;margin-bottom:12px}
+  .btn-buy{display:inline-block;background:#D500F9;color:#fff;padding:11px 26px;border-radius:10px;font-weight:700;text-decoration:none}
+  .note{text-align:center;font-size:.75rem;color:#4a5568;margin-top:12px}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📄 Penetration Test Reporter — Demo</h1>
+  <a href="../index.html" class="back">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>Penetration Test Reporter</h2>
+  <p class="subtitle">Build professional pentest reports. Fill in findings and preview the formatted report in real time.</p>
+  <div class="layout">
+    <div>
+      <div class="panel" style="margin-bottom:14px">
+        <h3>Report Info</h3>
+        <label>Target System</label>
+        <input type="text" id="target" value="acme-app.example.com" oninput="preview()">
+        <label>Assessment Date</label>
+        <input type="date" id="date" oninput="preview()">
+        <label>Tester Name / Company</label>
+        <input type="text" id="tester" value="Security Kit Pentester" oninput="preview()">
+        <label>Scope</label>
+        <textarea id="scope" rows="2" oninput="preview()">Web application and supporting API endpoints at https://acme-app.example.com</textarea>
+      </div>
+      <div class="panel">
+        <h3>Findings <button class="btn btn-outline" style="margin-top:0;float:right;font-size:.75rem;padding:5px 12px" onclick="addDemoFindings()">+ Add Demo Findings</button></h3>
+        <div id="findingsList"></div>
+        <button class="btn-add" onclick="addFinding()">+ Add Finding</button>
+      </div>
+      <button class="btn" onclick="downloadReport()" style="width:100%;margin-top:12px">Download Report HTML</button>
+    </div>
+    <div class="panel">
+      <h3>Live Preview</h3>
+      <div class="preview" id="reportPreview">Fill in the form to see the report preview.</div>
+    </div>
+  </div>
+  <div class="cta-bar">
+    <p>Full version: PDF export, CVSS calculator, executive summary generator, remediation tracker, custom branding.</p>
+    <a href="https://buy.stripe.com/dRm9AT7mLb54dNEdSFgjJ1Q" class="btn-buy">Buy Full Version — $39</a>
+    <button class="crypto-pay-btn" data-product-slug="penetration-test-reporter" data-store-slug="security-kit" data-product-name="penetration-test-reporter" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+const findings = [];
+let findingId = 0;
+
+function addFinding(data) {
+  const id = ++findingId;
+  findings.push({ id, title: data?.title||'', sev: data?.sev||'High', cvss: data?.cvss||'', desc: data?.desc||'', repro: data?.repro||'', impact: data?.impact||'', fix: data?.fix||'' });
+  renderFindingForms();
+  preview();
+}
+
+function renderFindingForms() {
+  document.getElementById('findingsList').innerHTML = findings.map((f,i) => `
+    <div class="finding-form">
+      <h4>Finding #${i+1} <button class="btn-remove" onclick="removeFinding(${f.id})">Remove</button></h4>
+      <label>Title</label><input value="${esc(f.title)}" oninput="updateField(${f.id},'title',this.value)" placeholder="e.g. SQL Injection in login form">
+      <label>Severity</label><select onchange="updateField(${f.id},'sev',this.value)">
+        ${['Critical','High','Medium','Low'].map(s=>`<option ${f.sev===s?'selected':''}>${s}</option>`).join('')}
+      </select>
+      <label>CVSS Score</label><input value="${esc(f.cvss)}" oninput="updateField(${f.id},'cvss',this.value)" placeholder="e.g. 9.8">
+      <label>Description</label><textarea rows="2" oninput="updateField(${f.id},'desc',this.value)">${esc(f.desc)}</textarea>
+      <label>Impact</label><input value="${esc(f.impact)}" oninput="updateField(${f.id},'impact',this.value)" placeholder="What can an attacker do?">
+      <label>Remediation</label><input value="${esc(f.fix)}" oninput="updateField(${f.id},'fix',this.value)" placeholder="How to fix">
+    </div>`).join('');
+}
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function updateField(id, field, val) { const f = findings.find(x=>x.id===id); if(f) { f[field]=val; preview(); } }
+function removeFinding(id) { const i = findings.findIndex(x=>x.id===id); if(i>-1){findings.splice(i,1);renderFindingForms();preview();} }
+
+function addDemoFindings() {
+  findings.length = 0; findingId = 0;
+  addFinding({title:'SQL Injection in Login Form',sev:'Critical',cvss:'9.8',desc:"The username parameter in the login endpoint is not sanitized, allowing an attacker to bypass authentication using a classic tautology payload: ' OR '1'='1",impact:'Full authentication bypass; ability to enumerate and extract all user records from the database.',fix:'Use parameterized queries or prepared statements. Never interpolate user input directly into SQL strings.'});
+  addFinding({title:'Stored XSS in Profile Bio',sev:'High',cvss:'7.5',desc:'User-supplied bio text is rendered without HTML encoding, allowing stored cross-site scripting. Malicious scripts execute for every visitor who views the profile.',impact:"Session hijacking, credential theft, defacement, and phishing attacks against all users who view the victim's profile.",fix:'HTML-encode all user-supplied content before rendering. Implement a strict Content Security Policy.'});
+  addFinding({title:'Missing Rate Limiting on Password Reset',sev:'Medium',cvss:'5.3',desc:'The /api/auth/reset-password endpoint accepts unlimited requests with no rate limiting or CAPTCHA, enabling brute-force enumeration of valid email addresses.',impact:'Attacker can enumerate registered email addresses and flood users with reset emails.',fix:'Implement rate limiting (max 3 requests per hour per IP and per email). Add CAPTCHA for repeated attempts.'});
+}
+
+function preview() {
+  const target = document.getElementById('target').value || '(target)';
+  const date = document.getElementById('date').value || new Date().toISOString().slice(0,10);
+  const tester = document.getElementById('tester').value || '(tester)';
+  const scope = document.getElementById('scope').value || '(scope)';
+  const sevLabel = {Critical:'c',High:'h',Medium:'m',Low:'l'};
+  const counts = {Critical:0,High:0,Medium:0,Low:0};
+  findings.forEach(f=>{if(counts[f.sev]!==undefined)counts[f.sev]++;});
+  document.getElementById('reportPreview').innerHTML = `
+    <h1>Penetration Test Report</h1>
+    <div class="meta">Target: <b>${esc(target)}</b> &nbsp;|&nbsp; Date: ${date} &nbsp;|&nbsp; Tester: ${esc(tester)}</div>
+    <h2>Scope</h2><p>${esc(scope)}</p>
+    <h2>Executive Summary</h2>
+    <p>A penetration test was conducted against <b>${esc(target)}</b>. Testing identified <b>${findings.length}</b> finding(s):
+    ${counts.Critical?`<span class="sev c">${counts.Critical} Critical</span>`:''}
+    ${counts.High?`<span class="sev h">${counts.High} High</span>`:''}
+    ${counts.Medium?`<span class="sev m">${counts.Medium} Medium</span>`:''}
+    ${counts.Low?`<span class="sev l">${counts.Low} Low</span>`:''}
+    ${!findings.length?'No findings recorded yet.':''}
+    </p>
+    <h2>Findings</h2>
+    ${findings.length ? findings.map((f,i) => `
+      <h3>${i+1}. ${esc(f.title)} <span class="sev ${sevLabel[f.sev]||'l'}">${f.sev}${f.cvss?' (CVSS '+f.cvss+')':''}</span></h3>
+      ${f.desc?`<p><b>Description:</b> ${esc(f.desc)}</p>`:''}
+      ${f.impact?`<p><b>Impact:</b> ${esc(f.impact)}</p>`:''}
+      ${f.fix?`<p><b>Remediation:</b> ${esc(f.fix)}</p>`:''}
+    `).join('') : '<p style="color:#999">No findings added yet.</p>'}
+    <h2>Disclaimer</h2>
+    <p style="color:#666;font-size:.75rem">This report was generated by Security Kit Penetration Test Reporter (demo). Generated on ${new Date().toLocaleDateString()}.</p>`;
+}
+
+function downloadReport() {
+  const html = document.getElementById('reportPreview').innerHTML;
+  const full = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Pentest Report</title><style>body{font-family:sans-serif;max-width:800px;margin:40px auto;padding:0 20px;color:#111}h1{font-size:1.6rem}h2{border-bottom:1px solid #ddd;padding-bottom:4px}h3{margin-top:16px}.sev{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.75rem;font-weight:700}.c{background:#fde8e8;color:#c00}.h{background:#fef3e8;color:#c73}.m{background:#fefbe8;color:#aa8800}.l{background:#e8f8e8;color:#383}  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style></head><body>${html}<script src="../crypto-checkout.js"></script>
+</body></html>`;
+  const blob = new Blob([full],{type:'text/html'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'pentest-report.html'; a.click();
+}
+preview();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

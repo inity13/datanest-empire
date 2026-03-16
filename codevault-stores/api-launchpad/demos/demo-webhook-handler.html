@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Webhook Handler Demo — API Launchpad</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0A0E1A;color:#E2E8F0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+header{background:#0F1628;border-bottom:1px solid #1E2A45;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+header h1{font-size:1.1rem;color:#FF9100;font-weight:700}
+header span{font-size:0.8rem;color:#64748B;background:#1E2A45;padding:4px 10px;border-radius:20px}
+.container{flex:1;padding:24px;max-width:920px;margin:0 auto;width:100%}
+h2{font-size:1.3rem;margin-bottom:6px;color:#F1F5F9}
+.subtitle{color:#64748B;font-size:0.9rem;margin-bottom:20px}
+.endpoint-bar{background:#0F1628;border:1px solid #FF9100;border-radius:8px;padding:12px 16px;display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.endpoint-label{font-size:.75rem;color:#64748B;text-transform:uppercase;letter-spacing:.05em;flex-shrink:0}
+.endpoint-url{font-family:'Courier New',monospace;color:#FF9100;font-size:.88rem;flex:1;word-break:break-all}
+.copy-ep-btn{background:#1E2A45;border:1px solid #2D3748;color:#CBD5E1;padding:5px 12px;border-radius:4px;font-size:.78rem;cursor:pointer;white-space:nowrap}
+.copy-ep-btn:hover{border-color:#FF9100;color:#FF9100}
+.layout{display:grid;grid-template-columns:1fr 340px;gap:16px}
+@media(max-width:700px){.layout{grid-template-columns:1fr}}
+.panel{background:#0F1628;border:1px solid #1E2A45;border-radius:12px;overflow:hidden}
+.panel-header{background:#1E2A45;padding:10px 16px;font-size:.85rem;color:#94A3B8;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.events-list{max-height:400px;overflow-y:auto}
+.event-item{border-bottom:1px solid #0A0E1A;padding:10px 14px;cursor:pointer;transition:.15s;display:flex;gap:10px;align-items:flex-start}
+.event-item:hover,.event-item.active{background:#0A0E1A}
+.event-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.dot-green{background:#4ADE80}
+.dot-red{background:#F87171}
+.dot-yellow{background:#FBBF24}
+.event-meta{flex:1;min-width:0}
+.event-type{font-size:.82rem;font-weight:600;color:#F1F5F9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.event-time{font-size:.72rem;color:#475569}
+.event-source{font-size:.72rem;color:#64748B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.event-status{font-size:.72rem;font-weight:700;white-space:nowrap}
+.status-200{color:#4ADE80}
+.status-400{color:#F87171}
+.status-pending{color:#FBBF24}
+.detail-panel{padding:16px}
+.detail-section{margin-bottom:16px}
+.detail-label{font-size:.72rem;color:#64748B;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.detail-value{font-size:.82rem;color:#F1F5F9}
+.headers-list{font-family:'Courier New',monospace;font-size:.75rem;color:#94E2C8}
+.headers-list div{padding:2px 0;border-bottom:1px solid #0A0E1A}
+.body-preview{background:#0A0E1A;border:1px solid #1E2A45;border-radius:5px;padding:10px;font-family:'Courier New',monospace;font-size:.78rem;color:#94E2C8;white-space:pre-wrap;max-height:180px;overflow-y:auto}
+.send-section{background:#0F1628;border:1px solid #1E2A45;border-radius:12px;padding:16px;margin-bottom:16px}
+.send-title{font-size:.85rem;font-weight:700;color:#FF9100;margin-bottom:12px}
+label{font-size:.78rem;color:#94A3B8;display:block;margin-bottom:3px;margin-top:8px}
+select,textarea{width:100%;background:#0A0E1A;border:1px solid #1E2A45;color:#F1F5F9;padding:8px 11px;border-radius:5px;font-size:.83rem;outline:none}
+select:focus,textarea:focus{border-color:#FF9100}
+textarea{font-family:'Courier New',monospace;color:#94E2C8;resize:vertical}
+.btn{padding:9px 18px;border-radius:6px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;transition:.2s;margin-top:10px}
+.btn-primary{background:#FF9100;color:#0A0E1A;width:100%}
+.btn-primary:hover{background:#FFA733}
+.empty-state{padding:30px;text-align:center;color:#475569;font-size:.85rem}
+.sig-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.72rem;font-weight:700;margin-left:8px}
+.sig-valid{background:#065F46;color:#6EE7B7}
+.sig-invalid{background:#7F1D1D;color:#FCA5A5}
+.cta{background:linear-gradient(135deg,#FF9100,#FF5F00);color:#0A0E1A;border:none;padding:14px 32px;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px;transition:opacity .2s}
+.cta:hover{opacity:.9}
+footer{text-align:center;padding:16px;color:#475569;font-size:0.8rem;border-top:1px solid #1E2A45;margin-top:auto}
+footer a{color:#FF9100;text-decoration:none}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <h1>🔔 Webhook Handler</h1>
+  <span>Demo — Limited Features</span>
+</header>
+<div class="container">
+  <h2>Webhook Testing & Payload Inspector</h2>
+  <p class="subtitle">Simulate incoming webhooks, inspect headers and payloads, and validate signatures — all in real-time.</p>
+
+  <div class="endpoint-bar">
+    <span class="endpoint-label">Your endpoint:</span>
+    <span class="endpoint-url" id="endpoint-url">https://webhook.datanest.dev/demo/abc123xyz</span>
+    <button class="copy-ep-btn" onclick="copyEndpoint()">Copy URL</button>
+    <span style="font-size:.72rem;color:#4ADE80">● Active</span>
+  </div>
+
+  <div class="layout">
+    <div>
+      <div class="panel">
+        <div class="panel-header">
+          Incoming Events
+          <span id="event-count" style="background:#0A0E1A;padding:2px 8px;border-radius:10px;font-size:.75rem">0</span>
+        </div>
+        <div class="events-list" id="events-list">
+          <div class="empty-state">Send a test webhook below to see it appear here</div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;background:#0F1628;border:1px solid #1E2A45;border-radius:12px;overflow:hidden">
+        <div style="background:#1E2A45;padding:10px 16px;font-size:.85rem;color:#94A3B8;font-weight:600">Event Detail</div>
+        <div class="detail-panel" id="detail-panel">
+          <div style="color:#475569;font-size:.83rem">Select an event to inspect its payload</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="send-section">
+        <div class="send-title">Send Test Webhook</div>
+        <label>Event Type</label>
+        <select id="event-type">
+          <option value="payment.completed">payment.completed</option>
+          <option value="user.created">user.created</option>
+          <option value="order.shipped">order.shipped</option>
+          <option value="subscription.cancelled">subscription.cancelled</option>
+          <option value="form.submitted">form.submitted</option>
+          <option value="custom">custom event</option>
+        </select>
+        <label>Source</label>
+        <select id="event-source">
+          <option>Stripe</option>
+          <option>GitHub</option>
+          <option>Shopify</option>
+          <option>Custom</option>
+        </select>
+        <label>Payload (JSON)</label>
+        <textarea id="payload-input" rows="6">{"event": "payment.completed", "data": {"id": "pay_abc123", "amount": 4900, "currency": "usd", "customer": "cus_xyz"}}</textarea>
+        <label>Include Signature</label>
+        <select id="sig-option">
+          <option value="valid">Valid HMAC signature</option>
+          <option value="invalid">Invalid signature</option>
+          <option value="none">No signature</option>
+        </select>
+        <button class="btn btn-primary" onclick="fireWebhook()">Fire Webhook</button>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">Quick Fire Presets</div>
+        <div style="padding:12px;display:flex;flex-direction:column;gap:8px">
+          <button onclick="firePreset('stripe')" style="background:#0A0E1A;border:1px solid #1E2A45;color:#CBD5E1;padding:8px 12px;border-radius:5px;cursor:pointer;font-size:.82rem;text-align:left;transition:.2s" onmouseover="this.style.borderColor='#FF9100'" onmouseout="this.style.borderColor='#1E2A45'">💳 Stripe — payment.intent.succeeded</button>
+          <button onclick="firePreset('github')" style="background:#0A0E1A;border:1px solid #1E2A45;color:#CBD5E1;padding:8px 12px;border-radius:5px;cursor:pointer;font-size:.82rem;text-align:left;transition:.2s" onmouseover="this.style.borderColor='#FF9100'" onmouseout="this.style.borderColor='#1E2A45'">🐙 GitHub — push event</button>
+          <button onclick="firePreset('shopify')" style="background:#0A0E1A;border:1px solid #1E2A45;color:#CBD5E1;padding:8px 12px;border-radius:5px;cursor:pointer;font-size:.82rem;text-align:left;transition:.2s" onmouseover="this.style.borderColor='#FF9100'" onmouseout="this.style.borderColor='#1E2A45'">🛍️ Shopify — order created</button>
+          <button onclick="firePreset('fail')" style="background:#0A0E1A;border:1px solid #1E2A45;color:#CBD5E1;padding:8px 12px;border-radius:5px;cursor:pointer;font-size:.82rem;text-align:left;transition:.2s" onmouseover="this.style.borderColor='#F87171'" onmouseout="this.style.borderColor='#1E2A45'">⚠️ Malformed payload (400 test)</button>
+        </div>
+      </div>
+
+      <a class="cta" href="https://buy.stripe.com/fZufZhayX6OOaBsg0NgjJ02">Buy Full Version — $29.00 →</a>
+    <button class="crypto-pay-btn" data-product-slug="webhook-handler" data-store-slug="api-launchpad" data-product-name="Webhook Handler" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+    </div>
+  </div>
+</div>
+<footer>
+  This demo shows limited functionality. Buy the full tool for all features.<br>
+  <a href="../index.html">← Back to API Launchpad Store</a>
+</footer>
+
+<script>
+let events = [];
+let selectedIdx = null;
+
+const PRESETS = {
+  stripe: {
+    type: 'payment_intent.succeeded', source: 'Stripe',
+    payload: '{"id":"evt_1abc","type":"payment_intent.succeeded","data":{"object":{"id":"pi_abc","amount":4900,"currency":"usd","status":"succeeded","customer":"cus_xyz","receipt_email":"alice@example.com"}}}',
+    sig: 'valid'
+  },
+  github: {
+    type: 'push', source: 'GitHub',
+    payload: '{"ref":"refs/heads/main","repository":{"name":"my-repo","full_name":"alice/my-repo"},"pusher":{"name":"alice","email":"alice@example.com"},"commits":[{"id":"abc123","message":"Fix rate limiter bug","added":[],"modified":["src/limiter.py"]}]}',
+    sig: 'valid'
+  },
+  shopify: {
+    type: 'orders/create', source: 'Shopify',
+    payload: '{"id":1234567890,"email":"bob@example.com","total_price":"49.99","currency":"USD","line_items":[{"title":"API Launchpad Pro","quantity":1,"price":"49.99"}]}',
+    sig: 'valid'
+  },
+  fail: {
+    type: 'unknown.event', source: 'Custom',
+    payload: '{this is not valid json!!!',
+    sig: 'invalid'
+  }
+};
+
+function now() {
+  return new Date().toLocaleTimeString();
+}
+
+function randomId() {
+  return 'evt_' + Math.random().toString(36).slice(2,10);
+}
+
+function addEvent(type, source, payload, sig, status) {
+  const ev = { id: randomId(), type, source, payload, sig, status, time: now() };
+  events.unshift(ev);
+  selectedIdx = 0;
+  renderList();
+  renderDetail(0);
+}
+
+function fireWebhook() {
+  const type = document.getElementById('event-type').value;
+  const source = document.getElementById('event-source').value;
+  const payload = document.getElementById('payload-input').value;
+  const sig = document.getElementById('sig-option').value;
+
+  let status = 200;
+  try { JSON.parse(payload); } catch(e) { status = 400; }
+  if (sig === 'invalid') status = 401;
+
+  addEvent(type, source, payload, sig, status);
+}
+
+function firePreset(key) {
+  const p = PRESETS[key];
+  let status = 200;
+  try { JSON.parse(p.payload); } catch(e) { status = 400; }
+  if (p.sig === 'invalid') status = 401;
+  addEvent(p.type, p.source, p.payload, p.sig, status);
+}
+
+function renderList() {
+  const list = document.getElementById('events-list');
+  document.getElementById('event-count').textContent = events.length;
+  list.innerHTML = events.map((ev, i) => `
+    <div class="event-item ${i === selectedIdx ? 'active' : ''}" onclick="selectEvent(${i})">
+      <div class="event-dot ${ev.status === 200 ? 'dot-green' : ev.status === 401 ? 'dot-red' : 'dot-yellow'}"></div>
+      <div class="event-meta">
+        <div class="event-type">${ev.type}</div>
+        <div class="event-source">${ev.source} · ${ev.id}</div>
+      </div>
+      <div>
+        <div class="event-time">${ev.time}</div>
+        <div class="event-status status-${ev.status}">${ev.status}</div>
+      </div>
+    </div>`).join('');
+}
+
+function selectEvent(i) {
+  selectedIdx = i;
+  renderList();
+  renderDetail(i);
+}
+
+function renderDetail(i) {
+  const ev = events[i];
+  if (!ev) return;
+  let bodyFormatted = ev.payload;
+  let parseError = false;
+  try { bodyFormatted = JSON.stringify(JSON.parse(ev.payload), null, 2); } catch(e) { parseError = true; }
+
+  const sigBadge = ev.sig === 'valid'
+    ? '<span class="sig-badge sig-valid">✓ Valid</span>'
+    : ev.sig === 'invalid'
+    ? '<span class="sig-badge sig-invalid">✗ Invalid</span>'
+    : '<span style="color:#64748B;font-size:.72rem">None</span>';
+
+  document.getElementById('detail-panel').innerHTML = `
+    <div class="detail-section">
+      <div class="detail-label">Event ID</div>
+      <div class="detail-value" style="font-family:Courier New,monospace;color:#FF9100">${ev.id}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-label">Type & Source</div>
+      <div class="detail-value">${ev.type} <span style="color:#64748B">from</span> ${ev.source}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-label">Headers</div>
+      <div class="headers-list">
+        <div>Content-Type: application/json</div>
+        <div>X-Webhook-Event: ${ev.type}</div>
+        <div>X-Webhook-Signature: ${ev.sig !== 'none' ? 'sha256=a1b2c3...' + sigBadge : '—'}</div>
+        <div>User-Agent: ${ev.source}-Webhooks/1.0</div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-label">Payload ${parseError ? '<span style="color:#F87171;font-size:.7rem">⚠ Invalid JSON</span>' : ''}</div>
+      <div class="body-preview">${bodyFormatted.replace(/</g,'&lt;')}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-label">Response Sent</div>
+      <div class="detail-value" style="color:${ev.status===200?'#4ADE80':ev.status===401?'#F87171':'#FBBF24'}">${ev.status} ${ev.status===200?'OK':ev.status===401?'Unauthorized':'Bad Request'}</div>
+    </div>`;
+}
+
+function copyEndpoint() {
+  navigator.clipboard.writeText(document.getElementById('endpoint-url').textContent).catch(()=>{});
+}
+
+// Pre-populate with one event
+firePreset('stripe');
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

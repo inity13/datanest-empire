@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DKIM Validator &mdash; Email Arsenal &mdash; CodeVault</title>
+    <meta name="description" content="Python tool to generate and validate DKIM signatures and DNS records. Debug authentication failures before they tank your deliverability.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F4E7;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#FF3366">
+    <script defer data-domain="email-arsenal.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Email Arsenal</a>
+        <h1 class="preview-page__title">DKIM Validator</h1>
+        <p class="preview-page__price">$4.99</p>
+        <p class="preview-page__desc">Python tool to generate and validate DKIM signatures and DNS records. Debug authentication failures before they tank your deliverability. Parse DKIM-Signature headers, verify DNS records, and get actionable diagnostics.</p>
+
+        <ul class="preview-page__features">
+            <li>DKIM-Signature header parsing and field validation</li>
+            <li>DNS TXT record lookup for DKIM public keys</li>
+            <li>Key format validation (RSA key size, encoding)</li>
+            <li>Selector discovery and enumeration</li>
+            <li>Canonicalization mode checking (simple vs relaxed)</li>
+            <li>Header/body hash verification walkthrough</li>
+            <li>Diagnostic report with step-by-step fix instructions</li>
+            <li>DNS record generator for common providers</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Validate DKIM for a domain
+python dkim_validator.py check --domain example.com --selector default
+
+# Parse a DKIM-Signature header
+python dkim_validator.py parse --header-file dkim_header.txt
+
+# Generate a DKIM DNS record
+python dkim_validator.py generate --domain example.com --selector mail</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_dkim_validator"
+               data-product="dkim-validator">
+                Grab This &mdash; $4.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="DKIM Validator"
+                    data-crypto-price="499">
+                Pay with Crypto ($3.99)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

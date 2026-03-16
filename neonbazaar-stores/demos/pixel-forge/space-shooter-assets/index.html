@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Space Shooter Demo — Pixel Forge</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#06060c;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:'Courier New',monospace;color:#ccc}
+  h1{color:#00ccff;margin-bottom:.5rem}
+  .info{color:#5a5a6e;margin-bottom:1rem;font-size:.85rem}
+  canvas{border:2px solid #1a1a2e;image-rendering:pixelated;image-rendering:crisp-edges;cursor:crosshair}
+  .controls{margin-top:1rem;display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center}
+  .ctrl-btn{background:#0e0e1a;color:#00ccff;border:1px solid #1a1a2e;padding:6px 14px;border-radius:4px;cursor:pointer;font-family:inherit;font-size:.8rem}
+  .ctrl-btn.active{border-color:#00ccff;color:#ffffff}
+  .ctrl-btn:hover{background:#1a1a2e}
+  .stats{margin-top:.5rem;color:#5a5a6e;font-size:.75rem}
+</style>
+</head>
+<body>
+<h1>SPACE SHOOTER DEMO</h1>
+<p class="info">Move mouse to fly | Click to shoot | Select ship below</p>
+<canvas id="demo" width="640" height="480"></canvas>
+<div class="controls" id="controls"></div>
+<div class="stats" id="stats"></div>
+
+<script>
+// ─── Palette ─────────────────────────────────────────────────────────
+const P={
+  '_':null,'V':'#06060c','D':'#0e0e1a','G':'#5a5a6e','H':'#8a8a9e',
+  'B':'#2244cc','C':'#00ccff','g':'#00ff66','r':'#ff2244',
+  'P':'#9944ff','p':'#ff44cc','S':'#4488ff','d':'#4a3a2a',
+  'a':'#7a6a5a','O':'#ff6622','Y':'#ffcc22','W':'#ffffff'
+};
+
+// ─── Sprite Data ─────────────────────────────────────────────────────
+const SPRITES = {
+  fighter: [
+    "________________________________",
+    "________________________________",
+    "_______________WG_______________",
+    "______________GHG_______________",
+    "_____________GHHG_______________",
+    "_____________GHHG_______________",
+    "____________GHHHG_______________",
+    "____________GHCHG_______________",
+    "___________GHHHHG_______________",
+    "___________GHHHHG_______________",
+    "__________GHHHHHG_______________",
+    "__________GHHHHHG_______________",
+    "_________GHHHHHHG_______________",
+    "________GHHHHHHHG_______________",
+    "________GHHGHHHGG_______________",
+    "_______GHHGHHHGHG_______________",
+    "_______GHHGHHHGHG_______________",
+    "______GHGGHHHHGGHG______________",
+    "______GHG_GHHHG_GHG_____________",
+    "_____GHG__GHHHG__GHG____________",
+    "_____GHG__GHHHG__GHG____________",
+    "____GBG___GHHHG___GBG___________",
+    "____GBG___GHHGG___GBG___________",
+    "____GCG___GGGG____GCG___________",
+    "____BCB_____G_____BCB___________",
+    "____BCB___________BCB___________",
+    "_____C_____________C____________",
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "________________________________"
+  ],
+  bomber: [
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "______________GHG_______________",
+    "_____________GHHHG______________",
+    "____________GHHHHG______________",
+    "___________GHHHHHG______________",
+    "___________GHHHHHG______________",
+    "__________GHHHHHHG______________",
+    "_________GHHHCHHHG______________",
+    "_________GHHHHHHHHG_____________",
+    "________GHHHHHHHHHG_____________",
+    "_______GHHHHHHHHHHG_____________",
+    "______GHHGHHHHHHGHG_____________",
+    "______GHGHHHHHHHGHG_____________",
+    "_____GHGGHHHHHHHGGHG____________",
+    "____GGHGGHHHHHHHGGHGG___________",
+    "___GHHHG_GHHHHGG_GHHHG__________",
+    "___GHHG__GHHHHG__GHHG___________",
+    "___GHG___GHHHHG___GHG___________",
+    "___GBG___GHHHHG___GBG___________",
+    "___GBG__GGHHHHGG__GBG___________",
+    "___GBG__GBBBBBBBG_GBG___________",
+    "___GCG__GBCCCCBG__GCG___________",
+    "___BCB__GBCCCCBG__BCB___________",
+    "____C___GCCCCCG____C____________",
+    "________GCCCCCG_________________",
+    "_________CCCCC__________________",
+    "__________CCC___________________",
+    "________________________________",
+    "________________________________",
+    "________________________________"
+  ],
+  scout: [
+    "________________________",
+    "___________WH___________",
+    "__________GHG___________",
+    "__________GHG___________",
+    "_________GHHG___________",
+    "_________GCHG___________",
+    "________GHHHG___________",
+    "________GHHHG___________",
+    "_______GHHHHG___________",
+    "_______GHHHHG___________",
+    "______GHHHHHG___________",
+    "______GHHGHG____________",
+    "_____GHHGHGG____________",
+    "____GHGGHHHG_GG_________",
+    "____GG_GHHHG_GHG________",
+    "_______GHHHG_GBG________",
+    "_______GHHGG_GCG________",
+    "_______GGGG__BCB________",
+    "________GG____C_________",
+    "________________________",
+    "________________________",
+    "________________________",
+    "________________________",
+    "________________________"
+  ]
+};
+
+const ENEMY_SPRITES = {
+  drone: [
+    "________________",
+    "______rr________",
+    "_____rPPr_______",
+    "____GPPPPG______",
+    "___GPPPPPGG_____",
+    "___GPPPHPPG_____",
+    "__GPPPPPPPPG____",
+    "_GPGPPPPPGPG____",
+    "GPG_GPPPPG_GPG__",
+    "GG__GPPPPG__GG__",
+    "____GPPPGG______",
+    "____GGGG________",
+    "_____rr_________",
+    "________________",
+    "________________",
+    "________________"
+  ],
+  cruiser: [
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "______________rr________________",
+    "_____________rPPr_______________",
+    "____________GPPPPG______________",
+    "___________GPPPPPPG_____________",
+    "__________GPPPPPPPPG____________",
+    "__________GPHPPPPPPG____________",
+    "_________GPPPPPPPPPPG___________",
+    "________GPPPPPPPPPPPPG__________",
+    "_______GPPGPPPPPPPGPPG__________",
+    "______GPGPGPPPPPPPGPGPG_________",
+    "______GPGPGPPPPPPPGPGPG_________",
+    "_____GGPG_GPPPPPPPG_GPGG________",
+    "_____GPG__GPPPPPPPPG_GPG________",
+    "_____GrG__GPPPPPPPG__GrG________",
+    "_____GrG___GPPPPGG___GrG________",
+    "______r____GGGGGG_____r_________",
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "________________________________"
+  ]
+};
+
+const ASTEROID_SPRITES = {
+  small: [
+    "________________",
+    "____dddddd______",
+    "___daaaaaddd____",
+    "__daaaaaaaddd___",
+    "__daaadaaaaadd__",
+    "_daaaadaaaaadd__",
+    "_daaaaaaaadddd__",
+    "_daaaaaaadddad__",
+    "_daadaaaaaaaad__",
+    "_daaaaadaaaaad__",
+    "__daaaaaaaaaad__",
+    "__daadaaaaddd___",
+    "___daaaaaaddd___",
+    "____ddddddd____",
+    "________________",
+    "________________"
+  ],
+  medium: [
+    "________________________________",
+    "________________________________",
+    "_________dddddddddd_____________",
+    "________daaaaaaaaaddd____________",
+    "_______daaaaaadaaaaadd___________",
+    "______daaaaaaaaaaaaaaddd_________",
+    "_____daaaadaaaaaaaaaaadd_________",
+    "_____daaaaaaaaaaaadaaadd_________",
+    "____daaaaaaaaaadaaaaaddd_________",
+    "____daaadaaaaaaaaaaaadddd________",
+    "___daaaaaaaadaaaaaaaaaddd________",
+    "___daaaaaaaaaaaadaaaaaaddd_______",
+    "___daaaadaaaaaaaaaaaaaaaddd______",
+    "___daaaaaaaaadaaaadaaaaadd_______",
+    "___daadaaaaaaaaaaaaaaadddd_______",
+    "___daaaaaadaaaaaadaaaaddd________",
+    "____daaaaaaaaaaaaaaadddd_________",
+    "____daadaaaaadaaaaaaddd__________",
+    "_____daaaaaaaaaadddddd___________",
+    "_____daaadaaaaaddddd_____________",
+    "______daaaaaddddd________________",
+    "_______ddddddddd________________",
+    "________ddddddd_________________",
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "________________________________",
+    "________________________________"
+  ]
+};
+
+const PROJECTILE_SPRITES = {
+  laser_green: [
+    "___WW___",
+    "__WggW__",
+    "__WggW__",
+    "___gg___",
+    "___gg___",
+    "___gg___",
+    "___gg___",
+    "___gg___",
+    "___gg___",
+    "___gg___",
+    "___gg___",
+    "___gg___",
+    "___gg___",
+    "___gg___",
+    "___gg___",
+    "____g___"
+  ],
+  laser_red: [
+    "____r___",
+    "___rr___",
+    "___rr___",
+    "___rr___",
+    "___rr___",
+    "___rr___",
+    "___rr___",
+    "___rr___",
+    "___rr___",
+    "___rr___",
+    "___rr___",
+    "___rr___",
+    "___rr___",
+    "__WrrW__",
+    "__WrrW__",
+    "___WW___"
+  ]
+};
+
+// ─── Explosion frames ────────────────────────────────────────────────
+const EXPLOSION_FRAMES = [
+  ["________________","________________","________________","________________","________________","________________","_______OO_______","______OYYO______","______OYYO______","_______OO_______","________________","________________","________________","________________","________________","________________"],
+  ["________________","________________","________________","________________","______OOOO______","_____OOYOO______","____OOYWYO______","____OYWWYO______","____OYWWYO______","____OOYWYO______","_____OOYOO______","______OOOO______","________________","________________","________________","________________"],
+  ["________________","________________","_____OOOOOO_____","____OOOYYOOO____","___OOOYWWYOOO___","___OOYWWWWYOO___","__OOOYWWWWYOOO__","__OOYWWWWWWYOO__","__OOYWWWWWWYOO__","__OOOYWWWWYOOO__","___OOYWWWWYOO___","___OOOYWWYOOO___","____OOOYYOOO____","_____OOOOOO_____","________________","________________"],
+  ["________________","________________","_____DDDDDD_____","____DDDOODDD____","___DDDOYYODDD___","___DDOYOOYODD___","__DDDOYOOYODDD__","__DDOYOOOOOYOD__","__DDOYOOOOOYOD__","__DDDOYOOYODDD__","___DDOYOOYODD___","___DDDOYYODDD___","____DDDOODDD____","_____DDDDDD_____","________________","________________"]
+];
+
+const W = 640, H = 480;
+const canvas = document.getElementById('demo');
+const ctx = canvas.getContext('2d');
+const SCALE = 2;
+
+// ─── State ───────────────────────────────────────────────────────────
+let playerX = W / 2, playerY = H - 80;
+let selectedShip = 'fighter';
+let lasers = [];
+let enemyLasers = [];
+let enemies = [];
+let asteroids = [];
+let explosions = [];
+let score = 0;
+
+// ─── Stars ───────────────────────────────────────────────────────────
+const stars = [];
+for (let i = 0; i < 120; i++) {
+  stars.push({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    s: Math.random() * 1.5 + 0.5,
+    speed: Math.random() * 0.5 + 0.2,
+    b: Math.random() * Math.PI * 2
+  });
+}
+
+// ─── Draw pixel sprite ──────────────────────────────────────────────
+function drawSprite(data, x, y, scale) {
+  scale = scale || SCALE;
+  const h = data.length;
+  const w = data[0].length;
+  for (let row = 0; row < h; row++) {
+    for (let col = 0; col < w; col++) {
+      const c = data[row][col];
+      const color = P[c];
+      if (!color) continue;
+      ctx.fillStyle = color;
+      ctx.fillRect(x + col * scale, y + row * scale, scale, scale);
+    }
+  }
+}
+
+// ─── Spawn enemies ──────────────────────────────────────────────────
+function spawnEnemy() {
+  const types = ['drone', 'cruiser'];
+  const type = types[Math.floor(Math.random() * types.length)];
+  const sprite = ENEMY_SPRITES[type];
+  const w = sprite[0].length * SCALE;
+  enemies.push({
+    type: type,
+    x: Math.random() * (W - w),
+    y: -sprite.length * SCALE,
+    speed: type === 'drone' ? 1.5 : 0.8,
+    shootTimer: 0,
+    shootInterval: type === 'drone' ? 120 : 60
+  });
+}
+
+// ─── Spawn asteroids ────────────────────────────────────────────────
+function spawnAsteroid() {
+  const types = ['small', 'medium'];
+  const type = types[Math.floor(Math.random() * types.length)];
+  const sprite = ASTEROID_SPRITES[type];
+  const w = sprite[0].length * SCALE;
+  asteroids.push({
+    type: type,
+    x: Math.random() * (W - w),
+    y: -sprite.length * SCALE,
+    speed: type === 'small' ? 1.2 : 0.7,
+    rot: 0
+  });
+}
+
+// ─── Collision detection ────────────────────────────────────────────
+function rectsOverlap(ax, ay, aw, ah, bx, by, bw, bh) {
+  return ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by;
+}
+
+// ─── Main loop ──────────────────────────────────────────────────────
+let lastTime = 0;
+let spawnTimer = 0;
+let asteroidTimer = 0;
+
+function render(time) {
+  const dt = time - lastTime;
+  lastTime = time;
+
+  // Clear
+  ctx.fillStyle = '#06060c';
+  ctx.fillRect(0, 0, W, H);
+
+  // Stars
+  stars.forEach(s => {
+    s.y += s.speed;
+    s.b += 0.02;
+    if (s.y > H) { s.y = 0; s.x = Math.random() * W; }
+    const brightness = Math.sin(s.b) * 0.3 + 0.7;
+    const alpha = Math.floor(brightness * 255).toString(16).padStart(2, '0');
+    ctx.fillStyle = '#ffffff' + alpha;
+    ctx.fillRect(s.x, s.y, s.s, s.s);
+  });
+
+  // Spawn
+  spawnTimer++;
+  if (spawnTimer > 90) { spawnTimer = 0; spawnEnemy(); }
+  asteroidTimer++;
+  if (asteroidTimer > 120) { asteroidTimer = 0; spawnAsteroid(); }
+
+  // Player
+  const shipData = SPRITES[selectedShip];
+  const shipW = shipData[0].length * SCALE;
+  const shipH = shipData.length * SCALE;
+  const px = playerX - shipW / 2;
+  const py = playerY - shipH / 2;
+  drawSprite(shipData, px, py, SCALE);
+
+  // Player lasers
+  lasers = lasers.filter(l => {
+    l.y -= 6;
+    if (l.y < -32) return false;
+    drawSprite(PROJECTILE_SPRITES.laser_green, l.x, l.y, SCALE);
+    return true;
+  });
+
+  // Enemies
+  enemies = enemies.filter(e => {
+    e.y += e.speed;
+    if (e.y > H + 100) return false;
+    const sprite = ENEMY_SPRITES[e.type];
+    drawSprite(sprite, e.x, e.y, SCALE);
+
+    // Enemy shooting
+    e.shootTimer++;
+    if (e.shootTimer >= e.shootInterval) {
+      e.shootTimer = 0;
+      const ew = sprite[0].length * SCALE;
+      enemyLasers.push({
+        x: e.x + ew / 2 - 8,
+        y: e.y + sprite.length * SCALE
+      });
+    }
+
+    // Check laser hits
+    const ew = sprite[0].length * SCALE;
+    const eh = sprite.length * SCALE;
+    for (let i = lasers.length - 1; i >= 0; i--) {
+      const l = lasers[i];
+      const lw = 8 * SCALE, lh = 16 * SCALE;
+      if (rectsOverlap(l.x, l.y, lw, lh, e.x, e.y, ew, eh)) {
+        lasers.splice(i, 1);
+        explosions.push({ x: e.x + ew/2, y: e.y + eh/2, frame: 0, timer: 0 });
+        score += e.type === 'drone' ? 10 : 25;
+        return false;
+      }
+    }
+    return true;
+  });
+
+  // Enemy lasers
+  enemyLasers = enemyLasers.filter(l => {
+    l.y += 4;
+    if (l.y > H + 32) return false;
+    drawSprite(PROJECTILE_SPRITES.laser_red, l.x, l.y, SCALE);
+    return true;
+  });
+
+  // Asteroids
+  asteroids = asteroids.filter(a => {
+    a.y += a.speed;
+    if (a.y > H + 100) return false;
+    const sprite = ASTEROID_SPRITES[a.type];
+    drawSprite(sprite, a.x, a.y, SCALE);
+
+    // Check laser hits on asteroids
+    const aw = sprite[0].length * SCALE;
+    const ah = sprite.length * SCALE;
+    for (let i = lasers.length - 1; i >= 0; i--) {
+      const l = lasers[i];
+      const lw = 8 * SCALE, lh = 16 * SCALE;
+      if (rectsOverlap(l.x, l.y, lw, lh, a.x, a.y, aw, ah)) {
+        lasers.splice(i, 1);
+        explosions.push({ x: a.x + aw/2, y: a.y + ah/2, frame: 0, timer: 0 });
+        score += 5;
+        return false;
+      }
+    }
+    return true;
+  });
+
+  // Explosions
+  explosions = explosions.filter(ex => {
+    ex.timer += dt;
+    if (ex.timer >= 60) { ex.timer -= 60; ex.frame++; }
+    if (ex.frame >= EXPLOSION_FRAMES.length) return false;
+    const frame = EXPLOSION_FRAMES[ex.frame];
+    const fw = frame[0].length * SCALE;
+    const fh = frame.length * SCALE;
+    drawSprite(frame, ex.x - fw/2, ex.y - fh/2, SCALE);
+    return true;
+  });
+
+  // HUD
+  ctx.fillStyle = '#00ccff';
+  ctx.font = '14px "Courier New", monospace';
+  ctx.fillText('SCORE: ' + score, 10, 20);
+  ctx.fillStyle = '#5a5a6e';
+  ctx.fillText('SHIP: ' + selectedShip.toUpperCase(), 10, 38);
+
+  requestAnimationFrame(render);
+}
+
+// ─── Controls ────────────────────────────────────────────────────────
+canvas.addEventListener('mousemove', e => {
+  const rect = canvas.getBoundingClientRect();
+  playerX = e.clientX - rect.left;
+  playerY = e.clientY - rect.top;
+  // Clamp to canvas
+  playerX = Math.max(32, Math.min(W - 32, playerX));
+  playerY = Math.max(32, Math.min(H - 32, playerY));
+});
+
+canvas.addEventListener('click', e => {
+  const shipData = SPRITES[selectedShip];
+  const shipW = shipData[0].length * SCALE;
+  lasers.push({
+    x: playerX - 8,
+    y: playerY - shipData.length * SCALE / 2 - 16
+  });
+});
+
+// Auto-fire
+let autoFireTimer = 0;
+canvas.addEventListener('mousedown', () => {
+  autoFireTimer = setInterval(() => {
+    const shipData = SPRITES[selectedShip];
+    lasers.push({
+      x: playerX - 8,
+      y: playerY - shipData.length * SCALE / 2 - 16
+    });
+  }, 150);
+});
+canvas.addEventListener('mouseup', () => clearInterval(autoFireTimer));
+canvas.addEventListener('mouseleave', () => clearInterval(autoFireTimer));
+
+// Ship selection buttons
+const controlsDiv = document.getElementById('controls');
+Object.keys(SPRITES).forEach(name => {
+  const btn = document.createElement('button');
+  btn.className = 'ctrl-btn' + (name === selectedShip ? ' active' : '');
+  btn.textContent = name.toUpperCase();
+  btn.onclick = () => {
+    selectedShip = name;
+    controlsDiv.querySelectorAll('.ctrl-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  };
+  controlsDiv.appendChild(btn);
+});
+
+// Spawn initial enemies
+for (let i = 0; i < 3; i++) {
+  setTimeout(() => spawnEnemy(), i * 500);
+}
+for (let i = 0; i < 2; i++) {
+  setTimeout(() => spawnAsteroid(), i * 800);
+}
+
+requestAnimationFrame(render);
+</script>
+</body>
+</html>

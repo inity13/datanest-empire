@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /success.html
+
+Sitemap: https://ai-toolkit.codevault.dev/sitemap.xml

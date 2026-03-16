@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://datanest-stores.pages.dev/data-engineering/sitemap.xml

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Structured Data Validator Demo — SEO Toolkit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:820px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#00FF8820;color:#00FF88;border:1px solid #00FF8840;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#00FF88;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+  label{display:block;font-size:13px;color:#94a3b8;margin-bottom:6px;font-weight:500}
+  textarea{width:100%;background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:12px 14px;color:#a3e635;font-size:13px;outline:none;transition:border-color .2s;font-family:'Courier New',monospace;resize:vertical;min-height:200px}
+  textarea:focus{border-color:#00FF88}
+  .btn-row{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+  .btn{padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+  .btn-primary{background:#00FF88;color:#0A0E1A}
+  .btn-primary:hover{background:#00e67a}
+  .btn-sample{background:#1e293b;color:#e2e8f0;border:1px solid #2d3748}
+  .btn-sample:hover{background:#2d3748}
+  .result-status{display:flex;gap:12px;align-items:center;padding:14px 18px;border-radius:10px;margin-bottom:16px;font-weight:600;font-size:15px}
+  .status-valid{background:#00FF8810;border:1px solid #00FF8840;color:#00FF88}
+  .status-error{background:#ef444410;border:1px solid #ef444440;color:#ef4444}
+  .status-warn{background:#f59e0b10;border:1px solid #f59e0b40;color:#f59e0b}
+  .issues-list{display:flex;flex-direction:column;gap:8px}
+  .issue{padding:10px 14px;border-radius:8px;font-size:13px;display:flex;gap:10px}
+  .issue-error{background:#ef444410;border-left:3px solid #ef4444}
+  .issue-warn{background:#f59e0b10;border-left:3px solid #f59e0b}
+  .issue-info{background:#3b82f610;border-left:3px solid #3b82f6}
+  .issue-ok{background:#00FF8810;border-left:3px solid #00FF88}
+  .props-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+  @media(max-width:560px){.props-grid{grid-template-columns:1fr}}
+  .prop-item{background:#0A0E1A;border:1px solid #1e293b;border-radius:6px;padding:8px 12px;font-size:12px}
+  .prop-key{color:#64748b}
+  .prop-val{color:#e2e8f0;margin-top:2px;word-break:break-all}
+  .cta-bar{background:linear-gradient(135deg,#00FF8815,#00FF8805);border:1px solid #00FF8830;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#00FF88;color:#0A0E1A;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#00e67a;transform:translateY(-1px);box-shadow:0 8px 24px #00FF8840}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  .hidden{display:none}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Structured Data Validator</h1>
+    <p class="subtitle">Paste JSON-LD markup to validate structure and catch errors instantly</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">JSON-LD Input</div>
+    <div class="btn-row">
+      <button class="btn btn-sample" onclick="loadSample('article')">📄 Article</button>
+      <button class="btn btn-sample" onclick="loadSample('product')">🛍️ Product</button>
+      <button class="btn btn-sample" onclick="loadSample('faq')">❓ FAQ</button>
+      <button class="btn btn-sample" onclick="loadSample('broken')">🐛 With Errors</button>
+    </div>
+    <label>Paste your JSON-LD structured data</label>
+    <textarea id="jsonInput" placeholder='{\n  "@context": "https://schema.org",\n  "@type": "Article",\n  ...\n}'></textarea>
+    <button class="btn btn-primary" onclick="validate()" style="margin-top:12px;width:100%">✅ Validate Structured Data</button>
+  </div>
+
+  <div id="results" class="hidden">
+    <div id="statusBox"></div>
+    <div class="card">
+      <div class="card-title">Validation Results</div>
+      <div class="issues-list" id="issuesList"></div>
+    </div>
+    <div class="card" id="propsCard">
+      <div class="card-title">Detected Properties</div>
+      <div class="props-grid" id="propsList"></div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <p>The full tool validates against the complete Schema.org spec, tests live pages, checks Google Rich Results eligibility, and monitors structured data across your whole site.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/14A14nayXc989xoaGtgjJ21">Buy Full Version — $29.00</a>
+    <button class="crypto-pay-btn" data-product-slug="structured-data-validator" data-store-slug="seo-toolkit" data-product-name="Structured Data Validator" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows limited functionality. Buy the full tool for all features.</div>
+</div>
+<script>
+const SAMPLES = {
+  article: `{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Improve Your SEO in 2024",
+  "author": {
+    "@type": "Person",
+    "name": "Jane Smith"
+  },
+  "datePublished": "2024-01-15",
+  "dateModified": "2024-02-01",
+  "image": "https://example.com/article-image.jpg",
+  "publisher": {
+    "@type": "Organization",
+    "name": "My Blog"
+  }
+}`,
+  product: `{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "SEO Toolkit Pro",
+  "description": "Complete SEO tools for developers",
+  "offers": {
+    "@type": "Offer",
+    "price": "29.00",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "142"
+  }
+}`,
+  faq: `{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is SEO?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SEO stands for Search Engine Optimization."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does SEO take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Results typically appear within 3-6 months."
+      }
+    }
+  ]
+}`,
+  broken: `{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "My Product",
+  "offers": {
+    "@type": "Offer",
+    "price": "invalid-price",
+    "availability": "InStock"
+  }
+  "description": "Missing comma above!"
+}`
+};
+
+function loadSample(type) {
+  document.getElementById('jsonInput').value = SAMPLES[type];
+  validate();
+}
+
+function validate() {
+  const raw = document.getElementById('jsonInput').value.trim();
+  document.getElementById('results').classList.remove('hidden');
+  if (!raw) {
+    showStatus('warn','⚠️ Please paste JSON-LD content first');
+    document.getElementById('issuesList').innerHTML = '';
+    return;
+  }
+
+  let parsed;
+  try { parsed = JSON.parse(raw); }
+  catch(e) {
+    showStatus('error','❌ Invalid JSON — ' + e.message.split('\n')[0]);
+    document.getElementById('issuesList').innerHTML = `<div class="issue issue-error">❌ JSON Parse Error: ${e.message}</div>`;
+    document.getElementById('propsList').innerHTML = '';
+    return;
+  }
+
+  const issues = [];
+  const errors = [];
+  const warnings = [];
+
+  if (!parsed['@context']) errors.push('Missing required "@context" property');
+  else if (!parsed['@context'].includes('schema.org')) warnings.push('"@context" should reference schema.org');
+  else issues.push({type:'ok',msg:'✅ @context is valid (schema.org)'});
+
+  if (!parsed['@type']) errors.push('Missing required "@type" property');
+  else issues.push({type:'ok',msg:`✅ @type detected: "${parsed['@type']}"`});
+
+  const type = parsed['@type'];
+  if (type === 'Article') {
+    if (!parsed.headline) errors.push('Article requires "headline"');
+    else if (parsed.headline.length > 110) warnings.push('"headline" is too long (max 110 chars)');
+    if (!parsed.author) errors.push('Article requires "author"');
+    if (!parsed.datePublished) warnings.push('Recommended: "datePublished" for Article');
+    if (!parsed.image) warnings.push('Recommended: "image" for rich results eligibility');
+  } else if (type === 'Product') {
+    if (!parsed.name) errors.push('Product requires "name"');
+    if (!parsed.offers) errors.push('Product requires "offers" for price display');
+    else {
+      const offer = parsed.offers;
+      if (offer.price && isNaN(parseFloat(offer.price))) errors.push('"offers.price" must be a valid number');
+      if (!offer.priceCurrency) warnings.push('Recommended: "offers.priceCurrency" (e.g. "USD")');
+      if (offer.availability && !offer.availability.includes('schema.org')) warnings.push('"availability" should be a schema.org URL');
+    }
+  } else if (type === 'FAQPage') {
+    if (!parsed.mainEntity || !Array.isArray(parsed.mainEntity)) errors.push('FAQPage requires "mainEntity" array');
+    else {
+      issues.push({type:'ok',msg:`✅ Found ${parsed.mainEntity.length} FAQ entries`});
+      parsed.mainEntity.forEach((q,i) => {
+        if (!q.name) errors.push(`Question ${i+1} missing "name" field`);
+        if (!q.acceptedAnswer?.text) errors.push(`Question ${i+1} missing acceptedAnswer.text`);
+      });
+    }
+  }
+
+  const totalErrors = errors.length;
+  const totalWarn = warnings.length;
+  if (totalErrors > 0) showStatus('error',`❌ Found ${totalErrors} error${totalErrors>1?'s':''}, ${totalWarn} warning${totalWarn!==1?'s':''}`);
+  else if (totalWarn > 0) showStatus('warn',`⚠️ Valid with ${totalWarn} warning${totalWarn!==1?'s':''} — check recommendations`);
+  else showStatus('valid','✅ Perfectly valid structured data — eligible for Rich Results!');
+
+  const allIssues = [...issues, ...errors.map(m=>({type:'error',msg:'❌ '+m})), ...warnings.map(m=>({type:'warn',msg:'⚠️ '+m}))];
+  document.getElementById('issuesList').innerHTML = allIssues.map(i=>
+    `<div class="issue issue-${i.type==='ok'?'ok':i.type==='error'?'error':'warn'}">${i.msg}</div>`
+  ).join('');
+
+  const props = Object.entries(parsed).filter(([k])=>k!=='@context').slice(0,12);
+  document.getElementById('propsList').innerHTML = props.map(([k,v])=>`
+    <div class="prop-item">
+      <div class="prop-key">${k}</div>
+      <div class="prop-val">${typeof v === 'object' ? '{...}' : String(v).slice(0,60)}</div>
+    </div>`).join('');
+}
+
+function showStatus(type, msg) {
+  const cls = type==='valid'?'status-valid':type==='error'?'status-error':'status-warn';
+  document.getElementById('statusBox').innerHTML = `<div class="result-status ${cls}">${msg}</div>`;
+}
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

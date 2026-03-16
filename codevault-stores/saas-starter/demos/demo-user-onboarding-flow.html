@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Onboarding Flow — Interactive Demo | SaaS Starter</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#FFD600;--accent-dim:rgba(255,214,0,.12);--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;--red:#FF4B6E;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;}
+  .badge{background:var(--accent);color:#0A0E1A;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:900px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  /* Progress bar */
+  .progress-wrap{margin-bottom:2rem;}
+  .steps-bar{display:flex;align-items:center;gap:0;margin-bottom:.75rem;}
+  .step-dot{width:32px;height:32px;border-radius:50%;border:2px solid var(--border);background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0;transition:all .3s;position:relative;z-index:1;}
+  .step-dot.active{border-color:var(--accent);background:var(--accent-dim);color:var(--accent);}
+  .step-dot.done{border-color:var(--green);background:rgba(0,255,136,.1);color:var(--green);}
+  .step-line{flex:1;height:2px;background:var(--border);transition:background .3s;}
+  .step-line.done{background:var(--green);}
+  .step-labels{display:flex;justify-content:space-between;padding:0 .5rem;}
+  .step-label{font-size:.7rem;color:var(--muted);text-align:center;width:80px;margin-left:-24px;}
+  .step-label.active{color:var(--accent);}
+  .step-label.done{color:var(--green);}
+  /* Step panes */
+  .step-pane{display:none;} .step-pane.active{display:block;}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:2rem;margin-bottom:1.5rem;}
+  h3{font-size:1.1rem;font-weight:700;margin-bottom:.4rem;}
+  .step-desc{color:var(--muted);font-size:.88rem;margin-bottom:1.5rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+  input,select,textarea{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.6rem .85rem;border-radius:8px;font-size:.9rem;margin-bottom:1rem;font-family:inherit;}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);}
+  textarea{min-height:80px;resize:vertical;}
+  .btn{padding:.7rem 1.5rem;border:none;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;background:var(--accent);color:#0A0E1A;}
+  .btn:hover{opacity:.85;}
+  .btn-outline{background:transparent;border:2px solid var(--border);color:var(--muted);}
+  .btn-row{display:flex;gap:.75rem;justify-content:space-between;}
+  /* Checklist */
+  .checklist{display:flex;flex-direction:column;gap:.75rem;}
+  .check-item{display:flex;align-items:center;gap:1rem;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:.85rem 1rem;cursor:pointer;transition:all .2s;}
+  .check-item.checked{border-color:var(--green);background:rgba(0,255,136,.04);}
+  .check-box{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);background:var(--surface);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:all .2s;}
+  .check-item.checked .check-box{background:var(--green);border-color:var(--green);color:#0A0E1A;}
+  .check-text h4{font-size:.88rem;font-weight:600;margin-bottom:.15rem;}
+  .check-text p{font-size:.75rem;color:var(--muted);}
+  /* Plan cards */
+  .plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+  @media(max-width:650px){.plan-grid{grid-template-columns:1fr;}}
+  .plan-card{background:var(--surface2);border:2px solid var(--border);border-radius:12px;padding:1.25rem;cursor:pointer;transition:all .2s;text-align:center;}
+  .plan-card.selected{border-color:var(--accent);background:var(--accent-dim);}
+  .plan-card:hover:not(.selected){border-color:var(--muted);}
+  .plan-name{font-weight:700;font-size:.95rem;margin-bottom:.25rem;}
+  .plan-price{font-size:1.5rem;font-weight:700;color:var(--accent);margin:.5rem 0;}
+  .plan-price span{font-size:.8rem;font-weight:400;color:var(--muted);}
+  .plan-features{list-style:none;font-size:.78rem;color:var(--muted);margin-top:.5rem;}
+  .plan-features li::before{content:'✓ ';color:var(--green);}
+  /* Success */
+  .success-screen{text-align:center;padding:2rem;}
+  .success-icon{font-size:4rem;margin-bottom:1rem;}
+  .progress-circle{width:80px;height:80px;border-radius:50%;background:conic-gradient(var(--green) var(--pct),var(--border) 0);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-weight:700;font-size:.9rem;}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a1a0a);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#0A0E1A;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">🚀</span>
+  <h1>User Onboarding Flow</h1>
+  <span style="color:var(--muted);font-size:.9rem">Interactive Demo</span>
+  <span class="badge">SaaS Starter</span>
+</header>
+
+<div class="container">
+  <h2>Multi-Step User Onboarding</h2>
+  <p class="subtitle">A complete onboarding wizard: account setup, profile configuration, plan selection, and activation checklist — with progress tracking and validation.</p>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="steps-bar">
+      <div class="step-dot active" id="dot1">1</div>
+      <div class="step-line" id="line1"></div>
+      <div class="step-dot" id="dot2">2</div>
+      <div class="step-line" id="line2"></div>
+      <div class="step-dot" id="dot3">3</div>
+      <div class="step-line" id="line3"></div>
+      <div class="step-dot" id="dot4">4</div>
+      <div class="step-line" id="line4"></div>
+      <div class="step-dot" id="dot5">5</div>
+    </div>
+    <div class="step-labels">
+      <div class="step-label active" id="lbl1">Account</div>
+      <div class="step-label" id="lbl2">Profile</div>
+      <div class="step-label" id="lbl3">Team</div>
+      <div class="step-label" id="lbl4">Plan</div>
+      <div class="step-label" id="lbl5">Setup</div>
+    </div>
+  </div>
+
+  <!-- Step 1: Account -->
+  <div class="step-pane active" id="pane1">
+    <div class="panel">
+      <h3>Create Your Account</h3>
+      <p class="step-desc">Start your journey — just the basics to get you in.</p>
+      <label>Email Address</label>
+      <input type="email" id="s1email" placeholder="you@company.com">
+      <label>Password</label>
+      <input type="password" id="s1pass" placeholder="Min 8 characters">
+      <div id="s1passStrength" style="height:4px;border-radius:2px;background:var(--border);margin-top:-.75rem;margin-bottom:1rem;overflow:hidden"><div id="s1passBar" style="height:100%;width:0;transition:all .3s"></div></div>
+      <label>Confirm Password</label>
+      <input type="password" id="s1confirm" placeholder="Repeat password">
+      <div class="btn-row"><div></div><button class="btn" onclick="nextStep(1)">Continue →</button></div>
+    </div>
+  </div>
+
+  <!-- Step 2: Profile -->
+  <div class="step-pane" id="pane2">
+    <div class="panel">
+      <h3>Your Profile</h3>
+      <p class="step-desc">Tell us a bit about yourself so we can personalize your experience.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div><label>First Name</label><input type="text" id="s2fname" placeholder="Jane"></div>
+        <div><label>Last Name</label><input type="text" id="s2lname" placeholder="Smith"></div>
+      </div>
+      <label>Job Role</label>
+      <select id="s2role">
+        <option value="">Select your role...</option>
+        <option>Founder / CEO</option>
+        <option>CTO / Engineering Lead</option>
+        <option>Product Manager</option>
+        <option>Developer / Engineer</option>
+        <option>Designer</option>
+        <option>Marketing / Growth</option>
+        <option>Other</option>
+      </select>
+      <label>Company Size</label>
+      <select id="s2size">
+        <option value="">Select size...</option>
+        <option>Just me</option>
+        <option>2–10</option>
+        <option>11–50</option>
+        <option>51–200</option>
+        <option>200+</option>
+      </select>
+      <div class="btn-row"><button class="btn btn-outline" onclick="prevStep(2)">← Back</button><button class="btn" onclick="nextStep(2)">Continue →</button></div>
+    </div>
+  </div>
+
+  <!-- Step 3: Team -->
+  <div class="step-pane" id="pane3">
+    <div class="panel">
+      <h3>Invite Your Team</h3>
+      <p class="step-desc">Optional — add teammates now or skip and do it later.</p>
+      <label>Team Name</label>
+      <input type="text" id="s3team" placeholder="e.g. Acme Corp">
+      <label>Invite teammates (one email per line)</label>
+      <textarea id="s3invites" placeholder="colleague@company.com&#10;designer@company.com"></textarea>
+      <div id="s3preview" style="font-size:.8rem;color:var(--muted)"></div>
+      <div class="btn-row"><button class="btn btn-outline" onclick="prevStep(3)">← Back</button><button class="btn" onclick="nextStep(3)">Continue →</button></div>
+    </div>
+  </div>
+
+  <!-- Step 4: Plan -->
+  <div class="step-pane" id="pane4">
+    <div class="panel">
+      <h3>Choose Your Plan</h3>
+      <p class="step-desc">Start free, upgrade anytime. No credit card required for the free tier.</p>
+      <div class="plan-grid">
+        <div class="plan-card" id="planFree" onclick="selectPlan('free')">
+          <div class="plan-name">Free</div>
+          <div class="plan-price">$0<span>/mo</span></div>
+          <ul class="plan-features"><li>1 project</li><li>3 users</li><li>Basic analytics</li><li>Community support</li></ul>
+        </div>
+        <div class="plan-card selected" id="planPro" onclick="selectPlan('pro')">
+          <div style="font-size:.7rem;font-weight:700;color:#0A0E1A;background:var(--accent);display:inline-block;padding:.15rem .5rem;border-radius:4px;margin-bottom:.5rem">POPULAR</div>
+          <div class="plan-name">Pro</div>
+          <div class="plan-price">$29<span>/mo</span></div>
+          <ul class="plan-features"><li>Unlimited projects</li><li>25 users</li><li>Advanced analytics</li><li>Priority support</li></ul>
+        </div>
+        <div class="plan-card" id="planEnterprise" onclick="selectPlan('enterprise')">
+          <div class="plan-name">Enterprise</div>
+          <div class="plan-price">$99<span>/mo</span></div>
+          <ul class="plan-features"><li>Unlimited everything</li><li>SSO / SAML</li><li>Audit logs</li><li>Dedicated support</li></ul>
+        </div>
+      </div>
+      <div class="btn-row" style="margin-top:1rem"><button class="btn btn-outline" onclick="prevStep(4)">← Back</button><button class="btn" onclick="nextStep(4)">Continue →</button></div>
+    </div>
+  </div>
+
+  <!-- Step 5: Checklist -->
+  <div class="step-pane" id="pane5">
+    <div class="panel">
+      <h3>Complete Your Setup</h3>
+      <p class="step-desc">Check off these items to get the most out of your account.</p>
+      <div class="checklist">
+        <div class="check-item checked" onclick="toggleCheck(this)">
+          <div class="check-box">✓</div>
+          <div class="check-text"><h4>Create account</h4><p>You're registered and verified</p></div>
+        </div>
+        <div class="check-item checked" onclick="toggleCheck(this)">
+          <div class="check-box">✓</div>
+          <div class="check-text"><h4>Complete profile</h4><p>Add your name and role</p></div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text"><h4>Connect an integration</h4><p>Slack, GitHub, Zapier, and more</p></div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text"><h4>Create your first project</h4><p>Start building with a template</p></div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text"><h4>Invite a teammate</h4><p>Collaboration is better together</p></div>
+        </div>
+      </div>
+      <div style="margin-top:1.5rem;text-align:center">
+        <div style="font-size:.85rem;color:var(--muted);margin-bottom:.5rem">Completion: <strong id="pctText">40%</strong></div>
+        <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden"><div id="pctBar" style="height:100%;width:40%;background:var(--accent);transition:all .4s"></div></div>
+      </div>
+      <div class="btn-row" style="margin-top:1.5rem"><button class="btn btn-outline" onclick="prevStep(5)">← Back</button><button class="btn" onclick="finish()">Finish Setup 🎉</button></div>
+    </div>
+  </div>
+
+  <!-- Done -->
+  <div class="step-pane" id="pane6">
+    <div class="panel success-screen">
+      <div class="success-icon">🎉</div>
+      <h3 style="font-size:1.4rem;margin-bottom:.5rem">You're all set!</h3>
+      <p style="color:var(--muted);margin-bottom:1.5rem">Onboarding complete. Your account is ready to use.</p>
+      <button class="btn" onclick="restart()">↺ Try Again</button>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <p>Full version includes email verification, magic links, OAuth social login, custom branding, analytics tracking, and A/B testing support.</p>
+    <a href="https://buy.stripe.com/14A9ATbD12yy24WbKxgjJ1B" class="cta-btn">Buy Full Version — $19.99</a>
+    <button class="crypto-pay-btn" data-product-slug="user-onboarding-flow" data-store-slug="saas-starter" data-product-name="user-onboarding-flow" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+
+<script>
+let currentStep = 1;
+let selectedPlan = 'pro';
+
+function nextStep(from) {
+  if (from === currentStep) {
+    goTo(currentStep + 1);
+  }
+}
+function prevStep(from) {
+  if (from === currentStep) goTo(currentStep - 1);
+}
+
+function goTo(n) {
+  document.getElementById('pane'+currentStep).classList.remove('active');
+  for (let i=1;i<=5;i++) {
+    const dot = document.getElementById('dot'+i);
+    const lbl = document.getElementById('lbl'+i);
+    dot.classList.remove('active','done');
+    lbl.classList.remove('active','done');
+    if (i < n) { dot.classList.add('done'); dot.textContent='✓'; lbl.classList.add('done'); }
+    else if (i === n) { dot.classList.add('active'); lbl.classList.add('active'); }
+    else { dot.textContent = i; }
+    if (i < 5) {
+      const line = document.getElementById('line'+i);
+      line.classList.toggle('done', i < n);
+    }
+  }
+  currentStep = n;
+  document.getElementById('pane'+n).classList.add('active');
+}
+
+function finish() {
+  document.getElementById('pane5').classList.remove('active');
+  document.getElementById('pane6').classList.add('active');
+}
+
+function restart() {
+  document.getElementById('pane6').classList.remove('active');
+  currentStep = 1;
+  for (let i=1;i<=5;i++) {
+    const dot=document.getElementById('dot'+i);
+    dot.classList.remove('done','active');
+    dot.textContent=i;
+    document.getElementById('lbl'+i).classList.remove('done','active');
+    if(i<5) document.getElementById('line'+i).classList.remove('done');
+  }
+  document.getElementById('dot1').classList.add('active');
+  document.getElementById('lbl1').classList.add('active');
+  document.getElementById('pane1').classList.add('active');
+}
+
+function selectPlan(plan) {
+  selectedPlan = plan;
+  ['free','pro','enterprise'].forEach(p => {
+    document.getElementById('plan'+p.charAt(0).toUpperCase()+p.slice(1)).classList.toggle('selected', p===plan);
+  });
+}
+
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  const box = el.querySelector('.check-box');
+  box.textContent = el.classList.contains('checked') ? '✓' : '';
+  const total = document.querySelectorAll('.check-item').length;
+  const done = document.querySelectorAll('.check-item.checked').length;
+  const pct = Math.round(done/total*100);
+  document.getElementById('pctText').textContent = pct+'%';
+  document.getElementById('pctBar').style.width = pct+'%';
+}
+
+document.getElementById('s1pass').addEventListener('input', function() {
+  const v = this.value;
+  let strength = 0;
+  if (v.length >= 8) strength++;
+  if (/[A-Z]/.test(v)) strength++;
+  if (/[0-9]/.test(v)) strength++;
+  if (/[^A-Za-z0-9]/.test(v)) strength++;
+  const colors = ['','var(--red)','var(--yellow)','var(--accent)','var(--green)'];
+  const bar = document.getElementById('s1passBar');
+  bar.style.width = (strength*25)+'%';
+  bar.style.background = colors[strength] || 'var(--red)';
+});
+
+document.getElementById('s3invites').addEventListener('input', function() {
+  const emails = this.value.split('\n').filter(e=>e.trim());
+  document.getElementById('s3preview').textContent = emails.length ? `${emails.length} invite(s) ready` : '';
+});
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

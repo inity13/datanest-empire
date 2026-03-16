@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Demo — Web Game HTML5 Kit</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a12; color: #ccc; font-family: 'Segoe UI', system-ui, sans-serif; }
+  header { text-align: center; padding: 30px 20px 10px; }
+  header h1 { color: #0ff; font-size: 28px; letter-spacing: 2px; }
+  header p { color: #888; font-size: 14px; margin-top: 6px; }
+
+  .tabs { display: flex; justify-content: center; gap: 4px; margin: 20px auto; max-width: 900px; flex-wrap: wrap; }
+  .tab { padding: 8px 18px; background: #12121e; border: 1px solid #222; border-radius: 6px 6px 0 0; cursor: pointer; color: #888; font-size: 13px; transition: all 0.2s; }
+  .tab:hover { color: #0ff; border-color: #0ff4; }
+  .tab.active { color: #0ff; background: #16162a; border-color: #0ff; border-bottom-color: #16162a; }
+
+  .panel { display: none; max-width: 900px; margin: 0 auto; background: #16162a; border: 1px solid #222; border-radius: 0 0 8px 8px; padding: 24px; }
+  .panel.active { display: block; }
+  .panel h2 { color: #0ff; font-size: 18px; margin-bottom: 12px; }
+  .panel p { line-height: 1.7; font-size: 14px; margin-bottom: 12px; }
+
+  canvas { display: block; margin: 16px auto; border: 1px solid #2a2a4a; border-radius: 4px; background: #0a0a12; }
+
+  pre { background: #0c0c18; padding: 16px; border-radius: 6px; overflow-x: auto; font-size: 13px; line-height: 1.5; color: #8cf; margin: 12px 0; border: 1px solid #1a1a2e; }
+  code .kw { color: #c792ea; }
+  code .str { color: #c3e88d; }
+  code .num { color: #f78c6c; }
+  code .cmt { color: #546e7a; }
+
+  footer { text-align: center; color: #444; font-size: 12px; padding: 30px; }
+.crypto-pay-btn{background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem}
+.crypto-pay-btn:hover{opacity:0.9}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Web Game HTML5 Kit</h1>
+  <p>Interactive feature demos — click a tab to explore each module</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active" data-panel="engine">Engine</div>
+  <div class="tab" data-panel="input">Input</div>
+  <div class="tab" data-panel="sprites">Sprites</div>
+  <div class="tab" data-panel="collision">Collision</div>
+  <div class="tab" data-panel="audio">Audio</div>
+  <div class="tab" data-panel="tilemap">TileMap</div>
+</div>
+
+<!-- Engine panel -->
+<div class="panel active" id="panel-engine">
+  <h2>Game Engine</h2>
+  <p>Fixed-timestep game loop running at 60 FPS. Manages entities, scenes, and a camera with follow/shake support.</p>
+  <canvas id="demo-engine" width="400" height="250"></canvas>
+  <p id="engine-fps" style="text-align:center;color:#0ff;font:13px monospace;"></p>
+  <pre><code><span class="kw">import</span> { Game, Entity } <span class="kw">from</span> <span class="str">'./src/engine.js'</span>;
+
+<span class="kw">const</span> game = <span class="kw">new</span> Game();
+game.init(<span class="str">'canvas'</span>);
+
+<span class="kw">class</span> Box <span class="kw">extends</span> Entity {
+  update(dt) { <span class="kw">this</span>.x += <span class="num">100</span> * dt; }
+  render(ctx) {
+    ctx.fillStyle = <span class="str">'#0ff'</span>;
+    ctx.fillRect(<span class="kw">this</span>.x, <span class="kw">this</span>.y, <span class="num">20</span>, <span class="num">20</span>);
+  }
+}
+
+game.addEntity(<span class="kw">new</span> Box(<span class="num">0</span>, <span class="num">100</span>, <span class="num">20</span>, <span class="num">20</span>));
+game.start();</code></pre>
+</div>
+
+<!-- Input panel -->
+<div class="panel" id="panel-input">
+  <h2>Input Manager</h2>
+  <p>Tracks keyboard keys, mouse position/buttons, and touch events. Query key states per-frame.</p>
+  <canvas id="demo-input" width="400" height="250"></canvas>
+  <pre><code><span class="kw">import</span> { InputManager } <span class="kw">from</span> <span class="str">'./src/input.js'</span>;
+
+<span class="kw">const</span> input = <span class="kw">new</span> InputManager(canvas);
+
+<span class="cmt">// In your update loop:</span>
+<span class="kw">if</span> (input.isKeyDown(<span class="str">'ArrowRight'</span>)) player.x += speed * dt;
+<span class="kw">if</span> (input.isKeyPressed(<span class="str">' '</span>)) player.jump();
+
+<span class="kw">const</span> mouse = input.getMousePos();
+input.endFrame(); <span class="cmt">// call at end of update</span></code></pre>
+</div>
+
+<!-- Sprites panel -->
+<div class="panel" id="panel-sprites">
+  <h2>Sprite & Animation</h2>
+  <p>SpriteSheet frame extraction, frame-based Animation with play/loop, and AnimatedSprite for named animation sets.</p>
+  <canvas id="demo-sprites" width="400" height="250"></canvas>
+  <pre><code><span class="kw">import</span> { SpriteSheet, Animation, AnimatedSprite } <span class="kw">from</span> <span class="str">'./src/sprites.js'</span>;
+
+<span class="kw">const</span> sheet = <span class="kw">new</span> SpriteSheet(image, <span class="num">32</span>, <span class="num">32</span>);
+<span class="kw">const</span> walkFrames = sheet.getFrames(<span class="num">0</span>, <span class="num">4</span>);
+<span class="kw">const</span> anim = <span class="kw">new</span> Animation(walkFrames, <span class="num">8</span>, <span class="kw">true</span>);
+
+<span class="kw">const</span> sprite = <span class="kw">new</span> AnimatedSprite();
+sprite.add(<span class="str">'walk'</span>, anim);
+sprite.play(<span class="str">'walk'</span>);
+
+<span class="cmt">// In loop:</span>
+sprite.update(dt);
+sprite.draw(ctx, x, y, <span class="num">32</span>, <span class="num">32</span>);</code></pre>
+</div>
+
+<!-- Collision panel -->
+<div class="panel" id="panel-collision">
+  <h2>Collision Detection</h2>
+  <p>AABB, circle, and point tests. Collision response (separate, bounce). Spatial grid for broad-phase optimization.</p>
+  <canvas id="demo-collision" width="400" height="250"></canvas>
+  <pre><code><span class="kw">import</span> { rectVsRect, circleVsCircle, SpatialGrid } <span class="kw">from</span> <span class="str">'./src/collision.js'</span>;
+
+<span class="kw">const</span> hit = rectVsRect(
+  { x: <span class="num">10</span>, y: <span class="num">10</span>, w: <span class="num">50</span>, h: <span class="num">50</span> },
+  { x: <span class="num">40</span>, y: <span class="num">30</span>, w: <span class="num">50</span>, h: <span class="num">50</span> }
+);
+<span class="kw">if</span> (hit) console.log(<span class="str">'Overlap:'</span>, hit.x, hit.y);
+
+<span class="kw">const</span> grid = <span class="kw">new</span> SpatialGrid(<span class="num">64</span>);
+grid.insert(entityA);
+<span class="kw">const</span> nearby = grid.retrieve(entityA);</code></pre>
+</div>
+
+<!-- Audio panel -->
+<div class="panel" id="panel-audio">
+  <h2>Audio Manager</h2>
+  <p>Web Audio API wrapper with preloading, pooled playback, volume control, and mute toggle.</p>
+  <div style="text-align:center;padding:30px 0;color:#888;">
+    <p>Audio requires user interaction and sound files to demo.</p>
+    <p style="margin-top:8px;color:#555;">See the API code below for usage.</p>
+  </div>
+  <pre><code><span class="kw">import</span> { AudioManager } <span class="kw">from</span> <span class="str">'./src/audio.js'</span>;
+
+<span class="kw">const</span> audio = <span class="kw">new</span> AudioManager();
+audio.init(); <span class="cmt">// call on first user click</span>
+
+<span class="kw">await</span> audio.load(<span class="str">'shoot'</span>, <span class="str">'sounds/shoot.wav'</span>);
+<span class="kw">await</span> audio.load(<span class="str">'music'</span>, <span class="str">'sounds/bg.mp3'</span>);
+
+audio.play(<span class="str">'shoot'</span>);          <span class="cmt">// fire-and-forget</span>
+audio.play(<span class="str">'music'</span>, <span class="kw">true</span>);    <span class="cmt">// loop</span>
+audio.volume = <span class="num">0.5</span>;
+audio.toggleMute();</code></pre>
+</div>
+
+<!-- TileMap panel -->
+<div class="panel" id="panel-tilemap">
+  <h2>Tile Map</h2>
+  <p>Multi-layer tile rendering with camera offset, solid tile collision checking, and automatic viewport culling.</p>
+  <canvas id="demo-tilemap" width="400" height="250"></canvas>
+  <pre><code><span class="kw">import</span> { TileMap } <span class="kw">from</span> <span class="str">'./src/tilemap.js'</span>;
+
+<span class="kw">const</span> map = <span class="kw">new</span> TileMap(<span class="num">32</span>, <span class="num">32</span>);
+map.addLayer([
+  [<span class="num">1</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">1</span>],
+  [<span class="num">1</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">1</span>],
+  [<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>],
+]);
+map.setSolid(<span class="num">1</span>);
+
+<span class="cmt">// Check collision</span>
+<span class="kw">const</span> hits = map.checkCollision(px, py, pw, ph);
+
+<span class="cmt">// Render with camera offset</span>
+map.render(ctx, camera.x, camera.y, <span class="num">800</span>, <span class="num">600</span>);</code></pre>
+</div>
+
+<footer>Web Game HTML5 Kit &mdash; Mod Lab &mdash; MIT License</footer>
+
+<script type="module">
+// -- Tab switching -----------------------------------------------------------
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+  });
+});
+
+// -- Engine demo: bouncing entities ------------------------------------------
+{
+  const c = document.getElementById('demo-engine');
+  const ctx = c.getContext('2d');
+  const balls = [];
+  for (let i = 0; i < 8; i++) {
+    balls.push({
+      x: Math.random() * 360 + 20, y: Math.random() * 210 + 20,
+      vx: (Math.random() - 0.5) * 200, vy: (Math.random() - 0.5) * 200,
+      r: 8 + Math.random() * 8,
+      color: `hsl(${180 + Math.random() * 40}, 80%, 60%)`
+    });
+  }
+  let last = performance.now();
+  let frames = 0, fpsTime = 0, fps = 0;
+  function loop() {
+    requestAnimationFrame(loop);
+    const now = performance.now();
+    const dt = (now - last) / 1000;
+    last = now;
+    frames++; fpsTime += dt;
+    if (fpsTime >= 1) { fps = frames; frames = 0; fpsTime -= 1; }
+    ctx.fillStyle = '#0a0a12';
+    ctx.fillRect(0, 0, 400, 250);
+    for (const b of balls) {
+      b.x += b.vx * dt; b.y += b.vy * dt;
+      if (b.x - b.r < 0) { b.x = b.r; b.vx *= -1; }
+      if (b.x + b.r > 400) { b.x = 400 - b.r; b.vx *= -1; }
+      if (b.y - b.r < 0) { b.y = b.r; b.vy *= -1; }
+      if (b.y + b.r > 250) { b.y = 250 - b.r; b.vy *= -1; }
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      ctx.fillStyle = b.color;
+      ctx.shadowColor = b.color;
+      ctx.shadowBlur = 12;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+    document.getElementById('engine-fps').textContent = `FPS: ${fps}`;
+  }
+  loop();
+}
+
+// -- Input demo: mouse tracker -----------------------------------------------
+{
+  const c = document.getElementById('demo-input');
+  const ctx = c.getContext('2d');
+  let mx = 200, my = 125, pressed = false;
+  const keys = new Set();
+  c.addEventListener('mousemove', e => {
+    const r = c.getBoundingClientRect();
+    mx = e.clientX - r.left; my = e.clientY - r.top;
+  });
+  c.addEventListener('mousedown', () => pressed = true);
+  c.addEventListener('mouseup', () => pressed = false);
+  window.addEventListener('keydown', e => keys.add(e.key));
+  window.addEventListener('keyup', e => keys.delete(e.key));
+  function loop() {
+    requestAnimationFrame(loop);
+    ctx.fillStyle = '#0a0a12';
+    ctx.fillRect(0, 0, 400, 250);
+    // Crosshair
+    ctx.strokeStyle = pressed ? '#f44' : '#0ff';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(mx, 0); ctx.lineTo(mx, 250); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, my); ctx.lineTo(400, my); ctx.stroke();
+    ctx.beginPath(); ctx.arc(mx, my, 12, 0, Math.PI * 2); ctx.stroke();
+    // Mouse pos
+    ctx.fillStyle = '#888';
+    ctx.font = '12px monospace';
+    ctx.fillText(`Mouse: ${Math.round(mx)}, ${Math.round(my)}  ${pressed ? '[CLICK]' : ''}`, 10, 20);
+    // Active keys
+    const keyStr = keys.size > 0 ? [...keys].join(', ') : '(none)';
+    ctx.fillText(`Keys: ${keyStr}`, 10, 38);
+  }
+  loop();
+}
+
+// -- Sprites demo: procedural animation frames -------------------------------
+{
+  const c = document.getElementById('demo-sprites');
+  const ctx = c.getContext('2d');
+  const frameCount = 6;
+  let frame = 0, timer = 0;
+  function loop() {
+    requestAnimationFrame(loop);
+    timer += 1/60;
+    if (timer >= 0.12) { timer = 0; frame = (frame + 1) % frameCount; }
+    ctx.fillStyle = '#0a0a12';
+    ctx.fillRect(0, 0, 400, 250);
+    // Draw "sprite sheet" grid
+    ctx.fillStyle = '#1a1a2e';
+    ctx.fillRect(20, 20, frameCount * 50 + 10, 55);
+    for (let i = 0; i < frameCount; i++) {
+      const isActive = i === frame;
+      ctx.strokeStyle = isActive ? '#0ff' : '#333';
+      ctx.lineWidth = isActive ? 2 : 1;
+      ctx.strokeRect(25 + i * 50, 25, 45, 45);
+      // Draw a simple character variant per frame
+      const cx = 25 + i * 50 + 22;
+      const cy = 47;
+      ctx.fillStyle = isActive ? '#0ff' : '#446';
+      ctx.fillRect(cx - 8, cy - 12, 16, 24);
+      // Legs animation
+      const legOffset = (i % 2 === 0) ? 4 : -4;
+      ctx.fillRect(cx - 6, cy + 12, 5, 8 + legOffset);
+      ctx.fillRect(cx + 1, cy + 12, 5, 8 - legOffset);
+    }
+    // Large animated preview
+    const px = 160, py = 130;
+    ctx.fillStyle = '#0ff';
+    ctx.shadowColor = '#0ff';
+    ctx.shadowBlur = 15;
+    ctx.fillRect(px - 20, py - 30, 40, 60);
+    ctx.shadowBlur = 0;
+    const legOff = (frame % 2 === 0) ? 10 : -10;
+    ctx.fillStyle = '#08a';
+    ctx.fillRect(px - 14, py + 30, 12, 20 + legOff);
+    ctx.fillRect(px + 2, py + 30, 12, 20 - legOff);
+    // Eyes
+    ctx.fillStyle = '#000';
+    ctx.fillRect(px - 8, py - 20, 6, 6);
+    ctx.fillRect(px + 4, py - 20, 6, 6);
+    // Label
+    ctx.fillStyle = '#888';
+    ctx.font = '12px monospace';
+    ctx.fillText(`Frame: ${frame + 1}/${frameCount}  Speed: 8 FPS`, 20, 240);
+  }
+  loop();
+}
+
+// -- Collision demo: draggable boxes -----------------------------------------
+{
+  const c = document.getElementById('demo-collision');
+  const ctx = c.getContext('2d');
+  const boxes = [
+    { x: 60, y: 80, w: 70, h: 70 },
+    { x: 220, y: 100, w: 80, h: 60 },
+  ];
+  const circle = { x: 320, y: 80, radius: 30 };
+  let dragging = null, dragOff = { x: 0, y: 0 };
+
+  c.addEventListener('mousedown', e => {
+    const r = c.getBoundingClientRect();
+    const mx = e.clientX - r.left, my = e.clientY - r.top;
+    for (const b of boxes) {
+      if (mx >= b.x && mx <= b.x + b.w && my >= b.y && my <= b.y + b.h) {
+        dragging = b; dragOff = { x: mx - b.x, y: my - b.y }; return;
+      }
+    }
+    const dx = mx - circle.x, dy = my - circle.y;
+    if (dx*dx + dy*dy <= circle.radius*circle.radius) {
+      dragging = circle; dragOff = { x: mx - circle.x, y: my - circle.y };
+    }
+  });
+  c.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const r = c.getBoundingClientRect();
+    const mx = e.clientX - r.left, my = e.clientY - r.top;
+    dragging.x = mx - dragOff.x;
+    dragging.y = my - dragOff.y;
+  });
+  c.addEventListener('mouseup', () => dragging = null);
+
+  function aabbTest(a, b) {
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+  }
+
+  function loop() {
+    requestAnimationFrame(loop);
+    ctx.fillStyle = '#0a0a12';
+    ctx.fillRect(0, 0, 400, 250);
+    const colliding = aabbTest(boxes[0], boxes[1]);
+    for (let i = 0; i < 2; i++) {
+      ctx.strokeStyle = colliding ? '#f44' : '#0ff';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(boxes[i].x, boxes[i].y, boxes[i].w, boxes[i].h);
+      ctx.fillStyle = colliding ? 'rgba(255,68,68,0.15)' : 'rgba(0,255,255,0.08)';
+      ctx.fillRect(boxes[i].x, boxes[i].y, boxes[i].w, boxes[i].h);
+    }
+    // Circle
+    ctx.beginPath();
+    ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
+    ctx.strokeStyle = '#0f8';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(0,255,136,0.1)';
+    ctx.fill();
+    // Label
+    ctx.fillStyle = '#888';
+    ctx.font = '12px monospace';
+    ctx.fillText(colliding ? 'AABB Collision: YES' : 'AABB Collision: NO', 10, 20);
+    ctx.fillText('Drag shapes to test', 10, 240);
+  }
+  loop();
+}
+
+// -- TileMap demo: small rendered map ----------------------------------------
+{
+  const c = document.getElementById('demo-tilemap');
+  const ctx = c.getContext('2d');
+  const tileSize = 20;
+  const map = [
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ];
+  const colors = { 1: '#2a2a4a', 2: '#3a3a5a' };
+  let camX = 0;
+  function loop() {
+    requestAnimationFrame(loop);
+    camX = Math.sin(performance.now() / 3000) * 30;
+    ctx.fillStyle = '#0a0a12';
+    ctx.fillRect(0, 0, 400, 250);
+    for (let r = 0; r < map.length; r++) {
+      for (let c2 = 0; c2 < map[r].length; c2++) {
+        const id = map[r][c2];
+        if (id === 0) continue;
+        const px = c2 * tileSize - camX;
+        const py = r * tileSize + 5;
+        ctx.fillStyle = colors[id] || '#333';
+        ctx.fillRect(px, py, tileSize, tileSize);
+        ctx.strokeStyle = '#1a1a2e';
+        ctx.lineWidth = 0.5;
+        ctx.strokeRect(px, py, tileSize, tileSize);
+      }
+    }
+    ctx.fillStyle = '#888';
+    ctx.font = '12px monospace';
+    ctx.fillText(`Camera offset: ${camX.toFixed(1)}px`, 10, 248);
+  }
+  loop();
+}
+</script>
+
+<!-- payment-cta-start -->
+<div class="purchase-cta" style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,transparent,#0a0a12 20%);padding:20px;text-align:center;z-index:1000">
+  <div style="max-width:600px;margin:0 auto;background:#12122a;border:1px solid #1a1a3a;border-radius:12px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div><strong style="color:#fff;font-size:1rem">Web Game HTML5 Kit</strong><br><span style="color:#8888aa;font-size:.85rem">$5.00</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a href="https://buy.stripe.com/bJe28r4az1uuaBs6qdgjG2i" class="cta-buy-btn" style="display:inline-block;background:#FF2D9B;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem">Buy Now</a>
+      <button class="crypto-pay-btn" data-product-slug="web-game-html5-kit" data-store-slug="mod-lab" data-product-name="Web Game HTML5 Kit" data-price-usd="5.00">Crypto (15% off)</button>
+    </div>
+  </div>
+</div>
+<script src="../../crypto-checkout.js"></script>
+<!-- payment-cta-end -->
+
+</body>
+</html>

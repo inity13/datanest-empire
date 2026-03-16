@@ -1,0 +1,12 @@
+# robots.txt — Landing Lab (landing-lab.codevault.dev)
+# Generated 2026-03-14
+
+User-agent: *
+Allow: /
+
+# Exclude post-purchase pages from indexing
+Disallow: /success.html
+Disallow: /cancel.html
+
+# Sitemap location
+Sitemap: https://landing-lab.codevault.dev/sitemap.xml

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Docs Generator Demo — API Launchpad</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0A0E1A;color:#E2E8F0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+header{background:#0F1628;border-bottom:1px solid #1E2A45;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+header h1{font-size:1.1rem;color:#FF9100;font-weight:700}
+header span{font-size:0.8rem;color:#64748B;background:#1E2A45;padding:4px 10px;border-radius:20px}
+.container{flex:1;padding:24px;max-width:1000px;margin:0 auto;width:100%}
+h2{font-size:1.3rem;margin-bottom:6px;color:#F1F5F9}
+.subtitle{color:#64748B;font-size:0.9rem;margin-bottom:20px}
+.input-section{background:#0F1628;border:1px solid #1E2A45;border-radius:12px;padding:20px;margin-bottom:16px}
+.section-title{font-size:.85rem;font-weight:700;color:#FF9100;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+label{display:block;font-size:.78rem;color:#94A3B8;margin-bottom:3px;margin-top:10px}
+label:first-child{margin-top:0}
+input,select{width:100%;background:#0A0E1A;border:1px solid #1E2A45;color:#F1F5F9;padding:8px 11px;border-radius:5px;font-size:.85rem;outline:none}
+input:focus,select:focus{border-color:#FF9100}
+textarea{width:100%;background:#0A0E1A;border:1px solid #1E2A45;color:#94E2C8;padding:10px;border-radius:5px;font-family:'Courier New',monospace;font-size:.82rem;resize:vertical;outline:none}
+textarea:focus{border-color:#FF9100}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.form-row{grid-template-columns:1fr}}
+.controls{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.btn{padding:10px 22px;border-radius:6px;font-size:.88rem;font-weight:600;cursor:pointer;border:none;transition:.2s}
+.btn-primary{background:#FF9100;color:#0A0E1A}
+.btn-primary:hover{background:#FFA733}
+.btn-secondary{background:#1E2A45;color:#CBD5E1;border:1px solid #2D3748}
+.btn-secondary:hover{border-color:#FF9100;color:#FF9100}
+/* Preview styles (rendered inside .doc-preview) */
+.doc-preview{background:#0F1628;border:1px solid #1E2A45;border-radius:12px;overflow:hidden}
+.doc-preview-header{background:#1E2A45;padding:10px 16px;font-size:.85rem;color:#94A3B8;font-weight:600;display:flex;gap:12px;align-items:center}
+.doc-preview-body{padding:20px;max-height:440px;overflow-y:auto}
+.ep-block{border:1px solid #1E2A45;border-radius:8px;margin-bottom:16px;overflow:hidden}
+.ep-header{padding:12px 16px;display:flex;gap:14px;align-items:center;cursor:pointer}
+.method-pill{padding:4px 10px;border-radius:4px;font-weight:700;font-size:.78rem;min-width:56px;text-align:center}
+.pill-get{background:#065F46;color:#6EE7B7}
+.pill-post{background:#1E3A5F;color:#93C5FD}
+.pill-put{background:#4C1D95;color:#C4B5FD}
+.pill-delete{background:#7F1D1D;color:#FCA5A5}
+.ep-path{font-family:'Courier New',monospace;color:#F1F5F9;font-size:.9rem}
+.ep-summary{font-size:.82rem;color:#94A3B8;margin-left:auto}
+.ep-body{display:none;padding:14px 16px;background:#0A0E1A;border-top:1px solid #1E2A45}
+.ep-body.open{display:block}
+.params-table{width:100%;border-collapse:collapse;margin:10px 0}
+.params-table th{text-align:left;font-size:.72rem;color:#64748B;padding:6px 8px;border-bottom:1px solid #1E2A45}
+.params-table td{font-size:.8rem;padding:6px 8px;border-bottom:1px solid #0F1628}
+.type-badge{background:#1E2A45;color:#93C5FD;padding:1px 7px;border-radius:3px;font-size:.72rem;font-family:'Courier New',monospace}
+.required-badge{background:#4C1D95;color:#C4B5FD;padding:1px 7px;border-radius:3px;font-size:.68rem}
+.code-block{background:#0F1628;border:1px solid #1E2A45;border-radius:4px;padding:10px;font-family:'Courier New',monospace;font-size:.78rem;color:#94E2C8;margin-top:8px;white-space:pre}
+.cta{background:linear-gradient(135deg,#FF9100,#FF5F00);color:#0A0E1A;border:none;padding:14px 32px;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:16px;transition:opacity .2s}
+.cta:hover{opacity:.9}
+footer{text-align:center;padding:16px;color:#475569;font-size:0.8rem;border-top:1px solid #1E2A45;margin-top:auto}
+footer a{color:#FF9100;text-decoration:none}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <h1>📚 API Docs Generator</h1>
+  <span>Demo — Limited Features</span>
+</header>
+<div class="container">
+  <h2>Auto-Generate API Documentation</h2>
+  <p class="subtitle">Describe your endpoint and instantly get a beautiful, structured documentation page with code examples.</p>
+
+  <div class="input-section">
+    <div class="section-title">Describe Your Endpoint</div>
+    <div class="form-row">
+      <div>
+        <label>Method</label>
+        <select id="doc-method"><option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option></select>
+      </div>
+      <div>
+        <label>Path</label>
+        <input id="doc-path" placeholder="/api/users/{id}" value="/api/users/{id}">
+      </div>
+    </div>
+    <div class="form-row" style="margin-top:10px">
+      <div>
+        <label>Summary</label>
+        <input id="doc-summary" placeholder="Get a user by ID" value="Get a user by ID">
+      </div>
+      <div>
+        <label>Tag / Group</label>
+        <input id="doc-tag" placeholder="Users" value="Users">
+      </div>
+    </div>
+    <label>Description</label>
+    <textarea id="doc-desc" rows="2" placeholder="Describe what this endpoint does...">Retrieves a single user record by their unique ID. Returns user profile information including name, email, and account status.</textarea>
+    <label>Example Response (JSON)</label>
+    <textarea id="doc-response" rows="3">{"id": 1, "name": "Alice Johnson", "email": "alice@example.com", "status": "active", "createdAt": "2025-01-15"}</textarea>
+  </div>
+
+  <div class="controls">
+    <button class="btn btn-primary" onclick="generateDocs()">Generate Documentation</button>
+    <button class="btn btn-secondary" onclick="loadExample()">Load Example</button>
+  </div>
+
+  <div class="doc-preview" id="doc-preview" style="display:none">
+    <div class="doc-preview-header">
+      <span>📄 Generated Documentation Preview</span>
+      <button onclick="copyDocs()" style="background:#1E2A45;border:1px solid #2D3748;color:#CBD5E1;padding:4px 12px;border-radius:4px;font-size:.78rem;cursor:pointer">Copy HTML</button>
+    </div>
+    <div class="doc-preview-body" id="doc-preview-body"></div>
+  </div>
+
+  <a class="cta" href="https://buy.stripe.com/00wbJ16iHc988tk5m9gjJ09">Buy Full Version — $29.00 →</a>
+    <button class="crypto-pay-btn" data-product-slug="api-docs-generator" data-store-slug="api-launchpad" data-product-name="API Docs Generator" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+</div>
+<footer>
+  This demo shows limited functionality. Buy the full tool for all features.<br>
+  <a href="../index.html">← Back to API Launchpad Store</a>
+</footer>
+
+<script>
+function generateDocs() {
+  const method = document.getElementById('doc-method').value;
+  const path = document.getElementById('doc-path').value || '/api/resource';
+  const summary = document.getElementById('doc-summary').value || 'Endpoint';
+  const tag = document.getElementById('doc-tag').value || 'Default';
+  const desc = document.getElementById('doc-desc').value || '';
+  const responseRaw = document.getElementById('doc-response').value;
+
+  let responseFormatted = responseRaw;
+  try { responseFormatted = JSON.stringify(JSON.parse(responseRaw), null, 2); } catch(e) {}
+
+  // Parse path params
+  const pathParams = (path.match(/\{(\w+)\}/g) || []).map(p => p.replace(/[{}]/g,''));
+
+  const pillClass = `pill-${method.toLowerCase()}`;
+  const curlEx = `curl -X ${method} \\
+  "https://api.example.com${path.replace('{id}','1')}" \\
+  -H "Authorization: Bearer YOUR_TOKEN" \\
+  -H "Content-Type: application/json"`;
+
+  const pyEx = `import requests
+
+response = requests.${method.toLowerCase()}(
+    "https://api.example.com${path.replace('{id}','1')}",
+    headers={"Authorization": "Bearer YOUR_TOKEN"}
+)
+data = response.json()`;
+
+  const html = `
+    <div style="margin-bottom:20px">
+      <div style="font-size:.72rem;color:#FF9100;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">${tag}</div>
+      <h3 style="font-size:1.1rem;color:#F1F5F9;margin-bottom:6px">${summary}</h3>
+      <p style="font-size:.85rem;color:#94A3B8">${desc}</p>
+    </div>
+
+    <div class="ep-block">
+      <div class="ep-header" onclick="toggleEp(this)">
+        <span class="method-pill ${pillClass}">${method}</span>
+        <span class="ep-path">${path}</span>
+        <span class="ep-summary">${summary}</span>
+      </div>
+      <div class="ep-body open">
+        ${pathParams.length > 0 ? `
+        <div style="font-size:.8rem;font-weight:700;color:#F1F5F9;margin-bottom:8px">Path Parameters</div>
+        <table class="params-table">
+          <thead><tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+          <tbody>${pathParams.map(p => `<tr>
+            <td style="font-family:Courier New,monospace;color:#FF9100">${p}</td>
+            <td><span class="type-badge">string</span></td>
+            <td><span class="required-badge">required</span></td>
+            <td style="color:#94A3B8">The ${p} identifier</td>
+          </tr>`).join('')}</tbody>
+        </table>` : ''}
+
+        <div style="font-size:.8rem;font-weight:700;color:#F1F5F9;margin-bottom:4px;margin-top:12px">Responses</div>
+        <div style="font-size:.78rem;color:#4ADE80;margin-bottom:6px">● 200 OK</div>
+        <div class="code-block">${escHtml(responseFormatted)}</div>
+        <div style="font-size:.78rem;color:#F87171;margin-top:6px">● 401 Unauthorized &nbsp; ● 404 Not Found</div>
+
+        <div style="font-size:.8rem;font-weight:700;color:#F1F5F9;margin-top:14px;margin-bottom:6px">Code Examples</div>
+        <div style="display:flex;gap:8px;margin-bottom:6px">
+          <button onclick="showExample('curl${path.replace(/\W/g,'')}')" style="background:#1E2A45;border:1px solid #2D3748;color:#CBD5E1;padding:3px 10px;border-radius:3px;font-size:.75rem;cursor:pointer">cURL</button>
+          <button onclick="showExample('py${path.replace(/\W/g,'')}')" style="background:#1E2A45;border:1px solid #2D3748;color:#CBD5E1;padding:3px 10px;border-radius:3px;font-size:.75rem;cursor:pointer">Python</button>
+        </div>
+        <div class="code-block" id="curl${path.replace(/\W/g,'')}">${escHtml(curlEx)}</div>
+        <div class="code-block" id="py${path.replace(/\W/g,'')}" style="display:none">${escHtml(pyEx)}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('doc-preview').style.display = 'block';
+  document.getElementById('doc-preview-body').innerHTML = html;
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function toggleEp(el) { el.nextElementSibling.classList.toggle('open'); }
+
+function showExample(id) {
+  const cid = 'curl' + id.slice(2);
+  const pid = 'py' + id.slice(2);
+  if (id.startsWith('curl')) {
+    document.getElementById(id).style.display = 'block';
+    document.getElementById(pid).style.display = 'none';
+  } else {
+    document.getElementById(id).style.display = 'block';
+    document.getElementById(cid).style.display = 'none';
+  }
+}
+
+function copyDocs() {
+  const html = document.getElementById('doc-preview-body').innerHTML;
+  navigator.clipboard.writeText(html).catch(()=>{});
+}
+
+function loadExample() {
+  document.getElementById('doc-method').value = 'POST';
+  document.getElementById('doc-path').value = '/api/posts';
+  document.getElementById('doc-summary').value = 'Create a new blog post';
+  document.getElementById('doc-tag').value = 'Posts';
+  document.getElementById('doc-desc').value = 'Creates a new blog post and returns the created resource with generated ID and timestamps.';
+  document.getElementById('doc-response').value = '{"id": 42, "title": "My Post", "slug": "my-post", "status": "draft", "createdAt": "2026-03-14T10:00:00Z"}';
+  generateDocs();
+}
+
+generateDocs();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

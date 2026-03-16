@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Pipeline Demo — Analytics Hub | CodeVault</title>
+<meta name="description" content="Interactive data pipeline visualizer demo from Analytics Hub.">
+<style>
+  :root {
+    --bg: #0A0E1A; --surface: #141824; --surface2: #1E2436;
+    --border: #2A2E3E; --text: #EAEAFF; --muted: #8888AA;
+    --accent: #00E5FF; --danger: #FF4444; --success: #00E676; --warn: #FF9800;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 15px; min-height: 100vh; }
+  a { color: var(--accent); text-decoration: none; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  header .brand { font-weight: 700; font-size: 1.1rem; }
+  header .brand span { color: var(--accent); }
+  .badge { background: var(--accent); color: #0A0E1A; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 32px 20px; }
+  h1 { font-size: 1.6rem; margin-bottom: 6px; }
+  .subtitle { color: var(--muted); margin-bottom: 28px; }
+
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+  .panel-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+
+  .btn { background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 9px 20px; border-radius: 7px; border: none; cursor: pointer; font-size: 0.9rem; transition: opacity .2s; }
+  .btn:hover { opacity: .88; }
+  .btn-sec { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-sec:hover { border-color: var(--accent); color: var(--accent); opacity: 1; }
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+
+  /* Pipeline diagram */
+  .pipeline { display: flex; align-items: center; flex-wrap: wrap; gap: 0; overflow-x: auto; padding-bottom: 8px; }
+  .pipe-step { background: var(--surface2); border: 2px solid var(--border); border-radius: 10px; padding: 12px 16px; min-width: 120px; text-align: center; cursor: pointer; transition: all .2s; position: relative; flex-shrink: 0; }
+  .pipe-step:hover { border-color: var(--accent); }
+  .pipe-step.active { border-color: var(--accent); background: rgba(0,229,255,.08); }
+  .pipe-step.running { border-color: var(--warn); animation: pulse .8s infinite; }
+  .pipe-step.done { border-color: var(--success); }
+  .pipe-step.error { border-color: var(--danger); }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,152,0,.4); } 50% { box-shadow: 0 0 0 6px rgba(255,152,0,0); } }
+
+  .pipe-icon { font-size: 1.4rem; margin-bottom: 4px; }
+  .pipe-name { font-size: 0.78rem; font-weight: 600; }
+  .pipe-type { font-size: 0.68rem; color: var(--muted); margin-top: 2px; }
+  .pipe-status { position: absolute; top: -6px; right: -6px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--surface2); }
+  .status-idle { background: var(--border); }
+  .status-running { background: var(--warn); }
+  .status-done { background: var(--success); }
+  .status-error { background: var(--danger); }
+
+  .pipe-arrow { color: var(--border); font-size: 1.2rem; padding: 0 6px; flex-shrink: 0; align-self: center; }
+
+  /* Step details */
+  .step-detail { display: none; }
+  .step-detail.visible { display: block; }
+  .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+  .detail-item { background: var(--surface2); border-radius: 6px; padding: 10px 12px; }
+  .detail-label { font-size: 0.72rem; color: var(--muted); margin-bottom: 3px; text-transform: uppercase; }
+  .detail-value { font-size: 0.9rem; font-weight: 600; }
+
+  /* Log */
+  .log-area { background: var(--bg); border-radius: 6px; font-family: monospace; font-size: 0.8rem; padding: 12px; max-height: 180px; overflow-y: auto; border: 1px solid var(--border); }
+  .log-line { padding: 2px 0; }
+  .log-ts { color: var(--muted); }
+  .log-info { color: var(--text); }
+  .log-warn { color: var(--warn); }
+  .log-err { color: var(--danger); }
+  .log-ok { color: var(--success); }
+
+  .cta-box { background: linear-gradient(135deg, rgba(0,229,255,.08), rgba(0,229,255,.02)); border: 1px solid rgba(0,229,255,.25); border-radius: 12px; padding: 28px 24px; text-align: center; margin-top: 32px; }
+  .cta-box h2 { font-size: 1.25rem; margin-bottom: 8px; }
+  .cta-box p { color: var(--muted); margin-bottom: 20px; font-size: 0.9rem; }
+  .btn-cta { display: inline-block; background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 12px 32px; border-radius: 8px; font-size: 1rem; text-decoration: none; }
+  .btn-cta:hover { opacity: .9; text-decoration: none; }
+  .demo-note { color: var(--muted); font-size: 0.82rem; margin-top: 14px; }
+
+  footer { text-align: center; padding: 24px; color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--border); margin-top: 40px; }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Analytics<span>Hub</span> — Data Pipeline</div>
+  <span class="badge">Demo</span>
+</header>
+
+<div class="container">
+  <h1>Data Pipeline</h1>
+  <p class="subtitle">Visualize, configure, and simulate multi-step data processing pipelines.</p>
+
+  <div class="panel">
+    <div class="panel-title">
+      <span>Pipeline: <span id="pipelineName">User Events ETL</span></span>
+      <span id="runStatus" style="font-size:.8rem;color:var(--muted)">Idle</span>
+    </div>
+
+    <!-- Pipeline diagram -->
+    <div class="pipeline" id="pipelineDiag"></div>
+
+    <div class="btn-row" style="margin-top:16px">
+      <button class="btn" onclick="runPipeline()">▶ Run Pipeline</button>
+      <button class="btn btn-sec" onclick="resetPipeline()">Reset</button>
+      <button class="btn btn-sec" onclick="loadPreset('events')">Events ETL</button>
+      <button class="btn btn-sec" onclick="loadPreset('revenue')">Revenue Roll-up</button>
+    </div>
+  </div>
+
+  <!-- Step detail -->
+  <div class="panel" id="detailPanel" style="display:none">
+    <div class="panel-title">Step Details — <span id="detailName"></span></div>
+    <div class="detail-grid" id="detailGrid"></div>
+  </div>
+
+  <!-- Log -->
+  <div class="panel">
+    <div class="panel-title">
+      <span>Pipeline Log</span>
+      <button class="btn-sec" style="padding:4px 10px;font-size:.78rem;background:var(--surface2);border:1px solid var(--border);border-radius:5px;cursor:pointer;color:var(--muted)" onclick="clearLog()">Clear</button>
+    </div>
+    <div class="log-area" id="logArea"><div class="log-line"><span class="log-ts">--:--:--</span> <span class="log-info">Pipeline ready. Press Run to simulate execution.</span></div></div>
+  </div>
+
+  <div class="cta-box">
+    <h2>Get the Full Data Pipeline</h2>
+    <p>Visual pipeline editor, real Spark/Airflow YAML export, incremental loading, error retry policies, SLA monitoring, and Slack alerting for pipeline failures.</p>
+    <a class="btn-cta" href="https://buy.stripe.com/28E28rbD17SSdNE6qdgjI44">Buy Full Version — $89.00</a>
+    <button class="crypto-pay-btn" data-product-slug="data-visualizer" data-store-slug="analytics-hub" data-product-name="Data Visualizer" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+    <div class="demo-note">This demo shows limited functionality. Buy the full tool for all features.</div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 CodeVault / Analytics Hub &mdash; <a href="https://buy.stripe.com/28E28rbD17SSdNE6qdgjI44">Back to Store</a>
+  &mdash; <a href="index.html">All Demos</a>
+</footer>
+
+<script>
+const PRESETS = {
+  events: {
+    name: 'User Events ETL',
+    steps: [
+      { icon: '📥', name: 'Ingest', type: 'Source', rows: '2.4M events', latency: '1.2s', desc: 'Kafka consumer, 3 partitions' },
+      { icon: '🔍', name: 'Validate', type: 'Transform', rows: '2.38M valid', latency: '0.4s', desc: 'Schema check, null filter' },
+      { icon: '🔄', name: 'Enrich', type: 'Transform', rows: '2.38M enriched', latency: '2.1s', desc: 'Join user metadata' },
+      { icon: '📊', name: 'Aggregate', type: 'Transform', rows: '18K rows', latency: '0.8s', desc: 'Group by user + day' },
+      { icon: '💾', name: 'Load', type: 'Sink', rows: '18K written', latency: '0.3s', desc: 'BigQuery append' },
+    ]
+  },
+  revenue: {
+    name: 'Revenue Roll-up',
+    steps: [
+      { icon: '💳', name: 'Stripe API', type: 'Source', rows: '8,420 charges', latency: '2.0s', desc: 'REST API pull, paginated' },
+      { icon: '🔗', name: 'Join Plans', type: 'Transform', rows: '8,420 joined', latency: '0.2s', desc: 'Map charge → plan tier' },
+      { icon: '➗', name: 'Normalize', type: 'Transform', rows: '8,420 rows', latency: '0.1s', desc: 'Convert currency, MRR calc' },
+      { icon: '📈', name: 'MRR Rollup', type: 'Aggregate', rows: '1 row/day', latency: '0.05s', desc: 'Sum MRR by date + plan' },
+      { icon: '📤', name: 'Export', type: 'Sink', rows: 'Written', latency: '0.2s', desc: 'Postgres + Metabase sync' },
+    ]
+  }
+};
+
+let pipeline = [];
+let running = false;
+let selectedStep = null;
+
+function loadPreset(key) {
+  const p = PRESETS[key];
+  document.getElementById('pipelineName').textContent = p.name;
+  pipeline = p.steps.map(s => ({...s, status: 'idle'}));
+  renderPipeline();
+  resetDetail();
+  document.getElementById('detailPanel').style.display = 'none';
+}
+
+function renderPipeline() {
+  const el = document.getElementById('pipelineDiag');
+  el.innerHTML = pipeline.map((s, i) => `
+    ${i > 0 ? '<div class="pipe-arrow">→</div>' : ''}
+    <div class="pipe-step ${s.status !== 'idle' ? s.status : ''}" id="ps-${i}" onclick="showStep(${i})">
+      <div class="pipe-status status-${s.status}"></div>
+      <div class="pipe-icon">${s.icon}</div>
+      <div class="pipe-name">${s.name}</div>
+      <div class="pipe-type">${s.type}</div>
+    </div>`).join('');
+}
+
+function showStep(i) {
+  const s = pipeline[i];
+  document.getElementById('detailPanel').style.display = 'block';
+  document.getElementById('detailName').textContent = s.name;
+  document.getElementById('detailGrid').innerHTML = `
+    <div class="detail-item"><div class="detail-label">Type</div><div class="detail-value">${s.type}</div></div>
+    <div class="detail-item"><div class="detail-label">Records</div><div class="detail-value">${s.rows}</div></div>
+    <div class="detail-item"><div class="detail-label">Latency</div><div class="detail-value">${s.latency}</div></div>
+    <div class="detail-item"><div class="detail-label">Description</div><div class="detail-value" style="font-size:.85rem">${s.desc}</div></div>
+    <div class="detail-item"><div class="detail-label">Status</div><div class="detail-value" style="color:${s.status==='done'?'var(--success)':s.status==='error'?'var(--danger)':s.status==='running'?'var(--warn)':'var(--muted)'}">${s.status.toUpperCase()}</div></div>`;
+}
+
+function log(msg, level='info') {
+  const ts = new Date().toTimeString().slice(0,8);
+  const el = document.getElementById('logArea');
+  el.innerHTML += `<div class="log-line"><span class="log-ts">${ts}</span> <span class="log-${level}">${msg}</span></div>`;
+  el.scrollTop = el.scrollHeight;
+}
+
+function clearLog() { document.getElementById('logArea').innerHTML = ''; }
+
+async function runPipeline() {
+  if (running) return;
+  running = true;
+  resetPipeline();
+  document.getElementById('runStatus').textContent = 'Running...';
+  document.getElementById('runStatus').style.color = 'var(--warn)';
+  log('Pipeline started', 'ok');
+
+  for (let i = 0; i < pipeline.length; i++) {
+    pipeline[i].status = 'running';
+    renderPipeline();
+    log(`Running step: ${pipeline[i].name} (${pipeline[i].type})`, 'info');
+    await sleep(700 + Math.random()*600);
+    // 10% chance of error on non-last steps, always succeed last
+    if (i < pipeline.length-1 && Math.random() < 0.1) {
+      pipeline[i].status = 'error';
+      renderPipeline();
+      log(`ERROR in ${pipeline[i].name}: upstream data quality check failed`, 'err');
+      document.getElementById('runStatus').textContent = 'Failed';
+      document.getElementById('runStatus').style.color = 'var(--danger)';
+      running = false;
+      return;
+    }
+    pipeline[i].status = 'done';
+    renderPipeline();
+    log(`✓ ${pipeline[i].name}: processed ${pipeline[i].rows} in ${pipeline[i].latency}`, 'ok');
+  }
+
+  document.getElementById('runStatus').textContent = 'Completed';
+  document.getElementById('runStatus').style.color = 'var(--success)';
+  log('Pipeline completed successfully', 'ok');
+  running = false;
+}
+
+function resetPipeline() {
+  pipeline.forEach(s => s.status = 'idle');
+  renderPipeline();
+  document.getElementById('runStatus').textContent = 'Idle';
+  document.getElementById('runStatus').style.color = 'var(--muted)';
+}
+
+function resetDetail() { /* keep panel hidden */ }
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+loadPreset('events');
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

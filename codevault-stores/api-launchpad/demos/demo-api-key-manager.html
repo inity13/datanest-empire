@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Key Manager Demo — API Launchpad</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0A0E1A;color:#E2E8F0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+header{background:#0F1628;border-bottom:1px solid #1E2A45;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+header h1{font-size:1.1rem;color:#FF9100;font-weight:700}
+header span{font-size:0.8rem;color:#64748B;background:#1E2A45;padding:4px 10px;border-radius:20px}
+.container{flex:1;padding:24px;max-width:800px;margin:0 auto;width:100%}
+h2{font-size:1.3rem;margin-bottom:6px;color:#F1F5F9}
+.subtitle{color:#64748B;font-size:0.9rem;margin-bottom:24px}
+.create-form{background:#0F1628;border:1px solid #1E2A45;border-radius:12px;padding:20px;margin-bottom:20px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:500px){.form-row{grid-template-columns:1fr}}
+label{display:block;font-size:0.8rem;color:#94A3B8;margin-bottom:4px}
+input[type=text],select{width:100%;background:#0A0E1A;border:1px solid #1E2A45;color:#F1F5F9;padding:9px 12px;border-radius:6px;font-size:0.88rem;outline:none}
+input:focus,select:focus{border-color:#FF9100}
+.checkbox-group{display:flex;flex-wrap:wrap;gap:8px}
+.scope-chip{background:#1E2A45;border:1px solid #2D3748;color:#CBD5E1;padding:5px 10px;border-radius:4px;font-size:0.78rem;cursor:pointer;transition:.2s}
+.scope-chip.selected{background:#FF9100;color:#0A0E1A;border-color:#FF9100}
+.btn{padding:10px 20px;border-radius:6px;font-size:0.88rem;font-weight:600;cursor:pointer;border:none;transition:.2s}
+.btn-primary{background:#FF9100;color:#0A0E1A}
+.btn-primary:hover{background:#FFA733}
+.btn-danger{background:transparent;border:1px solid #7F1D1D;color:#F87171;padding:5px 10px;font-size:0.78rem;cursor:pointer;border-radius:4px}
+.btn-danger:hover{background:#7F1D1D}
+.keys-table{width:100%;border-collapse:collapse;margin-bottom:20px}
+.keys-table th{text-align:left;color:#64748B;font-size:0.78rem;padding:8px 12px;border-bottom:1px solid #1E2A45}
+.keys-table td{padding:10px 12px;border-bottom:1px solid #0F1628;font-size:0.85rem;vertical-align:middle}
+.keys-table tr:hover td{background:#0F1628}
+.key-display{font-family:'Courier New',monospace;color:#FF9100;letter-spacing:0.5px}
+.status-badge{padding:2px 8px;border-radius:10px;font-size:0.72rem;font-weight:700}
+.status-active{background:#065F46;color:#6EE7B7}
+.status-revoked{background:#7F1D1D;color:#FCA5A5}
+.scope-tag{background:#1E2A45;color:#93C5FD;padding:2px 6px;border-radius:3px;font-size:0.72rem;margin-right:3px}
+.new-key-banner{background:#1A2035;border:1px solid #FF9100;border-radius:8px;padding:14px;margin-bottom:16px;display:none}
+.new-key-banner .key-val{font-family:'Courier New',monospace;color:#FF9100;word-break:break-all;font-size:0.85rem;margin:8px 0}
+.copy-btn{background:#FF9100;color:#0A0E1A;border:none;padding:4px 12px;border-radius:4px;font-size:0.78rem;cursor:pointer;font-weight:700}
+.cta{background:linear-gradient(135deg,#FF9100,#FF5F00);color:#0A0E1A;border:none;padding:14px 32px;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px;transition:opacity .2s}
+.cta:hover{opacity:.9}
+footer{text-align:center;padding:16px;color:#475569;font-size:0.8rem;border-top:1px solid #1E2A45;margin-top:auto}
+footer a{color:#FF9100;text-decoration:none}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <h1>🔑 API Key Manager</h1>
+  <span>Demo — Limited Features</span>
+</header>
+<div class="container">
+  <h2>API Key Generation & Management</h2>
+  <p class="subtitle">Generate scoped API keys, set expiry policies, and manage access across your services.</p>
+
+  <div class="create-form">
+    <div style="font-size:.9rem;font-weight:600;color:#F1F5F9;margin-bottom:14px">Create New API Key</div>
+    <div class="form-row">
+      <div>
+        <label>Key Name / Label</label>
+        <input type="text" id="key-name" placeholder="e.g. Production Backend">
+      </div>
+      <div>
+        <label>Prefix</label>
+        <input type="text" id="key-prefix" placeholder="e.g. sk_live_" value="sk_demo_">
+      </div>
+    </div>
+    <div class="form-row">
+      <div>
+        <label>Expires In</label>
+        <select id="key-expiry">
+          <option value="never">Never</option>
+          <option value="30d">30 Days</option>
+          <option value="90d">90 Days</option>
+          <option value="1y">1 Year</option>
+        </select>
+      </div>
+      <div>
+        <label>Environment</label>
+        <select id="key-env">
+          <option>Production</option>
+          <option>Staging</option>
+          <option>Development</option>
+        </select>
+      </div>
+    </div>
+    <div style="margin-bottom:14px">
+      <label>Scopes (click to toggle)</label>
+      <div class="checkbox-group" id="scopes">
+        <span class="scope-chip selected" onclick="toggleScope(this)">read:users</span>
+        <span class="scope-chip" onclick="toggleScope(this)">write:users</span>
+        <span class="scope-chip selected" onclick="toggleScope(this)">read:data</span>
+        <span class="scope-chip" onclick="toggleScope(this)">write:data</span>
+        <span class="scope-chip" onclick="toggleScope(this)">admin</span>
+        <span class="scope-chip" onclick="toggleScope(this)">billing</span>
+        <span class="scope-chip selected" onclick="toggleScope(this)">webhooks</span>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="createKey()">Generate API Key</button>
+  </div>
+
+  <div class="new-key-banner" id="new-key-banner">
+    <div style="font-size:.85rem;color:#94A3B8">⚠️ Save this key now — it won't be shown again!</div>
+    <div class="key-val" id="new-key-val"></div>
+    <button class="copy-btn" onclick="copyKey()">Copy Key</button>
+  </div>
+
+  <table class="keys-table" id="keys-table">
+    <thead>
+      <tr><th>Name</th><th>Key</th><th>Scopes</th><th>Expires</th><th>Status</th><th></th></tr>
+    </thead>
+    <tbody id="keys-body"></tbody>
+  </table>
+
+  <a class="cta" href="https://buy.stripe.com/9B65kDfTh2yydNEg0NgjJ04">Buy Full Version — $24.00 →</a>
+    <button class="crypto-pay-btn" data-product-slug="api-key-manager" data-store-slug="api-launchpad" data-product-name="API Key Manager" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+</div>
+<footer>
+  This demo shows limited functionality. Buy the full tool for all features.<br>
+  <a href="../index.html">← Back to API Launchpad Store</a>
+</footer>
+
+<script>
+let keys = [
+  {id:1,name:'Dashboard App',prefix:'sk_demo_',key:'sk_demo_a1b2c3d4e5f6g7h8',scopes:['read:users','read:data'],env:'Production',expires:'2026-12-31',status:'active'},
+  {id:2,name:'Data Pipeline',prefix:'sk_demo_',key:'sk_demo_x9y8z7w6v5u4t3s2',scopes:['read:data','write:data','webhooks'],env:'Staging',expires:'Never',status:'active'},
+];
+let nextId = 3;
+let newKeyValue = '';
+
+function toggleScope(el) { el.classList.toggle('selected'); }
+
+function generateKeyString(prefix) {
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  let key = prefix;
+  for (let i = 0; i < 24; i++) key += chars[Math.floor(Math.random() * chars.length)];
+  return key;
+}
+
+function createKey() {
+  const name = document.getElementById('key-name').value.trim() || 'Unnamed Key';
+  const prefix = document.getElementById('key-prefix').value.trim() || 'sk_';
+  const expiry = document.getElementById('key-expiry').value;
+  const env = document.getElementById('key-env').value;
+  const scopes = Array.from(document.querySelectorAll('#scopes .scope-chip.selected')).map(e => e.textContent);
+
+  const keyStr = generateKeyString(prefix);
+  newKeyValue = keyStr;
+
+  keys.unshift({id:nextId++,name,prefix,key:keyStr.slice(0,8)+'...',scopes,env,
+    expires: expiry === 'never' ? 'Never' : expiry,
+    status:'active'});
+
+  document.getElementById('new-key-val').textContent = keyStr;
+  document.getElementById('new-key-banner').style.display = 'block';
+  document.getElementById('key-name').value = '';
+  renderTable();
+}
+
+function copyKey() {
+  navigator.clipboard.writeText(newKeyValue).catch(()=>{});
+  document.querySelector('.copy-btn').textContent = 'Copied!';
+  setTimeout(() => document.querySelector('.copy-btn').textContent = 'Copy Key', 2000);
+}
+
+function revokeKey(id) {
+  const k = keys.find(k => k.id === id);
+  if (k) k.status = 'revoked';
+  renderTable();
+}
+
+function renderTable() {
+  const tbody = document.getElementById('keys-body');
+  tbody.innerHTML = keys.map(k => `
+    <tr>
+      <td><span style="color:#F1F5F9;font-weight:600">${k.name}</span><br><span style="font-size:.72rem;color:#475569">${k.env}</span></td>
+      <td><span class="key-display">${k.key}</span></td>
+      <td>${k.scopes.map(s=>'<span class="scope-tag">'+s+'</span>').join('')}</td>
+      <td style="color:#94A3B8;font-size:.82rem">${k.expires}</td>
+      <td><span class="status-badge ${k.status === 'active' ? 'status-active' : 'status-revoked'}">${k.status}</span></td>
+      <td>${k.status === 'active' ? '<button class="btn-danger" onclick="revokeKey('+k.id+')">Revoke</button>' : ''}</td>
+    </tr>`).join('');
+}
+
+renderTable();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

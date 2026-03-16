@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0D0D1A"/>
+      <stop offset="100%" style="stop-color:#1A1A2E"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FF6B00"/>
+      <stop offset="100%" style="stop-color:#FFD700"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Grid pattern -->
+  <g stroke="#1A1A2E" stroke-width="0.5" opacity="0.5">
+    <line x1="0" y1="0" x2="0" y2="630"/>
+    <line x1="60" y1="0" x2="60" y2="630"/>
+    <line x1="120" y1="0" x2="120" y2="630"/>
+    <line x1="180" y1="0" x2="180" y2="630"/>
+    <line x1="240" y1="0" x2="240" y2="630"/>
+    <line x1="300" y1="0" x2="300" y2="630"/>
+    <line x1="360" y1="0" x2="360" y2="630"/>
+    <line x1="420" y1="0" x2="420" y2="630"/>
+    <line x1="480" y1="0" x2="480" y2="630"/>
+    <line x1="540" y1="0" x2="540" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="660" y1="0" x2="660" y2="630"/>
+    <line x1="720" y1="0" x2="720" y2="630"/>
+    <line x1="780" y1="0" x2="780" y2="630"/>
+    <line x1="840" y1="0" x2="840" y2="630"/>
+    <line x1="900" y1="0" x2="900" y2="630"/>
+    <line x1="960" y1="0" x2="960" y2="630"/>
+    <line x1="1020" y1="0" x2="1020" y2="630"/>
+    <line x1="1080" y1="0" x2="1080" y2="630"/>
+    <line x1="1140" y1="0" x2="1140" y2="630"/>
+    <line x1="1200" y1="0" x2="1200" y2="630"/>
+  </g>
+
+  <!-- Vault icon (simplified) -->
+  <g transform="translate(520, 120)">
+    <!-- Vault body -->
+    <rect x="0" y="40" width="160" height="120" rx="12" fill="none" stroke="url(#accent)" stroke-width="3"/>
+    <!-- Vault door circle -->
+    <circle cx="80" cy="100" r="35" fill="none" stroke="#FF6B00" stroke-width="2.5"/>
+    <!-- Vault handle -->
+    <line x1="80" y1="75" x2="80" y2="100" stroke="#FFD700" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="80" y1="100" x2="100" y2="100" stroke="#FFD700" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Vault top -->
+    <rect x="-8" y="32" width="176" height="16" rx="4" fill="#FF6B00" opacity="0.8"/>
+    <!-- Lock dots -->
+    <circle cx="40" cy="60" r="3" fill="#FFD700" opacity="0.6"/>
+    <circle cx="120" cy="60" r="3" fill="#FFD700" opacity="0.6"/>
+    <circle cx="40" cy="140" r="3" fill="#FFD700" opacity="0.6"/>
+    <circle cx="120" cy="140" r="3" fill="#FFD700" opacity="0.6"/>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="340" text-anchor="middle" fill="#E0E0E0" font-family="'JetBrains Mono', 'Fira Code', monospace" font-size="52" font-weight="700">VAULT FORGE</text>
+
+  <!-- Subtitle -->
+  <text x="600" y="390" text-anchor="middle" fill="#FF6B00" font-family="'JetBrains Mono', 'Fira Code', monospace" font-size="20" font-weight="400">ERC-4626 Yield Vault Toolkit</text>
+
+  <!-- Tags -->
+  <text x="600" y="440" text-anchor="middle" fill="#888899" font-family="'Inter', 'Helvetica', sans-serif" font-size="16">10 Products &bull; Solidity ^0.8.24 &bull; OpenZeppelin v5 &bull; Foundry</text>
+
+  <!-- Brand bar -->
+  <rect x="0" y="610" width="1200" height="20" fill="url(#accent)"/>
+
+  <!-- CryptoForge logo text -->
+  <text x="600" y="500" text-anchor="middle" fill="#555566" font-family="'JetBrains Mono', monospace" font-size="14" letter-spacing="4">CRYPTOFORGE</text>
+
+  <!-- Decorative corners -->
+  <path d="M 20 20 L 20 60 M 20 20 L 60 20" stroke="#FF6B00" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M 1180 20 L 1180 60 M 1180 20 L 1140 20" stroke="#FF6B00" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M 20 600 L 20 560 M 20 600 L 60 600" stroke="#FF6B00" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M 1180 600 L 1180 560 M 1180 600 L 1140 600" stroke="#FF6B00" stroke-width="2" fill="none" opacity="0.5"/>
+</svg>

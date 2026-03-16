@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RBAC Manager — Interactive Demo | Auth Vault</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#E91E63;--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;--red:#FF4B6E;--yellow:#FFD600;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;} .badge{background:var(--accent);color:#fff;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1000px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:1.5rem;font-size:.95rem;}
+  .top-bar{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.5rem;align-items:center;}
+  .top-bar input{flex:1;min-width:150px;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.5rem .85rem;border-radius:8px;font-size:.85rem;}
+  .top-bar input:focus{outline:none;border-color:var(--accent);}
+  .add-btn{padding:.5rem 1rem;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;white-space:nowrap;}
+  .matrix-wrap{overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  thead{background:var(--surface2);}
+  th{padding:.6rem .8rem;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);text-align:center;border-bottom:1px solid var(--border);}
+  th.resource-header{text-align:left;}
+  td{padding:.5rem .8rem;border-bottom:1px solid rgba(42,46,62,.6);text-align:center;font-size:.82rem;}
+  td.role-name{text-align:left;font-weight:600;color:var(--text);}
+  .perm-cell{cursor:pointer;font-size:1rem;transition:transform .1s;}
+  .perm-cell:hover{transform:scale(1.2);}
+  .role-badge{display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.7rem;font-weight:700;margin-right:.35rem;}
+  .rb-admin{background:rgba(233,30,99,.2);color:var(--accent);}
+  .rb-editor{background:rgba(0,188,212,.15);color:#00BCD4;}
+  .rb-viewer{background:rgba(0,255,136,.1);color:var(--green);}
+  .rb-custom{background:rgba(255,214,0,.1);color:var(--yellow);}
+  .check-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-top:1.5rem;}
+  .check-row{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;}
+  select{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.5rem .8rem;border-radius:8px;font-size:.85rem;}
+  select:focus{outline:none;border-color:var(--accent);}
+  .check-btn{padding:.5rem 1rem;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:8px;font-size:.85rem;cursor:pointer;}
+  .check-btn:hover{border-color:var(--accent);}
+  .result{display:flex;align-items:center;gap:.5rem;padding:.5rem .9rem;border-radius:8px;font-size:.88rem;margin-top:.75rem;}
+  .res-allow{background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.25);color:var(--green);}
+  .res-deny{background:rgba(255,75,110,.08);border:1px solid rgba(255,75,110,.25);color:var(--red);}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a1025);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#fff;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">🛡️</span>
+  <h1>RBAC Manager</h1>
+  <span>Interactive Demo</span>
+  <span class="badge">Auth Vault</span>
+</header>
+<div class="container">
+  <h2>Role-Based Access Control Matrix</h2>
+  <p class="subtitle">Build your permission matrix — add roles and resources, toggle permissions, check access.</p>
+  <div class="top-bar">
+    <input type="text" id="newRole" placeholder="New role name (e.g. moderator)">
+    <button class="add-btn" onclick="addRole()">+ Add Role</button>
+    <input type="text" id="newRes" placeholder="New resource (e.g. invoices)">
+    <button class="add-btn" onclick="addResource()">+ Add Resource</button>
+  </div>
+  <div class="matrix-wrap">
+    <table id="matrix"></table>
+  </div>
+  <div class="check-section">
+    <strong style="font-size:.9rem">Check Permission</strong>
+    <p style="color:var(--muted);font-size:.82rem;margin:.3rem 0 .85rem">Simulate an authorization check:</p>
+    <div class="check-row">
+      <select id="checkRole"></select>
+      <span style="color:var(--muted);font-size:.85rem">can</span>
+      <select id="checkAction">
+        <option>read</option><option>write</option><option>delete</option><option>admin</option>
+      </select>
+      <span style="color:var(--muted);font-size:.85rem">on</span>
+      <select id="checkRes"></select>
+      <button class="check-btn" onclick="checkPerm()">▶ Check</button>
+    </div>
+    <div id="checkResult"></div>
+  </div>
+  <div class="cta-box">
+    <h3>🛡️ Full RBAC Manager — Python Backend</h3>
+    <p>Full version includes hierarchical roles, attribute-based rules (ABAC), database integration, audit logs, and FastAPI/Django decorators.</p>
+    <a href="https://buy.stripe.com/8x2aEX6iH1uufVM6qdgjJ0e" class="cta-btn">Buy Full Version — $24.99</a>
+    <button class="crypto-pay-btn" data-product-slug="rbac-manager" data-store-slug="auth-vault" data-product-name="rbac-manager" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+<script>
+const ACTIONS=['read','write','delete','admin'];
+const roleColors={admin:'rb-admin',editor:'rb-editor',viewer:'rb-viewer'};
+
+let roles=['admin','editor','viewer'];
+let resources=['users','posts','products','settings','billing'];
+
+// permissions[role][resource][action] = bool
+let perms={
+  admin:{users:{read:true,write:true,delete:true,admin:true},posts:{read:true,write:true,delete:true,admin:true},products:{read:true,write:true,delete:true,admin:true},settings:{read:true,write:true,delete:true,admin:true},billing:{read:true,write:true,delete:true,admin:true}},
+  editor:{users:{read:true,write:true,delete:false,admin:false},posts:{read:true,write:true,delete:true,admin:false},products:{read:true,write:true,delete:false,admin:false},settings:{read:true,write:false,delete:false,admin:false},billing:{read:true,write:false,delete:false,admin:false}},
+  viewer:{users:{read:true,write:false,delete:false,admin:false},posts:{read:true,write:false,delete:false,admin:false},products:{read:true,write:false,delete:false,admin:false},settings:{read:false,write:false,delete:false,admin:false},billing:{read:false,write:false,delete:false,admin:false}},
+};
+
+function ensurePerms(){
+  roles.forEach(r=>{
+    if(!perms[r]) perms[r]={};
+    resources.forEach(res=>{
+      if(!perms[r][res]) perms[r][res]={read:false,write:false,delete:false,admin:false};
+    });
+  });
+}
+
+function toggle(role,res,action){
+  perms[role][res][action]=!perms[role][res][action];
+  render();
+}
+
+function render(){
+  ensurePerms();
+  const cols=ACTIONS;
+  let html=`<thead><tr><th class="resource-header">Role / Resource</th>`;
+  resources.forEach(r=>html+=`<th colspan="${cols.length}" style="border-left:1px solid var(--border)">${r}</th>`);
+  html+=`</tr><tr><th></th>`;
+  resources.forEach(()=>cols.forEach(a=>html+=`<th style="font-size:.65rem;color:var(--muted)">${a}</th>`));
+  html+=`</tr></thead><tbody>`;
+  roles.forEach(role=>{
+    const cls=roleColors[role]||'rb-custom';
+    html+=`<tr><td class="role-name"><span class="role-badge ${cls}">${role}</span></td>`;
+    resources.forEach(res=>{
+      ACTIONS.forEach(action=>{
+        const on=perms[role]&&perms[role][res]&&perms[role][res][action];
+        html+=`<td class="perm-cell" onclick="toggle('${role}','${res}','${action}')" title="${role} ${action} ${res}">${on?'✅':'⬜'}</td>`;
+      });
+    });
+    html+=`</tr>`;
+  });
+  html+=`</tbody>`;
+  document.getElementById('matrix').innerHTML=html;
+  updateSelects();
+}
+
+function updateSelects(){
+  const rs=document.getElementById('checkRole');
+  const re=document.getElementById('checkRes');
+  const curRole=rs.value,curRes=re.value;
+  rs.innerHTML=roles.map(r=>`<option ${r===curRole?'selected':''}>${r}</option>`).join('');
+  re.innerHTML=resources.map(r=>`<option ${r===curRes?'selected':''}>${r}</option>`).join('');
+}
+
+function addRole(){
+  const val=document.getElementById('newRole').value.trim().toLowerCase().replace(/\s+/g,'-');
+  if(!val||roles.includes(val)) return;
+  roles.push(val);
+  document.getElementById('newRole').value='';
+  render();
+}
+
+function addResource(){
+  const val=document.getElementById('newRes').value.trim().toLowerCase().replace(/\s+/g,'-');
+  if(!val||resources.includes(val)) return;
+  resources.push(val);
+  document.getElementById('newRes').value='';
+  render();
+}
+
+function checkPerm(){
+  const role=document.getElementById('checkRole').value;
+  const action=document.getElementById('checkAction').value;
+  const res=document.getElementById('checkRes').value;
+  const allowed=perms[role]&&perms[role][res]&&perms[role][res][action];
+  document.getElementById('checkResult').innerHTML=allowed
+    ?`<div class="result res-allow">✅ ALLOW — Role "${role}" CAN ${action} "${res}"</div>`
+    :`<div class="result res-deny">🚫 DENY — Role "${role}" cannot ${action} "${res}"</div>`;
+}
+
+render();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

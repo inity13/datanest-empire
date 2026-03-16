@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Roblox Studio UI Templates | Pixel Empire Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#0a0a0f; color:#e0e0e0; font-family:'Inter', system-ui, sans-serif; line-height:1.6; }
+    h1,h2,h3 { font-family:'Press Start 2P', 'Inter', system-ui, sans-serif; letter-spacing:1px; }
+    a { color:#10b981; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .container { max-width:960px; margin:0 auto; padding:24px 16px; }
+    .btn { display:inline-block; padding:12px 28px; background:#10b981; color:#000;
+            font-weight:700; border:none; border-radius:6px; cursor:pointer; font-size:14px; }
+    .btn:hover { opacity:0.85; text-decoration:none; }
+    .price { font-size:22px; font-weight:700; color:#10b981; }
+    .muted { color:#888; font-size:13px; }
+    .card { background:#14141f; border-radius:10px; padding:16px; }
+    canvas { display:block; border-radius:8px; image-rendering:pixelated; }
+    .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+.crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+    </style>
+</head>
+<body>
+<div class="container">
+
+<h1 style="font-size:16px;margin-bottom:8px;color:#10b981">Roblox Studio UI Templates</h1>
+<p class="muted" style="margin-bottom:12px">10 complete Roblox game UI kits. Shop menus, inventory, HUD, settings. Roblox Studio compatible, Luau scripts included.</p>
+<div id="page" class="card" style="min-height:320px;padding:24px;margin-bottom:12px"></div>
+<div style="display:flex;gap:12px;align-items:center;margin-bottom:16px">
+  <button class="btn" id="prevBtn">&larr; Prev</button>
+  <span id="pageNum" class="muted">Page 1 / 3</span>
+  <button class="btn" id="nextBtn">Next &rarr;</button>
+</div>
+<div style="display:flex;gap:12px;align-items:center">
+  <span class="price">$4.99</span>
+  <a href="https://buy.stripe.com/9B67sL6iH4GGcJAdSFgjI0x" class="btn" target="_blank" rel="noopener">Buy Now</a>
+<button class="crypto-pay-btn" data-product-slug="roblox-ui-templates" data-store-slug="game-mods" data-product-name="Roblox Studio UI Templates" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+
+</div>
+
+</div>
+<script>
+(function(){
+  var accent='#10b981';
+  var pages=[
+    '<h2 style="font-size:13px;color:'+accent+';margin-bottom:16px">Daily Plan</h2>'
+    +'<div style="margin-bottom:8px"><input type="checkbox"> <span style="color:#ccc">Morning review</span></div>'
+    +'<div style="margin-bottom:8px"><input type="checkbox"> <span style="color:#ccc">Focus session 1</span></div>'
+    +'<div style="margin-bottom:8px"><input type="checkbox"> <span style="color:#ccc">Creative work</span></div>'
+    +'<hr style="border-color:#333;margin:12px 0">'
+    +'<div style="height:60px;border:1px dashed #444;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#555">Notes area</div>',
+
+    '<h2 style="font-size:13px;color:'+accent+';margin-bottom:16px">Weekly Overview</h2>'
+    +'<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">'
+    +'<div style="text-align:center;font-size:10px;color:#888">Mon</div>'
+    +'<div style="text-align:center;font-size:10px;color:#888">Tue</div>'
+    +'<div style="text-align:center;font-size:10px;color:#888">Wed</div>'
+    +'<div style="text-align:center;font-size:10px;color:#888">Thu</div>'
+    +'<div style="text-align:center;font-size:10px;color:#888">Fri</div>'
+    +'<div style="text-align:center;font-size:10px;color:#888">Sat</div>'
+    +'<div style="text-align:center;font-size:10px;color:#888">Sun</div>'
+    +'</div>'
+    +'<div style="margin-top:16px"><div style="height:30px;background:#1a1a2e;border-radius:4px;margin-bottom:6px"></div>'
+    +'<div style="height:30px;background:#1a1a2e;border-radius:4px;margin-bottom:6px"></div>'
+    +'<div style="height:30px;background:#1a1a2e;border-radius:4px"></div></div>',
+
+    '<h2 style="font-size:13px;color:'+accent+';margin-bottom:16px">Goals &amp; Tracker</h2>'
+    +'<div style="margin-bottom:12px"><span style="color:#aaa;font-size:12px">Progress</span>'
+    +'<div style="height:10px;background:#1a1a2e;border-radius:5px;overflow:hidden;margin-top:4px">'
+    +'<div style="width:65%;height:100%;background:'+accent+'"></div></div></div>'
+    +'<div style="margin-bottom:8px"><input type="checkbox" checked> <span style="color:#ccc">Goal 1 complete</span></div>'
+    +'<div style="margin-bottom:8px"><input type="checkbox"> <span style="color:#ccc">Goal 2 in progress</span></div>'
+    +'<div><input type="checkbox"> <span style="color:#ccc">Goal 3 not started</span></div>'
+  ];
+  var cur=0;
+  function show(){
+    document.getElementById('page').innerHTML=pages[cur];
+    document.getElementById('pageNum').textContent='Page '+(cur+1)+' / '+pages.length;
+  }
+  show();
+  document.getElementById('prevBtn').onclick=function(){ cur=(cur-1+pages.length)%pages.length; show(); };
+  document.getElementById('nextBtn').onclick=function(){ cur=(cur+1)%pages.length; show(); };
+})();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

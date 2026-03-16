@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Integration &mdash; SaaS Starter &mdash; CodeVault</title>
+    <meta name="description" content="Python Stripe billing integration: subscriptions, usage metering, invoicing, and webhook handling. Plug-and-play payment infrastructure for your SaaS.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F680;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#FFD600">
+    <script defer data-domain="saas-starter.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to SaaS Starter</a>
+        <h1 class="preview-page__title">Billing Integration</h1>
+        <p class="preview-page__price">$9.99</p>
+        <p class="preview-page__desc">Python Stripe billing integration: subscriptions, usage metering, invoicing, and webhook handling. Plug-and-play payment infrastructure for your SaaS. Runs on Python 3.10+ stdlib only.</p>
+
+        <ul class="preview-page__features">
+            <li>Subscription lifecycle management (create, upgrade, downgrade, cancel)</li>
+            <li>Usage-based metering with configurable billing periods</li>
+            <li>Invoice generation with line items and tax calculation</li>
+            <li>Webhook handler with signature verification and idempotency</li>
+            <li>Plan catalog with tiered pricing (free, starter, pro, enterprise)</li>
+            <li>Proration calculations for mid-cycle plan changes</li>
+            <li>Customer portal integration points</li>
+            <li>Retry logic for failed payment attempts</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Initialize billing system
+python src/main.py --init
+
+# Process a subscription change
+python src/main.py --upgrade --customer acme --plan pro
+
+# Generate an invoice
+python src/main.py --invoice --customer acme --period 2026-03</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_billing_integration"
+               data-product="billing-integration">
+                Grab This &mdash; $9.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Billing Integration"
+                    data-crypto-price="999">
+                Pay with Crypto ($7.99)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

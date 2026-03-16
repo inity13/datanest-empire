@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Key Manager — Interactive Demo | Auth Vault</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#E91E63;--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;--red:#FF4B6E;--yellow:#FFD600;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;}
+  .badge{background:var(--accent);color:#fff;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1050px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;border-bottom:1px solid var(--border);padding-bottom:.75rem;}
+  .tab{padding:.45rem 1rem;border-radius:8px;font-size:.88rem;cursor:pointer;color:var(--muted);border:1px solid transparent;}
+  .tab.active{background:rgba(233,30,99,.12);border-color:var(--accent);color:var(--accent);}
+  .tab-pane{display:none;} .tab-pane.active{display:block;}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;}
+  h3{font-size:1rem;font-weight:700;margin-bottom:1rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+  input,select{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.55rem .8rem;border-radius:8px;font-size:.88rem;margin-bottom:.85rem;font-family:inherit;}
+  input:focus,select:focus{outline:none;border-color:var(--accent);}
+  .btn{padding:.6rem 1.2rem;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;background:var(--accent);color:#fff;}
+  .btn:hover{opacity:.85;}
+  .btn-sm{padding:.3rem .65rem;font-size:.75rem;}
+  .btn-danger{background:var(--red);}
+  .btn-muted{background:var(--surface2);border:1px solid var(--border);color:var(--text);}
+  /* Key display */
+  .key-display{background:var(--surface2);border:1px solid var(--green);border-radius:10px;padding:1rem 1.25rem;margin:1rem 0;font-family:'Courier New',monospace;font-size:.85rem;color:var(--green);word-break:break-all;position:relative;}
+  .copy-btn{position:absolute;top:.6rem;right:.6rem;background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:.25rem .55rem;border-radius:6px;font-size:.72rem;cursor:pointer;}
+  .copy-btn:hover{border-color:var(--accent);color:var(--accent);}
+  /* Key table */
+  .key-table{width:100%;border-collapse:collapse;font-size:.82rem;}
+  .key-table th{text-align:left;padding:.5rem .75rem;color:var(--muted);font-size:.75rem;text-transform:uppercase;border-bottom:1px solid var(--border);}
+  .key-table td{padding:.65rem .75rem;border-bottom:1px solid rgba(42,46,62,.5);}
+  .key-table tr:last-child td{border-bottom:none;}
+  .status-pill{display:inline-flex;align-items:center;gap:.3rem;padding:.18rem .5rem;border-radius:20px;font-size:.72rem;font-weight:600;}
+  .pill-active{background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.2);}
+  .pill-revoked{background:rgba(255,75,110,.1);color:var(--red);border:1px solid rgba(255,75,110,.2);}
+  .pill-expired{background:rgba(255,214,0,.1);color:var(--yellow);border:1px solid rgba(255,214,0,.2);}
+  .scope-tag{background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:.1rem .4rem;font-size:.68rem;font-family:monospace;margin:.1rem;}
+  .scopes-row{display:flex;flex-wrap:wrap;}
+  /* Validator */
+  .validator-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+  @media(max-width:700px){.validator-grid{grid-template-columns:1fr;}}
+  .validation-result{background:var(--surface2);border-radius:10px;padding:1.25rem;border:1px solid var(--border);}
+  .validation-result.valid{border-color:var(--green);}
+  .validation-result.invalid{border-color:var(--red);}
+  .result-row{display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid rgba(42,46,62,.5);font-size:.82rem;}
+  .result-row:last-child{border-bottom:none;}
+  .result-label{color:var(--muted);}
+  .result-value{font-weight:600;}
+  .stats-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;}
+  .stat{background:var(--surface2);border-radius:10px;padding:.85rem;text-align:center;border:1px solid var(--border);}
+  .stat-n{font-size:1.5rem;font-weight:700;color:var(--accent);}
+  .stat-l{font-size:.7rem;color:var(--muted);text-transform:uppercase;margin-top:.2rem;}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a1025);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#fff;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">🗝️</span>
+  <h1>API Key Manager</h1>
+  <span style="color:var(--muted);font-size:.9rem">Interactive Demo</span>
+  <span class="badge">Auth Vault</span>
+</header>
+
+<div class="container">
+  <h2>API Key Lifecycle Management</h2>
+  <p class="subtitle">Generate, validate, rotate, and revoke API keys with scope-based permissions, usage tracking, and expiry management.</p>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('generate',this)">Generate Key</div>
+    <div class="tab" onclick="switchTab('manage',this)">Manage Keys</div>
+    <div class="tab" onclick="switchTab('validate',this)">Validate Key</div>
+  </div>
+
+  <!-- Generate Tab -->
+  <div class="tab-pane active" id="tab-generate">
+    <div class="panel">
+      <h3>Generate New API Key</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div>
+          <label>Key Name / Label</label>
+          <input type="text" id="keyName" value="Production API" placeholder="e.g. Production API">
+        </div>
+        <div>
+          <label>Key Format</label>
+          <select id="keyFormat">
+            <option value="pk_live">pk_live_... (Stripe-style)</option>
+            <option value="sk_">sk_... (Secret key)</option>
+            <option value="ak_">ak_... (App key)</option>
+            <option value="hex">hex (raw 256-bit)</option>
+            <option value="uuid">UUID v4</option>
+          </select>
+        </div>
+        <div>
+          <label>Environment</label>
+          <select id="keyEnv">
+            <option value="live">Live / Production</option>
+            <option value="test">Test / Staging</option>
+          </select>
+        </div>
+        <div>
+          <label>Expiry</label>
+          <select id="keyExpiry">
+            <option value="30">30 days</option>
+            <option value="90" selected>90 days</option>
+            <option value="365">1 year</option>
+            <option value="0">Never</option>
+          </select>
+        </div>
+      </div>
+      <label>Permissions / Scopes</label>
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem" id="scopePicker"></div>
+      <label>Rate Limit (req/min)</label>
+      <input type="number" id="rateLimit" value="100" min="1" max="10000">
+      <button class="btn" onclick="generateKey()" style="width:100%">⚡ Generate API Key</button>
+    </div>
+    <div id="newKeyResult" style="display:none" class="panel">
+      <h3 style="color:var(--green)">✓ Key Generated — Save This Now!</h3>
+      <p style="color:var(--muted);font-size:.82rem;margin-bottom:.75rem">This key will only be shown once. Store it securely in your environment variables.</p>
+      <div class="key-display" id="newKeyDisplay">
+        <button class="copy-btn" onclick="copyKey()">Copy</button>
+        <span id="newKeyText"></span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-top:.75rem;font-size:.82rem">
+        <div><div style="color:var(--muted);font-size:.72rem;text-transform:uppercase;margin-bottom:.2rem">Key ID</div><div id="newKeyId" style="font-family:monospace;font-size:.75rem"></div></div>
+        <div><div style="color:var(--muted);font-size:.72rem;text-transform:uppercase;margin-bottom:.2rem">Expires</div><div id="newKeyExpiry"></div></div>
+        <div><div style="color:var(--muted);font-size:.72rem;text-transform:uppercase;margin-bottom:.2rem">Rate Limit</div><div id="newKeyRate"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Manage Tab -->
+  <div class="tab-pane" id="tab-manage">
+    <div class="stats-bar">
+      <div class="stat"><div class="stat-n" id="statActive">0</div><div class="stat-l">Active Keys</div></div>
+      <div class="stat"><div class="stat-n" id="statRevoked">0</div><div class="stat-l">Revoked</div></div>
+      <div class="stat"><div class="stat-n" id="statExpired">0</div><div class="stat-l">Expiring Soon</div></div>
+    </div>
+    <div class="panel" style="padding:0;overflow:hidden">
+      <div style="overflow-x:auto">
+        <table class="key-table">
+          <thead><tr><th>Key ID</th><th>Name</th><th>Prefix</th><th>Scopes</th><th>Rate Limit</th><th>Last Used</th><th>Expiry</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="keyTbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Validate Tab -->
+  <div class="tab-pane" id="tab-validate">
+    <div class="validator-grid">
+      <div class="panel">
+        <h3>Validate an API Key</h3>
+        <label>API Key</label>
+        <input type="text" id="validateInput" placeholder="Paste an API key..." style="font-family:monospace">
+        <label>Required Scope (optional)</label>
+        <input type="text" id="validateScope" placeholder="e.g. read:users">
+        <button class="btn" onclick="validateKey()" style="width:100%">🔍 Validate</button>
+      </div>
+      <div class="panel" id="validateResult" style="display:none">
+        <h3 id="validateTitle">Result</h3>
+        <div class="validation-result" id="validateBox">
+          <div id="validateRows"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <p>Full version adds HMAC signing, key hashing for secure storage, webhook signing, SDK helpers for Python/Node/Go, and admin REST API.</p>
+    <a href="https://buy.stripe.com/00w28rePd2yyfVMcOBgjJ0g" class="cta-btn">Buy Full Version — $14.99</a>
+    <button class="crypto-pay-btn" data-product-slug="api-key-manager" data-store-slug="auth-vault" data-product-name="api-key-manager" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+
+<script>
+const ALL_SCOPES = ['read:users','write:users','read:data','write:data','delete:data','read:billing','write:billing','read:analytics','admin:all','webhooks'];
+let selectedScopes = ['read:users','read:data'];
+let keys = [];
+let keyCounter = 0;
+
+// Seed
+function randHex(n) { return [...Array(n)].map(()=>Math.floor(Math.random()*16).toString(16)).join(''); }
+function randB62(n) { const c='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'; return [...Array(n)].map(()=>c[Math.floor(Math.random()*c.length)]).join(''); }
+
+function makeKey(format, env) {
+  const e = env === 'live' ? 'live' : 'test';
+  switch(format) {
+    case 'pk_live': return `pk_${e}_${randB62(32)}`;
+    case 'sk_':     return `sk_${e}_${randB62(32)}`;
+    case 'ak_':     return `ak_${e}_${randB62(32)}`;
+    case 'hex':     return randHex(64);
+    case 'uuid': {
+      const h = randHex(32);
+      return `${h.slice(0,8)}-${h.slice(8,12)}-4${h.slice(13,16)}-${h.slice(16,20)}-${h.slice(20,32)}`;
+    }
+    default: return randB62(40);
+  }
+}
+
+function initScopePicker() {
+  const el = document.getElementById('scopePicker');
+  el.innerHTML = ALL_SCOPES.map(s => `<div style="background:var(--surface2);border:1px solid ${selectedScopes.includes(s)?'var(--accent)':'var(--border)'};border-radius:6px;padding:.3rem .65rem;font-size:.75rem;cursor:pointer;transition:all .2s;color:${selectedScopes.includes(s)?'var(--accent)':'var(--text)'}" onclick="toggleScope(this,'${s}')">${s}</div>`).join('');
+}
+
+function toggleScope(el, scope) {
+  if (selectedScopes.includes(scope)) { selectedScopes=selectedScopes.filter(s=>s!==scope); el.style.borderColor='var(--border)'; el.style.color='var(--text)'; }
+  else { selectedScopes.push(scope); el.style.borderColor='var(--accent)'; el.style.color='var(--accent)'; }
+}
+
+function generateKey() {
+  const fmt = document.getElementById('keyFormat').value;
+  const env = document.getElementById('keyEnv').value;
+  const expDays = parseInt(document.getElementById('keyExpiry').value);
+  const name = document.getElementById('keyName').value || 'My API Key';
+  const rate = parseInt(document.getElementById('rateLimit').value) || 100;
+  const rawKey = makeKey(fmt, env);
+  const prefix = rawKey.slice(0, rawKey.indexOf('_', 3) + 1 || 8);
+
+  const key = {
+    id: 'kid_' + randHex(8),
+    name,
+    rawKey,
+    prefix: rawKey.slice(0, 12) + '...',
+    scopes: [...selectedScopes],
+    rateLimit: rate,
+    status: 'active',
+    createdAt: Date.now(),
+    expiresAt: expDays > 0 ? Date.now() + expDays * 86400000 : null,
+    lastUsed: null,
+    uses: 0,
+    env
+  };
+  keys.unshift(key);
+
+  document.getElementById('newKeyText').textContent = rawKey;
+  document.getElementById('newKeyId').textContent = key.id;
+  document.getElementById('newKeyExpiry').textContent = key.expiresAt ? new Date(key.expiresAt).toLocaleDateString() : 'Never';
+  document.getElementById('newKeyRate').textContent = `${rate} req/min`;
+  document.getElementById('newKeyResult').style.display = 'block';
+  updateStats();
+  renderKeys();
+}
+
+function copyKey() {
+  const val = document.getElementById('newKeyText').textContent;
+  navigator.clipboard.writeText(val).catch(()=>{});
+  const btn = document.querySelector('.copy-btn');
+  btn.textContent = 'Copied!';
+  setTimeout(()=>btn.textContent='Copy', 1500);
+}
+
+function revokeKey(id) {
+  const k = keys.find(k=>k.id===id);
+  if (k) { k.status='revoked'; k.revokedAt=Date.now(); }
+  updateStats(); renderKeys();
+}
+
+function rotateKey(id) {
+  const k = keys.find(k=>k.id===id);
+  if (k) {
+    const fmt = k.rawKey.startsWith('pk_') ? 'pk_live' : k.rawKey.startsWith('sk_') ? 'sk_' : 'hex';
+    k.rawKey = makeKey(fmt, k.env);
+    k.prefix = k.rawKey.slice(0,12)+'...';
+    k.uses = 0;
+    k.lastUsed = null;
+    k.createdAt = Date.now();
+    alert('Key rotated! New key: ' + k.rawKey);
+  }
+  renderKeys();
+}
+
+function updateStats() {
+  document.getElementById('statActive').textContent = keys.filter(k=>k.status==='active').length;
+  document.getElementById('statRevoked').textContent = keys.filter(k=>k.status==='revoked').length;
+  const soon = Date.now() + 14*86400000;
+  document.getElementById('statExpired').textContent = keys.filter(k=>k.status==='active'&&k.expiresAt&&k.expiresAt<soon).length;
+}
+
+function renderKeys() {
+  const tbody = document.getElementById('keyTbody');
+  if (!keys.length) { tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:2rem">No keys yet — generate one.</td></tr>'; return; }
+  const now = Date.now();
+  tbody.innerHTML = keys.map(k => {
+    const st = k.status==='revoked' ? 'pill-revoked' : (k.expiresAt&&k.expiresAt<now) ? 'pill-expired' : 'pill-active';
+    const stLabel = k.status==='revoked' ? 'Revoked' : (k.expiresAt&&k.expiresAt<now) ? 'Expired' : 'Active';
+    const exp = k.expiresAt ? new Date(k.expiresAt).toLocaleDateString() : 'Never';
+    const last = k.lastUsed ? new Date(k.lastUsed).toLocaleDateString() : 'Never';
+    return `<tr>
+      <td><code style="font-size:.72rem;color:#cba6f7">${k.id}</code></td>
+      <td>${k.name}</td>
+      <td><code style="font-size:.75rem">${k.prefix}</code></td>
+      <td><div class="scopes-row">${k.scopes.slice(0,3).map(s=>`<span class="scope-tag">${s}</span>`).join('')}${k.scopes.length>3?`<span class="scope-tag">+${k.scopes.length-3}</span>`:''}</div></td>
+      <td>${k.rateLimit}/min</td>
+      <td style="color:var(--muted)">${last}</td>
+      <td style="color:${k.expiresAt&&k.expiresAt<now+14*86400000?'var(--yellow)':'var(--muted)'}">${exp}</td>
+      <td><span class="status-pill ${st}">${stLabel}</span></td>
+      <td>
+        ${k.status==='active'?`<button class="btn btn-sm" onclick="rotateKey('${k.id}')" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);margin-right:.3rem">↺ Rotate</button><button class="btn btn-sm btn-danger" onclick="revokeKey('${k.id}')">Revoke</button>`:'<span style="color:var(--muted);font-size:.75rem">—</span>'}
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function validateKey() {
+  const input = document.getElementById('validateInput').value.trim();
+  const scope = document.getElementById('validateScope').value.trim();
+  const match = keys.find(k => k.rawKey === input);
+  const resultDiv = document.getElementById('validateResult');
+  const box = document.getElementById('validateBox');
+  const title = document.getElementById('validateTitle');
+  const rows = document.getElementById('validateRows');
+  resultDiv.style.display = 'block';
+  if (!match) {
+    title.textContent = '✗ Invalid Key';
+    box.className = 'validation-result invalid';
+    rows.innerHTML = `<div class="result-row"><span class="result-label">Status</span><span class="result-value" style="color:var(--red)">Not Found</span></div><div class="result-row"><span class="result-label">Reason</span><span class="result-value" style="color:var(--muted)">Key does not exist in this demo store</span></div>`;
+    return;
+  }
+  const now = Date.now();
+  const expired = match.expiresAt && match.expiresAt < now;
+  const valid = match.status === 'active' && !expired && (!scope || match.scopes.includes(scope));
+  title.textContent = valid ? '✓ Valid Key' : '✗ Validation Failed';
+  box.className = 'validation-result ' + (valid ? 'valid' : 'invalid');
+  const scopeOk = !scope ? 'N/A' : match.scopes.includes(scope) ? '✓ Permitted' : '✗ Not permitted';
+  rows.innerHTML = `
+    <div class="result-row"><span class="result-label">Key ID</span><span class="result-value" style="font-family:monospace;font-size:.78rem">${match.id}</span></div>
+    <div class="result-row"><span class="result-label">Status</span><span class="result-value" style="color:${valid?'var(--green)':'var(--red)'}">${match.status}</span></div>
+    <div class="result-row"><span class="result-label">Expired</span><span class="result-value" style="color:${expired?'var(--red)':'var(--green)'}">${expired?'Yes':'No'}</span></div>
+    <div class="result-row"><span class="result-label">Scope Check</span><span class="result-value" style="color:${scope&&!match.scopes.includes(scope)?'var(--red)':'var(--green)'}">${scopeOk}</span></div>
+    <div class="result-row"><span class="result-label">Rate Limit</span><span class="result-value">${match.rateLimit} req/min</span></div>
+    <div class="result-row"><span class="result-label">Scopes</span><span class="result-value" style="font-size:.78rem">${match.scopes.join(', ')}</span></div>
+  `;
+}
+
+function switchTab(id, el) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+}
+
+// Seed demo keys
+function seed() {
+  const presets = [
+    {name:'Frontend App',fmt:'pk_live',env:'live',scopes:['read:users','read:data','read:analytics'],rate:200,days:90},
+    {name:'Backend Service',fmt:'sk_',env:'live',scopes:['read:users','write:users','write:data','delete:data'],rate:1000,days:365},
+    {name:'Analytics Worker',fmt:'ak_',env:'live',scopes:['read:analytics'],rate:50,days:30},
+  ];
+  presets.forEach(p => {
+    keys.push({
+      id:'kid_'+randHex(8), name:p.name,
+      rawKey: makeKey(p.fmt, p.env),
+      prefix: '',
+      scopes: p.scopes, rateLimit: p.rate, status:'active',
+      createdAt: Date.now()-Math.random()*30*86400000,
+      expiresAt: Date.now()+p.days*86400000,
+      lastUsed: Date.now()-Math.random()*3*86400000,
+      uses: Math.floor(Math.random()*5000), env: p.env
+    });
+    keys[keys.length-1].prefix = keys[keys.length-1].rawKey.slice(0,12)+'...';
+  });
+  updateStats(); renderKeys();
+}
+
+initScopePicker();
+seed();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

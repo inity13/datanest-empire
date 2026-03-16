@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Landing Page Sample Pack — Landing Lab</title>
+    <meta name="description" content="Download a free landing page template sample pack. No credit card. Just Python, HTML, and zero dependencies.">
+    <link rel="canonical" href="https://landing-lab.codevault.dev/free-sample.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Free Landing Page Sample Pack — Landing Lab">
+    <meta property="og:description" content="Download a free landing page template sample pack. No credit card. Just Python, HTML, and zero dependencies.">
+    <meta property="og:url" content="https://landing-lab.codevault.dev/free-sample.html">
+    <meta property="og:site_name" content="CodeVault">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#FFAB00">
+    <script defer data-domain="landing-lab.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <!-- Cross-Store Navigation -->
+    <nav class="cross-nav" aria-label="CodeVault stores">
+        <div class="cross-nav__inner">
+            <span class="cross-nav__brand">CodeVault</span>
+            <a href="../seo-toolkit/storefront/index.html" class="cross-nav__link">SEO Toolkit</a>
+            <a href="../email-arsenal/storefront/index.html" class="cross-nav__link">Email Arsenal</a>
+            <a href="../form-forge/storefront/index.html" class="cross-nav__link">Form Forge</a>
+            <a href="../api-launchpad/storefront/index.html" class="cross-nav__link">API Launchpad</a>
+            <a href="../deploy-kit/storefront/index.html" class="cross-nav__link">Deploy Kit</a>
+            <a href="../auth-vault/storefront/index.html" class="cross-nav__link">Auth Vault</a>
+            <a href="../saas-starter/storefront/index.html" class="cross-nav__link">SaaS Starter</a>
+            <a href="../analytics-hub/storefront/index.html" class="cross-nav__link">Analytics Hub</a>
+            <a href="../payment-stack/storefront/index.html" class="cross-nav__link">Payment Stack</a>
+            <a href="../ai-toolkit/storefront/index.html" class="cross-nav__link">AI Toolkit</a>
+            <a href="../security-kit/storefront/index.html" class="cross-nav__link">Security Kit</a>
+            <a href="index.html" class="cross-nav__link cross-nav__link--active">Landing Lab</a>
+            <a href="../automation-hub/storefront/index.html" class="cross-nav__link">Automation Hub</a>
+        </div>
+    </nav>
+
+    <main class="preview-page">
+        <div class="container">
+            <a href="index.html" class="preview-back">&#9668; Back to Landing Lab</a>
+            <span class="preview-badge">FREE DOWNLOAD</span>
+
+            <div class="preview-header">
+                <h1>Free Landing Page Sample Pack</h1>
+                <span class="preview-price">Free</span>
+            </div>
+
+            <p class="preview-desc">
+                Grab a free sample of the Landing Lab toolkit. Includes one responsive landing page template, a mini conversion tracking script, and a CTA analysis snippet &mdash; all Python stdlib, all MIT licensed.
+            </p>
+
+            <div class="whats-included">
+                <h2>What&rsquo;s in the sample pack</h2>
+                <ul>
+                    <li><span class="check-icon">&#10003;</span> 1 responsive SaaS landing page template (HTML + inline CSS)</li>
+                    <li><span class="check-icon">&#10003;</span> Mini conversion event tracker (Python, stdlib only)</li>
+                    <li><span class="check-icon">&#10003;</span> CTA contrast scorer snippet (Python, stdlib only)</li>
+                    <li><span class="check-icon">&#10003;</span> README with quick-start instructions</li>
+                    <li><span class="check-icon">&#10003;</span> MIT License &mdash; use in any project</li>
+                </ul>
+            </div>
+
+            <!-- ConvertKit Form ID: PLACEHOLDER -->
+            <div class="newsletter-box fade-in" style="margin-top: 2rem; text-align: center;">
+                <h2 class="newsletter-box__title">Get the free sample pack</h2>
+                <p class="newsletter-box__desc">Enter your email and we'll send you the download link instantly. No spam &mdash; ever.</p>
+                <form class="newsletter-form" id="sample-form" action="https://app.convertkit.com/forms/PLACEHOLDER/subscriptions" method="post" onsubmit="return handleSampleForm(event);">
+                    <input type="email" class="newsletter-form__input" name="email_address" placeholder="you@example.com" required aria-label="Your email address">
+                    <button type="submit" class="newsletter-form__btn">Send Me the Pack</button>
+                </form>
+                <p style="font-size: 0.8rem; color: var(--cv-text-dim); margin-top: 12px;">
+                    By subscribing you agree to receive occasional emails about new tools. Unsubscribe anytime.
+                </p>
+            </div>
+
+            <div class="preview-actions" style="margin-top: 2rem;">
+                <a href="index.html#products" class="preview-back-btn">&#9668; Back to Store</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__brand">CodeVault</p>
+            <p class="footer__tagline">Ship faster. Build smarter.</p>
+            <p class="footer__copy">&copy; 2026 CodeVault. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+    function handleSampleForm(e) {
+        e.preventDefault();
+        var form = document.getElementById('sample-form');
+        var btn = form.querySelector('button[type="submit"]');
+        var input = form.querySelector('input[type="email"]');
+        if (btn && input) {
+            btn.textContent = 'Check your inbox!';
+            btn.disabled = true;
+            input.disabled = true;
+        }
+        return false;
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Template Editor — Social Media Template Kit</title>
+    <style>
+        :root {
+            --neon-pink: #FF2D9B;
+            --electric-blue: #00D4FF;
+            --acid-green: #39FF14;
+            --purple-haze: #9D4EDD;
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-surface: #1a1a2e;
+            --text-primary: #f0f0f0;
+            --text-secondary: #a0a0b8;
+            --text-muted: #5a5a72;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            min-height: 100vh;
+        }
+        header {
+            padding: 24px 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        h1 span { color: var(--neon-pink); }
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        label {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        select {
+            background: var(--bg-surface);
+            color: var(--text-primary);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            cursor: pointer;
+            min-width: 260px;
+        }
+        select:focus { outline: 1px solid var(--electric-blue); }
+        .instructions {
+            padding: 16px 40px;
+            background: var(--bg-card);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            display: flex;
+            gap: 40px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .instructions strong { color: var(--electric-blue); }
+        .step { display: flex; align-items: baseline; gap: 8px; }
+        .step-num {
+            color: var(--neon-pink);
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .preview-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            min-height: calc(100vh - 140px);
+        }
+        .preview-wrapper {
+            position: relative;
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        .size-badge {
+            position: absolute;
+            top: -30px;
+            right: 0;
+            font-size: 13px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+        iframe {
+            display: block;
+            border: none;
+            background: var(--bg-dark);
+        }
+    .crypto-pay-btn{background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem}
+.crypto-pay-btn:hover{opacity:0.9}
+</style>
+</head>
+<body>
+    <header>
+        <h1>Neon <span>Template Editor</span></h1>
+        <div class="controls">
+            <label for="tpl-select">Template</label>
+            <select id="tpl-select">
+                <optgroup label="Instagram">
+                    <option value="../src/instagram/quote.html" data-w="1080" data-h="1080">Quote Post (1080x1080)</option>
+                    <option value="../src/instagram/carousel.html" data-w="1080" data-h="1080">Carousel (1080x1080)</option>
+                    <option value="../src/instagram/announcement.html" data-w="1080" data-h="1080">Announcement (1080x1080)</option>
+                    <option value="../src/instagram/story.html" data-w="1080" data-h="1920">Story (1080x1920)</option>
+                    <option value="../src/instagram/reel-cover.html" data-w="1080" data-h="1920">Reel Cover (1080x1920)</option>
+                </optgroup>
+                <optgroup label="TikTok">
+                    <option value="../src/tiktok/video-cover.html" data-w="1080" data-h="1920">Video Cover (1080x1920)</option>
+                    <option value="../src/tiktok/bio-link.html" data-w="480" data-h="900">Bio Link (Mobile)</option>
+                    <option value="../src/tiktok/challenge-banner.html" data-w="1080" data-h="1920">Challenge Banner (1080x1920)</option>
+                </optgroup>
+                <optgroup label="Twitter / X">
+                    <option value="../src/twitter/header.html" data-w="1500" data-h="500">Header (1500x500)</option>
+                    <option value="../src/twitter/thread-opener.html" data-w="1200" data-h="675">Thread Opener (1200x675)</option>
+                    <option value="../src/twitter/poll-card.html" data-w="1200" data-h="675">Poll Card (1200x675)</option>
+                </optgroup>
+                <optgroup label="YouTube">
+                    <option value="../src/youtube/thumbnail.html" data-w="1280" data-h="720">Thumbnail (1280x720)</option>
+                    <option value="../src/youtube/end-screen.html" data-w="1920" data-h="1080">End Screen (1920x1080)</option>
+                    <option value="../src/youtube/community-post.html" data-w="1200" data-h="675">Community Post (1200x675)</option>
+                </optgroup>
+            </select>
+        </div>
+    </header>
+    <div class="instructions">
+        <div class="step"><span class="step-num">1.</span> Select a template above</div>
+        <div class="step"><span class="step-num">2.</span> <strong>Click any text</strong> in the preview to edit it</div>
+        <div class="step"><span class="step-num">3.</span> Take a screenshot at the displayed dimensions</div>
+        <div class="step"><span class="step-num">4.</span> Upload to your platform</div>
+    </div>
+    <div class="preview-container">
+        <div class="preview-wrapper" id="wrapper">
+            <div class="size-badge" id="size-badge"></div>
+            <iframe id="preview"></iframe>
+        </div>
+    </div>
+    <script>
+        const select = document.getElementById('tpl-select');
+        const iframe = document.getElementById('preview');
+        const wrapper = document.getElementById('wrapper');
+        const badge = document.getElementById('size-badge');
+
+        function loadTemplate() {
+            const opt = select.options[select.selectedIndex];
+            const w = parseInt(opt.dataset.w);
+            const h = parseInt(opt.dataset.h);
+            const maxW = window.innerWidth - 100;
+            const maxH = window.innerHeight - 200;
+            const scale = Math.min(maxW / w, maxH / h, 0.6);
+
+            iframe.style.width = w + 'px';
+            iframe.style.height = h + 'px';
+            iframe.style.transform = `scale(${scale})`;
+            iframe.style.transformOrigin = 'top left';
+            wrapper.style.width = (w * scale) + 'px';
+            wrapper.style.height = (h * scale) + 'px';
+            badge.textContent = `${w} x ${h} px`;
+
+            iframe.src = opt.value;
+        }
+
+        select.addEventListener('change', loadTemplate);
+        loadTemplate();
+    </script>
+
+<!-- payment-cta-start -->
+<div class="purchase-cta" style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,transparent,#0a0a12 20%);padding:20px;text-align:center;z-index:1000">
+  <div style="max-width:600px;margin:0 auto;background:#12122a;border:1px solid #1a1a3a;border-radius:12px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div><strong style="color:#fff;font-size:1rem">Social Media Template Kit</strong><br><span style="color:#8888aa;font-size:.85rem">$5.00</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a href="https://buy.stripe.com/fZueVd22r1uu8tk7uhgjG1Q" class="cta-buy-btn" style="display:inline-block;background:#FF2D9B;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem">Buy Now</a>
+      <button class="crypto-pay-btn" data-product-slug="social-media-template-kit" data-store-slug="creator-kit" data-product-name="Social Media Template Kit" data-price-usd="5.00">Crypto (15% off)</button>
+    </div>
+  </div>
+</div>
+<script src="../../crypto-checkout.js"></script>
+<!-- payment-cta-end -->
+
+</body>
+</html>

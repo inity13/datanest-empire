@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Toolkit — Build AI Products Without the PhD | CodeVault</title>
+    <meta name="description" content="Production-ready Python AI tools: chatbot builder, RAG pipeline, embedding generator, agent framework, and more. Zero PhD required. Instant download.">
+    <meta name="keywords" content="python ai toolkit, chatbot builder, rag pipeline, llm tools, embedding generator, ai agent framework, prompt engineering, vector search">
+    <link rel="canonical" href="https://ai-toolkit.codevault.dev/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="AI Toolkit — Build AI Products Without the PhD | CodeVault">
+    <meta property="og:description" content="Production-ready Python AI tools: chatbot builder, RAG pipeline, embedding generator, agent framework, and more. Zero PhD required. Instant download.">
+    <meta property="og:site_name" content="CodeVault">
+    <meta property="og:url" content="https://ai-toolkit.codevault.dev/">
+    <meta property="og:image" content="https://ai-toolkit.codevault.dev/og-image.svg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI Toolkit — Build AI Products Without the PhD | CodeVault">
+    <meta name="twitter:description" content="Production-ready Python AI tools: chatbot builder, RAG pipeline, embedding generator, agent framework, and more. Zero PhD required. Instant download.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#FF1744">
+
+    <!-- Plausible Analytics -->
+    <script defer data-domain="ai-toolkit.codevault.dev" src="https://plausible.io/js/script.js"></script>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Store",
+        "name": "AI Toolkit — CodeVault",
+        "description": "Production-ready Python AI tools for building chatbots, RAG pipelines, embedding generators, agent frameworks, and more.",
+        "url": "https://ai-toolkit.codevault.dev/",
+        "brand": { "@type": "Brand", "name": "CodeVault" },
+        "offers": {
+            "@type": "AggregateOffer",
+            "lowPrice": "4.99",
+            "highPrice": "39.99",
+            "priceCurrency": "USD",
+            "offerCount": "12"
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- Cross-Store Navigation -->
+    <nav class="cross-nav" aria-label="CodeVault stores">
+        <div class="cross-nav__inner">
+            <span class="cross-nav__brand">CodeVault</span>
+            <a href="../seo-toolkit/storefront/index.html" class="cross-nav__link">SEO Toolkit</a>
+            <a href="../email-arsenal/storefront/index.html" class="cross-nav__link">Email Arsenal</a>
+            <a href="../form-forge/storefront/index.html" class="cross-nav__link">Form Forge</a>
+            <a href="../api-launchpad/storefront/index.html" class="cross-nav__link">API Launchpad</a>
+            <a href="../deploy-kit/storefront/index.html" class="cross-nav__link">Deploy Kit</a>
+            <a href="../auth-vault/storefront/index.html" class="cross-nav__link">Auth Vault</a>
+            <a href="../saas-starter/storefront/index.html" class="cross-nav__link">SaaS Starter</a>
+            <a href="../analytics-hub/storefront/index.html" class="cross-nav__link">Analytics Hub</a>
+            <a href="../payment-stack/storefront/index.html" class="cross-nav__link">Payment Stack</a>
+            <a href="#" class="cross-nav__link cross-nav__link--active">AI Toolkit</a>
+            <a href="../security-kit/storefront/index.html" class="cross-nav__link">Security Kit</a>
+            <a href="../landing-lab/storefront/index.html" class="cross-nav__link">Landing Lab</a>
+            <a href="../automation-hub/storefront/index.html" class="cross-nav__link">Automation Hub</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="top">
+        <div class="container">
+            <h1 class="hero__title glitch" data-text="AI Toolkit">AI Toolkit</h1>
+            <p class="hero__subtitle">Build AI products. Without the PhD.</p>
+            <div class="hero__cta-row">
+                <a href="#products" class="btn btn--primary">Browse Tools</a>
+                <a href="#faq" class="btn btn--secondary">How it works</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Products Section -->
+    <section class="section" id="products">
+        <div class="container">
+            <h2 class="section__heading">What&rsquo;s in stock</h2>
+            <p class="section__subheading">Production-ready AI tools. No hype, no hallucinations.</p>
+
+            <div class="filter-bar">
+                <span class="filter-bar__label">Filter:</span>
+                <button class="filter-tag active" data-filter="all">All</button>
+                <button class="filter-tag" data-filter="bundle">bundle</button>
+                <button class="filter-tag" data-filter="chatbot">chatbot</button>
+                <button class="filter-tag" data-filter="embeddings">embeddings</button>
+                <button class="filter-tag" data-filter="rag">rag</button>
+                <button class="filter-tag" data-filter="agents">agents</button>
+                <button class="filter-tag" data-filter="pipeline">pipeline</button>
+                <button class="filter-tag" data-filter="analysis">analysis</button>
+                <select class="sort-select" aria-label="Sort products">
+                    <option value="default">Sort: Featured</option>
+                    <option value="price-asc">Price: Low &rarr; High</option>
+                    <option value="price-desc">Price: High &rarr; Low</option>
+                </select>
+            </div>
+
+            <div class="product-grid">
+                <!-- Bundle: AI Toolkit Starter Bundle -->
+                <article class="product-card product-card--bundle fade-in"
+                         data-tags="bundle,starter,chatbot,pipeline"
+                         data-price="1999"
+                         data-slug="ai-toolkit-starter-bundle">
+                    <div class="product-card__inner">
+                        <div>
+                            <span class="bundle-badge">BUNDLE DEAL</span>
+                            <h3 class="product-card__name" style="margin-top: 12px">AI Toolkit Starter Bundle</h3>
+                            <p class="product-card__desc">Everything you need to ship your first AI product &mdash; Chatbot Builder, Prompt Engineering Kit, LLM Cost Tracker, and Model Evaluation Tool in one discounted bundle.</p>
+                            <div class="product-card__tags"><span class="product-card__tag">bundle</span><span class="product-card__tag">starter</span></div>
+                            <ul class="product-card__bundle-list">
+                                <li>Chatbot Builder</li>
+                                <li>Prompt Engineering Kit</li>
+                                <li>LLM Cost Tracker</li>
+                                <li>Model Evaluation Tool</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$19.99</p>
+                            <div class="product-card__actions">
+                                <a href="https://buy.stripe.com/PLACEHOLDER_ai-toolkit-starter-bundle" class="btn btn--primary btn--card"
+                                   data-product="ai-toolkit-starter-bundle">
+                                    Grab This Bundle
+                                </a>
+                                <button class="btn btn--crypto btn--card"
+                                        data-crypto-product="AI Toolkit Starter Bundle"
+                                        data-crypto-price="1999">
+                                    Pay with Crypto ($15.99)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Bundle: AI Toolkit Pro Bundle -->
+                <article class="product-card product-card--bundle fade-in"
+                         data-tags="bundle,pro,chatbot,embeddings,rag,agents,pipeline,analysis"
+                         data-price="3999"
+                         data-slug="ai-toolkit-pro-bundle">
+                    <div class="product-card__inner">
+                        <div>
+                            <span class="bundle-badge">BUNDLE DEAL</span>
+                            <h3 class="product-card__name" style="margin-top: 12px">AI Toolkit Pro Bundle</h3>
+                            <p class="product-card__desc">Every tool in the AI Toolkit &mdash; all 10 products at a massive discount. The complete AI engineering arsenal for serious builders.</p>
+                            <div class="product-card__tags"><span class="product-card__tag">bundle</span><span class="product-card__tag">pro</span></div>
+                            <ul class="product-card__bundle-list">
+                                <li>Chatbot Builder</li>
+                                <li>Embedding Generator</li>
+                                <li>RAG Pipeline Starter</li>
+                                <li>Prompt Engineering Kit</li>
+                                <li>Vector Search Setup</li>
+                                <li>AI Agent Framework</li>
+                                <li>Model Evaluation Tool</li>
+                                <li>Fine-Tuning Pipeline</li>
+                                <li>LLM Cost Tracker</li>
+                                <li>AI Content Detector</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$39.99</p>
+                            <div class="product-card__actions">
+                                <a href="https://buy.stripe.com/PLACEHOLDER_ai-toolkit-pro-bundle" class="btn btn--primary btn--card"
+                                   data-product="ai-toolkit-pro-bundle">
+                                    Grab This Bundle
+                                </a>
+                                <button class="btn btn--crypto btn--card"
+                                        data-crypto-product="AI Toolkit Pro Bundle"
+                                        data-crypto-price="3999">
+                                    Pay with Crypto ($31.99)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product: Chatbot Builder -->
+                <article class="product-card fade-in"
+                         data-tags="chatbot,pipeline,agents"
+                         data-price="999"
+                         data-slug="chatbot-builder">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Chatbot Builder</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Build multi-turn conversational chatbots with memory, context management, and tool-use hooks. Works with OpenAI, Anthropic, or any OpenAI-compatible API.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">chatbot</span><span class="product-card__tag">pipeline</span><span class="product-card__tag">agents</span></div>
+                    <div class="product-card__actions">
+                        <a href="preview-chatbot-builder.html" class="btn btn--secondary btn--card btn--sm">Preview</a>
+                        <a href="https://buy.stripe.com/PLACEHOLDER_chatbot-builder" class="btn btn--primary btn--card"
+                           data-product="chatbot-builder">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Chatbot Builder"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Embedding Generator -->
+                <article class="product-card fade-in"
+                         data-tags="embeddings,pipeline,rag"
+                         data-price="999"
+                         data-slug="embedding-generator">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Embedding Generator</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Generate, cache, and manage text embeddings from any LLM provider. Batch processing, deduplication, and export to common vector formats included.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">embeddings</span><span class="product-card__tag">pipeline</span><span class="product-card__tag">rag</span></div>
+                    <div class="product-card__actions">
+                        <a href="preview-embedding-generator.html" class="btn btn--secondary btn--card btn--sm">Preview</a>
+                        <a href="https://buy.stripe.com/PLACEHOLDER_embedding-generator" class="btn btn--primary btn--card"
+                           data-product="embedding-generator">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Embedding Generator"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: RAG Pipeline Starter -->
+                <article class="product-card fade-in"
+                         data-tags="rag,pipeline,embeddings"
+                         data-price="999"
+                         data-slug="rag-pipeline-starter">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">RAG Pipeline Starter</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Full retrieval-augmented generation pipeline: ingest documents, chunk, embed, retrieve, and generate answers. Swap any vector store or LLM backend.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">rag</span><span class="product-card__tag">pipeline</span><span class="product-card__tag">embeddings</span></div>
+                    <div class="product-card__actions">
+                        <a href="preview-rag-pipeline-starter.html" class="btn btn--secondary btn--card btn--sm">Preview</a>
+                        <a href="https://buy.stripe.com/PLACEHOLDER_rag-pipeline-starter" class="btn btn--primary btn--card"
+                           data-product="rag-pipeline-starter">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="RAG Pipeline Starter"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Prompt Engineering Kit -->
+                <article class="product-card fade-in"
+                         data-tags="pipeline,analysis,agents"
+                         data-price="499"
+                         data-slug="prompt-engineering-kit">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Prompt Engineering Kit</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Template library + testing harness for prompt design. A/B test prompts, score outputs, and track performance across model versions.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">pipeline</span><span class="product-card__tag">analysis</span><span class="product-card__tag">agents</span></div>
+                    <div class="product-card__actions">
+                        <a href="preview-prompt-engineering-kit.html" class="btn btn--secondary btn--card btn--sm">Preview</a>
+                        <a href="https://buy.stripe.com/PLACEHOLDER_prompt-engineering-kit" class="btn btn--primary btn--card"
+                           data-product="prompt-engineering-kit">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Prompt Engineering Kit"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Vector Search Setup -->
+                <article class="product-card fade-in"
+                         data-tags="embeddings,rag,pipeline"
+                         data-price="999"
+                         data-slug="vector-search-setup">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Vector Search Setup</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Set up and query a local vector store (FAISS/Chroma/Qdrant) in minutes. Includes cosine similarity search, metadata filtering, and result ranking.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">embeddings</span><span class="product-card__tag">rag</span><span class="product-card__tag">pipeline</span></div>
+                    <div class="product-card__actions">
+                        <a href="preview-vector-search-setup.html" class="btn btn--secondary btn--card btn--sm">Preview</a>
+                        <a href="https://buy.stripe.com/PLACEHOLDER_vector-search-setup" class="btn btn--primary btn--card"
+                           data-product="vector-search-setup">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Vector Search Setup"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: AI Agent Framework -->
+                <article class="product-card fade-in"
+                         data-tags="agents,pipeline,chatbot"
+                         data-price="999"
+                         data-slug="ai-agent-framework">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">AI Agent Framework</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Build autonomous AI agents with tool-use, planning loops, and memory. Drop-in ReAct and chain-of-thought patterns. Works with any LLM API.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">agents</span><span class="product-card__tag">pipeline</span><span class="product-card__tag">chatbot</span></div>
+                    <div class="product-card__actions">
+                        <a href="preview-ai-agent-framework.html" class="btn btn--secondary btn--card btn--sm">Preview</a>
+                        <a href="https://buy.stripe.com/PLACEHOLDER_ai-agent-framework" class="btn btn--primary btn--card"
+                           data-product="ai-agent-framework">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="AI Agent Framework"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Model Evaluation Tool -->
+                <article class="product-card fade-in"
+                         data-tags="analysis,pipeline"
+                         data-price="499"
+                         data-slug="model-evaluation-tool">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Model Evaluation Tool</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Evaluate LLM outputs across accuracy, relevance, tone, and safety dimensions. Supports BLEU, ROUGE, G-Eval, and custom scoring functions.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">analysis</span><span class="product-card__tag">pipeline</span></div>
+                    <div class="product-card__actions">
+                        <a href="preview-model-evaluation-tool.html" class="btn btn--secondary btn--card btn--sm">Preview</a>
+                        <a href="https://buy.stripe.com/PLACEHOLDER_model-evaluation-tool" class="btn btn--primary btn--card"
+                           data-product="model-evaluation-tool">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Model Evaluation Tool"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Fine-Tuning Pipeline -->
+                <article class="product-card fade-in"
+                         data-tags="pipeline,analysis"
+                         data-price="999"
+                         data-slug="fine-tuning-pipeline">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Fine-Tuning Pipeline</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Prepare datasets, upload training files, and manage fine-tuning jobs via OpenAI and compatible APIs. Includes dataset quality checks and cost estimation.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">pipeline</span><span class="product-card__tag">analysis</span></div>
+                    <div class="product-card__actions">
+                        <a href="preview-fine-tuning-pipeline.html" class="btn btn--secondary btn--card btn--sm">Preview</a>
+                        <a href="https://buy.stripe.com/PLACEHOLDER_fine-tuning-pipeline" class="btn btn--primary btn--card"
+                           data-product="fine-tuning-pipeline">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Fine-Tuning Pipeline"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: LLM Cost Tracker -->
+                <article class="product-card fade-in"
+                         data-tags="analysis,pipeline"
+                         data-price="499"
+                         data-slug="llm-cost-tracker">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">LLM Cost Tracker</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Track token usage and API spend across providers. Set budgets, get alerts when thresholds are hit, and export cost breakdowns by project or team.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">analysis</span><span class="product-card__tag">pipeline</span></div>
+                    <div class="product-card__actions">
+                        <a href="preview-llm-cost-tracker.html" class="btn btn--secondary btn--card btn--sm">Preview</a>
+                        <a href="https://buy.stripe.com/PLACEHOLDER_llm-cost-tracker" class="btn btn--primary btn--card"
+                           data-product="llm-cost-tracker">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="LLM Cost Tracker"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: AI Content Detector -->
+                <article class="product-card fade-in"
+                         data-tags="analysis,pipeline"
+                         data-price="499"
+                         data-slug="ai-content-detector">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">AI Content Detector</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Detect AI-generated text using perplexity analysis and burstiness scoring. CLI tool with JSON output, batch mode, and configurable confidence thresholds.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">analysis</span><span class="product-card__tag">pipeline</span></div>
+                    <div class="product-card__actions">
+                        <a href="preview-ai-content-detector.html" class="btn btn--secondary btn--card btn--sm">Preview</a>
+                        <a href="https://buy.stripe.com/PLACEHOLDER_ai-content-detector" class="btn btn--primary btn--card"
+                           data-product="ai-content-detector">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="AI Content Detector"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Signals -->
+    <section class="trust-section" id="trust">
+        <div class="container">
+            <h2 class="section__heading">Why devs grab from here</h2>
+            <p class="section__subheading">Built by engineers who actually ship AI products</p>
+            <div class="trust-grid">
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#9889;</div>
+                    <p class="trust-card__text">
+                        <strong>Instant digital download</strong>
+                        Unzip and run. No setup wizards, no cloud lock-in, no waiting.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128274;</div>
+                    <p class="trust-card__text">
+                        <strong>MIT License &mdash; use anywhere</strong>
+                        Personal projects, client work, SaaS products. You own it.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128142;</div>
+                    <p class="trust-card__text">
+                        <strong>Provider-agnostic design</strong>
+                        Works with OpenAI, Anthropic, Mistral, local models &mdash; swap without rewriting.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128187;</div>
+                    <p class="trust-card__text">
+                        <strong>Works on any OS with Python 3.10+</strong>
+                        macOS, Linux, Windows &mdash; if Python runs, these tools run.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- License Tiers -->
+    <section class="tier-section" id="tiers">
+        <div class="container">
+            <h2 class="section__heading">License tiers</h2>
+            <p class="section__subheading">Every purchase is MIT-licensed. Pick what fits.</p>
+            <div class="tier-grid">
+                <div class="tier-card fade-in">
+                    <h3 class="tier-card__name">Personal</h3>
+                    <p class="tier-card__desc">For solo devs and side projects</p>
+                    <ul class="tier-card__features">
+                        <li>Use on unlimited personal projects</li>
+                        <li>Full source code access</li>
+                        <li>Lifetime updates</li>
+                        <li>MIT License included</li>
+                    </ul>
+                    <a href="#products" class="btn btn--secondary btn--sm">Browse tools</a>
+                </div>
+                <div class="tier-card tier-card--featured fade-in">
+                    <h3 class="tier-card__name">Team</h3>
+                    <p class="tier-card__desc">For small teams and AI startups</p>
+                    <ul class="tier-card__features">
+                        <li>Everything in Personal</li>
+                        <li>Share with up to 10 team members</li>
+                        <li>Use in client deliverables</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <a href="#products" class="btn btn--primary btn--sm">Grab the Pro Bundle</a>
+                </div>
+                <div class="tier-card fade-in">
+                    <h3 class="tier-card__name">Enterprise</h3>
+                    <p class="tier-card__desc">For large teams and AI SaaS products</p>
+                    <ul class="tier-card__features">
+                        <li>Everything in Team</li>
+                        <li>Unlimited team members</li>
+                        <li>Embed in commercial SaaS</li>
+                        <li>Dedicated support channel</li>
+                    </ul>
+                    <a href="mailto:support@codevault.dev" class="btn btn--secondary btn--sm">Contact us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter-section" id="newsletter">
+        <div class="container">
+            <div class="newsletter-box fade-in">
+                <h2 class="newsletter-box__title">Stay in the loop</h2>
+                <p class="newsletter-box__desc">Get notified when we ship new AI tools. No spam, just releases.</p>
+                <!-- ConvertKit Form ID: PLACEHOLDER -->
+                <form class="newsletter-form" action="https://app.convertkit.com/forms/PLACEHOLDER/subscriptions" method="post" onsubmit="return false;">
+                    <input type="email" class="newsletter-form__input" placeholder="you@example.com" required aria-label="Email address">
+                    <button type="submit" class="newsletter-form__btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Companion App -->
+    <section class="app-section" id="app">
+        <div class="container">
+            <div class="app-promo fade-in">
+                <div class="app-promo__content">
+                    <span class="app-promo__badge">ANDROID APP</span>
+                    <h2 class="app-promo__title">AI Toolkit Mobile</h2>
+                    <p class="app-promo__desc">Take your AI/ML development toolkit on the go. Dashboard, community templates, daily challenges, and streak rewards &mdash; all in a dark-themed Material&nbsp;3 interface.</p>
+                    <ul class="app-promo__features">
+                        <li>AI model playground with prompt engineering</li>
+                        <li>RAG pipeline builder and embedding generator</li>
+                        <li>Community sharing &amp; daily challenges</li>
+                        <li>Premium tools via in-app purchase ($0.99&ndash;$4.99)</li>
+                    </ul>
+                    <div class="app-promo__actions">
+                        <a href="https://play.google.com/store/apps/details?id=com.codevault.aitoolkit" class="btn btn--primary">Get on Google Play</a>
+                        <a href="https://github.com/codevault/ai-toolkit-android" class="btn btn--secondary">View Source</a>
+                    </div>
+                </div>
+                <div class="app-promo__visual">
+                    <div class="app-mockup" style="--app-color: #FF1744">
+                        <div class="app-mockup__screen">
+                            <div class="app-mockup__header">AI Toolkit</div>
+                            <div class="app-mockup__tabs">
+                                <span class="app-mockup__tab app-mockup__tab--active">Playground</span>
+                                <span class="app-mockup__tab">Pipelines</span>
+                                <span class="app-mockup__tab">Community</span>
+                                <span class="app-mockup__tab">Store</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section__heading">Got questions?</h2>
+            <p class="section__subheading">We got answers.</p>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What Python version do these tools require?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Python 3.10 or higher. Most tools use only the standard library &mdash; for AI API calls you&apos;ll need <code>requests</code> or the provider&apos;s SDK, but we&apos;ve kept optional deps minimal and clearly documented.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Are these tools provider-agnostic? Do I have to use OpenAI?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Fully provider-agnostic. Every tool abstracts the LLM layer behind a simple interface. Swap OpenAI for Anthropic, Mistral, Groq, or even a local Ollama instance by changing one config line. No rewrites.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do I get my download after purchase?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Instant download after payment. You&apos;ll be redirected to a download page with a single-click button to grab your .zip. The zip includes the tool source, README, example configs, and a LICENSE file. We also send a backup link to your email.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I use these for client work or in commercial products?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Yes &mdash; MIT license. Build your client&apos;s AI chatbot with it, embed it in your SaaS, ship it as part of a product. Just don&apos;t resell the tools themselves as standalone products.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What if a tool doesn&apos;t work as described?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Reach out and we&apos;ll make it right. If we can&apos;t fix it, you get a full refund. No questions asked. We&apos;re builders too &mdash; we know what broken tools feel like.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__brand">CodeVault</p>
+            <p class="footer__tagline">Ship faster. Build smarter.</p>
+            <nav class="footer__links" aria-label="Other stores">
+                <a href="../seo-toolkit/storefront/index.html" class="footer__link">SEO Toolkit</a>
+                <a href="../email-arsenal/storefront/index.html" class="footer__link">Email Arsenal</a>
+                <a href="../form-forge/storefront/index.html" class="footer__link">Form Forge</a>
+                <a href="../api-launchpad/storefront/index.html" class="footer__link">API Launchpad</a>
+                <a href="../deploy-kit/storefront/index.html" class="footer__link">Deploy Kit</a>
+                <a href="../auth-vault/storefront/index.html" class="footer__link">Auth Vault</a>
+                <a href="../saas-starter/storefront/index.html" class="footer__link">SaaS Starter</a>
+                <a href="../analytics-hub/storefront/index.html" class="footer__link">Analytics Hub</a>
+                <a href="../payment-stack/storefront/index.html" class="footer__link">Payment Stack</a>
+                <a href="../security-kit/storefront/index.html" class="footer__link">Security Kit</a>
+                <a href="../landing-lab/storefront/index.html" class="footer__link">Landing Lab</a>
+                <a href="../automation-hub/storefront/index.html" class="footer__link">Automation Hub</a>
+            </nav>
+            <p class="footer__copy">&copy; 2026 CodeVault. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

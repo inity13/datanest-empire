@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dark Academia Icon Set — Demo</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a12; font-family: Georgia, 'Times New Roman', serif; color: #E8D5B7; padding: 2rem; min-height: 100vh; }
+  h1 { text-align: center; font-size: 2rem; font-weight: normal; color: #C5A55A; margin-bottom: 0.5rem; }
+  .subtitle { text-align: center; color: #6B3A2A; margin-bottom: 1rem; }
+  .search { display: flex; justify-content: center; margin-bottom: 2rem; }
+  .search input { background: #1a1520; border: 1px solid #6B3A2A; color: #E8D5B7; padding: 0.6rem 1.2rem; border-radius: 8px; width: 300px; font-family: Georgia, serif; font-size: 0.9rem; }
+  .search input::placeholder { color: #6B3A2A; }
+  .category { margin-bottom: 2rem; max-width: 1000px; margin-left: auto; margin-right: auto; }
+  .category h2 { font-size: 1.1rem; color: #C5A55A; font-weight: normal; margin-bottom: 1rem; border-bottom: 1px solid #3C2415; padding-bottom: 0.5rem; }
+  .icons { display: flex; flex-wrap: wrap; gap: 1rem; }
+  .icon-card { background: #15120e; border-radius: 12px; padding: 1rem; text-align: center; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; width: 140px; }
+  .icon-card:hover { transform: translateY(-4px); box-shadow: 0 4px 20px rgba(197,165,90,0.2); }
+  .icon-card img { width: 80px; height: 80px; margin-bottom: 0.5rem; }
+  .icon-card .name { font-size: 0.8rem; color: #C5A55A; }
+  .icon-card .desc { font-size: 0.7rem; color: #6B3A2A; margin-top: 0.2rem; }
+  .toast { position: fixed; top: 20px; right: 20px; background: #C5A55A; color: #2C2C2C; padding: 0.8rem 1.5rem; border-radius: 8px; font-size: 0.9rem; opacity: 0; transition: opacity 0.3s; z-index: 100; }
+  .toast.show { opacity: 1; }
+.crypto-pay-btn{background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem}
+.crypto-pay-btn:hover{opacity:0.9}
+</style>
+</head>
+<body>
+  <h1>Dark Academia Icon Set</h1>
+  <p class="subtitle">30 scholarly SVG icons — click to download</p>
+  <div class="search"><input type="text" id="search" placeholder="Search icons..." oninput="filter()"></div>
+  <div class="toast" id="toast">Downloading...</div>
+  <div id="content"></div>
+
+<script>
+const categories = [
+  { name: "Books & Writing", icons: [
+    {id:1,slug:"open-book",name:"Open Book",desc:"Pages spread open"},
+    {id:2,slug:"closed-book",name:"Closed Book",desc:"Leather-bound volume"},
+    {id:3,slug:"book-stack",name:"Book Stack",desc:"Three stacked books"},
+    {id:4,slug:"fountain-pen",name:"Fountain Pen",desc:"Classic nib pen"},
+    {id:5,slug:"ink-bottle",name:"Ink Bottle",desc:"Glass ink well"},
+    {id:6,slug:"quill",name:"Quill",desc:"Feather quill pen"},
+    {id:7,slug:"journal",name:"Journal",desc:"Leather journal"},
+    {id:8,slug:"bookmark",name:"Bookmark",desc:"Ribbon with tassel"}
+  ]},
+  { name: "Architecture", icons: [
+    {id:9,slug:"column",name:"Column",desc:"Greek column"},
+    {id:10,slug:"archway",name:"Archway",desc:"Stone arch"},
+    {id:11,slug:"window",name:"Window",desc:"Gothic window"},
+    {id:12,slug:"dome",name:"Dome",desc:"Library dome"},
+    {id:13,slug:"staircase",name:"Staircase",desc:"Spiral stairs"},
+    {id:14,slug:"door",name:"Door",desc:"Wooden door"}
+  ]},
+  { name: "Objects", icons: [
+    {id:15,slug:"candelabra",name:"Candelabra",desc:"Three-armed candlestick"},
+    {id:16,slug:"globe",name:"Globe",desc:"Antique globe"},
+    {id:17,slug:"compass",name:"Compass",desc:"Brass compass"},
+    {id:18,slug:"hourglass",name:"Hourglass",desc:"Sand timer"},
+    {id:19,slug:"magnifying-glass",name:"Magnifying Glass",desc:"Brass lens"},
+    {id:20,slug:"key",name:"Key",desc:"Skeleton key"},
+    {id:21,slug:"clock",name:"Clock",desc:"Roman numeral clock"},
+    {id:22,slug:"chess-piece",name:"Chess Piece",desc:"Knight piece"}
+  ]},
+  { name: "Nature", icons: [
+    {id:23,slug:"ivy-vine",name:"Ivy Vine",desc:"Trailing ivy"},
+    {id:24,slug:"oak-leaf",name:"Oak Leaf",desc:"Autumn oak leaf"},
+    {id:25,slug:"raven",name:"Raven",desc:"Perched raven"},
+    {id:26,slug:"moth",name:"Moth",desc:"Luna moth"}
+  ]},
+  { name: "Symbols", icons: [
+    {id:27,slug:"laurel-wreath",name:"Laurel Wreath",desc:"Victory laurel"},
+    {id:28,slug:"constellation",name:"Constellation",desc:"Star pattern"},
+    {id:29,slug:"crescent-moon",name:"Crescent Moon",desc:"Waning crescent"},
+    {id:30,slug:"skull",name:"Skull",desc:"Memento mori"}
+  ]}
+];
+
+const content = document.getElementById('content');
+
+function render(filterText) {
+  content.innerHTML = '';
+  const ft = (filterText || '').toLowerCase();
+  categories.forEach(cat => {
+    const filtered = cat.icons.filter(i => !ft || i.name.toLowerCase().includes(ft) || i.desc.toLowerCase().includes(ft));
+    if (filtered.length === 0) return;
+    const section = document.createElement('div');
+    section.className = 'category';
+    section.innerHTML = `<h2>${cat.name}</h2><div class="icons">${filtered.map(i => `
+      <div class="icon-card" onclick="download('${i.id.toString().padStart(2,'0')}-${i.slug}.svg')">
+        <img src="../src/icons/${i.id.toString().padStart(2,'0')}-${i.slug}.svg" alt="${i.name}">
+        <div class="name">${i.name}</div>
+        <div class="desc">${i.desc}</div>
+      </div>
+    `).join('')}</div>`;
+    content.appendChild(section);
+  });
+}
+
+function filter() { render(document.getElementById('search').value); }
+function download(file) {
+  const a = document.createElement('a');
+  a.href = '../src/icons/' + file;
+  a.download = file;
+  a.click();
+}
+
+render('');
+</script>
+
+<!-- payment-cta-start -->
+<div class="purchase-cta" style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,transparent,#0a0a12 20%);padding:20px;text-align:center;z-index:1000">
+  <div style="max-width:600px;margin:0 auto;background:#12122a;border:1px solid #1a1a3a;border-radius:12px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div><strong style="color:#fff;font-size:1rem">Dark Academia Icon Set</strong><br><span style="color:#8888aa;font-size:.85rem">$3.00</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a href="https://buy.stripe.com/6oUcN5fThehgcJA5m9gjG1C" class="cta-buy-btn" style="display:inline-block;background:#FF2D9B;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem">Buy Now</a>
+      <button class="crypto-pay-btn" data-product-slug="dark-academia-icon-set" data-store-slug="aesthetic-studio" data-product-name="Dark Academia Icon Set" data-price-usd="3.00">Crypto (15% off)</button>
+    </div>
+  </div>
+</div>
+<script src="../../crypto-checkout.js"></script>
+<!-- payment-cta-end -->
+
+</body>
+</html>

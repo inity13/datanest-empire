@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTA Optimizer Demo — Landing Lab</title>
+<style>
+  :root { --brand: #FFAB00; --bg: #0A0E1A; --panel: #0d1321; --border: #1e2a3a; --text: #e2e8f0; --muted: #64748b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 820px; margin: 0 auto; }
+  h1 { color: var(--brand); font-size: 1.6rem; margin-bottom: 0.3rem; }
+  .subtitle { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem; }
+  .panel h2 { color: var(--brand); font-size: 1rem; margin-bottom: 1rem; }
+  label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 0.3rem; margin-top: 0.75rem; }
+  input, select { width: 100%; background: #0a1020; border: 1px solid var(--border); border-radius: 4px; color: var(--text); padding: 0.5rem 0.75rem; font-size: 0.9rem; }
+  input:focus, select:focus { outline: none; border-color: var(--brand); }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn { background: var(--brand); color: #000; border: none; border-radius: 6px; padding: 0.6rem 1.4rem; font-weight: 700; cursor: pointer; font-size: 0.9rem; margin-top: 1rem; }
+  .btn:hover { opacity: 0.85; }
+  .cta-preview-area { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+  .cta-row { display: flex; align-items: center; gap: 1rem; background: #060d1a; border: 1px solid var(--border); border-radius: 8px; padding: 1rem; }
+  .cta-btn-preview { border: none; border-radius: 6px; padding: 0.75rem 1.5rem; font-weight: 700; font-size: 1rem; cursor: default; white-space: nowrap; min-width: 180px; text-align: center; }
+  .cta-meta { flex: 1; }
+  .cta-name { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.2rem; }
+  .cta-score-row { display: flex; align-items: center; gap: 0.5rem; }
+  .score-bar-track { flex: 1; background: #1e2a3a; border-radius: 4px; height: 8px; overflow: hidden; }
+  .score-bar-fill { height: 100%; border-radius: 4px; }
+  .score-val { font-size: 0.8rem; color: var(--brand); font-weight: 700; min-width: 36px; text-align: right; }
+  .winner-tag { background: var(--brand); color: #000; font-size: 0.7rem; font-weight: 700; border-radius: 4px; padding: 0.1rem 0.4rem; }
+  .tips { margin-top: 1rem; }
+  .tip { background: #060d1a; border-left: 3px solid var(--brand); border-radius: 0 6px 6px 0; padding: 0.6rem 0.9rem; margin-bottom: 0.5rem; font-size: 0.85rem; }
+  .cta-bar { background: linear-gradient(135deg, #1a1200, #2a1e00); border: 1px solid var(--brand); border-radius: 8px; padding: 1.25rem; margin-top: 1.5rem; text-align: center; }
+  .cta-bar h3 { color: var(--brand); margin-bottom: 0.4rem; }
+  .cta-bar p { color: var(--muted); font-size: 0.85rem; margin-bottom: 1rem; }
+  .buy-btn { display: inline-block; background: var(--brand); color: #000; text-decoration: none; padding: 0.75rem 2rem; border-radius: 6px; font-weight: 700; font-size: 1rem; }
+  .buy-btn:hover { opacity: 0.85; }
+  .footer-note { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 1rem; }
+  @media (max-width: 600px) { .row { grid-template-columns: 1fr; } .cta-row { flex-direction: column; align-items: flex-start; } }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🎯 CTA Optimizer</h1>
+  <p class="subtitle">Score and compare call-to-action button variants to find the highest-converting version.</p>
+
+  <div class="panel">
+    <h2>Configure Your CTA</h2>
+    <div class="row">
+      <div>
+        <label>Goal / Context</label>
+        <select id="goal">
+          <option value="signup">Sign Up / Register</option>
+          <option value="buy">Buy / Purchase</option>
+          <option value="trial">Start Free Trial</option>
+          <option value="download">Download</option>
+          <option value="learn">Learn More</option>
+        </select>
+        <label>Primary Color</label>
+        <input id="color" type="text" value="#FFAB00" />
+      </div>
+      <div>
+        <label>Page Type</label>
+        <select id="pageType">
+          <option value="landing">Landing Page</option>
+          <option value="pricing">Pricing Page</option>
+          <option value="blog">Blog Post</option>
+          <option value="product">Product Page</option>
+        </select>
+        <label>Urgency Level</label>
+        <select id="urgency">
+          <option value="none">None</option>
+          <option value="soft">Soft (limited time)</option>
+          <option value="hard">Hard (today only)</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" onclick="scoreCTAs()">Generate & Score CTAs</button>
+  </div>
+
+  <div class="panel" id="resultPanel" style="display:none">
+    <h2>CTA Variants — Scored by Predicted Conversion</h2>
+    <div class="cta-preview-area" id="ctaList"></div>
+    <div class="tips" id="tipsBox"></div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Get the Full CTA Optimizer — $19</h3>
+    <p>A/B test real CTAs on live pages, track click-through rates, and get AI-powered copy suggestions per industry.</p>
+    <a class="buy-btn" href="https://buy.stripe.com/14AaEXdL9ehgdNE29XgjJ1d">Buy Full Version — $19</a>
+    <button class="crypto-pay-btn" data-product-slug="cta-optimizer" data-store-slug="landing-lab" data-product-name="CTA Optimizer" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo scores CTAs heuristically. Full version runs real experiments on your site and tracks actual conversion data.</p>
+</div>
+<script>
+  const CTA_TEMPLATES = {
+    signup: [
+      { label: 'Create Free Account', score: 88 },
+      { label: 'Get Started Free', score: 92 },
+      { label: 'Sign Up Now', score: 74 },
+      { label: 'Join 10,000+ Users', score: 85 },
+    ],
+    buy: [
+      { label: 'Buy Now', score: 71 },
+      { label: 'Add to Cart', score: 78 },
+      { label: 'Get Instant Access', score: 89 },
+      { label: 'Order Today', score: 76 },
+    ],
+    trial: [
+      { label: 'Start Free Trial', score: 91 },
+      { label: 'Try It Free for 14 Days', score: 94 },
+      { label: 'Begin Your Trial', score: 80 },
+      { label: 'No Credit Card Required', score: 87 },
+    ],
+    download: [
+      { label: 'Download Free', score: 90 },
+      { label: 'Get Your Free Copy', score: 86 },
+      { label: 'Download Now', score: 82 },
+      { label: 'Grab It Free', score: 78 },
+    ],
+    learn: [
+      { label: 'See How It Works', score: 75 },
+      { label: 'Watch Demo', score: 84 },
+      { label: 'Explore Features', score: 70 },
+      { label: 'Discover More', score: 67 },
+    ],
+  };
+
+  const URGENCY_BOOST = { none: 0, soft: 5, hard: 10 };
+  const PAGE_BOOST = { pricing: 4, product: 3, landing: 0, blog: -3 };
+
+  const TIPS = {
+    signup: ['Use "free" whenever truthful — it increases CTR by avg 12%', 'Social proof in button text (e.g. "Join 10k users") reduces hesitation'],
+    buy: ['"Instant Access" outperforms "Buy Now" for digital goods', 'Adding value statement in sub-text boosts click rate'],
+    trial: ['"No credit card required" below the button removes the biggest objection', 'Specify trial length — "14 days" beats "free trial" generically'],
+    download: ['"Get Your Free Copy" converts better than just "Download"', 'Show file type/size in sub-text to set expectations'],
+    learn: ['"Watch Demo" with a play icon converts 2x over "Learn More"', 'Video CTAs perform best on blog/content pages'],
+  };
+
+  function scoreCTAs() {
+    const goal = document.getElementById('goal').value;
+    const color = document.getElementById('color').value || '#FFAB00';
+    const urgencyBoost = URGENCY_BOOST[document.getElementById('urgency').value] || 0;
+    const pageBoost = PAGE_BOOST[document.getElementById('pageType').value] || 0;
+
+    const variants = CTA_TEMPLATES[goal].map(v => ({
+      label: v.label,
+      score: Math.min(100, v.score + urgencyBoost + pageBoost)
+    })).sort((a,b) => b.score - a.score);
+
+    const panel = document.getElementById('resultPanel');
+    panel.style.display = 'block';
+
+    let html = '';
+    variants.forEach((v, i) => {
+      const isWinner = i === 0;
+      const textColor = isWinner ? '#000' : '#e2e8f0';
+      const bg = isWinner ? color : '#1e2a3a';
+      html += `<div class="cta-row">
+        <button class="cta-btn-preview" style="background:${bg};color:${textColor}">${v.label}</button>
+        <div class="cta-meta">
+          <div class="cta-name">${isWinner ? `<span class="winner-tag">WINNER</span> ` : ''}Variant ${i+1}</div>
+          <div class="cta-score-row">
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:${v.score}%;background:${isWinner ? color : '#475569'}"></div></div>
+            <span class="score-val">${v.score}</span>
+          </div>
+        </div>
+      </div>`;
+    });
+    document.getElementById('ctaList').innerHTML = html;
+
+    const tips = TIPS[goal] || [];
+    document.getElementById('tipsBox').innerHTML = '<div style="font-size:0.85rem;color:var(--muted);margin-bottom:0.5rem;font-weight:600">Optimization Tips</div>' +
+      tips.map(t => `<div class="tip">${t}</div>`).join('');
+  }
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

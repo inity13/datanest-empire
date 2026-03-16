@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CodeVault Demo Hub | Datanest</title>
+<meta name="description" content="Explore 130+ interactive demos across 13 stores in CodeVault. Production-ready code templates, starter kits & dev tools">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --accent:#FF1744; --accent2:#ff6b8a; --glow1:#FF174410; --glow2:#ff6b8a08; }
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#08080d; color:#e2e8f0; font-family:'Inter',system-ui,-apple-system,sans-serif; line-height:1.6; min-height:100vh; overflow-x:hidden; }
+a { text-decoration:none; color:inherit; }
+
+.bg-grid { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; opacity:0.03;
+  background-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px);
+  background-size: 60px 60px; }
+.bg-glow { position:fixed; top:-50%; left:-50%; width:200%; height:200%; z-index:0; pointer-events:none;
+  background: radial-gradient(ellipse at 30% 20%, var(--glow1, rgba(168,85,247,0.06)) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 80%, var(--glow2, rgba(59,130,246,0.04)) 0%, transparent 50%);
+  animation: glowDrift 20s ease-in-out infinite alternate; }
+@keyframes glowDrift { 0%{transform:translate(0,0)} 100%{transform:translate(-5%,3%)} }
+
+.container { max-width:1200px; margin:0 auto; padding:40px 20px; position:relative; z-index:1; }
+
+.empire-nav { display:flex; align-items:center; justify-content:center; gap:6px; padding:12px 20px;
+  background:rgba(15,15,25,0.8); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,0.06);
+  border-radius:12px; margin-bottom:40px; flex-wrap:wrap; }
+.empire-nav a, .empire-nav span { font-size:12px; font-weight:600; padding:6px 14px; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.empire-nav a:hover { background:rgba(255,255,255,0.06); }
+
+.hero { text-align:center; margin-bottom:48px; padding:32px 0; }
+.hero-icon { font-size:48px; margin-bottom:16px; display:block; filter:drop-shadow(0 0 20px var(--accent,#a855f7)); }
+.hero h1 { font-size:clamp(24px,4vw,40px); font-weight:800; margin-bottom:8px;
+  background:linear-gradient(135deg, var(--accent,#a855f7), var(--accent2,#60a5fa));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.hero p { color:#94a3b8; font-size:15px; max-width:600px; margin:0 auto 24px; }
+.hero-stats { display:flex; justify-content:center; gap:40px; flex-wrap:wrap; }
+.hero-stat .num { font-size:32px; font-weight:800; color:#fff; }
+.hero-stat .label { font-size:11px; color:#64748b; text-transform:uppercase; letter-spacing:1.5px; margin-top:2px; }
+
+.store-section { margin-bottom:48px; }
+.store-header { display:flex; align-items:center; gap:16px; margin-bottom:20px; padding-bottom:16px;
+  border-bottom:1px solid rgba(255,255,255,0.06); }
+.store-badge { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+  font-size:20px; font-weight:800; color:#fff; flex-shrink:0; }
+.store-header h2 { font-size:20px; font-weight:700; color:#f1f5f9; }
+.store-header .store-meta { font-size:12px; color:#64748b; margin-top:2px; }
+
+.product-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
+.product-card { background:rgba(15,15,25,0.6); border:1px solid rgba(255,255,255,0.06); border-radius:12px;
+  padding:16px; transition:all 0.25s; position:relative; overflow:hidden; display:block; }
+.product-card:hover { border-color:var(--accent,#a855f7); transform:translateY(-2px);
+  box-shadow:0 8px 30px rgba(0,0,0,0.3), 0 0 20px color-mix(in srgb, var(--accent,#a855f7) 15%, transparent); }
+.product-thumb { width:100%; height:80px; border-radius:8px; margin-bottom:12px; overflow:hidden; }
+.product-thumb img { width:100%; height:100%; object-fit:cover; }
+.product-card h3 { font-size:13px; font-weight:600; color:#e2e8f0; margin-bottom:8px; line-height:1.3; }
+.product-card .price-row { display:flex; align-items:center; justify-content:space-between; }
+.product-card .price { font-size:16px; font-weight:700; color:var(--accent,#a855f7); }
+.product-card .view-demo { font-size:11px; font-weight:600; color:#94a3b8; padding:4px 10px;
+  border:1px solid rgba(255,255,255,0.1); border-radius:6px; transition:all 0.2s; }
+.product-card:hover .view-demo { border-color:var(--accent,#a855f7); color:var(--accent,#a855f7); }
+
+.footer { text-align:center; padding:40px 0 20px; border-top:1px solid rgba(255,255,255,0.06); margin-top:48px; }
+.footer p { color:#475569; font-size:12px; }
+.footer .brand { font-weight:700; color:var(--accent,#a855f7); }
+
+.store-nav { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:32px; padding:16px 20px;
+  background:rgba(15,15,25,0.6); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.04);
+  border-radius:12px; }
+.store-nav a { font-size:12px; font-weight:600; padding:6px 14px; border-radius:8px;
+  background:rgba(255,255,255,0.04); color:#94a3b8; transition:all 0.2s; white-space:nowrap; }
+.store-nav a:hover { background:color-mix(in srgb, var(--accent,#a855f7) 15%, transparent); color:var(--accent,#a855f7); }
+
+@media (max-width:640px) {
+  .product-grid { grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px; }
+  .product-card { padding:12px; }
+  .product-thumb { height:60px; }
+  .hero-stats { gap:24px; }
+  .hero-stat .num { font-size:24px; }
+  .empire-nav { gap:4px; padding:8px 12px; }
+  .empire-nav a, .empire-nav span { font-size:11px; padding:5px 10px; }
+}
+
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+<div class="container">
+
+<nav class="empire-nav">
+  <a href="https://pixelempire-stores.pages.dev/" style="color:#ff6b9d">Pixel Empire</a>
+<a href="https://datanest-stores.pages.dev/" style="color:#3b82f6">Digital Stores</a>
+<span class="active" style="background:color-mix(in srgb, #FF1744 20%, transparent);color:#FF1744">CodeVault</span>
+<a href="https://neonbazaar-stores.pages.dev/" style="color:#FF2D9B">Neon Bazaar</a>
+<a href="https://cryptoforge-stores.pages.dev/" style="color:#FF6B00">CryptoForge</a>
+</nav>
+
+<div class="hero">
+  <span class="hero-icon">🔐</span>
+  <h1>CodeVault</h1>
+  <p>Production-ready code templates, starter kits & dev tools</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">130</div><div class="label">Products</div></div>
+    <div class="hero-stat"><div class="num">13</div><div class="label">Stores</div></div>
+    <div class="hero-stat"><div class="num">130</div><div class="label">Interactive Demos</div></div>
+  </div>
+</div>
+
+<nav class="store-nav">
+  <a href="#ai-toolkit">AI Toolkit</a>
+<a href="#analytics-hub">Analytics Hub &amp;mdash; CodeVault</a>
+<a href="#api-launchpad">API Launchpad</a>
+<a href="#auth-vault">Auth Vault &amp;mdash; CodeVault</a>
+<a href="#automation-hub">Automation Hub</a>
+<a href="#deploy-kit">Deploy Kit</a>
+<a href="#email-arsenal">Email Arsenal &amp;mdash; CodeVault</a>
+<a href="#form-forge">Form Forge</a>
+<a href="#landing-lab">Landing Lab</a>
+<a href="#payment-stack">Payment Stack</a>
+<a href="#saas-starter">SaaS Starter &amp;mdash; CodeVault</a>
+<a href="#security-kit">Security Kit &amp;mdash; Ship faster. Build smarter.</a>
+<a href="#seo-toolkit">SEO Toolkit</a>
+</nav>
+
+<section class="store-section" id="ai-toolkit">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF1744, #ff6b8a)">AT</div>
+    <div>
+      <h2>AI Toolkit</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="ai-toolkit/demos/demo-ai-agent-framework.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>AI Agent Framework</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="ai-toolkit/demos/demo-ai-content-detector.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>AI Content Detector</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="ai-toolkit/demos/demo-chatbot-builder.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Chatbot Builder</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="ai-toolkit/demos/demo-embedding-generator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Embedding Generator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="ai-toolkit/demos/demo-fine-tuning-pipeline.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Fine-Tuning Pipeline</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="ai-toolkit/demos/demo-llm-cost-tracker.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>LLM Cost Tracker</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="ai-toolkit/demos/demo-model-evaluation-tool.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Model Evaluation Tool</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="ai-toolkit/demos/demo-prompt-engineering-kit.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Prompt Engineering Kit</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="ai-toolkit/demos/demo-rag-pipeline-starter.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>RAG Pipeline Starter</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="ai-toolkit/demos/demo-vector-search-setup.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Vector Search Setup</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="analytics-hub">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF1744, #ff6b8a)">AH</div>
+    <div>
+      <h2>Analytics Hub &amp;mdash; CodeVault</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="analytics-hub/demos/demo-ab-test-calculator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>A/B Test Calculator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="analytics-hub/demos/demo-cohort-analyzer.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Cohort Analyzer</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="analytics-hub/demos/demo-custom-report-builder.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Custom Report Builder</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="analytics-hub/demos/demo-dashboard-builder.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Dashboard Builder</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="analytics-hub/demos/demo-data-pipeline.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Data Pipeline</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="analytics-hub/demos/demo-event-tracker.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Event Tracker</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="analytics-hub/demos/demo-funnel-analyzer.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Funnel Analyzer</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="analytics-hub/demos/demo-retention-tracker.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Retention Tracker</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="analytics-hub/demos/demo-revenue-analytics.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Revenue Analytics</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="analytics-hub/demos/demo-user-segmentation.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>User Segmentation</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="api-launchpad">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF1744, #ff6b8a)">AL</div>
+    <div>
+      <h2>API Launchpad</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="api-launchpad/demos/demo-api-docs-generator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>API Docs Generator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="api-launchpad/demos/demo-api-key-manager.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>API Key Manager</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="api-launchpad/demos/demo-api-test-framework.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>API Test Framework</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="api-launchpad/demos/demo-api-versioning-toolkit.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>API Versioning Toolkit</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="api-launchpad/demos/demo-graphql-boilerplate.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>GraphQL Boilerplate</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="api-launchpad/demos/demo-mock-server-builder.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Mock Server Builder</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="api-launchpad/demos/demo-openapi-spec-generator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>OpenAPI Spec Generator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="api-launchpad/demos/demo-rate-limiter.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Rate Limiter</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="api-launchpad/demos/demo-rest-api-starter.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>REST API Starter</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="api-launchpad/demos/demo-webhook-handler.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Webhook Handler</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="auth-vault">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF1744, #ff6b8a)">AV</div>
+    <div>
+      <h2>Auth Vault &amp;mdash; CodeVault</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="auth-vault/demos/demo-api-key-manager.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>API Key Manager</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="auth-vault/demos/demo-audit-logger.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Audit Logger</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="auth-vault/demos/demo-jwt-auth-system.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>JWT Auth System</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="auth-vault/demos/demo-mfa-toolkit.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>MFA Toolkit</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="auth-vault/demos/demo-oauth2-client.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>OAuth2 Client</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="auth-vault/demos/demo-password-hasher.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Password Hasher</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="auth-vault/demos/demo-password-policy-engine.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Password Policy Engine</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="auth-vault/demos/demo-rate-limiter.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Rate Limiter</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="auth-vault/demos/demo-rbac-manager.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>RBAC Manager</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="auth-vault/demos/demo-session-manager.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Session Manager</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="automation-hub">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF1744, #ff6b8a)">AH</div>
+    <div>
+      <h2>Automation Hub</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="automation-hub/demos/demo-batch-processor.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Batch Processor</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="automation-hub/demos/demo-config-manager.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Config Manager</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="automation-hub/demos/demo-cron-job-builder.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Cron Job Builder</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="automation-hub/demos/demo-data-sync.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Data Sync</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="automation-hub/demos/demo-file-watcher.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>File Watcher</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="automation-hub/demos/demo-notification-dispatcher.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Notification Dispatcher</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="automation-hub/demos/demo-report-generator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Report Generator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="automation-hub/demos/demo-task-scheduler.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Task Scheduler</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="automation-hub/demos/demo-webhook-trigger.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Webhook Trigger</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="automation-hub/demos/demo-workflow-engine.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Workflow Engine</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="deploy-kit">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF1744, #ff6b8a)">DK</div>
+    <div>
+      <h2>Deploy Kit</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="deploy-kit/demos/demo-backup-automation.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Backup Automation</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="deploy-kit/demos/demo-ci-cd-pipeline-kit.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>CI/CD Pipeline Kit</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="deploy-kit/demos/demo-deploy-scripts.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Deploy Scripts</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="deploy-kit/demos/demo-docker-compose-templates.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Docker Compose Templates</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="deploy-kit/demos/demo-environment-manager.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Environment Manager</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="deploy-kit/demos/demo-health-check-system.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Health Check System</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="deploy-kit/demos/demo-kubernetes-manifests.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Kubernetes Manifests</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="deploy-kit/demos/demo-log-aggregator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Log Aggregator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="deploy-kit/demos/demo-ssl-cert-manager.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>SSL Certificate Manager</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="deploy-kit/demos/demo-terraform-starter.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Terraform Starter</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="email-arsenal">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF1744, #ff6b8a)">EA</div>
+    <div>
+      <h2>Email Arsenal &amp;mdash; CodeVault</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="email-arsenal/demos/demo-email-ab-tester.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Email A/B Tester</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="email-arsenal/demos/demo-email-analytics-dashboard.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Email Analytics Dashboard</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="email-arsenal/demos/demo-email-deliverability-checker.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Email Deliverability Checker</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="email-arsenal/demos/demo-email-list-cleaner.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Email List Cleaner</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="email-arsenal/demos/demo-email-sequence-planner.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Email Sequence Planner</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="email-arsenal/demos/demo-email-template-builder.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Email Template Builder</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="email-arsenal/demos/demo-email-validator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Email Validator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="email-arsenal/demos/demo-newsletter-generator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Newsletter Generator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="email-arsenal/demos/demo-subject-line-tester.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Subject Line Tester</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="email-arsenal/demos/demo-unsubscribe-handler.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Unsubscribe Handler</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="form-forge">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF1744, #ff6b8a)">FF</div>
+    <div>
+      <h2>Form Forge</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="form-forge/demos/demo-conditional-logic-engine.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Conditional Logic Engine</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="form-forge/demos/demo-data-validator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Data Validator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="form-forge/demos/demo-file-upload-handler.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>File Upload Handler</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="form-forge/demos/demo-form-analytics.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Form Analytics</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="form-forge/demos/demo-form-api-builder.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Form API Builder</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="form-forge/demos/demo-form-builder.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Form Builder</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="form-forge/demos/demo-form-template-library.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Form Template Library</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="form-forge/demos/demo-multi-step-wizard.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Multi-Step Wizard</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="form-forge/demos/demo-spam-prevention.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Spam Prevention</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="form-forge/demos/demo-survey-engine.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Survey Engine</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="landing-lab">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF1744, #ff6b8a)">LL</div>
+    <div>
+      <h2>Landing Lab</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="landing-lab/demos/demo-ab-testing-framework.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>A/B Testing Framework</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="landing-lab/demos/demo-conversion-tracker.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Conversion Tracker</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="landing-lab/demos/demo-cta-optimizer.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>CTA Optimizer</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="landing-lab/demos/demo-exit-intent-popup.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Exit Intent Popup</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="landing-lab/demos/demo-heatmap-integrator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Heatmap Integrator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="landing-lab/demos/demo-landing-page-templates.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Landing Page Templates</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="landing-lab/demos/demo-lead-magnet-builder.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Lead Magnet Builder</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="landing-lab/demos/demo-page-speed-optimizer.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Page Speed Optimizer</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="landing-lab/demos/demo-social-proof-widget.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Social Proof Widget</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="landing-lab/demos/demo-testimonial-collector.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Testimonial Collector</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="payment-stack">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF1744, #ff6b8a)">PS</div>
+    <div>
+      <h2>Payment Stack</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="payment-stack/demos/demo-checkout-builder.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Checkout Builder</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="payment-stack/demos/demo-crypto-payment-handler.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Crypto Payment Handler</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="payment-stack/demos/demo-invoice-generator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Invoice Generator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="payment-stack/demos/demo-payment-analytics.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Payment Analytics</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="payment-stack/demos/demo-payment-retry-logic.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Payment Retry Logic</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="payment-stack/demos/demo-receipt-emailer.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Receipt Emailer</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="payment-stack/demos/demo-refund-processor.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Refund Processor</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="payment-stack/demos/demo-stripe-integration-kit.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Stripe Integration Kit</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="payment-stack/demos/demo-subscription-billing.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Subscription Billing</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="payment-stack/demos/demo-tax-calculator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Tax Calculator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="saas-starter">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF1744, #ff6b8a)">SS</div>
+    <div>
+      <h2>SaaS Starter &amp;mdash; CodeVault</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="saas-starter/demos/demo-admin-dashboard.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Admin Dashboard</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="saas-starter/demos/demo-billing-portal.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Billing Portal</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="saas-starter/demos/demo-changelog-generator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Changelog Generator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="saas-starter/demos/demo-email-notification-system.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Email Notification System</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="saas-starter/demos/demo-feature-flag-system.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Feature Flag System</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="saas-starter/demos/demo-feedback-collector.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Feedback Collector</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="saas-starter/demos/demo-multi-tenant-router.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Multi-Tenant Router</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="saas-starter/demos/demo-subscription-manager.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Subscription Manager</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="saas-starter/demos/demo-usage-tracker.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Usage Tracker</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="saas-starter/demos/demo-user-onboarding-flow.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>User Onboarding Flow</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="security-kit">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF1744, #ff6b8a)">SK</div>
+    <div>
+      <h2>Security Kit &amp;mdash; Ship faster. Build smarter.</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="security-kit/demos/demo-cors-configurator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>CORS Configurator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="security-kit/demos/demo-csp-generator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>CSP Generator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="security-kit/demos/demo-dependency-auditor.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Dependency Auditor</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="security-kit/demos/demo-encryption-toolkit.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Encryption Toolkit</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="security-kit/demos/demo-penetration-test-reporter.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Penetration Test Reporter</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="security-kit/demos/demo-secrets-detector.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Secrets Detector</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="security-kit/demos/demo-security-headers-checker.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Security Headers Checker</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="security-kit/demos/demo-sql-injection-tester.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>SQL Injection Tester</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="security-kit/demos/demo-vulnerability-scanner.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Vulnerability Scanner</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="security-kit/demos/demo-xss-sanitizer.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>XSS Sanitizer</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="seo-toolkit">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF1744, #ff6b8a)">ST</div>
+    <div>
+      <h2>SEO Toolkit</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="seo-toolkit/demos/demo-backlink-checker.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Backlink Checker</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="seo-toolkit/demos/demo-canonical-url-planner.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Canonical URL Planner</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="seo-toolkit/demos/demo-keyword-density-checker.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Keyword Density Checker</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="seo-toolkit/demos/demo-meta-tag-generator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Meta Tag Generator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="seo-toolkit/demos/demo-page-speed-auditor.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMTc0NDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Page Speed Auditor</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="seo-toolkit/demos/demo-redirect-mapper.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMTc0NDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Redirect Mapper</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="seo-toolkit/demos/demo-robots-txt-generator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMTc0NDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYxNzQ0MjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Robots.txt Generator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="seo-toolkit/demos/demo-serp-analyzer.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYxNzQ0MjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMTc0NDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>SERP Analyzer</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="seo-toolkit/demos/demo-sitemap-builder.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYxNzQ0MzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjE3NDQwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Sitemap Builder</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="seo-toolkit/demos/demo-structured-data-validator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYxNzQ0MTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYxNzQ0MDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Structured Data Validator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>&copy; 2025 <span class="brand">Datanest</span> &mdash; CodeVault. All rights reserved.</p>
+</footer>
+
+</div>
+</body>
+</html>

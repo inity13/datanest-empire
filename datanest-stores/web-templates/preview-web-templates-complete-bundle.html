@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Preview Starter Templates Bundle — all 10 premium HTML/CSS/JS website templates in one package at 85% off.">
+  <meta name="theme-color" content="#8b5cf6">
+  <title>Starter Templates Bundle — Preview | Starter Templates Pro</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Preview page specific styles */
+    .preview-page { padding-top: calc(var(--header-height, 72px) + 2rem); padding-bottom: 4rem; }
+
+    .preview-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--color-text-muted, #94a3b8);
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .preview-back:hover { color: var(--color-primary, #3b82f6); }
+
+    .preview-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--color-card-border, #334155);
+    }
+    .preview-header h1 { margin: 0; font-size: 1.75rem; }
+    .preview-header .price {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--color-accent, #22d3ee);
+    }
+    .preview-header .original-price {
+      font-size: 1rem;
+      color: var(--color-text-muted, #64748b);
+      text-decoration: line-through;
+      margin-right: 0.5rem;
+    }
+
+    .preview-desc {
+      color: var(--color-text-muted, #94a3b8);
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      line-height: 1.6;
+      max-width: 80ch;
+    }
+
+    .preview-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .preview-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid;
+    }
+    .preview-badge .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .preview-section {
+      background: var(--color-card, #1e293b);
+      border: 1px solid var(--color-card-border, #334155);
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .preview-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      background: var(--color-surface, #0f172a);
+      border-bottom: 1px solid var(--color-card-border, #334155);
+      cursor: pointer;
+      user-select: none;
+    }
+    .preview-section-header:hover { background: var(--color-card-hover, #263044); }
+    .preview-section-header h3 {
+      font-size: 1.125rem;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .preview-section-header .badge {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--color-accent, #22d3ee);
+      font-weight: 600;
+    }
+
+    .preview-section-body {
+      padding: 1.5rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .preview-section.open .preview-section-body {
+      max-height: 8000px;
+    }
+
+    .preview-section .chevron {
+      transition: transform 0.3s ease;
+      color: var(--color-text-muted, #94a3b8);
+    }
+    .preview-section.open .chevron { transform: rotate(180deg); }
+
+    .file-tree {
+      font-family: var(--font-mono, 'SF Mono', Consolas, monospace);
+      font-size: 0.8125rem;
+      line-height: 1.8;
+      color: var(--color-text-muted, #94a3b8);
+      background: var(--color-bg-alt, #0f172a);
+      border: 1px solid var(--color-card-border, #334155);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .file-tree .dir { color: var(--color-primary-light, #60a5fa); font-weight: 600; }
+    .file-tree .file { color: var(--color-text, #f8fafc); }
+
+    .readme-excerpt {
+      line-height: 1.7;
+      color: var(--color-text-muted, #94a3b8);
+    }
+    .readme-excerpt h3 { color: var(--color-text, #f8fafc); margin: 1.25rem 0 0.5rem; font-size: 1.1rem; }
+    .readme-excerpt p { margin: 0.5rem 0; }
+    .readme-excerpt ul { margin: 0.5rem 0; padding-left: 1.5rem; }
+    .readme-excerpt li { margin: 0.25rem 0; }
+    .readme-excerpt code { background: var(--color-bg-alt, #0f172a); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.85em; }
+    .readme-excerpt pre { background: var(--color-bg-alt, #0f172a); border: 1px solid var(--color-card-border, #334155); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 0.75rem 0; }
+    .readme-excerpt pre code { background: none; padding: 0; font-size: 0.8125rem; }
+
+    .bundle-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    .bundle-table th { text-align: left; padding: 0.75rem 1rem; border-bottom: 2px solid var(--color-card-border, #334155); color: var(--color-text, #f8fafc); }
+    .bundle-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--color-card-border, #334155); color: var(--color-text-muted, #94a3b8); }
+    .bundle-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .bundle-table .price-col { text-align: right; font-weight: 600; color: var(--color-text, #f8fafc); }
+
+    .savings-banner {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(34, 211, 238, 0.1));
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .savings-banner .big { font-size: 2rem; font-weight: 800; color: #10b981; }
+    .savings-banner p { color: var(--color-text-muted, #94a3b8); margin: 0.5rem 0 0; }
+
+    .preview-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--color-card-border, #334155);
+    }
+
+    @media (max-width: 640px) {
+      .preview-section-header { padding: 0.75rem 1rem; }
+      .preview-section-body { padding: 1rem; }
+      .preview-header h1 { font-size: 1.25rem; }
+    }
+</style>
+  <script defer data-domain="datanest-stores.pages.dev" src="https://plausible.io/js/script.js"></script>
+<!-- analytics-start -->
+<script>
+(function(){
+  try{
+    fetch("https://ferovwapilhcpqozqinn.supabase.co/rest/v1/page_views",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Prefer":"return=minimal"},
+      body:JSON.stringify({store_name:"Starter Templates Pro",page_path:location.pathname,referrer:document.referrer||null,user_agent:navigator.userAgent}),
+      keepalive:true
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+<!-- analytics-end -->
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a href="index.html" class="logo" aria-label="Starter Templates Pro home">
+        <span class="logo-icon" aria-hidden="true">&#127912;</span>
+        Starter Templates Pro
+      </a>
+      <nav class="nav-desktop" aria-label="Main navigation">
+        <a href="index.html#products">Templates</a>
+        <a href="index.html#bundle">Bundle</a>
+        <a href="index.html#faq">FAQ</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" aria-label="Toggle dark/light mode">
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="preview-page">
+    <div class="container">
+      <a href="index.html#bundle" class="preview-back">&larr; Back to bundle</a>
+
+      <div class="preview-header">
+        <div>
+          <h1>Starter Templates Bundle</h1>
+        </div>
+        <div>
+          <span class="original-price">$191</span>
+          <span class="price"><span class="currency">$</span>29</span>
+        </div>
+      </div>
+
+      <p class="preview-desc">All 10 premium HTML/CSS/JS website templates in one bundle. Fully responsive, dark/light mode, no dependencies, under 400KB each. Save 85%.</p>
+
+      <div class="preview-meta" style="display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;font-size:0.875rem;color:var(--color-text-muted,#94a3b8);"><span>&#127873; 10 templates</span><span>&#128176; Save $162</span><span>&#127991; v1.0.0</span></div>
+
+      <div class="preview-badges"><span class="preview-badge" style="border-color: #10b98140; color: #10b981;"><span class="dot" style="background: #10b981;"></span>Bundle</span><span class="preview-badge" style="border-color: #e1670640; color: #e16706;"><span class="dot" style="background: #e16706;"></span>HTML5</span><span class="preview-badge" style="border-color: #264de440; color: #264de4;"><span class="dot" style="background: #264de4;"></span>CSS3</span><span class="preview-badge" style="border-color: #f7df1e40; color: #f7df1e;"><span class="dot" style="background: #f7df1e;"></span>JavaScript</span><span class="preview-badge" style="border-color: #8b5cf640; color: #8b5cf6;"><span class="dot" style="background: #8b5cf6;"></span>Responsive</span></div>
+
+      <div class="savings-banner">
+        <div class="big">Save 85% &mdash; $162 off</div>
+        <p>All 10 templates for $29 instead of $191 individually</p>
+      </div>
+
+      <div class="preview-section open">
+        <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+          <h3>&#127873; What's Included <span class="badge">10 templates</span></h3>
+          <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="preview-section-body">
+          <table class="bundle-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Template</th>
+                <th class="price-col">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td><strong>Portfolio Template</strong> &mdash; Professional portfolio for developers, designers, freelancers</td><td class="price-col">$19</td></tr>
+              <tr><td>2</td><td><strong>Landing Page Template</strong> &mdash; High-converting landing page for SaaS and product launches</td><td class="price-col">$19</td></tr>
+              <tr><td>3</td><td><strong>Business Template</strong> &mdash; Corporate business site with team, services, case studies</td><td class="price-col">$19</td></tr>
+              <tr><td>4</td><td><strong>Restaurant Template</strong> &mdash; Restaurant &amp; food service site with menu and reservations</td><td class="price-col">$19</td></tr>
+              <tr><td>5</td><td><strong>Coming Soon Template</strong> &mdash; Pre-launch page with countdown, email signup, progress bar</td><td class="price-col">$15</td></tr>
+              <tr><td>6</td><td><strong>Blog Template</strong> &mdash; Modern blog with article grid, topics, newsletter signup</td><td class="price-col">$19</td></tr>
+              <tr><td>7</td><td><strong>E-Commerce Template</strong> &mdash; Product showcase with featured items, reviews, contact</td><td class="price-col">$24</td></tr>
+              <tr><td>8</td><td><strong>Photography Template</strong> &mdash; Photography portfolio with gallery, services, booking</td><td class="price-col">$19</td></tr>
+              <tr><td>9</td><td><strong>Agency Template</strong> &mdash; Creative agency site with services, portfolio, process</td><td class="price-col">$19</td></tr>
+              <tr><td>10</td><td><strong>Event Template</strong> &mdash; Conference page with speakers, schedule, venue, tickets</td><td class="price-col">$19</td></tr>
+            </tbody>
+            <tfoot>
+              <tr><td></td><td><strong>Individual total</strong></td><td class="price-col" style="text-decoration:line-through;color:var(--color-text-muted);">$191</td></tr>
+              <tr><td></td><td><strong>Bundle price</strong></td><td class="price-col" style="color:#10b981;font-size:1.1rem;">$29</td></tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <div class="preview-section open">
+        <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+          <h3>&#128193; Bundle Structure <span class="badge">10 template dirs</span></h3>
+          <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="preview-section-body">
+          <div class="file-tree"><span class="dir">web-templates-complete-bundle/</span>
+├── <span class="dir">portfolio/</span>
+│   ├── <span class="file">index.html</span>
+│   ├── <span class="file">style.css</span>
+│   ├── <span class="file">script.js</span>
+│   └── <span class="dir">assets/</span>
+├── <span class="dir">landing-page/</span>
+│   ├── <span class="file">index.html</span>
+│   ├── <span class="file">style.css</span>
+│   └── <span class="file">script.js</span>
+├── <span class="dir">business/</span>
+├── <span class="dir">restaurant/</span>
+├── <span class="dir">coming-soon/</span>
+├── <span class="dir">blog/</span>
+├── <span class="dir">ecommerce/</span>
+├── <span class="dir">photography/</span>
+├── <span class="dir">agency/</span>
+└── <span class="dir">event/</span>
+    ├── <span class="file">index.html</span>
+    ├── <span class="file">style.css</span>
+    └── <span class="file">script.js</span></div>
+        </div>
+      </div>
+
+      <div class="preview-section">
+        <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+          <h3>&#128214; Features <span class="badge">every template</span></h3>
+          <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="preview-section-body">
+          <div class="readme-excerpt">
+            <ul>
+              <li><strong>Fully responsive</strong> &mdash; Mobile-first design with tablet and desktop breakpoints</li>
+              <li><strong>Dark/Light mode</strong> &mdash; Built-in theme toggle, persists to localStorage</li>
+              <li><strong>No dependencies</strong> &mdash; Pure HTML, CSS, and vanilla JavaScript</li>
+              <li><strong>Under 400KB each</strong> &mdash; Lightweight and fast-loading</li>
+              <li><strong>Scroll animations</strong> &mdash; Reveal-on-scroll using Intersection Observer</li>
+              <li><strong>SEO ready</strong> &mdash; Semantic HTML5, meta tags, Open Graph tags</li>
+              <li><strong>Accessible</strong> &mdash; ARIA labels, keyboard navigation, proper contrast ratios</li>
+              <li><strong>CSS custom properties</strong> &mdash; Easy color, font, and spacing customization</li>
+            </ul>
+
+            <h3>Deployment</h3>
+            <p>All templates work with any static hosting provider:</p>
+            <ul>
+              <li>GitHub Pages &mdash; Free</li>
+              <li>Netlify &mdash; Free</li>
+              <li>Vercel &mdash; Free</li>
+              <li>Cloudflare Pages &mdash; Free</li>
+            </ul>
+
+            <h3>Browser Support</h3>
+            <ul>
+              <li>Chrome 80+</li>
+              <li>Firefox 78+</li>
+              <li>Safari 14+</li>
+              <li>Edge 80+</li>
+            </ul>
+
+            <h3>License</h3>
+            <p>MIT License &mdash; free for personal and commercial use.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview-actions">
+        <a href="https://buy.stripe.com/6oUdR99uTb549xo29XgjH3A" class="btn btn-primary">Buy Bundle &mdash; $29</a>
+        <button class="crypto-pay-btn" data-product-slug="web-templates-complete-bundle" data-store-slug="web-templates" data-product-name="Starter Templates Bundle" data-price-usd="29">&#8383; Pay with Crypto &mdash; Save 15%</button>
+        <a href="index.html#products" class="btn btn-secondary btn-sm">Back to Templates</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2025 Starter Templates Pro. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="index.html">Store</a>
+          <a href="about.html">About</a>
+          <a href="mailto:megafolder122122@hotmail.com">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="crypto-checkout.js"></script>
+</body>
+</html>

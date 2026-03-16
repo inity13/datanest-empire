@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Demos — AI Toolkit | CodeVault</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#FF1744}
+  .header .back{color:#FF1744;text-decoration:none;font-size:.85rem}
+  .container{max-width:960px;margin:0 auto;padding:40px 24px}
+  .hero{text-align:center;margin-bottom:48px}
+  .hero h2{font-size:2rem;font-weight:700;margin-bottom:12px}
+  .hero p{color:#8899aa;font-size:1.05rem;max-width:520px;margin:0 auto}
+  .badge{display:inline-block;background:rgba(255,23,68,.12);color:#FF1744;border:1px solid rgba(255,23,68,.3);border-radius:20px;padding:4px 14px;font-size:.8rem;font-weight:600;margin-bottom:16px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+  .card{background:#0d1321;border:1px solid #1e2a3a;border-radius:14px;padding:24px;transition:border-color .2s,transform .2s;text-decoration:none;color:inherit;display:block}
+  .card:hover{border-color:#FF1744;transform:translateY(-3px)}
+  .card-icon{font-size:2rem;margin-bottom:12px}
+  .card h3{font-size:1rem;font-weight:600;margin-bottom:8px;color:#fff}
+  .card p{font-size:.83rem;color:#8899aa;line-height:1.5;margin-bottom:16px}
+  .card-cta{font-size:.82rem;color:#FF1744;font-weight:600}
+  .cta-bar{text-align:center;margin-top:48px;padding:32px;background:#0d1321;border-radius:16px;border:1px solid #1e2a3a}
+  .cta-bar p{color:#8899aa;margin-bottom:16px}
+  .btn-buy{display:inline-block;background:#FF1744;color:#fff;padding:14px 32px;border-radius:10px;font-weight:700;font-size:1rem;text-decoration:none;transition:background .2s}
+  .btn-buy:hover{background:#ff4060}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🤖 AI Toolkit Demos</h1>
+  <a href="../index.html" class="back">← Back to Store</a>
+</div>
+<div class="container">
+  <div class="hero">
+    <div class="badge">10 Interactive Demos</div>
+    <h2>Try Before You Buy</h2>
+    <p>Each demo runs live in your browser. See exactly what you're getting before purchasing.</p>
+  </div>
+  <div class="grid">
+    <a href="demo-chatbot-builder.html" class="card">
+      <div class="card-icon">💬</div>
+      <h3>Chatbot Builder</h3>
+      <p>Build a configurable chatbot with personas, memory, and fallback handling.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-embedding-generator.html" class="card">
+      <div class="card-icon">🧮</div>
+      <h3>Embedding Generator</h3>
+      <p>Generate vector embeddings from text and explore cosine similarity scores.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-rag-pipeline-starter.html" class="card">
+      <div class="card-icon">🗂️</div>
+      <h3>RAG Pipeline Starter</h3>
+      <p>Build a retrieval-augmented generation pipeline with chunking and retrieval simulation.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-prompt-engineering-kit.html" class="card">
+      <div class="card-icon">✏️</div>
+      <h3>Prompt Engineering Kit</h3>
+      <p>Craft, score, and iterate on system prompts. Compare variations side by side.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-vector-search-setup.html" class="card">
+      <div class="card-icon">🔍</div>
+      <h3>Vector Search Setup</h3>
+      <p>Simulate vector similarity search with configurable index and distance metrics.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-ai-agent-framework.html" class="card">
+      <div class="card-icon">🤖</div>
+      <h3>AI Agent Framework</h3>
+      <p>Build autonomous agents with tool use, planning, and multi-step execution.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-model-evaluation-tool.html" class="card">
+      <div class="card-icon">📊</div>
+      <h3>Model Evaluation Tool</h3>
+      <p>Score LLM outputs across accuracy, relevance, coherence, and safety dimensions.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-fine-tuning-pipeline.html" class="card">
+      <div class="card-icon">🎛️</div>
+      <h3>Fine-Tuning Pipeline</h3>
+      <p>Prepare training datasets, configure hyperparameters, and simulate fine-tuning runs.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-llm-cost-tracker.html" class="card">
+      <div class="card-icon">💰</div>
+      <h3>LLM Cost Tracker</h3>
+      <p>Calculate token costs across GPT-4, Claude, Gemini and project monthly spend.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-ai-content-detector.html" class="card">
+      <div class="card-icon">🔬</div>
+      <h3>AI Content Detector</h3>
+      <p>Analyze text for linguistic signals that distinguish human writing from AI output.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+  </div>
+  <div class="cta-bar">
+    <p>Ready to ship AI features in hours, not weeks?</p>
+    <a href="javascript:void(0)" onclick="alert('Bundle coming soon! Browse individual products below.')" style="opacity:0.7" class="btn-buy">Get AI Toolkit Pro — $49</a>
+  </div>
+</div>
+</body>
+</html>

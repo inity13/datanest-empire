@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grunge Aesthetic Pack — Interactive Layering Demo</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0a0a12;
+    color: #D4C5A9;
+    font-family: 'Courier New', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+  }
+  h1 {
+    font-size: 1.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #8B4513;
+    margin-bottom: 0.3rem;
+  }
+  .subtitle {
+    font-size: 0.85rem;
+    color: #4A4A5A;
+    margin-bottom: 2rem;
+  }
+  .canvas-wrap {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    border: 1px solid #2C2C2C;
+    overflow: hidden;
+    background: #1a1a24;
+  }
+  .canvas-wrap .base-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .texture-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .controls {
+    width: 400px;
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .control-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.5rem 0.7rem;
+    background: #12121c;
+    border: 1px solid #2C2C2C;
+    border-radius: 4px;
+  }
+  .control-row label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: #D4C5A9;
+    min-width: 160px;
+    cursor: pointer;
+  }
+  .control-row input[type="checkbox"] {
+    accent-color: #8B4513;
+    width: 16px;
+    height: 16px;
+  }
+  .control-row input[type="range"] {
+    flex: 1;
+    accent-color: #8B0000;
+    height: 4px;
+  }
+  .opacity-val {
+    font-size: 0.75rem;
+    color: #4A4A5A;
+    width: 36px;
+    text-align: right;
+  }
+  .blend-select {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .blend-select label { font-size: 0.85rem; }
+  .blend-select select {
+    background: #12121c;
+    color: #D4C5A9;
+    border: 1px solid #2C2C2C;
+    padding: 0.3rem 0.6rem;
+    font-family: inherit;
+    font-size: 0.8rem;
+  }
+  .brand {
+    margin-top: 2.5rem;
+    font-size: 0.7rem;
+    color: #2C2C2C;
+    letter-spacing: 0.2em;
+  }
+.crypto-pay-btn{background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem}
+.crypto-pay-btn:hover{opacity:0.9}
+</style>
+</head>
+<body>
+
+<h1>Grunge Texture Layering</h1>
+<p class="subtitle">Toggle textures on/off and adjust opacity to build your look</p>
+
+<div class="canvas-wrap" id="canvas">
+  <!-- Base gradient as sample content -->
+  <svg class="base-image" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+    <defs>
+      <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#3a243b"/>
+        <stop offset="50%" stop-color="#1a1a2e"/>
+        <stop offset="100%" stop-color="#0f3460"/>
+      </linearGradient>
+    </defs>
+    <rect width="400" height="400" fill="url(#bg)"/>
+    <text x="200" y="190" text-anchor="middle" fill="#D4C5A9" font-family="serif" font-size="28" opacity="0.6">sample</text>
+    <text x="200" y="225" text-anchor="middle" fill="#D4C5A9" font-family="serif" font-size="16" opacity="0.4">layer textures over this</text>
+  </svg>
+</div>
+
+<div class="controls" id="controls"></div>
+
+<div class="blend-select">
+  <label>Blend Mode:</label>
+  <select id="blendMode">
+    <option value="multiply">Multiply</option>
+    <option value="overlay">Overlay</option>
+    <option value="screen">Screen</option>
+    <option value="soft-light">Soft Light</option>
+    <option value="hard-light">Hard Light</option>
+    <option value="normal">Normal</option>
+  </select>
+</div>
+
+<p class="brand">NEON BAZAAR / AESTHETIC STUDIO</p>
+
+<script>
+const TEXTURES = [
+  { id: "noise_fine",          name: "Fine Noise",         color: "#2C2C2C", density: 800, type: "rect" },
+  { id: "grain_heavy",         name: "Heavy Grain",        color: "#4A4A5A", density: 400, type: "rect" },
+  { id: "scratches_vertical",  name: "Vertical Scratches", color: "#D4C5A9", density: 60,  type: "line-v" },
+  { id: "scratches_random",    name: "Random Scratches",   color: "#2C2C2C", density: 80,  type: "line-r" },
+  { id: "halftone_dots",       name: "Halftone Dots",      color: "#2C2C2C", density: 12,  type: "dot" },
+  { id: "halftone_lines",      name: "Halftone Lines",     color: "#4A4A5A", density: 50,  type: "line-h" },
+  { id: "ink_splatter",        name: "Ink Splatter",       color: "#8B0000", density: 15,  type: "splat" },
+  { id: "distress_mesh",       name: "Distress Mesh",      color: "#556B2F", density: 120, type: "mesh" },
+];
+
+function makeSVG(tex) {
+  const ns = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(ns, "svg");
+  svg.setAttribute("viewBox", "0 0 400 400");
+  svg.setAttribute("xmlns", ns);
+
+  function rr(lo, hi) { return lo + Math.random() * (hi - lo); }
+
+  if (tex.type === "rect") {
+    for (let i = 0; i < tex.density; i++) {
+      const r = document.createElementNS(ns, "rect");
+      const s = rr(1, tex.density > 500 ? 2 : 5);
+      r.setAttribute("x", (Math.random()*400).toFixed(1));
+      r.setAttribute("y", (Math.random()*400).toFixed(1));
+      r.setAttribute("width", s.toFixed(1));
+      r.setAttribute("height", (s * rr(0.6,1.4)).toFixed(1));
+      r.setAttribute("fill", tex.color);
+      r.setAttribute("opacity", rr(0.05,0.4).toFixed(2));
+      svg.appendChild(r);
+    }
+  } else if (tex.type === "line-v") {
+    for (let i = 0; i < tex.density; i++) {
+      const l = document.createElementNS(ns, "line");
+      const x = (Math.random()*400).toFixed(1);
+      l.setAttribute("x1", x); l.setAttribute("x2", (parseFloat(x)+rr(-2,2)).toFixed(1));
+      l.setAttribute("y1", (Math.random()*120).toFixed(1));
+      l.setAttribute("y2", (120+Math.random()*280).toFixed(1));
+      l.setAttribute("stroke", tex.color);
+      l.setAttribute("stroke-width", rr(0.5,2).toFixed(1));
+      l.setAttribute("opacity", rr(0.1,0.4).toFixed(2));
+      svg.appendChild(l);
+    }
+  } else if (tex.type === "line-r") {
+    for (let i = 0; i < tex.density; i++) {
+      const l = document.createElementNS(ns, "line");
+      const x1 = Math.random()*400, y1 = Math.random()*400;
+      const len = rr(20,120), ang = Math.random()*Math.PI;
+      l.setAttribute("x1", x1.toFixed(1)); l.setAttribute("y1", y1.toFixed(1));
+      l.setAttribute("x2", (x1+len*Math.cos(ang)).toFixed(1));
+      l.setAttribute("y2", (y1+len*Math.sin(ang)).toFixed(1));
+      l.setAttribute("stroke", tex.color);
+      l.setAttribute("stroke-width", rr(0.3,1.5).toFixed(1));
+      l.setAttribute("opacity", rr(0.08,0.35).toFixed(2));
+      svg.appendChild(l);
+    }
+  } else if (tex.type === "dot") {
+    const g = tex.density;
+    for (let row = 0; row < 400; row += g) {
+      for (let col = 0; col < 400; col += g) {
+        const s = rr(2,8);
+        const r = document.createElementNS(ns, "rect");
+        r.setAttribute("x", (col+(g-s)/2).toFixed(1));
+        r.setAttribute("y", (row+(g-s)/2).toFixed(1));
+        r.setAttribute("width", s.toFixed(1)); r.setAttribute("height", s.toFixed(1));
+        r.setAttribute("rx", (s/2).toFixed(1));
+        r.setAttribute("fill", tex.color);
+        r.setAttribute("opacity", rr(0.2,0.7).toFixed(2));
+        svg.appendChild(r);
+      }
+    }
+  } else if (tex.type === "line-h") {
+    const sp = 400 / tex.density;
+    for (let i = 0; i < tex.density; i++) {
+      const l = document.createElementNS(ns, "line");
+      const y = (i * sp).toFixed(1);
+      l.setAttribute("x1", "0"); l.setAttribute("x2", "400");
+      l.setAttribute("y1", y); l.setAttribute("y2", y);
+      l.setAttribute("stroke", tex.color);
+      l.setAttribute("stroke-width", rr(1,4).toFixed(1));
+      l.setAttribute("opacity", rr(0.15,0.6).toFixed(2));
+      svg.appendChild(l);
+    }
+  } else if (tex.type === "splat") {
+    for (let c = 0; c < tex.density; c++) {
+      const cx = Math.random()*400, cy = Math.random()*400;
+      for (let d = 0; d < rr(5,20); d++) {
+        const r = document.createElementNS(ns, "rect");
+        const s = rr(3,20);
+        r.setAttribute("x", (cx+rr(-30,30)).toFixed(1));
+        r.setAttribute("y", (cy+rr(-30,30)).toFixed(1));
+        r.setAttribute("width", s.toFixed(1));
+        r.setAttribute("height", (s*rr(0.5,1.5)).toFixed(1));
+        r.setAttribute("rx", (s*0.3).toFixed(1));
+        r.setAttribute("fill", tex.color);
+        r.setAttribute("opacity", rr(0.3,0.8).toFixed(2));
+        svg.appendChild(r);
+      }
+    }
+  } else if (tex.type === "mesh") {
+    for (let i = 0; i < tex.density; i++) {
+      const l = document.createElementNS(ns, "line");
+      if (Math.random() > 0.5) {
+        const y = (Math.random()*400).toFixed(1);
+        l.setAttribute("x1", (Math.random()*120).toFixed(1));
+        l.setAttribute("x2", (120+Math.random()*280).toFixed(1));
+        l.setAttribute("y1", y);
+        l.setAttribute("y2", (parseFloat(y)+rr(-3,3)).toFixed(1));
+      } else {
+        const x = (Math.random()*400).toFixed(1);
+        l.setAttribute("x1", x);
+        l.setAttribute("x2", (parseFloat(x)+rr(-3,3)).toFixed(1));
+        l.setAttribute("y1", (Math.random()*120).toFixed(1));
+        l.setAttribute("y2", (120+Math.random()*280).toFixed(1));
+      }
+      l.setAttribute("stroke", tex.color);
+      l.setAttribute("stroke-width", rr(0.3,1).toFixed(1));
+      l.setAttribute("opacity", rr(0.05,0.25).toFixed(2));
+      svg.appendChild(l);
+    }
+  }
+  return svg;
+}
+
+const canvas = document.getElementById("canvas");
+const controls = document.getElementById("controls");
+const layers = {};
+
+TEXTURES.forEach((tex, i) => {
+  // Create SVG layer
+  const svgEl = makeSVG(tex);
+  svgEl.classList.add("texture-layer");
+  svgEl.id = "layer-" + tex.id;
+  svgEl.style.opacity = i < 2 ? "0.3" : "0";
+  canvas.appendChild(svgEl);
+  layers[tex.id] = svgEl;
+
+  // Create control
+  const row = document.createElement("div");
+  row.className = "control-row";
+
+  const active = i < 2;
+  row.innerHTML = `
+    <label><input type="checkbox" data-id="${tex.id}" ${active ? "checked" : ""}> ${tex.name}</label>
+    <input type="range" min="0" max="100" value="${active ? 30 : 30}" data-id="${tex.id}">
+    <span class="opacity-val" data-id="${tex.id}">${active ? 30 : 0}%</span>
+  `;
+  controls.appendChild(row);
+});
+
+controls.addEventListener("change", (e) => {
+  const id = e.target.dataset.id;
+  if (!id) return;
+  if (e.target.type === "checkbox") {
+    const slider = controls.querySelector(`input[type="range"][data-id="${id}"]`);
+    layers[id].style.opacity = e.target.checked ? (slider.value / 100) : 0;
+    controls.querySelector(`.opacity-val[data-id="${id}"]`).textContent =
+      e.target.checked ? slider.value + "%" : "0%";
+  }
+});
+
+controls.addEventListener("input", (e) => {
+  const id = e.target.dataset.id;
+  if (!id || e.target.type !== "range") return;
+  const cb = controls.querySelector(`input[type="checkbox"][data-id="${id}"]`);
+  if (cb && cb.checked) {
+    layers[id].style.opacity = e.target.value / 100;
+    controls.querySelector(`.opacity-val[data-id="${id}"]`).textContent = e.target.value + "%";
+  }
+});
+
+document.getElementById("blendMode").addEventListener("change", (e) => {
+  Object.values(layers).forEach(l => l.style.mixBlendMode = e.target.value);
+});
+</script>
+
+<!-- payment-cta-start -->
+<div class="purchase-cta" style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,transparent,#0a0a12 20%);padding:20px;text-align:center;z-index:1000">
+  <div style="max-width:600px;margin:0 auto;background:#12122a;border:1px solid #1a1a3a;border-radius:12px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div><strong style="color:#fff;font-size:1rem">Grunge Aesthetic Pack</strong><br><span style="color:#8888aa;font-size:.85rem">$3.00</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a href="https://buy.stripe.com/aFa28r6iHa108tk4i5gjG1E" class="cta-buy-btn" style="display:inline-block;background:#FF2D9B;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem">Buy Now</a>
+      <button class="crypto-pay-btn" data-product-slug="grunge-aesthetic-pack" data-store-slug="aesthetic-studio" data-product-name="Grunge Aesthetic Pack" data-price-usd="3.00">Crypto (15% off)</button>
+    </div>
+  </div>
+</div>
+<script src="../../crypto-checkout.js"></script>
+<!-- payment-cta-end -->
+
+</body>
+</html>

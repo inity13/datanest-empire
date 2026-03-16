@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feature Flag System — Interactive Demo | SaaS Starter</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#FFD600;--accent-dim:rgba(255,214,0,.1);--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;--red:#FF4B6E;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;}
+  .badge{background:var(--accent);color:#0A0E1A;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1050px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+  @media(max-width:750px){.grid2{grid-template-columns:1fr;}}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;}
+  h3{font-size:1rem;font-weight:700;margin-bottom:1rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+  input,select{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.55rem .8rem;border-radius:8px;font-size:.88rem;margin-bottom:.85rem;font-family:inherit;}
+  input:focus,select:focus{outline:none;border-color:var(--accent);}
+  .btn{padding:.6rem 1.2rem;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;background:var(--accent);color:#0A0E1A;}
+  .btn:hover{opacity:.85;}
+  .btn-sm{padding:.3rem .65rem;font-size:.75rem;}
+  /* Flag card */
+  .flag-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem;margin-bottom:.75rem;display:flex;align-items:flex-start;gap:1rem;}
+  .flag-card:hover{border-color:var(--muted);}
+  .toggle-wrap{flex-shrink:0;margin-top:.15rem;}
+  .toggle{width:42px;height:22px;background:var(--border);border-radius:11px;cursor:pointer;position:relative;transition:background .25s;}
+  .toggle.on{background:var(--green);}
+  .toggle::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;background:#fff;border-radius:50%;transition:left .25s;}
+  .toggle.on::after{left:23px;}
+  .flag-body{flex:1;}
+  .flag-name{font-weight:700;font-size:.9rem;font-family:monospace;}
+  .flag-desc{font-size:.78rem;color:var(--muted);margin-top:.2rem;}
+  .flag-meta{display:flex;gap:1rem;margin-top:.5rem;flex-wrap:wrap;}
+  .flag-meta span{font-size:.72rem;color:var(--muted);}
+  .flag-meta .v{color:var(--text);}
+  .rollout-bar{height:6px;background:var(--border);border-radius:3px;margin-top:.5rem;overflow:hidden;}
+  .rollout-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .3s;}
+  .flag-type{display:inline-block;padding:.1rem .4rem;border-radius:4px;font-size:.68rem;font-weight:600;margin-right:.5rem;}
+  .type-bool{background:rgba(0,255,136,.1);color:var(--green);}
+  .type-percent{background:var(--accent-dim);color:var(--accent);}
+  .type-segment{background:rgba(96,165,250,.1);color:#60A5FA;}
+  /* User test */
+  .user-row{display:flex;align-items:center;gap:.75rem;padding:.6rem;background:var(--surface2);border-radius:8px;margin-bottom:.5rem;font-size:.82rem;}
+  .user-flag{font-family:monospace;font-size:.75rem;background:var(--surface);border-radius:4px;padding:.15rem .4rem;}
+  .v-yes{color:var(--green);}
+  .v-no{color:var(--red);}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a1a0a);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#0A0E1A;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">🚩</span>
+  <h1>Feature Flag System</h1>
+  <span style="color:var(--muted);font-size:.9rem">Interactive Demo</span>
+  <span class="badge">SaaS Starter</span>
+</header>
+<div class="container">
+  <h2>Feature Flag Management</h2>
+  <p class="subtitle">Toggle features on/off, roll out to a percentage of users, target specific segments, and test flag evaluation in real time.</p>
+
+  <div class="grid2">
+    <!-- Flag list -->
+    <div>
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+          <h3 style="margin:0">Active Flags</h3>
+          <button class="btn btn-sm" onclick="addFlag()">+ New Flag</button>
+        </div>
+        <div id="flagList"></div>
+      </div>
+    </div>
+
+    <!-- Create + Test -->
+    <div>
+      <div class="panel">
+        <h3>Create Flag</h3>
+        <label>Flag Key</label>
+        <input type="text" id="fKey" placeholder="new_dashboard_ui">
+        <label>Type</label>
+        <select id="fType" onchange="renderTypeOptions()">
+          <option value="bool">Boolean (on/off)</option>
+          <option value="percent">Percentage Rollout</option>
+          <option value="segment">Segment Target</option>
+        </select>
+        <div id="fTypeOptions">
+          <label>Rollout %</label>
+          <input type="range" id="fPct" min="0" max="100" value="100" oninput="document.getElementById('fPctVal').textContent=this.value+'%'" style="margin-bottom:.25rem">
+          <div id="fPctVal" style="font-size:.8rem;color:var(--accent);margin-bottom:.75rem">100%</div>
+        </div>
+        <label>Description</label>
+        <input type="text" id="fDesc" placeholder="What does this flag control?">
+        <button class="btn" onclick="createFlag()" style="width:100%">Create Flag</button>
+      </div>
+
+      <div class="panel">
+        <h3>Test Flag Evaluation</h3>
+        <label>User ID</label>
+        <input type="text" id="tUserId" value="user_12345">
+        <label>User Segment</label>
+        <select id="tSegment">
+          <option value="beta">Beta Users</option>
+          <option value="premium">Premium</option>
+          <option value="free">Free</option>
+          <option value="internal">Internal</option>
+        </select>
+        <button class="btn" onclick="evalFlags()" style="width:100%">Evaluate All Flags</button>
+        <div id="evalResult" style="margin-top:1rem"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <p>Full version adds flag history/audit log, A/B test groups, kill switches, environment scoping (dev/staging/prod), SDK integrations for Python/JS/Go, and analytics.</p>
+    <a href="https://buy.stripe.com/14AcN536v2yy8tk15TgjJ1C" class="cta-btn">Buy Full Version — $14.99</a>
+    <button class="crypto-pay-btn" data-product-slug="feature-flag-system" data-store-slug="saas-starter" data-product-name="feature-flag-system" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+<script>
+const TYPE_LABELS = {bool:'Boolean',percent:'Rollout',segment:'Segment'};
+const TYPE_CLASSES = {bool:'type-bool',percent:'type-percent',segment:'type-segment'};
+let flags = [
+  {key:'new_dashboard_ui',type:'bool',enabled:true,pct:100,segment:'',desc:'New redesigned dashboard',created:'2026-02-10',evaluations:4821},
+  {key:'ai_suggestions',type:'percent',enabled:true,pct:25,segment:'',desc:'AI-powered inline suggestions',created:'2026-03-01',evaluations:2103},
+  {key:'beta_export',type:'segment',enabled:true,pct:100,segment:'beta',desc:'CSV/JSON export for beta users',created:'2026-03-05',evaluations:812},
+  {key:'dark_mode_v2',type:'bool',enabled:false,pct:100,segment:'',desc:'Upcoming dark mode redesign',created:'2026-03-10',evaluations:0},
+  {key:'stripe_checkout_v3',type:'percent',enabled:true,pct:50,segment:'',desc:'New Stripe Checkout flow',created:'2026-03-12',evaluations:1567},
+];
+
+function renderTypeOptions() {
+  const t = document.getElementById('fType').value;
+  const div = document.getElementById('fTypeOptions');
+  if (t==='bool') div.innerHTML='';
+  else if (t==='percent') div.innerHTML='<label>Rollout %</label><input type="range" id="fPct" min="0" max="100" value="50" oninput="document.getElementById(\'fPctVal\').textContent=this.value+\'%\'" style="margin-bottom:.25rem"><div id="fPctVal" style="font-size:.8rem;color:var(--accent);margin-bottom:.75rem">50%</div>';
+  else div.innerHTML='<label>Target Segment</label><select id="fSegment" style="margin-bottom:.85rem"><option value="beta">Beta Users</option><option value="premium">Premium</option><option value="internal">Internal</option></select>';
+}
+
+function createFlag() {
+  const key = document.getElementById('fKey').value.trim().replace(/\s+/g,'_').toLowerCase();
+  const type = document.getElementById('fType').value;
+  const desc = document.getElementById('fDesc').value.trim();
+  if (!key) return;
+  const pctEl = document.getElementById('fPct');
+  const segEl = document.getElementById('fSegment');
+  flags.unshift({
+    key: key || 'new_flag_'+Date.now(),
+    type, enabled: true,
+    pct: pctEl ? parseInt(pctEl.value) : 100,
+    segment: segEl ? segEl.value : '',
+    desc: desc || 'No description',
+    created: new Date().toLocaleDateString(),
+    evaluations: 0
+  });
+  document.getElementById('fKey').value='';
+  document.getElementById('fDesc').value='';
+  renderFlags();
+}
+
+function toggleFlag(key) {
+  const f=flags.find(f=>f.key===key);
+  if(f) f.enabled=!f.enabled;
+  renderFlags();
+}
+
+function deleteFlag(key) {
+  flags=flags.filter(f=>f.key!==key);
+  renderFlags();
+}
+
+function renderFlags() {
+  document.getElementById('flagList').innerHTML = flags.map(f=>`
+    <div class="flag-card">
+      <div class="toggle-wrap"><div class="toggle ${f.enabled?'on':''}" onclick="toggleFlag('${f.key}')"></div></div>
+      <div class="flag-body">
+        <div><span class="flag-type ${TYPE_CLASSES[f.type]}">${TYPE_LABELS[f.type]}</span><span class="flag-name">${f.key}</span></div>
+        <div class="flag-desc">${f.desc}</div>
+        ${f.type==='percent'?`<div class="rollout-bar"><div class="rollout-fill" style="width:${f.pct}%"></div></div><div style="font-size:.7rem;color:var(--muted);margin-top:.2rem">${f.pct}% rollout</div>`:''}
+        ${f.type==='segment'?`<div style="font-size:.72rem;color:#60A5FA;margin-top:.3rem">Target: ${f.segment} segment</div>`:''}
+        <div class="flag-meta">
+          <span>Created: <span class="v">${f.created}</span></span>
+          <span>Evals: <span class="v">${f.evaluations.toLocaleString()}</span></span>
+        </div>
+      </div>
+      <button class="btn btn-sm" style="background:transparent;border:1px solid var(--red);color:var(--red);padding:.2rem .5rem;font-size:.7rem" onclick="deleteFlag('${f.key}')">✕</button>
+    </div>`).join('') || '<div style="color:var(--muted);text-align:center;padding:1rem">No flags yet.</div>';
+}
+
+function evalFlags() {
+  const userId = document.getElementById('tUserId').value.trim();
+  const segment = document.getElementById('tSegment').value;
+  // Deterministic hash for percent rollout
+  const hash = userId.split('').reduce((a,c)=>((a<<5)-a)+c.charCodeAt(0)|0,0);
+  const userPct = Math.abs(hash) % 100;
+  const results = flags.map(f => {
+    let enabled = false;
+    if (f.type==='bool') enabled = f.enabled;
+    else if (f.type==='percent') enabled = f.enabled && userPct < f.pct;
+    else if (f.type==='segment') enabled = f.enabled && f.segment===segment;
+    return {key:f.key, enabled};
+  });
+  document.getElementById('evalResult').innerHTML = results.map(r=>`
+    <div class="user-row">
+      <span class="user-flag">${r.key}</span>
+      <span class="${r.enabled?'v-yes':'v-no'}">${r.enabled?'✓ enabled':'✗ disabled'}</span>
+    </div>`).join('');
+}
+
+renderFlags();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

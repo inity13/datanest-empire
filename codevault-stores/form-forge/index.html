@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Forge — CodeVault</title>
+    <link rel="canonical" href="https://form-forge.codevault.dev/">
+
+    <meta name="description" content="Python form-building toolkit for indie hackers and solo devs. HTML form builder, data validation, multi-step wizards, file uploads, spam prevention, analytics, and 20+ ready-to-use templates. Ship faster.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Form Forge — CodeVault">
+    <meta property="og:description" content="Production-ready Python form tools — builders, validators, multi-step wizards, spam prevention, analytics, and more. Zero dependencies, MIT licensed.">
+    <meta property="og:site_name" content="CodeVault">
+    <meta property="og:url" content="https://form-forge.codevault.dev/">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Form Forge — CodeVault">
+    <meta name="twitter:description" content="Production-ready Python form tools — builders, validators, multi-step wizards, spam prevention, analytics, and more. Zero dependencies, MIT licensed.">
+
+    <!-- Favicon (inline SVG for no-dependency setup) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F3ED;</text></svg>">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#7C4DFF">
+
+    <!-- Plausible Analytics -->
+    <script defer data-domain="form-forge.codevault.dev" src="https://plausible.io/js/script.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Form Forge",
+      "description": "Python form building and validation tools for developers.",
+      "url": "https://form-forge.codevault.dev/",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any (Python 3.10+)",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "USD",
+        "lowPrice": "4.99",
+        "highPrice": "39.99",
+        "offerCount": "12"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "CodeVault",
+        "url": "https://codevault.dev"
+      }
+    }
+    </script>
+</head>
+<body>
+    <nav class="cross-nav" aria-label="CodeVault stores">
+        <div class="cross-nav__inner">
+            <span class="cross-nav__brand">CodeVault</span>
+            <a href="../ai-toolkit/storefront/index.html" class="cross-nav__link">AI Toolkit</a>
+            <a href="../analytics-hub/storefront/index.html" class="cross-nav__link">Analytics Hub</a>
+            <a href="../api-launchpad/storefront/index.html" class="cross-nav__link">API Launchpad</a>
+            <a href="../auth-vault/storefront/index.html" class="cross-nav__link">Auth Vault</a>
+            <a href="../automation-hub/storefront/index.html" class="cross-nav__link">Automation Hub</a>
+            <a href="../deploy-kit/storefront/index.html" class="cross-nav__link">Deploy Kit</a>
+            <a href="../email-arsenal/storefront/index.html" class="cross-nav__link">Email Arsenal</a>
+            <a href="#" class="cross-nav__link cross-nav__link--active">Form Forge</a>
+            <a href="../landing-lab/storefront/index.html" class="cross-nav__link">Landing Lab</a>
+            <a href="../payment-stack/storefront/index.html" class="cross-nav__link">Payment Stack</a>
+            <a href="../saas-starter/storefront/index.html" class="cross-nav__link">SaaS Starter</a>
+            <a href="../security-kit/storefront/index.html" class="cross-nav__link">Security Kit</a>
+            <a href="../seo-toolkit/storefront/index.html" class="cross-nav__link">SEO Toolkit</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="top">
+        <div class="container">
+            <h1 class="hero__title glitch" data-text="Form Forge">Form Forge</h1>
+            <p class="hero__subtitle">Build any form. Validate any input. Zero dependencies.</p>
+            <div class="hero__cta-row">
+                <a href="#products" class="btn btn--primary">Browse Products</a>
+                <a href="#faq" class="btn btn--secondary">How it works</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Products Section -->
+    <section class="section" id="products">
+        <div class="container">
+            <h2 class="section__heading">The Toolkit</h2>
+            <p class="section__subheading">Production-ready Python form tools. No filler, no fluff.</p>
+            <div class="filter-bar">
+                <span class="filter-bar__label">Filter:</span>
+                <button class="filter-tag active" data-filter="all">All</button>
+                <button class="filter-tag" data-filter="library">library</button>
+                <button class="filter-tag" data-filter="security">security</button>
+                <button class="filter-tag" data-filter="analytics">analytics</button>
+                <button class="filter-tag" data-filter="engine">engine</button>
+                <button class="filter-tag" data-filter="api">api</button>
+                <button class="filter-tag" data-filter="templates">templates</button>
+                <button class="filter-tag" data-filter="bundle">bundle</button>
+                <select class="sort-select" aria-label="Sort products">
+                    <option value="default">Sort: Featured</option>
+                    <option value="price-asc">Price: Low &rarr; High</option>
+                    <option value="price-desc">Price: High &rarr; Low</option>
+                </select>
+            </div>
+            <div class="product-grid">
+        <!-- === BUNDLE: Starter === -->
+        <article class="product-card product-card--bundle fade-in"
+                 data-tags="bundle,starter"
+                 data-price="1999"
+                 data-slug="form-forge-starter-bundle">
+            <div class="product-card__inner">
+                <div>
+                    <span class="bundle-badge">BUNDLE DEAL</span>
+                    <h3 class="product-card__name" style="margin-top: 12px">Form Forge Starter Bundle</h3>
+                    <p class="product-card__desc">The essentials &mdash; Form Builder, Data Validator, Spam Prevention, and Form Template Library in one pack.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">bundle</span><span class="product-card__tag">starter</span></div>
+                    <ul class="product-card__bundle-list">
+                        <li>Form Builder</li>
+                        <li>Data Validator</li>
+                        <li>Spam Prevention</li>
+                        <li>Form Template Library</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$19.99</p>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/placeholder_starter_bundle"
+                           data-product="form-forge-starter-bundle">
+                            Grab This Bundle
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Form Forge Starter Bundle"
+                                data-crypto-price="1999">
+                            Pay with Crypto ($15.99)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- === BUNDLE: Pro === -->
+        <article class="product-card product-card--bundle fade-in"
+                 data-tags="bundle,pro"
+                 data-price="3999"
+                 data-slug="form-forge-pro-bundle">
+            <div class="product-card__inner">
+                <div>
+                    <span class="bundle-badge">BUNDLE DEAL</span>
+                    <h3 class="product-card__name" style="margin-top: 12px">Form Forge Pro Bundle</h3>
+                    <p class="product-card__desc">Every Form Forge product &mdash; all 10 tools at a massive discount. The complete form toolkit.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">bundle</span><span class="product-card__tag">pro</span></div>
+                    <ul class="product-card__bundle-list">
+                        <li>Form Builder</li>
+                        <li>Survey Engine</li>
+                        <li>Data Validator</li>
+                        <li>Multi-Step Wizard</li>
+                        <li>File Upload Handler</li>
+                        <li>Conditional Logic Engine</li>
+                        <li>Form Analytics</li>
+                        <li>Spam Prevention</li>
+                        <li>Form Template Library</li>
+                        <li>Form API Builder</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$39.99</p>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/placeholder_pro_bundle"
+                           data-product="form-forge-pro-bundle">
+                            Grab This Bundle
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Form Forge Pro Bundle"
+                                data-crypto-price="3999">
+                            Pay with Crypto ($31.99)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- === PRODUCT: Form Builder === -->
+        <article class="product-card fade-in"
+                 data-tags="library,html,builder"
+                 data-price="999"
+                 data-slug="form-builder">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Form Builder</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python library for building HTML forms programmatically with validation, CSRF protection, and accessibility baked in.</p>
+            <div class="product-card__tags"><span class="product-card__tag">library</span><span class="product-card__tag">html</span><span class="product-card__tag">builder</span></div>
+            <div class="product-card__actions">
+                <a href="preview-form-builder.html" class="btn btn--sm btn--secondary btn--card">Preview</a>
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/placeholder_form_builder"
+                   data-product="form-builder">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Form Builder"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+            </div>
+        </article>
+
+        <!-- === PRODUCT: Survey Engine === -->
+        <article class="product-card fade-in"
+                 data-tags="survey,analytics,tool"
+                 data-price="999"
+                 data-slug="survey-engine">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Survey Engine</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python tool to create, deploy, and analyze surveys with branching logic and response collection.</p>
+            <div class="product-card__tags"><span class="product-card__tag">survey</span><span class="product-card__tag">analytics</span><span class="product-card__tag">tool</span></div>
+            <div class="product-card__actions">
+                <a href="preview-survey-engine.html" class="btn btn--sm btn--secondary btn--card">Preview</a>
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/placeholder_survey_engine"
+                   data-product="survey-engine">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Survey Engine"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+            </div>
+        </article>
+
+        <!-- === PRODUCT: Data Validator === -->
+        <article class="product-card fade-in"
+                 data-tags="validation,library,security"
+                 data-price="499"
+                 data-slug="data-validator">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Data Validator</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Python validation library for form data: email, phone, URL, credit card, custom regex patterns.</p>
+            <div class="product-card__tags"><span class="product-card__tag">validation</span><span class="product-card__tag">library</span><span class="product-card__tag">security</span></div>
+            <div class="product-card__actions">
+                <a href="preview-data-validator.html" class="btn btn--sm btn--secondary btn--card">Preview</a>
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/placeholder_data_validator"
+                   data-product="data-validator">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Data Validator"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+            </div>
+        </article>
+
+        <!-- === PRODUCT: Multi-Step Wizard === -->
+        <article class="product-card fade-in"
+                 data-tags="wizard,framework,ux"
+                 data-price="999"
+                 data-slug="multi-step-wizard">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Multi-Step Wizard</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python framework for building multi-step form wizards with state management and progress tracking.</p>
+            <div class="product-card__tags"><span class="product-card__tag">wizard</span><span class="product-card__tag">framework</span><span class="product-card__tag">ux</span></div>
+            <div class="product-card__actions">
+                <a href="preview-multi-step-wizard.html" class="btn btn--sm btn--secondary btn--card">Preview</a>
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/placeholder_multi_step_wizard"
+                   data-product="multi-step-wizard">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Multi-Step Wizard"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+            </div>
+        </article>
+
+        <!-- === PRODUCT: File Upload Handler === -->
+        <article class="product-card fade-in"
+                 data-tags="upload,security,files"
+                 data-price="499"
+                 data-slug="file-upload-handler">
+            <div class="product-card__header">
+                <h3 class="product-card__name">File Upload Handler</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Python script for secure file uploads: type validation, size limits, virus scanning hooks, S3/local storage.</p>
+            <div class="product-card__tags"><span class="product-card__tag">upload</span><span class="product-card__tag">security</span><span class="product-card__tag">files</span></div>
+            <div class="product-card__actions">
+                <a href="preview-file-upload-handler.html" class="btn btn--sm btn--secondary btn--card">Preview</a>
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/placeholder_file_upload_handler"
+                   data-product="file-upload-handler">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="File Upload Handler"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+            </div>
+        </article>
+
+        <!-- === PRODUCT: Conditional Logic Engine === -->
+        <article class="product-card fade-in"
+                 data-tags="logic,engine,dynamic"
+                 data-price="999"
+                 data-slug="conditional-logic-engine">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Conditional Logic Engine</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python engine for form conditional logic: show/hide fields, skip sections, dynamic validation rules.</p>
+            <div class="product-card__tags"><span class="product-card__tag">logic</span><span class="product-card__tag">engine</span><span class="product-card__tag">dynamic</span></div>
+            <div class="product-card__actions">
+                <a href="preview-conditional-logic-engine.html" class="btn btn--sm btn--secondary btn--card">Preview</a>
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/placeholder_conditional_logic_engine"
+                   data-product="conditional-logic-engine">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Conditional Logic Engine"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+            </div>
+        </article>
+
+        <!-- === PRODUCT: Form Analytics === -->
+        <article class="product-card fade-in"
+                 data-tags="analytics,metrics,tracking"
+                 data-price="499"
+                 data-slug="form-analytics">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Form Analytics</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Python tool to track form abandonment, completion rates, field-level drop-off, and conversion metrics.</p>
+            <div class="product-card__tags"><span class="product-card__tag">analytics</span><span class="product-card__tag">metrics</span><span class="product-card__tag">tracking</span></div>
+            <div class="product-card__actions">
+                <a href="preview-form-analytics.html" class="btn btn--sm btn--secondary btn--card">Preview</a>
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/placeholder_form_analytics"
+                   data-product="form-analytics">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Form Analytics"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+            </div>
+        </article>
+
+        <!-- === PRODUCT: Spam Prevention === -->
+        <article class="product-card fade-in"
+                 data-tags="spam,security,prevention"
+                 data-price="499"
+                 data-slug="spam-prevention">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Spam Prevention</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Python toolkit for form spam prevention: honeypots, rate limiting, CAPTCHA integration, IP blocking.</p>
+            <div class="product-card__tags"><span class="product-card__tag">spam</span><span class="product-card__tag">security</span><span class="product-card__tag">prevention</span></div>
+            <div class="product-card__actions">
+                <a href="preview-spam-prevention.html" class="btn btn--sm btn--secondary btn--card">Preview</a>
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/placeholder_spam_prevention"
+                   data-product="spam-prevention">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Spam Prevention"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+            </div>
+        </article>
+
+        <!-- === PRODUCT: Form Template Library === -->
+        <article class="product-card fade-in"
+                 data-tags="templates,collection,ready-made"
+                 data-price="499"
+                 data-slug="form-template-library">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Form Template Library</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Collection of 20+ ready-to-use form templates: contact, registration, checkout, feedback, application, and more.</p>
+            <div class="product-card__tags"><span class="product-card__tag">templates</span><span class="product-card__tag">collection</span><span class="product-card__tag">ready-made</span></div>
+            <div class="product-card__actions">
+                <a href="preview-form-template-library.html" class="btn btn--sm btn--secondary btn--card">Preview</a>
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/placeholder_form_template_library"
+                   data-product="form-template-library">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Form Template Library"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+            </div>
+        </article>
+
+        <!-- === PRODUCT: Form API Builder === -->
+        <article class="product-card fade-in"
+                 data-tags="api,rest,generator"
+                 data-price="999"
+                 data-slug="form-api-builder">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Form API Builder</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python tool to auto-generate REST APIs from form definitions with CRUD operations and webhook support.</p>
+            <div class="product-card__tags"><span class="product-card__tag">api</span><span class="product-card__tag">rest</span><span class="product-card__tag">generator</span></div>
+            <div class="product-card__actions">
+                <a href="preview-form-api-builder.html" class="btn btn--sm btn--secondary btn--card">Preview</a>
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/placeholder_form_api_builder"
+                   data-product="form-api-builder">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Form API Builder"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+            </div>
+        </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Signals -->
+    <section class="trust-section" id="trust">
+        <div class="container">
+            <h2 class="section__heading">Why devs ship with Form Forge</h2>
+            <p class="section__subheading">Built by devs, for devs. Here&rsquo;s why it works.</p>
+            <div class="trust-grid">
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#9889;</div>
+                    <p class="trust-card__text">
+                        <strong>Instant digital download</strong>
+                        Pay, unzip, run. You&rsquo;re building forms in under 60 seconds.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128274;</div>
+                    <p class="trust-card__text">
+                        <strong>MIT License &mdash; use anywhere</strong>
+                        Personal, commercial, or client projects. No attribution required.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128142;</div>
+                    <p class="trust-card__text">
+                        <strong>Python stdlib only &mdash; zero pip installs</strong>
+                        No dependency hell. No virtual env juggling. Just Python.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128295;</div>
+                    <p class="trust-card__text">
+                        <strong>Works with any web framework</strong>
+                        Django, Flask, FastAPI, or plain scripts. Plug in and go.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- License Tiers -->
+    <section class="license-section" id="license">
+        <div class="container">
+            <h2 class="section__heading">License Tiers</h2>
+            <p class="section__subheading">Same code, scaled for your team.</p>
+            <div class="license-grid">
+                <div class="license-card active fade-in" data-tier="personal" data-multiplier="1">
+                    <div class="license-card__tier">Personal</div>
+                    <div class="license-card__multiplier">1&times;</div>
+                    <p class="license-card__desc">Single developer. Use in unlimited personal and commercial projects.</p>
+                </div>
+                <div class="license-card fade-in" data-tier="team" data-multiplier="2">
+                    <div class="license-card__tier">Team</div>
+                    <div class="license-card__multiplier">2&times;</div>
+                    <p class="license-card__desc">Up to 10 developers. Share across your team&rsquo;s projects.</p>
+                </div>
+                <div class="license-card fade-in" data-tier="enterprise" data-multiplier="5">
+                    <div class="license-card__tier">Enterprise</div>
+                    <div class="license-card__multiplier">5&times;</div>
+                    <p class="license-card__desc">Unlimited developers. Organization-wide license with priority support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Companion App -->
+    <section class="app-section" id="app">
+        <div class="container">
+            <div class="app-promo fade-in">
+                <div class="app-promo__content">
+                    <span class="app-promo__badge">ANDROID APP</span>
+                    <h2 class="app-promo__title">Form Forge Mobile</h2>
+                    <p class="app-promo__desc">Take your form building toolkit on the go. Dashboard, community templates, daily challenges, and streak rewards &mdash; all in a dark-themed Material&nbsp;3 interface.</p>
+                    <ul class="app-promo__features">
+                        <li>Visual form builder with conditional logic</li>
+                        <li>Form submission analytics and conversion tracking</li>
+                        <li>Community sharing &amp; daily challenges</li>
+                        <li>Premium tools via in-app purchase ($0.99&ndash;$4.99)</li>
+                    </ul>
+                    <div class="app-promo__actions">
+                        <a href="https://play.google.com/store/apps/details?id=com.codevault.formforge" class="btn btn--primary">Get on Google Play</a>
+                        <a href="https://github.com/codevault/form-forge-android" class="btn btn--secondary">View Source</a>
+                    </div>
+                </div>
+                <div class="app-promo__visual">
+                    <div class="app-mockup" style="--app-color: #7C4DFF">
+                        <div class="app-mockup__screen">
+                            <div class="app-mockup__header">Form Forge</div>
+                            <div class="app-mockup__tabs">
+                                <span class="app-mockup__tab app-mockup__tab--active">Builder</span>
+                                <span class="app-mockup__tab">Analytics</span>
+                                <span class="app-mockup__tab">Community</span>
+                                <span class="app-mockup__tab">Store</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section__heading">Got questions?</h2>
+            <p class="section__subheading">We&rsquo;ve got answers.</p>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What Python version do I need?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Python 3.10 or newer. All tools use stdlib only &mdash; no pip installs, no virtual environments, no dependency hell.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Do these work with Django / Flask / FastAPI?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Yes. Every tool generates standard HTML and validates raw data. Framework adapters are included in the examples.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do I get my download?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Instant download after payment. Unzip and run. Each product has a README with quickstart instructions.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I use these in client projects?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Absolutely. MIT license means you can use them in personal, commercial, or client projects. No attribution required.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I get a refund?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">If the product doesn&rsquo;t work as described, 100%. Email <a href="mailto:support@codevault.dev">support@codevault.dev</a> and we&rsquo;ll make it right.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter-section" id="newsletter">
+        <div class="container">
+            <div class="newsletter-box fade-in">
+                <h2 class="newsletter-box__title">Ship faster. Build smarter.</h2>
+                <p class="newsletter-box__text">Get notified when we drop new tools, bundles, and free dev resources.</p>
+                <form class="newsletter-form" action="https://app.convertkit.com/forms/placeholder/subscriptions" method="post" data-sv-form="placeholder">
+                    <input type="email" name="email_address" class="newsletter-form__input" placeholder="you@example.com" required aria-label="Email address">
+                    <button type="submit" class="btn btn--primary">Subscribe</button>
+                </form>
+                <p class="newsletter-form__status" aria-live="polite"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__brand">CodeVault</p>
+            <p class="footer__tagline">Ship faster. Build smarter.</p>
+            <nav class="footer__links" aria-label="CodeVault stores">
+                <a href="../ai-toolkit/storefront/index.html" class="footer__link">AI Toolkit</a>
+                <a href="../analytics-hub/storefront/index.html" class="footer__link">Analytics Hub</a>
+                <a href="../api-launchpad/storefront/index.html" class="footer__link">API Launchpad</a>
+                <a href="../auth-vault/storefront/index.html" class="footer__link">Auth Vault</a>
+                <a href="../automation-hub/storefront/index.html" class="footer__link">Automation Hub</a>
+                <a href="../deploy-kit/storefront/index.html" class="footer__link">Deploy Kit</a>
+                <a href="../email-arsenal/storefront/index.html" class="footer__link">Email Arsenal</a>
+                <a href="../landing-lab/storefront/index.html" class="footer__link">Landing Lab</a>
+                <a href="../payment-stack/storefront/index.html" class="footer__link">Payment Stack</a>
+                <a href="../saas-starter/storefront/index.html" class="footer__link">SaaS Starter</a>
+                <a href="../security-kit/storefront/index.html" class="footer__link">Security Kit</a>
+                <a href="../seo-toolkit/storefront/index.html" class="footer__link">SEO Toolkit</a>
+            </nav>
+            <p class="footer__copy">&copy; 2026 CodeVault. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

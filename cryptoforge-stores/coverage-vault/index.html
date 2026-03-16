@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coverage Vault — DeFi Insurance & Risk Tools | CryptoForge</title>
+<meta name="description" content="On-chain coverage pools, risk pricing engines, depeg detectors, exploit monitors, and solvency simulators. Ship insurance in minutes, not months.">
+<meta property="og:title" content="Coverage Vault — DeFi Insurance & Risk Tools | CryptoForge">
+<meta property="og:description" content="On-chain coverage pools, risk pricing engines, depeg detectors, exploit monitors, and solvency simulators. Ship insurance in minutes, not months.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://coveragevault.cryptoforge.dev">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script defer data-domain="coveragevault.cryptoforge.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                         NAVIGATION                            -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <span class="logo-icon">&#x1F6E1;</span>
+      <span class="logo-text">COVERAGE<span class="logo-accent">VAULT</span></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#products">Products</a>
+      <a href="#bundles">Bundles</a>
+      <a href="#features">Features</a>
+      <a href="#free">Free Tools</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://cryptoforge.dev" class="nav-cta">All Stores &rarr;</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                            HERO                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">CryptoForge Store #7</div>
+    <h1 class="hero-title">
+      <span class="gradient-text">Coverage Vault</span>
+    </h1>
+    <p class="hero-subtitle">
+      DeFi insurance contracts, risk engines, and coverage monitoring tools.<br>
+      Ship coverage pools in minutes, not months.
+    </p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-value">10</span>
+        <span class="stat-label">Products</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">120+</span>
+        <span class="stat-label">Files</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">4</span>
+        <span class="stat-label">Chains</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">95%+</span>
+        <span class="stat-label">Test Coverage</span>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a href="#bundles" class="btn btn-primary btn-lg">Get the Pro Bundle — $49.99</a>
+      <a href="#products" class="btn btn-ghost btn-lg">Browse Products</a>
+    </div>
+    <div class="hero-trust">
+      <span>Solidity ^0.8.24</span>
+      <span class="trust-sep">&bull;</span>
+      <span>OpenZeppelin v5</span>
+      <span class="trust-sep">&bull;</span>
+      <span>Python 3.10+</span>
+      <span class="trust-sep">&bull;</span>
+      <span>Ethereum &bull; Arbitrum &bull; Base &bull; Optimism</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          BUNDLES                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="bundles">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Save with Bundles</span></h2>
+    <p class="section-desc">Get multiple products at a fraction of the individual price.</p>
+
+    <div class="bundle-grid">
+      <!-- Starter Bundle -->
+      <div class="bundle-card">
+        <div class="bundle-badge">SAVE 55%</div>
+        <h3 class="bundle-name">Starter Bundle</h3>
+        <p class="bundle-desc">Everything you need to build and monitor a DeFi coverage pool. Pool contract, pricing engine, dashboard, and depeg detector.</p>
+        <div class="bundle-pricing">
+          <span class="bundle-original">$54.96</span>
+          <span class="bundle-price">$24.99</span>
+        </div>
+        <ul class="bundle-includes">
+          <li>Coverage Pool Contract <span class="include-price">$19.99</span></li>
+          <li>Risk Premium Engine <span class="include-price">$14.99</span></li>
+          <li>Coverage Dashboard <span class="include-price">$9.99</span></li>
+          <li>Depeg Detector <span class="include-price">$9.99</span></li>
+        </ul>
+        <a href="#" class="btn btn-secondary btn-full" data-product="starter-bundle">Buy Starter — $24.99</a>
+      </div>
+
+      <!-- Pro Bundle -->
+      <div class="bundle-card bundle-featured">
+        <div class="bundle-badge bundle-badge-gold">BEST VALUE — SAVE 59%</div>
+        <h3 class="bundle-name">Pro Bundle</h3>
+        <p class="bundle-desc">The complete DeFi insurance toolkit. All 10 products — contracts, risk engines, monitors, dashboard, and simulation tools.</p>
+        <div class="bundle-pricing">
+          <span class="bundle-original">$121.90</span>
+          <span class="bundle-price">$49.99</span>
+        </div>
+        <ul class="bundle-includes">
+          <li>All 10 Coverage Products</li>
+          <li>All future updates included</li>
+          <li>Priority support (30 days)</li>
+        </ul>
+        <a href="#" class="btn btn-primary btn-full" data-product="pro-bundle">Buy Pro Bundle — $49.99</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                         PRODUCTS                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="products">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Product Catalog</span></h2>
+    <p class="section-desc">10 battle-tested products for building, deploying, and operating DeFi coverage pools.</p>
+
+    <!-- Filter tabs -->
+    <div class="filter-tabs">
+      <button class="filter-btn active" data-filter="all">All (10)</button>
+      <button class="filter-btn" data-filter="contracts">Contracts (4)</button>
+      <button class="filter-btn" data-filter="tooling">Tools (5)</button>
+      <button class="filter-btn" data-filter="frontend">Frontend (1)</button>
+    </div>
+
+    <div class="product-grid">
+      <!-- Product 1 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#1</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">Coverage Pool Contract</h3>
+        <p class="product-desc">On-chain insurance pool with premium collection, claims adjudication, and automated payouts. Configurable rates and utilization caps.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">OpenZeppelin v5</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$19.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="coverage-pool-contract">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card" data-category="tooling">
+        <div class="product-number">#2</div>
+        <div class="product-tag tag-tooling">Tooling</div>
+        <h3 class="product-name">Risk Premium Engine</h3>
+        <p class="product-desc">Python pricing engine for DeFi coverage. Scores and prices smart contract exploit, depeg, and oracle failure risks.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">Risk Models</span>
+          <span class="tech-tag">Zero Deps</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$14.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="risk-premium-engine">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#3</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">Claims Adjudicator</h3>
+        <p class="product-desc">On-chain claims resolution with community voting, evidence submission, escalation paths, and timeout-based auto-resolution.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">Voting</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$12.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="claims-adjudicator">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="product-card" data-category="frontend">
+        <div class="product-number">#4</div>
+        <div class="product-tag tag-frontend">Frontend</div>
+        <h3 class="product-name">Coverage Dashboard</h3>
+        <p class="product-desc">React dashboard for monitoring active policies, premium income, claims ratio, pool solvency, and risk breakdowns.</p>
+        <div class="product-tech">
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Tailwind</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="coverage-dashboard">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 5 -->
+      <div class="product-card" data-category="tooling">
+        <div class="product-number">#5</div>
+        <div class="product-tag tag-tooling">Tooling</div>
+        <h3 class="product-name">Depeg Detector</h3>
+        <p class="product-desc">Real-time stablecoin depeg monitoring with configurable thresholds, severity levels, and multi-channel alert dispatch.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">Real-time</span>
+          <span class="tech-tag">Alerts</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="depeg-detector">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 6 -->
+      <div class="product-card" data-category="tooling">
+        <div class="product-number">#6</div>
+        <div class="product-tag tag-tooling">Tooling</div>
+        <h3 class="product-name">Portfolio Risk Scorer</h3>
+        <p class="product-desc">Cross-protocol DeFi portfolio risk scoring. Python backend + TypeScript SDK for protocol, concentration, and liquidity risk.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">SDK</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$12.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="portfolio-risk-scorer">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 7 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#7</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">Coverage NFT</h3>
+        <p class="product-desc">Transferable coverage policies as ERC-721 NFTs with on-chain SVG metadata. Tradeable on any NFT marketplace.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">ERC-721</span>
+          <span class="tech-tag">On-chain SVG</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$7.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="coverage-nft">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 8 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#8</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">Backstop Staking</h3>
+        <p class="product-desc">Staking contract for backstop capital with Synthetix-style premium distribution, loss socialization, and cooldown.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">Staking</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$14.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="backstop-staking">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 9 -->
+      <div class="product-card" data-category="tooling">
+        <div class="product-number">#9</div>
+        <div class="product-tag tag-tooling">Tooling</div>
+        <h3 class="product-name">Exploit Monitor</h3>
+        <p class="product-desc">Monitoring agent detecting reentrancy, flash loan attacks, oracle manipulation, and sandwich patterns in real time.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">Patterns</span>
+          <span class="tech-tag">Alerts</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="exploit-monitor">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 10 -->
+      <div class="product-card" data-category="tooling">
+        <div class="product-number">#10</div>
+        <div class="product-tag tag-tooling">Tooling</div>
+        <h3 class="product-name">Loss Simulator</h3>
+        <p class="product-desc">Monte Carlo simulation for coverage pool solvency. VaR, CVaR, stress tests, sensitivity analysis. Zero dependencies.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">Monte Carlo</span>
+          <span class="tech-tag">VaR/CVaR</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$7.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="loss-simulator">Buy Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                        FEATURES                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="features">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Why Coverage Vault?</span></h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F6E1;</div>
+        <h3>Battle-Tested Contracts</h3>
+        <p>Coverage pool, claims adjudicator, backstop staking, and coverage NFTs. All with ReentrancyGuard, Ownable2Step, and comprehensive Foundry tests.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F4CA;</div>
+        <h3>Quantitative Risk</h3>
+        <p>Price risk accurately with the premium engine. Simulate solvency with Monte Carlo. Score portfolios across protocols. Data-driven insurance.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x26A0;</div>
+        <h3>Real-Time Monitoring</h3>
+        <p>Depeg detector watches stablecoin pegs. Exploit monitor catches reentrancy, flash loans, oracle manipulation, and sandwiches. Alert before claims arrive.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x26D3;</div>
+        <h3>Multi-Chain</h3>
+        <p>Deploy to Ethereum, Arbitrum, Base, and Optimism. Chain configs included. Same contracts, same security, lower gas on L2s.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x2699;</div>
+        <h3>Full Stack</h3>
+        <p>Contracts + dashboard + risk engines + monitors + simulator. From Solidity to React to Python. Ship the whole insurance stack, not just contracts.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F9EE;</div>
+        <h3>Zero Heavy Dependencies</h3>
+        <p>Python tools use only the standard library. No numpy, no pandas, no heavy ML frameworks. Runs anywhere Python 3.10+ runs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                       FREE TOOLS                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="free">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Free Resources</span></h2>
+    <div class="lead-magnet-grid">
+      <div class="lead-magnet-card">
+        <div class="lm-icon">&#x1F4CB;</div>
+        <h3>Coverage Pool Security Checklist</h3>
+        <p>18-point security checklist for auditing DeFi coverage pool contracts. Covers premium manipulation, claims gaming, and pool drain scenarios.</p>
+        <form class="lm-form" data-magnet="coverage-pool-checklist">
+          <input type="email" placeholder="your@email.com" class="lm-input" required>
+          <button type="submit" class="btn btn-primary">Download Free</button>
+        </form>
+      </div>
+      <div class="lead-magnet-card">
+        <div class="lm-icon">&#x1F4B0;</div>
+        <h3>DeFi Risk Pricing Guide</h3>
+        <p>How to price smart contract, depeg, and oracle risk for coverage products. Includes premium formulas and risk tier examples.</p>
+        <form class="lm-form" data-magnet="risk-pricing-guide">
+          <input type="email" placeholder="your@email.com" class="lm-input" required>
+          <button type="submit" class="btn btn-primary">Download Free</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          FAQ                                  -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="faq">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">FAQ</span></h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h3 class="faq-question">What chains are supported?</h3>
+        <p class="faq-answer">All Solidity contracts deploy to Ethereum, Arbitrum, Base, and Optimism. Python and TypeScript monitoring tools work with any EVM chain.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Do I need all 10 products?</h3>
+        <p class="faq-answer">No. Each product is standalone and independently useful. The Starter Bundle covers the most common needs (pool contract, risk engine, dashboard, depeg detector). The Pro Bundle is for teams building full insurance infrastructure.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Are the contracts audited?</h3>
+        <p class="faq-answer">All contracts include comprehensive Foundry test suites with fuzz testing, invariant testing, and security notes documenting trust assumptions. We recommend a professional audit before mainnet deployment with real funds.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What license are the products?</h3>
+        <p class="faq-answer">All products include an MIT license. You can use them in commercial and open-source projects without restrictions.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">How does the Coverage Pool Contract handle claims?</h3>
+        <p class="faq-answer">Claims go through a configurable adjudication process. You can set quorum thresholds, evidence requirements, and dispute windows. Approved claims trigger automated payouts from the pool reserve.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">How do I get support?</h3>
+        <p class="faq-answer">Pro Bundle includes 30 days of priority support via email. Individual product buyers get community support via GitHub Discussions. All products include comprehensive READMEs and deployment guides.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                       CROSS-SELL                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">More from CryptoForge</span></h2>
+    <p class="section-desc">Coverage Vault is one of 10 CryptoForge stores. Build your entire DeFi stack.</p>
+    <div class="cross-sell-grid">
+      <a href="#" class="cross-sell-card">
+        <h3>Vault Forge</h3>
+        <p>ERC-4626 yield vault toolkit. Use vaults as the underlying yield strategy for your coverage pool capital.</p>
+        <span class="cross-sell-link">Browse Store &rarr;</span>
+      </a>
+      <a href="#" class="cross-sell-card">
+        <h3>Staking Kit</h3>
+        <p>Staking & liquid staking tools. Stake backstop capital in liquid staking protocols for additional yield.</p>
+        <span class="cross-sell-link">Browse Store &rarr;</span>
+      </a>
+      <a href="#" class="cross-sell-card">
+        <h3>Oracle Forge</h3>
+        <p>Oracle & data provider tools. Feed reliable price data into your coverage pool and depeg detectors.</p>
+        <span class="cross-sell-link">Browse Store &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          FOOTER                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo-icon">&#x1F6E1;</span>
+        <span class="logo-text">CRYPTO<span class="logo-accent">FORGE</span></span>
+        <p class="footer-tagline">Forge the future of DeFi.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Stores</h4>
+        <a href="#">Vault Forge</a>
+        <a href="#">DeFi Router</a>
+        <a href="#">MEV Shield</a>
+        <a href="#">Staking Kit</a>
+        <a href="#">Coverage Vault</a>
+      </div>
+      <div class="footer-links">
+        <h4>Resources</h4>
+        <a href="#">Documentation</a>
+        <a href="#">Security Checklist</a>
+        <a href="#">Risk Pricing Guide</a>
+        <a href="#">Blog</a>
+      </div>
+      <div class="footer-links">
+        <h4>Payment</h4>
+        <p class="footer-note">We accept Stripe (credit/debit) and crypto payments (ETH, BTC).</p>
+        <p class="footer-note">All products include MIT license.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 CryptoForge. All rights reserved. Part of the DATANEST empire.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

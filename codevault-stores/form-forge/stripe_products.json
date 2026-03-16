@@ -1,0 +1,92 @@
+{
+    "store": "form-forge",
+    "empire": "codevault",
+    "generated": "2026-03-14",
+    "note": "Replace placeholder Stripe links with real buy.stripe.com URLs after creating products in Stripe Dashboard",
+    "products": [
+        {
+            "slug": "form-builder",
+            "name": "Form Builder",
+            "price_cents": 999,
+            "stripe_price_id": "price_PLACEHOLDER_form_builder",
+            "stripe_payment_link": "https://buy.stripe.com/placeholder_form_builder"
+        },
+        {
+            "slug": "survey-engine",
+            "name": "Survey Engine",
+            "price_cents": 999,
+            "stripe_price_id": "price_PLACEHOLDER_survey_engine",
+            "stripe_payment_link": "https://buy.stripe.com/placeholder_survey_engine"
+        },
+        {
+            "slug": "data-validator",
+            "name": "Data Validator",
+            "price_cents": 499,
+            "stripe_price_id": "price_PLACEHOLDER_data_validator",
+            "stripe_payment_link": "https://buy.stripe.com/placeholder_data_validator"
+        },
+        {
+            "slug": "multi-step-wizard",
+            "name": "Multi-Step Wizard",
+            "price_cents": 999,
+            "stripe_price_id": "price_PLACEHOLDER_multi_step_wizard",
+            "stripe_payment_link": "https://buy.stripe.com/placeholder_multi_step_wizard"
+        },
+        {
+            "slug": "file-upload-handler",
+            "name": "File Upload Handler",
+            "price_cents": 499,
+            "stripe_price_id": "price_PLACEHOLDER_file_upload_handler",
+            "stripe_payment_link": "https://buy.stripe.com/placeholder_file_upload_handler"
+        },
+        {
+            "slug": "conditional-logic-engine",
+            "name": "Conditional Logic Engine",
+            "price_cents": 999,
+            "stripe_price_id": "price_PLACEHOLDER_conditional_logic_engine",
+            "stripe_payment_link": "https://buy.stripe.com/placeholder_conditional_logic_engine"
+        },
+        {
+            "slug": "form-analytics",
+            "name": "Form Analytics",
+            "price_cents": 499,
+            "stripe_price_id": "price_PLACEHOLDER_form_analytics",
+            "stripe_payment_link": "https://buy.stripe.com/placeholder_form_analytics"
+        },
+        {
+            "slug": "spam-prevention",
+            "name": "Spam Prevention",
+            "price_cents": 499,
+            "stripe_price_id": "price_PLACEHOLDER_spam_prevention",
+            "stripe_payment_link": "https://buy.stripe.com/placeholder_spam_prevention"
+        },
+        {
+            "slug": "form-template-library",
+            "name": "Form Template Library",
+            "price_cents": 499,
+            "stripe_price_id": "price_PLACEHOLDER_form_template_library",
+            "stripe_payment_link": "https://buy.stripe.com/placeholder_form_template_library"
+        },
+        {
+            "slug": "form-api-builder",
+            "name": "Form API Builder",
+            "price_cents": 999,
+            "stripe_price_id": "price_PLACEHOLDER_form_api_builder",
+            "stripe_payment_link": "https://buy.stripe.com/placeholder_form_api_builder"
+        },
+        {
+            "slug": "form-forge-starter-bundle",
+            "name": "Form Forge Starter Bundle",
+            "price_cents": 1999,
+            "stripe_price_id": "price_PLACEHOLDER_starter_bundle",
+            "stripe_payment_link": "https://buy.stripe.com/placeholder_starter_bundle"
+        },
+        {
+            "slug": "form-forge-pro-bundle",
+            "name": "Form Forge Pro Bundle",
+            "price_cents": 3999,
+            "stripe_price_id": "price_PLACEHOLDER_pro_bundle",
+            "stripe_payment_link": "https://buy.stripe.com/placeholder_pro_bundle"
+        }
+    ]
+}

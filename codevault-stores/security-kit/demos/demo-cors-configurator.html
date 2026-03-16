@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CORS Configurator — Demo | Security Kit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#D500F9}.header .back{color:#D500F9;text-decoration:none;font-size:.85rem}
+  .container{max-width:960px;margin:0 auto;padding:32px 20px}
+  h2{font-size:1.5rem;margin-bottom:8px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .layout{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:700px){.layout{grid-template-columns:1fr}}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#D500F9;margin-bottom:14px}
+  label{display:block;font-size:.8rem;color:#8899aa;margin-bottom:4px;margin-top:10px}
+  input,textarea,select{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:8px 10px;font-size:.85rem;outline:none;font-family:inherit;transition:border-color .2s}
+  input:focus,textarea:focus,select:focus{border-color:#D500F9}
+  .check-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .check-label{display:flex;align-items:center;gap:5px;font-size:.8rem;color:#aab;cursor:pointer}
+  .check-label input[type=checkbox]{width:auto;accent-color:#D500F9}
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+  .toggle-row label{margin:0}
+  .switch{position:relative;width:36px;height:20px}
+  .switch input{opacity:0;width:0;height:0}
+  .slider{position:absolute;inset:0;background:#1e2a3a;border-radius:20px;cursor:pointer;transition:.3s}
+  .slider:before{content:'';position:absolute;width:14px;height:14px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+  input:checked + .slider{background:#D500F9}
+  input:checked + .slider:before{transform:translateX(16px)}
+  .code-block{background:#060a12;border:1px solid #1e2a3a;border-radius:8px;padding:12px;font-family:monospace;font-size:.75rem;color:#e0e0e0;overflow-x:auto;white-space:pre;margin-bottom:12px;line-height:1.6}
+  .tab-row{display:flex;gap:4px;margin-bottom:12px}
+  .tab{padding:6px 14px;border:1px solid #1e2a3a;border-radius:6px;font-size:.78rem;cursor:pointer;color:#8899aa;background:#0A0E1A;transition:all .2s}
+  .tab.active,.tab:hover{border-color:#D500F9;color:#D500F9}
+  .cta-bar{text-align:center;margin-top:24px;padding:24px;background:#0d1321;border-radius:12px;border:1px solid #1e2a3a}
+  .cta-bar p{color:#8899aa;font-size:.88rem;margin-bottom:14px}
+  .btn-buy{display:inline-block;background:#D500F9;color:#fff;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none}
+  .note{text-align:center;font-size:.75rem;color:#4a5568;margin-top:14px}
+  .kw{color:#D500F9}.str{color:#76FF03}.com{color:#4a5568}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🌐 CORS Configurator — Demo</h1>
+  <a href="../index.html" class="back">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>CORS Configurator</h2>
+  <p class="subtitle">Configure Cross-Origin Resource Sharing policies and generate HTTP headers + framework code snippets.</p>
+  <div class="layout">
+    <div class="panel">
+      <h3>Configuration</h3>
+      <label>Allowed Origins (one per line)</label>
+      <textarea id="origins" rows="3" oninput="generate()" placeholder="https://app.example.com&#10;https://admin.example.com">https://app.example.com
+https://admin.example.com</textarea>
+      <label>Allowed Methods</label>
+      <div class="check-group" id="methods">
+        <label class="check-label"><input type="checkbox" checked onchange="generate()"> GET</label>
+        <label class="check-label"><input type="checkbox" checked onchange="generate()"> POST</label>
+        <label class="check-label"><input type="checkbox" checked onchange="generate()"> PUT</label>
+        <label class="check-label"><input type="checkbox" onchange="generate()"> PATCH</label>
+        <label class="check-label"><input type="checkbox" checked onchange="generate()"> DELETE</label>
+        <label class="check-label"><input type="checkbox" onchange="generate()"> OPTIONS</label>
+      </div>
+      <label>Allowed Headers</label>
+      <input type="text" id="headers" value="Content-Type, Authorization, X-Requested-With" oninput="generate()">
+      <label>Max Age (seconds)</label>
+      <input type="number" id="maxAge" value="86400" oninput="generate()">
+      <div class="toggle-row">
+        <label style="font-size:.8rem;color:#8899aa;margin:0">Allow Credentials</label>
+        <label class="switch"><input type="checkbox" id="credentials" onchange="generate()"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Generated Output</h3>
+      <div class="tab-row">
+        <div class="tab active" onclick="showTab('headers',this)">HTTP Headers</div>
+        <div class="tab" onclick="showTab('express',this)">Express.js</div>
+        <div class="tab" onclick="showTab('fastapi',this)">FastAPI</div>
+      </div>
+      <div id="tab-headers"><div class="code-block" id="headersOutput"></div></div>
+      <div id="tab-express" style="display:none"><div class="code-block" id="expressOutput"></div></div>
+      <div id="tab-fastapi" style="display:none"><div class="code-block" id="fastapiOutput"></div></div>
+    </div>
+  </div>
+  <div class="cta-bar">
+    <p>Full version: Django, Spring Boot, ASP.NET snippets, preflight testing, policy validator, environment presets.</p>
+    <a href="https://buy.stripe.com/4gMdR96iHddccJA9CpgjJ1M" class="btn-buy">Buy Full Version — $19</a>
+    <button class="crypto-pay-btn" data-product-slug="cors-configurator" data-store-slug="security-kit" data-product-name="cors-configurator" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+function showTab(name, el) {
+  ['headers','express','fastapi'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = t === name ? 'block' : 'none';
+  });
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function generate() {
+  const originsRaw = document.getElementById('origins').value.trim();
+  const origins = originsRaw.split('\n').map(s => s.trim()).filter(Boolean);
+  const methodChecks = document.querySelectorAll('#methods input[type=checkbox]');
+  const methodLabels = ['GET','POST','PUT','PATCH','DELETE','OPTIONS'];
+  const methods = Array.from(methodChecks).map((c,i) => c.checked ? methodLabels[i] : null).filter(Boolean);
+  const headers = document.getElementById('headers').value.trim();
+  const maxAge = document.getElementById('maxAge').value;
+  const creds = document.getElementById('credentials').checked;
+  const originVal = origins.length === 1 ? origins[0] : origins.join(', ');
+
+  document.getElementById('headersOutput').textContent =
+    `Access-Control-Allow-Origin: ${originVal}\nAccess-Control-Allow-Methods: ${methods.join(', ')}\nAccess-Control-Allow-Headers: ${headers}\nAccess-Control-Max-Age: ${maxAge}${creds ? '\nAccess-Control-Allow-Credentials: true' : ''}`;
+
+  document.getElementById('expressOutput').textContent =
+    `const cors = require('cors');\n\napp.use(cors({\n  origin: ${origins.length === 1 ? `'${origins[0]}'` : JSON.stringify(origins)},\n  methods: ${JSON.stringify(methods)},\n  allowedHeaders: '${headers}',\n  maxAge: ${maxAge},${creds ? '\n  credentials: true,' : ''}\n}));`;
+
+  document.getElementById('fastapiOutput').textContent =
+    `from fastapi.middleware.cors import CORSMiddleware\n\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=${JSON.stringify(origins)},\n    allow_methods=${JSON.stringify(methods)},\n    allow_headers=["${headers.split(',').map(s=>s.trim()).join('", "')}"],\n    max_age=${maxAge},${creds ? '\n    allow_credentials=True,' : ''}\n)`;
+}
+generate();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

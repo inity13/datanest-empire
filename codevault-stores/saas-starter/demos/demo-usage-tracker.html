@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Usage Tracker — Interactive Demo | SaaS Starter</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#FFD600;--accent-dim:rgba(255,214,0,.1);--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;--red:#FF4B6E;--blue:#60A5FA;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;}
+  .badge{background:var(--accent);color:#0A0E1A;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1050px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;}
+  h3{font-size:1rem;font-weight:700;margin-bottom:1rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+  input,select{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.5rem .8rem;border-radius:8px;font-size:.85rem;font-family:inherit;}
+  input:focus,select:focus{outline:none;border-color:var(--accent);}
+  .btn{padding:.6rem 1.2rem;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;background:var(--accent);color:#0A0E1A;}
+  .btn:hover{opacity:.85;}
+  /* Meters */
+  .meter-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.5rem;}
+  @media(max-width:600px){.meter-grid{grid-template-columns:1fr;}}
+  .meter-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:1.1rem;}
+  .meter-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;}
+  .meter-name{font-size:.88rem;font-weight:700;}
+  .meter-counts{font-size:.75rem;color:var(--muted);}
+  .meter-bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin-bottom:.4rem;}
+  .meter-fill{height:100%;border-radius:4px;transition:width .4s;}
+  .meter-footer{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);}
+  /* Event log */
+  .event-stream{background:var(--surface2);border-radius:8px;padding:1rem;font-family:'Courier New',monospace;font-size:.75rem;height:220px;overflow-y:auto;line-height:1.8;}
+  .ev-line{display:flex;gap:1rem;}
+  .ev-time{color:var(--muted);flex-shrink:0;}
+  .ev-user{color:#cba6f7;flex-shrink:0;width:80px;}
+  .ev-action{color:var(--accent);}
+  .ev-count{color:var(--green);}
+  /* Simulate */
+  .sim-grid{display:flex;gap:.75rem;flex-wrap:wrap;align-items:flex-end;margin-bottom:1rem;}
+  /* Top users table */
+  .top-table{width:100%;border-collapse:collapse;font-size:.82rem;}
+  .top-table th{text-align:left;padding:.4rem .75rem;color:var(--muted);font-size:.72rem;text-transform:uppercase;border-bottom:1px solid var(--border);}
+  .top-table td{padding:.6rem .75rem;border-bottom:1px solid rgba(42,46,62,.4);}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a1a0a);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#0A0E1A;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">📊</span>
+  <h1>Usage Tracker</h1>
+  <span style="color:var(--muted);font-size:.9rem">Interactive Demo</span>
+  <span class="badge">SaaS Starter</span>
+</header>
+<div class="container">
+  <h2>Real-Time Usage Metering</h2>
+  <p class="subtitle">Track API calls, storage, seats, and custom metrics per user. Simulate usage events and watch the meters fill up in real time.</p>
+
+  <!-- Meters -->
+  <div class="meter-grid" id="meterGrid"></div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+    <!-- Simulate usage -->
+    <div class="panel">
+      <h3>Simulate Usage</h3>
+      <div style="margin-bottom:.75rem">
+        <label>User</label>
+        <select id="simUser" style="width:100%;margin-bottom:.75rem">
+          <option>alice@acme.com</option>
+          <option>bob@acme.com</option>
+          <option>carol@startup.io</option>
+          <option>dave@techco.dev</option>
+        </select>
+        <label>Metric</label>
+        <select id="simMetric" style="width:100%;margin-bottom:.75rem">
+          <option value="api_calls">API Calls</option>
+          <option value="storage_gb">Storage GB</option>
+          <option value="emails_sent">Emails Sent</option>
+          <option value="reports">Reports Generated</option>
+        </select>
+        <label>Amount</label>
+        <input type="number" id="simAmount" value="10" min="1" style="width:100%;margin-bottom:.75rem">
+      </div>
+      <button class="btn" onclick="simulateUsage()" style="width:100%">⚡ Record Usage</button>
+      <div style="margin-top:.75rem">
+        <button class="btn" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);width:100%" onclick="autoStream()">▶ Auto-stream events</button>
+      </div>
+    </div>
+
+    <!-- Event stream -->
+    <div class="panel">
+      <h3>Live Usage Events</h3>
+      <div class="event-stream" id="eventStream">
+        <div style="color:var(--muted)">Waiting for events...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top users -->
+  <div class="panel">
+    <h3>Top Users by API Calls</h3>
+    <table class="top-table">
+      <thead><tr><th>User</th><th>API Calls</th><th>Storage</th><th>Emails</th><th>Reports</th><th>% of Limit</th></tr></thead>
+      <tbody id="topUsersTbody"></tbody>
+    </table>
+  </div>
+
+  <div class="cta-box">
+    <p>Full version adds per-plan limits with hard/soft caps, overage billing, usage webhooks, CSV export, metered Stripe billing, and alerting.</p>
+    <a href="https://buy.stripe.com/cNiaEX22r7SSbFw5m9gjJ1E" class="cta-btn">Buy Full Version — $14.99</a>
+    <button class="crypto-pay-btn" data-product-slug="usage-tracker" data-store-slug="saas-starter" data-product-name="usage-tracker" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+<script>
+const METRICS = {
+  api_calls: {name:'API Calls',limit:10000,unit:'calls',color:'#FFD600'},
+  storage_gb: {name:'Storage',limit:50,unit:'GB',color:'#60A5FA'},
+  emails_sent: {name:'Emails Sent',limit:1000,unit:'emails',color:'#00FF88'},
+  reports: {name:'Reports',limit:100,unit:'reports',color:'#cba6f7'},
+};
+const USERS = ['alice@acme.com','bob@acme.com','carol@startup.io','dave@techco.dev'];
+
+let usage = {};
+USERS.forEach(u => {
+  usage[u] = {api_calls:0,storage_gb:0,emails_sent:0,reports:0};
+});
+
+let events = [];
+let autoInterval = null;
+let autoRunning = false;
+
+function simulateUsage() {
+  const user = document.getElementById('simUser').value;
+  const metric = document.getElementById('simMetric').value;
+  const amount = parseInt(document.getElementById('simAmount').value)||1;
+  recordUsage(user, metric, amount);
+}
+
+function recordUsage(user, metric, amount) {
+  usage[user][metric] = Math.min(usage[user][metric]+amount, METRICS[metric].limit);
+  const now = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  events.unshift({time:now, user:user.split('@')[0], metric:METRICS[metric].name, amount});
+  if(events.length>50) events.pop();
+  renderMeters();
+  renderEvents();
+  renderTopUsers();
+}
+
+function renderMeters() {
+  const totals = {};
+  Object.keys(METRICS).forEach(m => {
+    totals[m] = USERS.reduce((s,u)=>s+usage[u][m],0);
+  });
+  document.getElementById('meterGrid').innerHTML = Object.entries(METRICS).map(([key,m])=>{
+    const total=totals[key];
+    const pct=Math.min(100,Math.round(total/m.limit*100));
+    const color = pct>90?'var(--red)':pct>75?'var(--accent)':m.color;
+    return `<div class="meter-card">
+      <div class="meter-header"><span class="meter-name">${m.name}</span><span class="meter-counts">${total.toLocaleString()} / ${m.limit.toLocaleString()} ${m.unit}</span></div>
+      <div class="meter-bar"><div class="meter-fill" style="width:${pct}%;background:${color}"></div></div>
+      <div class="meter-footer"><span>${pct}% used</span><span>${(m.limit-total).toLocaleString()} remaining</span></div>
+    </div>`;
+  }).join('');
+}
+
+function renderEvents() {
+  const el = document.getElementById('eventStream');
+  if(!events.length) return;
+  el.innerHTML = events.slice(0,30).map(e=>`<div class="ev-line"><span class="ev-time">${e.time}</span><span class="ev-user">${e.user}</span><span class="ev-action">${e.metric}</span><span class="ev-count">+${e.amount}</span></div>`).join('');
+}
+
+function renderTopUsers() {
+  const rows = USERS.map(u=>({user:u,...usage[u]}))
+    .sort((a,b)=>b.api_calls-a.api_calls);
+  document.getElementById('topUsersTbody').innerHTML = rows.map(r=>{
+    const pct = Math.round(r.api_calls/METRICS.api_calls.limit*100);
+    return `<tr>
+      <td>${r.user}</td>
+      <td>${r.api_calls.toLocaleString()}</td>
+      <td>${r.storage_gb.toFixed(1)} GB</td>
+      <td>${r.emails_sent.toLocaleString()}</td>
+      <td>${r.reports}</td>
+      <td><div style="display:flex;align-items:center;gap:.5rem"><div style="width:80px;height:6px;background:var(--border);border-radius:3px;overflow:hidden"><div style="height:100%;width:${pct}%;background:${pct>90?'var(--red)':'var(--accent)'};border-radius:3px"></div></div><span style="font-size:.75rem">${pct}%</span></div></td>
+    </tr>`;
+  }).join('');
+}
+
+function autoStream() {
+  if(autoRunning) { clearInterval(autoInterval); autoRunning=false; return; }
+  autoRunning=true;
+  const actions = Object.keys(METRICS);
+  autoInterval = setInterval(()=>{
+    const user = USERS[Math.floor(Math.random()*USERS.length)];
+    const metric = actions[Math.floor(Math.random()*actions.length)];
+    const amount = metric==='storage_gb'?Math.random().toFixed(2)*1:Math.floor(Math.random()*50)+1;
+    recordUsage(user,metric,parseFloat(amount));
+  },800);
+}
+
+// Seed
+USERS.forEach(u=>{
+  usage[u].api_calls=Math.floor(Math.random()*3000);
+  usage[u].storage_gb=Math.floor(Math.random()*20);
+  usage[u].emails_sent=Math.floor(Math.random()*400);
+  usage[u].reports=Math.floor(Math.random()*40);
+});
+renderMeters(); renderTopUsers();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

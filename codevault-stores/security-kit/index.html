@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Kit &mdash; Ship faster. Build smarter. | CodeVault</title>
+    <meta name="description" content="Python security tools for developers: vulnerability scanning, compliance checking, dependency auditing, pentest helpers, encryption, and more. Zero pip installs.">
+    <meta name="keywords" content="python security tools, vulnerability scanner, compliance checker, dependency auditor, pentest toolkit, encryption library, security scripts">
+    <link rel="canonical" href="https://security-kit.codevault.dev/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Security Kit &mdash; CodeVault">
+    <meta property="og:description" content="Python security tools for developers: vulnerability scanning, compliance, dependency auditing, pentest helpers, and encryption. Python stdlib only.">
+    <meta property="og:site_name" content="CodeVault">
+    <meta property="og:url" content="https://security-kit.codevault.dev/">
+    <meta property="og:image" content="https://security-kit.codevault.dev/og-image.svg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Security Kit &mdash; CodeVault">
+    <meta name="twitter:description" content="Python security tools for developers. Zero pip installs. MIT license. Ship secure code faster.">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": "Security Kit",
+      "description": "Python security tools for developers: vulnerability scanning, compliance checking, dependency auditing, pentest helpers, and encryption.",
+      "url": "https://security-kit.codevault.dev/",
+      "offers": {
+        "@type": "AggregateOffer",
+        "lowPrice": "4.99",
+        "highPrice": "39.99",
+        "priceCurrency": "USD",
+        "offerCount": "12"
+      }
+    }
+    </script>
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F6E1;&#xFE0F;</text></svg>">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#D500F9">
+
+    <!-- Plausible Analytics -->
+    <script defer data-domain="security-kit.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+
+    <!-- Cross-Store Navigation -->
+    <nav class="cross-nav" aria-label="CodeVault stores">
+        <div class="cross-nav__inner">
+            <span class="cross-nav__brand">CodeVault</span>
+            <a href="../seo-toolkit/storefront/index.html" class="cross-nav__link">SEO Toolkit</a>
+            <a href="../email-arsenal/storefront/index.html" class="cross-nav__link">Email Arsenal</a>
+            <a href="../form-forge/storefront/index.html" class="cross-nav__link">Form Forge</a>
+            <a href="../api-launchpad/storefront/index.html" class="cross-nav__link">API Launchpad</a>
+            <a href="../deploy-kit/storefront/index.html" class="cross-nav__link">Deploy Kit</a>
+            <a href="../auth-vault/storefront/index.html" class="cross-nav__link">Auth Vault</a>
+            <a href="../saas-starter/storefront/index.html" class="cross-nav__link">SaaS Starter</a>
+            <a href="../analytics-hub/storefront/index.html" class="cross-nav__link">Analytics Hub</a>
+            <a href="../payment-stack/storefront/index.html" class="cross-nav__link">Payment Stack</a>
+            <a href="../ai-toolkit/storefront/index.html" class="cross-nav__link">AI Toolkit</a>
+            <a href="#" class="cross-nav__link cross-nav__link--active">Security Kit</a>
+            <a href="../landing-lab/storefront/index.html" class="cross-nav__link">Landing Lab</a>
+            <a href="../automation-hub/storefront/index.html" class="cross-nav__link">Automation Hub</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="top">
+        <div class="container">
+            <h1 class="hero__title glitch" data-text="Security Kit">Security Kit</h1>
+            <p class="hero__subtitle">Secure your stack. Sleep at night.</p>
+            <div class="hero__cta-row">
+                <a href="#products" class="btn btn--primary">Browse tools</a>
+                <a href="#faq" class="btn btn--secondary">How it works</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Products Section -->
+    <section class="section" id="products">
+        <div class="container">
+            <h2 class="section__heading">The toolkit</h2>
+            <p class="section__subheading">Production-ready Python security scripts. No pip installs. No fluff.</p>
+
+            <div class="filter-bar">
+                <span class="filter-bar__label">Filter:</span>
+                <button class="filter-tag active" data-filter="all">All</button>
+                <button class="filter-tag" data-filter="bundle">bundle</button>
+                <button class="filter-tag" data-filter="scanning">scanning</button>
+                <button class="filter-tag" data-filter="compliance">compliance</button>
+                <button class="filter-tag" data-filter="encryption">encryption</button>
+                <button class="filter-tag" data-filter="pentest">pentest</button>
+                <button class="filter-tag" data-filter="audit">audit</button>
+                <button class="filter-tag" data-filter="reports">reports</button>
+                <select class="sort-select" aria-label="Sort products">
+                    <option value="default">Sort: Featured</option>
+                    <option value="price-asc">Price: Low &rarr; High</option>
+                    <option value="price-desc">Price: High &rarr; Low</option>
+                </select>
+            </div>
+
+            <div class="product-grid">
+
+                <!-- ===== BUNDLES ===== -->
+                <article class="product-card product-card--bundle fade-in"
+                         data-tags="bundle,starter"
+                         data-price="1999"
+                         data-slug="security-kit-starter-bundle">
+                    <div class="product-card__inner">
+                        <div>
+                            <span class="bundle-badge">BUNDLE DEAL</span>
+                            <h3 class="product-card__name" style="margin-top: 12px">Security Kit Starter Bundle</h3>
+                            <p class="product-card__desc">Vulnerability Scanner, Audit Script Kit, CSP Builder, and Secret Rotator in one bundle. Everything you need to lock down a new project.</p>
+                            <div class="product-card__tags">
+                                <span class="product-card__tag">bundle</span>
+                                <span class="product-card__tag">starter</span>
+                            </div>
+                            <ul class="product-card__bundle-list">
+                                <li>Vulnerability Scanner</li>
+                                <li>Audit Script Kit</li>
+                                <li>CSP Builder</li>
+                                <li>Secret Rotator</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$19.99</p>
+                            <div class="product-card__actions">
+                                <a href="#" class="btn btn--primary btn--card"
+                                   data-stripe-link="https://buy.stripe.com/PLACEHOLDER_security-kit-starter-bundle"
+                                   data-product="security-kit-starter-bundle">
+                                    Grab This Bundle
+                                </a>
+                                <button class="btn btn--crypto btn--card"
+                                        data-crypto-product="Security Kit Starter Bundle"
+                                        data-crypto-price="1699">
+                                    Pay with Crypto ($16.99)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card product-card--bundle fade-in"
+                         data-tags="bundle,pro"
+                         data-price="3999"
+                         data-slug="security-kit-pro-bundle">
+                    <div class="product-card__inner">
+                        <div>
+                            <span class="bundle-badge">BUNDLE DEAL</span>
+                            <h3 class="product-card__name" style="margin-top: 12px">Security Kit Pro Bundle</h3>
+                            <p class="product-card__desc">Every tool in the Security Kit &mdash; all 10 products at a massive discount. The complete Python security engineering toolkit.</p>
+                            <div class="product-card__tags">
+                                <span class="product-card__tag">bundle</span>
+                                <span class="product-card__tag">pro</span>
+                            </div>
+                            <ul class="product-card__bundle-list">
+                                <li>Vulnerability Scanner</li>
+                                <li>Audit Script Kit</li>
+                                <li>Compliance Checker</li>
+                                <li>Secret Rotator</li>
+                                <li>CSP Builder</li>
+                                <li>Dependency Auditor</li>
+                                <li>Pentest Helper</li>
+                                <li>Incident Response Kit</li>
+                                <li>Encryption Toolkit</li>
+                                <li>Security Report Generator</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$39.99</p>
+                            <div class="product-card__actions">
+                                <a href="#" class="btn btn--primary btn--card"
+                                   data-stripe-link="https://buy.stripe.com/PLACEHOLDER_security-kit-pro-bundle"
+                                   data-product="security-kit-pro-bundle">
+                                    Grab This Bundle
+                                </a>
+                                <button class="btn btn--crypto btn--card"
+                                        data-crypto-product="Security Kit Pro Bundle"
+                                        data-crypto-price="3399">
+                                    Pay with Crypto ($33.99)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- ===== INDIVIDUAL PRODUCTS ===== -->
+                <article class="product-card fade-in"
+                         data-tags="scanning,ports,ssl"
+                         data-price="999"
+                         data-slug="vulnerability-scanner">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Vulnerability Scanner</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Python vulnerability scanner: port scanning, header analysis, SSL certificate checks, and common CVE detection. Zero dependencies.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">scanning</span>
+                        <span class="product-card__tag">ports</span>
+                        <span class="product-card__tag">ssl</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card"
+                           data-stripe-link="https://buy.stripe.com/PLACEHOLDER_vulnerability-scanner"
+                           data-product="vulnerability-scanner">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Vulnerability Scanner"
+                                data-crypto-price="849">
+                            Pay with Crypto ($8.49)
+                        </button>
+                        <a href="preview-vulnerability-scanner.html" class="product-card__preview">Preview &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="product-card fade-in"
+                         data-tags="audit,permissions,monitoring"
+                         data-price="499"
+                         data-slug="audit-script-kit">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Audit Script Kit</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Python security audit scripts: file permissions, open ports, process monitoring, cron auditing. Run on any Linux server in seconds.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">audit</span>
+                        <span class="product-card__tag">permissions</span>
+                        <span class="product-card__tag">monitoring</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card"
+                           data-stripe-link="https://buy.stripe.com/PLACEHOLDER_audit-script-kit"
+                           data-product="audit-script-kit">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Audit Script Kit"
+                                data-crypto-price="424">
+                            Pay with Crypto ($4.24)
+                        </button>
+                        <a href="preview-audit-script-kit.html" class="product-card__preview">Preview &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="product-card fade-in"
+                         data-tags="compliance,owasp,headers"
+                         data-price="999"
+                         data-slug="compliance-checker">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Compliance Checker</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Python compliance checker: OWASP Top 10, CIS benchmarks, security header validation. Get a compliance score in minutes.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">compliance</span>
+                        <span class="product-card__tag">owasp</span>
+                        <span class="product-card__tag">headers</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card"
+                           data-stripe-link="https://buy.stripe.com/PLACEHOLDER_compliance-checker"
+                           data-product="compliance-checker">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Compliance Checker"
+                                data-crypto-price="849">
+                            Pay with Crypto ($8.49)
+                        </button>
+                        <a href="preview-compliance-checker.html" class="product-card__preview">Preview &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="product-card fade-in"
+                         data-tags="secrets,rotation,credentials"
+                         data-price="499"
+                         data-slug="secret-rotator">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Secret Rotator</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Python secret rotation tool: API keys, passwords, tokens with provider hooks and rollback. Automate your credential hygiene.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">secrets</span>
+                        <span class="product-card__tag">rotation</span>
+                        <span class="product-card__tag">credentials</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card"
+                           data-stripe-link="https://buy.stripe.com/PLACEHOLDER_secret-rotator"
+                           data-product="secret-rotator">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Secret Rotator"
+                                data-crypto-price="424">
+                            Pay with Crypto ($4.24)
+                        </button>
+                        <a href="preview-secret-rotator.html" class="product-card__preview">Preview &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="product-card fade-in"
+                         data-tags="csp,headers,frontend"
+                         data-price="499"
+                         data-slug="csp-builder">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">CSP Builder</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Python Content Security Policy builder: directive generator, violation reporter, policy tester. Stop XSS before it starts.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">csp</span>
+                        <span class="product-card__tag">headers</span>
+                        <span class="product-card__tag">frontend</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card"
+                           data-stripe-link="https://buy.stripe.com/PLACEHOLDER_csp-builder"
+                           data-product="csp-builder">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="CSP Builder"
+                                data-crypto-price="424">
+                            Pay with Crypto ($4.24)
+                        </button>
+                        <a href="preview-csp-builder.html" class="product-card__preview">Preview &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="product-card fade-in"
+                         data-tags="dependencies,cve,packages"
+                         data-price="999"
+                         data-slug="dependency-auditor">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Dependency Auditor</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Python dependency auditor: CVE database lookup, version checker, upgrade recommendations. Know your attack surface.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">dependencies</span>
+                        <span class="product-card__tag">cve</span>
+                        <span class="product-card__tag">packages</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card"
+                           data-stripe-link="https://buy.stripe.com/PLACEHOLDER_dependency-auditor"
+                           data-product="dependency-auditor">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Dependency Auditor"
+                                data-crypto-price="849">
+                            Pay with Crypto ($8.49)
+                        </button>
+                        <a href="preview-dependency-auditor.html" class="product-card__preview">Preview &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="product-card fade-in"
+                         data-tags="pentest,fuzzing,injection"
+                         data-price="999"
+                         data-slug="pentest-helper">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Pentest Helper</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Python penetration testing toolkit: request fuzzer, SQL injection tester, XSS scanner. For systems you own and are authorized to test.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">pentest</span>
+                        <span class="product-card__tag">fuzzing</span>
+                        <span class="product-card__tag">injection</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card"
+                           data-stripe-link="https://buy.stripe.com/PLACEHOLDER_pentest-helper"
+                           data-product="pentest-helper">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Pentest Helper"
+                                data-crypto-price="849">
+                            Pay with Crypto ($8.49)
+                        </button>
+                        <a href="preview-pentest-helper.html" class="product-card__preview">Preview &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="product-card fade-in"
+                         data-tags="incident,playbook,response"
+                         data-price="499"
+                         data-slug="incident-response-kit">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Incident Response Kit</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Python incident response templates: playbooks, communication templates, timeline builders. Stay calm when things go wrong.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">incident</span>
+                        <span class="product-card__tag">playbook</span>
+                        <span class="product-card__tag">response</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card"
+                           data-stripe-link="https://buy.stripe.com/PLACEHOLDER_incident-response-kit"
+                           data-product="incident-response-kit">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Incident Response Kit"
+                                data-crypto-price="424">
+                            Pay with Crypto ($4.24)
+                        </button>
+                        <a href="preview-incident-response-kit.html" class="product-card__preview">Preview &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="product-card fade-in"
+                         data-tags="encryption,aes,hashing"
+                         data-price="499"
+                         data-slug="encryption-toolkit">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Encryption Toolkit</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Python encryption library: AES, RSA, hashing, key generation, file encryption, password vaults. Cryptography done right.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">encryption</span>
+                        <span class="product-card__tag">aes</span>
+                        <span class="product-card__tag">hashing</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card"
+                           data-stripe-link="https://buy.stripe.com/PLACEHOLDER_encryption-toolkit"
+                           data-product="encryption-toolkit">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Encryption Toolkit"
+                                data-crypto-price="424">
+                            Pay with Crypto ($4.24)
+                        </button>
+                        <a href="preview-encryption-toolkit.html" class="product-card__preview">Preview &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="product-card fade-in"
+                         data-tags="reports,html,severity"
+                         data-price="499"
+                         data-slug="security-report-generator">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Security Report Generator</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Python security report generator: scan results to HTML reports with severity ratings and remediation steps. Impress clients and auditors.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">reports</span>
+                        <span class="product-card__tag">html</span>
+                        <span class="product-card__tag">severity</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card"
+                           data-stripe-link="https://buy.stripe.com/PLACEHOLDER_security-report-generator"
+                           data-product="security-report-generator">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Security Report Generator"
+                                data-crypto-price="424">
+                            Pay with Crypto ($4.24)
+                        </button>
+                        <a href="preview-security-report-generator.html" class="product-card__preview">Preview &rarr;</a>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Signals -->
+    <section class="trust-section" id="trust">
+        <div class="container">
+            <h2 class="section__heading">Why devs grab from here</h2>
+            <p class="section__subheading">No fluff &mdash; here&rsquo;s why this store ships</p>
+            <div class="trust-grid">
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x26A1;</div>
+                    <p class="trust-card__text">
+                        <strong>Instant digital download</strong>
+                        Pay, unzip, run. Your security tools are ready in seconds.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x1F4DC;</div>
+                    <p class="trust-card__text">
+                        <strong>MIT License &mdash; use anywhere</strong>
+                        SaaS, client work, internal audits. No restrictions.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x1F40D;</div>
+                    <p class="trust-card__text">
+                        <strong>Python stdlib only &mdash; zero pip installs</strong>
+                        No virtual envs, no requirements.txt, no dependency hell.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x1F6E1;&#xFE0F;</div>
+                    <p class="trust-card__text">
+                        <strong>Read-only audit tools</strong>
+                        Compliance and audit scripts are non-destructive by design.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Companion App -->
+    <section class="app-section" id="app">
+        <div class="container">
+            <div class="app-promo fade-in">
+                <div class="app-promo__content">
+                    <span class="app-promo__badge">ANDROID APP</span>
+                    <h2 class="app-promo__title">Security Kit Mobile</h2>
+                    <p class="app-promo__desc">Take your security toolkit on the go. Dashboard, community templates, daily challenges, and streak rewards &mdash; all in a dark-themed Material&nbsp;3 interface.</p>
+                    <ul class="app-promo__features">
+                        <li>Vulnerability scanner and security auditor</li>
+                        <li>Compliance checker and secret rotator</li>
+                        <li>Community sharing &amp; daily challenges</li>
+                        <li>Premium tools via in-app purchase ($0.99&ndash;$4.99)</li>
+                    </ul>
+                    <div class="app-promo__actions">
+                        <a href="https://play.google.com/store/apps/details?id=com.codevault.securitykit" class="btn btn--primary">Get on Google Play</a>
+                        <a href="https://github.com/codevault/security-kit-android" class="btn btn--secondary">View Source</a>
+                    </div>
+                </div>
+                <div class="app-promo__visual">
+                    <div class="app-mockup" style="--app-color: #D500F9">
+                        <div class="app-mockup__screen">
+                            <div class="app-mockup__header">Security Kit</div>
+                            <div class="app-mockup__tabs">
+                                <span class="app-mockup__tab app-mockup__tab--active">Scanner</span>
+                                <span class="app-mockup__tab">Tools</span>
+                                <span class="app-mockup__tab">Community</span>
+                                <span class="app-mockup__tab">Store</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section__heading">Got questions?</h2>
+            <p class="section__subheading">Straight answers. No runaround.</p>
+            <div class="faq-list">
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Do these tools require any pip packages?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Nope. Every tool runs on Python 3.10+ stdlib only. No pip install, no virtual environments, no dependency conflicts. Just unzip and run.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I use these in my SaaS product?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Absolutely. MIT license means you can use these tools in personal projects, client work, SaaS products, or internal tooling. No attribution required.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do I get my download?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Instant download after payment. You&rsquo;ll be redirected to a secure download page with your files immediately after checkout completes.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What Python version do I need?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Python 3.10 or newer. All tools use modern Python features and include type hints for great IDE autocompletion.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What&rsquo;s the difference between bundles and individual tools?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Bundles give you multiple tools at a discount. The Starter Bundle ($19.99) includes 4 core tools. The Pro Bundle ($39.99) includes all 10 tools &mdash; that&rsquo;s $64.90 of tools for $39.99.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Are these tools safe to run on production servers?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Audit and compliance tools are read-only &mdash; they inspect and report without modifying your system. Pentest tools should only be run against systems you own or have explicit written permission to test.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I get a refund?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">If a tool doesn&rsquo;t work as described, absolutely. Email <a href="mailto:support@codevault.dev">support@codevault.dev</a> and we&rsquo;ll make it right.</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__brand">CodeVault</p>
+            <p class="footer__tagline">Ship faster. Build smarter.</p>
+            <nav class="footer__links" aria-label="Other stores">
+                <a href="../seo-toolkit/storefront/index.html" class="footer__link">SEO Toolkit</a>
+                <a href="../email-arsenal/storefront/index.html" class="footer__link">Email Arsenal</a>
+                <a href="../form-forge/storefront/index.html" class="footer__link">Form Forge</a>
+                <a href="../api-launchpad/storefront/index.html" class="footer__link">API Launchpad</a>
+                <a href="../deploy-kit/storefront/index.html" class="footer__link">Deploy Kit</a>
+                <a href="../auth-vault/storefront/index.html" class="footer__link">Auth Vault</a>
+                <a href="../saas-starter/storefront/index.html" class="footer__link">SaaS Starter</a>
+                <a href="../analytics-hub/storefront/index.html" class="footer__link">Analytics Hub</a>
+                <a href="../payment-stack/storefront/index.html" class="footer__link">Payment Stack</a>
+                <a href="../ai-toolkit/storefront/index.html" class="footer__link">AI Toolkit</a>
+                <a href="../landing-lab/storefront/index.html" class="footer__link">Landing Lab</a>
+                <a href="../automation-hub/storefront/index.html" class="footer__link">Automation Hub</a>
+            </nav>
+            <p class="footer__copy">&copy; 2026 CodeVault. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

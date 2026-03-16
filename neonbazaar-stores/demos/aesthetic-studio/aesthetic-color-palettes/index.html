@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aesthetic Color Palettes — Demo</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a12; font-family: 'Segoe UI', sans-serif; color: #E8E0F0; padding: 2rem; min-height: 100vh; }
+  h1 { text-align: center; font-size: 2.5rem; font-weight: 300; color: #FF6EC7; margin-bottom: 0.5rem; }
+  .subtitle { text-align: center; color: #888; margin-bottom: 2rem; }
+  .toast { position: fixed; top: 20px; right: 20px; background: #FF6EC7; color: white; padding: 0.8rem 1.5rem; border-radius: 8px; font-size: 0.9rem; opacity: 0; transition: opacity 0.3s; z-index: 100; }
+  .toast.show { opacity: 1; }
+  .palette-card { background: #15152a; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto; }
+  .palette-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+  .palette-header h2 { font-size: 1.3rem; font-weight: 400; color: #E8E0F0; }
+  .palette-header .tags { display: flex; gap: 0.4rem; }
+  .palette-header .tag { background: #252545; color: #888; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; }
+  .palette-desc { color: #666; font-size: 0.9rem; margin-bottom: 1rem; }
+  .swatches { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .swatch { width: 80px; height: 80px; border-radius: 12px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
+  .swatch:hover { transform: scale(1.1); box-shadow: 0 4px 20px rgba(255,110,199,0.3); }
+  .swatch-label { text-align: center; margin-top: 0.4rem; }
+  .swatch-label .name { font-size: 0.7rem; color: #aaa; }
+  .swatch-label .hex { font-size: 0.65rem; color: #666; font-family: monospace; }
+  .swatch-container { display: flex; flex-direction: column; align-items: center; }
+</style>
+</head>
+<body>
+  <h1>Aesthetic Color Palettes</h1>
+  <p class="subtitle">Click any swatch to copy its hex code</p>
+  <div class="toast" id="toast">Copied!</div>
+  <div id="palettes"></div>
+
+<script>
+const palettes = [
+  { name: "Cottagecore", desc: "Warm earth tones, dried flowers, and linen textures", tags: ["warm","earthy","cozy"], colors: [{n:"Walnut",h:"#8B7355"},{n:"Wheat",h:"#C5A880"},{n:"Cream",h:"#E8D5B7"},{n:"Sage",h:"#97B07A"},{n:"Terracotta",h:"#D4956A"},{n:"Linen",h:"#F5E6CC"},{n:"Moss",h:"#6B8E4E"},{n:"Petal",h:"#E8A0BF"}] },
+  { name: "Dark Academia", desc: "Leather, mahogany, candlelight, and old book pages", tags: ["dark","scholarly","moody"], colors: [{n:"Espresso",h:"#3C2415"},{n:"Mahogany",h:"#6B3A2A"},{n:"Parchment",h:"#E8D5B0"},{n:"Forest",h:"#2D4A3E"},{n:"Burgundy",h:"#800020"},{n:"Gold Leaf",h:"#C5973B"},{n:"Charcoal",h:"#36454F"}] },
+  { name: "Y2K", desc: "Chrome silver, hot pink, and electric blue throwback", tags: ["retro","bold","playful"], colors: [{n:"Chrome",h:"#C0C0C0"},{n:"Hot Pink",h:"#FF69B4"},{n:"Electric Blue",h:"#00BFFF"},{n:"Lime",h:"#ADFF2F"},{n:"Lilac",h:"#C8A2C8"},{n:"Cyber Yellow",h:"#FFD300"},{n:"Baby Blue",h:"#89CFF0"}] },
+  { name: "Pastel Dream", desc: "Soft lavender, baby pink, mint, and cream clouds", tags: ["soft","dreamy","kawaii"], colors: [{n:"Lavender",h:"#E6E6FA"},{n:"Baby Pink",h:"#FFB6C1"},{n:"Mint",h:"#B2F2BB"},{n:"Cream",h:"#FFFDD0"},{n:"Sky",h:"#B0E0E6"},{n:"Peach",h:"#FFDAB9"},{n:"Lilac",h:"#DCD0FF"},{n:"Rose",h:"#FFD1DC"}] },
+  { name: "Neon Glow", desc: "Electric purple, hot magenta, and cyan on dark", tags: ["neon","electric","bold"], colors: [{n:"Electric Purple",h:"#BF40FF"},{n:"Hot Magenta",h:"#FF1493"},{n:"Cyan",h:"#00FFFF"},{n:"Neon Green",h:"#39FF14"},{n:"Deep Void",h:"#0a0a12"},{n:"Glow Pink",h:"#FF6EC7"}] },
+  { name: "Grunge", desc: "Muted olive, rust, charcoal, and faded denim", tags: ["dark","muted","raw"], colors: [{n:"Charcoal",h:"#36454F"},{n:"Rust",h:"#B7410E"},{n:"Olive",h:"#808000"},{n:"Faded Denim",h:"#6F8FAF"},{n:"Concrete",h:"#95A5A6"},{n:"Dried Blood",h:"#8B0000"},{n:"Smoke",h:"#708090"}] },
+  { name: "Soft Girl", desc: "Blush pink, peach, cloud white, and baby blue", tags: ["soft","feminine","cute"], colors: [{n:"Blush",h:"#FFB6C1"},{n:"Peach",h:"#FFCBA4"},{n:"Cloud",h:"#F8F8FF"},{n:"Baby Blue",h:"#89CFF0"},{n:"Mauve",h:"#E0B0FF"},{n:"Honey",h:"#FFD700"},{n:"Rose Quartz",h:"#F7CAC9"}] },
+  { name: "Vintage", desc: "Sepia, burnt orange, dusty rose, and olive green", tags: ["retro","warm","nostalgic"], colors: [{n:"Sepia",h:"#704214"},{n:"Burnt Orange",h:"#CC5500"},{n:"Dusty Rose",h:"#DCAE96"},{n:"Olive",h:"#6B8E23"},{n:"Cream",h:"#FFFDD0"},{n:"Mustard",h:"#E1AD01"},{n:"Burgundy",h:"#800020"},{n:"Faded Teal",h:"#5F9EA0"}] },
+  { name: "Ocean Wave", desc: "Deep navy, seafoam, coral, and warm sand", tags: ["cool","calming","coastal"], colors: [{n:"Deep Navy",h:"#003366"},{n:"Seafoam",h:"#93E9BE"},{n:"Coral",h:"#FF7F50"},{n:"Sand",h:"#F4E1C1"},{n:"Tide Pool",h:"#008B8B"},{n:"Wave Crest",h:"#E0F7FA"},{n:"Driftwood",h:"#A0826D"}] },
+  { name: "Sunset", desc: "Golden hour amber, coral pink, and dusky purple", tags: ["warm","romantic","golden"], colors: [{n:"Golden Amber",h:"#FFBF00"},{n:"Coral Pink",h:"#F88379"},{n:"Dusky Purple",h:"#7B5EA7"},{n:"Peach Glow",h:"#FFDAB9"},{n:"Tangerine",h:"#FF9966"},{n:"Twilight",h:"#4A3B6B"}] }
+];
+
+const container = document.getElementById('palettes');
+const toast = document.getElementById('toast');
+
+palettes.forEach(p => {
+  const card = document.createElement('div');
+  card.className = 'palette-card';
+  card.innerHTML = `
+    <div class="palette-header">
+      <h2>${p.name}</h2>
+      <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+    </div>
+    <p class="palette-desc">${p.desc}</p>
+    <div class="swatches">
+      ${p.colors.map(c => `
+        <div class="swatch-container">
+          <div class="swatch" style="background:${c.h}" onclick="copyHex('${c.h}')" title="Click to copy ${c.h}"></div>
+          <div class="swatch-label"><div class="name">${c.n}</div><div class="hex">${c.h}</div></div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  container.appendChild(card);
+});
+
+function copyHex(hex) {
+  navigator.clipboard.writeText(hex).then(() => {
+    toast.textContent = `Copied ${hex}`;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1500);
+  });
+}
+</script>
+</body>
+</html>

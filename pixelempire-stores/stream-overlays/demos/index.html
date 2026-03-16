@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>StreamKit Demos | Pixel Empire Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#0a0a0f; color:#e0e0e0; font-family:'Inter', system-ui, sans-serif; line-height:1.6; }
+    h1,h2,h3 { font-family:'Press Start 2P', 'Inter', system-ui, sans-serif; letter-spacing:1px; }
+    a { color:#a855f7; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .container { max-width:960px; margin:0 auto; padding:24px 16px; }
+    .btn { display:inline-block; padding:12px 28px; background:#a855f7; color:#000;
+            font-weight:700; border:none; border-radius:6px; cursor:pointer; font-size:14px; }
+    .btn:hover { opacity:0.85; text-decoration:none; }
+    .price { font-size:22px; font-weight:700; color:#a855f7; }
+    .muted { color:#888; font-size:13px; }
+    .card { background:#14141f; border-radius:10px; padding:16px; }
+    canvas { display:block; border-radius:8px; image-rendering:pixelated; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+<h1 style="font-size:18px;margin-bottom:4px;color:#a855f7">StreamKit Demos</h1>
+<p class="muted" style="margin-bottom:16px">Everything you need to look pro on stream &mdash; 12 products</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px">
+
+<a href="pixel-stream-overlay-pack.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(125,215,208);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Pixel Art Stream Overlay Pack</h3>
+  <span class="muted">$7.99</span>
+  <div style="margin-top:6px;color:#a855f7;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="neon-stream-overlay-pack.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(253,215,213);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Neon Glow Stream Overlay Pack</h3>
+  <span class="muted">$7.99</span>
+  <div style="margin-top:6px;color:#a855f7;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="minimal-stream-overlay.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(114,165,138);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Minimal Clean Stream Overlay</h3>
+  <span class="muted">$5.99</span>
+  <div style="margin-top:6px;color:#a855f7;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="stream-alert-pack.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(128,227,34);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Stream Alert Animation Pack</h3>
+  <span class="muted">$4.99</span>
+  <div style="margin-top:6px;color:#a855f7;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="stream-panel-templates.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(26,224,209);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Stream Panel Templates</h3>
+  <span class="muted">$2.99</span>
+  <div style="margin-top:6px;color:#a855f7;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="stream-transition-pack.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(22,156,159);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Stream Transition Pack</h3>
+  <span class="muted">$4.99</span>
+  <div style="margin-top:6px;color:#a855f7;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="emote-commission-template.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(185,155,36);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Stream Emote Template Kit</h3>
+  <span class="muted">$3.99</span>
+  <div style="margin-top:6px;color:#a855f7;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="sub-badge-collection.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(57,137,20);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Sub Badge Collection</h3>
+  <span class="muted">$3.99</span>
+  <div style="margin-top:6px;color:#a855f7;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="stream-starting-screens.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(38,175,66);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Animated Starting Screens</h3>
+  <span class="muted">$4.99</span>
+  <div style="margin-top:6px;color:#a855f7;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="chat-widget-themes.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(71,16,28);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Chat Widget Themes</h3>
+  <span class="muted">$2.99</span>
+  <div style="margin-top:6px;color:#a855f7;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="stream-schedule-templates.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(22,251,153);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Stream Schedule Templates</h3>
+  <span class="muted">$1.99</span>
+  <div style="margin-top:6px;color:#a855f7;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="stream-sound-effects.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(225,70,134);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Stream Sound Effects Pack</h3>
+  <span class="muted">$3.99</span>
+  <div style="margin-top:6px;color:#a855f7;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+</div>
+<div style="margin-top:24px"><a href="../../../demos/index.html" style="color:#a855f7">&larr; All Stores</a></div>
+
+</div>
+<script></script>
+</body>
+</html>

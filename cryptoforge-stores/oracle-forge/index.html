@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oracle Forge — Oracle & Data Provider Tools | CryptoForge</title>
+<meta name="description" content="Oracle nodes, custom data feeds, aggregators, VRF randomness, monitoring, and risk scoring. Ship oracle infrastructure in minutes, not months.">
+<meta property="og:title" content="Oracle Forge — Oracle & Data Provider Tools | CryptoForge">
+<meta property="og:description" content="Oracle nodes, custom data feeds, aggregators, VRF randomness, monitoring, and risk scoring. Ship oracle infrastructure in minutes, not months.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://oracleforge.cryptoforge.dev">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script defer data-domain="oracleforge.cryptoforge.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                         NAVIGATION                            -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <span class="logo-icon">&#x1F52E;</span>
+      <span class="logo-text">ORACLE<span class="logo-accent">FORGE</span></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#products">Products</a>
+      <a href="#bundles">Bundles</a>
+      <a href="#features">Features</a>
+      <a href="#free">Free Tools</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://cryptoforge.dev" class="nav-cta">All Stores &rarr;</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                            HERO                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">CryptoForge Store #6</div>
+    <h1 class="hero-title">
+      <span class="gradient-text">Oracle Forge</span>
+    </h1>
+    <p class="hero-subtitle">
+      Oracle infrastructure, data feeds, and monitoring for DeFi builders.<br>
+      From price feeds to VRF randomness &mdash; ship oracle infra in minutes.
+    </p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-value">10</span>
+        <span class="stat-label">Products</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">140+</span>
+        <span class="stat-label">Files</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">4</span>
+        <span class="stat-label">Languages</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">100%</span>
+        <span class="stat-label">Test Coverage</span>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a href="#bundles" class="btn btn-primary btn-lg">Get the Pro Bundle — $49.99</a>
+      <a href="#products" class="btn btn-ghost btn-lg">Browse Products</a>
+    </div>
+    <div class="hero-trust">
+      <span>Chainlink Compatible</span>
+      <span class="trust-sep">&bull;</span>
+      <span>VRF V2.5</span>
+      <span class="trust-sep">&bull;</span>
+      <span>Solidity ^0.8.24</span>
+      <span class="trust-sep">&bull;</span>
+      <span>TypeScript &bull; Python</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          BUNDLES                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="bundles">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Save with Bundles</span></h2>
+    <p class="section-desc">Get multiple products at a fraction of the individual price.</p>
+
+    <div class="bundle-grid">
+      <!-- Starter Bundle -->
+      <div class="bundle-card">
+        <div class="bundle-badge">SAVE 46%</div>
+        <h3 class="bundle-name">Starter Bundle</h3>
+        <p class="bundle-desc">Essential oracle infrastructure. Node setup, monitoring, aggregation, and testing harness.</p>
+        <div class="bundle-pricing">
+          <span class="bundle-original">$45.96</span>
+          <span class="bundle-price">$24.99</span>
+        </div>
+        <ul class="bundle-includes">
+          <li>Price Oracle Node <span class="include-price">$14.99</span></li>
+          <li>Oracle Monitor <span class="include-price">$9.99</span></li>
+          <li>Oracle Aggregator <span class="include-price">$12.99</span></li>
+          <li>Oracle Testing Harness <span class="include-price">$7.99</span></li>
+        </ul>
+        <a href="#" class="btn btn-secondary btn-full" data-product="starter-bundle">Buy Starter — $24.99</a>
+      </div>
+
+      <!-- Pro Bundle -->
+      <div class="bundle-card bundle-featured">
+        <div class="bundle-badge bundle-badge-gold">BEST VALUE — SAVE 59%</div>
+        <h3 class="bundle-name">Pro Bundle</h3>
+        <p class="bundle-desc">The complete oracle toolkit. All 10 products — nodes, feeds, aggregators, VRF, monitoring, and risk scoring.</p>
+        <div class="bundle-pricing">
+          <span class="bundle-original">$121.91</span>
+          <span class="bundle-price">$49.99</span>
+        </div>
+        <ul class="bundle-includes">
+          <li>All 10 Oracle Products</li>
+          <li>All future updates included</li>
+          <li>Priority support (30 days)</li>
+        </ul>
+        <a href="#" class="btn btn-primary btn-full" data-product="pro-bundle">Buy Pro Bundle — $49.99</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                         PRODUCTS                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="products">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Product Catalog</span></h2>
+    <p class="section-desc">10 production-ready tools for oracle infrastructure, data feeds, and monitoring.</p>
+
+    <!-- Filter tabs -->
+    <div class="filter-tabs">
+      <button class="filter-btn active" data-filter="all">All (10)</button>
+      <button class="filter-btn" data-filter="contracts">Contracts (5)</button>
+      <button class="filter-btn" data-filter="infrastructure">Infrastructure (1)</button>
+      <button class="filter-btn" data-filter="monitoring">Monitoring (2)</button>
+      <button class="filter-btn" data-filter="indexing">Indexing (1)</button>
+      <button class="filter-btn" data-filter="testing">Testing (1)</button>
+    </div>
+
+    <div class="product-grid">
+      <!-- Product 1 -->
+      <div class="product-card" data-category="infrastructure">
+        <div class="product-number">#1</div>
+        <div class="product-tag tag-infra">Infra</div>
+        <h3 class="product-name">Price Oracle Node</h3>
+        <p class="product-desc">Chainlink-compatible oracle node setup with OCR reporting. Docker-based with health monitoring and credential management.</p>
+        <div class="product-tech">
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Docker</span>
+          <span class="tech-tag">Prometheus</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$14.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="price-oracle-node">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#2</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">Custom Data Feed</h3>
+        <p class="product-desc">Build your own on-chain data feed: API source to on-chain with update scheduling and deviation triggers.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$12.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="custom-data-feed">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card" data-category="monitoring">
+        <div class="product-number">#3</div>
+        <div class="product-tag tag-monitoring">Monitoring</div>
+        <h3 class="product-name">Oracle Monitor</h3>
+        <p class="product-desc">Monitoring service for oracle freshness, deviations, and outages. Multi-channel alerts with escalation policies.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">web3.py</span>
+          <span class="tech-tag">asyncio</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="oracle-monitor">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#4</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">Risk Rating Oracle</h3>
+        <p class="product-desc">DeFi protocol risk scoring oracle. On-chain risk metrics with 7 dimensions and composite scoring.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$19.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="risk-rating-oracle">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 5 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#5</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">Oracle Aggregator</h3>
+        <p class="product-desc">Multi-source oracle aggregation with outlier detection, circuit breakers, and fallback strategies.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">OpenZeppelin v5</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$12.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="oracle-aggregator">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 6 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#6</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">VRF Randomness Kit</h3>
+        <p class="product-desc">Verifiable random function integration for provably fair on-chain randomness. Chainlink VRF V2.5 compatible.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">VRF V2.5</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="vrf-randomness-kit">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 7 -->
+      <div class="product-card" data-category="indexing">
+        <div class="product-number">#7</div>
+        <div class="product-tag tag-indexing">Indexing</div>
+        <h3 class="product-name">Data Indexer Template</h3>
+        <p class="product-desc">TheGraph subgraph templates for common DeFi oracle events. Pre-built schemas and mapping handlers.</p>
+        <div class="product-tech">
+          <span class="tech-tag">AssemblyScript</span>
+          <span class="tech-tag">TheGraph</span>
+          <span class="tech-tag">GraphQL</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$14.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="data-indexer-template">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 8 -->
+      <div class="product-card" data-category="testing">
+        <div class="product-number">#8</div>
+        <div class="product-tag tag-testing">Testing</div>
+        <h3 class="product-name">Oracle Testing Harness</h3>
+        <p class="product-desc">Mock oracle framework for testing oracle-dependent contracts. Configurable price feeds and staleness simulation.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">Foundry</span>
+          <span class="tech-tag">forge-std</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$7.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="oracle-testing-harness">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 9 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#9</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">Feed Registry</h3>
+        <p class="product-desc">On-chain registry mapping asset pairs to oracle addresses. Versioned feeds with governance controls.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">OpenZeppelin v5</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="feed-registry">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 10 -->
+      <div class="product-card" data-category="monitoring">
+        <div class="product-number">#10</div>
+        <div class="product-tag tag-monitoring">Monitoring</div>
+        <h3 class="product-name">Deviation Alerter</h3>
+        <p class="product-desc">Alert system for oracle price deviations beyond thresholds. Multi-channel notifications with escalation tiers.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">web3.py</span>
+          <span class="tech-tag">asyncio</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$7.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="deviation-alerter">Buy Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                        FEATURES                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="features">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Why Oracle Forge?</span></h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F52E;</div>
+        <h3>Multi-Source Aggregation</h3>
+        <p>Don't trust a single oracle. Aggregate prices from Chainlink, TWAP, Redstone, and custom feeds with outlier detection and circuit breakers.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F3B2;</div>
+        <h3>Provable Randomness</h3>
+        <p>VRF V2.5 integration for verifiably fair on-chain randomness. Lotteries, NFT reveals, and game mechanics with cryptographic guarantees.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x26A0;</div>
+        <h3>Real-Time Monitoring</h3>
+        <p>Track oracle freshness, detect deviations, and get alerted to outages before they impact your protocol. Multi-channel alert pipelines.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F4CA;</div>
+        <h3>Risk Scoring</h3>
+        <p>On-chain DeFi risk ratings across 7 dimensions. Smart contract risk metrics consumable by lending protocols, insurance pools, and aggregators.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F50D;</div>
+        <h3>Event Indexing</h3>
+        <p>TheGraph subgraph templates for indexing all oracle events. Historical price feeds, update frequencies, and deviation logs via GraphQL.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F527;</div>
+        <h3>Testing First</h3>
+        <p>Mock oracle framework with configurable feeds, staleness simulation, and deviation injection. Never deploy oracle-dependent code untested.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                       FREE TOOLS                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="free">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Free Resources</span></h2>
+    <div class="lead-magnet-grid">
+      <div class="lead-magnet-card">
+        <div class="lm-icon">&#x1F4CB;</div>
+        <h3>Oracle Security Checklist</h3>
+        <p>18-point security checklist for oracle integrations. Covers staleness, manipulation, and fallback patterns.</p>
+        <form class="lm-form" data-magnet="oracle-security-checklist">
+          <input type="email" placeholder="your@email.com" class="lm-input" required>
+          <button type="submit" class="btn btn-primary">Download Free</button>
+        </form>
+      </div>
+      <div class="lead-magnet-card">
+        <div class="lm-icon">&#x1F4CA;</div>
+        <h3>Oracle Architecture Guide</h3>
+        <p>Design patterns for reliable oracle infrastructure: aggregation, fallbacks, deviation handling, and circuit breakers.</p>
+        <form class="lm-form" data-magnet="oracle-architecture-guide">
+          <input type="email" placeholder="your@email.com" class="lm-input" required>
+          <button type="submit" class="btn btn-primary">Download Free</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          FAQ                                  -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="faq">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">FAQ</span></h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h3 class="faq-question">Is this compatible with Chainlink?</h3>
+        <p class="faq-answer">Yes — the Oracle Testing Harness mocks Chainlink price feeds for local testing, the Oracle Aggregator can consume Chainlink feeds alongside other sources, and the VRF Randomness Kit is Chainlink VRF V2.5 compatible.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What data types are supported?</h3>
+        <p class="faq-answer">The toolkit covers price feeds, VRF randomness, custom API-to-chain data feeds, and DeFi risk ratings. The Custom Data Feed product lets you bring any off-chain data on-chain with update scheduling.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What chains are supported?</h3>
+        <p class="faq-answer">All contracts deploy to Ethereum, Arbitrum, Base, and Optimism. Chain configs are included. The oracle node and monitoring tools work with any EVM-compatible chain.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Are the contracts audited?</h3>
+        <p class="faq-answer">Every contract includes comprehensive Foundry test suites (unit, fuzz, and invariant tests) and detailed security notes. We recommend a professional audit before mainnet deployment with real data consumers.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What license are the products under?</h3>
+        <p class="faq-answer">All products are MIT licensed. You can use, modify, and distribute them in commercial projects without restriction.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What support is included?</h3>
+        <p class="faq-answer">The Pro Bundle includes 30 days of priority support. Individual product purchases are supported through our community channels. All products include documentation and examples.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                       CROSS-SELL                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">More from CryptoForge</span></h2>
+    <p class="section-desc">Oracle Forge is one of 10 CryptoForge stores. Build your entire DeFi stack.</p>
+    <div class="cross-sell-grid">
+      <a href="#" class="cross-sell-card">
+        <h3>Vault Forge</h3>
+        <p>ERC-4626 yield vault toolkit. Feed vault share prices to oracle aggregators for DeFi composability.</p>
+        <span class="cross-sell-link">Browse Store &rarr;</span>
+      </a>
+      <a href="#" class="cross-sell-card">
+        <h3>DeFi Router</h3>
+        <p>Routing & swap aggregation tools. Use oracle prices for optimal swap routing and slippage protection.</p>
+        <span class="cross-sell-link">Browse Store &rarr;</span>
+      </a>
+      <a href="#" class="cross-sell-card">
+        <h3>Coverage Vault</h3>
+        <p>DeFi insurance & risk tools. Risk rating oracles power insurance premium calculations.</p>
+        <span class="cross-sell-link">Browse Store &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          FOOTER                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo-icon">&#x2692;</span>
+        <span class="logo-text">CRYPTO<span class="logo-accent">FORGE</span></span>
+        <p class="footer-tagline">Forge the future of DeFi.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Stores</h4>
+        <a href="#">Vault Forge</a>
+        <a href="#">DeFi Router</a>
+        <a href="#">MEV Shield</a>
+        <a href="#">Staking Kit</a>
+        <a href="#">Oracle Forge</a>
+      </div>
+      <div class="footer-links">
+        <h4>Resources</h4>
+        <a href="#">Documentation</a>
+        <a href="#">Oracle Security Checklist</a>
+        <a href="#">Architecture Guide</a>
+        <a href="#">Blog</a>
+      </div>
+      <div class="footer-links">
+        <h4>Payment</h4>
+        <p class="footer-note">We accept Stripe (credit/debit) and crypto payments (ETH, BTC).</p>
+        <p class="footer-note">All products include MIT license.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 CryptoForge. All rights reserved. Part of the DATANEST empire.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

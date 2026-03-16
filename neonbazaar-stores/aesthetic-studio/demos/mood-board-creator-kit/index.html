@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mood Board Creator Kit — Demo</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0a0a12;
+    color: #e0d6eb;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+  }
+  h1 { font-size: 1.5rem; letter-spacing: 0.12em; color: #c084fc; margin-bottom: 0.3rem; }
+  .subtitle { font-size: 0.85rem; color: #6a6a8a; margin-bottom: 1.5rem; }
+  .launch-link {
+    display: inline-block;
+    background: linear-gradient(135deg, #c084fc, #FF69B4);
+    color: #0a0a12;
+    text-decoration: none;
+    padding: 0.7rem 2rem;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    transition: opacity 0.2s;
+  }
+  .launch-link:hover { opacity: 0.85; }
+
+  .templates {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    max-width: 900px;
+    width: 100%;
+  }
+  .tpl-card {
+    background: #12121c;
+    border: 1px solid #2a2a3a;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .tpl-card:hover { border-color: #c084fc; }
+  .tpl-preview {
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+  }
+  .tpl-preview .block {
+    position: absolute;
+    border-radius: 4px;
+  }
+  .tpl-info { padding: 1rem; }
+  .tpl-info h3 { font-size: 1rem; margin-bottom: 0.3rem; }
+  .tpl-info p { font-size: 0.8rem; color: #6a6a8a; line-height: 1.5; }
+  .tpl-palette { display: flex; gap: 4px; margin-top: 0.6rem; }
+  .tpl-palette span {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 1px solid #2a2a3a;
+  }
+  .features {
+    max-width: 900px;
+    margin-top: 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .feat {
+    background: #12121c;
+    border: 1px solid #2a2a3a;
+    border-radius: 6px;
+    padding: 1rem;
+  }
+  .feat h4 { font-size: 0.85rem; color: #c084fc; margin-bottom: 0.3rem; }
+  .feat p { font-size: 0.75rem; color: #6a6a8a; line-height: 1.5; }
+  .brand { margin-top: 3rem; font-size: 0.65rem; color: #2a2a3a; letter-spacing: 0.2em; }
+.crypto-pay-btn{background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem}
+.crypto-pay-btn:hover{opacity:0.9}
+</style>
+</head>
+<body>
+
+<h1>Mood Board Creator Kit</h1>
+<p class="subtitle">Drag-and-drop mood board builder — 3 aesthetic templates</p>
+
+<a href="../src/mood_board.html" class="launch-link">Open Mood Board Creator</a>
+
+<div class="templates">
+  <!-- Cottagecore -->
+  <div class="tpl-card">
+    <div class="tpl-preview" style="background:#F5E6D3">
+      <div class="block" style="left:5%;top:10%;width:30%;height:45%;background:#8B7355"></div>
+      <div class="block" style="left:38%;top:10%;width:28%;height:45%;background:#C9B99A"></div>
+      <div class="block" style="left:69%;top:10%;width:28%;height:45%;background:#A8C686"></div>
+      <div class="block" style="left:5%;top:60%;width:45%;height:35%;background:#D4A574"></div>
+      <div class="block" style="left:53%;top:60%;width:44%;height:35%;background:#7B9E6B"></div>
+    </div>
+    <div class="tpl-info">
+      <h3>Cottagecore</h3>
+      <p>Warm earth tones, florals, cozy textures. 3x3 grid layout with header.</p>
+      <div class="tpl-palette">
+        <span style="background:#8B7355"></span><span style="background:#D4A574"></span>
+        <span style="background:#C9B99A"></span><span style="background:#A8C686"></span>
+        <span style="background:#F5E6D3"></span><span style="background:#7B9E6B"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dark Academia -->
+  <div class="tpl-card">
+    <div class="tpl-preview" style="background:#1A1A2E">
+      <div class="block" style="left:5%;top:8%;width:38%;height:55%;background:#3C2415"></div>
+      <div class="block" style="left:46%;top:8%;width:25%;height:42%;background:#5C3A21"></div>
+      <div class="block" style="left:74%;top:8%;width:23%;height:25%;background:#8B6914;opacity:0.6"></div>
+      <div class="block" style="left:5%;top:68%;width:30%;height:28%;background:#2C1810"></div>
+      <div class="block" style="left:38%;top:56%;width:28%;height:40%;background:#6B4E37"></div>
+      <div class="block" style="left:69%;top:38%;width:28%;height:58%;background:#3C2415;opacity:0.7"></div>
+    </div>
+    <div class="tpl-info">
+      <h3>Dark Academia</h3>
+      <p>Rich browns, scholarly vibes. Asymmetric collage with quote space.</p>
+      <div class="tpl-palette">
+        <span style="background:#3C2415"></span><span style="background:#5C3A21"></span>
+        <span style="background:#8B6914"></span><span style="background:#2C1810"></span>
+        <span style="background:#D4A574"></span><span style="background:#6B4E37"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Y2K -->
+  <div class="tpl-card">
+    <div class="tpl-preview" style="background:#1a0a1e">
+      <div class="block" style="left:6%;top:10%;width:24%;height:50%;background:#FF69B4;transform:rotate(-3deg)"></div>
+      <div class="block" style="left:34%;top:15%;width:22%;height:38%;background:#DDA0DD;transform:rotate(2deg)"></div>
+      <div class="block" style="left:60%;top:5%;width:26%;height:52%;background:#00CED1;transform:rotate(-1deg)"></div>
+      <div class="block" style="left:10%;top:62%;width:28%;height:35%;background:#ADFF2F;transform:rotate(1deg)"></div>
+      <div class="block" style="left:42%;top:58%;width:30%;height:38%;background:#C0C0C0;transform:rotate(-2deg)"></div>
+      <div class="block" style="left:76%;top:60%;width:20%;height:30%;background:#7DF9FF;transform:rotate(3deg)"></div>
+    </div>
+    <div class="tpl-info">
+      <h3>Y2K</h3>
+      <p>Bright pinks, metallics, chrome. Scattered polaroid style layout.</p>
+      <div class="tpl-palette">
+        <span style="background:#FF69B4"></span><span style="background:#C0C0C0"></span>
+        <span style="background:#DDA0DD"></span><span style="background:#00CED1"></span>
+        <span style="background:#ADFF2F"></span><span style="background:#7DF9FF"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="features">
+  <div class="feat"><h4>Drag & Drop</h4><p>Move and position elements freely on the canvas</p></div>
+  <div class="feat"><h4>Resizable</h4><p>Resize any block with the corner handle</p></div>
+  <div class="feat"><h4>Image Upload</h4><p>Click placeholders or drag images from desktop</p></div>
+  <div class="feat"><h4>Editable Text</h4><p>Click text boxes to type your own words</p></div>
+  <div class="feat"><h4>Color Palette</h4><p>Each template comes with curated colors</p></div>
+  <div class="feat"><h4>Fully Offline</h4><p>No internet, no sign-ups — just open and create</p></div>
+</div>
+
+<p class="brand">NEON BAZAAR / AESTHETIC STUDIO</p>
+
+<!-- payment-cta-start -->
+<div class="purchase-cta" style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,transparent,#0a0a12 20%);padding:20px;text-align:center;z-index:1000">
+  <div style="max-width:600px;margin:0 auto;background:#12122a;border:1px solid #1a1a3a;border-radius:12px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div><strong style="color:#fff;font-size:1rem">Mood Board Creator Kit</strong><br><span style="color:#8888aa;font-size:.85rem">$5.00</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a href="https://buy.stripe.com/eVq5kD9uT8WWcJAg0NgjG1F" class="cta-buy-btn" style="display:inline-block;background:#FF2D9B;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem">Buy Now</a>
+      <button class="crypto-pay-btn" data-product-slug="mood-board-creator-kit" data-store-slug="aesthetic-studio" data-product-name="Mood Board Creator Kit" data-price-usd="5.00">Crypto (15% off)</button>
+    </div>
+  </div>
+</div>
+<script src="../../crypto-checkout.js"></script>
+<!-- payment-cta-end -->
+
+</body>
+</html>

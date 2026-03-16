@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Newsletter Generator Demo — Email Arsenal</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:900px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#FF336620;color:#FF3366;border:1px solid #FF336640;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .layout{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#FF3366;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+  label{display:block;font-size:13px;color:#94a3b8;margin-bottom:6px;font-weight:500;margin-top:12px}
+  label:first-child{margin-top:0}
+  input,select,textarea{width:100%;background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:10px 14px;color:#e2e8f0;font-size:14px;outline:none;transition:border-color .2s;font-family:inherit}
+  input:focus,select:focus,textarea:focus{border-color:#FF3366}
+  select option{background:#111827}
+  .btn{display:block;padding:12px 24px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+  .btn-primary{background:#FF3366;color:#fff;width:100%;margin-top:16px}
+  .btn-primary:hover{background:#e02d5a}
+  .btn-secondary{background:#1e293b;color:#94a3b8;border:1px solid #2d3748;padding:8px 16px;width:auto;margin-top:0;font-size:13px}
+  .section-picker{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .section-chip{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #2d3748;background:#0A0E1A;color:#94a3b8;transition:all .2s;user-select:none}
+  .section-chip.on{background:#FF336620;color:#FF3366;border-color:#FF336640}
+  /* Newsletter preview */
+  .nl-frame{background:#f3f4f6;border-radius:10px;padding:16px;overflow:auto;max-height:600px}
+  .nl-email{max-width:600px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.1);font-family:Arial,sans-serif}
+  .nl-header{padding:32px 24px;text-align:center}
+  .nl-logo{font-size:22px;font-weight:700;margin-bottom:4px}
+  .nl-tagline{font-size:13px;opacity:.7}
+  .nl-hero{padding:32px 24px}
+  .nl-hero-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;opacity:.6;margin-bottom:8px}
+  .nl-hero-title{font-size:26px;font-weight:700;color:#111;margin-bottom:12px;line-height:1.3}
+  .nl-hero-body{font-size:15px;color:#555;line-height:1.7;margin-bottom:20px}
+  .nl-cta{display:inline-block;padding:12px 28px;border-radius:8px;color:#fff;font-weight:700;font-size:14px;text-decoration:none}
+  .nl-divider{height:1px;background:#e5e7eb;margin:0 24px}
+  .nl-articles{padding:24px}
+  .nl-articles-title{font-size:13px;text-transform:uppercase;letter-spacing:1px;font-weight:700;color:#777;margin-bottom:16px}
+  .nl-article{display:flex;gap:16px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #f0f0f0}
+  .nl-article:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+  .nl-article-img{width:80px;height:60px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:28px}
+  .nl-article-title{font-size:15px;font-weight:700;color:#111;margin-bottom:4px}
+  .nl-article-excerpt{font-size:13px;color:#666;line-height:1.5}
+  .nl-article-link{font-size:13px;font-weight:600;text-decoration:none;display:inline-block;margin-top:6px}
+  .nl-quote{padding:24px;background:#f9f9f9;border-left:4px solid #FF3366;margin:0 24px 24px}
+  .nl-quote-text{font-size:16px;font-style:italic;color:#333;margin-bottom:8px}
+  .nl-quote-attr{font-size:13px;color:#999}
+  .nl-footer{padding:24px;text-align:center;background:#f9f9f9;border-top:1px solid #e5e7eb}
+  .nl-footer p{font-size:12px;color:#999;margin:4px 0}
+  .nl-footer a{color:#999}
+  .cta-bar{background:linear-gradient(135deg,#FF336615,#FF336605);border:1px solid #FF336630;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#FF3366;color:#fff;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#e02d5a;transform:translateY(-1px);box-shadow:0 8px 24px #FF336640}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  @media(max-width:700px){.layout{grid-template-columns:1fr}}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Newsletter Generator</h1>
+    <p class="subtitle">Design and preview professional newsletters in minutes</p>
+  </div>
+
+  <div class="layout">
+    <div>
+      <div class="card">
+        <div class="card-title">Newsletter Settings</div>
+        <label>Newsletter Name</label>
+        <input type="text" id="nlName" value="The Growth Brief" oninput="render()">
+        <label>Tagline</label>
+        <input type="text" id="nlTagline" value="Weekly insights for ambitious builders" oninput="render()">
+        <label>Accent Color</label>
+        <input type="color" id="nlColor" value="#FF3366" oninput="render()" style="height:40px;padding:4px">
+        <label>Issue Date</label>
+        <input type="text" id="nlDate" value="March 14, 2026" oninput="render()">
+        <label>Sections to Include</label>
+        <div class="section-picker" id="sectionPicker">
+          <div class="section-chip on" data-s="hero">Hero Story</div>
+          <div class="section-chip on" data-s="articles">Article Links</div>
+          <div class="section-chip on" data-s="quote">Quote of Week</div>
+          <div class="section-chip" data-s="sponsor">Sponsor Block</div>
+          <div class="section-chip" data-s="jobs">Job Board</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Hero Content</div>
+        <label>Hero Headline</label>
+        <input type="text" id="heroTitle" value="Why Most SaaS Onboarding Fails (And How to Fix It)" oninput="render()">
+        <label>Opening Paragraph</label>
+        <textarea id="heroBody" rows="4" oninput="render()">You've spent months building the perfect product. Users sign up, excited to start. Then... crickets. 68% of SaaS users churn within the first 30 days — and bad onboarding is almost always the culprit.</textarea>
+        <label>CTA Button Text</label>
+        <input type="text" id="heroCta" value="Read Full Story →" oninput="render()">
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="card-title">Live Preview</div>
+        <div class="nl-frame" id="nlPreview"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <p>The full tool adds AI content generation, subscriber segmentation, A/B subject line testing, Mailchimp/Beehiiv/ConvertKit export, and an analytics dashboard per issue.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/dRm3cvdL9flkcJAaGtgjJ0O">Buy Full Version — $49.00</a>
+    <button class="crypto-pay-btn" data-product-slug="signature-generator" data-store-slug="email-arsenal" data-product-name="Signature Generator" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows limited functionality. Buy the full tool for all features.</div>
+</div>
+<script>
+const ARTICLES = [
+  {emoji:'📊',title:'10 Metrics That Actually Predict Retention',excerpt:'Forget DAU/MAU. These leading indicators tell you who\'s about to churn before it happens.',link:'Read more →'},
+  {emoji:'🛠️',title:'The Onboarding Checklist No One Talks About',excerpt:'5 onboarding steps that reduce time-to-value by 40% — backed by data from 200+ SaaS companies.',link:'Read more →'},
+  {emoji:'🚀',title:'Case Study: How Notion Grew to 30M Users',excerpt:'A breakdown of their viral referral loop, product-led growth tactics, and community strategy.',link:'Read more →'},
+];
+
+document.querySelectorAll('.section-chip').forEach(chip => {
+  chip.addEventListener('click', () => { chip.classList.toggle('on'); render(); });
+});
+
+function sectionOn(s) {
+  const chip = document.querySelector(`.section-chip[data-s="${s}"]`);
+  return chip && chip.classList.contains('on');
+}
+
+function render() {
+  const name = document.getElementById('nlName').value || 'Newsletter';
+  const tagline = document.getElementById('nlTagline').value || '';
+  const color = document.getElementById('nlColor').value;
+  const date = document.getElementById('nlDate').value || '';
+  const heroTitle = document.getElementById('heroTitle').value || '';
+  const heroBody = document.getElementById('heroBody').value || '';
+  const heroCta = document.getElementById('heroCta').value || 'Read More';
+
+  let html = `<div class="nl-email">
+    <div class="nl-header" style="background:${color}">
+      <div class="nl-logo" style="color:#fff">${name}</div>
+      <div class="nl-tagline" style="color:rgba(255,255,255,.8)">${tagline}</div>
+    </div>`;
+
+  if (sectionOn('hero')) {
+    html += `<div class="nl-hero">
+      <div class="nl-hero-label" style="color:${color}">Issue Date: ${date}</div>
+      <div class="nl-hero-title">${heroTitle}</div>
+      <div class="nl-hero-body">${heroBody}</div>
+      <a href="#" class="nl-cta" style="background:${color}">${heroCta}</a>
+    </div>`;
+  }
+
+  if (sectionOn('articles')) {
+    html += `<div class="nl-divider"></div><div class="nl-articles">
+      <div class="nl-articles-title">This Week's Reads</div>`;
+    ARTICLES.forEach(a => {
+      html += `<div class="nl-article">
+        <div class="nl-article-img" style="background:${color}15">${a.emoji}</div>
+        <div>
+          <div class="nl-article-title">${a.title}</div>
+          <div class="nl-article-excerpt">${a.excerpt}</div>
+          <a href="#" class="nl-article-link" style="color:${color}">${a.link}</a>
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  if (sectionOn('quote')) {
+    html += `<div class="nl-quote" style="border-color:${color}">
+      <div class="nl-quote-text">"The best product doesn't win. The one that's easiest to start wins."</div>
+      <div class="nl-quote-attr">— April Dunford, Product Positioning Expert</div>
+    </div>`;
+  }
+
+  if (sectionOn('sponsor')) {
+    html += `<div style="padding:20px 24px;background:#fff8f0;border:1px dashed #fcd34d;margin:0 24px 24px;border-radius:8px">
+      <div style="font-size:11px;text-transform:uppercase;color:#92400e;letter-spacing:1px;margin-bottom:6px">Sponsored</div>
+      <div style="font-size:15px;font-weight:700;color:#111;margin-bottom:6px">Meet Lemon Squeezy — Payments Made Easy</div>
+      <div style="font-size:13px;color:#555;margin-bottom:10px">Sell digital products, subscriptions, and software licenses without the headache.</div>
+      <a href="#" style="background:#f59e0b;color:#fff;padding:8px 18px;border-radius:6px;font-size:13px;font-weight:700;text-decoration:none">Try Free →</a>
+    </div>`;
+  }
+
+  if (sectionOn('jobs')) {
+    html += `<div style="padding:0 24px 24px">
+      <div class="nl-articles-title">Jobs Board</div>
+      <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:14px"><span style="color:#111;font-weight:600">Senior Product Designer</span><span style="color:#${color.slice(1)};font-size:12px">Linear · Remote</span></div>
+      <div style="display:flex;justify-content:space-between;padding:10px 0;font-size:14px"><span style="color:#111;font-weight:600">Growth Lead</span><span style="color:#${color.slice(1)};font-size:12px">Notion · SF</span></div>
+    </div>`;
+  }
+
+  html += `<div class="nl-footer">
+      <p><strong>${name}</strong> · ${tagline}</p>
+      <p><a href="#">Unsubscribe</a> · <a href="#">Manage Preferences</a> · <a href="#">Privacy Policy</a></p>
+      <p style="margin-top:8px;font-size:11px">© 2026 ${name}. All rights reserved.</p>
+    </div></div>`;
+
+  document.getElementById('nlPreview').innerHTML = html;
+}
+
+render();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

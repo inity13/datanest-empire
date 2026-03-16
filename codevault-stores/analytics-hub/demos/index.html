@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics Hub Demos — Try Before You Buy | CodeVault</title>
+  <meta name="description" content="Interactive demos for all Analytics Hub tools. Try event tracking, funnel analysis, A/B testing, cohort analysis, and more before purchasing.">
+  <style>
+    :root {
+      --bg: #0A0E1A;
+      --surface: #141824;
+      --surface2: #1E2436;
+      --border: #2A2E3E;
+      --cv-text: #EAEAFF;
+      --cv-muted: #8888AA;
+      --accent: #00E5FF;
+      --accent-dim: rgba(0,229,255,0.12);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--cv-text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+    }
+
+    nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+    .nav-brand .logo { font-size: 1.4rem; }
+    .nav-brand .name { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+    .nav-back {
+      color: var(--cv-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--cv-text); }
+
+    .hero {
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 20px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      color: var(--cv-muted);
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.6;
+    }
+    .hero-cta {
+      display: inline-block;
+      background: var(--accent);
+      color: #0A0E1A;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 0.75rem 1.75rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: opacity 0.2s;
+    }
+    .hero-cta:hover { opacity: 0.85; }
+
+    .demos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+      padding: 2.5rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .demo-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .demo-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .card-header { display: flex; align-items: center; gap: 0.75rem; }
+    .card-icon { font-size: 1.8rem; }
+    .card-meta { flex: 1; }
+    .card-meta h3 { font-size: 1rem; font-weight: 700; color: var(--cv-text); }
+    .card-price {
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-top: 0.2rem;
+    }
+    .tier-badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .tier-starter { background: rgba(100,200,100,0.15); color: #6dc; }
+    .tier-pro     { background: rgba(0,229,255,0.15);   color: var(--accent); }
+    .tier-premium { background: rgba(255,150,50,0.15);  color: #fa6; }
+
+    .card-desc {
+      font-size: 0.875rem;
+      color: var(--cv-muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+    .card-actions {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+    .btn-demo {
+      flex: 1;
+      background: var(--accent);
+      color: #0A0E1A;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      padding: 0.6rem 0.75rem;
+      border-radius: 7px;
+      font-size: 0.85rem;
+      transition: opacity 0.2s;
+    }
+    .btn-demo:hover { opacity: 0.85; }
+    .btn-buy {
+      flex: 1;
+      background: var(--surface2);
+      color: var(--cv-text);
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      padding: 0.6rem 0.75rem;
+      border-radius: 7px;
+      font-size: 0.85rem;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s;
+    }
+    .btn-buy:hover { border-color: var(--accent); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      color: var(--cv-muted);
+      font-size: 0.85rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      nav { padding: 0.75rem 1rem; }
+      .hero { padding: 2rem 1rem 1.5rem; }
+      .demos-grid { padding: 1.5rem 1rem; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="https://analytics-hub.codevault.dev/" class="nav-brand">
+    <span class="logo">📈</span>
+    <span class="name">Analytics Hub</span>
+  </a>
+  <a href="https://analytics-hub.codevault.dev/" class="nav-back">← Back to Store</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">Interactive Demos</div>
+  <h1>Try <span>Analytics Hub</span> Tools</h1>
+  <p>Live analytics demos with real calculations. Paste your data, see instant insights — no signup needed.</p>
+  <a href="https://analytics-hub.codevault.dev/" class="hero-cta">View All Products →</a>
+</section>
+
+<div class="demos-grid">
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">📡</span>
+      <div class="card-meta">
+        <h3>Event Tracker</h3>
+        <div class="card-price">$24 <span class="tier-badge tier-starter">Starter</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Track custom user events with properties, sessions, and device context. Queryable event store with aggregation support.</p>
+    <div class="card-actions">
+      <a href="demo-event-tracker.html" class="btn-demo">Try Demo</a>
+      <a href="https://analytics-hub.codevault.dev/#event-tracker" class="btn-buy">Buy $24</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">🔀</span>
+      <div class="card-meta">
+        <h3>Funnel Analyzer</h3>
+        <div class="card-price">$34 <span class="tier-badge tier-pro">Pro</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Multi-step conversion funnel analysis with drop-off rates, time-to-convert, and segment breakdowns.</p>
+    <div class="card-actions">
+      <a href="demo-funnel-analyzer.html" class="btn-demo">Try Demo</a>
+      <a href="https://analytics-hub.codevault.dev/#funnel-analyzer" class="btn-buy">Buy $34</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">👥</span>
+      <div class="card-meta">
+        <h3>Cohort Analyzer</h3>
+        <div class="card-price">$39 <span class="tier-badge tier-pro">Pro</span></div>
+      </div>
+    </div>
+    <p class="card-desc">User cohort retention analysis by signup week/month. Visualize how different cohorts retain over time.</p>
+    <div class="card-actions">
+      <a href="demo-cohort-analyzer.html" class="btn-demo">Try Demo</a>
+      <a href="https://analytics-hub.codevault.dev/#cohort-analyzer" class="btn-buy">Buy $39</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">🧪</span>
+      <div class="card-meta">
+        <h3>A/B Test Calculator</h3>
+        <div class="card-price">$19 <span class="tier-badge tier-starter">Starter</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Statistical significance calculator for A/B tests. Enter variant metrics, get p-values, confidence intervals, and lift.</p>
+    <div class="card-actions">
+      <a href="demo-ab-test-calculator.html" class="btn-demo">Try Demo</a>
+      <a href="https://analytics-hub.codevault.dev/#ab-test-calculator" class="btn-buy">Buy $19</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">📊</span>
+      <div class="card-meta">
+        <h3>Dashboard Builder</h3>
+        <div class="card-price">$49 <span class="tier-badge tier-premium">Premium</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Configurable analytics dashboard with chart widgets, KPI tiles, and date range filters. Embeddable in any web app.</p>
+    <div class="card-actions">
+      <a href="demo-dashboard-builder.html" class="btn-demo">Try Demo</a>
+      <a href="https://analytics-hub.codevault.dev/#dashboard-builder" class="btn-buy">Buy $49</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">⚡</span>
+      <div class="card-meta">
+        <h3>Data Pipeline</h3>
+        <div class="card-price">$44 <span class="tier-badge tier-premium">Premium</span></div>
+      </div>
+    </div>
+    <p class="card-desc">ETL pipeline builder with source connectors, transform steps, and destination sinks. Schedule or trigger on events.</p>
+    <div class="card-actions">
+      <a href="demo-data-pipeline.html" class="btn-demo">Try Demo</a>
+      <a href="https://analytics-hub.codevault.dev/#data-pipeline" class="btn-buy">Buy $44</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">🎯</span>
+      <div class="card-meta">
+        <h3>User Segmentation</h3>
+        <div class="card-price">$34 <span class="tier-badge tier-pro">Pro</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Segment users by behavior, plan, geography, or custom attributes. Export segments for targeting or analysis.</p>
+    <div class="card-actions">
+      <a href="demo-user-segmentation.html" class="btn-demo">Try Demo</a>
+      <a href="https://analytics-hub.codevault.dev/#user-segmentation" class="btn-buy">Buy $34</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">🔁</span>
+      <div class="card-meta">
+        <h3>Retention Tracker</h3>
+        <div class="card-price">$29 <span class="tier-badge tier-pro">Pro</span></div>
+      </div>
+    </div>
+    <p class="card-desc">N-day and rolling retention curves for your user base. Identify churn patterns and high-value engagement windows.</p>
+    <div class="card-actions">
+      <a href="demo-retention-tracker.html" class="btn-demo">Try Demo</a>
+      <a href="https://analytics-hub.codevault.dev/#retention-tracker" class="btn-buy">Buy $29</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">💰</span>
+      <div class="card-meta">
+        <h3>Revenue Analytics</h3>
+        <div class="card-price">$44 <span class="tier-badge tier-premium">Premium</span></div>
+      </div>
+    </div>
+    <p class="card-desc">MRR, ARR, churn, and LTV calculations from raw subscription data. Trend charts and forecast projections included.</p>
+    <div class="card-actions">
+      <a href="demo-revenue-analytics.html" class="btn-demo">Try Demo</a>
+      <a href="https://analytics-hub.codevault.dev/#revenue-analytics" class="btn-buy">Buy $44</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">📝</span>
+      <div class="card-meta">
+        <h3>Custom Report Builder</h3>
+        <div class="card-price">$49 <span class="tier-badge tier-premium">Premium</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Drag-and-drop report composer with metrics, dimensions, filters, and scheduled email delivery to stakeholders.</p>
+    <div class="card-actions">
+      <a href="demo-custom-report-builder.html" class="btn-demo">Try Demo</a>
+      <a href="https://analytics-hub.codevault.dev/#custom-report-builder" class="btn-buy">Buy $49</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>Analytics Hub is part of <a href="https://codevault.dev/">CodeVault</a> — Professional Python Analytics Tools &nbsp;·&nbsp;
+  <a href="https://analytics-hub.codevault.dev/">Back to Store</a></p>
+</footer>
+
+</body>
+</html>

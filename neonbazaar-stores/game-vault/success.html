@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Your Files — Game Vault</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛍️</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#39FF14">
+
+</head>
+<body>
+    <div class="status-page">
+        <div class="status-card">
+            <!-- Loading state -->
+            <div id="loading-state">
+                <div class="spinner"></div>
+                <h1 class="status-card__title">Verifying your purchase...</h1>
+                <p class="status-card__text">Hang tight — we're confirming your payment and getting your download ready.</p>
+            </div>
+
+            <!-- Success state (hidden initially) -->
+            <div id="success-state" class="hidden">
+                <div class="status-card__icon">🎉</div>
+                <h1 class="status-card__title">You got it!</h1>
+                <p class="status-card__text">
+                    Your purchase went through. Smash the button below to download your files.
+                </p>
+                <a id="download-btn" href="#" class="btn btn--primary" download>
+                    Download Your Files
+                </a>
+                <p class="status-card__text" style="margin-top: 24px; font-size: 0.85rem;">
+                    We also sent a download link to your email — just in case.
+                </p>
+            </div>
+
+            <!-- Error state (hidden initially) -->
+            <div id="error-state" class="hidden">
+                <div class="status-card__icon">😬</div>
+                <h1 class="status-card__title">Something went sideways</h1>
+                <p class="status-card__text" id="error-message">
+                    We couldn't verify your purchase. If you already paid, don't worry —
+                    <a href="mailto:support@neonbazaar.gg">hit us up</a> and we'll sort it out.
+                </p>
+                <a href="index.html" class="btn btn--secondary">Back to Store</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function () {
+        'use strict';
+
+        var SUPABASE_URL = 'https://ferovwapilhcpqozqinn.supabase.co';
+        var FUNCTIONS_BASE = SUPABASE_URL + '/functions/v1';
+
+        // Parse session_id from URL
+        var params = new URLSearchParams(window.location.search);
+        var sessionId = params.get('session_id');
+
+        var loadingEl  = document.getElementById('loading-state');
+        var successEl  = document.getElementById('success-state');
+        var errorEl    = document.getElementById('error-state');
+        var downloadBtn = document.getElementById('download-btn');
+        var errorMsg   = document.getElementById('error-message');
+
+        function showState(state) {
+            loadingEl.classList.toggle('hidden', state !== 'loading');
+            successEl.classList.toggle('hidden', state !== 'success');
+            errorEl.classList.toggle('hidden',   state !== 'error');
+        }
+
+        if (!sessionId) {
+            showState('error');
+            return;
+        }
+
+        // Verify purchase and get download URL
+        fetch(FUNCTIONS_BASE + '/verify-purchase', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                session_id: sessionId,
+                store: 'game-vault'
+            })
+        })
+        .then(function (res) {
+            if (!res.ok) throw new Error('Verification failed (HTTP ' + res.status + ')');
+            return res.json();
+        })
+        .then(function (data) {
+            if (data.download_url) {
+                downloadBtn.href = data.download_url;
+                showState('success');
+            } else {
+                throw new Error(data.error || 'No download URL returned');
+            }
+        })
+        .catch(function (err) {
+            console.error('Purchase verification failed:', err);
+            if (errorMsg && err.message) {
+                errorMsg.innerHTML =
+                    'We couldn\'t verify your purchase: <strong>' +
+                    err.message + '</strong><br><br>' +
+                    'If you already paid, don\'t sweat it — ' +
+                    '<a href="mailto:support@neonbazaar.gg">email us</a> ' +
+                    'and we\'ll fix it.';
+            }
+            showState('error');
+        });
+    })();
+    </script>
+</body>
+</html>

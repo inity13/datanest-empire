@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subscription Billing — Demo | Payment Stack</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#76FF03}.header .back{color:#76FF03;text-decoration:none;font-size:.85rem}
+  .container{max-width:900px;margin:0 auto;padding:28px 20px}
+  h2{font-size:1.5rem;margin-bottom:6px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+  @media(max-width:600px){.plan-grid{grid-template-columns:1fr}}
+  .plan-card{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px;cursor:pointer;transition:all .2s}
+  .plan-card:hover{border-color:#76FF03;transform:translateY(-2px)}
+  .plan-card.selected{border-color:#76FF03;background:#0d1a0d}
+  .plan-name{font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:#8899aa;margin-bottom:4px}
+  .plan-price{font-size:2rem;font-weight:700;color:#76FF03}
+  .plan-price span{font-size:.85rem;font-weight:400;color:#8899aa}
+  .plan-features{list-style:none;margin-top:12px;font-size:.82rem;color:#8899aa}
+  .plan-features li{padding:4px 0;border-bottom:1px solid #1e2a3a}
+  .plan-features li::before{content:'✓ ';color:#76FF03}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px;margin-bottom:16px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#76FF03;margin-bottom:14px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:600px){.grid2{grid-template-columns:1fr}}
+  label{display:block;font-size:.8rem;color:#8899aa;margin-bottom:4px}
+  input,select{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:8px 10px;font-size:.88rem;margin-bottom:12px;outline:none;transition:border-color .2s}
+  input:focus,select:focus{border-color:#76FF03}
+  .btn{padding:12px 20px;border:none;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;background:#76FF03;color:#0A0E1A;transition:all .2s;width:100%}
+  .btn:hover{background:#8fff1a}
+  .result-box{background:#060a12;border:1px solid #1e2a3a;border-radius:8px;padding:16px}
+  .res-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #1e2a3a;font-size:.88rem}
+  .res-row:last-child{border:none}
+  .res-row span:first-child{color:#8899aa}
+  .res-row span:last-child{color:#76FF03;font-weight:500}
+  .highlight-row span:last-child{font-size:1.2rem;font-weight:700}
+  .proration-note{background:rgba(255,171,0,.07);border:1px solid rgba(255,171,0,.2);color:#ffab00;padding:10px;border-radius:6px;font-size:.82rem;margin-top:10px}
+  .timeline{margin-top:14px}
+  .t-item{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start}
+  .t-dot{width:10px;height:10px;border-radius:50%;background:#76FF03;margin-top:4px;flex-shrink:0}
+  .t-content{font-size:.83rem}
+  .t-content .t-date{color:#76FF03;font-weight:500}
+  .t-content .t-desc{color:#8899aa}
+  .cta-bar{background:linear-gradient(135deg,#0d1321,#111827);border:1px solid #76FF03;border-radius:12px;padding:20px;text-align:center;margin-top:20px}
+  .cta-bar p{color:#8899aa;font-size:.85rem;margin-bottom:12px;margin-top:6px}
+  .cta-btn{display:inline-block;background:#76FF03;color:#0A0E1A;padding:12px 26px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s}
+  .cta-btn:hover{background:#8fff1a;transform:translateY(-2px)}
+  .footer-note{text-align:center;color:#445566;font-size:.77rem;margin-top:16px;padding-top:12px;border-top:1px solid #1e2a3a}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>⚡ Payment Stack — Subscription Billing Demo</h1>
+  <a class="back" href="../index.html">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>Subscription Plan Manager + Proration Calculator</h2>
+  <p class="subtitle">Select a plan, simulate upgrades/downgrades, and calculate prorated charges instantly.</p>
+
+  <div class="panel">
+    <h3>📦 Select Subscription Plan</h3>
+    <div class="plan-grid">
+      <div class="plan-card" id="plan-starter" onclick="selectPlan('starter')">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">$9<span>/mo</span></div>
+        <ul class="plan-features"><li>5 projects</li><li>10 GB storage</li><li>Email support</li></ul>
+      </div>
+      <div class="plan-card selected" id="plan-pro" onclick="selectPlan('pro')">
+        <div class="plan-name">Pro ⭐</div>
+        <div class="plan-price">$29<span>/mo</span></div>
+        <ul class="plan-features"><li>Unlimited projects</li><li>100 GB storage</li><li>Priority support</li><li>API access</li></ul>
+      </div>
+      <div class="plan-card" id="plan-enterprise" onclick="selectPlan('enterprise')">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-price">$99<span>/mo</span></div>
+        <ul class="plan-features"><li>Everything in Pro</li><li>1 TB storage</li><li>SLA guarantee</li><li>Custom integrations</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="panel">
+      <h3>⚙ Proration Calculator</h3>
+      <label>Current Plan</label>
+      <select id="fromPlan" onchange="calculate()">
+        <option value="9">Starter — $9/mo</option>
+        <option value="29" selected>Pro — $29/mo</option>
+        <option value="99">Enterprise — $99/mo</option>
+      </select>
+      <label>New Plan</label>
+      <select id="toPlan" onchange="calculate()">
+        <option value="9">Starter — $9/mo</option>
+        <option value="29">Pro — $29/mo</option>
+        <option value="99" selected>Enterprise — $99/mo</option>
+      </select>
+      <label>Days Used in Current Period</label>
+      <input id="daysUsed" type="number" value="10" min="0" max="31" oninput="calculate()">
+      <label>Days in Billing Period</label>
+      <input id="daysPeriod" type="number" value="30" min="28" max="31" oninput="calculate()">
+      <button class="btn" onclick="calculate()">▶ Calculate Proration</button>
+    </div>
+    <div class="panel">
+      <h3>💰 Proration Result</h3>
+      <div class="result-box" id="resultBox">
+        <div class="res-row"><span>Days used</span><span id="r1">—</span></div>
+        <div class="res-row"><span>Days remaining</span><span id="r2">—</span></div>
+        <div class="res-row"><span>Credit (unused current)</span><span id="r3">—</span></div>
+        <div class="res-row"><span>Charge (new plan)</span><span id="r4">—</span></div>
+        <div class="res-row highlight-row"><span>Net charge today</span><span id="r5">—</span></div>
+      </div>
+      <div id="proNote" class="proration-note" style="display:none"></div>
+      <div class="timeline" id="timeline"></div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Get the Full Subscription Billing Tool</h3>
+    <p>Python + Stripe integration: automated proration, dunning management, metered billing, trial handling, and cancellation flows.</p>
+    <a class="cta-btn" href="https://buy.stripe.com/8x23cv9uTc98gZQeWJgjJ1p">Buy Full Version — $49.00</a>
+    <button class="crypto-pay-btn" data-product-slug="subscription-billing" data-store-slug="payment-stack" data-product-name="Subscription Billing" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+let currentPlan = 'pro';
+const planPrices = { starter:9, pro:29, enterprise:99 };
+
+function selectPlan(p) {
+  document.querySelectorAll('.plan-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('plan-'+p).classList.add('selected');
+  currentPlan = p;
+}
+
+function calculate() {
+  const from = parseFloat(document.getElementById('fromPlan').value);
+  const to = parseFloat(document.getElementById('toPlan').value);
+  const used = parseInt(document.getElementById('daysUsed').value)||10;
+  const period = parseInt(document.getElementById('daysPeriod').value)||30;
+  const remaining = period - used;
+  const dailyFrom = from/period;
+  const dailyTo = to/period;
+  const credit = dailyFrom * remaining;
+  const charge = dailyTo * remaining;
+  const net = charge - credit;
+  const isUpgrade = to > from;
+  const isDowngrade = to < from;
+
+  document.getElementById('r1').textContent = `${used} days`;
+  document.getElementById('r2').textContent = `${remaining} days`;
+  document.getElementById('r3').textContent = `-$${credit.toFixed(2)}`;
+  document.getElementById('r4').textContent = `+$${charge.toFixed(2)}`;
+  document.getElementById('r5').textContent = `$${Math.max(0,net).toFixed(2)}`;
+
+  const note = document.getElementById('proNote');
+  if(from===to){ note.style.display='none'; }
+  else {
+    note.style.display='block';
+    note.textContent = isUpgrade
+      ? `⬆ Upgrading mid-cycle: you'll be charged $${Math.max(0,net).toFixed(2)} today, then $${to}/mo going forward.`
+      : `⬇ Downgrading mid-cycle: $${Math.abs(Math.min(0,net)).toFixed(2)} credit applied to next invoice.`;
+  }
+
+  const today = new Date();
+  const nextBilling = new Date(today);
+  nextBilling.setDate(nextBilling.getDate()+remaining);
+  document.getElementById('timeline').innerHTML = `
+    <div class="t-item"><div class="t-dot"></div><div class="t-content"><div class="t-date">Today</div><div class="t-desc">${isUpgrade?'Upgrade':'Plan change'} processed — charge $${Math.max(0,net).toFixed(2)}</div></div></div>
+    <div class="t-item"><div class="t-dot" style="background:#1e2a3a"></div><div class="t-content"><div class="t-date">${nextBilling.toLocaleDateString()}</div><div class="t-desc">Next billing cycle — $${to.toFixed(2)}/mo</div></div></div>`;
+}
+calculate();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

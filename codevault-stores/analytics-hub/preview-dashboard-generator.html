@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Generator &mdash; Analytics Hub &mdash; CodeVault</title>
+    <meta name="description" content="Python tool to generate interactive HTML dashboards from JSON/CSV data. Charts, tables, KPI cards, and responsive layout — all stdlib, zero dependencies.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F4CA;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#00E5FF">
+    <script defer data-domain="analytics-hub.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Analytics Hub</a>
+        <h1 class="preview-page__title">Dashboard Generator</h1>
+        <p class="preview-page__price">$9.99</p>
+        <p class="preview-page__desc">Python tool to generate interactive HTML dashboards from JSON/CSV data. Charts, tables, KPI cards, and responsive layout &mdash; all stdlib, zero dependencies. Runs on Python 3.10+ with no pip installs needed.</p>
+
+        <ul class="preview-page__features">
+            <li>Generate complete HTML dashboards from JSON or CSV data sources</li>
+            <li>Built-in chart types: bar, line, pie, and horizontal bar</li>
+            <li>KPI summary cards with automatic formatting</li>
+            <li>Responsive grid layout that works on desktop and mobile</li>
+            <li>Data tables with sortable columns and alternating row styles</li>
+            <li>Configurable color schemes and dashboard titles</li>
+            <li>CLI interface with argparse for easy automation</li>
+            <li>Self-contained HTML output &mdash; no external JS or CSS dependencies</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Generate a dashboard from CSV data
+python dashboard_generator.py --input sales.csv --output dashboard.html
+
+# Use a config file for custom layout
+python dashboard_generator.py --config dashboard_config.json
+
+# Specify chart type and title
+python dashboard_generator.py --input data.csv --chart bar --title "Q1 Revenue"</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_dashboard_generator"
+               data-product="dashboard-generator">
+                Grab This &mdash; $9.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Dashboard Generator"
+                    data-crypto-price="999">
+                Pay with Crypto ($7.99)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

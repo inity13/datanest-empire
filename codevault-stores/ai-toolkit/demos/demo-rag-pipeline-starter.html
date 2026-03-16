@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAG Pipeline Starter — Demo | AI Toolkit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#FF1744}.header .back{color:#FF1744;text-decoration:none;font-size:.85rem}
+  .container{max-width:900px;margin:0 auto;padding:28px 20px}
+  h2{font-size:1.5rem;margin-bottom:6px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px;margin-bottom:16px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#FF1744;margin-bottom:12px}
+  label{display:block;font-size:.8rem;color:#8899aa;margin-bottom:4px}
+  textarea,input{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:8px 10px;font-size:.88rem;margin-bottom:10px;outline:none;transition:border-color .2s;font-family:inherit}
+  textarea:focus,input:focus{border-color:#FF1744}
+  .btn{padding:10px 16px;border:none;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer;background:#FF1744;color:#fff;transition:all .2s;margin-right:8px}
+  .btn:hover{background:#ff4060}
+  .btn-sec{background:#1e2a3a;color:#FF1744}.btn-sec:hover{background:#253545}
+  .chunk-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:10px}
+  .chunk{background:#060a12;border:1px solid #1e2a3a;border-radius:6px;padding:10px;font-size:.78rem;color:#8899aa;cursor:pointer;transition:all .2s;position:relative}
+  .chunk:hover{border-color:#FF1744;color:#ccc}
+  .chunk.retrieved{border-color:#FF1744;background:rgba(255,23,68,.07)}
+  .chunk-score{position:absolute;top:6px;right:6px;font-size:.68rem;color:#FF1744;font-weight:600}
+  .pipeline-steps{display:flex;align-items:center;gap:0;margin:16px 0;flex-wrap:wrap}
+  .pipe-step{background:#060a12;border:1px solid #1e2a3a;border-radius:6px;padding:8px 12px;font-size:.78rem;color:#8899aa;transition:all .3s}
+  .pipe-step.active{border-color:#FF1744;color:#FF1744;background:rgba(255,23,68,.1)}
+  .pipe-step.done{border-color:#76FF03;color:#76FF03;background:rgba(118,255,3,.05)}
+  .pipe-arrow{color:#1e2a3a;font-size:1.2rem;padding:0 4px}
+  .answer-box{background:#060a12;border:1px solid #FF1744;border-radius:8px;padding:16px;font-size:.88rem;line-height:1.6;min-height:80px;white-space:pre-wrap}
+  .context-box{background:#060a12;border:1px solid #1e2a3a;border-radius:8px;padding:12px;font-size:.8rem;color:#8899aa;line-height:1.5;max-height:120px;overflow-y:auto;white-space:pre-wrap}
+  .cta-bar{background:linear-gradient(135deg,#0d1321,#111827);border:1px solid #FF1744;border-radius:12px;padding:20px;text-align:center;margin-top:18px}
+  .cta-bar p{color:#8899aa;font-size:.85rem;margin-bottom:12px;margin-top:6px}
+  .cta-btn{display:inline-block;background:#FF1744;color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s}
+  .cta-btn:hover{background:#ff4060;transform:translateY(-2px)}
+  .footer-note{text-align:center;color:#445566;font-size:.77rem;margin-top:16px;padding-top:12px;border-top:1px solid #1e2a3a}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🤖 AI Toolkit — RAG Pipeline Starter Demo</h1>
+  <a class="back" href="../index.html">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>RAG Pipeline Demo</h2>
+  <p class="subtitle">Paste a document, ask a question, and watch the retrieval-augmented generation pipeline in action.</p>
+
+  <div class="panel">
+    <h3>📄 Step 1 — Add Knowledge Base Documents</h3>
+    <label>Paste document text (will be chunked automatically)</label>
+    <textarea id="docText" rows="5">Our return policy allows customers to return any product within 30 days of purchase for a full refund. Items must be in original condition with tags attached. Digital downloads are non-refundable once accessed. To initiate a return, contact support@example.com with your order number. Refunds are processed within 5-7 business days. Sale items are final sale and cannot be returned. For defective products, we offer free replacement within 90 days.</textarea>
+    <button class="btn" onclick="indexDoc()">📥 Index Document</button>
+    <button class="btn btn-sec" onclick="clearDocs()">🗑 Clear</button>
+    <div id="chunkList" class="chunk-list" style="display:none"></div>
+  </div>
+
+  <div class="panel">
+    <h3>❓ Step 2 — Ask a Question</h3>
+    <div class="pipeline-steps">
+      <div class="pipe-step" id="ps1">1. Embed query</div><div class="pipe-arrow">→</div>
+      <div class="pipe-step" id="ps2">2. Vector search</div><div class="pipe-arrow">→</div>
+      <div class="pipe-step" id="ps3">3. Retrieve chunks</div><div class="pipe-arrow">→</div>
+      <div class="pipe-step" id="ps4">4. Build prompt</div><div class="pipe-arrow">→</div>
+      <div class="pipe-step" id="ps5">5. Generate answer</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:flex-end">
+      <div style="flex:1">
+        <label>Your question</label>
+        <input id="question" value="How long do I have to return a product?" placeholder="Ask anything about your document..." style="margin-bottom:0">
+      </div>
+      <button class="btn" onclick="runRAG()" style="flex-shrink:0;margin-bottom:0">▶ Ask</button>
+    </div>
+  </div>
+
+  <div class="panel" id="resultsPanel" style="display:none">
+    <h3>📚 Retrieved Context</h3>
+    <div class="context-box" id="contextBox"></div>
+    <h3 style="margin-top:14px">🤖 Generated Answer</h3>
+    <div class="answer-box" id="answerBox"></div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Get the Full RAG Pipeline Starter</h3>
+    <p>Production-ready Python: LangChain/LlamaIndex integration, PDF/Word ingestion, Pinecone/Chroma vector stores, and streaming responses.</p>
+    <a class="cta-btn" href="https://buy.stripe.com/4gMaEX6iH2yyeRI29XgjI3M">Buy Full Version — $59.00</a>
+    <button class="crypto-pay-btn" data-product-slug="rag-pipeline-starter" data-store-slug="ai-toolkit" data-product-name="RAG Pipeline Starter" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+let chunks = [];
+
+function chunkText(text, size=150) {
+  const sentences = text.match(/[^.!?]+[.!?]+/g)||[text];
+  const result=[];let curr='';
+  sentences.forEach(s=>{
+    if((curr+s).length>size&&curr){result.push(curr.trim());curr=s;}
+    else curr+=s;
+  });
+  if(curr.trim()) result.push(curr.trim());
+  return result;
+}
+
+function wordSim(query, chunk) {
+  const qw=new Set(query.toLowerCase().split(/\W+/).filter(w=>w.length>2));
+  const cw=new Set(chunk.toLowerCase().split(/\W+/).filter(w=>w.length>2));
+  const inter=[...qw].filter(w=>cw.has(w)).length;
+  const denom=Math.sqrt(qw.size*cw.size)||1;
+  return inter/denom + Math.random()*0.05;
+}
+
+function indexDoc(){
+  const text=document.getElementById('docText').value;
+  chunks=chunkText(text).map((c,i)=>({id:i,text:c}));
+  const list=document.getElementById('chunkList');
+  list.style.display='grid';
+  list.innerHTML=chunks.map((c,i)=>`
+    <div class="chunk" id="chunk${i}" title="${c.text}">
+      <div class="chunk-score" id="cs${i}"></div>
+      <div>[${i}] ${c.text.slice(0,80)}${c.text.length>80?'...':''}</div>
+    </div>`).join('');
+}
+
+const delay=ms=>new Promise(r=>setTimeout(r,ms));
+
+async function runRAG(){
+  if(!chunks.length){indexDoc();}
+  const q=document.getElementById('question').value;
+  ['ps1','ps2','ps3','ps4','ps5'].forEach(id=>document.getElementById(id).className='pipe-step');
+  document.getElementById('resultsPanel').style.display='none';
+  chunks.forEach((_,i)=>{const el=document.getElementById('chunk'+i);if(el)el.className='chunk';});
+
+  for(let i=1;i<=5;i++){
+    document.getElementById('ps'+i).className='pipe-step active';
+    await delay(350);
+    document.getElementById('ps'+i).className='pipe-step done';
+  }
+
+  // Score chunks
+  const scored=chunks.map(c=>({...c,score:wordSim(q,c.text)}))
+    .sort((a,b)=>b.score-a.score);
+  const topK=scored.slice(0,3);
+
+  topK.forEach(c=>{
+    const el=document.getElementById('chunk'+c.id);
+    const sc=document.getElementById('cs'+c.id);
+    if(el)el.className='chunk retrieved';
+    if(sc)sc.textContent=c.score.toFixed(2);
+  });
+
+  const context=topK.map(c=>c.text).join('\n\n');
+  document.getElementById('contextBox').textContent=context;
+
+  // Simulate answer generation
+  const answer=generateAnswer(q,topK.map(c=>c.text));
+  const ansBox=document.getElementById('answerBox');
+  ansBox.textContent='';
+  document.getElementById('resultsPanel').style.display='block';
+  // Stream effect
+  for(let i=0;i<answer.length;i++){
+    await delay(12);
+    ansBox.textContent+=answer[i];
+  }
+}
+
+function generateAnswer(q, contexts) {
+  const ctx=contexts.join(' ');
+  const ql=q.toLowerCase();
+  if(ql.includes('return')&&ql.includes('long')||ql.includes('how long')) {
+    const match=ctx.match(/(\d+)\s*days/i);
+    if(match) return `Based on the document, you have ${match[1]} days from the date of purchase to return a product for a full refund. Items must be in original condition with tags attached. Note that digital downloads are non-refundable once accessed.`;
+  }
+  if(ql.includes('refund')&&ql.includes('digital')) {
+    return `According to the policy, digital downloads are non-refundable once they have been accessed. For physical products, refunds are processed within 5-7 business days.`;
+  }
+  if(ql.includes('contact')||ql.includes('how')&&ql.includes('return')) {
+    return `To initiate a return, you should contact support@example.com with your order number. The refund will be processed within 5-7 business days.`;
+  }
+  // Generic extraction
+  const relevant=ctx.slice(0,200);
+  return `Based on the retrieved context: "${relevant}..." This information was retrieved from your document using semantic similarity search and used to generate this answer.`;
+}
+
+indexDoc();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

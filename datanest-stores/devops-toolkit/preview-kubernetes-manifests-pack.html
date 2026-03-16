@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Preview Kubernetes Manifests Pack — see the file structure, code samples, and documentation before you buy.">
+  <meta name="theme-color" content="#d97706">
+  <title>Kubernetes Manifests Pack — Preview | DevOps Toolkit Pro</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Preview page specific styles */
+    .preview-page { padding-top: calc(var(--header-height, 72px) + 2rem); padding-bottom: 4rem; }
+
+    .preview-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--color-text-muted, #94a3b8);
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .preview-back:hover { color: var(--color-primary, #3b82f6); }
+
+    .preview-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--color-card-border, #334155);
+    }
+    .preview-header h1 { margin: 0; font-size: 1.75rem; }
+    .preview-header .price {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--color-accent, #22d3ee);
+    }
+
+    .preview-desc {
+      color: var(--color-text-muted, #94a3b8);
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      line-height: 1.6;
+      max-width: 80ch;
+    }
+
+    .preview-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .preview-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid;
+    }
+    .preview-badge .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .preview-section {
+      background: var(--color-card, #1e293b);
+      border: 1px solid var(--color-card-border, #334155);
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .preview-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      background: var(--color-surface, #0f172a);
+      border-bottom: 1px solid var(--color-card-border, #334155);
+      cursor: pointer;
+      user-select: none;
+    }
+    .preview-section-header:hover { background: var(--color-card-hover, #263044); }
+    .preview-section-header h3 {
+      font-size: 1.125rem;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .preview-section-header .badge {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--color-accent, #22d3ee);
+      font-weight: 600;
+    }
+
+    .preview-section-body {
+      padding: 1.5rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .preview-section.open .preview-section-body {
+      max-height: 8000px;
+    }
+
+    .preview-section .chevron {
+      transition: transform 0.3s ease;
+      color: var(--color-text-muted, #94a3b8);
+    }
+    .preview-section.open .chevron { transform: rotate(180deg); }
+
+    .preview-code {
+      background: var(--color-bg-alt, #0f172a);
+      border: 1px solid var(--color-card-border, #334155);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-family: var(--font-mono, 'SF Mono', Consolas, monospace);
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      white-space: pre;
+      color: var(--color-text, #f8fafc);
+    }
+    .preview-code .filename {
+      display: block;
+      color: var(--color-text-muted, #94a3b8);
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--color-card-border, #334155);
+    }
+
+    .file-tree {
+      font-family: var(--font-mono, 'SF Mono', Consolas, monospace);
+      font-size: 0.8125rem;
+      line-height: 1.8;
+      color: var(--color-text-muted, #94a3b8);
+      background: var(--color-bg-alt, #0f172a);
+      border: 1px solid var(--color-card-border, #334155);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .file-tree .dir { color: var(--color-primary-light, #60a5fa); font-weight: 600; }
+    .file-tree .file { color: var(--color-text, #f8fafc); }
+
+    .readme-excerpt {
+      line-height: 1.7;
+      color: var(--color-text-muted, #94a3b8);
+    }
+    .readme-excerpt h3 { color: var(--color-text, #f8fafc); margin: 1.25rem 0 0.5rem; font-size: 1.1rem; }
+    .readme-excerpt h4 { color: var(--color-text, #f8fafc); margin: 1rem 0 0.5rem; font-size: 1rem; }
+    .readme-excerpt p { margin: 0.5rem 0; }
+    .readme-excerpt ul { margin: 0.5rem 0; padding-left: 1.5rem; }
+    .readme-excerpt li { margin: 0.25rem 0; }
+    .readme-excerpt code { background: var(--color-bg-alt, #0f172a); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.85em; }
+    .readme-excerpt pre { background: var(--color-bg-alt, #0f172a); border: 1px solid var(--color-card-border, #334155); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 0.75rem 0; }
+    .readme-excerpt pre code { background: none; padding: 0; font-size: 0.8125rem; }
+    .readme-excerpt blockquote { border-left: 3px solid var(--color-primary, #3b82f6); margin: 0.75rem 0; padding: 0.5rem 1rem; color: var(--color-text-muted, #94a3b8); }
+
+    .preview-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--color-card-border, #334155);
+    }
+
+    .redacted {
+      color: var(--color-text-muted, #64748b);
+      font-style: italic;
+      opacity: 0.6;
+    }
+    .redacted::before { content: "# "; }
+
+    @media (max-width: 640px) {
+      .preview-section-header { padding: 0.75rem 1rem; }
+      .preview-section-body { padding: 1rem; }
+      .preview-code, .file-tree { font-size: 0.7rem; }
+      .preview-header h1 { font-size: 1.25rem; }
+    }
+</style>
+  <script defer data-domain="inity13.github.io" src="https://plausible.io/js/script.js"></script>
+<!-- analytics-start -->
+<script>
+(function(){
+  try{
+    fetch("https://ferovwapilhcpqozqinn.supabase.co/rest/v1/page_views",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Prefer":"return=minimal"},
+      body:JSON.stringify({store_name:"DevOps Toolkit Pro",page_path:location.pathname,referrer:document.referrer||null,user_agent:navigator.userAgent}),
+      keepalive:true
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+<!-- analytics-end -->
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a href="index.html" class="logo" aria-label="DevOps Toolkit Pro home">
+        <span class="logo-icon" aria-hidden="true">&#9881;</span>
+        DevOps Toolkit Pro
+      </a>
+      <nav class="nav-desktop" aria-label="Main navigation">
+        <a href="index.html#products">Products</a>
+        <a href="index.html#bundle">Bundle</a>
+        <a href="index.html#faq">FAQ</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" aria-label="Toggle dark/light mode">
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="preview-page">
+    <div class="container">
+      <a href="index.html#products" class="preview-back">&larr; Back to all products</a>
+
+      <div class="preview-header">
+        <div>
+          <h1>Kubernetes Manifests Pack</h1>
+        </div>
+        <span class="price"><span class="currency">$</span>49</span>
+      </div>
+
+      <p class="preview-desc">Complete K8s manifest library with deployments, services, ingress, RBAC, network policies, and Helm charts.</p>
+
+      <div class="preview-meta" style="display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;font-size:0.875rem;color:var(--color-text-muted,#94a3b8);"><span>&#128193; 24 files</span><span>&#127991; v1.0.0</span></div>
+
+      <div class="preview-badges"><span class="preview-badge" style="border-color: #083FA140; color: #083FA1;"><span class="dot" style="background: #083FA1;"></span>Markdown</span><span class="preview-badge" style="border-color: #29292940; color: #292929;"><span class="dot" style="background: #292929;"></span>JSON</span><span class="preview-badge" style="border-color: #CB171E40; color: #CB171E;"><span class="dot" style="background: #CB171E;"></span>YAML</span><span class="preview-badge" style="border-color: #326CE540; color: #326CE5;"><span class="dot" style="background: #326CE5;"></span>Kubernetes</span><span class="preview-badge" style="border-color: #00963940; color: #009639;"><span class="dot" style="background: #009639;"></span>Nginx</span><span class="preview-badge" style="border-color: #E6522C40; color: #E6522C;"><span class="dot" style="background: #E6522C;"></span>Prometheus</span></div>
+
+      
+        <div class="preview-section open">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128193; File Structure <span class="badge">24 files</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="file-tree"><span class="dir">kubernetes-manifests-pack/</span>
+├── <span class="file">LICENSE</span>
+├── <span class="file">README.md</span>
+├── <span class="dir">base/</span>
+│   ├── <span class="file">configmap.yaml</span>
+│   ├── <span class="file">deployment.yaml</span>
+│   ├── <span class="file">hpa.yaml</span>
+│   ├── <span class="file">ingress.yaml</span>
+│   ├── <span class="file">namespace.yaml</span>
+│   ├── <span class="file">networkpolicy.yaml</span>
+│   ├── <span class="file">pdb.yaml</span>
+│   ├── <span class="file">secret.yaml</span>
+│   └── <span class="file">service.yaml</span>
+├── <span class="dir">guides/</span>
+│   └── <span class="file">kubernetes-deployment-patterns.md</span>
+├── <span class="dir">helm/</span>
+│   ├── <span class="file">Chart.yaml</span>
+│   ├── <span class="file">values-dev.yaml</span>
+│   ├── <span class="file">values-prod.yaml</span>
+│   └── <span class="file">values.yaml</span>
+├── <span class="dir">jobs/</span>
+│   ├── <span class="file">cronjob-cleanup.yaml</span>
+│   └── <span class="file">db-migration.yaml</span>
+├── <span class="dir">monitoring/</span>
+│   ├── <span class="file">prometheus-rules.yaml</span>
+│   └── <span class="file">servicemonitor.yaml</span>
+├── <span class="dir">network-policies/</span>
+│   └── <span class="file">default-deny.yaml</span>
+├── <span class="dir">overlays/</span>
+│   ├── <span class="dir">dev/</span>
+│   │   └── <span class="file">kustomization.yaml</span>
+│   └── <span class="dir">prod/</span>
+│       └── <span class="file">kustomization.yaml</span>
+└── <span class="dir">rbac/</span>
+    └── <span class="file">role.yaml</span></div>
+          </div>
+        </div>
+
+        <div class="preview-section open">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128214; Documentation Preview <span class="badge">README excerpt</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="readme-excerpt">
+              <h3>Kubernetes Manifests Pack</h3>
+
+<p><strong>Production-ready Kubernetes manifests with Kustomize overlays, Helm values, batch jobs, and Prometheus monitoring.</strong></p>
+
+<p>Deploy a complete application stack to any Kubernetes cluster. Includes base manifests following the app.kubernetes.io labeling convention, Kustomize overlays for dev/prod, Helm value files, database migration and cleanup jobs, and Prometheus ServiceMonitor + alerting rules.</p>
+
+<p>---</p>
+
+<h3>What You Get</h3>
+
+<ul>
+  <li><strong>9 base manifests</strong> — Namespace, Deployment, Service, Ingress, HPA, PDB, NetworkPolicy, ConfigMap, Secret</li>
+  <li><strong>Kustomize overlays</strong> — Dev and production variants with environment-specific patches</li>
+  <li><strong>Helm value files</strong> — Chart with dev and prod overrides for flexible templating</li>
+  <li><strong>Batch jobs</strong> — Database migration Job and scheduled cleanup CronJob</li>
+  <li><strong>Monitoring</strong> — Prometheus ServiceMonitor and alerting rules</li>
+  <li><strong>RBAC & network policies</strong> — Least-privilege Role and default-deny network policy</li>
+  <li><strong>Deployment guide</strong> — Patterns for rolling updates, blue-green, canary, and GitOps</li>
+</ul>
+
+<h3>File Tree</h3>
+
+<pre><code>
+kubernetes-manifests-pack/
+├── README.md
+├── LICENSE
+├── manifest.json
+├── base/
+│   ├── namespace.yaml           # Dedicated namespace with labels
+│   ├── deployment.yaml          # App deployment with probes &amp; security context
+│   ├── service.yaml             # ClusterIP service with named ports
+│   ├── ingress.yaml             # Nginx ingress with TLS &amp; cert-manager
+│   ├── hpa.yaml                 # Horizontal Pod Autoscaler (CPU + memory)
+│   ├── pdb.yaml                 # PodDisruptionBudget for availability
+│   ├── networkpolicy.yaml       # App-specific network policy
+│   ├── configmap.yaml           # Application configuration
+│   └── secret.yaml              # Secrets template (base64 placeholders)
+├── overlays/
+│   ├── dev/kustomization.yaml   # Dev overlay — fewer replicas, debug logging
+│   └── prod/kustomization.yaml  # Prod overlay — more replicas, strict limits
+├── helm/
+│   ├── Chart.yaml               # Helm chart metadata
+│   ├── values.yaml              # Default values
+│   ├── values-dev.yaml          # Dev overrides
+│   └── values-prod.yaml         # Prod overrides
+├── jobs/
+│   ├── db-migration.yaml        # One-shot database migration Job
+│   └── cronjob-cleanup.yaml     # Scheduled cleanup CronJob
+├── monitoring/
+│   ├── servicemonitor.yaml      # Prometheus ServiceMonitor
+│   └── prometheus-rules.yaml    # Alerting rules (high error rate, pod restarts)
+├── network-policies/
+│   └── default-deny.yaml        # Default deny-all ingress &amp; egress
+├── rbac/
+│   └── role.yaml                # Least-privilege Role + RoleBinding
+└── guides/
+    └── kubernetes-deployment-patterns.md
+</code></pre>
+
+<h3>Getting Started</h3>
+
+<h4>Option 1: Plain Manifests</h4>
+
+<p><em>... continues with setup instructions, usage examples, and more.</em></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128196; Code Sample <span class="badge">.yaml preview</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="preview-code"><span class="filename">base/configmap.yaml</span>
+# -----------------------------------------------------------------------------
+# ConfigMap — application configuration
+# -----------------------------------------------------------------------------
+# Store non-sensitive config here. Reference values in the Deployment via
+# envFrom or individual valueFrom.configMapKeyRef entries.
+#
+# For environment-specific values, override these in Kustomize overlays or
+# Helm values files.
+# -----------------------------------------------------------------------------
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: app
+  labels:
+    app.kubernetes.io/name: app
+    app.kubernetes.io/component: config
+    app.kubernetes.io/part-of: app-stack
+data:
+  # Application environment — used for feature flags and logging
+  APP_ENV: &quot;production&quot;
+
+  # Log level — debug, info, warn, error
+  LOG_LEVEL: &quot;info&quot;
+
+  # HTTP server settings
+  APP_PORT: &quot;8080&quot;
+  METRICS_PORT: &quot;9090&quot;
+
+  # Request timeouts (seconds)
+  REQUEST_TIMEOUT: &quot;30&quot;
+  SHUTDOWN_TIMEOUT: &quot;15&quot;
+
+  # Feature flags
+  FEATURE_CACHE_ENABLED: &quot;true&quot;
+  FEATURE_RATE_LIMIT_ENABLED: &quot;true&quot;
+
+  # External service URLs (non-sensitive)
+  CACHE_HOST: &quot;redis.app.svc.cluster.local&quot;
+  CACHE_PORT: &quot;6379&quot;
+</div>
+          </div>
+        </div>
+
+      <div class="preview-actions">
+        <a href="https://buy.stripe.com/3cI6oH8qP1uu10S29XgjH0W" class="btn btn-primary">Buy Now &mdash; $49</a>
+        <button class="crypto-pay-btn" data-product-slug="kubernetes-manifests-pack" data-store-slug="devops-toolkit" data-product-name="Kubernetes Manifests Pack" data-price-usd="49">&#8383; Pay with Crypto &mdash; Save 15%</button>
+        <a href="index.html#products" class="btn btn-secondary btn-sm">Back to Products</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2025 DevOps Toolkit Pro. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="index.html">Store</a>
+          <a href="about.html">About</a>
+          <a href="mailto:megafolder122122@hotmail.com">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="crypto-checkout.js"></script>
+</body>
+</html>

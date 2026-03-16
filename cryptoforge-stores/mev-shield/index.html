@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEV Shield — MEV Protection & Orderflow Tools | CryptoForge</title>
+<meta name="description" content="MEV protection SDKs, sandwich detectors, private relays, searcher bots, and ERC-4337 paymasters. Shield your DeFi users from MEV.">
+<meta property="og:title" content="MEV Shield — MEV Protection & Orderflow Tools | CryptoForge">
+<meta property="og:description" content="MEV protection SDKs, sandwich detectors, private relays, searcher bots, and ERC-4337 paymasters. Shield your DeFi users from MEV.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mevshield.cryptoforge.dev">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script defer data-domain="mevshield.cryptoforge.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                         NAVIGATION                            -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <span class="logo-icon">&#x1F6E1;</span>
+      <span class="logo-text">MEV<span class="logo-accent">SHIELD</span></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#products">Products</a>
+      <a href="#bundles">Bundles</a>
+      <a href="#features">Features</a>
+      <a href="#free">Free Tools</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://cryptoforge.dev" class="nav-cta">All Stores &rarr;</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                            HERO                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">CryptoForge Store #3</div>
+    <h1 class="hero-title">
+      <span class="gradient-text">MEV Shield</span>
+    </h1>
+    <p class="hero-subtitle">
+      MEV protection, orderflow auctions, and searcher tooling for DeFi builders.<br>
+      Shield your users from sandwich attacks and frontrunning.
+    </p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-value">10</span>
+        <span class="stat-label">Products</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">150+</span>
+        <span class="stat-label">Files</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">4</span>
+        <span class="stat-label">Languages</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">100%</span>
+        <span class="stat-label">Test Coverage</span>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a href="#bundles" class="btn btn-primary btn-lg">Get the Pro Bundle — $49.99</a>
+      <a href="#products" class="btn btn-ghost btn-lg">Browse Products</a>
+    </div>
+    <div class="hero-trust">
+      <span>Flashbots MEV-Share</span>
+      <span class="trust-sep">&bull;</span>
+      <span>ERC-4337 Paymasters</span>
+      <span class="trust-sep">&bull;</span>
+      <span>Solidity ^0.8.24</span>
+      <span class="trust-sep">&bull;</span>
+      <span>TypeScript &bull; Python</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          BUNDLES                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="bundles">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Save with Bundles</span></h2>
+    <p class="section-desc">Get multiple products at a fraction of the individual price.</p>
+
+    <div class="bundle-grid">
+      <!-- Starter Bundle -->
+      <div class="bundle-card">
+        <div class="bundle-badge">SAVE 34%</div>
+        <h3 class="bundle-name">Starter Bundle</h3>
+        <p class="bundle-desc">Essential MEV protection toolkit. SDK, sandwich detector, private relay, and EIP-712 signing library.</p>
+        <div class="bundle-pricing">
+          <span class="bundle-original">$37.96</span>
+          <span class="bundle-price">$24.99</span>
+        </div>
+        <ul class="bundle-includes">
+          <li>MEV-Share SDK <span class="include-price">$12.99</span></li>
+          <li>Sandwich Detector <span class="include-price">$7.99</span></li>
+          <li>Private Tx Relay <span class="include-price">$9.99</span></li>
+          <li>EIP-712 Signing Lib <span class="include-price">$6.99</span></li>
+        </ul>
+        <a href="#" class="btn btn-secondary btn-full" data-product="starter-bundle">Buy Starter — $24.99</a>
+      </div>
+
+      <!-- Pro Bundle -->
+      <div class="bundle-card bundle-featured">
+        <div class="bundle-badge bundle-badge-gold">BEST VALUE — SAVE 56%</div>
+        <h3 class="bundle-name">Pro Bundle</h3>
+        <p class="bundle-desc">The complete MEV toolkit. All 10 products — SDKs, contracts, searcher bot, monitoring, and analytics.</p>
+        <div class="bundle-pricing">
+          <span class="bundle-original">$113.91</span>
+          <span class="bundle-price">$49.99</span>
+        </div>
+        <ul class="bundle-includes">
+          <li>All 10 MEV Products</li>
+          <li>All future updates included</li>
+          <li>Priority support (30 days)</li>
+        </ul>
+        <a href="#" class="btn btn-primary btn-full" data-product="pro-bundle">Buy Pro Bundle — $49.99</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                         PRODUCTS                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="products">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Product Catalog</span></h2>
+    <p class="section-desc">10 production-ready tools for MEV protection, orderflow auctions, and searcher operations.</p>
+
+    <!-- Filter tabs -->
+    <div class="filter-tabs">
+      <button class="filter-btn active" data-filter="all">All (10)</button>
+      <button class="filter-btn" data-filter="sdk">SDKs (4)</button>
+      <button class="filter-btn" data-filter="contracts">Contracts (3)</button>
+      <button class="filter-btn" data-filter="monitoring">Monitoring (2)</button>
+      <button class="filter-btn" data-filter="frontend">Frontend (1)</button>
+    </div>
+
+    <div class="product-grid">
+      <!-- Product 1 -->
+      <div class="product-card" data-category="sdk">
+        <div class="product-number">#1</div>
+        <div class="product-tag tag-sdk">SDK</div>
+        <h3 class="product-name">MEV-Share SDK</h3>
+        <p class="product-desc">TypeScript/Python SDK for Flashbots MEV-Share orderflow auctions. Submit hints, listen for matches, receive rebates.</p>
+        <div class="product-tech">
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">ethers.js</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$12.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="mev-share-sdk">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#2</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">Paymaster Template</h3>
+        <p class="product-desc">ERC-4337 paymaster that sponsors gas from MEV rebate proceeds. Verifying paymaster with stake management.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">ERC-4337</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$14.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="paymaster-template">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#3</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">MEV Rebate Router</h3>
+        <p class="product-desc">Smart contract router capturing MEV-Share rebates and redistributing to users proportionally.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">OpenZeppelin v5</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="mev-rebate-router">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="product-card" data-category="monitoring">
+        <div class="product-number">#4</div>
+        <div class="product-tag tag-monitoring">Monitoring</div>
+        <h3 class="product-name">Sandwich Detector</h3>
+        <p class="product-desc">Real-time mempool monitor detecting sandwich attacks. Alerts via webhook, Telegram, or Discord.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">websockets</span>
+          <span class="tech-tag">web3.py</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$7.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="sandwich-detector">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 5 -->
+      <div class="product-card" data-category="frontend">
+        <div class="product-number">#5</div>
+        <div class="product-tag tag-frontend">Frontend</div>
+        <h3 class="product-name">Orderflow Analytics</h3>
+        <p class="product-desc">React dashboard for MEV extraction metrics, rebate tracking, and orderflow provider revenue.</p>
+        <div class="product-tech">
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">wagmi</span>
+          <span class="tech-tag">Recharts</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$12.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="orderflow-analytics">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 6 -->
+      <div class="product-card" data-category="sdk">
+        <div class="product-number">#6</div>
+        <div class="product-tag tag-sdk">SDK</div>
+        <h3 class="product-name">Private Tx Relay</h3>
+        <p class="product-desc">TypeScript template for submitting txs via Flashbots Protect + MEV-Share with fallback strategies.</p>
+        <div class="product-tech">
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">ethers.js</span>
+          <span class="tech-tag">Flashbots</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="private-tx-relay">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 7 -->
+      <div class="product-card" data-category="sdk">
+        <div class="product-number">#7</div>
+        <div class="product-tag tag-sdk">SDK</div>
+        <h3 class="product-name">Searcher Starter Kit</h3>
+        <p class="product-desc">Bot framework for MEV searching: arbitrage, liquidation monitoring, and backrunning strategies.</p>
+        <div class="product-tech">
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">ethers.js</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$14.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="searcher-starter-kit">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 8 -->
+      <div class="product-card" data-category="sdk">
+        <div class="product-number">#8</div>
+        <div class="product-tag tag-sdk">SDK</div>
+        <h3 class="product-name">Bundle Simulator</h3>
+        <p class="product-desc">Local simulation harness for testing MEV bundles. Estimate gas, calculate profit, and validate state diffs.</p>
+        <div class="product-tech">
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">ethers.js</span>
+          <span class="tech-tag">ganache</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="bundle-simulator">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 9 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#9</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">EIP-712 Signing Library</h3>
+        <p class="product-desc">Human-readable EIP-712 signing library with nonce-based replay protection and compact signature support.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">EIP-712</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$6.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="eip712-signing-lib">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 10 -->
+      <div class="product-card" data-category="monitoring">
+        <div class="product-number">#10</div>
+        <div class="product-tag tag-monitoring">Monitoring</div>
+        <h3 class="product-name">MEV Monitoring Agent</h3>
+        <p class="product-desc">Background service scanning blocks for MEV extraction on your contracts. Alerts via Slack, Discord, PagerDuty.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">web3.py</span>
+          <span class="tech-tag">asyncio</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$12.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="mev-monitoring-agent">Buy Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                        FEATURES                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="features">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Why MEV Shield?</span></h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F6E1;</div>
+        <h3>User Protection</h3>
+        <p>Shield your users from sandwich attacks, frontrunning, and MEV extraction. Private transaction submission via Flashbots Protect keeps your users safe.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F4B0;</div>
+        <h3>MEV Rebates</h3>
+        <p>Don't just block MEV — capture and redistribute it. The rebate router returns extracted value to your users, turning MEV from a tax into a feature.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x26A1;</div>
+        <h3>Gas-Free UX</h3>
+        <p>ERC-4337 paymaster funded by MEV rebates. Your users get gas-sponsored transactions while the protocol earns from orderflow auctions.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F50D;</div>
+        <h3>Full Visibility</h3>
+        <p>Real-time mempool monitoring, block-by-block MEV scanning, and orderflow analytics dashboard. Know exactly what's happening to your protocol's transactions.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F916;</div>
+        <h3>Searcher Tools</h3>
+        <p>Build your own MEV searching operations. Arbitrage detection, liquidation monitoring, and backrunning framework with profit tracking and bundle submission.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F527;</div>
+        <h3>Dual Language</h3>
+        <p>TypeScript and Python SDKs for every off-chain tool. Solidity contracts with Foundry tests. Use the language that fits your stack.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                       FREE TOOLS                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="free">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Free Resources</span></h2>
+    <div class="lead-magnet-grid">
+      <div class="lead-magnet-card">
+        <div class="lm-icon">&#x1F4CB;</div>
+        <h3>MEV Protection Checklist</h3>
+        <p>15-point checklist for protecting your DeFi protocol from frontrunning, sandwich attacks, and oracle manipulation.</p>
+        <form class="lm-form" data-magnet="mev-protection-checklist">
+          <input type="email" placeholder="your@email.com" class="lm-input" required>
+          <button type="submit" class="btn btn-primary">Download Free</button>
+        </form>
+      </div>
+      <div class="lead-magnet-card">
+        <div class="lm-icon">&#x1F4CA;</div>
+        <h3>Searcher Economics Guide</h3>
+        <p>Revenue models, gas strategies, and profitability analysis for MEV searching on Ethereum post-Merge.</p>
+        <form class="lm-form" data-magnet="searcher-economics-guide">
+          <input type="email" placeholder="your@email.com" class="lm-input" required>
+          <button type="submit" class="btn btn-primary">Download Free</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          FAQ                                  -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="faq">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">FAQ</span></h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h3 class="faq-question">What types of MEV does this detect?</h3>
+        <p class="faq-answer">The Sandwich Detector and MEV Monitoring Agent identify sandwich attacks, front-running, back-running, and JIT (just-in-time) liquidity extraction. Real-time mempool scanning catches threats before they land on-chain.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Does it work with Flashbots?</h3>
+        <p class="faq-answer">Yes — the MEV-Share SDK integrates directly with Flashbots MEV-Share for orderflow auctions, and the Private Tx Relay submits transactions via Flashbots Protect with fallback strategies.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What chains are supported?</h3>
+        <p class="faq-answer">MEV protection tools are primarily designed for Ethereum mainnet where MEV is most relevant. Some tools (Searcher Starter Kit, EIP-712 Signing Library) work on any EVM chain including L2s.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Are the contracts audited?</h3>
+        <p class="faq-answer">Every contract includes comprehensive Foundry test suites (unit, fuzz, and invariant tests) and detailed security notes. We recommend a professional audit before mainnet deployment.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What license are the products under?</h3>
+        <p class="faq-answer">All products are MIT licensed. You can use, modify, and distribute them in commercial projects without restriction.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What support is included?</h3>
+        <p class="faq-answer">The Pro Bundle includes 30 days of priority support. Individual product purchases are supported through our community channels. All products include documentation and examples.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                       CROSS-SELL                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">More from CryptoForge</span></h2>
+    <p class="section-desc">MEV Shield is one of 10 CryptoForge stores. Build your entire DeFi stack.</p>
+    <div class="cross-sell-grid">
+      <a href="#" class="cross-sell-card">
+        <h3>Vault Forge</h3>
+        <p>ERC-4626 yield vault toolkit. Protect vault deposits from sandwich attacks with MEV Shield.</p>
+        <span class="cross-sell-link">Browse Store &rarr;</span>
+      </a>
+      <a href="#" class="cross-sell-card">
+        <h3>DeFi Router</h3>
+        <p>Routing & swap aggregation tools. Add MEV-aware routing to your swap aggregator.</p>
+        <span class="cross-sell-link">Browse Store &rarr;</span>
+      </a>
+      <a href="#" class="cross-sell-card">
+        <h3>Sub Protocol</h3>
+        <p>Subscription & token-gating tools. Fund gas-free subscriptions using MEV rebate paymasters.</p>
+        <span class="cross-sell-link">Browse Store &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          FOOTER                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo-icon">&#x2692;</span>
+        <span class="logo-text">CRYPTO<span class="logo-accent">FORGE</span></span>
+        <p class="footer-tagline">Forge the future of DeFi.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Stores</h4>
+        <a href="#">Vault Forge</a>
+        <a href="#">DeFi Router</a>
+        <a href="#">MEV Shield</a>
+        <a href="#">Staking Kit</a>
+        <a href="#">Sub Protocol</a>
+      </div>
+      <div class="footer-links">
+        <h4>Resources</h4>
+        <a href="#">Documentation</a>
+        <a href="#">MEV Protection Checklist</a>
+        <a href="#">Searcher Guide</a>
+        <a href="#">Blog</a>
+      </div>
+      <div class="footer-links">
+        <h4>Payment</h4>
+        <p class="footer-note">We accept Stripe (credit/debit) and crypto payments (ETH, BTC).</p>
+        <p class="footer-note">All products include MIT license.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 CryptoForge. All rights reserved. Part of the DATANEST empire.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

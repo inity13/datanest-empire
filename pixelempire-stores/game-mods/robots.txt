@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://inity13.github.io/pixel-mod-vault/sitemap.xml

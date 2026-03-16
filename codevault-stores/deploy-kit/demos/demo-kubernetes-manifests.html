@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kubernetes Manifests — Interactive Demo | Deploy Kit</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#00BCD4;--text:#EAEAFF;--muted:#8888AA;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;} .badge{background:var(--accent);color:#000;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1000px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .layout{display:grid;grid-template-columns:270px 1fr;gap:1.5rem;}
+  @media(max-width:700px){.layout{grid-template-columns:1fr;}}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+  select,input{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.55rem .8rem;border-radius:8px;font-size:.88rem;margin-bottom:.9rem;}
+  select:focus,input:focus{outline:none;border-color:var(--accent);}
+  .range-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.9rem;}
+  .range-row input[type=range]{flex:1;margin:0;padding:0;}
+  .range-val{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.2rem .5rem;font-size:.8rem;min-width:2.5rem;text-align:center;}
+  .checks{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.9rem;}
+  .checks label{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--text);text-transform:none;letter-spacing:0;margin:0;cursor:pointer;}
+  .checks input[type=checkbox]{width:auto;margin:0;}
+  .btn{display:block;width:100%;padding:.7rem;background:var(--accent);color:#000;border:none;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;transition:opacity .2s;}
+  .btn:hover{opacity:.85;}
+  .file-tabs{display:flex;gap:.4rem;padding:.6rem 1rem;background:var(--surface2);border-bottom:1px solid var(--border);flex-wrap:wrap;}
+  .ftab{padding:.3rem .65rem;border-radius:5px;font-size:.75rem;cursor:pointer;border:1px solid transparent;color:var(--muted);}
+  .ftab.active{background:rgba(0,188,212,.15);border-color:var(--accent);color:var(--accent);}
+  .output-panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  .hdr-row{display:flex;justify-content:space-between;align-items:center;padding:.6rem 1rem;background:var(--surface2);border-bottom:1px solid var(--border);}
+  .hdr-row span{font-size:.78rem;font-family:monospace;color:var(--muted);}
+  .copy-btn{background:transparent;border:1px solid var(--border);color:var(--accent);padding:.25rem .65rem;border-radius:5px;font-size:.72rem;cursor:pointer;}
+  .copy-btn:hover{background:var(--accent);color:#000;}
+  pre{padding:1.1rem;font-family:'Courier New',monospace;font-size:.77rem;line-height:1.6;overflow-x:auto;color:#cdd6f4;max-height:450px;overflow-y:auto;}
+  .tab-content{display:none;} .tab-content.active{display:block;}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a2040);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#000;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">☸️</span>
+  <h1>Kubernetes Manifests</h1>
+  <span>Interactive Demo</span>
+  <span class="badge">Deploy Kit</span>
+</header>
+<div class="container">
+  <h2>Generate K8s Manifests</h2>
+  <p class="subtitle">Configure your workload — get Deployment, Service, and Ingress YAML instantly.</p>
+  <div class="layout">
+    <div class="panel">
+      <label>App Name</label>
+      <input type="text" id="appName" value="my-api" oninput="generate()">
+      <label>Container Image</label>
+      <input type="text" id="image" value="ghcr.io/org/my-api:latest" oninput="generate()">
+      <label>Replicas</label>
+      <div class="range-row">
+        <input type="range" id="replicas" min="1" max="10" value="2" oninput="rval('replicas');generate()">
+        <div class="range-val" id="replicas-val">2</div>
+      </div>
+      <label>CPU Request / Limit</label>
+      <select id="cpu" onchange="generate()">
+        <option value="100m/200m">100m / 200m (small)</option>
+        <option value="250m/500m" selected>250m / 500m (medium)</option>
+        <option value="500m/1000m">500m / 1 (large)</option>
+        <option value="1000m/2000m">1 / 2 (xlarge)</option>
+      </select>
+      <label>Memory Request / Limit</label>
+      <select id="mem" onchange="generate()">
+        <option value="128Mi/256Mi">128Mi / 256Mi</option>
+        <option value="256Mi/512Mi" selected>256Mi / 512Mi</option>
+        <option value="512Mi/1Gi">512Mi / 1Gi</option>
+        <option value="1Gi/2Gi">1Gi / 2Gi</option>
+      </select>
+      <label>Include</label>
+      <div class="checks">
+        <label><input type="checkbox" id="ing" checked> Ingress (nginx)</label>
+        <label><input type="checkbox" id="hpa" checked> HPA (autoscaler)</label>
+        <label><input type="checkbox" id="pdb"> PodDisruptionBudget</label>
+        <label><input type="checkbox" id="cm"> ConfigMap</label>
+        <label><input type="checkbox" id="sec"> Secret template</label>
+      </div>
+      <button class="btn" onclick="generate()">⚡ Generate Manifests</button>
+    </div>
+    <div class="output-panel">
+      <div class="file-tabs" id="fileTabs"></div>
+      <div class="hdr-row">
+        <span id="activeFilename">deployment.yaml</span>
+        <button class="copy-btn" onclick="copyActive()">Copy</button>
+      </div>
+      <div id="fileContents"></div>
+    </div>
+  </div>
+  <div class="cta-box">
+    <h3>☸️ Full K8s Manifests Pack — 20+ Templates</h3>
+    <p>Includes StatefulSets, DaemonSets, CronJobs, Helm charts, Kustomize overlays, RBAC policies, NetworkPolicies, and more.</p>
+    <a href="https://buy.stripe.com/28E00j22r4GG7pg9CpgjJ0D" class="cta-btn">Buy Full Version — $19.99</a>
+    <button class="crypto-pay-btn" data-product-slug="kubernetes-manifests" data-store-slug="deploy-kit" data-product-name="Kubernetes Manifests" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+<script>
+function rval(id){document.getElementById(id+'-val').textContent=document.getElementById(id).value;}
+function g(id){return document.getElementById(id);}
+function ch(id){return document.getElementById(id).checked;}
+
+let files={};
+let activeFile='';
+
+function generate(){
+  const name=g('appName').value||'my-app';
+  const image=g('image').value||'nginx:latest';
+  const reps=g('replicas').value;
+  const [cpuReq,cpuLim]=g('cpu').value.split('/');
+  const [memReq,memLim]=g('mem').value.split('/');
+
+  files={};
+
+  // Deployment
+  files['deployment.yaml']=`# Generated by Deploy Kit — kubernetes-manifests\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ${name}\n  labels:\n    app: ${name}\nspec:\n  replicas: ${reps}\n  selector:\n    matchLabels:\n      app: ${name}\n  strategy:\n    type: RollingUpdate\n    rollingUpdate:\n      maxSurge: 1\n      maxUnavailable: 0\n  template:\n    metadata:\n      labels:\n        app: ${name}\n    spec:\n      containers:\n        - name: ${name}\n          image: ${image}\n          ports:\n            - containerPort: 8000\n          resources:\n            requests:\n              cpu: ${cpuReq}\n              memory: ${memReq}\n            limits:\n              cpu: ${cpuLim}\n              memory: ${memLim}\n          readinessProbe:\n            httpGet:\n              path: /health\n              port: 8000\n            initialDelaySeconds: 10\n            periodSeconds: 5\n          livenessProbe:\n            httpGet:\n              path: /health\n              port: 8000\n            initialDelaySeconds: 30\n            periodSeconds: 10\n          envFrom:\n            - configMapRef:\n                name: ${name}-config\n            - secretRef:\n                name: ${name}-secret\n`;
+
+  // Service
+  files['service.yaml']=`apiVersion: v1\nkind: Service\nmetadata:\n  name: ${name}\n  labels:\n    app: ${name}\nspec:\n  type: ClusterIP\n  selector:\n    app: ${name}\n  ports:\n    - port: 80\n      targetPort: 8000\n      protocol: TCP\n      name: http\n`;
+
+  if(ch('ing')){
+    files['ingress.yaml']=`apiVersion: networking.k8s.io/v1\nkind: Ingress\nmetadata:\n  name: ${name}\n  annotations:\n    kubernetes.io/ingress.class: nginx\n    cert-manager.io/cluster-issuer: letsencrypt-prod\n    nginx.ingress.kubernetes.io/rate-limit: "100"\nspec:\n  tls:\n    - hosts:\n        - ${name}.example.com\n      secretName: ${name}-tls\n  rules:\n    - host: ${name}.example.com\n      http:\n        paths:\n          - path: /\n            pathType: Prefix\n            backend:\n              service:\n                name: ${name}\n                port:\n                  number: 80\n`;
+  }
+
+  if(ch('hpa')){
+    files['hpa.yaml']=`apiVersion: autoscaling/v2\nkind: HorizontalPodAutoscaler\nmetadata:\n  name: ${name}-hpa\nspec:\n  scaleTargetRef:\n    apiVersion: apps/v1\n    kind: Deployment\n    name: ${name}\n  minReplicas: ${reps}\n  maxReplicas: ${Math.min(parseInt(reps)*4,20)}\n  metrics:\n    - type: Resource\n      resource:\n        name: cpu\n        target:\n          type: Utilization\n          averageUtilization: 70\n    - type: Resource\n      resource:\n        name: memory\n        target:\n          type: Utilization\n          averageUtilization: 80\n`;
+  }
+
+  if(ch('pdb')){
+    files['pdb.yaml']=`apiVersion: policy/v1\nkind: PodDisruptionBudget\nmetadata:\n  name: ${name}-pdb\nspec:\n  minAvailable: 1\n  selector:\n    matchLabels:\n      app: ${name}\n`;
+  }
+
+  if(ch('cm')){
+    files['configmap.yaml']=`apiVersion: v1\nkind: ConfigMap\nmetadata:\n  name: ${name}-config\ndata:\n  APP_ENV: "production"\n  LOG_LEVEL: "info"\n  PORT: "8000"\n`;
+  }
+
+  if(ch('sec')){
+    files['secret.yaml']=`# IMPORTANT: Use Sealed Secrets or External Secrets Operator in production\napiVersion: v1\nkind: Secret\nmetadata:\n  name: ${name}-secret\ntype: Opaque\nstringData:\n  DATABASE_URL: "postgresql://user:CHANGE_ME@db:5432/appdb"\n  SECRET_KEY: "CHANGE_ME_USE_STRONG_RANDOM_VALUE"\n  API_KEY: "CHANGE_ME"\n`;
+  }
+
+  renderTabs();
+}
+
+function renderTabs(){
+  const names=Object.keys(files);
+  if(!activeFile||!files[activeFile]) activeFile=names[0];
+  const tabsEl=g('fileTabs');
+  const contEl=g('fileContents');
+  tabsEl.innerHTML=names.map(n=>`<div class="ftab ${n===activeFile?'active':''}" onclick="switchFile('${n}')">${n}</div>`).join('');
+  contEl.innerHTML=names.map(n=>`<div class="tab-content ${n===activeFile?'active':''}"><pre>${esc(files[n])}</pre></div>`).join('');
+  g('activeFilename').textContent=activeFile;
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function switchFile(name){
+  activeFile=name;
+  renderTabs();
+}
+
+function copyActive(){
+  navigator.clipboard.writeText(files[activeFile]||'').then(()=>{
+    const b=document.querySelector('.copy-btn');
+    b.textContent='✓ Copied!';setTimeout(()=>b.textContent='Copy',1500);
+  });
+}
+
+generate();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

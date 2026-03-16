@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prover Market — ZK Prover & Compute Tools | CryptoForge</title>
+<meta name="description" content="ZK proof generators, prover marketplaces, circuit templates, batch verification, and reputation staking. Power the modular rollup ecosystem.">
+<meta property="og:title" content="Prover Market — ZK Prover & Compute Tools | CryptoForge">
+<meta property="og:description" content="ZK proof generators, prover marketplaces, circuit templates, batch verification, and reputation staking. Power the modular rollup ecosystem.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://provermarket.cryptoforge.dev">
+<meta property="og:image" content="assets/og-prover-market.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script defer data-domain="provermarket.cryptoforge.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                         NAVIGATION                            -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <span class="logo-icon">&#x26A1;</span>
+      <span class="logo-text">PROVER<span class="logo-accent">MARKET</span></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#products">Products</a>
+      <a href="#bundles">Bundles</a>
+      <a href="#features">Features</a>
+      <a href="#free">Free Tools</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://cryptoforge.dev" class="nav-cta">All Stores &rarr;</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                            HERO                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">CryptoForge Store #10</div>
+    <h1 class="hero-title">
+      <span class="gradient-text">Prover Market</span>
+    </h1>
+    <p class="hero-subtitle">
+      ZK prover infrastructure, compute tools, and proof marketplace for the modular era.<br>
+      Generate, verify, batch, and monetize zero-knowledge proofs.
+    </p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-value">8</span>
+        <span class="stat-label">Products</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">2</span>
+        <span class="stat-label">Bundles</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">$7.99</span>
+        <span class="stat-label">From</span>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a href="#products" class="btn btn-primary">Browse Products</a>
+      <a href="#bundles" class="btn btn-outline">View Bundles</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          PRODUCTS                             -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="products">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Products</h2>
+      <p class="section-subtitle">Professional ZK prover tooling for the modular rollup ecosystem</p>
+    </div>
+    <div class="product-grid">
+
+      <!-- Product 1: Proof Generator CLI -->
+      <div class="product-card" data-product="proof-generator-cli">
+        <div class="product-number">#1</div>
+        <div class="product-category">CLI</div>
+        <h3 class="product-name">Proof Generator CLI</h3>
+        <p class="product-desc">CLI for generating ZK proofs (Groth16, PLONK, STARK wrappers).</p>
+        <div class="product-tech">
+          <span class="tech-tag">Rust</span>
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">PyO3</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$14.99</span>
+          <a href="#" class="btn btn-sm btn-primary" data-product="proof-generator-cli">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 2: Prover Marketplace Contract -->
+      <div class="product-card" data-product="prover-marketplace-contract">
+        <div class="product-number">#2</div>
+        <div class="product-category">Contracts</div>
+        <h3 class="product-name">Prover Marketplace Contract</h3>
+        <p class="product-desc">Marketplace: job posting, bidding, staking, settlement.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">OpenZeppelin</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$19.99</span>
+          <a href="#" class="btn btn-sm btn-primary" data-product="prover-marketplace-contract">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 3: Proof Verifier Contracts -->
+      <div class="product-card" data-product="proof-verifier-contracts">
+        <div class="product-number">#3</div>
+        <div class="product-category">Contracts</div>
+        <h3 class="product-name">Proof Verifier Contracts</h3>
+        <p class="product-desc">On-chain verifier contracts for common proof systems.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">OpenZeppelin</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-primary" data-product="proof-verifier-contracts">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 4: Prover Monitoring -->
+      <div class="product-card" data-product="prover-monitoring">
+        <div class="product-number">#4</div>
+        <div class="product-category">Frontend</div>
+        <h3 class="product-name">Prover Monitoring</h3>
+        <p class="product-desc">Dashboard for prover uptime, throughput, job queue, revenue.</p>
+        <div class="product-tech">
+          <span class="tech-tag">React 18</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Recharts</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-primary" data-product="prover-monitoring">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 5: Benchmark Suite -->
+      <div class="product-card" data-product="benchmark-suite">
+        <div class="product-number">#5</div>
+        <div class="product-category">Tooling</div>
+        <h3 class="product-name">Benchmark Suite</h3>
+        <p class="product-desc">Prover hardware benchmarking + profitability calculator.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">NumPy</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$7.99</span>
+          <a href="#" class="btn btn-sm btn-primary" data-product="benchmark-suite">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 6: Proof Batching Engine -->
+      <div class="product-card" data-product="proof-batching-engine">
+        <div class="product-number">#6</div>
+        <div class="product-category">Contracts</div>
+        <h3 class="product-name">Proof Batching Engine</h3>
+        <p class="product-desc">Batch multiple proofs for cost-efficient on-chain verification.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">ethers.js</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$12.99</span>
+          <a href="#" class="btn btn-sm btn-primary" data-product="proof-batching-engine">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 7: ZK Circuit Templates -->
+      <div class="product-card" data-product="zk-circuit-templates">
+        <div class="product-number">#7</div>
+        <div class="product-category">Circuits</div>
+        <h3 class="product-name">ZK Circuit Templates</h3>
+        <p class="product-desc">Common circuit templates (Merkle proofs, range proofs, identity).</p>
+        <div class="product-tech">
+          <span class="tech-tag">Circom</span>
+          <span class="tech-tag">Noir</span>
+          <span class="tech-tag">TypeScript</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$14.99</span>
+          <a href="#" class="btn btn-sm btn-primary" data-product="zk-circuit-templates">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 8: Reputation Staking -->
+      <div class="product-card" data-product="reputation-staking">
+        <div class="product-number">#8</div>
+        <div class="product-category">Contracts</div>
+        <h3 class="product-name">Reputation Staking</h3>
+        <p class="product-desc">Staking + reputation system for prover quality assurance.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">OpenZeppelin</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-primary" data-product="reputation-staking">Buy Now</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          BUNDLES                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="bundles">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Bundles</h2>
+      <p class="section-subtitle">Save big with curated product bundles</p>
+    </div>
+    <div class="bundle-grid">
+
+      <!-- Starter Bundle -->
+      <div class="bundle-card">
+        <div class="bundle-badge">Save 39%</div>
+        <h3 class="bundle-name">Starter Bundle</h3>
+        <p class="bundle-desc">CLI + verifiers + benchmarks. Everything to start generating and verifying proofs.</p>
+        <ul class="bundle-includes">
+          <li>Proof Generator CLI <span class="bundle-item-price">$14.99</span></li>
+          <li>Proof Verifier Contracts <span class="bundle-item-price">$9.99</span></li>
+          <li>Benchmark Suite <span class="bundle-item-price">$7.99</span></li>
+        </ul>
+        <div class="bundle-pricing">
+          <span class="bundle-original">$32.97</span>
+          <span class="bundle-price">$19.99</span>
+        </div>
+        <button class="btn btn-primary btn-block" data-product="starter-bundle">Get Starter Bundle</button>
+      </div>
+
+      <!-- Pro Bundle -->
+      <div class="bundle-card bundle-featured">
+        <div class="bundle-badge">Save 55%</div>
+        <div class="bundle-popular">Most Popular</div>
+        <h3 class="bundle-name">Pro Bundle</h3>
+        <p class="bundle-desc">The complete ZK prover toolkit. All 8 products at over 55% off.</p>
+        <ul class="bundle-includes">
+          <li>Proof Generator CLI <span class="bundle-item-price">$14.99</span></li>
+          <li>Prover Marketplace Contract <span class="bundle-item-price">$19.99</span></li>
+          <li>Proof Verifier Contracts <span class="bundle-item-price">$9.99</span></li>
+          <li>Prover Monitoring <span class="bundle-item-price">$9.99</span></li>
+          <li>Benchmark Suite <span class="bundle-item-price">$7.99</span></li>
+          <li>Proof Batching Engine <span class="bundle-item-price">$12.99</span></li>
+          <li>ZK Circuit Templates <span class="bundle-item-price">$14.99</span></li>
+          <li>Reputation Staking <span class="bundle-item-price">$9.99</span></li>
+        </ul>
+        <div class="bundle-pricing">
+          <span class="bundle-original">$100.92</span>
+          <span class="bundle-price">$44.99</span>
+        </div>
+        <button class="btn btn-primary btn-block" data-product="pro-bundle">Get Pro Bundle</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                         FEATURES                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Why Prover Market?</h2>
+      <p class="section-subtitle">Built by ZK engineers for the modular rollup ecosystem</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F50D;</div>
+        <h3>Multi-Proof System</h3>
+        <p>Groth16, PLONK, and STARK support out of the box. One CLI, multiple backends.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F3ED;</div>
+        <h3>Production Ready</h3>
+        <p>Gas-optimized contracts, comprehensive tests, and NatSpec documentation throughout.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F4B0;</div>
+        <h3>Prover Economics</h3>
+        <p>Benchmark your hardware, calculate ROI, and find profitable proof generation jobs.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F6E1;</div>
+        <h3>Quality Assurance</h3>
+        <p>Reputation staking ensures provers deliver valid proofs on time, every time.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x26A1;</div>
+        <h3>Batch Verification</h3>
+        <p>Aggregate multiple proofs for 5-10x gas savings on verification costs.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F527;</div>
+        <h3>Circuit Templates</h3>
+        <p>Pre-built Circom and Noir circuits for Merkle proofs, range proofs, and identity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                       FREE TOOLS                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="free">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Free Resources</h2>
+      <p class="section-subtitle">Start your ZK journey with these free guides</p>
+    </div>
+    <div class="lead-grid">
+      <div class="lead-card">
+        <div class="lead-format">PDF</div>
+        <h3>ZK Prover Economics Guide</h3>
+        <p>Revenue, costs, and profitability analysis for prover operators in the modular era.</p>
+        <button class="btn btn-outline btn-sm">Download Free Guide</button>
+      </div>
+      <div class="lead-card">
+        <div class="lead-format">PDF</div>
+        <h3>Circuit Design Cheatsheet</h3>
+        <p>Quick reference for Circom and Noir circuit optimization patterns and gas formulas.</p>
+        <button class="btn btn-outline btn-sm">Get Free Cheatsheet</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                      LEAD MAGNETS                             -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="newsletter">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Free Resources</span></h2>
+    <p class="section-desc">Get started with free guides and cheat sheets.</p>
+    <div class="lead-magnet-grid">
+      <div class="lead-magnet-card">
+        <h3 class="lead-magnet-card__title">ZK Proof Optimization Handbook</h3>
+        <p class="lead-magnet-card__desc">Deep dive into proof generation optimization: circuit design patterns, witness computation tricks, and parallelization strategies for Groth16, PLONK, and Halo2.</p>
+        <form class="lead-magnet-card__form" data-magnet="zk-proof-optimization">
+          <input type="email" class="lead-magnet-card__input" placeholder="you@example.com" required>
+          <button type="submit" class="btn btn-secondary">Get Free Handbook</button>
+        </form>
+      </div>
+      <div class="lead-magnet-card">
+        <h3 class="lead-magnet-card__title">Prover Economics Calculator</h3>
+        <p class="lead-magnet-card__desc">Spreadsheet + guide for modeling prover profitability: hardware costs, proof generation throughput, job pricing, and ROI projections for the prover marketplace.</p>
+        <form class="lead-magnet-card__form" data-magnet="prover-economics-calc">
+          <input type="email" class="lead-magnet-card__input" placeholder="you@example.com" required>
+          <button type="submit" class="btn btn-secondary">Get Free Calculator</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          FAQ                                  -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="faq">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">FAQ</span></h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h3 class="faq-question">What proof systems are supported?</h3>
+        <p class="faq-answer">The toolkit includes templates and tooling for Groth16, PLONK, and Halo2 proof systems. The Proof Generator CLI supports multiple backends, and the ZK Circuit Templates ship with Circom and Noir implementations.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Is a GPU required?</h3>
+        <p class="faq-answer">No — the Benchmark Suite tests both CPU and GPU configurations. GPU acceleration significantly speeds up proof generation, but all tools work on CPU-only hardware for development and testing.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What chains are supported?</h3>
+        <p class="faq-answer">Verifier contracts deploy to Ethereum and any EVM chain that supports the required precompiles. The marketplace and staking contracts work on Ethereum, Arbitrum, Base, and Optimism.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Are the contracts audited?</h3>
+        <p class="faq-answer">Every contract includes comprehensive Foundry test suites (unit, fuzz, and invariant tests) and detailed security notes. We recommend a professional audit before mainnet deployment.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What license are the products under?</h3>
+        <p class="faq-answer">All products are MIT licensed. You can use, modify, and distribute them in commercial projects without restriction.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What support is included?</h3>
+        <p class="faq-answer">The Pro Bundle includes 30 days of priority support. Individual product purchases are supported through our community channels. All products include documentation and examples.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                       CROSS-SELL                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="related">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Related Stores</h2>
+      <p class="section-subtitle">Explore more CryptoForge tooling</p>
+    </div>
+    <div class="cross-grid">
+      <a href="https://rollupkit.cryptoforge.dev" class="cross-card">
+        <h3>Rollup Kit</h3>
+        <p>Power your rollup's proof pipeline with Prover Market tooling.</p>
+      </a>
+      <a href="https://oracleforge.cryptoforge.dev" class="cross-card">
+        <h3>Oracle Forge</h3>
+        <p>Feed verified data into ZK circuits with Oracle Forge data providers.</p>
+      </a>
+      <a href="https://stakingkit.cryptoforge.dev" class="cross-card">
+        <h3>Staking Kit</h3>
+        <p>Build staking infrastructure for prover reputation and collateral.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          FOOTER                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-icon">&#x26A1;</span>
+        <span class="logo-text">PROVER<span class="logo-accent">MARKET</span></span>
+        <p class="footer-tagline">A CryptoForge Store</p>
+      </div>
+      <div class="footer-links">
+        <a href="#products">Products</a>
+        <a href="#bundles">Bundles</a>
+        <a href="#features">Features</a>
+        <a href="https://cryptoforge.dev">CryptoForge</a>
+      </div>
+      <div class="footer-legal">
+        <p>&copy; 2025 CryptoForge. All rights reserved.</p>
+        <p class="footer-disclaimer">Smart contracts are unaudited. Use at your own risk. Not financial advice.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

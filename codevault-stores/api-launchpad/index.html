@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Launchpad — CodeVault</title>
+    <meta name="description" content="Production-ready Python API tools: REST starters, GraphQL boilerplates, webhook handlers, rate limiters, and more. Zero dependencies. Instant download.">
+    <meta name="keywords" content="python api, rest api starter, graphql boilerplate, webhook handler, rate limiter, api key manager, openapi generator, python stdlib">
+    <link rel="canonical" href="https://api-launchpad.codevault.dev/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="API Launchpad — CodeVault">
+    <meta property="og:description" content="Production-ready Python API tools: REST starters, GraphQL boilerplates, webhook handlers, rate limiters, and more. Zero dependencies. Instant download.">
+    <meta property="og:site_name" content="CodeVault">
+    <meta property="og:url" content="https://api-launchpad.codevault.dev/">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="API Launchpad — CodeVault">
+    <meta name="twitter:description" content="Production-ready Python API tools: REST starters, GraphQL boilerplates, webhook handlers, rate limiters, and more. Zero dependencies. Instant download.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#FF9100">
+
+    <!-- Plausible Analytics -->
+    <script defer data-domain="api-launchpad.codevault.dev" src="https://plausible.io/js/script.js"></script>
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Store",
+        "name": "API Launchpad",
+        "description": "Production-ready Python API tools for indie hackers and solo developers.",
+        "url": "https://api-launchpad.codevault.dev/",
+        "offers": {
+            "@type": "AggregateOffer",
+            "lowPrice": "4.99",
+            "highPrice": "39.99",
+            "priceCurrency": "USD",
+            "offerCount": "12"
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- Cross-Store Navigation -->
+    <nav class="cross-nav" aria-label="CodeVault stores">
+        <div class="cross-nav__inner">
+            <span class="cross-nav__brand">CodeVault</span>
+            <a href="../seo-toolkit/storefront/index.html" class="cross-nav__link">SEO Toolkit</a>
+            <a href="../email-arsenal/storefront/index.html" class="cross-nav__link">Email Arsenal</a>
+            <a href="../form-forge/storefront/index.html" class="cross-nav__link">Form Forge</a>
+            <a href="#" class="cross-nav__link cross-nav__link--active">API Launchpad</a>
+            <a href="../deploy-kit/storefront/index.html" class="cross-nav__link">Deploy Kit</a>
+            <a href="../auth-vault/storefront/index.html" class="cross-nav__link">Auth Vault</a>
+            <a href="../saas-starter/storefront/index.html" class="cross-nav__link">SaaS Starter</a>
+            <a href="../analytics-hub/storefront/index.html" class="cross-nav__link">Analytics Hub</a>
+            <a href="../payment-stack/storefront/index.html" class="cross-nav__link">Payment Stack</a>
+            <a href="../ai-toolkit/storefront/index.html" class="cross-nav__link">AI Toolkit</a>
+            <a href="../security-kit/storefront/index.html" class="cross-nav__link">Security Kit</a>
+            <a href="../landing-lab/storefront/index.html" class="cross-nav__link">Landing Lab</a>
+            <a href="../automation-hub/storefront/index.html" class="cross-nav__link">Automation Hub</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="top">
+        <div class="container">
+            <h1 class="hero__title glitch" data-text="API Launchpad">API Launchpad</h1>
+            <p class="hero__subtitle">Launch your API in minutes. Not months. Zero dependencies, production-ready Python.</p>
+            <div class="hero__cta-row">
+                <a href="#products" class="btn btn--primary">Browse Tools</a>
+                <a href="#faq" class="btn btn--secondary">How it works</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Products Section -->
+    <section class="section" id="products">
+        <div class="container">
+            <h2 class="section__heading">What&rsquo;s in stock</h2>
+            <p class="section__subheading">Production-ready API tools. No filler, no fluff.</p>
+
+            <div class="filter-bar">
+                <span class="filter-bar__label">Filter:</span>
+                <button class="filter-tag active" data-filter="all">All</button>
+                <button class="filter-tag" data-filter="bundle">bundle</button>
+                <button class="filter-tag" data-filter="starter">starter</button>
+                <button class="filter-tag" data-filter="tool">tool</button>
+                <button class="filter-tag" data-filter="generator">generator</button>
+                <button class="filter-tag" data-filter="framework">framework</button>
+                <select class="sort-select" aria-label="Sort products">
+                    <option value="default">Sort: Featured</option>
+                    <option value="price-asc">Price: Low &rarr; High</option>
+                    <option value="price-desc">Price: High &rarr; Low</option>
+                </select>
+            </div>
+
+            <div class="product-grid" id="product-grid">
+
+                <!-- Bundle: API Launchpad Starter Bundle -->
+                <article class="product-card product-card--bundle fade-in"
+                         data-tags="bundle,starter"
+                         data-price="1999"
+                         data-slug="api-launchpad-starter-bundle">
+                    <div class="product-card__inner">
+                        <div>
+                            <span class="bundle-badge">&#128994; BUNDLE DEAL</span>
+                            <h3 class="product-card__name" style="margin-top:12px">API Launchpad Starter Bundle</h3>
+                            <p class="product-card__desc">Everything you need to launch and protect your first API &mdash; REST starter, webhooks, rate limiting, and API keys at 20% off.</p>
+                            <div class="product-card__tags">
+                                <span class="product-card__tag">bundle</span>
+                                <span class="product-card__tag">starter</span>
+                            </div>
+                            <ul class="product-card__bundle-list">
+                                <li>REST API Starter</li>
+                                <li>Webhook Handler</li>
+                                <li>Rate Limiter</li>
+                                <li>API Key Manager</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="product-card__price" style="font-size:1.6rem;margin-bottom:8px">$19.99</p>
+                            <p style="font-size:0.82rem;color:var(--cv-text-dim);margin-bottom:16px">Save vs. $24.96 individually</p>
+                            <div class="product-card__actions">
+                                <a href="https://buy.stripe.com/PLACEHOLDER_api-launchpad-starter-bundle"
+                                   class="btn btn--primary btn--card"
+                                   data-product="api-launchpad-starter-bundle">
+                                    Grab This Bundle
+                                </a>
+                                <button class="btn btn--crypto btn--card"
+                                        data-crypto-product="API Launchpad Starter Bundle"
+                                        data-crypto-price="1999">
+                                    Pay with Crypto ($16.99)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Bundle: API Launchpad Pro Bundle -->
+                <article class="product-card product-card--bundle fade-in"
+                         data-tags="bundle,pro"
+                         data-price="3999"
+                         data-slug="api-launchpad-pro-bundle">
+                    <div class="product-card__inner">
+                        <div>
+                            <span class="bundle-badge">&#128142; PRO BUNDLE</span>
+                            <h3 class="product-card__name" style="margin-top:12px">API Launchpad Pro Bundle</h3>
+                            <p class="product-card__desc">Every product in API Launchpad &mdash; all 10 tools. REST, GraphQL, webhooks, rate limiting, API keys, OpenAPI, mock servers, testing, versioning, and docs. Save 43%.</p>
+                            <div class="product-card__tags">
+                                <span class="product-card__tag">bundle</span>
+                                <span class="product-card__tag">pro</span>
+                            </div>
+                            <ul class="product-card__bundle-list">
+                                <li>REST API Starter + GraphQL Boilerplate</li>
+                                <li>Webhook Handler + Rate Limiter</li>
+                                <li>API Key Manager + OpenAPI Spec Generator</li>
+                                <li>Mock Server Builder + API Test Framework</li>
+                                <li>API Versioning Toolkit + API Docs Generator</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="product-card__price" style="font-size:1.6rem;margin-bottom:8px">$39.99</p>
+                            <p style="font-size:0.82rem;color:var(--cv-text-dim);margin-bottom:16px">Save 43% vs. $69.90 individually</p>
+                            <div class="product-card__actions">
+                                <a href="https://buy.stripe.com/PLACEHOLDER_api-launchpad-pro-bundle"
+                                   class="btn btn--primary btn--card"
+                                   data-product="api-launchpad-pro-bundle">
+                                    Grab This Bundle
+                                </a>
+                                <button class="btn btn--crypto btn--card"
+                                        data-crypto-product="API Launchpad Pro Bundle"
+                                        data-crypto-price="3999">
+                                    Pay with Crypto ($33.99)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product: REST API Starter -->
+                <article class="product-card fade-in"
+                         data-tags="starter,python,rest"
+                         data-price="999"
+                         data-slug="rest-api-starter">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">🚀</div>
+                            <h3 class="product-card__name">REST API Starter</h3>
+                        </div>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Production-ready REST API boilerplate with routing, middleware, error handling, and auto-generated OpenAPI docs. Zero dependencies.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">starter</span>
+                        <span class="product-card__tag">rest</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_rest-api-starter"
+                           class="btn btn--primary btn--card"
+                           data-product="rest-api-starter">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="REST API Starter"
+                                data-crypto-price="999">
+                            Pay with Crypto ($8.49)
+                        </button>
+                        <a href="preview-rest-api-starter.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: GraphQL Boilerplate -->
+                <article class="product-card fade-in"
+                         data-tags="starter,graphql,python"
+                         data-price="999"
+                         data-slug="graphql-boilerplate">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">◈</div>
+                            <h3 class="product-card__name">GraphQL Boilerplate</h3>
+                        </div>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Python GraphQL server with schema definition, resolvers, introspection, and a built-in query explorer. Pure stdlib.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">starter</span>
+                        <span class="product-card__tag">graphql</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_graphql-boilerplate"
+                           class="btn btn--primary btn--card"
+                           data-product="graphql-boilerplate">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="GraphQL Boilerplate"
+                                data-crypto-price="999">
+                            Pay with Crypto ($8.49)
+                        </button>
+                        <a href="preview-graphql-boilerplate.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Webhook Handler -->
+                <article class="product-card fade-in"
+                         data-tags="tool,webhook,python"
+                         data-price="499"
+                         data-slug="webhook-handler">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">🪝</div>
+                            <h3 class="product-card__name">Webhook Handler</h3>
+                        </div>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Webhook receiver with HMAC-SHA256 signature verification, retry logic, dead letter queuing, and event routing. Supports Stripe, GitHub, and generic HMAC.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">tool</span>
+                        <span class="product-card__tag">webhook</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_webhook-handler"
+                           class="btn btn--primary btn--card"
+                           data-product="webhook-handler">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Webhook Handler"
+                                data-crypto-price="499">
+                            Pay with Crypto ($4.24)
+                        </button>
+                        <a href="preview-webhook-handler.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Rate Limiter -->
+                <article class="product-card fade-in"
+                         data-tags="tool,rate-limiting,python"
+                         data-price="499"
+                         data-slug="rate-limiter">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">⏱️</div>
+                            <h3 class="product-card__name">Rate Limiter</h3>
+                        </div>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Four rate limiting algorithms: Token Bucket, Sliding Window Log/Counter, Fixed Window. IP-based, API-key-based, with X-RateLimit-* headers.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">tool</span>
+                        <span class="product-card__tag">rate-limiting</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_rate-limiter"
+                           class="btn btn--primary btn--card"
+                           data-product="rate-limiter">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Rate Limiter"
+                                data-crypto-price="499">
+                            Pay with Crypto ($4.24)
+                        </button>
+                        <a href="preview-rate-limiter.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: API Key Manager -->
+                <article class="product-card fade-in"
+                         data-tags="tool,auth,python"
+                         data-price="499"
+                         data-slug="api-key-manager">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">🔑</div>
+                            <h3 class="product-card__name">API Key Manager</h3>
+                        </div>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Complete API key lifecycle: generation, HMAC validation, expiration, scope-based permissions, rotation with grace periods, and usage tracking.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">tool</span>
+                        <span class="product-card__tag">auth</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_api-key-manager"
+                           class="btn btn--primary btn--card"
+                           data-product="api-key-manager">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="API Key Manager"
+                                data-crypto-price="499">
+                            Pay with Crypto ($4.24)
+                        </button>
+                        <a href="preview-api-key-manager.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: OpenAPI Spec Generator -->
+                <article class="product-card fade-in"
+                         data-tags="generator,openapi,python"
+                         data-price="999"
+                         data-slug="openapi-spec-generator">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">📋</div>
+                            <h3 class="product-card__name">OpenAPI Spec Generator</h3>
+                        </div>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Auto-generate OpenAPI 3.0 specs by introspecting Python function signatures and docstrings. Output valid YAML or JSON for Swagger UI, Redoc, or Postman.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">generator</span>
+                        <span class="product-card__tag">openapi</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_openapi-spec-generator"
+                           class="btn btn--primary btn--card"
+                           data-product="openapi-spec-generator">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="OpenAPI Spec Generator"
+                                data-crypto-price="999">
+                            Pay with Crypto ($8.49)
+                        </button>
+                        <a href="preview-openapi-spec-generator.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Mock Server Builder -->
+                <article class="product-card fade-in"
+                         data-tags="tool,testing,python"
+                         data-price="499"
+                         data-slug="mock-server-builder">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">🎭</div>
+                            <h3 class="product-card__name">Mock Server Builder</h3>
+                        </div>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Reads an OpenAPI 3.0 spec and spins up a mock HTTP server returning example responses, with request validation and hot-reload.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">tool</span>
+                        <span class="product-card__tag">testing</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_mock-server-builder"
+                           class="btn btn--primary btn--card"
+                           data-product="mock-server-builder">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Mock Server Builder"
+                                data-crypto-price="499">
+                            Pay with Crypto ($4.24)
+                        </button>
+                        <a href="preview-mock-server-builder.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: API Test Framework -->
+                <article class="product-card fade-in"
+                         data-tags="framework,testing,python"
+                         data-price="999"
+                         data-slug="api-test-framework">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">🧪</div>
+                            <h3 class="product-card__name">API Test Framework</h3>
+                        </div>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Fluent API testing with chainable assertions, performance benchmarks (p50/p95/p99), and HTML report generation. No third-party dependencies.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">framework</span>
+                        <span class="product-card__tag">testing</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_api-test-framework"
+                           class="btn btn--primary btn--card"
+                           data-product="api-test-framework">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="API Test Framework"
+                                data-crypto-price="999">
+                            Pay with Crypto ($8.49)
+                        </button>
+                        <a href="preview-api-test-framework.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: API Versioning Toolkit -->
+                <article class="product-card fade-in"
+                         data-tags="tool,versioning,python"
+                         data-price="499"
+                         data-slug="api-versioning-toolkit">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">🔀</div>
+                            <h3 class="product-card__name">API Versioning Toolkit</h3>
+                        </div>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Three versioning strategies: URL path (/v1/), custom header, query param. Includes deprecation warnings and migration helpers.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">tool</span>
+                        <span class="product-card__tag">versioning</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_api-versioning-toolkit"
+                           class="btn btn--primary btn--card"
+                           data-product="api-versioning-toolkit">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="API Versioning Toolkit"
+                                data-crypto-price="499">
+                            Pay with Crypto ($4.24)
+                        </button>
+                        <a href="preview-api-versioning-toolkit.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: API Docs Generator -->
+                <article class="product-card fade-in"
+                         data-tags="generator,docs,python"
+                         data-price="999"
+                         data-slug="api-docs-generator">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">📖</div>
+                            <h3 class="product-card__name">API Docs Generator</h3>
+                        </div>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Transforms OpenAPI 3.0 specs into beautiful, self-contained static HTML documentation with dark theme, syntax highlighting, and search.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">generator</span>
+                        <span class="product-card__tag">docs</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_api-docs-generator"
+                           class="btn btn--primary btn--card"
+                           data-product="api-docs-generator">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="API Docs Generator"
+                                data-crypto-price="999">
+                            Pay with Crypto ($8.49)
+                        </button>
+                        <a href="preview-api-docs-generator.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Signals -->
+    <section class="trust-section" id="trust">
+        <div class="container">
+            <h2 class="section__heading">Why devs ship with these</h2>
+            <p class="section__subheading">Built by developers, for developers</p>
+            <div class="trust-grid">
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#9889;</div>
+                    <p class="trust-card__text">
+                        <strong>Zero Dependencies</strong>
+                        Every tool runs on Python stdlib only. No pip install, no venv, no dependency hell.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#127959;&#65039;</div>
+                    <p class="trust-card__text">
+                        <strong>Production Ready</strong>
+                        Built from real-world API patterns. Error handling, logging, and security included.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128274;</div>
+                    <p class="trust-card__text">
+                        <strong>MIT Licensed &mdash; use anywhere</strong>
+                        Personal projects, client work, SaaS products. Full commercial use.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#9881;&#65039;</div>
+                    <p class="trust-card__text">
+                        <strong>CLI-First Design</strong>
+                        All tools include argparse CLIs. Run from terminal, pipe to scripts, automate everything.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- License Tiers -->
+    <section class="tier-section" id="tiers">
+        <div class="container">
+            <h2 class="section__heading">License tiers</h2>
+            <p class="section__subheading">Every purchase is MIT-licensed. Pick what fits.</p>
+            <div class="tier-grid">
+                <div class="tier-card fade-in">
+                    <h3 class="tier-card__name">Personal</h3>
+                    <p class="tier-card__desc">For solo devs and side projects</p>
+                    <ul class="tier-card__features">
+                        <li>Single developer use</li>
+                        <li>Unlimited personal projects</li>
+                        <li>12 months of updates</li>
+                        <li>Community support</li>
+                    </ul>
+                    <a href="#products" class="btn btn--secondary btn--sm">Browse tools</a>
+                </div>
+                <div class="tier-card tier-card--featured fade-in">
+                    <h3 class="tier-card__name">Team</h3>
+                    <p class="tier-card__desc">For small teams and startups (up to 5 devs)</p>
+                    <ul class="tier-card__features">
+                        <li>Up to 5 developers</li>
+                        <li>Unlimited commercial projects</li>
+                        <li>12 months of updates</li>
+                        <li>Email support (48h response)</li>
+                    </ul>
+                    <a href="#products" class="btn btn--primary btn--sm">Grab the Pro Bundle</a>
+                </div>
+                <div class="tier-card fade-in">
+                    <h3 class="tier-card__name">Enterprise</h3>
+                    <p class="tier-card__desc">For larger teams (unlimited devs)</p>
+                    <ul class="tier-card__features">
+                        <li>Unlimited developers</li>
+                        <li>Unlimited commercial projects</li>
+                        <li>24 months of updates</li>
+                        <li>Priority email support (24h)</li>
+                    </ul>
+                    <a href="mailto:support@codevault.dev" class="btn btn--secondary btn--sm">Contact us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter-section" id="newsletter">
+        <div class="container">
+            <div class="newsletter-box fade-in">
+                <h2 class="newsletter-box__title">Stay in the loop</h2>
+                <p class="newsletter-box__desc">Get notified when we ship new API tools. No spam, just releases.</p>
+                <!-- ConvertKit Form ID: PLACEHOLDER -->
+                <form class="newsletter-form"
+                      action="https://app.convertkit.com/forms/PLACEHOLDER/subscriptions"
+                      method="post"
+                      onsubmit="event.preventDefault(); alert('Newsletter coming soon!');">
+                    <input type="email" class="newsletter-form__input"
+                           name="email_address"
+                           placeholder="you@example.com"
+                           required
+                           aria-label="Email address">
+                    <button type="submit" class="newsletter-form__btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Companion App -->
+    <section class="app-section" id="app">
+        <div class="container">
+            <div class="app-promo fade-in">
+                <div class="app-promo__content">
+                    <span class="app-promo__badge">ANDROID APP</span>
+                    <h2 class="app-promo__title">API Launchpad Mobile</h2>
+                    <p class="app-promo__desc">Take your API development toolkit on the go. Dashboard, community templates, daily challenges, and streak rewards &mdash; all in a dark-themed Material&nbsp;3 interface.</p>
+                    <ul class="app-promo__features">
+                        <li>API testing console with request builder</li>
+                        <li>OpenAPI spec generator and mock server</li>
+                        <li>Community sharing &amp; daily challenges</li>
+                        <li>Premium tools via in-app purchase ($0.99&ndash;$4.99)</li>
+                    </ul>
+                    <div class="app-promo__actions">
+                        <a href="https://play.google.com/store/apps/details?id=com.codevault.apilaunchpad" class="btn btn--primary">Get on Google Play</a>
+                        <a href="https://github.com/codevault/api-launchpad-android" class="btn btn--secondary">View Source</a>
+                    </div>
+                </div>
+                <div class="app-promo__visual">
+                    <div class="app-mockup" style="--app-color: #FF9100">
+                        <div class="app-mockup__screen">
+                            <div class="app-mockup__header">API Launchpad</div>
+                            <div class="app-mockup__tabs">
+                                <span class="app-mockup__tab app-mockup__tab--active">Console</span>
+                                <span class="app-mockup__tab">Specs</span>
+                                <span class="app-mockup__tab">Community</span>
+                                <span class="app-mockup__tab">Store</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section__heading">Got questions?</h2>
+            <p class="section__subheading">We got answers.</p>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Do these tools require any pip packages?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">No. Every product uses Python's standard library only. No pip install needed. Just unzip, read the README, and run.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What Python version do I need?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Python 3.10 or newer. We use modern features like match statements, type unions (X | Y), and type hints throughout.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I use these in commercial projects?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Yes. All products are MIT licensed &mdash; use them in personal projects, client work, SaaS products, or internal tools. No attribution required.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do I receive the products after purchase?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Immediately after payment, you'll be redirected to a download page with a secure, time-limited link. You'll also receive an email backup.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Are these libraries or full applications?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Both. Each product works as a standalone CLI tool AND as an importable Python module. Run them from the terminal or import them into your own code.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What if I'm not satisfied?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">30-day money-back guarantee. If the products don't meet your expectations, email support@codevault.dev for a full refund. No questions asked.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__brand">CodeVault</p>
+            <p class="footer__tagline">Ship faster. Build smarter.</p>
+            <nav class="footer__links" aria-label="Other stores">
+                <a href="../seo-toolkit/storefront/index.html" class="footer__link">SEO Toolkit</a>
+                <a href="../email-arsenal/storefront/index.html" class="footer__link">Email Arsenal</a>
+                <a href="../form-forge/storefront/index.html" class="footer__link">Form Forge</a>
+                <a href="../deploy-kit/storefront/index.html" class="footer__link">Deploy Kit</a>
+                <a href="../auth-vault/storefront/index.html" class="footer__link">Auth Vault</a>
+                <a href="../saas-starter/storefront/index.html" class="footer__link">SaaS Starter</a>
+                <a href="../analytics-hub/storefront/index.html" class="footer__link">Analytics Hub</a>
+                <a href="../payment-stack/storefront/index.html" class="footer__link">Payment Stack</a>
+                <a href="../ai-toolkit/storefront/index.html" class="footer__link">AI Toolkit</a>
+                <a href="../security-kit/storefront/index.html" class="footer__link">Security Kit</a>
+                <a href="../landing-lab/storefront/index.html" class="footer__link">Landing Lab</a>
+                <a href="../automation-hub/storefront/index.html" class="footer__link">Automation Hub</a>
+            </nav>
+            <p class="footer__copy">&copy; 2026 CodeVault. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audit Logger — Interactive Demo | Auth Vault</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#E91E63;--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;--red:#FF4B6E;--yellow:#FFD600;--blue:#60A5FA;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;}
+  .badge{background:var(--accent);color:#fff;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-bottom:1.5rem;}
+  @media(max-width:700px){.stats-row{grid-template-columns:repeat(2,1fr);}}
+  .stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.85rem;text-align:center;}
+  .stat-n{font-size:1.4rem;font-weight:700;}
+  .stat-l{font-size:.7rem;color:var(--muted);text-transform:uppercase;margin-top:.2rem;}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;}
+  h3{font-size:1rem;font-weight:700;margin-bottom:1rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+  input,select{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.5rem .75rem;border-radius:8px;font-size:.85rem;font-family:inherit;}
+  input:focus,select:focus{outline:none;border-color:var(--accent);}
+  .filter-bar{display:flex;gap:.75rem;flex-wrap:wrap;align-items:flex-end;margin-bottom:1.25rem;}
+  .filter-bar .fg{display:flex;flex-direction:column;gap:.3rem;}
+  .filter-bar input{width:220px;}
+  .filter-bar select{width:160px;}
+  .btn{padding:.5rem 1.1rem;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;background:var(--accent);color:#fff;}
+  .btn:hover{opacity:.85;}
+  .btn-muted{background:var(--surface2);border:1px solid var(--border);color:var(--text);}
+  /* Log table */
+  .log-table{width:100%;border-collapse:collapse;font-size:.8rem;}
+  .log-table th{text-align:left;padding:.45rem .75rem;color:var(--muted);font-size:.72rem;text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap;}
+  .log-table td{padding:.55rem .75rem;border-bottom:1px solid rgba(42,46,62,.4);vertical-align:middle;}
+  .log-table tr:hover td{background:rgba(255,255,255,.02);}
+  .sev{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:.4rem;}
+  .sev-info{background:var(--blue);}
+  .sev-warning{background:var(--yellow);}
+  .sev-error{background:var(--red);}
+  .sev-critical{background:#ff0055;box-shadow:0 0 6px #ff0055;}
+  .sev-success{background:var(--green);}
+  .ev-badge{display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.7rem;font-weight:600;font-family:monospace;}
+  .ev-auth{background:rgba(233,30,99,.12);color:var(--accent);}
+  .ev-data{background:rgba(96,165,250,.12);color:var(--blue);}
+  .ev-admin{background:rgba(255,75,110,.15);color:var(--red);}
+  .ev-system{background:rgba(136,136,170,.12);color:var(--muted);}
+  .ev-billing{background:rgba(0,255,136,.1);color:var(--green);}
+  .ev-security{background:rgba(255,0,85,.15);color:#ff5588;}
+  .pagination{display:flex;align-items:center;gap:.5rem;justify-content:flex-end;margin-top:1rem;font-size:.82rem;}
+  .pg-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.3rem .65rem;border-radius:6px;cursor:pointer;}
+  .pg-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .pg-btn:disabled{opacity:.4;cursor:default;}
+  /* Live stream */
+  .stream-toggle{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;}
+  .live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 1.5s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+  .live-dot.paused{background:var(--muted);box-shadow:none;animation:none;}
+  /* Detail drawer */
+  .drawer{position:fixed;right:0;top:0;height:100vh;width:380px;background:var(--surface);border-left:1px solid var(--border);padding:1.5rem;overflow-y:auto;transform:translateX(100%);transition:transform .3s;z-index:100;}
+  .drawer.open{transform:translateX(0);}
+  .drawer-close{float:right;background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;}
+  .dr-row{display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid rgba(42,46,62,.5);font-size:.82rem;}
+  .dr-key{color:var(--muted);}
+  .dr-val{font-family:monospace;font-size:.75rem;max-width:220px;word-break:break-all;text-align:right;}
+  pre.meta{background:var(--surface2);border-radius:8px;padding:.85rem;font-size:.72rem;overflow-x:auto;line-height:1.6;color:#cdd6f4;margin-top:.75rem;}
+  .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;}
+  .overlay.open{display:block;}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a1025);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#fff;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">📋</span>
+  <h1>Audit Logger</h1>
+  <span style="color:var(--muted);font-size:.9rem">Interactive Demo</span>
+  <span class="badge">Auth Vault</span>
+</header>
+
+<div class="container">
+  <h2>Security Audit Log Viewer</h2>
+  <p class="subtitle">Real-time audit trail for authentication events, data access, admin actions, and security incidents. Filter, search, and drill into any event.</p>
+
+  <div class="stats-row">
+    <div class="stat"><div class="stat-n" id="sTotal" style="color:var(--text)">0</div><div class="stat-l">Total Events</div></div>
+    <div class="stat"><div class="stat-n" id="sCritical" style="color:#ff5588">0</div><div class="stat-l">Critical</div></div>
+    <div class="stat"><div class="stat-n" id="sError" style="color:var(--red)">0</div><div class="stat-l">Errors</div></div>
+    <div class="stat"><div class="stat-n" id="sWarn" style="color:var(--yellow)">0</div><div class="stat-l">Warnings</div></div>
+    <div class="stat"><div class="stat-n" id="sInfo" style="color:var(--blue)">0</div><div class="stat-l">Info</div></div>
+  </div>
+
+  <div class="panel">
+    <!-- Live stream control -->
+    <div class="stream-toggle">
+      <div class="live-dot" id="liveDot"></div>
+      <span style="font-size:.82rem;font-weight:600">Live Stream</span>
+      <button class="btn btn-muted" id="streamBtn" onclick="toggleStream()" style="padding:.3rem .75rem;font-size:.78rem">Pause</button>
+      <button class="btn btn-muted" onclick="emitEvent()" style="padding:.3rem .75rem;font-size:.78rem">+ Inject Event</button>
+      <button class="btn btn-muted" onclick="clearLogs()" style="padding:.3rem .75rem;font-size:.78rem">Clear</button>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <div class="fg"><label>Search</label><input type="text" id="fSearch" placeholder="user, IP, action..." oninput="applyFilters()"></div>
+      <div class="fg"><label>Severity</label><select id="fSev" onchange="applyFilters()"><option value="">All</option><option>critical</option><option>error</option><option>warning</option><option>info</option><option>success</option></select></div>
+      <div class="fg"><label>Category</label><select id="fCat" onchange="applyFilters()"><option value="">All</option><option>auth</option><option>data</option><option>admin</option><option>billing</option><option>security</option><option>system</option></select></div>
+      <div class="fg"><label>User</label><input type="text" id="fUser" placeholder="filter by user" oninput="applyFilters()" style="width:150px"></div>
+    </div>
+
+    <!-- Table -->
+    <div style="overflow-x:auto">
+      <table class="log-table">
+        <thead><tr><th>Timestamp</th><th>Severity</th><th>Category</th><th>Event</th><th>User</th><th>IP Address</th><th>Details</th></tr></thead>
+        <tbody id="logTbody"></tbody>
+      </table>
+    </div>
+    <div class="pagination">
+      <span id="pgInfo" style="color:var(--muted)"></span>
+      <button class="pg-btn" id="pgPrev" onclick="changePage(-1)">← Prev</button>
+      <button class="pg-btn" id="pgNext" onclick="changePage(1)">Next →</button>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <p>Full version adds tamper-proof log signing, SIEM export (CEF/JSON), webhook alerts, long-term archival, and compliance report generation (SOC2, GDPR).</p>
+    <a href="https://buy.stripe.com/fZu14n7mL2yyfVM4i5gjJ0l" class="cta-btn">Buy Full Version — $14.99</a>
+    <button class="crypto-pay-btn" data-product-slug="audit-logger" data-store-slug="auth-vault" data-product-name="audit-logger" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+
+<!-- Detail Drawer -->
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  <h3 style="margin-bottom:1.5rem">Event Details</h3>
+  <div id="drawerContent"></div>
+</div>
+
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+
+<script>
+const EVENTS = [
+  {cat:'auth',sev:'success',action:'user.login',msg:'User logged in successfully',users:['alice@acme.com','bob@acme.com','carol@acme.com']},
+  {cat:'auth',sev:'error',action:'user.login_failed',msg:'Invalid credentials — 3rd attempt',users:['attacker@evil.com','unknown@test.com']},
+  {cat:'auth',sev:'warning',action:'user.login_failed',msg:'Failed login attempt',users:['alice@acme.com','dave@acme.com']},
+  {cat:'auth',sev:'info',action:'user.logout',msg:'User signed out',users:['alice@acme.com','bob@acme.com']},
+  {cat:'auth',sev:'info',action:'token.refresh',msg:'Access token refreshed',users:['alice@acme.com','carol@acme.com']},
+  {cat:'security',sev:'critical',action:'auth.brute_force',msg:'Brute force detected — IP blocked',users:['system']},
+  {cat:'security',sev:'error',action:'auth.suspicious_ip',msg:'Login from unusual location',users:['alice@acme.com']},
+  {cat:'data',sev:'info',action:'data.read',msg:'Records queried',users:['alice@acme.com','bob@acme.com','carol@acme.com']},
+  {cat:'data',sev:'warning',action:'data.bulk_export',msg:'Bulk data export initiated',users:['alice@acme.com']},
+  {cat:'data',sev:'error',action:'data.access_denied',msg:'Unauthorized data access attempt',users:['bob@acme.com','attacker@evil.com']},
+  {cat:'admin',sev:'info',action:'admin.user_created',msg:'New user account created',users:['admin@acme.com']},
+  {cat:'admin',sev:'warning',action:'admin.role_changed',msg:'User role escalated to admin',users:['admin@acme.com']},
+  {cat:'admin',sev:'critical',action:'admin.config_changed',msg:'Security config modified',users:['admin@acme.com']},
+  {cat:'billing',sev:'success',action:'billing.payment_success',msg:'Subscription payment processed',users:['alice@acme.com','carol@acme.com']},
+  {cat:'billing',sev:'error',action:'billing.payment_failed',msg:'Payment declined',users:['dave@acme.com']},
+  {cat:'system',sev:'info',action:'system.startup',msg:'Auth service started',users:['system']},
+  {cat:'system',sev:'warning',action:'system.high_load',msg:'Request rate exceeding threshold',users:['system']},
+];
+
+const IPS = ['192.168.1.42','10.0.0.15','172.16.0.8','203.0.113.55','198.51.100.3','185.234.219.10','45.155.205.3'];
+let logs = [];
+let filtered = [];
+let page = 0;
+const PAGE_SIZE = 15;
+let streaming = true;
+let streamInterval;
+
+function randEl(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
+function randHex(n) { return [...Array(n)].map(()=>Math.floor(Math.random()*16).toString(16)).join(''); }
+
+function emitEvent() {
+  const tmpl = randEl(EVENTS);
+  const now = new Date();
+  logs.unshift({
+    id: 'evt_'+randHex(8),
+    ts: now.toISOString(),
+    tsStr: now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'}),
+    severity: tmpl.sev,
+    category: tmpl.cat,
+    action: tmpl.action,
+    message: tmpl.msg,
+    user: randEl(tmpl.users),
+    ip: randEl(IPS),
+    requestId: 'req_'+randHex(10),
+    userAgent: randEl(['Mozilla/5.0 (Macintosh)','Chrome/120.0','curl/7.88','Python/requests 2.31']),
+    meta: { duration_ms: Math.floor(Math.random()*400)+10, status: tmpl.sev==='success'?200:tmpl.sev==='error'?401:tmpl.sev==='critical'?403:200 }
+  });
+  if (logs.length > 500) logs.pop();
+  updateStats();
+  applyFilters();
+}
+
+function toggleStream() {
+  streaming = !streaming;
+  document.getElementById('streamBtn').textContent = streaming ? 'Pause' : 'Resume';
+  document.getElementById('liveDot').classList.toggle('paused', !streaming);
+  if (streaming) startStream(); else stopStream();
+}
+
+function startStream() { streamInterval = setInterval(emitEvent, 1800); }
+function stopStream() { clearInterval(streamInterval); }
+
+function clearLogs() { logs=[]; filtered=[]; page=0; updateStats(); renderTable(); }
+
+function updateStats() {
+  document.getElementById('sTotal').textContent = logs.length;
+  document.getElementById('sCritical').textContent = logs.filter(l=>l.severity==='critical').length;
+  document.getElementById('sError').textContent = logs.filter(l=>l.severity==='error').length;
+  document.getElementById('sWarn').textContent = logs.filter(l=>l.severity==='warning').length;
+  document.getElementById('sInfo').textContent = logs.filter(l=>l.severity==='info').length;
+}
+
+function applyFilters() {
+  const search = document.getElementById('fSearch').value.toLowerCase();
+  const sev = document.getElementById('fSev').value;
+  const cat = document.getElementById('fCat').value;
+  const user = document.getElementById('fUser').value.toLowerCase();
+  filtered = logs.filter(l =>
+    (!search || l.action.includes(search)||l.message.toLowerCase().includes(search)||l.ip.includes(search)||l.user.includes(search)) &&
+    (!sev || l.severity===sev) &&
+    (!cat || l.category===cat) &&
+    (!user || l.user.toLowerCase().includes(user))
+  );
+  page = 0;
+  renderTable();
+}
+
+function changePage(d) {
+  const maxPage = Math.ceil(filtered.length/PAGE_SIZE)-1;
+  page = Math.max(0, Math.min(page+d, maxPage));
+  renderTable();
+}
+
+function renderTable() {
+  const tbody = document.getElementById('logTbody');
+  const start = page*PAGE_SIZE;
+  const slice = filtered.slice(start, start+PAGE_SIZE);
+  const maxPage = Math.max(0,Math.ceil(filtered.length/PAGE_SIZE)-1);
+  document.getElementById('pgInfo').textContent = `${start+1}–${Math.min(start+PAGE_SIZE,filtered.length)} of ${filtered.length}`;
+  document.getElementById('pgPrev').disabled = page===0;
+  document.getElementById('pgNext').disabled = page>=maxPage;
+
+  if (!slice.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">No events match filters.</td></tr>';
+    return;
+  }
+
+  const sevColor = {critical:'#ff5588',error:'var(--red)',warning:'var(--yellow)',info:'var(--blue)',success:'var(--green)'};
+  const sevClass = {critical:'sev-critical',error:'sev-error',warning:'sev-warning',info:'sev-info',success:'sev-success'};
+  const catClass = {auth:'ev-auth',data:'ev-data',admin:'ev-admin',system:'ev-system',billing:'ev-billing',security:'ev-security'};
+
+  tbody.innerHTML = slice.map(l => `<tr style="cursor:pointer" onclick="showDetail('${l.id}')">
+    <td style="font-family:monospace;font-size:.75rem;color:var(--muted)">${l.tsStr}</td>
+    <td><span class="sev ${sevClass[l.severity]}"></span><span style="color:${sevColor[l.severity]};font-size:.75rem;font-weight:600">${l.severity.toUpperCase()}</span></td>
+    <td><span class="ev-badge ${catClass[l.category]}">${l.category}</span></td>
+    <td><code style="font-size:.75rem">${l.action}</code></td>
+    <td style="font-size:.78rem">${l.user}</td>
+    <td style="font-family:monospace;font-size:.75rem">${l.ip}</td>
+    <td style="color:var(--muted);font-size:.78rem">${l.message}</td>
+  </tr>`).join('');
+}
+
+function showDetail(id) {
+  const l = logs.find(e=>e.id===id) || filtered.find(e=>e.id===id);
+  if (!l) return;
+  const sevColor = {critical:'#ff5588',error:'var(--red)',warning:'var(--yellow)',info:'var(--blue)',success:'var(--green)'};
+  document.getElementById('drawerContent').innerHTML = `
+    <div class="dr-row"><span class="dr-key">Event ID</span><span class="dr-val">${l.id}</span></div>
+    <div class="dr-row"><span class="dr-key">Timestamp</span><span class="dr-val">${l.ts}</span></div>
+    <div class="dr-row"><span class="dr-key">Action</span><span class="dr-val">${l.action}</span></div>
+    <div class="dr-row"><span class="dr-key">Severity</span><span class="dr-val" style="color:${sevColor[l.severity]}">${l.severity.toUpperCase()}</span></div>
+    <div class="dr-row"><span class="dr-key">Category</span><span class="dr-val">${l.category}</span></div>
+    <div class="dr-row"><span class="dr-key">Message</span><span class="dr-val">${l.message}</span></div>
+    <div class="dr-row"><span class="dr-key">User</span><span class="dr-val">${l.user}</span></div>
+    <div class="dr-row"><span class="dr-key">IP Address</span><span class="dr-val">${l.ip}</span></div>
+    <div class="dr-row"><span class="dr-key">Request ID</span><span class="dr-val">${l.requestId}</span></div>
+    <div class="dr-row"><span class="dr-key">User Agent</span><span class="dr-val">${l.userAgent}</span></div>
+    <div style="margin-top:.75rem;font-size:.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:.4rem">Metadata</div>
+    <pre class="meta">${JSON.stringify(l.meta, null, 2)}</pre>
+  `;
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+// Seed initial events
+for (let i=0;i<40;i++) emitEvent();
+logs.forEach((l,i) => {
+  const ago = (40-i)*4500;
+  const d = new Date(Date.now()-ago);
+  l.ts = d.toISOString();
+  l.tsStr = d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+});
+applyFilters();
+startStream();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

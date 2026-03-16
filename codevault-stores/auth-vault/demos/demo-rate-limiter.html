@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rate Limiter — Interactive Demo | Auth Vault</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#E91E63;--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;--red:#FF4B6E;--yellow:#FFD600;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;} .badge{background:var(--accent);color:#fff;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1000px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:1.5rem;font-size:.95rem;}
+  .algo-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+  .atab{padding:.45rem 1rem;border-radius:8px;font-size:.85rem;cursor:pointer;color:var(--muted);border:1px solid var(--border);transition:all .2s;}
+  .atab.active{background:rgba(233,30,99,.12);border-color:var(--accent);color:var(--accent);}
+  .main-grid{display:grid;grid-template-columns:280px 1fr;gap:1.5rem;}
+  @media(max-width:700px){.main-grid{grid-template-columns:1fr;}}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+  .range-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.85rem;}
+  input[type=range]{flex:1;accent-color:var(--accent);}
+  .rval{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:.15rem .5rem;font-size:.8rem;min-width:3rem;text-align:center;font-family:monospace;}
+  .btn{width:100%;padding:.7rem;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;margin-bottom:.75rem;}
+  .btn:hover{opacity:.85;}
+  .btn-burst{background:var(--surface2);color:var(--text);border:1px solid var(--border);}
+  .btn-burst:hover{border-color:var(--accent);}
+  .btn-reset{background:transparent;color:var(--muted);border:1px solid var(--border);}
+  .viz-area{display:flex;flex-direction:column;gap:.75rem;}
+  .bucket-viz{background:var(--surface2);border-radius:10px;padding:1rem;}
+  .bucket-title{font-size:.8rem;color:var(--muted);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.05em;}
+  .bucket-bar{height:24px;background:var(--surface);border-radius:6px;overflow:hidden;position:relative;}
+  .bucket-fill{height:100%;border-radius:6px;transition:width .4s;background:linear-gradient(90deg,var(--accent),#ff6090);}
+  .bucket-fill.warn{background:linear-gradient(90deg,var(--yellow),#ffaa00);}
+  .bucket-fill.empty{background:var(--red);}
+  .bucket-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:.75rem;font-weight:700;color:#fff;}
+  .request-log{max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:.3rem;padding:.25rem 0;}
+  .req-row{display:flex;align-items:center;gap:.6rem;padding:.3rem .6rem;border-radius:6px;font-size:.78rem;font-family:monospace;}
+  .req-allow{background:rgba(0,255,136,.06);border-left:3px solid var(--green);}
+  .req-deny{background:rgba(255,75,110,.06);border-left:3px solid var(--red);}
+  .req-ts{color:var(--muted);min-width:75px;}
+  .req-status{font-weight:700;min-width:48px;}
+  .st-allow{color:var(--green);}
+  .st-deny{color:var(--red);}
+  .stats-row{display:flex;gap:.75rem;margin-bottom:.75rem;}
+  .stat{flex:1;background:var(--surface2);border-radius:8px;padding:.6rem .85rem;text-align:center;}
+  .stat-n{font-size:1.3rem;font-weight:700;}
+  .stat-l{font-size:.72rem;color:var(--muted);margin-top:.1rem;}
+  .algo-desc{background:var(--surface2);border-radius:8px;padding:.75rem 1rem;font-size:.82rem;color:var(--muted);margin-bottom:1rem;line-height:1.5;}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a1025);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#fff;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">⏱️</span>
+  <h1>Rate Limiter</h1>
+  <span>Interactive Demo</span>
+  <span class="badge">Auth Vault</span>
+</header>
+<div class="container">
+  <h2>Rate Limiting Algorithm Visualizer</h2>
+  <p class="subtitle">See Token Bucket and Leaky Bucket algorithms in action — send requests and watch the state change.</p>
+  <div class="algo-tabs">
+    <div class="atab active" data-algo="token" onclick="setAlgo(this)">Token Bucket</div>
+    <div class="atab" data-algo="leaky" onclick="setAlgo(this)">Leaky Bucket</div>
+    <div class="atab" data-algo="fixed" onclick="setAlgo(this)">Fixed Window</div>
+    <div class="atab" data-algo="sliding" onclick="setAlgo(this)">Sliding Window</div>
+  </div>
+  <div class="main-grid">
+    <div class="panel">
+      <div class="algo-desc" id="algoDesc"></div>
+      <label>Capacity / Limit</label>
+      <div class="range-row">
+        <input type="range" id="capacity" min="5" max="30" value="10" oninput="updateParam('capacity');resetState()">
+        <div class="rval" id="capacity-val">10</div>
+      </div>
+      <label>Refill Rate (tokens/sec)</label>
+      <div class="range-row">
+        <input type="range" id="refill" min="1" max="10" value="2" oninput="updateParam('refill');resetState()">
+        <div class="rval" id="refill-val">2</div>
+      </div>
+      <label>Request Cost</label>
+      <div class="range-row">
+        <input type="range" id="cost" min="1" max="5" value="1" oninput="updateParam('cost')">
+        <div class="rval" id="cost-val">1</div>
+      </div>
+      <button class="btn" onclick="sendRequest()">→ Send Request</button>
+      <button class="btn btn-burst" onclick="sendBurst()">⚡ Send 10 Burst Requests</button>
+      <button class="btn btn-reset" onclick="resetState()">↺ Reset</button>
+    </div>
+    <div>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-n" id="statAllowed" style="color:var(--green)">0</div><div class="stat-l">Allowed</div></div>
+        <div class="stat"><div class="stat-n" id="statDenied" style="color:var(--red)">0</div><div class="stat-l">Denied</div></div>
+        <div class="stat"><div class="stat-n" id="statRate" style="color:var(--accent)">—</div><div class="stat-l">Allow Rate</div></div>
+      </div>
+      <div class="viz-area">
+        <div class="bucket-viz" id="bucketViz"></div>
+        <div class="panel">
+          <label>Request Log</label>
+          <div class="request-log" id="reqLog"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cta-box">
+    <h3>⏱️ Full Rate Limiter — Production Python</h3>
+    <p>Full version includes Redis-backed distributed rate limiting, per-user/IP/endpoint limits, dynamic config, and FastAPI/Django middleware.</p>
+    <a href="https://buy.stripe.com/cNieVddL93CCeRI7uhgjJ0k" class="cta-btn">Buy Full Version — $19.99</a>
+    <button class="crypto-pay-btn" data-product-slug="rate-limiter" data-store-slug="auth-vault" data-product-name="rate-limiter" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+<script>
+let algo='token';
+let tokens=10, capacity=10, refill=2, cost=1;
+let fixedWindow={count:0, reset:Date.now()+1000};
+let slidingRequests=[];
+let allowed=0, denied=0;
+let log=[];
+let refillInterval;
+
+const algoDescs={
+  token:'Token Bucket: Tokens accumulate at a fixed rate. Each request consumes tokens. Allows bursting up to bucket capacity.',
+  leaky:'Leaky Bucket: Requests queue up and drain at a fixed rate. Smooths out bursts — overflow is dropped.',
+  fixed:'Fixed Window: Counts requests in a fixed time window. Resets counter every period. Simple but can allow 2x traffic at window edges.',
+  sliding:'Sliding Window: Tracks requests in a rolling time window. More accurate than fixed window — prevents edge-case spikes.'
+};
+
+function setAlgo(el){
+  document.querySelectorAll('.atab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  algo=el.dataset.algo;
+  resetState();
+  document.getElementById('algoDesc').textContent=algoDescs[algo];
+}
+
+function updateParam(id){
+  const val=document.getElementById(id).value;
+  document.getElementById(id+'-val').textContent=val;
+  if(id==='capacity'){capacity=parseInt(val);tokens=Math.min(tokens,capacity);}
+  else if(id==='refill') refill=parseInt(val);
+  else if(id==='cost') cost=parseInt(val);
+  renderBucket();
+}
+
+function resetState(){
+  capacity=parseInt(document.getElementById('capacity').value);
+  tokens=capacity;
+  fixedWindow={count:0,reset:Date.now()+1000};
+  slidingRequests=[];
+  allowed=0;denied=0;log=[];
+  updateStats();
+  renderBucket();
+  document.getElementById('reqLog').innerHTML='';
+  if(refillInterval) clearInterval(refillInterval);
+  refillInterval=setInterval(refillTokens,500);
+}
+
+function refillTokens(){
+  if(algo==='token'){
+    tokens=Math.min(capacity,tokens+refill/2);
+    renderBucket();
+  }
+}
+
+function checkRateLimit(){
+  const now=Date.now();
+  if(algo==='token'){
+    if(tokens>=cost){tokens-=cost;return true;}
+    return false;
+  } else if(algo==='leaky'){
+    if(tokens>=cost){tokens-=cost;return true;}
+    return false;
+  } else if(algo==='fixed'){
+    if(now>fixedWindow.reset){fixedWindow={count:0,reset:now+1000};}
+    if(fixedWindow.count<capacity){fixedWindow.count++;return true;}
+    return false;
+  } else { // sliding
+    const windowMs=1000;
+    slidingRequests=slidingRequests.filter(t=>now-t<windowMs);
+    if(slidingRequests.length<capacity){slidingRequests.push(now);return true;}
+    return false;
+  }
+}
+
+function sendRequest(){
+  cost=parseInt(document.getElementById('cost').value);
+  const ok=checkRateLimit();
+  if(ok) allowed++;else denied++;
+  const entry={ts:new Date().toLocaleTimeString('en',{hour12:false}),ok,ip:'10.0.1.'+Math.floor(Math.random()*255)};
+  log.unshift(entry);
+  if(log.length>50) log.pop();
+  updateStats();
+  renderBucket();
+  renderLog();
+}
+
+function sendBurst(){
+  for(let i=0;i<10;i++) setTimeout(sendRequest,i*60);
+}
+
+function updateStats(){
+  document.getElementById('statAllowed').textContent=allowed;
+  document.getElementById('statDenied').textContent=denied;
+  const total=allowed+denied;
+  document.getElementById('statRate').textContent=total?Math.round(allowed/total*100)+'%':'—';
+}
+
+function renderBucket(){
+  let pct, label, title;
+  if(algo==='token'||algo==='leaky'){
+    pct=tokens/capacity*100;
+    label=`${tokens.toFixed(1)} / ${capacity} tokens`;
+    title=algo==='token'?'Token Bucket':'Leaky Bucket';
+  } else if(algo==='fixed'){
+    pct=fixedWindow.count/capacity*100;
+    label=`${fixedWindow.count} / ${capacity} requests`;
+    title='Fixed Window';
+  } else {
+    const now=Date.now();
+    const active=slidingRequests.filter(t=>now-t<1000).length;
+    pct=active/capacity*100;
+    label=`${active} / ${capacity} in window`;
+    title='Sliding Window (1s)';
+  }
+  const fillCls=pct>60?'':pct>25?'warn':'empty';
+  document.getElementById('bucketViz').innerHTML=`
+    <div class="bucket-title">${title}</div>
+    <div class="bucket-bar">
+      <div class="bucket-fill ${fillCls}" style="width:${pct}%"></div>
+      <div class="bucket-label">${label}</div>
+    </div>`;
+}
+
+function renderLog(){
+  document.getElementById('reqLog').innerHTML=log.map(e=>`
+    <div class="req-row ${e.ok?'req-allow':'req-deny'}">
+      <span class="req-ts">${e.ts}</span>
+      <span class="req-status ${e.ok?'st-allow':'st-deny'}">${e.ok?'ALLOW':'DENY'}</span>
+      <span style="color:var(--muted)">from ${e.ip}</span>
+    </div>`).join('');
+}
+
+document.getElementById('algoDesc').textContent=algoDescs[algo];
+resetState();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

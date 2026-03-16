@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CI/CD Pipeline Kit — Interactive Demo | Deploy Kit</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#00BCD4;--text:#EAEAFF;--muted:#8888AA;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;} header span{color:var(--muted);font-size:.85rem;}
+  .badge{background:var(--accent);color:#000;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1000px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .grid{display:grid;grid-template-columns:300px 1fr;gap:1.5rem;}
+  @media(max-width:700px){.grid{grid-template-columns:1fr;}}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;}
+  select,input{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.6rem .8rem;border-radius:8px;font-size:.9rem;margin-bottom:1rem;}
+  select:focus,input:focus{outline:none;border-color:var(--accent);}
+  .checks{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem;}
+  .checks label{display:flex;align-items:center;gap:.5rem;font-size:.88rem;color:var(--text);text-transform:none;letter-spacing:0;margin:0;cursor:pointer;}
+  .checks input[type=checkbox]{width:auto;margin:0;}
+  .btn{display:block;width:100%;padding:.75rem;background:var(--accent);color:#000;border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;transition:opacity .2s;}
+  .btn:hover{opacity:.85;}
+  .output-panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  .output-header{background:var(--surface2);padding:.75rem 1.25rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);}
+  .output-header span{font-size:.8rem;font-family:monospace;color:var(--muted);}
+  .copy-btn{background:transparent;border:1px solid var(--border);color:var(--accent);padding:.3rem .7rem;border-radius:6px;font-size:.75rem;cursor:pointer;}
+  .copy-btn:hover{background:var(--accent);color:#000;}
+  pre{padding:1.25rem;font-family:'Courier New',monospace;font-size:.78rem;line-height:1.65;overflow-x:auto;color:#cdd6f4;max-height:500px;overflow-y:auto;}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a2040);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box h3{font-size:1.1rem;margin-bottom:.4rem;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#000;font-weight:700;padding:.75rem 2rem;border-radius:8px;text-decoration:none;font-size:.95rem;}
+  .cta-btn:hover{opacity:.85;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .y-key{color:#89dceb;} .y-val{color:#a6e3a1;} .y-str{color:#f9e2af;} .y-sec{color:#cba6f7;font-weight:600;} .y-cmt{color:#6c7086;font-style:italic;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">⚙️</span>
+  <h1>CI/CD Pipeline Kit</h1>
+  <span>Interactive Demo</span>
+  <span class="badge">Deploy Kit</span>
+</header>
+<div class="container">
+  <h2>Generate Your CI/CD Pipeline YAML</h2>
+  <p class="subtitle">Configure your pipeline steps and get a ready-to-commit workflow file.</p>
+  <div class="grid">
+    <div class="panel">
+      <label>Platform</label>
+      <select id="platform" onchange="generate()">
+        <option value="github">GitHub Actions</option>
+        <option value="gitlab">GitLab CI</option>
+      </select>
+      <label>Language / Runtime</label>
+      <select id="lang" onchange="generate()">
+        <option value="python">Python</option>
+        <option value="node">Node.js</option>
+        <option value="go">Go</option>
+        <option value="java">Java (Maven)</option>
+      </select>
+      <label>Pipeline Steps</label>
+      <div class="checks">
+        <label><input type="checkbox" id="lint" checked> Linting (flake8/eslint)</label>
+        <label><input type="checkbox" id="test" checked> Unit tests</label>
+        <label><input type="checkbox" id="coverage"> Coverage report</label>
+        <label><input type="checkbox" id="docker" checked> Docker build & push</label>
+        <label><input type="checkbox" id="deploy"> Deploy to staging</label>
+        <label><input type="checkbox" id="sast"> Security scan (SAST)</label>
+        <label><input type="checkbox" id="notify"> Slack notification</label>
+      </div>
+      <label>Docker Registry</label>
+      <select id="registry" onchange="generate()">
+        <option value="ghcr">GitHub Container Registry</option>
+        <option value="dockerhub">Docker Hub</option>
+        <option value="ecr">AWS ECR</option>
+      </select>
+      <button class="btn" onclick="generate()">⚡ Generate Pipeline</button>
+    </div>
+    <div class="output-panel">
+      <div class="output-header">
+        <span id="fname">.github/workflows/ci.yml</span>
+        <button class="copy-btn" onclick="copyOut()">Copy</button>
+      </div>
+      <pre id="output"></pre>
+    </div>
+  </div>
+  <div class="cta-box">
+    <h3>🔧 Full CI/CD Pipeline Kit — 15+ Templates</h3>
+    <p>Includes monorepo pipelines, matrix builds, blue-green deploys, rollback scripts, and Kubernetes deploy jobs.</p>
+    <a href="https://buy.stripe.com/9B6eVd22r7SScJA7uhgjJ0B" class="cta-btn">Buy Full Version — $14.99</a>
+    <button class="crypto-pay-btn" data-product-slug="ci-cd-pipeline-kit" data-store-slug="deploy-kit" data-product-name="CI/CD Pipeline Kit" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+<script>
+function get(id){return document.getElementById(id);}
+function checked(id){return document.getElementById(id).checked;}
+
+const registryUrls={ghcr:'ghcr.io/${{ github.repository_owner }}',dockerhub:'${{ secrets.DOCKER_USERNAME }}',ecr:'${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com'};
+const langSetup={
+  python:`      - uses: actions/setup-python@v5\n        with:\n          python-version: "3.11"\n      - run: pip install -r requirements.txt`,
+  node:`      - uses: actions/setup-node@v4\n        with:\n          node-version: "20"\n          cache: 'npm'\n      - run: npm ci`,
+  go:`      - uses: actions/setup-go@v5\n        with:\n          go-version: "1.22"\n      - run: go mod download`,
+  java:`      - uses: actions/setup-java@v4\n        with:\n          java-version: "21"\n          distribution: "temurin"\n      - run: mvn dependency:go-offline`
+};
+const langTest={python:'pytest --tb=short',node:'npm test',go:'go test ./...',java:'mvn test'};
+const langLint={python:'flake8 . --max-line-length=100',node:'npx eslint .',go:'golangci-lint run',java:'mvn checkstyle:check'};
+
+function generateGitHub(){
+  const lang=get('platform').value; // wrong var, use proper
+  const l=get('lang').value;
+  const reg=get('registry').value;
+  const imgUrl=registryUrls[reg];
+
+  let yaml=`# Generated by Deploy Kit — ci-cd-pipeline-kit\n# Platform: GitHub Actions | Lang: ${l.toUpperCase()}\n\nname: CI/CD Pipeline\n\non:\n  push:\n    branches: [main, develop]\n  pull_request:\n    branches: [main]\n\njobs:\n`;
+
+  // Lint job
+  if(checked('lint')){
+    yaml+=`  lint:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n${langSetup[l]}\n      - name: Run linter\n        run: ${langLint[l]}\n\n`;
+  }
+
+  // Test job
+  if(checked('test')){
+    yaml+=`  test:\n    runs-on: ubuntu-latest\n`;
+    if(checked('lint')) yaml+=`    needs: [lint]\n`;
+    yaml+=`    steps:\n      - uses: actions/checkout@v4\n${langSetup[l]}\n`;
+    yaml+=`      - name: Run tests\n        run: ${langTest[l]}\n`;
+    if(checked('coverage')&&l==='python'){
+      yaml+=`      - name: Coverage report\n        run: pytest --cov=. --cov-report=xml\n      - uses: codecov/codecov-action@v4\n        with:\n          file: coverage.xml\n`;
+    }
+    yaml+='\n';
+  }
+
+  // SAST
+  if(checked('sast')){
+    yaml+=`  security:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - name: Run Trivy vulnerability scan\n        uses: aquasecurity/trivy-action@master\n        with:\n          scan-type: 'fs'\n          severity: 'CRITICAL,HIGH'\n\n`;
+  }
+
+  // Docker
+  if(checked('docker')){
+    yaml+=`  docker:\n    runs-on: ubuntu-latest\n`;
+    const deps=[];
+    if(checked('test')) deps.push('test');
+    if(checked('sast')) deps.push('security');
+    if(deps.length) yaml+=`    needs: [${deps.join(', ')}]\n`;
+    yaml+=`    steps:\n      - uses: actions/checkout@v4\n`;
+    yaml+=`      - uses: docker/setup-buildx-action@v3\n`;
+    if(reg==='ghcr') yaml+=`      - uses: docker/login-action@v3\n        with:\n          registry: ghcr.io\n          username: \${{ github.actor }}\n          password: \${{ secrets.GITHUB_TOKEN }}\n`;
+    else yaml+=`      - uses: docker/login-action@v3\n        with:\n          username: \${{ secrets.DOCKER_USERNAME }}\n          password: \${{ secrets.DOCKER_PASSWORD }}\n`;
+    yaml+=`      - uses: docker/build-push-action@v5\n        with:\n          push: \${{ github.ref == 'refs/heads/main' }}\n          tags: ${imgUrl}/app:latest,${imgUrl}/app:\${{ github.sha }}\n          cache-from: type=gha\n          cache-to: type=gha,mode=max\n\n`;
+  }
+
+  // Deploy
+  if(checked('deploy')){
+    yaml+=`  deploy-staging:\n    runs-on: ubuntu-latest\n    needs: [docker]\n    environment: staging\n    steps:\n      - uses: actions/checkout@v4\n      - name: Deploy to staging\n        run: |\n          # SSH deploy or kubectl apply\n          echo "Deploying \${{ github.sha }} to staging..."\n          # Full deploy scripts in the complete package\n\n`;
+  }
+
+  // Notify
+  if(checked('notify')){
+    yaml+=`  notify:\n    runs-on: ubuntu-latest\n    needs: [${checked('deploy')?'deploy-staging':checked('docker')?'docker':'test'}]\n    if: always()\n    steps:\n      - name: Slack notification\n        uses: slackapi/slack-github-action@v1\n        with:\n          payload: |\n            {"text": "Pipeline \${{ job.status }} — \${{ github.repository }} @ \${{ github.sha }}"}\n        env:\n          SLACK_WEBHOOK_URL: \${{ secrets.SLACK_WEBHOOK }}\n`;
+  }
+
+  return yaml;
+}
+
+function generateGitLab(){
+  const l=get('lang').value;
+  let yaml=`# Generated by Deploy Kit — ci-cd-pipeline-kit\n# Platform: GitLab CI | Lang: ${l.toUpperCase()}\n\nimage: ${l==='python'?'python:3.11-slim':l==='node'?'node:20-slim':l==='go'?'golang:1.22':'maven:3.9-eclipse-temurin-21'}\n\nstages:\n`;
+  const stages=[];
+  if(checked('lint')) stages.push('lint');
+  if(checked('test')||checked('sast')) stages.push('test');
+  if(checked('docker')) stages.push('build');
+  if(checked('deploy')) stages.push('deploy');
+  yaml+=stages.map(s=>`  - ${s}`).join('\n')+'\n\n';
+
+  if(checked('lint')){
+    yaml+=`lint:\n  stage: lint\n  script:\n    - ${l==='python'?'pip install flake8 && flake8 .':l==='node'?'npm ci && npx eslint .':'echo "lint step"'}\n\n`;
+  }
+  if(checked('test')){
+    yaml+=`test:\n  stage: test\n  script:\n    - ${langTest[l]}\n`;
+    if(checked('coverage')&&l==='python') yaml+=`    - pytest --cov=. --cov-report=xml\n  coverage: '/TOTAL.*\\s+(\\d+%)$/'\n  artifacts:\n    reports:\n      coverage_report:\n        coverage_format: cobertura\n        path: coverage.xml\n`;
+    yaml+='\n';
+  }
+  if(checked('docker')){
+    yaml+=`docker-build:\n  stage: build\n  image: docker:24\n  services:\n    - docker:24-dind\n  script:\n    - docker build -t \$CI_REGISTRY_IMAGE:\$CI_COMMIT_SHA .\n    - docker push \$CI_REGISTRY_IMAGE:\$CI_COMMIT_SHA\n  only:\n    - main\n\n`;
+  }
+  if(checked('deploy')){
+    yaml+=`deploy-staging:\n  stage: deploy\n  script:\n    - echo "Deploying \$CI_COMMIT_SHA to staging"\n  environment:\n    name: staging\n  only:\n    - main\n\n`;
+  }
+  return yaml;
+}
+
+function generate(){
+  const plat=get('platform').value;
+  get('fname').textContent = plat==='github' ? '.github/workflows/ci.yml' : '.gitlab-ci.yml';
+  const yaml = plat==='github' ? generateGitHub() : generateGitLab();
+  get('output').textContent = yaml;
+}
+
+function copyOut(){
+  navigator.clipboard.writeText(get('output').textContent).then(()=>{
+    const b=document.querySelector('.copy-btn');
+    b.textContent='✓ Copied!';setTimeout(()=>b.textContent='Copy',1500);
+  });
+}
+generate();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

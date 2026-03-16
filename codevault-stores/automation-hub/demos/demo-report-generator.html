@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report Generator Demo — Automation Hub</title>
+<style>
+  :root { --brand: #18FFFF; --bg: #0A0E1A; --panel: #0d1321; --border: #1e2a3a; --text: #e2e8f0; --muted: #64748b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; }
+  header { background: var(--panel); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  header h1 { font-size: 1.1rem; color: var(--brand); }
+  header a { color: var(--muted); font-size: 0.85rem; text-decoration: none; }
+  header a:hover { color: var(--brand); }
+  .container { max-width: 960px; margin: 0 auto; padding: 28px 16px 60px; }
+  .intro h2 { font-size: 1.4rem; margin-bottom: 6px; }
+  .intro p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 24px; }
+  .badge { display: inline-block; background: var(--brand); color: #000; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+  .panel h3 { color: var(--brand); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px; }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .field { flex: 1; min-width: 150px; }
+  label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 5px; }
+  select, input[type=text] { width: 100%; background: #0a0f1e; border: 1px solid var(--border); color: var(--text); padding: 8px 10px; border-radius: 6px; font-size: 0.9rem; }
+  select:focus, input:focus { outline: none; border-color: var(--brand); }
+  .btn { background: var(--brand); color: #000; border: none; padding: 10px 22px; border-radius: 6px; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: opacity 0.15s; }
+  .btn:hover { opacity: 0.85; }
+  /* Report preview */
+  .report-preview { background: #ffffff; color: #1e293b; border-radius: 8px; padding: 28px 32px; font-family: Georgia, serif; line-height: 1.7; font-size: 0.9rem; }
+  .rp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 2px solid #e2e8f0; }
+  .rp-title { font-size: 1.3rem; font-weight: 700; color: #0f172a; }
+  .rp-meta { font-size: 0.75rem; color: #64748b; text-align: right; }
+  .rp-logo { font-size: 1.1rem; font-weight: 700; color: #0891b2; }
+  .rp-section { margin-bottom: 20px; }
+  .rp-section h4 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #475569; margin-bottom: 10px; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; }
+  .kpi-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .kpi { background: #f1f5f9; border-radius: 6px; padding: 10px 14px; flex: 1; min-width: 100px; text-align: center; }
+  .kpi .kval { font-size: 1.4rem; font-weight: 700; color: #0f172a; }
+  .kpi .kdelta { font-size: 0.75rem; margin-top: 2px; }
+  .kdelta.up { color: #16a34a; }
+  .kdelta.dn { color: #dc2626; }
+  .kpi .klbl { font-size: 0.72rem; color: #64748b; margin-top: 2px; }
+  /* Bar chart */
+  .bar-chart { display: flex; flex-direction: column; gap: 6px; }
+  .bar-row { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; }
+  .bar-label { width: 80px; color: #475569; text-align: right; flex-shrink: 0; }
+  .bar-track { flex: 1; background: #e2e8f0; border-radius: 3px; height: 14px; overflow: hidden; }
+  .bar-fill { height: 100%; background: #0891b2; border-radius: 3px; }
+  .bar-val { width: 50px; color: #0f172a; font-weight: 600; }
+  /* Table */
+  .rp-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .rp-table th { text-align: left; padding: 6px 10px; background: #f1f5f9; color: #475569; font-weight: 600; }
+  .rp-table td { padding: 6px 10px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+  .rp-table tr:last-child td { border-bottom: none; }
+  .rp-footer { font-size: 0.72rem; color: #94a3b8; text-align: center; margin-top: 20px; padding-top: 12px; border-top: 1px solid #e2e8f0; }
+  .cta-bar { background: linear-gradient(135deg, #001a1a, #002a2a); border: 1px solid var(--brand); border-radius: 10px; padding: 24px 28px; text-align: center; margin-top: 28px; }
+  .cta-bar h3 { font-size: 1.15rem; margin-bottom: 6px; }
+  .cta-bar p { color: var(--muted); font-size: 0.9rem; margin-bottom: 16px; }
+  .price { font-size: 1.5rem; font-weight: 700; color: var(--brand); }
+  .buy-btn { display: inline-block; background: var(--brand); color: #000; font-weight: 700; padding: 12px 32px; border-radius: 7px; text-decoration: none; font-size: 1rem; margin-top: 10px; }
+  .buy-btn:hover { opacity: 0.85; }
+  footer { text-align: center; color: var(--muted); font-size: 0.8rem; padding: 20px; border-top: 1px solid var(--border); margin-top: 20px; }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <h1>⚡ Automation Hub <span class="badge">DEMO</span></h1>
+  <a href="../index.html">← Back to Store</a>
+</header>
+<div class="container">
+  <div class="intro">
+    <h2>Report Generator <span style="color:var(--brand)">Tool</span></h2>
+    <p>Choose a report template, customize the settings, and preview a live-rendered report with mock data. The full tool connects to your data sources and exports to PDF, HTML, or CSV on a schedule.</p>
+  </div>
+
+  <!-- Config -->
+  <div class="panel">
+    <h3>Report Configuration</h3>
+    <div class="row">
+      <div class="field">
+        <label>Report Type</label>
+        <select id="rptType" onchange="renderReport()">
+          <option>Weekly Business Summary</option>
+          <option>Monthly Revenue Report</option>
+          <option>User Growth Report</option>
+          <option>Infrastructure Health</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Company Name</label>
+        <input type="text" id="companyName" value="AcmeCorp" oninput="renderReport()">
+      </div>
+      <div class="field">
+        <label>Period</label>
+        <select id="period" onchange="renderReport()">
+          <option>Mar 7–14, 2026</option>
+          <option>Feb 28 – Mar 6, 2026</option>
+          <option>Q1 2026</option>
+          <option>March 2026</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Format</label>
+        <select id="fmt">
+          <option>HTML</option>
+          <option>PDF (simulated)</option>
+          <option>CSV (simulated)</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" onclick="renderReport()">🔄 Regenerate Report</button>
+  </div>
+
+  <!-- Preview -->
+  <div class="panel">
+    <h3>Report Preview</h3>
+    <div id="reportPreview"></div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Full Report Generator</h3>
+    <p>Live data sources · Scheduled exports · PDF/HTML/CSV · Custom templates · Email delivery · Branding</p>
+    <div class="price">$19.00</div>
+    <br>
+    <a class="buy-btn" href="https://buy.stripe.com/dRm28rgXlb5424W4i5gjJ0x">Buy Full Version — $19</a>
+    <button class="crypto-pay-btn" data-product-slug="api-poller" data-store-slug="automation-hub" data-product-name="API Poller" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo renders reports with mock data. The full tool connects to real databases and APIs for live data.</footer>
+
+<script>
+function rnd(min, max) { return Math.floor(min + Math.random() * (max - min)); }
+function pct(val, base) { const p = ((val - base) / base * 100).toFixed(1); return p > 0 ? '+' + p + '%' : p + '%'; }
+function fmtN(n) { return n >= 1000 ? (n/1000).toFixed(1) + 'k' : String(n); }
+function bar(label, val, max, prefix='') {
+  const w = Math.round((val/max)*100);
+  return `<div class="bar-row"><div class="bar-label">${label}</div><div class="bar-track"><div class="bar-fill" style="width:${w}%"></div></div><div class="bar-val">${prefix}${fmtN(val)}</div></div>`;
+}
+
+function renderReport() {
+  const type = document.getElementById('rptType').value;
+  const company = document.getElementById('companyName').value || 'YourCo';
+  const period = document.getElementById('period').value;
+  const today = 'Mar 14, 2026';
+  const preview = document.getElementById('reportPreview');
+
+  let html = '';
+
+  if (type === 'Weekly Business Summary') {
+    const rev = rnd(18000, 35000), revPrev = rnd(15000, 32000);
+    const users = rnd(800, 2000), usersPrev = rnd(700, 1800);
+    const orders = rnd(120, 400), ordersPrev = rnd(100, 380);
+    const churn = (Math.random() * 2 + 0.5).toFixed(1);
+    html = `<div class="report-preview">
+      <div class="rp-header">
+        <div><div class="rp-logo">${company}</div><div class="rp-title">Weekly Business Summary</div><div class="rp-meta">${period}</div></div>
+        <div class="rp-meta">Generated: ${today}<br>Confidential</div>
+      </div>
+      <div class="rp-section"><h4>Key Metrics</h4>
+        <div class="kpi-row">
+          <div class="kpi"><div class="kval">$${fmtN(rev)}</div><div class="kdelta ${rev>revPrev?'up':'dn'}">${pct(rev,revPrev)}</div><div class="klbl">Revenue</div></div>
+          <div class="kpi"><div class="kval">${fmtN(users)}</div><div class="kdelta ${users>usersPrev?'up':'dn'}">${pct(users,usersPrev)}</div><div class="klbl">Active Users</div></div>
+          <div class="kpi"><div class="kval">${orders}</div><div class="kdelta ${orders>ordersPrev?'up':'dn'}">${pct(orders,ordersPrev)}</div><div class="klbl">Orders</div></div>
+          <div class="kpi"><div class="kval">${churn}%</div><div class="kdelta dn">+0.1%</div><div class="klbl">Churn Rate</div></div>
+        </div>
+      </div>
+      <div class="rp-section"><h4>Revenue by Channel</h4>
+        <div class="bar-chart">
+          ${bar('Direct', rnd(5000,15000), rev, '$')}
+          ${bar('Organic', rnd(3000,10000), rev, '$')}
+          ${bar('Referral', rnd(2000,7000), rev, '$')}
+          ${bar('Email', rnd(1000,5000), rev, '$')}
+          ${bar('Paid', rnd(1000,4000), rev, '$')}
+        </div>
+      </div>
+      <div class="rp-section"><h4>Top Products</h4>
+        <table class="rp-table"><thead><tr><th>Product</th><th>Units</th><th>Revenue</th><th>Growth</th></tr></thead><tbody>
+          <tr><td>Pro License</td><td>${rnd(40,120)}</td><td>$${rnd(3000,8000).toLocaleString()}</td><td style="color:#16a34a">+${rnd(5,25)}%</td></tr>
+          <tr><td>Starter Pack</td><td>${rnd(30,90)}</td><td>$${rnd(1500,4000).toLocaleString()}</td><td style="color:#16a34a">+${rnd(2,15)}%</td></tr>
+          <tr><td>Enterprise Suite</td><td>${rnd(5,20)}</td><td>$${rnd(5000,15000).toLocaleString()}</td><td style="color:#16a34a">+${rnd(1,10)}%</td></tr>
+          <tr><td>Add-ons</td><td>${rnd(20,60)}</td><td>$${rnd(500,2000).toLocaleString()}</td><td style="color:#dc2626">-${rnd(1,8)}%</td></tr>
+        </tbody></table>
+      </div>
+      <div class="rp-footer">Generated by Automation Hub Report Generator · ${today} · Confidential — ${company} internal use only</div>
+    </div>`;
+
+  } else if (type === 'Monthly Revenue Report') {
+    const months = ['Oct','Nov','Dec','Jan','Feb','Mar'];
+    const revs = months.map(() => rnd(40000, 120000));
+    const maxRev = Math.max(...revs);
+    html = `<div class="report-preview">
+      <div class="rp-header">
+        <div><div class="rp-logo">${company}</div><div class="rp-title">Monthly Revenue Report</div><div class="rp-meta">${period}</div></div>
+        <div class="rp-meta">Generated: ${today}<br>Finance — Confidential</div>
+      </div>
+      <div class="rp-section"><h4>Revenue Trend (6 months)</h4>
+        <div class="bar-chart">
+          ${months.map((m,i) => bar(m, revs[i], maxRev, '$')).join('')}
+        </div>
+      </div>
+      <div class="rp-section"><h4>Summary</h4>
+        <div class="kpi-row">
+          <div class="kpi"><div class="kval">$${(revs[5]/1000).toFixed(1)}k</div><div class="kdelta ${revs[5]>revs[4]?'up':'dn'}">${pct(revs[5],revs[4])}</div><div class="klbl">This Month</div></div>
+          <div class="kpi"><div class="kval">$${(revs.reduce((a,b)=>a+b,0)/1000).toFixed(0)}k</div><div class="kdelta up">+12.4%</div><div class="klbl">6-Month Total</div></div>
+          <div class="kpi"><div class="kval">$${(revs.reduce((a,b)=>a+b,0)/6/1000).toFixed(1)}k</div><div class="kdelta up">+8.1%</div><div class="klbl">Monthly Avg</div></div>
+        </div>
+      </div>
+      <div class="rp-footer">Generated by Automation Hub Report Generator · ${today} · Confidential — ${company}</div>
+    </div>`;
+
+  } else if (type === 'User Growth Report') {
+    const total = rnd(8000, 25000), newU = rnd(400, 1200), active = rnd(3000, 12000), churned = rnd(50, 300);
+    html = `<div class="report-preview">
+      <div class="rp-header">
+        <div><div class="rp-logo">${company}</div><div class="rp-title">User Growth Report</div><div class="rp-meta">${period}</div></div>
+        <div class="rp-meta">Generated: ${today}<br>Growth — Confidential</div>
+      </div>
+      <div class="rp-section"><h4>User Metrics</h4>
+        <div class="kpi-row">
+          <div class="kpi"><div class="kval">${fmtN(total)}</div><div class="kdelta up">+${(newU/total*100).toFixed(1)}%</div><div class="klbl">Total Users</div></div>
+          <div class="kpi"><div class="kval">${fmtN(newU)}</div><div class="kdelta up">+18.3%</div><div class="klbl">New This Week</div></div>
+          <div class="kpi"><div class="kval">${fmtN(active)}</div><div class="kdelta up">+6.7%</div><div class="klbl">MAU</div></div>
+          <div class="kpi"><div class="kval">${churned}</div><div class="kdelta dn">+3.1%</div><div class="klbl">Churned</div></div>
+        </div>
+      </div>
+      <div class="rp-section"><h4>Acquisition by Source</h4>
+        <div class="bar-chart">
+          ${bar('Organic', rnd(150,400), newU)}
+          ${bar('Referral', rnd(80,200), newU)}
+          ${bar('Paid Search', rnd(60,150), newU)}
+          ${bar('Social', rnd(40,120), newU)}
+          ${bar('Direct', rnd(20,80), newU)}
+        </div>
+      </div>
+      <div class="rp-section"><h4>Plan Distribution</h4>
+        <table class="rp-table"><thead><tr><th>Plan</th><th>Users</th><th>% of Total</th><th>MRR</th></tr></thead><tbody>
+          <tr><td>Enterprise</td><td>${rnd(50,200)}</td><td>${(Math.random()*5+1).toFixed(1)}%</td><td>$${rnd(5000,20000).toLocaleString()}</td></tr>
+          <tr><td>Pro</td><td>${rnd(500,2000)}</td><td>${(Math.random()*15+10).toFixed(1)}%</td><td>$${rnd(8000,25000).toLocaleString()}</td></tr>
+          <tr><td>Starter</td><td>${rnd(1000,4000)}</td><td>${(Math.random()*20+15).toFixed(1)}%</td><td>$${rnd(3000,10000).toLocaleString()}</td></tr>
+          <tr><td>Free</td><td>${rnd(4000,15000)}</td><td>${(Math.random()*30+40).toFixed(1)}%</td><td>$0</td></tr>
+        </tbody></table>
+      </div>
+      <div class="rp-footer">Generated by Automation Hub Report Generator · ${today} · ${company}</div>
+    </div>`;
+
+  } else { // Infrastructure Health
+    const uptime = (99 + Math.random() * 0.99).toFixed(3);
+    html = `<div class="report-preview">
+      <div class="rp-header">
+        <div><div class="rp-logo">${company}</div><div class="rp-title">Infrastructure Health Report</div><div class="rp-meta">${period}</div></div>
+        <div class="rp-meta">Generated: ${today}<br>DevOps — Confidential</div>
+      </div>
+      <div class="rp-section"><h4>Service Status</h4>
+        <table class="rp-table"><thead><tr><th>Service</th><th>Uptime</th><th>Avg Latency</th><th>Errors</th><th>Status</th></tr></thead><tbody>
+          ${['API Gateway','Web App','Auth Service','Database','Cache','CDN','Queue'].map(svc =>
+            `<tr><td>${svc}</td><td>${(99 + Math.random()*0.99).toFixed(2)}%</td><td>${rnd(10,120)}ms</td><td>${rnd(0,50)}</td><td style="color:#16a34a">● Healthy</td></tr>`
+          ).join('')}
+        </tbody></table>
+      </div>
+      <div class="rp-section"><h4>Summary KPIs</h4>
+        <div class="kpi-row">
+          <div class="kpi"><div class="kval">${uptime}%</div><div class="kdelta up">+0.02%</div><div class="klbl">Overall Uptime</div></div>
+          <div class="kpi"><div class="kval">${rnd(18,85)}ms</div><div class="kdelta up">-12ms</div><div class="klbl">P50 Latency</div></div>
+          <div class="kpi"><div class="kval">${rnd(100,500)}ms</div><div class="kdelta dn">+8ms</div><div class="klbl">P99 Latency</div></div>
+          <div class="kpi"><div class="kval">${(Math.random()*0.5).toFixed(2)}%</div><div class="kdelta up">-0.1%</div><div class="klbl">Error Rate</div></div>
+        </div>
+      </div>
+      <div class="rp-footer">Generated by Automation Hub Report Generator · ${today} · ${company} DevOps</div>
+    </div>`;
+  }
+
+  preview.innerHTML = html;
+}
+
+renderReport();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

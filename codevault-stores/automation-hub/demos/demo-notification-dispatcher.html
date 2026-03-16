@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notification Dispatcher Demo — Automation Hub</title>
+<style>
+  :root { --brand: #18FFFF; --bg: #0A0E1A; --panel: #0d1321; --border: #1e2a3a; --text: #e2e8f0; --muted: #64748b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; }
+  header { background: var(--panel); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  header h1 { font-size: 1.1rem; color: var(--brand); }
+  header a { color: var(--muted); font-size: 0.85rem; text-decoration: none; }
+  header a:hover { color: var(--brand); }
+  .container { max-width: 900px; margin: 0 auto; padding: 28px 16px 60px; }
+  .intro h2 { font-size: 1.4rem; margin-bottom: 6px; }
+  .intro p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 24px; }
+  .badge { display: inline-block; background: var(--brand); color: #000; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+  .panel h3 { color: var(--brand); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px; }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .field { flex: 1; min-width: 150px; }
+  label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 5px; }
+  select, input[type=text], textarea { width: 100%; background: #0a0f1e; border: 1px solid var(--border); color: var(--text); padding: 8px 10px; border-radius: 6px; font-size: 0.9rem; font-family: inherit; }
+  select:focus, input:focus, textarea:focus { outline: none; border-color: var(--brand); }
+  textarea { resize: vertical; min-height: 70px; }
+  .btn { background: var(--brand); color: #000; border: none; padding: 10px 22px; border-radius: 6px; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: opacity 0.15s; }
+  .btn:hover { opacity: 0.85; }
+  /* Channel toggles */
+  .channels { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+  .ch-toggle { display: flex; align-items: center; gap: 8px; background: #0a0f1e; border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; cursor: pointer; transition: border-color 0.2s; flex-shrink: 0; user-select: none; }
+  .ch-toggle input { accent-color: var(--brand); width: 16px; height: 16px; cursor: pointer; }
+  .ch-toggle.active { border-color: var(--brand); }
+  .ch-icon { font-size: 1.2rem; }
+  .ch-name { font-size: 0.85rem; font-weight: 600; }
+  /* Preview tabs */
+  .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+  .tab { padding: 8px 16px; font-size: 0.85rem; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tab.active { color: var(--brand); border-bottom-color: var(--brand); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  /* Email preview */
+  .email-preview { background: #f8fafc; color: #1e293b; border-radius: 8px; overflow: hidden; font-size: 0.88rem; }
+  .email-header { background: var(--brand); padding: 16px 20px; color: #000; font-weight: 700; font-size: 1rem; }
+  .email-meta { padding: 10px 20px; border-bottom: 1px solid #e2e8f0; font-size: 0.8rem; color: #475569; }
+  .email-body { padding: 20px; line-height: 1.6; }
+  /* Slack preview */
+  .slack-preview { background: #1a1d21; border-radius: 8px; padding: 16px; }
+  .slack-msg { display: flex; gap: 12px; }
+  .slack-avatar { width: 36px; height: 36px; border-radius: 4px; background: var(--brand); display: flex; align-items: center; justify-content: center; color: #000; font-weight: 700; font-size: 1rem; flex-shrink: 0; }
+  .slack-right .slack-sender { font-weight: 700; font-size: 0.9rem; color: var(--brand); margin-bottom: 4px; }
+  .slack-right .slack-text { font-size: 0.88rem; color: #d1d5db; line-height: 1.5; }
+  .slack-attachment { margin-top: 8px; border-left: 3px solid var(--brand); padding-left: 10px; font-size: 0.82rem; color: #94a3b8; }
+  /* SMS preview */
+  .sms-preview { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; padding: 8px; }
+  .sms-bubble { background: var(--brand); color: #000; border-radius: 14px 14px 0 14px; padding: 10px 14px; font-size: 0.88rem; max-width: 80%; line-height: 1.4; font-weight: 500; }
+  .sms-meta { font-size: 0.75rem; color: var(--muted); }
+  /* Dispatch log */
+  .dispatch-log { background: #040710; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-family: monospace; font-size: 0.8rem; height: 130px; overflow-y: auto; }
+  .dl { margin-bottom: 3px; }
+  .dl.ok   { color: var(--brand); }
+  .dl.info { color: #94a3b8; }
+  .dl.fail { color: #f87171; }
+  .dl.warn { color: #f59e0b; }
+  .cta-bar { background: linear-gradient(135deg, #001a1a, #002a2a); border: 1px solid var(--brand); border-radius: 10px; padding: 24px 28px; text-align: center; margin-top: 28px; }
+  .cta-bar h3 { font-size: 1.15rem; margin-bottom: 6px; }
+  .cta-bar p { color: var(--muted); font-size: 0.9rem; margin-bottom: 16px; }
+  .price { font-size: 1.5rem; font-weight: 700; color: var(--brand); }
+  .buy-btn { display: inline-block; background: var(--brand); color: #000; font-weight: 700; padding: 12px 32px; border-radius: 7px; text-decoration: none; font-size: 1rem; margin-top: 10px; }
+  .buy-btn:hover { opacity: 0.85; }
+  footer { text-align: center; color: var(--muted); font-size: 0.8rem; padding: 20px; border-top: 1px solid var(--border); margin-top: 20px; }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <h1>⚡ Automation Hub <span class="badge">DEMO</span></h1>
+  <a href="../index.html">← Back to Store</a>
+</header>
+<div class="container">
+  <div class="intro">
+    <h2>Notification Dispatcher <span style="color:var(--brand)">Tool</span></h2>
+    <p>Build multi-channel notifications with per-channel message previews. The full tool integrates live Slack, Email, SMS, and webhook APIs with templating, rate limiting, and delivery tracking.</p>
+  </div>
+
+  <!-- Message Builder -->
+  <div class="panel">
+    <h3>Message Builder</h3>
+    <div class="row">
+      <div class="field">
+        <label>Event Type</label>
+        <select id="eventType" onchange="updatePreviews()">
+          <option>Order Placed</option>
+          <option>Payment Failed</option>
+          <option>User Signup</option>
+          <option>Server Alert</option>
+          <option>Weekly Report</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Recipient Name</label>
+        <input type="text" id="recipName" value="Alex Johnson" oninput="updatePreviews()">
+      </div>
+      <div class="field">
+        <label>Priority</label>
+        <select id="priority" onchange="updatePreviews()">
+          <option>Normal</option>
+          <option>High</option>
+          <option>Critical</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field" style="flex:2">
+        <label>Custom Message (optional)</label>
+        <input type="text" id="customMsg" placeholder="Leave blank for auto-generated..." oninput="updatePreviews()">
+      </div>
+    </div>
+    <label style="margin-bottom:10px;display:block">Channels</label>
+    <div class="channels">
+      <label class="ch-toggle active" id="ch-email-lbl">
+        <input type="checkbox" id="ch-email" checked onchange="toggleChannel('email')">
+        <span class="ch-icon">📧</span><span class="ch-name">Email</span>
+      </label>
+      <label class="ch-toggle active" id="ch-slack-lbl">
+        <input type="checkbox" id="ch-slack" checked onchange="toggleChannel('slack')">
+        <span class="ch-icon">💬</span><span class="ch-name">Slack</span>
+      </label>
+      <label class="ch-toggle" id="ch-sms-lbl">
+        <input type="checkbox" id="ch-sms" onchange="toggleChannel('sms')">
+        <span class="ch-icon">📱</span><span class="ch-name">SMS</span>
+      </label>
+      <label class="ch-toggle" id="ch-webhook-lbl">
+        <input type="checkbox" id="ch-webhook" onchange="toggleChannel('webhook')">
+        <span class="ch-icon">🔗</span><span class="ch-name">Webhook</span>
+      </label>
+    </div>
+    <button class="btn" onclick="dispatchAll()">📤 Dispatch Notifications</button>
+  </div>
+
+  <!-- Previews -->
+  <div class="panel">
+    <h3>Channel Previews</h3>
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('email', this)">📧 Email</div>
+      <div class="tab" onclick="switchTab('slack', this)">💬 Slack</div>
+      <div class="tab" onclick="switchTab('sms', this)">📱 SMS</div>
+      <div class="tab" onclick="switchTab('webhook', this)">🔗 Webhook</div>
+    </div>
+    <div class="tab-panel active" id="tp-email">
+      <div class="email-preview">
+        <div class="email-header" id="ep-subject">Order Confirmation</div>
+        <div class="email-meta" id="ep-meta">To: alex.johnson@example.com | From: noreply@yourapp.com</div>
+        <div class="email-body" id="ep-body">Your order has been placed successfully.</div>
+      </div>
+    </div>
+    <div class="tab-panel" id="tp-slack">
+      <div class="slack-preview">
+        <div class="slack-msg">
+          <div class="slack-avatar">🤖</div>
+          <div class="slack-right">
+            <div class="slack-sender">NotifyBot</div>
+            <div class="slack-text" id="sp-text">Notification message here.</div>
+            <div class="slack-attachment" id="sp-attach">Details</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-panel" id="tp-sms">
+      <div class="sms-preview">
+        <div class="sms-bubble" id="sms-bubble">SMS message text here.</div>
+        <div class="sms-meta" id="sms-meta">To: +1-555-0100 · 1 segment · ~0.0075 USD</div>
+      </div>
+    </div>
+    <div class="tab-panel" id="tp-webhook">
+      <pre style="background:#040710;border:1px solid var(--border);border-radius:6px;padding:14px;font-size:0.8rem;overflow-x:auto;color:#94a3b8;line-height:1.5" id="webhook-pre">{}</pre>
+    </div>
+  </div>
+
+  <!-- Dispatch Log -->
+  <div class="panel">
+    <h3>Dispatch Log</h3>
+    <div class="dispatch-log" id="dispLog">
+      <div class="dl info">[ready] Configure message and click Dispatch.</div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Full Notification Dispatcher</h3>
+    <p>Live Slack · SendGrid / SES · Twilio SMS · Webhook retries · Template engine · Delivery receipts</p>
+    <div class="price">$19.00</div>
+    <br>
+    <a class="buy-btn" href="https://buy.stripe.com/5kQ7sLayXc9824WaGtgjJ0u">Buy Full Version — $19</a>
+    <button class="crypto-pay-btn" data-product-slug="notification-dispatcher" data-store-slug="automation-hub" data-product-name="Notification Dispatcher" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo previews notification messages in-browser. The full tool dispatches real messages via live APIs.</footer>
+
+<script>
+const TEMPLATES = {
+  'Order Placed': {
+    subject: 'Order Confirmed — #{order_id}',
+    email: name => `Hi ${name},\n\nYour order #ORD-${rand4()} has been confirmed and is being processed.\n\nEstimated delivery: 3-5 business days.\n\nThank you for your purchase!\n\nBest,\nThe Team`,
+    slack: name => `*New Order* from *${name}*\nOrder #ORD-${rand4()} — $${(Math.random()*200+20).toFixed(2)}\n:package: Processing started`,
+    attach: 'Order #ORD-XXXX · Status: Confirmed · Est. ship: 3-5 days',
+    sms: name => `Hi ${name}, your order #ORD-${rand4()} is confirmed! Track it at yourapp.com/orders`,
+    event: 'order.placed',
+  },
+  'Payment Failed': {
+    subject: 'Action Required: Payment Failed',
+    email: name => `Hi ${name},\n\nWe were unable to process your payment for order #ORD-${rand4()}.\n\nPlease update your payment method at yourapp.com/billing to avoid service interruption.\n\nBest,\nBilling Team`,
+    slack: name => `⚠️ *Payment Failed* for *${name}*\nAmount: $${(Math.random()*150+10).toFixed(2)} · Card ending 4242 declined`,
+    attach: 'Error: insufficient_funds · Retry: yourapp.com/billing',
+    sms: name => `${name}, your payment failed. Update billing at yourapp.com/billing to restore access.`,
+    event: 'payment.failed',
+  },
+  'User Signup': {
+    subject: 'Welcome to the Platform!',
+    email: name => `Hi ${name},\n\nWelcome aboard! Your account has been created successfully.\n\nGet started at yourapp.com/dashboard\n\nIf you have questions, reply to this email.\n\nCheers,\nThe Team`,
+    slack: name => `🎉 *New Signup* — *${name}* just joined!\nPlan: Free · Source: organic`,
+    attach: 'First login: pending · Onboarding: not started',
+    sms: name => `Welcome ${name}! Your account is ready. Start at yourapp.com/dashboard`,
+    event: 'user.signup',
+  },
+  'Server Alert': {
+    subject: '🚨 CRITICAL: Server Alert Detected',
+    email: name => `Hi ${name},\n\n⚠️ A critical alert has been triggered on your infrastructure.\n\nHost: web-prod-01\nCPU: 98% for 5 minutes\nMemory: 94%\n\nImmediate action may be required.\n\n— AlertBot`,
+    slack: name => `🚨 *CRITICAL ALERT* — paging *${name}*\nHost: web-prod-01 | CPU: 98% | Mem: 94%`,
+    attach: 'Triggered: 2026-03-14 14:32:00 UTC · Severity: P1 · Runbook: wiki/alerts',
+    sms: name => `ALERT: web-prod-01 CPU 98%. Check now: yourapp.com/infra`,
+    event: 'alert.critical',
+  },
+  'Weekly Report': {
+    subject: 'Your Weekly Summary Report',
+    email: name => `Hi ${name},\n\nHere's your weekly summary:\n\n• New users: 142 (+18%)\n• Revenue: $4,280 (+7%)\n• API calls: 1.2M (+3%)\n• Uptime: 99.97%\n\nFull report: yourapp.com/reports\n\nHave a great week!`,
+    slack: name => `📊 *Weekly Report* ready for *${name}*\nUsers +18% · Revenue +7% · Uptime 99.97%`,
+    attach: 'Period: Mar 7–14 2026 · Full report: yourapp.com/reports',
+    sms: name => `${name}: weekly report ready! Users +18%, Revenue +7%. View: yourapp.com/reports`,
+    event: 'report.weekly',
+  },
+};
+
+function rand4() { return Math.floor(1000 + Math.random() * 9000); }
+
+function msg() {
+  const ev = document.getElementById('eventType').value;
+  const nm = document.getElementById('recipName').value || 'User';
+  const custom = document.getElementById('customMsg').value;
+  const t = TEMPLATES[ev];
+  return { ev, nm, custom, t };
+}
+
+function updatePreviews() {
+  const { ev, nm, custom, t } = msg();
+  const pri = document.getElementById('priority').value;
+  const priTag = pri === 'Critical' ? '🚨 ' : pri === 'High' ? '⚠️ ' : '';
+
+  // Email
+  document.getElementById('ep-subject').textContent = priTag + t.subject;
+  document.getElementById('ep-meta').textContent = `To: ${nm.toLowerCase().replace(' ','.')}@example.com | From: noreply@yourapp.com`;
+  document.getElementById('ep-body').textContent = custom || t.email(nm);
+
+  // Slack
+  document.getElementById('sp-text').textContent = priTag + (custom || t.slack(nm));
+  document.getElementById('sp-attach').textContent = t.attach;
+
+  // SMS
+  const smsText = custom ? `${nm}: ${custom}` : t.sms(nm);
+  document.getElementById('sms-bubble').textContent = smsText;
+  const segs = Math.ceil(smsText.length / 160);
+  document.getElementById('sms-meta').textContent = `To: +1-555-0100 · ${segs} segment${segs>1?'s':''} · ~${(segs*0.0075).toFixed(4)} USD`;
+
+  // Webhook
+  const payload = {
+    event: t.event,
+    priority: pri.toLowerCase(),
+    recipient: { name: nm, email: `${nm.toLowerCase().replace(' ','.')}@example.com` },
+    message: custom || `Event: ${ev}`,
+    timestamp: new Date().toISOString(),
+    meta: { source: 'automation-hub', version: '1.0' }
+  };
+  document.getElementById('webhook-pre').textContent = JSON.stringify(payload, null, 2);
+}
+
+function switchTab(id, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tp-' + id).classList.add('active');
+}
+
+function toggleChannel(ch) {
+  const checked = document.getElementById('ch-' + ch).checked;
+  document.getElementById('ch-' + ch + '-lbl').classList.toggle('active', checked);
+}
+
+function logDispatch(msg, type='info') {
+  const el = document.getElementById('dispLog');
+  const ts = new Date().toISOString().substr(11, 8);
+  const div = document.createElement('div');
+  div.className = 'dl ' + type;
+  div.textContent = `[${ts}] ${msg}`;
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+}
+
+function dispatchAll() {
+  const { ev, nm, t } = msg();
+  const pri = document.getElementById('priority').value;
+  const channels = ['email','slack','sms','webhook'].filter(c => document.getElementById('ch-'+c).checked);
+
+  document.getElementById('dispLog').innerHTML = '';
+
+  if (channels.length === 0) {
+    logDispatch('No channels selected. Enable at least one channel.', 'warn');
+    return;
+  }
+
+  logDispatch(`Dispatching "${ev}" notification (${pri}) to ${nm}...`, 'info');
+  logDispatch(`Channels: ${channels.join(', ')}`, 'info');
+
+  const delays = { email: 350, slack: 180, sms: 250, webhook: 120 };
+  const results = { email: 95, slack: 98, sms: 90, webhook: 99 };
+
+  channels.forEach((ch, i) => {
+    setTimeout(() => {
+      logDispatch(`Sending via ${ch.toUpperCase()}...`, 'info');
+      setTimeout(() => {
+        const success = Math.random() * 100 < results[ch];
+        if (success) {
+          const latency = Math.floor(50 + Math.random() * 200);
+          logDispatch(`✓ ${ch.toUpperCase()} delivered in ${latency}ms`, 'ok');
+        } else {
+          logDispatch(`✗ ${ch.toUpperCase()} delivery failed — queued for retry`, 'fail');
+        }
+      }, delays[ch]);
+    }, i * 120);
+  });
+
+  setTimeout(() => {
+    logDispatch(`Dispatch complete — ${channels.length} channel(s) attempted.`, 'ok');
+  }, channels.length * 120 + 600);
+}
+
+// Initialize
+updatePreviews();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

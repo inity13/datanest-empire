@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pixel Forge — Interactive Demos</title>
+<meta name="description" content="Try before you buy — interactive demos for Pixel Forge products">
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:#0a0a12;
+  color:#eaeaff;
+  font-family:'Space Grotesk','Inter',system-ui,sans-serif;
+  min-height:100vh;
+}
+.container{max-width:1200px;margin:0 auto;padding:2rem 1.5rem}
+h1{font-size:2.2rem;margin-bottom:.5rem}
+.subtitle{color:#8888aa;font-size:1rem;margin-bottom:2rem}
+.demo-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(360px,1fr));
+  gap:1.5rem;
+}
+.demo-card{
+  background:#12122a;
+  border:1px solid #1a1a3a;
+  border-radius:12px;
+  overflow:hidden;
+  transition:transform .2s,border-color .2s;
+}
+.demo-card:hover{
+  transform:translateY(-2px);
+  border-color:var(--accent);
+}
+.demo-card .frame-wrap{
+  position:relative;
+  width:100%;
+  height:260px;
+  overflow:hidden;
+  background:#000;
+}
+.demo-card iframe{
+  width:100%;
+  height:100%;
+  border:none;
+  transform-origin:0 0;
+}
+.demo-card .card-body{padding:1rem 1.25rem}
+.demo-card .product-name{
+  font-size:1.1rem;
+  font-weight:700;
+  color:#eaeaff;
+  margin-bottom:.35rem;
+}
+.demo-card .product-desc{
+  font-size:.85rem;
+  color:#8888aa;
+  line-height:1.4;
+  margin-bottom:.75rem;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.demo-card .card-footer{
+  display:flex;align-items:center;justify-content:space-between;
+}
+.demo-card .price{
+  font-weight:700;
+  color:var(--accent);
+  font-size:1.1rem;
+}
+.demo-card .btn-buy{
+  display:inline-block;
+  padding:.5rem 1.25rem;
+  background:var(--accent);
+  color:#000;
+  font-weight:700;
+  font-size:.85rem;
+  border-radius:6px;
+  text-decoration:none;
+  transition:opacity .2s;
+}
+.demo-card .btn-buy:hover{opacity:.85}
+.demo-card .btn-expand{
+  display:block;
+  text-align:center;
+  padding:.5rem;
+  font-size:.8rem;
+  color:#8888aa;
+  text-decoration:none;
+  border-top:1px solid #1a1a3a;
+  transition:color .2s;
+}
+.demo-card .btn-expand:hover{color:var(--accent)}
+.back-link{
+  display:inline-block;
+  color:#8888aa;
+  text-decoration:none;
+  margin-bottom:1.5rem;
+  font-size:.9rem;
+}
+.back-link:hover{color:#eaeaff}
+.store-section{margin-bottom:3rem}
+.store-section h2{
+  font-size:1.5rem;
+  margin-bottom:1rem;
+  padding-bottom:.5rem;
+  border-bottom:1px solid #1a1a3a;
+}
+.badge{
+  display:inline-block;
+  padding:.2rem .6rem;
+  border-radius:4px;
+  font-size:.75rem;
+  font-weight:600;
+  margin-left:.5rem;
+  vertical-align:middle;
+}
+
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back-link" href="https://inity13.github.io/neon-pixel-forge">← Back to Pixel Forge</a>
+  <h1 style="color:#FF2D9B">Pixel Forge Demos</h1>
+  <p class="subtitle">Try before you buy — 10 interactive previews</p>
+  <div class="demo-grid">
+    <div class="demo-card" style="--accent:#FF2D9B">
+  <div class="frame-wrap">
+    <iframe src="demos/dungeon-tileset/index.html" loading="lazy" sandbox="allow-scripts" title="Dungeon Tileset demo"></iframe>
+  </div>
+  <div class="card-body">
+    <div class="product-name">Dungeon Tileset</div>
+    <div class="product-desc">Dark, moody dungeon tiles for RPGs and roguelikes. Walls, floors, doors, traps, and decorations.</div>
+    <div class="card-footer">
+      <span class="price">$5.00</span>
+      <a class="btn-buy" href="https://buy.stripe.com/7sYcN5ePd8WW5h84i5gjG2l" target="_blank" rel="noopener">Buy Now</a>
+    </div>
+  </div>
+  <a class="btn-expand" href="demos/dungeon-tileset/index.html" target="_blank" rel="noopener">Open full demo ↗</a>
+</div><div class="demo-card" style="--accent:#FF2D9B">
+  <div class="frame-wrap">
+    <iframe src="demos/explosion-vfx-pack/index.html" loading="lazy" sandbox="allow-scripts" title="Explosion VFX Pack demo"></iframe>
+  </div>
+  <div class="card-body">
+    <div class="product-name">Explosion VFX Pack</div>
+    <div class="product-desc">Juicy explosion animations — fireballs, smoke puffs, energy bursts, and hit sparks.</div>
+    <div class="card-footer">
+      <span class="price">$3.00</span>
+      <a class="btn-buy" href="https://buy.stripe.com/5kQ00j7mL6OO5h87uhgjG2m" target="_blank" rel="noopener">Buy Now</a>
+    </div>
+  </div>
+  <a class="btn-expand" href="demos/explosion-vfx-pack/index.html" target="_blank" rel="noopener">Open full demo ↗</a>
+</div><div class="demo-card" style="--accent:#FF2D9B">
+  <div class="frame-wrap">
+    <iframe src="demos/monster-bestiary-pack/index.html" loading="lazy" sandbox="allow-scripts" title="Monster Bestiary Pack demo"></iframe>
+  </div>
+  <div class="card-body">
+    <div class="product-name">Monster Bestiary Pack</div>
+    <div class="product-desc">A full bestiary of pixel monsters — slimes, skeletons, dragons, and bosses with idle and attack animations.</div>
+    <div class="card-footer">
+      <span class="price">$5.00</span>
+      <a class="btn-buy" href="https://buy.stripe.com/bJe4gz8qP4GGeRI6qdgjG2n" target="_blank" rel="noopener">Buy Now</a>
+    </div>
+  </div>
+  <a class="btn-expand" href="demos/monster-bestiary-pack/index.html" target="_blank" rel="noopener">Open full demo ↗</a>
+</div><div class="demo-card" style="--accent:#FF2D9B">
+  <div class="frame-wrap">
+    <iframe src="demos/nature-tileset-mega/index.html" loading="lazy" sandbox="allow-scripts" title="Nature Tileset Mega Pack demo"></iframe>
+  </div>
+  <div class="card-body">
+    <div class="product-name">Nature Tileset Mega Pack</div>
+    <div class="product-desc">Forests, rivers, mountains, caves, and seasonal variations. The outdoor tileset to end all outdoor tilesets.</div>
+    <div class="card-footer">
+      <span class="price">$7.00</span>
+      <a class="btn-buy" href="https://buy.stripe.com/9B69AT22r5KK10S5m9gjG2o" target="_blank" rel="noopener">Buy Now</a>
+    </div>
+  </div>
+  <a class="btn-expand" href="demos/nature-tileset-mega/index.html" target="_blank" rel="noopener">Open full demo ↗</a>
+</div><div class="demo-card" style="--accent:#FF2D9B">
+  <div class="frame-wrap">
+    <iframe src="demos/pixel-font-pack/index.html" loading="lazy" sandbox="allow-scripts" title="Pixel Font Pack demo"></iframe>
+  </div>
+  <div class="card-body">
+    <div class="product-name">Pixel Font Pack</div>
+    <div class="product-desc">Crisp pixel fonts in multiple sizes — perfect for dialogue boxes, HUDs, and title screens.</div>
+    <div class="card-footer">
+      <span class="price">$3.00</span>
+      <a class="btn-buy" href="https://buy.stripe.com/bJe00j0YngpocJA15TgjG2p" target="_blank" rel="noopener">Buy Now</a>
+    </div>
+  </div>
+  <a class="btn-expand" href="demos/pixel-font-pack/index.html" target="_blank" rel="noopener">Open full demo ↗</a>
+</div><div class="demo-card" style="--accent:#FF2D9B">
+  <div class="frame-wrap">
+    <iframe src="demos/pixel-weapons-collection/index.html" loading="lazy" sandbox="allow-scripts" title="Pixel Weapons Collection demo"></iframe>
+  </div>
+  <div class="card-body">
+    <div class="product-name">Pixel Weapons Collection</div>
+    <div class="product-desc">Swords, axes, bows, staves, daggers, and more. Each weapon includes inventory icons and swing animations.</div>
+    <div class="card-footer">
+      <span class="price">$5.00</span>
+      <a class="btn-buy" href="https://buy.stripe.com/4gM5kD22rflk24W4i5gjG2q" target="_blank" rel="noopener">Buy Now</a>
+    </div>
+  </div>
+  <a class="btn-expand" href="demos/pixel-weapons-collection/index.html" target="_blank" rel="noopener">Open full demo ↗</a>
+</div><div class="demo-card" style="--accent:#FF2D9B">
+  <div class="frame-wrap">
+    <iframe src="demos/retro-platformer-kit/index.html" loading="lazy" sandbox="allow-scripts" title="Retro Platformer Kit demo"></iframe>
+  </div>
+  <div class="card-body">
+    <div class="product-name">Retro Platformer Kit</div>
+    <div class="product-desc">NES-style platformer sprites — hero character, enemies, platforms, collectibles, and background tiles.</div>
+    <div class="card-footer">
+      <span class="price">$5.00</span>
+      <a class="btn-buy" href="https://buy.stripe.com/fZuaEXdL9a1010S4i5gjG2r" target="_blank" rel="noopener">Buy Now</a>
+    </div>
+  </div>
+  <a class="btn-expand" href="demos/retro-platformer-kit/index.html" target="_blank" rel="noopener">Open full demo ↗</a>
+</div><div class="demo-card" style="--accent:#FF2D9B">
+  <div class="frame-wrap">
+    <iframe src="demos/sci-fi-ui-kit/index.html" loading="lazy" sandbox="allow-scripts" title="Sci-Fi UI Kit demo"></iframe>
+  </div>
+  <div class="card-body">
+    <div class="product-name">Sci-Fi UI Kit</div>
+    <div class="product-desc">Sleek sci-fi interface elements — health bars, minimaps, inventory panels, and button styles.</div>
+    <div class="card-footer">
+      <span class="price">$5.00</span>
+      <a class="btn-buy" href="https://buy.stripe.com/00w6oH6iH4GG9xobKxgjG2s" target="_blank" rel="noopener">Buy Now</a>
+    </div>
+  </div>
+  <a class="btn-expand" href="demos/sci-fi-ui-kit/index.html" target="_blank" rel="noopener">Open full demo ↗</a>
+</div><div class="demo-card" style="--accent:#FF2D9B">
+  <div class="frame-wrap">
+    <iframe src="demos/space-shooter-assets/index.html" loading="lazy" sandbox="allow-scripts" title="Space Shooter Assets demo"></iframe>
+  </div>
+  <div class="card-body">
+    <div class="product-name">Space Shooter Assets</div>
+    <div class="product-desc">Ships, asteroids, projectiles, power-ups, and starfield backgrounds for space shooters and shmups.</div>
+    <div class="card-footer">
+      <span class="price">$5.00</span>
+      <a class="btn-buy" href="https://buy.stripe.com/00w9AT4azehgfVM6qdgjG2t" target="_blank" rel="noopener">Buy Now</a>
+    </div>
+  </div>
+  <a class="btn-expand" href="demos/space-shooter-assets/index.html" target="_blank" rel="noopener">Open full demo ↗</a>
+</div><div class="demo-card" style="--accent:#FF2D9B">
+  <div class="frame-wrap">
+    <iframe src="demos/warrior-sprite-pack/index.html" loading="lazy" sandbox="allow-scripts" title="Warrior Sprite Pack demo"></iframe>
+  </div>
+  <div class="card-body">
+    <div class="product-name">Warrior Sprite Pack</div>
+    <div class="product-desc">Fully animated warrior characters — idle, run, attack, jump, and death sequences in four directions.</div>
+    <div class="card-footer">
+      <span class="price">$5.00</span>
+      <a class="btn-buy" href="https://buy.stripe.com/fZuaEX36v3CCeRI29XgjG2u" target="_blank" rel="noopener">Buy Now</a>
+    </div>
+  </div>
+  <a class="btn-expand" href="demos/warrior-sprite-pack/index.html" target="_blank" rel="noopener">Open full demo ↗</a>
+</div>
+  </div>
+</div>
+</body>
+</html>

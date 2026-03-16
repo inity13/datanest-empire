@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retention Tracker Demo — Analytics Hub | CodeVault</title>
+<meta name="description" content="Interactive retention curve tracker demo from Analytics Hub.">
+<style>
+  :root {
+    --bg: #0A0E1A; --surface: #141824; --surface2: #1E2436;
+    --border: #2A2E3E; --text: #EAEAFF; --muted: #8888AA;
+    --accent: #00E5FF; --danger: #FF4444; --success: #00E676; --warn: #FF9800;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 15px; min-height: 100vh; }
+  a { color: var(--accent); text-decoration: none; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  header .brand { font-weight: 700; font-size: 1.1rem; }
+  header .brand span { color: var(--accent); }
+  .badge { background: var(--accent); color: #0A0E1A; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 32px 20px; }
+  h1 { font-size: 1.6rem; margin-bottom: 6px; }
+  .subtitle { color: var(--muted); margin-bottom: 28px; }
+
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 22px; margin-bottom: 20px; }
+  .panel-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 16px; }
+
+  label { color: var(--muted); font-size: 0.82rem; display: inline-block; margin-right: 10px; }
+  select, input[type=number] { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 7px 12px; color: var(--text); font-size: 0.88rem; outline: none; }
+  select:focus, input:focus { border-color: var(--accent); }
+
+  .controls { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
+  .btn { background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 9px 20px; border-radius: 7px; border: none; cursor: pointer; font-size: 0.9rem; }
+  .btn:hover { opacity: .88; }
+  .btn-sec { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-sec:hover { border-color: var(--accent); color: var(--accent); opacity: 1; }
+
+  /* Summary row */
+  .summary-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 24px; }
+  @media(max-width:600px) { .summary-row { grid-template-columns: repeat(2,1fr); } }
+  .sum { background: var(--surface2); border-radius: 8px; padding: 12px; text-align: center; }
+  .sum .v { font-size: 1.3rem; font-weight: 700; }
+  .sum .l { font-size: 0.75rem; color: var(--muted); margin-top: 3px; }
+
+  /* Chart area using CSS bars */
+  .chart-wrap { position: relative; }
+  .chart-title { font-size: 0.82rem; color: var(--muted); margin-bottom: 8px; }
+  .chart-svg-wrap { width: 100%; overflow: hidden; border-radius: 6px; }
+  svg.retention-chart { width: 100%; display: block; }
+
+  /* Series legend */
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; cursor: pointer; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Data table */
+  .ret-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .ret-table th { padding: 7px 10px; text-align: center; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--border); }
+  .ret-table th:first-child { text-align: left; }
+  .ret-table td { padding: 6px 10px; text-align: center; border-bottom: 1px solid var(--border); }
+  .ret-table td:first-child { text-align: left; font-weight: 600; }
+
+  .cta-box { background: linear-gradient(135deg, rgba(0,229,255,.08), rgba(0,229,255,.02)); border: 1px solid rgba(0,229,255,.25); border-radius: 12px; padding: 28px 24px; text-align: center; margin-top: 32px; }
+  .cta-box h2 { font-size: 1.25rem; margin-bottom: 8px; }
+  .cta-box p { color: var(--muted); margin-bottom: 20px; font-size: 0.9rem; }
+  .btn-cta { display: inline-block; background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 12px 32px; border-radius: 8px; font-size: 1rem; text-decoration: none; }
+  .btn-cta:hover { opacity: .9; text-decoration: none; }
+  .demo-note { color: var(--muted); font-size: 0.82rem; margin-top: 14px; }
+
+  footer { text-align: center; padding: 24px; color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--border); margin-top: 40px; }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Analytics<span>Hub</span> — Retention Tracker</div>
+  <span class="badge">Demo</span>
+</header>
+
+<div class="container">
+  <h1>Retention Tracker</h1>
+  <p class="subtitle">Visualize user retention curves by plan tier over time — spot where users drop off.</p>
+
+  <div class="panel">
+    <div class="panel-title">Configuration</div>
+    <div class="controls">
+      <div><label>Period</label>
+        <select id="periodSel" onchange="generate()">
+          <option value="day">Day-over-day (30d)</option>
+          <option value="week" selected>Week-over-week (12w)</option>
+        </select>
+      </div>
+      <div><label>Cohort size</label><input type="number" id="cohortSize" value="1000" min="100" max="9999" style="width:90px"></div>
+      <button class="btn" onclick="generate()">Regenerate</button>
+    </div>
+
+    <div class="summary-row" id="summaryRow"></div>
+
+    <!-- SVG chart -->
+    <div class="chart-wrap">
+      <div class="chart-title">Retention % over time (by plan tier)</div>
+      <div class="chart-svg-wrap">
+        <svg id="retChart" class="retention-chart" viewBox="0 0 700 220"></svg>
+      </div>
+      <div class="legend" id="legend"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Retention Data Table</div>
+    <div style="overflow-x:auto"><table class="ret-table" id="retTable"></table></div>
+  </div>
+
+  <div class="cta-box">
+    <h2>Get the Full Retention Tracker</h2>
+    <p>Import from Segment, Mixpanel, or PostgreSQL. Overlay feature launches on the retention curve, build benchmark comparisons, and receive weekly churn risk digests.</p>
+    <a class="btn-cta" href="https://buy.stripe.com/8x214n9uTflk7pgcOBgjI3X">Buy Full Version — $59.00</a>
+    <button class="crypto-pay-btn" data-product-slug="event-tracker" data-store-slug="analytics-hub" data-product-name="Event Tracker" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+    <div class="demo-note">This demo shows limited functionality. Buy the full tool for all features.</div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 CodeVault / Analytics Hub &mdash; <a href="https://buy.stripe.com/8x214n9uTflk7pgcOBgjI3X">Back to Store</a>
+  &mdash; <a href="index.html">All Demos</a>
+</footer>
+
+<script>
+const SERIES_DEFS = [
+  { label: 'Business', color: '#00E5FF', baseRetention: 0.82, decay: 0.025 },
+  { label: 'Pro',      color: '#00E676', baseRetention: 0.68, decay: 0.040 },
+  { label: 'Starter',  color: '#FF9800', baseRetention: 0.48, decay: 0.065 },
+];
+
+function generateCurve(base, decay, periods) {
+  const pts = [100];
+  let v = base * 100;
+  for (let i = 1; i < periods; i++) {
+    v = v * (1 - decay) * (0.95 + Math.random() * 0.1);
+    pts.push(Math.max(1, Math.round(v)));
+  }
+  return pts;
+}
+
+function generate() {
+  const period = document.getElementById('periodSel').value;
+  const n = period === 'day' ? 30 : 12;
+  const label = period === 'day' ? 'D' : 'W';
+
+  const series = SERIES_DEFS.map(s => ({
+    ...s,
+    data: generateCurve(s.baseRetention, s.decay + (Math.random()-0.5)*0.01, n)
+  }));
+
+  renderChart(series, n, label);
+  renderTable(series, n, label);
+  renderSummary(series);
+}
+
+function renderChart(series, n, label) {
+  const W = 700, H = 220, PAD = {top:10,right:20,bottom:30,left:40};
+  const cw = W - PAD.left - PAD.right;
+  const ch = H - PAD.top - PAD.bottom;
+
+  // Axes
+  let svg = '';
+  // Y gridlines
+  [0,25,50,75,100].forEach(pct => {
+    const y = PAD.top + ch - (pct/100)*ch;
+    svg += `<line x1="${PAD.left}" y1="${y}" x2="${W-PAD.right}" y2="${y}" stroke="#2A2E3E" stroke-width="1"/>`;
+    svg += `<text x="${PAD.left-4}" y="${y+4}" text-anchor="end" fill="#8888AA" font-size="10">${pct}%</text>`;
+  });
+  // X labels
+  const step = Math.max(1, Math.floor(n/8));
+  for (let i = 0; i < n; i += step) {
+    const x = PAD.left + (i/(n-1))*cw;
+    svg += `<text x="${x}" y="${H-4}" text-anchor="middle" fill="#8888AA" font-size="10">${label}${i}</text>`;
+  }
+
+  // Series lines
+  series.forEach(s => {
+    const pts = s.data.map((v,i)=>`${PAD.left+(i/(n-1))*cw},${PAD.top+ch-(v/100)*ch}`).join(' ');
+    svg += `<polyline points="${pts}" fill="none" stroke="${s.color}" stroke-width="2.5" stroke-linejoin="round" opacity="0.85"/>`;
+    // First point dot
+    const x0 = PAD.left, y0 = PAD.top+ch-(s.data[0]/100)*ch;
+    svg += `<circle cx="${x0}" cy="${y0}" r="4" fill="${s.color}"/>`;
+  });
+
+  document.getElementById('retChart').innerHTML = svg;
+
+  // Legend
+  document.getElementById('legend').innerHTML = series.map(s =>
+    `<div class="legend-item"><div class="legend-dot" style="background:${s.color}"></div>${s.label}</div>`
+  ).join('');
+}
+
+function renderTable(series, n, label) {
+  const cols = [0, 1, 2, 3, Math.floor(n/2), n-1].filter((v,i,a)=>a.indexOf(v)===i && v<n);
+  let html = `<thead><tr><th>Tier</th>${cols.map(c=>`<th>${label}${c}</th>`).join('')}</tr></thead><tbody>`;
+  series.forEach(s => {
+    const color = s.label==='Business' ? 'var(--accent)' : s.label==='Pro' ? 'var(--success)' : 'var(--warn)';
+    html += `<tr><td style="color:${color}">${s.label}</td>${cols.map(c=>`<td>${s.data[c]}%</td>`).join('')}</tr>`;
+  });
+  html += '</tbody>';
+  document.getElementById('retTable').innerHTML = html;
+}
+
+function renderSummary(series) {
+  const last = i => series[i].data[series[i].data.length-1];
+  document.getElementById('summaryRow').innerHTML = `
+    <div class="sum"><div class="v" style="color:var(--accent)">${last(0)}%</div><div class="l">Business End Retention</div></div>
+    <div class="sum"><div class="v" style="color:var(--success)">${last(1)}%</div><div class="l">Pro End Retention</div></div>
+    <div class="sum"><div class="v" style="color:var(--warn)">${last(2)}%</div><div class="l">Starter End Retention</div></div>
+    <div class="sum"><div class="v" style="color:${last(0)-last(2)>20?'var(--danger)':'var(--muted)'}">${last(0)-last(2)}pp</div><div class="l">Business vs Starter Gap</div></div>`;
+}
+
+generate();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

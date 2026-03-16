@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keyword Density Checker Demo — SEO Toolkit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:820px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#00FF8820;color:#00FF88;border:1px solid #00FF8840;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#00FF88;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+  label{display:block;font-size:13px;color:#94a3b8;margin-bottom:6px;font-weight:500}
+  textarea,input{width:100%;background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:10px 14px;color:#e2e8f0;font-size:14px;outline:none;transition:border-color .2s;font-family:inherit}
+  textarea:focus,input:focus{border-color:#00FF88}
+  .stats-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+  .stat{background:#0A0E1A;border:1px solid #1e293b;border-radius:8px;padding:10px 16px;flex:1;min-width:90px;text-align:center}
+  .stat-val{font-size:20px;font-weight:700;color:#00FF88}
+  .stat-label{font-size:11px;color:#64748b;margin-top:2px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;color:#64748b;font-weight:600;padding:8px 12px;border-bottom:1px solid #1e293b;font-size:12px;text-transform:uppercase}
+  td{padding:9px 12px;border-bottom:1px solid #0f172a;vertical-align:middle}
+  tr:hover td{background:#0f172a}
+  .density-bar{background:#1e293b;border-radius:4px;height:8px;overflow:hidden;width:100px;display:inline-block;vertical-align:middle;margin-left:8px}
+  .density-fill{height:100%;border-radius:4px}
+  .good-kw{color:#00FF88}.warn-kw{color:#f59e0b}.bad-kw{color:#ef4444}.neutral-kw{color:#e2e8f0}
+  .controls{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .controls select{background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:8px 12px;color:#e2e8f0;font-size:13px;outline:none}
+  .filter-input{flex:1;min-width:160px}
+  .filter-input input{padding:8px 12px}
+  .cta-bar{background:linear-gradient(135deg,#00FF8815,#00FF8805);border:1px solid #00FF8830;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#00FF88;color:#0A0E1A;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#00e67a;transform:translateY(-1px);box-shadow:0 8px 24px #00FF8840}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  .empty{text-align:center;color:#475569;padding:32px;font-size:14px}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Keyword Density Checker</h1>
+    <p class="subtitle">Paste any text to instantly analyze word frequency and keyword density</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Input Text</div>
+    <label>Paste your page content below</label>
+    <textarea id="textInput" rows="8" placeholder="Paste your article, blog post, or page content here to analyze keyword density and word frequency...&#10;&#10;Try pasting a paragraph from your website!" oninput="analyze()"></textarea>
+    <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center">
+      <span id="wordCountLabel" style="font-size:12px;color:#64748b">0 words · 0 unique</span>
+      <button onclick="document.getElementById('textInput').value='';analyze()" style="background:none;border:none;color:#64748b;cursor:pointer;font-size:12px">Clear</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Word Frequency Analysis</div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-val" id="sTotal">0</div><div class="stat-label">Total Words</div></div>
+      <div class="stat"><div class="stat-val" id="sUnique">0</div><div class="stat-label">Unique Words</div></div>
+      <div class="stat"><div class="stat-val" id="sSentences">0</div><div class="stat-label">Sentences</div></div>
+      <div class="stat"><div class="stat-val" id="sAvgLen">0</div><div class="stat-label">Avg Word Len</div></div>
+    </div>
+    <div class="controls">
+      <div class="filter-input"><input type="text" id="filterWord" placeholder="Filter keywords..." oninput="renderTable()"></div>
+      <select id="minLen" onchange="renderTable()">
+        <option value="3">Min 3 chars</option>
+        <option value="4" selected>Min 4 chars</option>
+        <option value="5">Min 5 chars</option>
+        <option value="6">Min 6 chars</option>
+      </select>
+      <select id="sortBy" onchange="renderTable()">
+        <option value="count">Sort by Count</option>
+        <option value="density">Sort by Density</option>
+        <option value="alpha">Sort A–Z</option>
+      </select>
+    </div>
+    <div id="tableContainer"><div class="empty">Paste text above to see keyword analysis</div></div>
+  </div>
+
+  <div class="cta-bar">
+    <p>The full tool analyzes phrase density (bigrams/trigrams), compares against competitor pages, identifies over-optimized content, and generates density reports for any URL.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/6oUaEXePd2yyeRIeWJgjJ20">Buy Full Version — $19.00</a>
+    <button class="crypto-pay-btn" data-product-slug="keyword-density-checker" data-store-slug="seo-toolkit" data-product-name="Keyword Density Checker" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows limited functionality. Buy the full tool for all features.</div>
+</div>
+<script>
+const STOPWORDS = new Set(['the','and','for','with','this','that','have','from','are','was','were','been','will','would','could','should','their','there','them','then','than','when','what','which','who','how','its','our','your','but','not','all','any','can','had','has','his','her','she','he','they','we','you','it','is','in','on','at','to','of','a','an','be','do','did','does','if','by','as','so','or','my','me','us','him','no','up','out','may','use','also','some','each','like','more','other','such','two','per','into','about','over','very','just','only','into','about','from','after','before','between','through','during','these','those','been','both','few','same','well','back','good','new','great','best','first','last','most','much','many','one','make','time','need','see','get','way','want','here','now','take','give','know','think','look','day','go','long','down','come','even','right','still','also','too','again']);
+
+let wordData = [];
+
+function analyze() {
+  const text = document.getElementById('textInput').value;
+  const words = text.toLowerCase().match(/\b[a-z']+\b/g) || [];
+  const sentences = (text.match(/[.!?]+/g)||[]).length || (text.trim() ? 1 : 0);
+  const freq = {};
+  words.forEach(w => { const c = w.replace(/'/g,''); if(c.length >= 2) freq[c] = (freq[c]||0)+1; });
+  const total = words.length;
+  const unique = Object.keys(freq).length;
+  const avgLen = total > 0 ? (words.reduce((s,w)=>s+w.length,0)/total).toFixed(1) : 0;
+
+  document.getElementById('sTotal').textContent = total;
+  document.getElementById('sUnique').textContent = unique;
+  document.getElementById('sSentences').textContent = sentences;
+  document.getElementById('sAvgLen').textContent = avgLen;
+  document.getElementById('wordCountLabel').textContent = `${total} words · ${unique} unique`;
+
+  wordData = Object.entries(freq).map(([word,count]) => ({word,count,density:((count/total)*100).toFixed(2)}));
+  renderTable();
+}
+
+function renderTable() {
+  const filter = document.getElementById('filterWord').value.toLowerCase();
+  const minLen = parseInt(document.getElementById('minLen').value);
+  const sortBy = document.getElementById('sortBy').value;
+  const total = parseInt(document.getElementById('sTotal').textContent)||1;
+
+  let filtered = wordData.filter(d => d.word.length >= minLen && !STOPWORDS.has(d.word) && (filter ? d.word.includes(filter) : true));
+  if (sortBy==='count') filtered.sort((a,b)=>b.count-a.count);
+  else if (sortBy==='density') filtered.sort((a,b)=>b.density-a.density);
+  else filtered.sort((a,b)=>a.word.localeCompare(b.word));
+  filtered = filtered.slice(0,40);
+
+  if (!filtered.length) {
+    document.getElementById('tableContainer').innerHTML = '<div class="empty">No keywords found — paste more text above</div>';
+    return;
+  }
+
+  const maxCount = filtered[0]?.count||1;
+  const rows = filtered.map(d => {
+    const pct = parseFloat(d.density);
+    const cls = pct > 3 ? 'bad-kw' : pct > 1.5 ? 'warn-kw' : pct > 0.5 ? 'good-kw' : 'neutral-kw';
+    const barW = Math.round((d.count/maxCount)*100);
+    const barColor = pct > 3 ? '#ef4444' : pct > 1.5 ? '#f59e0b' : '#00FF88';
+    return `<tr>
+      <td class="${cls}" style="font-weight:600">${d.word}</td>
+      <td>${d.count}</td>
+      <td><span class="${cls}">${d.density}%</span>
+        <span class="density-bar"><span class="density-fill" style="width:${barW}%;background:${barColor}"></span></span>
+      </td>
+      <td style="color:#64748b;font-size:12px">${pct > 3 ? '⚠️ Over' : pct > 1.5 ? '✓ High' : pct > 0.5 ? '✓ Good' : 'Low'}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('tableContainer').innerHTML = `<table>
+    <thead><tr><th>Keyword</th><th>Count</th><th>Density</th><th>Status</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+analyze();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

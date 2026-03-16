@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Tenant Router — Interactive Demo | SaaS Starter</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#FFD600;--accent-dim:rgba(255,214,0,.1);--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;--red:#FF4B6E;--blue:#60A5FA;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;}
+  .badge{background:var(--accent);color:#0A0E1A;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1050px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+  @media(max-width:750px){.grid2{grid-template-columns:1fr;}}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;}
+  h3{font-size:1rem;font-weight:700;margin-bottom:1rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+  input,select{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.55rem .8rem;border-radius:8px;font-size:.88rem;margin-bottom:.85rem;font-family:inherit;}
+  input:focus,select:focus{outline:none;border-color:var(--accent);}
+  .btn{padding:.6rem 1.2rem;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;background:var(--accent);color:#0A0E1A;}
+  .btn:hover{opacity:.85;}
+  .btn-sm{padding:.3rem .65rem;font-size:.75rem;}
+  /* Tenant cards */
+  .tenant-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:1.1rem;margin-bottom:.75rem;cursor:pointer;transition:all .2s;}
+  .tenant-card.active{border-color:var(--accent);background:var(--accent-dim);}
+  .tenant-header{display:flex;align-items:center;gap:.75rem;}
+  .tenant-logo{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;flex-shrink:0;}
+  .tenant-name{font-weight:700;font-size:.9rem;}
+  .tenant-slug{font-size:.72rem;color:var(--muted);font-family:monospace;}
+  .pill{display:inline-block;padding:.12rem .45rem;border-radius:4px;font-size:.68rem;font-weight:600;}
+  .pill-active{background:rgba(0,255,136,.1);color:var(--green);}
+  .pill-suspended{background:rgba(255,75,110,.1);color:var(--red);}
+  /* Request simulator */
+  .req-panel{background:var(--surface2);border-radius:10px;padding:1.1rem;}
+  .req-result{margin-top:1rem;background:var(--bg);border-radius:8px;padding:1rem;font-family:'Courier New',monospace;font-size:.78rem;line-height:1.7;}
+  .r-ok{color:var(--green);}
+  .r-err{color:var(--red);}
+  .r-label{color:var(--muted);}
+  /* Isolation diagram */
+  .iso-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;}
+  @media(max-width:500px){.iso-grid{grid-template-columns:1fr;}}
+  .iso-cell{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.85rem;text-align:center;font-size:.78rem;}
+  .iso-cell h4{font-size:.8rem;font-weight:700;margin-bottom:.4rem;}
+  .iso-item{color:var(--muted);font-size:.72rem;padding:.15rem 0;}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a1a0a);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#0A0E1A;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">🏢</span>
+  <h1>Multi-Tenant Router</h1>
+  <span style="color:var(--muted);font-size:.9rem">Interactive Demo</span>
+  <span class="badge">SaaS Starter</span>
+</header>
+<div class="container">
+  <h2>Multi-Tenancy Routing Engine</h2>
+  <p class="subtitle">Create isolated tenants, resolve them from subdomains/headers/tokens, and simulate per-tenant request routing with data isolation.</p>
+
+  <div class="grid2">
+    <!-- Tenant list -->
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+        <h3 style="margin:0">Tenants</h3>
+        <button class="btn btn-sm" onclick="addTenant()">+ Add Tenant</button>
+      </div>
+      <div id="tenantList"></div>
+      <div style="margin-top:1rem">
+        <label>New Tenant Slug</label>
+        <div style="display:flex;gap:.5rem">
+          <input type="text" id="newSlug" placeholder="acme-corp" style="margin:0">
+          <button class="btn btn-sm" onclick="addTenant()">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Request simulator -->
+    <div>
+      <div class="panel">
+        <h3>Request Simulator</h3>
+        <label>Resolution Strategy</label>
+        <select id="strategy">
+          <option value="subdomain">Subdomain (acme.myapp.com)</option>
+          <option value="header">Header (X-Tenant-ID)</option>
+          <option value="path">Path prefix (/tenant/acme/...)</option>
+          <option value="jwt">JWT claim</option>
+        </select>
+        <label>Tenant Identifier</label>
+        <input type="text" id="reqTenant" placeholder="acme-corp">
+        <label>Request Path</label>
+        <input type="text" id="reqPath" value="/api/users" placeholder="/api/...">
+        <button class="btn" onclick="simulateRequest()" style="width:100%">▶ Simulate Request</button>
+        <div class="req-result" id="reqResult" style="display:none"></div>
+      </div>
+
+      <!-- Isolation diagram -->
+      <div class="panel">
+        <h3>Data Isolation Model</h3>
+        <div class="iso-grid" id="isoGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <p>Full version includes database-per-tenant, schema isolation, tenant middleware for FastAPI/Flask/Django, provisioning API, and cross-tenant admin.</p>
+    <a href="https://buy.stripe.com/28E00jcH5flk10S9CpgjJ1D" class="cta-btn">Buy Full Version — $19.99</a>
+    <button class="crypto-pay-btn" data-product-slug="multi-tenant-router" data-store-slug="saas-starter" data-product-name="multi-tenant-router" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+<script>
+const COLORS = ['#FFD600','#E91E63','#00BCD4','#00FF88','#cba6f7','#60A5FA'];
+const EMOJIS = ['🏢','🚀','⚡','🔥','🌟','💎'];
+const PLANS = ['Free','Starter','Pro','Business'];
+
+let tenants = [
+  {slug:'acme-corp',name:'Acme Corp',plan:'Pro',status:'active',users:24,color:'#FFD600',emoji:'🏢'},
+  {slug:'startup-io',name:'Startup.io',plan:'Starter',status:'active',users:8,color:'#E91E63',emoji:'🚀'},
+  {slug:'techco',name:'TechCo',plan:'Business',status:'active',users:58,color:'#00BCD4',emoji:'⚡'},
+  {slug:'testorg',name:'TestOrg',plan:'Free',status:'suspended',users:2,color:'#8888AA',emoji:'🔥'},
+];
+
+function addTenant() {
+  const slug = document.getElementById('newSlug').value.trim().toLowerCase().replace(/\s+/g,'-') || 'tenant-'+Date.now();
+  const names = ['Innovate Labs','CloudScale','DevForge','ByteStack','NexaCore'];
+  const idx = tenants.length % COLORS.length;
+  tenants.push({
+    slug, name: names[Math.floor(Math.random()*names.length)],
+    plan: PLANS[Math.floor(Math.random()*PLANS.length)],
+    status: 'active', users: Math.floor(Math.random()*30)+1,
+    color: COLORS[idx], emoji: EMOJIS[idx]
+  });
+  document.getElementById('newSlug').value='';
+  renderTenants();
+}
+
+function renderTenants() {
+  document.getElementById('tenantList').innerHTML = tenants.map(t=>`
+    <div class="tenant-card" onclick="selectTenant('${t.slug}')">
+      <div class="tenant-header">
+        <div class="tenant-logo" style="background:${t.color}22;border:1px solid ${t.color}44">${t.emoji}</div>
+        <div>
+          <div class="tenant-name">${t.name} <span class="pill ${t.status==='active'?'pill-active':'pill-suspended'}">${t.status}</span></div>
+          <div class="tenant-slug">${t.slug} · ${t.plan} · ${t.users} users</div>
+        </div>
+      </div>
+    </div>`).join('');
+  renderIsoGrid();
+}
+
+function selectTenant(slug) {
+  document.getElementById('reqTenant').value = slug;
+}
+
+function simulateRequest() {
+  const strategy = document.getElementById('strategy').value;
+  const identifier = document.getElementById('reqTenant').value.trim();
+  const path = document.getElementById('reqPath').value.trim() || '/api/data';
+  const tenant = tenants.find(t=>t.slug===identifier);
+  const res = document.getElementById('reqResult');
+  res.style.display='block';
+
+  if(!tenant) {
+    res.innerHTML=`<div class="r-err">✗ 404 Tenant Not Found</div><div class="r-label">No tenant matched: "${identifier}"</div><div class="r-label">Strategy: ${strategy}</div>`;
+    return;
+  }
+  if(tenant.status==='suspended') {
+    res.innerHTML=`<div class="r-err">✗ 403 Tenant Suspended</div><div class="r-label">Tenant "${tenant.name}" is suspended.</div>`;
+    return;
+  }
+
+  const strategyHeader = {
+    subdomain:`Host: ${tenant.slug}.myapp.com`,
+    header:`X-Tenant-ID: ${tenant.slug}`,
+    path:`GET /${tenant.slug}${path}`,
+    jwt:`Authorization: Bearer eyJ...{tenant:"${tenant.slug}"}`,
+  }[strategy];
+
+  res.innerHTML=`<div class="r-ok">✓ 200 OK — Tenant Resolved</div>
+<br><span class="r-label">Strategy:</span> ${strategy}
+<span class="r-label">Inbound:</span> ${strategyHeader}
+<span class="r-label">Tenant ID:</span> ${tenant.slug}
+<span class="r-label">Tenant Name:</span> ${tenant.name}
+<span class="r-label">Plan:</span> ${tenant.plan}
+<span class="r-label">DB Schema:</span> tenant_${tenant.slug.replace(/-/g,'_')}
+<span class="r-label">Routed To:</span> GET ${path}
+<span class="r-label">Context Set:</span> request.tenant = {...}`;
+}
+
+function renderIsoGrid() {
+  document.getElementById('isoGrid').innerHTML = tenants.slice(0,3).map(t=>`
+    <div class="iso-cell">
+      <h4 style="color:${t.color}">${t.emoji} ${t.name}</h4>
+      <div class="iso-item">Schema: tenant_${t.slug.replace(/-/g,'_')}</div>
+      <div class="iso-item">${t.users} users</div>
+      <div class="iso-item">Plan: ${t.plan}</div>
+    </div>`).join('');
+}
+
+renderTenants();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

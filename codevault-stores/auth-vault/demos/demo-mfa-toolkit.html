@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MFA Toolkit — Interactive Demo | Auth Vault</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#E91E63;--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;--red:#FF4B6E;--yellow:#FFD600;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;} .badge{background:var(--accent);color:#fff;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:900px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+  @media(max-width:700px){.grid{grid-template-columns:1fr;}}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+  input{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.55rem .8rem;border-radius:8px;font-size:.88rem;margin-bottom:.85rem;}
+  input:focus{outline:none;border-color:var(--accent);}
+  .btn{display:block;width:100%;padding:.7rem;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;margin-bottom:.75rem;}
+  .btn:hover{opacity:.85;}
+  .totp-display{text-align:center;padding:1.5rem;}
+  .code-big{font-size:2.8rem;font-weight:700;letter-spacing:.4rem;font-family:'Courier New',monospace;color:var(--accent);}
+  .timer-ring{width:60px;height:60px;margin:1rem auto .5rem;position:relative;}
+  .timer-ring svg{transform:rotate(-90deg);}
+  .timer-circle-bg{fill:none;stroke:var(--surface2);stroke-width:4;}
+  .timer-circle{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .9s linear,stroke .5s;}
+  .timer-num{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:.9rem;font-weight:700;}
+  .secret-display{background:var(--surface2);border-radius:8px;padding:.75rem;font-family:'Courier New',monospace;font-size:.85rem;letter-spacing:.1em;color:#a6e3a1;text-align:center;margin-bottom:.75rem;word-break:break-all;}
+  .verify-input{font-size:1.4rem;letter-spacing:.3rem;text-align:center;font-family:monospace;padding:.75rem;}
+  .verify-result{padding:.6rem .9rem;border-radius:8px;font-size:.9rem;font-weight:600;text-align:center;}
+  .vr-ok{background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.3);color:var(--green);}
+  .vr-fail{background:rgba(255,75,110,.08);border:1px solid rgba(255,75,110,.3);color:var(--red);}
+  .step{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:1rem;}
+  .step-num{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:.8rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .step-text{font-size:.88rem;color:var(--muted);padding-top:.2rem;}
+  .recovery-list{display:flex;flex-direction:column;gap:.3rem;font-family:'Courier New',monospace;font-size:.8rem;}
+  .recovery-code{background:var(--surface2);padding:.35rem .7rem;border-radius:5px;letter-spacing:.1em;color:#cba6f7;}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a1025);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#fff;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">📱</span>
+  <h1>MFA Toolkit</h1>
+  <span>Interactive Demo</span>
+  <span class="badge">Auth Vault</span>
+</header>
+<div class="container">
+  <h2>TOTP 2FA Code Generator</h2>
+  <p class="subtitle">See how time-based one-time passwords (TOTP) work — generate codes and verify them live.</p>
+  <div class="grid">
+    <div class="panel">
+      <div class="step"><div class="step-num">1</div><div class="step-text">Generate a secret key for a user account</div></div>
+      <label>Account Name</label>
+      <input type="text" id="account" value="user@example.com">
+      <label>Issuer (App Name)</label>
+      <input type="text" id="issuer" value="MyApp">
+      <button class="btn" onclick="generateSecret()">🔑 Generate Secret</button>
+      <div class="step"><div class="step-num">2</div><div class="step-text">User scans this secret into Google Authenticator or Authy</div></div>
+      <div class="secret-display" id="secretDisplay">Click "Generate Secret" →</div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">Recovery codes (store securely — shown once)</div></div>
+      <div class="recovery-list" id="recoveryCodes"></div>
+    </div>
+    <div>
+      <div class="panel">
+        <label>Live TOTP Code</label>
+        <div class="totp-display">
+          <div class="code-big" id="totpCode">——————</div>
+          <div class="timer-ring">
+            <svg width="60" height="60" viewBox="0 0 60 60">
+              <circle class="timer-circle-bg" cx="30" cy="30" r="26"/>
+              <circle class="timer-circle" id="timerCircle" cx="30" cy="30" r="26" stroke-dasharray="163.4" stroke-dashoffset="0"/>
+            </svg>
+            <div class="timer-num" id="timerNum">30</div>
+          </div>
+          <div style="color:var(--muted);font-size:.8rem">refreshes every 30 seconds</div>
+        </div>
+      </div>
+      <div class="panel" style="margin-top:1rem">
+        <label>Verify Code</label>
+        <input class="verify-input" type="text" id="verifyInput" maxlength="6" placeholder="000000" oninput="this.value=this.value.replace(/\D/g,'')">
+        <button class="btn" onclick="verifyCode()">✅ Verify Code</button>
+        <div id="verifyResult"></div>
+      </div>
+    </div>
+  </div>
+  <div class="cta-box">
+    <h3>📱 Full MFA Toolkit — Production Python</h3>
+    <p>Full version includes QR code generation, SMS fallback, backup codes management, enforce/audit APIs, and Django/FastAPI middleware.</p>
+    <a href="https://buy.stripe.com/9B69AT36vc98eRI7uhgjJ0f" class="cta-btn">Buy Full Version — $19.99</a>
+    <button class="crypto-pay-btn" data-product-slug="mfa-toolkit" data-store-slug="auth-vault" data-product-name="mfa-toolkit" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo simulates TOTP generation in JavaScript. The real tool uses Python's pyotp library.</footer>
+<script>
+let secret='';
+let currentCode='';
+const PERIOD=30;
+
+function b32chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+
+function generateSecret(){
+  // Generate a random base32 secret (16 chars = 80 bits)
+  secret=Array.from({length:16},()=>b32chars[Math.floor(Math.random()*32)]).join('');
+  document.getElementById('secretDisplay').textContent=secret;
+  
+  // Generate recovery codes
+  const codes=Array.from({length:8},()=>{
+    const a=Math.random().toString(36).slice(2,7).toUpperCase();
+    const b=Math.random().toString(36).slice(2,7).toUpperCase();
+    return `${a}-${b}`;
+  });
+  document.getElementById('recoveryCodes').innerHTML=codes.map(c=>`<div class="recovery-code">${c}</div>`).join('');
+  
+  startTOTP();
+}
+
+// Simulated TOTP (not real RFC 6238 — but visually accurate)
+function simTOTP(secret, t){
+  const counter=Math.floor(t/PERIOD);
+  let hash=0;
+  const s=secret+counter.toString();
+  for(let i=0;i<s.length;i++) hash=((hash<<5)-hash+s.charCodeAt(i))|0;
+  const code=Math.abs(hash)%1000000;
+  return String(code).padStart(6,'0');
+}
+
+function startTOTP(){
+  if(!secret) return;
+  updateTOTP();
+  if(window._totpInterval) clearInterval(window._totpInterval);
+  window._totpInterval=setInterval(updateTOTP,1000);
+}
+
+function updateTOTP(){
+  if(!secret) return;
+  const now=Date.now()/1000;
+  const remaining=PERIOD-(now%PERIOD);
+  const t=Math.floor(now);
+  currentCode=simTOTP(secret,t);
+  document.getElementById('totpCode').textContent=currentCode.slice(0,3)+' '+currentCode.slice(3);
+  document.getElementById('timerNum').textContent=Math.ceil(remaining);
+  const fraction=remaining/PERIOD;
+  const circumference=2*Math.PI*26;
+  const offset=circumference*(1-fraction);
+  document.getElementById('timerCircle').style.strokeDashoffset=offset;
+  // Color changes as time runs out
+  const color=fraction>0.4?'var(--accent)':fraction>0.2?'var(--yellow)':'var(--red)';
+  document.getElementById('timerCircle').style.stroke=color;
+  document.getElementById('totpCode').style.color=color;
+}
+
+function verifyCode(){
+  const input=document.getElementById('verifyInput').value.trim();
+  if(!secret){document.getElementById('verifyResult').innerHTML='<div class="verify-result vr-fail">Generate a secret first</div>';return;}
+  if(input.length!==6){document.getElementById('verifyResult').innerHTML='<div class="verify-result vr-fail">Enter 6-digit code</div>';return;}
+  
+  const now=Math.floor(Date.now()/1000);
+  // Check current + adjacent windows (30s tolerance)
+  const valid=[now-30,now,now+30].some(t=>simTOTP(secret,t)===input);
+  document.getElementById('verifyResult').innerHTML=valid
+    ?'<div class="verify-result vr-ok">✅ Code verified! Authentication successful.</div>'
+    :'<div class="verify-result vr-fail">❌ Invalid code. Try the current code shown above.</div>';
+}
+
+// Show static display if no secret yet
+document.getElementById('secretDisplay').textContent='Click "Generate Secret" to start →';
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

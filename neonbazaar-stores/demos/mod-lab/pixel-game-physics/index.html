@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pixel Game Physics — Interactive Demo</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0a0a12;
+    color: #ccccdd;
+    font-family: 'Courier New', monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  h1 {
+    font-size: 1.4rem;
+    color: #55ff99;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+  }
+  .info {
+    font-size: 0.8rem;
+    color: #667788;
+    margin-bottom: 14px;
+  }
+  canvas {
+    border: 1px solid #1a1a2e;
+    border-radius: 4px;
+    cursor: crosshair;
+  }
+  .hud {
+    margin-top: 10px;
+    font-size: 0.75rem;
+    color: #556677;
+  }
+</style>
+</head>
+<body>
+<h1>PIXEL GAME PHYSICS</h1>
+<p class="info">Click to add bodies &middot; Watch them collide and bounce</p>
+<canvas id="sim" width="800" height="500"></canvas>
+<p class="hud" id="hud">Bodies: 0 | FPS: 0</p>
+
+<script>
+(() => {
+  "use strict";
+
+  // ── Vec2 ──────────────────────────────────────────────────────────────
+  class Vec2 {
+    constructor(x = 0, y = 0) { this.x = x; this.y = y; }
+    add(o)   { return new Vec2(this.x + o.x, this.y + o.y); }
+    sub(o)   { return new Vec2(this.x - o.x, this.y - o.y); }
+    scale(s) { return new Vec2(this.x * s, this.y * s); }
+    mag()    { return Math.hypot(this.x, this.y); }
+    norm()   { const m = this.mag(); return m ? this.scale(1/m) : new Vec2(); }
+    dot(o)   { return this.x * o.x + this.y * o.y; }
+  }
+
+  // ── AABB ──────────────────────────────────────────────────────────────
+  class AABB {
+    constructor(x, y, w, h) { this.x = x; this.y = y; this.w = w; this.h = h; }
+    intersects(o) {
+      return this.x < o.x + o.w && this.x + this.w > o.x &&
+             this.y < o.y + o.h && this.y + this.h > o.y;
+    }
+  }
+
+  // ── Body ──────────────────────────────────────────────────────────────
+  class Body {
+    constructor(opts = {}) {
+      this.pos = opts.pos || new Vec2();
+      this.vel = opts.vel || new Vec2();
+      this.mass = opts.mass ?? 1;
+      this.isStatic = opts.isStatic ?? false;
+      this.aabb = opts.aabb || new AABB(0, 0, 20, 20);
+      this.restitution = opts.restitution ?? 0.4;
+      this.color = opts.color || "#55ff99";
+      this.force = new Vec2();
+      this.grounded = false;
+    }
+    get invMass() { return this.isStatic ? 0 : 1 / this.mass; }
+    worldAABB() {
+      return new AABB(this.pos.x + this.aabb.x, this.pos.y + this.aabb.y,
+                      this.aabb.w, this.aabb.h);
+    }
+    applyForce(f) { this.force = this.force.add(f); }
+    update(dt) {
+      if (this.isStatic) return;
+      const a = this.force.scale(this.invMass);
+      this.vel = this.vel.add(a.scale(dt));
+      this.pos = this.pos.add(this.vel.scale(dt));
+      this.force = new Vec2();
+    }
+  }
+
+  // ── Collision ─────────────────────────────────────────────────────────
+  function overlap(a, b) {
+    const dx1 = (b.x + b.w) - a.x, dx2 = (a.x + a.w) - b.x;
+    const dy1 = (b.y + b.h) - a.y, dy2 = (a.y + a.h) - b.y;
+    if (dx1 <= 0 || dx2 <= 0 || dy1 <= 0 || dy2 <= 0) return null;
+    const ox = dx1 < dx2 ? dx1 : -dx2;
+    const oy = dy1 < dy2 ? dy1 : -dy2;
+    return Math.abs(ox) < Math.abs(oy) ? new Vec2(ox, 0) : new Vec2(0, oy);
+  }
+
+  function resolve(a, b, mtv) {
+    const invSum = a.invMass + b.invMass;
+    if (!invSum) return;
+    a.pos = a.pos.add(mtv.scale(-a.invMass / invSum));
+    b.pos = b.pos.add(mtv.scale( b.invMass / invSum));
+    const n = mtv.norm();
+    const rv = a.vel.sub(b.vel);
+    const vn = rv.dot(n);
+    if (vn > 0) return;
+    const e = Math.min(a.restitution, b.restitution);
+    const j = -(1 + e) * vn / invSum;
+    const imp = n.scale(j);
+    a.vel = a.vel.add(imp.scale(a.invMass));
+    b.vel = b.vel.sub(imp.scale(b.invMass));
+    if (n.y < -0.5) a.grounded = true;
+    if (n.y >  0.5) b.grounded = true;
+  }
+
+  // ── World ─────────────────────────────────────────────────────────────
+  const W = 800, H = 500;
+  const gravity = new Vec2(0, 500);
+  const bodies = [];
+
+  function addBody(opts) { const b = new Body(opts); bodies.push(b); return b; }
+
+  // Walls & floor
+  addBody({ pos: new Vec2(0, H - 16), isStatic: true, aabb: new AABB(0,0,W,16), color: "#1a2a3a" });
+  addBody({ pos: new Vec2(-16, 0), isStatic: true, aabb: new AABB(0,0,16,H), color: "#1a2a3a" });
+  addBody({ pos: new Vec2(W, 0), isStatic: true, aabb: new AABB(0,0,16,H), color: "#1a2a3a" });
+
+  // Seed bodies
+  const NEON = ["#ff5577","#55ff99","#5599ff","#ffaa33","#cc55ff","#55ffee","#ffee55","#ff7733"];
+  function randColor() { return NEON[Math.random() * NEON.length | 0]; }
+
+  for (let i = 0; i < 8; i++) {
+    const s = 15 + Math.random() * 35;
+    addBody({
+      pos: new Vec2(80 + Math.random() * (W - 160), 30 + Math.random() * 150),
+      mass: s * 0.1,
+      aabb: new AABB(0, 0, s, s),
+      restitution: 0.2 + Math.random() * 0.5,
+      color: randColor(),
+    });
+  }
+
+  // ── Canvas ────────────────────────────────────────────────────────────
+  const canvas = document.getElementById("sim");
+  const ctx = canvas.getContext("2d");
+  const hudEl = document.getElementById("hud");
+
+  canvas.addEventListener("click", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    const s = 15 + Math.random() * 35;
+    addBody({
+      pos: new Vec2(mx - s/2, my - s/2),
+      mass: s * 0.1,
+      aabb: new AABB(0, 0, s, s),
+      restitution: 0.2 + Math.random() * 0.5,
+      color: randColor(),
+    });
+  });
+
+  // ── Simulation loop ──────────────────────────────────────────────────
+  let lastTime = performance.now();
+  let fpsFrames = 0, fpsTime = 0, fpsDisplay = 0;
+
+  function step(dt) {
+    for (const b of bodies) b.grounded = false;
+    for (const b of bodies) {
+      if (!b.isStatic) b.applyForce(gravity.scale(b.mass));
+    }
+    for (const b of bodies) b.update(dt);
+    for (let i = 0; i < bodies.length; i++) {
+      for (let j = i + 1; j < bodies.length; j++) {
+        const a = bodies[i], b = bodies[j];
+        if (a.isStatic && b.isStatic) continue;
+        const mtv = overlap(a.worldAABB(), b.worldAABB());
+        if (mtv) resolve(a, b, mtv);
+      }
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Precompute world AABBs & overlapping set
+    const wbs = bodies.map(b => b.worldAABB());
+    const overlapping = new Set();
+    for (let i = 0; i < wbs.length; i++) {
+      for (let j = i + 1; j < wbs.length; j++) {
+        if (wbs[i].intersects(wbs[j])) { overlapping.add(i); overlapping.add(j); }
+      }
+    }
+
+    for (let i = 0; i < bodies.length; i++) {
+      const b = bodies[i], wb = wbs[i];
+
+      // Collision box outline
+      if (overlapping.has(i) && !b.isStatic) {
+        ctx.strokeStyle = "#ff3344";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(wb.x - 2, wb.y - 2, wb.w + 4, wb.h + 4);
+      }
+
+      // Body fill
+      ctx.fillStyle = b.color;
+      ctx.fillRect(wb.x, wb.y, wb.w, wb.h);
+
+      // Force / velocity vector
+      if (!b.isStatic) {
+        const cx = wb.x + wb.w / 2;
+        const cy = wb.y + wb.h / 2;
+        const vx = b.vel.x * 0.12;
+        const vy = b.vel.y * 0.12;
+        if (Math.abs(vx) > 1 || Math.abs(vy) > 1) {
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.lineTo(cx + vx, cy + vy);
+          ctx.strokeStyle = "rgba(255,255,255,0.5)";
+          ctx.lineWidth = 1;
+          ctx.stroke();
+
+          // Arrow head
+          const len = Math.hypot(vx, vy);
+          if (len > 6) {
+            const nx = vx / len, ny = vy / len;
+            const px = cx + vx, py = cy + vy;
+            ctx.beginPath();
+            ctx.moveTo(px, py);
+            ctx.lineTo(px - nx * 5 - ny * 3, py - ny * 5 + nx * 3);
+            ctx.lineTo(px - nx * 5 + ny * 3, py - ny * 5 - nx * 3);
+            ctx.fillStyle = "rgba(255,255,255,0.5)";
+            ctx.fill();
+          }
+        }
+      }
+    }
+  }
+
+  function loop(now) {
+    const dt = Math.min((now - lastTime) / 1000, 0.05);
+    lastTime = now;
+
+    step(dt);
+    draw();
+
+    fpsFrames++;
+    fpsTime += dt;
+    if (fpsTime >= 1) {
+      fpsDisplay = fpsFrames;
+      fpsFrames = 0;
+      fpsTime = 0;
+    }
+    const dynCount = bodies.filter(b => !b.isStatic).length;
+    hudEl.textContent = `Bodies: ${dynCount} | FPS: ${fpsDisplay}`;
+
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

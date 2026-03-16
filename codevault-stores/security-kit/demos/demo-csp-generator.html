@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSP Generator — Demo | Security Kit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#D500F9}.header .back{color:#D500F9;text-decoration:none;font-size:.85rem}
+  .container{max-width:960px;margin:0 auto;padding:32px 20px}
+  h2{font-size:1.5rem;margin-bottom:8px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .layout{display:grid;grid-template-columns:340px 1fr;gap:20px}
+  @media(max-width:720px){.layout{grid-template-columns:1fr}}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#D500F9;margin-bottom:14px}
+  .directive-row{border-bottom:1px solid #1e2a3a;padding:10px 0}
+  .directive-row:last-child{border-bottom:none}
+  .dir-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .dir-name{font-size:.85rem;font-weight:600;font-family:monospace;color:#e0e0e0}
+  .dir-toggle{margin-left:auto}
+  .switch{position:relative;width:32px;height:18px;flex-shrink:0}
+  .switch input{opacity:0;width:0;height:0}
+  .slider{position:absolute;inset:0;background:#1e2a3a;border-radius:20px;cursor:pointer;transition:.3s}
+  .slider:before{content:'';position:absolute;width:12px;height:12px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+  input:checked+.slider{background:#D500F9}
+  input:checked+.slider:before{transform:translateX(14px)}
+  .dir-sources{display:flex;flex-wrap:wrap;gap:6px}
+  .src-chip{background:#0A0E1A;border:1px solid #1e2a3a;color:#8899aa;padding:3px 10px;border-radius:12px;font-size:.72rem;cursor:pointer;transition:all .2s;user-select:none}
+  .src-chip.active{background:rgba(213,0,249,.15);border-color:#D500F9;color:#D500F9}
+  .code-block{background:#060a12;border:1px solid #1e2a3a;border-radius:8px;padding:14px;font-family:monospace;font-size:.78rem;color:#e0e0e0;overflow-x:auto;white-space:pre-wrap;word-break:break-all;line-height:1.6;min-height:80px}
+  .score-wrap{margin-bottom:16px}
+  .score-label{display:flex;justify-content:space-between;font-size:.8rem;color:#8899aa;margin-bottom:6px}
+  .score-bar{height:8px;background:#0A0E1A;border-radius:4px;overflow:hidden}
+  .score-fill{height:100%;border-radius:4px;background:#D500F9;transition:width .4s}
+  .btn-copy{padding:8px 18px;border:none;border-radius:6px;font-size:.82rem;font-weight:600;cursor:pointer;background:#D500F9;color:#fff;transition:all .2s;margin-top:12px}
+  .btn-copy:hover{background:#e040fb}
+  .cta-bar{text-align:center;margin-top:24px;padding:24px;background:#0d1321;border-radius:12px;border:1px solid #1e2a3a}
+  .cta-bar p{color:#8899aa;font-size:.88rem;margin-bottom:14px}
+  .btn-buy{display:inline-block;background:#D500F9;color:#fff;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none}
+  .note{text-align:center;font-size:.75rem;color:#4a5568;margin-top:14px}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🛡️ CSP Generator — Demo</h1>
+  <a href="../index.html" class="back">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>CSP Generator</h2>
+  <p class="subtitle">Build a Content Security Policy header by toggling directives and selecting allowed sources.</p>
+  <div class="layout">
+    <div class="panel">
+      <h3>Directives</h3>
+      <div id="directives"></div>
+    </div>
+    <div class="panel">
+      <h3>Generated Header</h3>
+      <div class="score-wrap">
+        <div class="score-label"><span>Strictness Score</span><span id="scoreVal">0/100</span></div>
+        <div class="score-bar"><div class="score-fill" id="scoreFill" style="width:0%"></div></div>
+      </div>
+      <div class="code-block" id="cspOutput">Content-Security-Policy: (configure directives on the left)</div>
+      <button class="btn-copy" onclick="copyCSP()">Copy Header</button>
+    </div>
+  </div>
+  <div class="cta-bar">
+    <p>Full version: violation report endpoint, report-only mode, nonce generation, browser compatibility checker, audit tool.</p>
+    <a href="https://buy.stripe.com/4gM7sLgXl0qq10S7uhgjJ1O" class="btn-buy">Buy Full Version — $19</a>
+    <button class="crypto-pay-btn" data-product-slug="csp-generator" data-store-slug="security-kit" data-product-name="csp-generator" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+const DIRECTIVES = [
+  { name: "default-src", sources: ["'self'", "https:", "data:", "'none'"], enabled: true, active: ["'self'"] },
+  { name: "script-src", sources: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdn.jsdelivr.net", "https://www.google-analytics.com"], enabled: true, active: ["'self'"] },
+  { name: "style-src", sources: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdn.jsdelivr.net"], enabled: true, active: ["'self'", "'unsafe-inline'"] },
+  { name: "img-src", sources: ["'self'", "data:", "https:", "blob:"], enabled: true, active: ["'self'", "data:"] },
+  { name: "font-src", sources: ["'self'", "https://fonts.gstatic.com", "data:"], enabled: false, active: [] },
+  { name: "connect-src", sources: ["'self'", "https://api.example.com", "wss:"], enabled: false, active: [] },
+  { name: "frame-src", sources: ["'none'", "'self'", "https://www.youtube.com"], enabled: false, active: [] },
+  { name: "object-src", sources: ["'none'"], enabled: true, active: ["'none'"] }
+];
+
+function render() {
+  const el = document.getElementById('directives');
+  el.innerHTML = DIRECTIVES.map((d, i) => `
+    <div class="directive-row">
+      <div class="dir-header">
+        <span class="dir-name">${d.name}</span>
+        <label class="switch dir-toggle">
+          <input type="checkbox" ${d.enabled ? 'checked' : ''} onchange="toggleDir(${i},this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+      ${d.enabled ? `<div class="dir-sources">${d.sources.map(s =>
+        `<span class="src-chip ${d.active.includes(s) ? 'active' : ''}" onclick="toggleSrc(${i},'${s}')">${s}</span>`
+      ).join('')}</div>` : ''}
+    </div>`).join('');
+  buildCSP();
+}
+
+function toggleDir(i, checked) { DIRECTIVES[i].enabled = checked; if (!checked) DIRECTIVES[i].active = []; render(); }
+function toggleSrc(i, src) {
+  const arr = DIRECTIVES[i].active;
+  const idx = arr.indexOf(src);
+  if (idx > -1) arr.splice(idx, 1); else arr.push(src);
+  render();
+}
+
+function buildCSP() {
+  const parts = DIRECTIVES.filter(d => d.enabled && d.active.length > 0)
+    .map(d => `${d.name} ${d.active.join(' ')}`);
+  document.getElementById('cspOutput').textContent = parts.length ? 'Content-Security-Policy: ' + parts.join('; ') : 'Content-Security-Policy: (no directives configured)';
+  // score: penalize unsafe-inline/unsafe-eval, reward none
+  let score = 50;
+  const csp = parts.join(' ');
+  if (csp.includes("'none'")) score += 20;
+  if (!csp.includes("'unsafe-inline'")) score += 15;
+  if (!csp.includes("'unsafe-eval'")) score += 10;
+  if (parts.length >= 4) score += 5;
+  score = Math.min(score, 100);
+  document.getElementById('scoreVal').textContent = score + '/100';
+  document.getElementById('scoreFill').style.width = score + '%';
+}
+
+function copyCSP() {
+  navigator.clipboard.writeText(document.getElementById('cspOutput').textContent).then(() => {
+    const btn = document.querySelector('.btn-copy'); btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy Header', 1500);
+  });
+}
+render();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

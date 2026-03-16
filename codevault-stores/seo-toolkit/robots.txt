@@ -1,0 +1,11 @@
+# robots.txt — SEO Toolkit (seo-toolkit.codevault.dev)
+# Generated 2026-03-14
+
+User-agent: *
+Allow: /
+
+# Exclude post-purchase pages from indexing
+Disallow: /success.html
+
+# Sitemap location
+Sitemap: https://seo-toolkit.codevault.dev/sitemap.xml

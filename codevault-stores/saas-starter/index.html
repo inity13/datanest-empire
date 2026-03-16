@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Starter &mdash; CodeVault</title>
+    <link rel="canonical" href="https://saas-starter.codevault.dev/">
+
+    <meta name="description" content="Production-ready Python SaaS building blocks for indie hackers. Boilerplate, billing, dashboards, feature flags, multi-tenancy, admin panels, and more — all stdlib, zero dependencies.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="SaaS Starter — CodeVault">
+    <meta property="og:description" content="From zero to SaaS. One afternoon. Production-ready Python SaaS building blocks — boilerplate, billing, dashboards, feature flags, and more.">
+    <meta property="og:site_name" content="CodeVault">
+    <meta property="og:url" content="https://saas-starter.codevault.dev/">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SaaS Starter — CodeVault">
+    <meta name="twitter:description" content="From zero to SaaS. One afternoon. Production-ready Python SaaS building blocks — boilerplate, billing, dashboards, feature flags, and more.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F680;</text></svg>">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#FFD600">
+
+    <!-- Plausible Analytics -->
+    <script defer data-domain="saas-starter.codevault.dev" src="https://plausible.io/js/script.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "SaaS Starter",
+      "description": "Python SaaS building blocks for indie hackers and solo developers.",
+      "url": "https://saas-starter.codevault.dev/",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any (Python 3.10+)",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "USD",
+        "lowPrice": "4.99",
+        "highPrice": "39.99",
+        "offerCount": "12"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "CodeVault",
+        "url": "https://codevault.dev"
+      }
+    }
+    </script>
+</head>
+<body>
+    <nav class="cross-nav" aria-label="CodeVault stores">
+        <div class="cross-nav__inner">
+            <span class="cross-nav__brand">CodeVault</span>
+            <a href="#" class="cross-nav__link cross-nav__link--active">SaaS Starter</a>
+            <a href="../email-arsenal/storefront/index.html" class="cross-nav__link">Email Arsenal</a>
+            <a href="../seo-toolkit/storefront/index.html" class="cross-nav__link">SEO Toolkit</a>
+            <a href="../form-forge/storefront/index.html" class="cross-nav__link">Form Forge</a>
+            <a href="../api-launchpad/storefront/index.html" class="cross-nav__link">API Launchpad</a>
+            <a href="../deploy-kit/storefront/index.html" class="cross-nav__link">Deploy Kit</a>
+            <a href="../auth-vault/storefront/index.html" class="cross-nav__link">Auth Vault</a>
+            <a href="../analytics-hub/storefront/index.html" class="cross-nav__link">Analytics Hub</a>
+            <a href="../payment-stack/storefront/index.html" class="cross-nav__link">Payment Stack</a>
+            <a href="../ai-toolkit/storefront/index.html" class="cross-nav__link">AI Toolkit</a>
+            <a href="../security-kit/storefront/index.html" class="cross-nav__link">Security Kit</a>
+            <a href="../landing-lab/storefront/index.html" class="cross-nav__link">Landing Lab</a>
+            <a href="../automation-hub/storefront/index.html" class="cross-nav__link">Automation Hub</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="top">
+        <div class="container">
+            <h1 class="hero__title glitch" data-text="SaaS Starter">SaaS Starter</h1>
+            <p class="hero__subtitle">From zero to SaaS. One afternoon.</p>
+            <div class="hero__cta-row">
+                <a href="#products" class="btn btn--primary">Browse modules</a>
+                <a href="#faq" class="btn btn--secondary">How it works</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Products Section -->
+    <section class="section" id="products">
+        <div class="container">
+            <h2 class="section__heading">The toolkit</h2>
+            <p class="section__subheading">Production-ready Python SaaS modules. No pip installs. No fluff.</p>
+
+            <div class="filter-bar">
+                <span class="filter-bar__label">Filter:</span>
+                <button class="filter-tag active" data-filter="all">All</button>
+                <button class="filter-tag" data-filter="bundle">bundle</button>
+                <button class="filter-tag" data-filter="boilerplate">boilerplate</button>
+                <button class="filter-tag" data-filter="billing">billing</button>
+                <button class="filter-tag" data-filter="dashboard">dashboard</button>
+                <button class="filter-tag" data-filter="multi-tenancy">multi-tenancy</button>
+                <button class="filter-tag" data-filter="admin">admin</button>
+                <button class="filter-tag" data-filter="notifications">notifications</button>
+                <button class="filter-tag" data-filter="api">api</button>
+                <select class="sort-select" aria-label="Sort products">
+                    <option value="default">Sort: Featured</option>
+                    <option value="price-asc">Price: Low &rarr; High</option>
+                    <option value="price-desc">Price: High &rarr; Low</option>
+                </select>
+            </div>
+
+            <div class="product-grid">
+
+        <!-- ===== BUNDLES ===== -->
+        <article class="product-card product-card--bundle fade-in"
+                 data-tags="bundle,starter"
+                 data-price="1999"
+                 data-slug="saas-starter-starter-bundle">
+            <div class="product-card__inner">
+                <div>
+                    <span class="bundle-badge">BUNDLE DEAL</span>
+                    <h3 class="product-card__name" style="margin-top: 12px">SaaS Starter Starter Bundle</h3>
+                    <p class="product-card__desc">The essential SaaS toolkit &mdash; Boilerplate, Billing Integration, Onboarding Flow, and Feature Flags in one bundle. Save 60%.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">bundle</span>
+                        <span class="product-card__tag">starter</span>
+                    </div>
+                    <ul class="product-card__bundle-list">
+                        <li>SaaS Boilerplate</li>
+                        <li>Billing Integration</li>
+                        <li>Onboarding Flow</li>
+                        <li>Feature Flags</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$19.99</p>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card"
+                           data-stripe-link="https://buy.stripe.com/placeholder_starter_bundle"
+                           data-product="saas-starter-starter-bundle">
+                            Grab This Bundle
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="SaaS Starter Starter Bundle"
+                                data-crypto-price="1999">
+                            Pay with Crypto ($15.99)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="product-card product-card--bundle fade-in"
+                 data-tags="bundle,pro"
+                 data-price="3999"
+                 data-slug="saas-starter-pro-bundle">
+            <div class="product-card__inner">
+                <div>
+                    <span class="bundle-badge">BUNDLE DEAL</span>
+                    <h3 class="product-card__name" style="margin-top: 12px">SaaS Starter Pro Bundle</h3>
+                    <p class="product-card__desc">Every module in SaaS Starter &mdash; all 10 products at a massive discount. The complete SaaS infrastructure toolkit.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">bundle</span>
+                        <span class="product-card__tag">pro</span>
+                    </div>
+                    <ul class="product-card__bundle-list">
+                        <li>SaaS Boilerplate</li>
+                        <li>Billing Integration</li>
+                        <li>Dashboard Builder</li>
+                        <li>Onboarding Flow</li>
+                        <li>Feature Flags</li>
+                        <li>Tenant Manager</li>
+                        <li>Usage Metering</li>
+                        <li>Admin Panel</li>
+                        <li>Notification System</li>
+                        <li>API Rate Controller</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$39.99</p>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card"
+                           data-stripe-link="https://buy.stripe.com/placeholder_pro_bundle"
+                           data-product="saas-starter-pro-bundle">
+                            Grab This Bundle
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="SaaS Starter Pro Bundle"
+                                data-crypto-price="3999">
+                            Pay with Crypto ($31.99)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ===== INDIVIDUAL PRODUCTS ===== -->
+        <article class="product-card fade-in"
+                 data-tags="boilerplate,users,multi-tenancy"
+                 data-price="999"
+                 data-slug="saas-boilerplate">
+            <div class="product-card__header">
+                <h3 class="product-card__name">SaaS Boilerplate</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python SaaS application boilerplate with user management, settings, and multi-tenancy scaffolding. Your starting point for any SaaS.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">boilerplate</span>
+                <span class="product-card__tag">users</span>
+                <span class="product-card__tag">multi-tenancy</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_saas_boilerplate"
+                   data-product="saas-boilerplate">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="SaaS Boilerplate"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+                <a href="preview-saas-boilerplate.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="billing,stripe,subscriptions"
+                 data-price="999"
+                 data-slug="billing-integration">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Billing Integration</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python Stripe billing integration: subscriptions, usage metering, invoicing, and webhook handling. Plug-and-play payment infrastructure.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">billing</span>
+                <span class="product-card__tag">stripe</span>
+                <span class="product-card__tag">subscriptions</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_billing_integration"
+                   data-product="billing-integration">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Billing Integration"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+                <a href="preview-billing-integration.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="dashboard,widgets,analytics"
+                 data-price="999"
+                 data-slug="dashboard-builder">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Dashboard Builder</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python dashboard template generator: widgets, charts, tables, filters, and export. Build data-rich dashboards in minutes.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">dashboard</span>
+                <span class="product-card__tag">widgets</span>
+                <span class="product-card__tag">analytics</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_dashboard_builder"
+                   data-product="dashboard-builder">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Dashboard Builder"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+                <a href="preview-dashboard-builder.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="onboarding,wizard,emails"
+                 data-price="499"
+                 data-slug="onboarding-flow">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Onboarding Flow</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Python onboarding wizard: progressive profiling, setup steps, welcome emails, and checklist tracking. Nail the first-run experience.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">onboarding</span>
+                <span class="product-card__tag">wizard</span>
+                <span class="product-card__tag">emails</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_onboarding_flow"
+                   data-product="onboarding-flow">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Onboarding Flow"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+                <a href="preview-onboarding-flow.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="feature-flags,rollout,testing"
+                 data-price="499"
+                 data-slug="feature-flags">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Feature Flags</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Python feature flag system: percentage rollout, user targeting, A/B testing, and kill switch. Ship fearlessly with instant rollback.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">feature-flags</span>
+                <span class="product-card__tag">rollout</span>
+                <span class="product-card__tag">testing</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_feature_flags"
+                   data-product="feature-flags">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Feature Flags"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+                <a href="preview-feature-flags.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="multi-tenancy,isolation,config"
+                 data-price="999"
+                 data-slug="tenant-manager">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Tenant Manager</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python multi-tenant system: tenant isolation, per-tenant config, data partitioning, and lifecycle management. True multi-tenancy done right.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">multi-tenancy</span>
+                <span class="product-card__tag">isolation</span>
+                <span class="product-card__tag">config</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_tenant_manager"
+                   data-product="tenant-manager">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Tenant Manager"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+                <a href="preview-tenant-manager.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="metering,usage,billing"
+                 data-price="499"
+                 data-slug="usage-metering">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Usage Metering</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Python usage tracking: API calls, storage, compute, and billing integration hooks. Know exactly what every tenant consumes.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">metering</span>
+                <span class="product-card__tag">usage</span>
+                <span class="product-card__tag">billing</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_usage_metering"
+                   data-product="usage-metering">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Usage Metering"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+                <a href="preview-usage-metering.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="admin,crud,audit"
+                 data-price="999"
+                 data-slug="admin-panel">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Admin Panel</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python admin panel generator: CRUD operations, user management, system settings, and audit logs. Your back-office in a box.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">admin</span>
+                <span class="product-card__tag">crud</span>
+                <span class="product-card__tag">audit</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_admin_panel"
+                   data-product="admin-panel">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Admin Panel"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+                <a href="preview-admin-panel.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="notifications,email,webhooks"
+                 data-price="499"
+                 data-slug="notification-system">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Notification System</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Python notification engine: email, webhook, in-app, and SMS, with templates and scheduling. Never miss a critical alert.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">notifications</span>
+                <span class="product-card__tag">email</span>
+                <span class="product-card__tag">webhooks</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_notification_system"
+                   data-product="notification-system">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Notification System"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+                <a href="preview-notification-system.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="rate-limiting,api,throttling"
+                 data-price="499"
+                 data-slug="api-rate-controller">
+            <div class="product-card__header">
+                <h3 class="product-card__name">API Rate Controller</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Python API rate limiting per tenant and plan: quotas, throttling, and overage handling. Protect your API from abuse.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">rate-limiting</span>
+                <span class="product-card__tag">api</span>
+                <span class="product-card__tag">throttling</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_api_rate_controller"
+                   data-product="api-rate-controller">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="API Rate Controller"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+                <a href="preview-api-rate-controller.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Signals -->
+    <section class="trust-section" id="trust">
+        <div class="container">
+            <h2 class="section__heading">Why devs grab from here</h2>
+            <p class="section__subheading">No fluff &mdash; here&rsquo;s why this store ships</p>
+            <div class="trust-grid">
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x26A1;</div>
+                    <p class="trust-card__text">
+                        <strong>Instant digital download</strong>
+                        Pay, unzip, run. Your modules are ready in seconds.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x1F512;</div>
+                    <p class="trust-card__text">
+                        <strong>MIT License &mdash; use anywhere</strong>
+                        SaaS, client work, side projects. No restrictions.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x1F48E;</div>
+                    <p class="trust-card__text">
+                        <strong>Python stdlib only &mdash; zero pip installs</strong>
+                        No virtual envs, no requirements.txt, no dependency hell.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x1F6E0;&#xFE0F;</div>
+                    <p class="trust-card__text">
+                        <strong>Battle-tested by indie hackers</strong>
+                        Built for devs who ship fast and break nothing.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- License Tiers -->
+    <section class="section" id="license">
+        <div class="container">
+            <h2 class="section__heading">License tiers</h2>
+            <p class="section__subheading">All products ship under MIT. Use them however you want.</p>
+            <div class="trust-grid">
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x1F464;</div>
+                    <p class="trust-card__text">
+                        <strong>Personal</strong>
+                        Use in your own projects, prototypes, and side hustles. No attribution required.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x1F465;</div>
+                    <p class="trust-card__text">
+                        <strong>Team</strong>
+                        Share with your team. Use across multiple company projects.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x1F3E2;</div>
+                    <p class="trust-card__text">
+                        <strong>Enterprise</strong>
+                        Deploy to production SaaS. Modify freely. Just don&rsquo;t resell as-is.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter-section" id="newsletter">
+        <div class="container">
+            <h2 class="section__heading">Stay in the loop</h2>
+            <p class="section__subheading">New modules, discounts, and SaaS building tips. No spam, ever.</p>
+            <form class="newsletter-form" action="#" method="POST">
+                <input class="newsletter-form__input" type="email" placeholder="your@email.com" required aria-label="Email address">
+                <button class="btn btn--primary newsletter-form__btn" type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Companion App -->
+    <section class="app-section" id="app">
+        <div class="container">
+            <div class="app-promo fade-in">
+                <div class="app-promo__content">
+                    <span class="app-promo__badge">ANDROID APP</span>
+                    <h2 class="app-promo__title">SaaS Starter Mobile</h2>
+                    <p class="app-promo__desc">Take your SaaS development toolkit on the go. Dashboard, community templates, daily challenges, and streak rewards &mdash; all in a dark-themed Material&nbsp;3 interface.</p>
+                    <ul class="app-promo__features">
+                        <li>SaaS metrics dashboard with KPIs</li>
+                        <li>Billing, onboarding, and admin panel templates</li>
+                        <li>Community sharing &amp; daily challenges</li>
+                        <li>Premium tools via in-app purchase ($0.99&ndash;$4.99)</li>
+                    </ul>
+                    <div class="app-promo__actions">
+                        <a href="https://play.google.com/store/apps/details?id=com.codevault.saasstarter" class="btn btn--primary">Get on Google Play</a>
+                        <a href="https://github.com/codevault/saas-starter-android" class="btn btn--secondary">View Source</a>
+                    </div>
+                </div>
+                <div class="app-promo__visual">
+                    <div class="app-mockup" style="--app-color: #536DFE">
+                        <div class="app-mockup__screen">
+                            <div class="app-mockup__header">SaaS Starter</div>
+                            <div class="app-mockup__tabs">
+                                <span class="app-mockup__tab app-mockup__tab--active">Dashboard</span>
+                                <span class="app-mockup__tab">Templates</span>
+                                <span class="app-mockup__tab">Community</span>
+                                <span class="app-mockup__tab">Store</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section__heading">Got questions?</h2>
+            <p class="section__subheading">Straight answers. No runaround.</p>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Do these modules require any pip packages?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Nope. Every module runs on Python 3.10+ stdlib only. No virtual environments, no requirements.txt, no dependency hell.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I use these in my SaaS product?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Absolutely. MIT license &mdash; use them in personal projects, client work, SaaS products, whatever. Just don&rsquo;t resell the tools as-is.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do I get my download?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Instant download after payment. You&rsquo;ll be redirected to a download page, and we also email you a link. Unzip, read the README, run.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What Python version do I need?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Python 3.10 or newer. We use modern syntax like match statements, type hints, and the walrus operator where it makes sense.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do these modules fit together?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Each module is fully standalone &mdash; use one or combine them all. They follow the same conventions (dataclasses, JSON storage, logging), so wiring them up is straightforward. The Pro Bundle gives you the full stack.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What&rsquo;s the difference between bundles and individual modules?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Bundles give you multiple modules at a discount. The Starter Bundle covers the core essentials (boilerplate + billing + onboarding + feature flags), the Pro Bundle gets you everything.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I get a refund?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">If a module doesn&rsquo;t work as described, absolutely. Email <a href="mailto:support@codevault.dev">support@codevault.dev</a> and we&rsquo;ll sort it out.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__brand">CodeVault</p>
+            <p class="footer__tagline">Ship faster. Build smarter.</p>
+            <nav class="footer__links" aria-label="Other stores">
+                <a href="../email-arsenal/storefront/index.html" class="footer__link">Email Arsenal</a>
+                <a href="../seo-toolkit/storefront/index.html" class="footer__link">SEO Toolkit</a>
+                <a href="../form-forge/storefront/index.html" class="footer__link">Form Forge</a>
+                <a href="../api-launchpad/storefront/index.html" class="footer__link">API Launchpad</a>
+                <a href="../deploy-kit/storefront/index.html" class="footer__link">Deploy Kit</a>
+                <a href="../auth-vault/storefront/index.html" class="footer__link">Auth Vault</a>
+                <a href="../analytics-hub/storefront/index.html" class="footer__link">Analytics Hub</a>
+                <a href="../payment-stack/storefront/index.html" class="footer__link">Payment Stack</a>
+                <a href="../ai-toolkit/storefront/index.html" class="footer__link">AI Toolkit</a>
+                <a href="../security-kit/storefront/index.html" class="footer__link">Security Kit</a>
+                <a href="../landing-lab/storefront/index.html" class="footer__link">Landing Lab</a>
+                <a href="../automation-hub/storefront/index.html" class="footer__link">Automation Hub</a>
+            </nav>
+            <p class="footer__copy">&copy; 2026 CodeVault. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

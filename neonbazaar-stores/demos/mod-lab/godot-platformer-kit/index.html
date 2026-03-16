@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Godot Platformer Kit — Demo Preview</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a12;
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+        }
+        .container { max-width: 960px; margin: 0 auto; padding: 40px 20px; }
+        h1 {
+            font-size: 2.2em;
+            color: #00ff88;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            margin-bottom: 8px;
+        }
+        .subtitle { color: #888; font-size: 1.1em; margin-bottom: 40px; }
+        .price-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            color: #0a0a12;
+            padding: 4px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .section { margin-bottom: 48px; }
+        h2 {
+            color: #00ccff;
+            font-size: 1.4em;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #1a1a2e;
+            padding-bottom: 8px;
+        }
+        .screenshot-placeholder {
+            background: #12121f;
+            border: 1px solid #1a1a2e;
+            border-radius: 8px;
+            padding: 60px 20px;
+            text-align: center;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .screenshot-placeholder .icon { font-size: 3em; margin-bottom: 10px; }
+        .code-block {
+            background: #0f0f1a;
+            border: 1px solid #1a1a2e;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+        .code-block .filename {
+            color: #00ff88;
+            font-size: 0.85em;
+            margin-bottom: 10px;
+            display: block;
+        }
+        pre {
+            color: #c8c8d0;
+            font-size: 0.9em;
+            white-space: pre;
+            line-height: 1.5;
+        }
+        .comment { color: #5a6a8a; }
+        .keyword { color: #ff79c6; }
+        .func { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .number { color: #bd93f9; }
+        .type { color: #8be9fd; }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .feature-card {
+            background: #12121f;
+            border: 1px solid #1a1a2e;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .feature-card h3 { color: #00ff88; font-size: 1em; margin-bottom: 8px; }
+        .feature-card p { color: #999; font-size: 0.9em; }
+        .footer {
+            text-align: center;
+            color: #555;
+            font-size: 0.85em;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #1a1a2e;
+        }
+        .neon-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border: 1px solid #00ff88;
+            border-radius: 4px;
+            color: #00ff88;
+            font-size: 0.8em;
+            margin: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Godot Platformer Kit</h1>
+        <p class="subtitle">Complete 2D platformer starter project for Godot 4.x</p>
+        <span class="price-tag">$5</span>
+        <span class="neon-badge">Godot 4.2+</span>
+        <span class="neon-badge">GDScript</span>
+        <span class="neon-badge">Beginner Friendly</span>
+
+        <div class="section">
+            <h2>What You Get</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Player Controller</h3>
+                    <p>Walk, jump, double-jump, wall-slide, wall-jump. Coyote time and jump buffering for tight, responsive controls.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Enemy AI</h3>
+                    <p>State machine pattern with patrol, chase, and attack behaviors. Ground (Slime) and flying (Bat) enemy types.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Game Manager</h3>
+                    <p>Autoload singleton managing score, lives, health, and level transitions. Signals keep everything in sync.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>HUD System</h3>
+                    <p>Health, score, and lives display. Message overlay for "Level Complete" and "Game Over" events.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Sample Level</h3>
+                    <p>A complete level scene with platforms, enemies, and collectibles. Ready to duplicate and customize.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Step-by-Step Tutorial</h3>
+                    <p>Every line of code is commented. TUTORIAL.md walks you through every system from scratch.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Code Preview: Player Controller</h2>
+            <div class="code-block">
+                <span class="filename">src/player/player.gd</span>
+<pre>
+<span class="comment"># Variable jump height — tap for short, hold for high</span>
+<span class="keyword">if</span> Input.is_action_just_released(<span class="string">"jump"</span>) <span class="keyword">and</span> velocity.y &lt; <span class="number">0</span>:
+    velocity.y *= jump_cut_multiplier
+
+<span class="comment"># Coyote time — jump grace period after leaving a ledge</span>
+<span class="keyword">if</span> was_on_floor <span class="keyword">and not</span> <span class="func">is_on_floor</span>() <span class="keyword">and</span> velocity.y >= <span class="number">0</span>:
+    coyote_timer = coyote_time
+
+<span class="comment"># Wall sliding — slow fall when against a wall</span>
+<span class="keyword">if</span> <span class="func">is_on_wall_only</span>() <span class="keyword">and not</span> <span class="func">is_on_floor</span>() <span class="keyword">and</span> velocity.y > <span class="number">0</span>:
+    is_wall_sliding = <span class="keyword">true</span>
+    velocity.y = <span class="func">min</span>(velocity.y, wall_slide_speed)
+</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Code Preview: Enemy State Machine</h2>
+            <div class="code-block">
+                <span class="filename">src/enemies/slime.gd</span>
+<pre>
+<span class="keyword">enum</span> <span class="type">State</span> { IDLE, PATROL, CHASE }
+
+<span class="keyword">func</span> <span class="func">_physics_process</span>(delta: <span class="type">float</span>) -> <span class="type">void</span>:
+    <span class="keyword">if not</span> <span class="func">is_on_floor</span>():
+        velocity.y += gravity * delta
+
+    <span class="keyword">match</span> current_state:
+        <span class="type">State</span>.IDLE:
+            <span class="func">process_idle</span>(delta)
+        <span class="type">State</span>.PATROL:
+            <span class="func">process_patrol</span>(delta)
+        <span class="type">State</span>.CHASE:
+            <span class="func">process_chase</span>(delta)
+
+    <span class="func">move_and_slide</span>()
+</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Game Preview</h2>
+            <div class="screenshot-placeholder">
+                <div class="icon">[Game Screenshot]</div>
+                <p>Open in Godot 4.2+ to see the full game with colored placeholders.<br>
+                Replace ColorRect nodes with your own pixel art sprites!</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Neon Bazaar / Mod Lab &mdash; Level up your dev skills</p>
+            <p>MIT License &mdash; use freely for any project</p>
+        </div>
+    </div>
+</body>
+</html>

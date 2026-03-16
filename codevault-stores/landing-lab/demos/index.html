@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Landing Lab — Interactive Demos</title>
+<style>
+  :root { --brand: #FFAB00; --bg: #0A0E1A; --panel: #0d1321; --border: #1e2a3a; --text: #e2e8f0; --muted: #64748b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 860px; margin: 0 auto; }
+  .header { text-align: center; margin-bottom: 2.5rem; }
+  .header .badge { display: inline-block; background: var(--brand); color: #000; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 20px; margin-bottom: 0.75rem; }
+  h1 { font-size: 2rem; color: var(--text); margin-bottom: 0.5rem; }
+  h1 span { color: var(--brand); }
+  .header p { color: var(--muted); font-size: 0.95rem; max-width: 520px; margin: 0 auto; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; text-decoration: none; color: var(--text); transition: border-color 0.2s, transform 0.15s; display: flex; flex-direction: column; gap: 0.5rem; }
+  .card:hover { border-color: var(--brand); transform: translateY(-2px); }
+  .card-icon { font-size: 1.8rem; }
+  .card-title { font-size: 1rem; font-weight: 700; color: var(--text); }
+  .card-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.4; }
+  .card-price { font-size: 0.85rem; color: var(--brand); font-weight: 700; margin-top: auto; padding-top: 0.5rem; }
+  .back-link { display: inline-block; margin-bottom: 1.5rem; color: var(--muted); text-decoration: none; font-size: 0.85rem; }
+  .back-link:hover { color: var(--brand); }
+  .footer { text-align: center; margin-top: 2.5rem; color: var(--muted); font-size: 0.8rem; }
+  .store-cta { background: linear-gradient(135deg, #1a1200, #2a1e00); border: 1px solid var(--brand); border-radius: 8px; padding: 1.25rem; margin-top: 2rem; text-align: center; }
+  .store-cta h3 { color: var(--brand); margin-bottom: 0.4rem; }
+  .store-cta p { color: var(--muted); font-size: 0.85rem; margin-bottom: 0.75rem; }
+  .store-link { display: inline-block; background: var(--brand); color: #000; text-decoration: none; padding: 0.6rem 1.5rem; border-radius: 6px; font-weight: 700; font-size: 0.9rem; }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back-link" href="../index.html">← Back to Landing Lab Store</a>
+
+  <div class="header">
+    <div class="badge">🧪 Interactive Demos</div>
+    <h1>Landing Lab <span>Demo Center</span></h1>
+    <p>Try all 10 tools before you buy. Each demo runs entirely in your browser — no signup required.</p>
+  </div>
+
+  <div class="grid">
+    <a class="card" href="demo-landing-page-templates.html">
+      <div class="card-icon">🎨</div>
+      <div class="card-title">Landing Page Templates</div>
+      <div class="card-desc">Pick from 3 demo templates, customize your copy, and preview the result live. Full version has 25 templates.</div>
+      <div class="card-price">$29 — Try Demo →</div>
+    </a>
+    <a class="card" href="demo-ab-testing-framework.html">
+      <div class="card-icon">📊</div>
+      <div class="card-title">A/B Testing Framework</div>
+      <div class="card-desc">Run Z-test significance calculations and sample size estimates for your landing page experiments.</div>
+      <div class="card-price">$19 — Try Demo →</div>
+    </a>
+    <a class="card" href="demo-conversion-tracker.html">
+      <div class="card-icon">🔽</div>
+      <div class="card-title">Conversion Tracker</div>
+      <div class="card-desc">Visualize your conversion funnel with step-by-step drop-off rates and revenue estimates.</div>
+      <div class="card-price">$19 — Try Demo →</div>
+    </a>
+    <a class="card" href="demo-cta-optimizer.html">
+      <div class="card-icon">🎯</div>
+      <div class="card-title">CTA Optimizer</div>
+      <div class="card-desc">Score and rank call-to-action button variants by predicted conversion rate for your goal and page type.</div>
+      <div class="card-price">$19 — Try Demo →</div>
+    </a>
+    <a class="card" href="demo-social-proof-widget.html">
+      <div class="card-icon">👥</div>
+      <div class="card-title">Social Proof Widget</div>
+      <div class="card-desc">Build purchase notification, customer counter, and star rating widgets with live preview and embed code.</div>
+      <div class="card-price">$19 — Try Demo →</div>
+    </a>
+    <a class="card" href="demo-testimonial-collector.html">
+      <div class="card-icon">⭐</div>
+      <div class="card-title">Testimonial Collector</div>
+      <div class="card-desc">Design testimonial display cards and generate collection emails with live preview.</div>
+      <div class="card-price">$19 — Try Demo →</div>
+    </a>
+    <a class="card" href="demo-exit-intent-popup.html">
+      <div class="card-icon">🚪</div>
+      <div class="card-title">Exit Intent Popup</div>
+      <div class="card-desc">Build and preview exit intent popups with live overlay preview and embed code generation.</div>
+      <div class="card-price">$19 — Try Demo →</div>
+    </a>
+    <a class="card" href="demo-heatmap-integrator.html">
+      <div class="card-icon">🔥</div>
+      <div class="card-title">Heatmap Integrator</div>
+      <div class="card-desc">Visualize simulated click, scroll, and attention heatmaps on landing page wireframes with actionable insights.</div>
+      <div class="card-price">$19 — Try Demo →</div>
+    </a>
+    <a class="card" href="demo-page-speed-optimizer.html">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">Page Speed Optimizer</div>
+      <div class="card-desc">Simulate a Core Web Vitals audit and get a prioritized optimization checklist for your page.</div>
+      <div class="card-price">$19 — Try Demo →</div>
+    </a>
+    <a class="card" href="demo-lead-magnet-builder.html">
+      <div class="card-icon">🧲</div>
+      <div class="card-title">Lead Magnet Builder</div>
+      <div class="card-desc">Generate a fully-designed lead magnet landing page from your details and export the HTML instantly.</div>
+      <div class="card-price">$19 — Try Demo →</div>
+    </a>
+  </div>
+
+  <div class="store-cta">
+    <h3>Ready to buy? Visit the full Landing Lab store.</h3>
+    <p>Bundles available — get all 10 tools and save up to 40%.</p>
+    <a class="store-link" href="../index.html">Browse Landing Lab →</a>
+  </div>
+
+  <div class="footer">Landing Lab · All demos run client-side · No data is collected</div>
+</div>
+</body>
+</html>

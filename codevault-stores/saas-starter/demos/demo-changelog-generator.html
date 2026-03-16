@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Changelog Generator Demo — SaaS Starter | CodeVault</title>
+<meta name="description" content="Interactive demo of the Changelog Generator tool from SaaS Starter.">
+<style>
+  :root {
+    --bg: #0A0E1A; --surface: #141824; --surface2: #1E2436;
+    --border: #2A2E3E; --text: #EAEAFF; --muted: #8888AA;
+    --accent: #FFD600; --danger: #FF4444; --success: #00E676;
+    --warn: #FF9800; --info: #2196F3;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 15px; min-height: 100vh; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  header .brand { font-weight: 700; font-size: 1.1rem; }
+  header .brand span { color: var(--accent); }
+  .badge { background: var(--accent); color: #0A0E1A; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: .5px; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 32px 20px; }
+  h1 { font-size: 1.6rem; margin-bottom: 6px; }
+  .subtitle { color: var(--muted); margin-bottom: 28px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+  .panel-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 14px; }
+
+  label { display: block; color: var(--muted); font-size: 0.82rem; margin-bottom: 5px; margin-top: 12px; }
+  label:first-child { margin-top: 0; }
+  input[type=text], select, textarea {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 8px 12px; color: var(--text); font-size: 0.88rem; outline: none; font-family: inherit;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 90px; }
+
+  .btn { display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 9px 20px; border-radius: 7px; border: none; cursor: pointer; font-size: 0.9rem; transition: opacity .2s; }
+  .btn:hover { opacity: .88; }
+  .btn-sec { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-sec:hover { border-color: var(--accent); color: var(--accent); opacity: 1; }
+
+  /* Commit list */
+  .commit-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; max-height: 260px; overflow-y: auto; }
+  .commit-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; display: flex; align-items: flex-start; gap: 10px; }
+  .commit-type { font-size: 0.72rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; white-space: nowrap; margin-top: 1px; }
+  .type-feat { background: rgba(0,230,118,.15); color: var(--success); }
+  .type-fix { background: rgba(255,68,68,.15); color: var(--danger); }
+  .type-chore { background: rgba(136,136,170,.15); color: var(--muted); }
+  .type-docs { background: rgba(33,150,243,.15); color: var(--info); }
+  .type-perf { background: rgba(255,214,0,.15); color: var(--accent); }
+  .type-break { background: rgba(255,152,0,.2); color: var(--warn); }
+  .commit-msg { font-size: 0.85rem; flex: 1; }
+  .commit-hash { font-size: 0.75rem; color: var(--muted); font-family: monospace; }
+  .remove-btn { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1rem; line-height: 1; padding: 0; }
+  .remove-btn:hover { color: var(--danger); }
+
+  /* Changelog output */
+  .changelog-output { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 18px; font-family: monospace; font-size: 0.83rem; line-height: 1.7; white-space: pre-wrap; min-height: 200px; color: var(--text); overflow-y: auto; max-height: 420px; }
+  .cl-version { color: var(--accent); font-weight: 700; }
+  .cl-date { color: var(--muted); }
+  .cl-section { color: #2196F3; font-weight: 700; }
+  .cl-item { color: var(--text); }
+  .cl-break { color: var(--warn); font-weight: 700; }
+
+  .actions { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+
+  /* CTA */
+  .cta-box { background: linear-gradient(135deg, rgba(255,214,0,.08), rgba(255,214,0,.03)); border: 1px solid rgba(255,214,0,.3); border-radius: 12px; padding: 28px 24px; text-align: center; margin-top: 32px; }
+  .cta-box h2 { font-size: 1.25rem; margin-bottom: 8px; }
+  .cta-box p { color: var(--muted); margin-bottom: 20px; font-size: 0.9rem; }
+  .btn-cta { display: inline-block; background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 12px 32px; border-radius: 8px; font-size: 1rem; border: none; cursor: pointer; text-decoration: none; transition: opacity .2s; }
+  .btn-cta:hover { opacity: .9; text-decoration: none; }
+  .demo-note { text-align: center; color: var(--muted); font-size: 0.82rem; margin-top: 14px; }
+
+  footer { text-align: center; padding: 24px; color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--border); margin-top: 40px; }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">SaaS<span>Starter</span> — Changelog Generator</div>
+  <span class="badge">Demo</span>
+</header>
+
+<div class="container">
+  <h1>Changelog Generator</h1>
+  <p class="subtitle">Parse conventional commits and generate structured CHANGELOG.md entries automatically.</p>
+
+  <div class="two-col">
+    <!-- Input panel -->
+    <div class="panel">
+      <div class="panel-title">Add Commits</div>
+
+      <label>Version</label>
+      <input type="text" id="versionInput" value="1.4.0" placeholder="e.g. 1.4.0">
+
+      <label>Commit type</label>
+      <select id="commitType">
+        <option value="feat">feat — new feature</option>
+        <option value="fix">fix — bug fix</option>
+        <option value="perf">perf — performance</option>
+        <option value="docs">docs — documentation</option>
+        <option value="chore">chore — maintenance</option>
+        <option value="break">BREAKING CHANGE</option>
+      </select>
+
+      <label>Commit message</label>
+      <input type="text" id="commitMsg" placeholder="e.g. add dark mode toggle" onkeydown="if(event.key==='Enter')addCommit()">
+
+      <label>Scope (optional)</label>
+      <input type="text" id="commitScope" placeholder="e.g. auth, dashboard, api">
+
+      <div style="margin-top:14px;display:flex;gap:8px">
+        <button class="btn" onclick="addCommit()">+ Add Commit</button>
+        <button class="btn btn-sec" onclick="loadSample()">Load Sample</button>
+      </div>
+
+      <div style="margin-top:18px">
+        <div class="panel-title" style="margin-bottom:10px">Commit Queue (<span id="commitCount">0</span>)</div>
+        <div class="commit-list" id="commitList">
+          <div style="color:var(--muted);font-size:.85rem;padding:8px 0">No commits added yet.</div>
+        </div>
+      </div>
+
+      <button class="btn" style="width:100%" onclick="generateChangelog()">Generate Changelog</button>
+    </div>
+
+    <!-- Output panel -->
+    <div class="panel">
+      <div class="panel-title">Changelog Output</div>
+      <div class="changelog-output" id="changelogOutput"><span style="color:var(--muted)">Output will appear here after clicking "Generate Changelog".</span></div>
+      <div class="actions">
+        <button class="btn btn-sec" onclick="copyOutput()">Copy Markdown</button>
+        <button class="btn btn-sec" onclick="clearAll()">Clear</button>
+      </div>
+      <div id="copyMsg" style="color:var(--success);font-size:.8rem;margin-top:8px;display:none">Copied to clipboard!</div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h2>Get the Full Changelog Generator</h2>
+    <p>Git log integration, GitHub PR linking, Slack/email publish hooks, semantic version bumping, multi-format export (MD, JSON, HTML), and CI/CD pipeline plugin.</p>
+    <a class="btn-cta" href="https://buy.stripe.com/5kQ4gzayX2yy5h8dSFgjJ1G">Buy Full Version — $39.00</a>
+    <button class="crypto-pay-btn" data-product-slug="changelog-generator" data-store-slug="saas-starter" data-product-name="Changelog Generator" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+    <div class="demo-note">This demo shows limited functionality. Buy the full tool for all features.</div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 CodeVault / SaaS Starter &mdash; <a href="https://buy.stripe.com/5kQ4gzayX2yy5h8dSFgjJ1G">Back to Store</a>
+  &mdash; <a href="index.html">All Demos</a>
+</footer>
+
+<script>
+// --- State ---
+let commits = [];
+let commitId = 0;
+
+function randomHash() {
+  return Math.random().toString(16).slice(2,9);
+}
+
+function addCommit() {
+  const type = document.getElementById('commitType').value;
+  const msg = document.getElementById('commitMsg').value.trim();
+  const scope = document.getElementById('commitScope').value.trim();
+  if (!msg) { document.getElementById('commitMsg').focus(); return; }
+  commits.push({ id: commitId++, type, msg, scope, hash: randomHash() });
+  document.getElementById('commitMsg').value = '';
+  renderCommits();
+}
+
+function removeCommit(id) {
+  commits = commits.filter(c => c.id !== id);
+  renderCommits();
+}
+
+function renderCommits() {
+  const el = document.getElementById('commitList');
+  document.getElementById('commitCount').textContent = commits.length;
+  if (!commits.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:.85rem;padding:8px 0">No commits added yet.</div>';
+    return;
+  }
+  el.innerHTML = commits.map(c => `
+    <div class="commit-item">
+      <span class="commit-type type-${c.type}">${c.type === 'break' ? 'BREAKING' : c.type}</span>
+      <span class="commit-msg">${c.scope ? `<strong>${c.scope}:</strong> ` : ''}${c.msg}</span>
+      <span class="commit-hash">${c.hash}</span>
+      <button class="remove-btn" onclick="removeCommit(${c.id})">×</button>
+    </div>`).join('');
+}
+
+function loadSample() {
+  commits = [
+    { id: commitId++, type: 'break', msg: 'remove deprecated /v1/users endpoint', scope: 'api', hash: randomHash() },
+    { id: commitId++, type: 'feat', msg: 'add OAuth2 Google login', scope: 'auth', hash: randomHash() },
+    { id: commitId++, type: 'feat', msg: 'dark mode toggle in user preferences', scope: 'ui', hash: randomHash() },
+    { id: commitId++, type: 'feat', msg: 'export reports to CSV and PDF', scope: 'reports', hash: randomHash() },
+    { id: commitId++, type: 'fix', msg: 'password reset email not sending for SSO users', scope: 'auth', hash: randomHash() },
+    { id: commitId++, type: 'fix', msg: 'pagination off-by-one on user list', scope: 'dashboard', hash: randomHash() },
+    { id: commitId++, type: 'perf', msg: 'cache subscription status in Redis', scope: 'billing', hash: randomHash() },
+    { id: commitId++, type: 'docs', msg: 'update webhook integration guide', scope: '', hash: randomHash() },
+    { id: commitId++, type: 'chore', msg: 'upgrade dependencies to latest versions', scope: '', hash: randomHash() },
+  ];
+  renderCommits();
+}
+
+function generateChangelog() {
+  if (!commits.length) { alert('Add at least one commit first.'); return; }
+  const version = document.getElementById('versionInput').value.trim() || '1.0.0';
+  const today = new Date().toISOString().slice(0,10);
+
+  // Group commits by type
+  const groups = { break: [], feat: [], fix: [], perf: [], docs: [], chore: [] };
+  commits.forEach(c => { if (groups[c.type]) groups[c.type].push(c); });
+
+  const sectionTitles = { break: '⚠ BREAKING CHANGES', feat: '✨ Features', fix: '🐛 Bug Fixes', perf: '⚡ Performance', docs: '📚 Documentation', chore: '🔧 Maintenance' };
+
+  let md = `## [${version}] — ${today}\n\n`;
+
+  for (const [type, items] of Object.entries(groups)) {
+    if (!items.length) continue;
+    md += `### ${sectionTitles[type]}\n\n`;
+    items.forEach(c => {
+      const scope = c.scope ? `**${c.scope}:** ` : '';
+      md += `- ${scope}${c.msg} (\`${c.hash}\`)\n`;
+    });
+    md += '\n';
+  }
+
+  md += `---\n*Generated by SaaS Starter Changelog Generator*`;
+
+  // Render with syntax highlighting spans
+  const highlighted = md
+    .replace(/^(## .+)$/gm, '<span class="cl-version">$1</span>')
+    .replace(/^(### .+)$/gm, '<span class="cl-section">$1</span>')
+    .replace(/^(\- .+)$/gm, '<span class="cl-item">$1</span>')
+    .replace(/(\*\*[^*]+\*\*)/g, '<strong>$1</strong>');
+
+  document.getElementById('changelogOutput').innerHTML = highlighted;
+}
+
+function copyOutput() {
+  const text = document.getElementById('changelogOutput').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const msg = document.getElementById('copyMsg');
+    msg.style.display = 'block';
+    setTimeout(() => msg.style.display = 'none', 2000);
+  });
+}
+
+function clearAll() {
+  commits = [];
+  renderCommits();
+  document.getElementById('changelogOutput').innerHTML = '<span style="color:var(--muted)">Output will appear here after clicking "Generate Changelog".</span>';
+}
+
+// Load sample on start
+loadSample();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

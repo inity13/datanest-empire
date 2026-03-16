@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Custom Report Builder Demo — Analytics Hub | CodeVault</title>
+<meta name="description" content="Interactive custom report builder demo — drag fields, filter, group, visualize.">
+<style>
+  :root {
+    --bg: #0A0E1A; --surface: #141824; --surface2: #1E2436;
+    --border: #2A2E3E; --text: #EAEAFF; --muted: #8888AA;
+    --accent: #00E5FF; --danger: #FF4444; --success: #00E676; --warn: #FF9800;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 15px; min-height: 100vh; }
+  a { color: var(--accent); text-decoration: none; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  header .brand { font-weight: 700; font-size: 1.1rem; }
+  header .brand span { color: var(--accent); }
+  .badge { background: var(--accent); color: #0A0E1A; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 32px 20px; }
+  h1 { font-size: 1.6rem; margin-bottom: 6px; }
+  .subtitle { color: var(--muted); margin-bottom: 24px; }
+
+  .builder-layout { display: grid; grid-template-columns: 220px 1fr; gap: 20px; }
+  @media(max-width:720px) { .builder-layout { grid-template-columns: 1fr; } }
+
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+  .panel-title { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 12px; }
+
+  /* Field palette */
+  .field-list { display: flex; flex-direction: column; gap: 4px; }
+  .field-pill { background: var(--surface2); border: 1px solid var(--border); border-radius: 5px; padding: 7px 10px; cursor: pointer; font-size: 0.82rem; display: flex; justify-content: space-between; align-items: center; transition: border-color .15s; }
+  .field-pill:hover { border-color: var(--accent); color: var(--accent); }
+  .field-type { font-size: 0.68rem; color: var(--muted); background: var(--bg); border-radius: 3px; padding: 1px 5px; }
+
+  /* Config area */
+  .config-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 14px; }
+  @media(max-width:600px) { .config-row { grid-template-columns: 1fr 1fr; } }
+
+  .config-box { background: var(--surface2); border: 1px dashed var(--border); border-radius: 6px; padding: 10px 12px; min-height: 60px; }
+  .config-box-title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .config-box .empty-hint { font-size: 0.75rem; color: var(--border); font-style: italic; }
+  .field-tag { display: inline-flex; align-items: center; gap: 5px; background: rgba(0,229,255,.12); border: 1px solid rgba(0,229,255,.25); border-radius: 4px; padding: 3px 8px; font-size: 0.78rem; color: var(--accent); margin: 2px; cursor: default; }
+  .field-tag .rm { cursor: pointer; font-size: 0.85rem; color: var(--muted); }
+  .field-tag .rm:hover { color: var(--danger); }
+
+  label { color: var(--muted); font-size: 0.82rem; display: block; margin-bottom: 4px; margin-top: 10px; }
+  select { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 7px 12px; color: var(--text); font-size: 0.88rem; outline: none; }
+  select:focus { border-color: var(--accent); }
+
+  .btn { background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 9px 20px; border-radius: 7px; border: none; cursor: pointer; font-size: 0.9rem; }
+  .btn:hover { opacity: .88; }
+  .btn-sec { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-sec:hover { border-color: var(--accent); color: var(--accent); opacity: 1; }
+  .btn-row { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+
+  /* Report output */
+  .report-tabs { display: flex; gap: 4px; margin-bottom: 14px; }
+  .rtab { padding: 6px 14px; background: var(--surface2); border: 1px solid var(--border); border-radius: 5px; cursor: pointer; font-size: 0.82rem; color: var(--muted); }
+  .rtab.active { background: rgba(0,229,255,.1); border-color: var(--accent); color: var(--accent); }
+
+  .report-table-wrap { overflow-x: auto; }
+  table.report { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+  table.report th { padding: 8px 12px; text-align: left; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  table.report td { padding: 7px 12px; border-bottom: 1px solid var(--border); }
+  table.report tr:hover td { background: var(--surface2); }
+  table.report tr:last-child td { border-bottom: none; }
+
+  /* Mini chart in report */
+  .bar-row { display: flex; align-items: center; gap: 8px; }
+  .bar-mini { height: 10px; background: var(--accent); border-radius: 2px; opacity: 0.7; }
+  .bar-mini-val { font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
+
+  .cta-box { background: linear-gradient(135deg, rgba(0,229,255,.08), rgba(0,229,255,.02)); border: 1px solid rgba(0,229,255,.25); border-radius: 12px; padding: 28px 24px; text-align: center; margin-top: 32px; }
+  .cta-box h2 { font-size: 1.25rem; margin-bottom: 8px; }
+  .cta-box p { color: var(--muted); margin-bottom: 20px; font-size: 0.9rem; }
+  .btn-cta { display: inline-block; background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 12px 32px; border-radius: 8px; font-size: 1rem; text-decoration: none; }
+  .btn-cta:hover { opacity: .9; text-decoration: none; }
+  .demo-note { color: var(--muted); font-size: 0.82rem; margin-top: 14px; }
+
+  footer { text-align: center; padding: 24px; color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--border); margin-top: 40px; }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Analytics<span>Hub</span> — Custom Report Builder</div>
+  <span class="badge">Demo</span>
+</header>
+
+<div class="container">
+  <h1>Custom Report Builder</h1>
+  <p class="subtitle">Select dimensions, metrics, filters, and visualizations to build any report on the fly.</p>
+
+  <div class="builder-layout">
+    <!-- Field palette -->
+    <div class="panel" style="align-self:start">
+      <div class="panel-title">Available Fields</div>
+      <div class="panel-title" style="margin-top:8px;color:var(--muted)">Dimensions</div>
+      <div class="field-list" id="dimPalette"></div>
+      <div class="panel-title" style="margin-top:12px;color:var(--muted)">Metrics</div>
+      <div class="field-list" id="metPalette"></div>
+    </div>
+
+    <!-- Config + report -->
+    <div>
+      <div class="panel" style="margin-bottom:16px">
+        <div class="panel-title">Report Configuration</div>
+        <div class="config-row">
+          <div class="config-box">
+            <div class="config-box-title">Group By</div>
+            <div id="groupByBox"><span class="empty-hint">Click a dimension →</span></div>
+          </div>
+          <div class="config-box">
+            <div class="config-box-title">Metrics</div>
+            <div id="metricsBox"><span class="empty-hint">Click a metric →</span></div>
+          </div>
+          <div class="config-box">
+            <div class="config-box-title">Filters</div>
+            <div id="filtersBox">
+              <select id="filterField" style="font-size:.78rem;padding:4px 8px;margin-bottom:4px">
+                <option value="">No filter</option>
+                <option value="plan">Plan = Pro+</option>
+                <option value="country">Country = US</option>
+                <option value="active">Active users only</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
+          <div style="flex:1;min-width:160px">
+            <label>Sort by</label>
+            <select id="sortBy">
+              <option value="desc">Highest first</option>
+              <option value="asc">Lowest first</option>
+            </select>
+          </div>
+          <div style="flex:1;min-width:120px">
+            <label>Row limit</label>
+            <select id="rowLimit">
+              <option value="5">Top 5</option>
+              <option value="10" selected>Top 10</option>
+              <option value="20">Top 20</option>
+            </select>
+          </div>
+          <div style="flex:1;min-width:120px">
+            <label>Visualization</label>
+            <select id="vizType">
+              <option value="table">Table</option>
+              <option value="bar">Bar Chart</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn" onclick="runReport()">Run Report</button>
+          <button class="btn btn-sec" onclick="loadPreset('planRevenue')">Revenue by Plan</button>
+          <button class="btn btn-sec" onclick="loadPreset('countryUsers')">Users by Country</button>
+          <button class="btn btn-sec" onclick="resetBuilder()">Reset</button>
+        </div>
+      </div>
+
+      <!-- Report output -->
+      <div class="panel" id="reportPanel" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <div class="panel-title" style="margin-bottom:0" id="reportTitle">Report</div>
+          <span style="font-size:.78rem;color:var(--muted)" id="reportMeta"></span>
+        </div>
+        <div id="reportOutput"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h2>Get the Full Custom Report Builder</h2>
+    <p>Live SQL query preview, 15+ chart types, report scheduling (daily/weekly email), team sharing, embedded iframes, and export to CSV/Excel/PDF.</p>
+    <a class="btn-cta" href="https://buy.stripe.com/9B6dR9ayX7SSaBs6qdgjI41">Buy Full Version — $89.00</a>
+    <button class="crypto-pay-btn" data-product-slug="report-generator" data-store-slug="analytics-hub" data-product-name="Report Generator" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+    <div class="demo-note">This demo shows limited functionality. Buy the full tool for all features.</div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 CodeVault / Analytics Hub &mdash; <a href="https://buy.stripe.com/9B6dR9ayX7SSaBs6qdgjI41">Back to Store</a>
+  &mdash; <a href="index.html">All Demos</a>
+</footer>
+
+<script>
+// --- Schema ---
+const DIMENSIONS = [
+  { id:'plan', label:'Plan', type:'string' },
+  { id:'country', label:'Country', type:'string' },
+  { id:'channel', label:'Acq. Channel', type:'string' },
+  { id:'month', label:'Month', type:'date' },
+  { id:'tier', label:'Tier', type:'string' },
+];
+
+const METRICS = [
+  { id:'users', label:'Users', type:'integer' },
+  { id:'revenue', label:'Revenue ($)', type:'currency' },
+  { id:'sessions', label:'Sessions', type:'integer' },
+  { id:'churn', label:'Churned Users', type:'integer' },
+  { id:'arpu', label:'ARPU ($)', type:'currency' },
+];
+
+// --- Sample data ---
+const DATA = {
+  plan: [
+    { group:'Business', users:85, revenue:16915, sessions:8500, churn:3, arpu:199 },
+    { group:'Pro',      users:220, revenue:17380, sessions:15400, churn:9, arpu:79 },
+    { group:'Starter',  users:480, revenue:13920, sessions:24000, churn:22, arpu:29 },
+  ],
+  country: [
+    { group:'United States', users:340, revenue:21800, sessions:28900, churn:12, arpu:64 },
+    { group:'Germany', users:142, revenue:9800, sessions:10200, churn:6, arpu:69 },
+    { group:'United Kingdom', users:110, revenue:7200, sessions:8800, churn:4, arpu:65 },
+    { group:'Japan', users:88, revenue:5400, sessions:6200, churn:3, arpu:61 },
+    { group:'Canada', users:65, revenue:4100, sessions:4800, churn:2, arpu:63 },
+    { group:'Singapore', users:40, revenue:2800, sessions:3100, churn:2, arpu:70 },
+    { group:'France', users:35, revenue:2200, sessions:2800, churn:1, arpu:63 },
+  ],
+  channel: [
+    { group:'Organic Search', users:280, revenue:18200, sessions:22400, churn:10, arpu:65 },
+    { group:'Direct', users:210, revenue:14700, sessions:16800, churn:8, arpu:70 },
+    { group:'Paid Search', users:185, revenue:10500, sessions:14800, churn:9, arpu:57 },
+    { group:'Social', users:80, revenue:4600, sessions:6400, churn:5, arpu:58 },
+    { group:'Referral', users:30, revenue:2215, sessions:2400, churn:2, arpu:74 },
+  ],
+  month: [
+    { group:'Oct', users:680, revenue:41500, sessions:54400, churn:21, arpu:61 },
+    { group:'Nov', users:715, revenue:44200, sessions:57200, churn:19, arpu:62 },
+    { group:'Dec', users:745, revenue:46800, sessions:59600, churn:24, arpu:63 },
+    { group:'Jan', users:785, revenue:48100, sessions:62800, churn:20, arpu:61 },
+    { group:'Feb', users:785, revenue:48215, sessions:62840, churn:34, arpu:61 },
+  ],
+  tier: [
+    { group:'Enterprise', users:12, revenue:5988, sessions:2400, churn:0, arpu:499 },
+    { group:'Business', users:85, revenue:16915, sessions:8500, churn:3, arpu:199 },
+    { group:'Pro', users:220, revenue:17380, sessions:15400, churn:9, arpu:79 },
+    { group:'Starter', users:480, revenue:13920, sessions:24000, churn:22, arpu:29 },
+  ],
+};
+
+// --- State ---
+let groupBy = ['plan'];
+let metrics = ['users','revenue'];
+
+function renderPalette() {
+  document.getElementById('dimPalette').innerHTML = DIMENSIONS.map(f =>
+    `<div class="field-pill" onclick="toggleGroup('${f.id}')">
+      <span>${f.label}</span><span class="field-type">${f.type}</span>
+    </div>`).join('');
+  document.getElementById('metPalette').innerHTML = METRICS.map(f =>
+    `<div class="field-pill" onclick="toggleMetric('${f.id}')">
+      <span>${f.label}</span><span class="field-type">${f.type}</span>
+    </div>`).join('');
+}
+
+function toggleGroup(id) {
+  groupBy = [id]; // single for demo
+  renderSelections();
+}
+
+function toggleMetric(id) {
+  if (metrics.includes(id)) metrics = metrics.filter(m=>m!==id);
+  else metrics.push(id);
+  if (!metrics.length) metrics = [id]; // ensure at least one
+  renderSelections();
+}
+
+function renderSelections() {
+  const gb = document.getElementById('groupByBox');
+  gb.innerHTML = groupBy.length
+    ? groupBy.map(g => { const f=DIMENSIONS.find(d=>d.id===g); return `<span class="field-tag">${f?.label||g}<span class="rm" onclick="groupBy=[]; renderSelections()">×</span></span>`; }).join('')
+    : '<span class="empty-hint">Click a dimension →</span>';
+
+  const mb = document.getElementById('metricsBox');
+  mb.innerHTML = metrics.length
+    ? metrics.map(m => { const f=METRICS.find(d=>d.id===m); return `<span class="field-tag">${f?.label||m}<span class="rm" onclick="toggleMetric('${m}')">×</span></span>`; }).join('')
+    : '<span class="empty-hint">Click a metric →</span>';
+}
+
+function runReport() {
+  if (!groupBy.length || !metrics.length) { alert('Select at least one dimension and one metric.'); return; }
+  const dim = groupBy[0];
+  const filterVal = document.getElementById('filterField').value;
+  const sort = document.getElementById('sortBy').value;
+  const limit = parseInt(document.getElementById('rowLimit').value);
+  const viz = document.getElementById('vizType').value;
+
+  let data = [...(DATA[dim] || DATA.plan)];
+
+  // Apply filter
+  if (filterVal === 'plan') data = data.filter(r => ['Pro','Business','Enterprise'].includes(r.group));
+  if (filterVal === 'country') data = data.filter(r => r.group === 'United States');
+  if (filterVal === 'active') data = data.filter(r => r.users > 50);
+
+  // Sort by first metric
+  const sortMetric = metrics[0];
+  data.sort((a,b) => sort==='desc' ? b[sortMetric]-a[sortMetric] : a[sortMetric]-b[sortMetric]);
+  data = data.slice(0, limit);
+
+  const dimLabel = DIMENSIONS.find(d=>d.id===dim)?.label || dim;
+  document.getElementById('reportTitle').textContent = `${dimLabel} — ${metrics.map(m=>METRICS.find(f=>f.id===m)?.label).join(', ')}`;
+  document.getElementById('reportMeta').textContent = `${data.length} rows`;
+  document.getElementById('reportPanel').style.display = 'block';
+
+  if (viz === 'table') renderTable(data, dimLabel);
+  else renderBarViz(data, dimLabel);
+}
+
+function renderTable(data, dimLabel) {
+  const cols = metrics.map(m => METRICS.find(f=>f.id===m));
+  let html = `<div class="report-table-wrap"><table class="report"><thead><tr><th>${dimLabel}</th>`;
+  cols.forEach(c => html += `<th>${c.label}</th>`);
+  html += '</tr></thead><tbody>';
+  data.forEach(row => {
+    html += `<tr><td style="font-weight:600">${row.group}</td>`;
+    cols.forEach(c => {
+      const v = row[c.id];
+      const disp = c.type === 'currency' ? '$'+v.toLocaleString() : v.toLocaleString();
+      html += `<td>${disp}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table></div>';
+  document.getElementById('reportOutput').innerHTML = html;
+}
+
+function renderBarViz(data, dimLabel) {
+  const metric = METRICS.find(f=>f.id===metrics[0]);
+  const max = Math.max(...data.map(d=>d[metrics[0]]));
+  let html = `<div style="display:flex;flex-direction:column;gap:8px">`;
+  data.forEach(row => {
+    const v = row[metrics[0]];
+    const pct = (v/max)*100;
+    const disp = metric.type==='currency' ? '$'+v.toLocaleString() : v.toLocaleString();
+    html += `<div>
+      <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:3px">
+        <span>${row.group}</span><span style="color:var(--accent);font-weight:600">${disp}</span>
+      </div>
+      <div style="height:12px;background:var(--surface2);border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:var(--accent);border-radius:3px;opacity:.8;transition:width .5s"></div>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('reportOutput').innerHTML = html;
+}
+
+function loadPreset(name) {
+  if (name === 'planRevenue') {
+    groupBy = ['plan']; metrics = ['users','revenue','arpu'];
+    document.getElementById('filterField').value = '';
+    document.getElementById('vizType').value = 'table';
+    document.getElementById('sortBy').value = 'desc';
+    document.getElementById('rowLimit').value = '10';
+  } else if (name === 'countryUsers') {
+    groupBy = ['country']; metrics = ['users','sessions'];
+    document.getElementById('filterField').value = '';
+    document.getElementById('vizType').value = 'bar';
+    document.getElementById('sortBy').value = 'desc';
+    document.getElementById('rowLimit').value = '5';
+  }
+  renderSelections();
+  runReport();
+}
+
+function resetBuilder() {
+  groupBy = []; metrics = [];
+  document.getElementById('filterField').value = '';
+  renderSelections();
+  document.getElementById('reportPanel').style.display = 'none';
+}
+
+renderPalette();
+renderSelections();
+loadPreset('planRevenue');
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

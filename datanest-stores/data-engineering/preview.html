@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Preview DataStack Pro products — see real code samples, file structures, and documentation before you buy.">
+  <title>Product Previews — DataStack Pro</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Preview page specific styles */
+    .preview-page { padding-top: calc(var(--header-height) + var(--space-8)); }
+
+    .preview-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      justify-content: center;
+      margin-bottom: var(--space-12);
+    }
+    .preview-nav a {
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-full);
+      background: var(--color-card);
+      border: 1px solid var(--color-card-border);
+      color: var(--color-text);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      transition: all var(--transition-fast);
+    }
+    .preview-nav a:hover {
+      background: var(--color-primary);
+      color: #fff;
+      border-color: var(--color-primary);
+    }
+
+    .preview-product {
+      margin-bottom: var(--space-16);
+      scroll-margin-top: calc(var(--header-height) + var(--space-4));
+    }
+
+    .preview-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid var(--color-card-border);
+    }
+    .preview-header h2 { margin: 0; }
+    .preview-header .price {
+      font-size: var(--text-2xl);
+      font-weight: 800;
+      color: var(--color-accent);
+    }
+
+    .preview-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+    .preview-meta span { display: flex; align-items: center; gap: var(--space-1); }
+
+    .preview-section {
+      background: var(--color-card);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-6);
+      overflow: hidden;
+    }
+
+    .preview-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4) var(--space-6);
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-card-border);
+      cursor: pointer;
+      user-select: none;
+    }
+    .preview-section-header:hover { background: var(--color-card-hover); }
+    .preview-section-header h3 {
+      font-size: var(--text-lg);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .preview-section-header .badge {
+      font-size: var(--text-xs);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--color-accent);
+      font-weight: 600;
+    }
+
+    .preview-section-body {
+      padding: var(--space-6);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .preview-section.open .preview-section-body {
+      max-height: 5000px;
+    }
+
+    .preview-section .chevron {
+      transition: transform 0.3s ease;
+      color: var(--color-text-muted);
+    }
+    .preview-section.open .chevron { transform: rotate(180deg); }
+
+    .preview-code {
+      background: var(--color-bg-alt);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      line-height: 1.6;
+      white-space: pre;
+      color: var(--color-text);
+    }
+    .preview-code .filename {
+      display: block;
+      color: var(--color-text-muted);
+      font-size: var(--text-xs);
+      margin-bottom: var(--space-2);
+      padding-bottom: var(--space-2);
+      border-bottom: 1px solid var(--color-card-border);
+    }
+
+    .file-tree {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      line-height: 1.8;
+      color: var(--color-text-muted);
+      background: var(--color-bg-alt);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .file-tree .dir { color: var(--color-primary-light); font-weight: 600; }
+    .file-tree .file { color: var(--color-text); }
+
+    .preview-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-top: var(--space-6);
+    }
+
+    .redacted {
+      color: var(--color-text-muted);
+      font-style: italic;
+      opacity: 0.6;
+    }
+    .redacted::before { content: "# "; }
+
+    .diagram-block {
+      background: var(--color-bg-alt);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: var(--color-text);
+      white-space: pre;
+    }
+
+    @media (max-width: 640px) {
+      .preview-section-header { padding: var(--space-3) var(--space-4); }
+      .preview-section-body { padding: var(--space-4); }
+      .diagram-block, .preview-code, .file-tree { font-size: 0.7rem; }
+    }
+  </style>
+  
+  <!-- analytics-injector-start -->
+<script defer data-domain="datanest-stores.pages.dev" src="https://plausible.io/js/script.js"></script>
+<!-- analytics-injector-end -->
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a href="index.html" class="logo" aria-label="DataStack Pro home">
+        <span class="logo-icon" aria-hidden="true">&#9651;</span>
+        DataStack Pro
+      </a>
+      <nav class="nav-desktop" aria-label="Main navigation">
+        <a href="index.html#products">Products</a>
+        <a href="index.html#bundle">Bundle</a>
+        <a href="index.html#faq">FAQ</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" aria-label="Toggle dark/light mode">
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="preview-page">
+    <div class="container">
+      <div class="section-header" style="text-align:center; margin-bottom: var(--space-8);">
+        <span class="section-label">Product Previews</span>
+        <h1>See What You're Getting</h1>
+        <p>Real file structures, code samples, and documentation excerpts from each product.</p>
+      </div>
+
+      <nav class="preview-nav" aria-label="Jump to product preview">
+        <a href="#starter-kit">Starter Kit</a>
+        <a href="#pyspark-utils">PySpark Utils</a>
+        <a href="#audit-toolkit">Audit Toolkit</a>
+        <a href="#medallion-guide">Medallion Guide</a>
+        <a href="#governance-pack">Governance Pack</a>
+        <a href="#performance-masterclass">Performance Masterclass</a>
+      </nav>
+
+      <!-- ================================================================
+           1. Databricks Starter Kit
+           ================================================================ -->
+      <div class="preview-product" id="starter-kit">
+        <div class="preview-header">
+          <div>
+            <h2>Databricks Starter Kit</h2>
+            <p style="margin-top: var(--space-1);">Complete project scaffold for Databricks with medallion architecture, ETL pipelines, and CI/CD.</p>
+          </div>
+          <span class="price">$39</span>
+        </div>
+        <div class="preview-meta">
+          <span>&#128193; 21 files</span>
+          <span>&#128196; 5 modules</span>
+          <span>&#9881; Runtime 13.x+</span>
+        </div>
+
+        <div class="preview-section open">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128193; File Structure <span class="badge">Full tree</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="file-tree"><span class="dir">databricks-starter-kit/</span>
+├── README.md
+├── LICENSE
+├── <span class="dir">config/</span>
+│   ├── environment.py
+│   ├── logging_config.py
+│   └── secrets.py
+├── <span class="dir">medallion_bootstrap/</span>
+│   ├── config.py
+│   ├── 01_create_catalogs.py
+│   ├── 02_create_schemas.py
+│   └── 03_grant_permissions.py
+├── <span class="dir">ingestion_templates/</span>
+│   ├── base_pipeline.py
+│   ├── api_ingestion.py
+│   ├── database_ingestion.py
+│   ├── file_ingestion.py
+│   └── streaming_ingestion.py
+├── <span class="dir">cicd_templates/</span>
+│   ├── github_actions_workflow.yml
+│   ├── azure_devops_pipeline.yml
+│   ├── deploy_notebooks.py
+│   └── run_tests.py
+└── <span class="dir">unity_catalog_setup/</span>
+    ├── data_governance_policies.md
+    ├── setup_catalogs.sql
+    ├── setup_credentials.sql
+    └── setup_external_locations.sql</div>
+          </div>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128196; Sample: config/environment.py <span class="badge">Code preview</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="preview-code"><span class="filename">config/environment.py — Environment-aware configuration with dataclasses</span>
+"""
+Environment Configuration for Databricks Pipelines
+====================================================
+
+Provides environment-aware configuration using dataclasses.
+Automatically detects the current Databricks workspace and
+returns the appropriate environment settings (dev, staging, prod).
+
+Usage (in a Databricks notebook):
+    from config.environment import get_environment
+
+    env = get_environment()
+    print(env.name)           # "dev"
+    print(env.catalog_prefix) # "dev"
+    print(env.storage_root)   # "abfss://raw@..."
+"""
+
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Optional
+
+
+class EnvironmentName(str, Enum):
+    """Supported environment names."""
+    DEV = "dev"
+    STAGING = "staging"
+    PROD = "prod"
+
+
+@dataclass(frozen=True)
+class StorageConfig:
+    """Cloud storage configuration for a single environment."""
+    storage_account: str
+    raw_container: str = "raw"
+    checkpoint_container: str = "checkpoints"
+    export_container: str = "export"
+
+    @property
+    def raw_root(self) -&gt; str:
+        """ABFSS path to the raw data root."""
+        return f"abfss://{self.raw_container}@{self.storage_account}.dfs.core.windows.net"
+
+    @property
+    def checkpoint_root(self) -&gt; str:
+        """ABFSS path to the checkpoint root."""
+        return f"abfss://{self.checkpoint_container}@{self.storage_account}.dfs.core.windows.net"
+
+
+@dataclass(frozen=True)
+class EnvironmentConfig:
+    """Complete configuration for a single environment."""
+    name: EnvironmentName
+    catalog_prefix: str
+    storage: StorageConfig
+    secret_scope: str
+    key_vault_uri: Optional[str] = None
+    log_level: str = "INFO"
+    <span class="redacted">... 200+ more lines: workspace detection, env builder, auto-config ...</span></div>
+          </div>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128214; Module Overview</h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <table style="width:100%; font-size: var(--text-sm); border-collapse: collapse;">
+              <thead>
+                <tr style="border-bottom: 2px solid var(--color-card-border);">
+                  <th style="text-align:left; padding: var(--space-2);">Module</th>
+                  <th style="text-align:left; padding: var(--space-2);">What It Does</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom: 1px solid var(--color-card-border);">
+                  <td style="padding: var(--space-2); font-family: var(--font-mono); color: var(--color-primary-light);">config/</td>
+                  <td style="padding: var(--space-2); color: var(--color-text-muted);">Environment detection, secret management, structured logging</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-card-border);">
+                  <td style="padding: var(--space-2); font-family: var(--font-mono); color: var(--color-primary-light);">medallion_bootstrap/</td>
+                  <td style="padding: var(--space-2); color: var(--color-text-muted);">One-command bronze/silver/gold catalog setup with RBAC</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-card-border);">
+                  <td style="padding: var(--space-2); font-family: var(--font-mono); color: var(--color-primary-light);">ingestion_templates/</td>
+                  <td style="padding: var(--space-2); color: var(--color-text-muted);">Battle-tested pipelines for APIs, databases, files, and streaming</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-card-border);">
+                  <td style="padding: var(--space-2); font-family: var(--font-mono); color: var(--color-primary-light);">cicd_templates/</td>
+                  <td style="padding: var(--space-2); color: var(--color-text-muted);">Azure DevOps &amp; GitHub Actions pipelines, deployment scripts</td>
+                </tr>
+                <tr>
+                  <td style="padding: var(--space-2); font-family: var(--font-mono); color: var(--color-primary-light);">unity_catalog_setup/</td>
+                  <td style="padding: var(--space-2); color: var(--color-text-muted);">SQL scripts for catalogs, external locations, credentials, governance</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="preview-actions">
+          <a href="https://buy.stripe.com/14A8wP8qPgpo4d47uhgjG2A" class="btn btn-primary">Buy Now — $39</a>
+          <a href="index.html#products" class="btn btn-secondary btn-sm">Back to Products</a>
+        </div>
+      </div>
+
+      <!-- ================================================================
+           2. PySpark Utils Library
+           ================================================================ -->
+      <div class="preview-product" id="pyspark-utils">
+        <div class="preview-header">
+          <div>
+            <h2>PySpark Utils Library</h2>
+            <p style="margin-top: var(--space-1);">30+ production-ready PySpark transformations, DQ checks, SCD merge, and more.</p>
+          </div>
+          <span class="price">$29</span>
+        </div>
+        <div class="preview-meta">
+          <span>&#128193; 20 files</span>
+          <span>&#128196; 7 modules</span>
+          <span>&#9989; Full test suite</span>
+        </div>
+
+        <div class="preview-section open">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128193; File Structure <span class="badge">Full tree</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="file-tree"><span class="dir">pyspark-utils-library/</span>
+├── README.md
+├── LICENSE
+├── pyproject.toml
+├── setup.py
+├── <span class="dir">pyspark_utils/</span>
+│   ├── __init__.py
+│   ├── transformations.py      # 15 reusable DataFrame transforms
+│   ├── data_quality.py         # Chainable DQ validation framework
+│   ├── scd.py                  # SCD Type 1 &amp; 2 merge for Delta Lake
+│   ├── schema_utils.py         # Schema comparison &amp; evolution
+│   ├── logging_utils.py        # Structured logging with correlation IDs
+│   ├── dedup.py                # Window, hash, and fuzzy dedup
+│   └── diff.py                 # DataFrame comparison &amp; reports
+├── <span class="dir">tests/</span>
+│   ├── conftest.py
+│   ├── test_transformations.py
+│   ├── test_data_quality.py
+│   ├── test_scd.py
+│   ├── test_schema_utils.py
+│   └── test_dedup.py
+└── <span class="dir">examples/</span>
+    └── usage_examples.py       # 550+ lines of Databricks notebook examples</div>
+          </div>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128196; Full Public API <span class="badge">40+ exports</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="preview-code"><span class="filename">pyspark_utils/__init__.py — Every function you get</span>
+# Transformations (15 functions)
+from pyspark_utils.transformations import (
+    clean_column_names, cast_columns, flatten_struct,
+    explode_array, pivot_aggregate, unpivot,
+    add_metadata_columns, standardize_timestamps,
+    trim_strings, coalesce_columns, filter_nulls,
+    hash_columns, rename_columns_bulk,
+    type_cast_dataframe, add_surrogate_key,
+)
+
+# Data Quality — chainable validation framework
+from pyspark_utils.data_quality import DQValidator, DQRule, DQReport
+
+# SCD — Slowly Changing Dimensions for Delta Lake
+from pyspark_utils.scd import (
+    scd1_overwrite, scd2_merge, detect_changes,
+    close_expired_records, create_history_table,
+)
+
+# Schema — comparison, evolution, DDL conversion
+from pyspark_utils.schema_utils import (
+    compare_schemas, evolve_schema, merge_schemas,
+    schema_to_ddl, ddl_to_schema,
+    validate_schema_compatibility,
+)
+
+# Logging — structured pipeline logging
+from pyspark_utils.logging_utils import PipelineLogger
+
+# Deduplication — 4 strategies
+from pyspark_utils.dedup import (
+    window_dedup, hash_dedup, fuzzy_dedup, dedup_report,
+)
+
+# Diff — DataFrame comparison
+from pyspark_utils.diff import (
+    df_diff, column_diff, schema_diff,
+    row_count_comparison, value_distribution_diff,
+)</div>
+          </div>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128161; Usage Example <span class="badge">DQ Validation</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="preview-code"><span class="filename">Quick start — chainable data quality validation</span>
+from pyspark_utils import DQValidator, PipelineLogger, clean_column_names
+
+logger = PipelineLogger(pipeline_name="orders_silver")
+df = spark.read.table("bronze.raw_orders")
+df = clean_column_names(df)
+
+# Chain validation rules — reads like plain English
+validator = DQValidator(df)
+report = (
+    validator
+    .check_nulls(["order_id", "customer_id"])
+    .check_unique(["order_id"])
+    .check_range("amount", min_val=0.0)
+    .check_regex("email", r"^[^@]+@[^@]+\.[^@]+$")
+    .validate()
+)
+
+logger.log_dq_report(report)
+# Outputs: {"passed": 14230, "failed": 17, "rules": 4, "pass_rate": 99.88}</div>
+          </div>
+        </div>
+
+        <div class="preview-actions">
+          <a href="https://buy.stripe.com/4gM7sL4azehg9xo4i5gjG2B" class="btn btn-primary">Buy Now — $29</a>
+          <a href="index.html#products" class="btn btn-secondary btn-sm">Back to Products</a>
+        </div>
+      </div>
+
+      <!-- ================================================================
+           3. Databricks Audit Toolkit
+           ================================================================ -->
+      <div class="preview-product" id="audit-toolkit">
+        <div class="preview-header">
+          <div>
+            <h2>Databricks Audit Toolkit</h2>
+            <p style="margin-top: var(--space-1);">12 independent audit modules with HTML/JSON reports and risk scoring.</p>
+          </div>
+          <span class="price">$49</span>
+        </div>
+        <div class="preview-meta">
+          <span>&#128193; 26 files</span>
+          <span>&#128270; 12 audit modules</span>
+          <span>&#128202; HTML + JSON reports</span>
+        </div>
+
+        <div class="preview-section open">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128193; File Structure <span class="badge">Full tree</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="file-tree"><span class="dir">databricks-audit-toolkit/</span>
+├── README.md
+├── LICENSE
+├── requirements.txt
+├── config.py
+├── utils.py
+├── run_audit.sh
+├── <span class="dir">output/</span>
+├── <span class="dir">audits/</span>
+│   ├── a01_catalog_inventory.py
+│   ├── a02_job_inventory.py
+│   ├── a03_access_audit.py
+│   ├── a04_secret_inventory.py
+│   ├── a05_compute_analysis.py
+│   ├── a06_security_findings.py
+│   ├── a07_audit_logs.py
+│   ├── a08_external_storage.py
+│   ├── a09_token_inventory.py
+│   ├── a10_query_history.py
+│   ├── a11_data_lineage.py
+│   └── a12_table_permissions.py
+├── <span class="dir">reports/</span>
+│   ├── json_report.py
+│   ├── html_report.py
+│   └── <span class="dir">templates/</span>
+│       └── audit_report.html
+└── <span class="dir">examples/</span>
+    ├── scheduling_guide.md
+    └── sample_output.json</div>
+          </div>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128270; Audit Module Registry <span class="badge">12 audits</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="preview-code"><span class="filename">audits/__init__.py — All 12 audit classes, plug-and-play</span>
+from audits.a01_catalog_inventory import CatalogInventoryAudit
+from audits.a02_job_inventory import JobInventoryAudit
+from audits.a03_access_audit import AccessAudit
+from audits.a04_secret_inventory import SecretInventoryAudit
+from audits.a05_compute_analysis import ComputeAnalysisAudit
+from audits.a06_security_findings import SecurityFindingsAudit
+from audits.a07_audit_logs import AuditLogsAudit
+from audits.a08_external_storage import ExternalStorageAudit
+from audits.a09_token_inventory import TokenInventoryAudit
+from audits.a10_query_history import QueryHistoryAudit
+from audits.a11_data_lineage import DataLineageAudit
+from audits.a12_table_permissions import TablePermissionsAudit
+
+ALL_AUDITS = [
+    CatalogInventoryAudit,   # What's in your catalogs
+    JobInventoryAudit,       # All jobs, schedules, ownership
+    AccessAudit,             # Who has access to what
+    SecretInventoryAudit,    # Secret scopes and usage
+    ComputeAnalysisAudit,    # Cluster configs and costs
+    SecurityFindingsAudit,   # Misconfigurations and risks
+    AuditLogsAudit,          # Suspicious activity patterns
+    ExternalStorageAudit,    # External locations and creds
+    TokenInventoryAudit,     # PATs, expiry, usage
+    QueryHistoryAudit,       # SQL warehouse query patterns
+    DataLineageAudit,        # Table-level lineage graph
+    TablePermissionsAudit,   # Per-table permission matrix
+]
+
+# Run any audit standalone:
+#   audit = CatalogInventoryAudit(client)
+#   findings = audit.run()
+#
+# Or run all 12:
+#   for AuditClass in ALL_AUDITS:
+#       findings.extend(AuditClass(client).run())</div>
+          </div>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128202; Sample Output <span class="badge">Risk scoring</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="preview-code"><span class="filename">What a Finding looks like — each audit produces these</span>
+@dataclass
+class Finding:
+    audit_name: str          # "SecurityFindings"
+    severity: str            # "CRITICAL" | "HIGH" | "MEDIUM" | "LOW"
+    category: str            # "access_control" | "encryption" | ...
+    title: str               # "Cluster running with admin credentials"
+    description: str         # Human-readable explanation
+    resource_type: str       # "cluster" | "job" | "table" | ...
+    resource_id: str         # The specific resource
+    recommendation: str      # Actionable fix
+    risk_score: int          # 0-100
+
+# Example finding from a real scan:
+# {
+#   "severity": "CRITICAL",
+#   "title": "PAT with no expiry date",
+#   "resource_type": "token",
+#   "resource_id": "dapi***masked***",
+#   "risk_score": 90,
+#   "recommendation": "Set token expiry to &lt;= 90 days"
+# }</div>
+          </div>
+        </div>
+
+        <div class="preview-actions">
+          <a href="https://buy.stripe.com/9B63cvcH58WW8tk9CpgjG2C" class="btn btn-primary">Buy Now — $49</a>
+          <a href="index.html#products" class="btn btn-secondary btn-sm">Back to Products</a>
+        </div>
+      </div>
+
+      <!-- ================================================================
+           4. Medallion Architecture Guide
+           ================================================================ -->
+      <div class="preview-product" id="medallion-guide">
+        <div class="preview-header">
+          <div>
+            <h2>Medallion Architecture Guide</h2>
+            <p style="margin-top: var(--space-1);">Decision frameworks, naming conventions, reference architectures, and anti-patterns.</p>
+          </div>
+          <span class="price">$19</span>
+        </div>
+        <div class="preview-meta">
+          <span>&#128193; 24 files</span>
+          <span>&#128214; 10 chapters</span>
+          <span>&#128200; 6 code examples + 3 cheatsheets</span>
+        </div>
+
+        <div class="preview-section open">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128214; Table of Contents <span class="badge">Full outline</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="preview-code"><span class="filename">10 chapters + code examples + diagrams + cheatsheets</span>
+<strong>Guide Chapters:</strong>
+  01. Introduction — What medallion is, history, when it applies
+  02. Decision Framework — 5 architecture patterns compared
+  03. Bronze Layer — Ingestion patterns, schema-on-read, retention
+  04. Silver Layer — Cleansing, typing, dedup, quality gates
+  05. Gold Layer — Aggregation, pre-computation, SLA management
+  06. Naming Conventions — Catalog/schema/table naming standards
+  07. Schema Evolution — Handling breaking and non-breaking changes
+  08. Data Quality Gates — Inter-layer quality enforcement
+  09. Anti-Patterns — 15+ named anti-patterns with fixes
+  10. Reference Architectures — E-commerce, IoT, FinServ, SaaS, Healthcare
+
+<strong>Code Examples (runnable PySpark):</strong>
+  bronze_ingestion.py        silver_transformation.py
+  gold_aggregation.py        cross_layer_pipeline.py
+  naming_convention_generator.py    schema_migration.py
+
+<strong>Diagrams (ASCII architecture):</strong>
+  medallion_overview.md    data_flow.md    decision_tree.md
+
+<strong>Cheatsheets:</strong>
+  layer_comparison.md    naming_conventions.md    migration_checklist.md</div>
+          </div>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128200; Architecture Diagram <span class="badge">ASCII art</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="diagram-block">┌─────────────────────────────────────────────────────────────────────────┐
+│                     MEDALLION ARCHITECTURE                              │
+│                                                                         │
+│  ┌──────────┐     ┌──────────┐     ┌──────────┐     ┌──────────────┐   │
+│  │ SOURCES  │     │  BRONZE  │     │  SILVER  │     │    GOLD      │   │
+│  │          │────▶│  (Raw)   │────▶│ (Clean)  │────▶│ (Business)   │   │
+│  │          │     │          │     │          │     │              │   │
+│  └──────────┘     └──────────┘     └──────────┘     └──────────────┘   │
+│                                                                         │
+│  Databases         Append-only      Deduplicated     Aggregated         │
+│  APIs              Schema-on-read   Typed             Pre-computed      │
+│  Files             Full fidelity    Conformed         Domain-specific   │
+│  Streams           Partitioned      Quality-gated     SLA-bound         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│  BRONZE ──▶ SILVER  Transformations Applied:                            │
+│                                                                         │
+│  1. DEDUPLICATION — Window on business key + event timestamp            │
+│  2. TYPE CASTING  — STRING → DATE, STRING → DECIMAL(16,4)              │
+│  3. STANDARDIZATION — UPPER/LOWER/TRIM, ISO mappings                   │
+│  4. QUALITY GATES — NOT NULL, RANGE, FORMAT, REFERENTIAL               │
+│  5. QUARANTINE   — Failed rows sent to _quarantine tables              │
+└─────────────────────────────────────────────────────────────────────────┘</div>
+          </div>
+        </div>
+
+        <div class="preview-actions">
+          <a href="https://buy.stripe.com/dRmfZh7mLa105h84i5gjG2D" class="btn btn-primary">Buy Now — $19</a>
+          <a href="index.html#products" class="btn btn-secondary btn-sm">Back to Products</a>
+        </div>
+      </div>
+
+      <!-- ================================================================
+           5. Unity Catalog Governance Pack
+           ================================================================ -->
+      <div class="preview-product" id="governance-pack">
+        <div class="preview-header">
+          <div>
+            <h2>Unity Catalog Governance Pack</h2>
+            <p style="margin-top: var(--space-1);">RBAC, PII detection, GDPR/CCPA compliance, Terraform, and automation.</p>
+          </div>
+          <span class="price">$39</span>
+        </div>
+        <div class="preview-meta">
+          <span>&#128193; 42 files</span>
+          <span>&#128737; 6 modules</span>
+          <span>&#9989; GDPR + CCPA + SOC2</span>
+        </div>
+
+        <div class="preview-section open">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128193; File Structure <span class="badge">Full tree</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="file-tree"><span class="dir">unity-catalog-governance-pack/</span>
+├── README.md
+├── LICENSE
+├── <span class="dir">rbac/</span>
+│   ├── role_definitions.yaml    # 5-tier role hierarchy
+│   ├── permission_matrix.yaml   # Granular permission mapping
+│   ├── setup_roles.sql          # SQL role provisioning
+│   ├── setup_roles.py           # Python role automation
+│   └── audit_permissions.py     # Permission drift detection
+├── <span class="dir">classification/</span>
+│   ├── classification_framework.yaml  # 4-tier data classification
+│   ├── pii_patterns.yaml        # PII detection regex patterns
+│   ├── apply_tags.sql           # Tag application scripts
+│   ├── pii_scanner.py           # Automated PII column scanner
+│   └── classification_report.py # Classification audit reports
+├── <span class="dir">compliance/</span>
+│   ├── <span class="dir">gdpr/</span>
+│   │   ├── right_to_deletion.py     # Art. 17 — Right to Erasure
+│   │   ├── data_portability.py      # Art. 20 — Data Portability
+│   │   ├── data_subject_request.py  # Art. 15 — Subject Access
+│   │   └── consent_tracking.sql     # Art. 7 — Consent Records
+│   ├── <span class="dir">ccpa/</span>
+│   │   ├── do_not_sell.py           # Opt-out processing
+│   │   └── data_disclosure.py       # Consumer data disclosure
+│   └── <span class="dir">checklists/</span>
+│       ├── gdpr_checklist.md
+│       ├── ccpa_checklist.md
+│       └── soc2_checklist.md
+├── <span class="dir">security/</span>
+│   ├── row_level_security.sql
+│   ├── column_masking.sql
+│   ├── network_security.md
+│   └── encryption_guide.md
+├── <span class="dir">automation/</span>
+│   ├── governance_scanner.py    # Automated governance checks
+│   ├── policy_enforcer.py       # Policy violation enforcement
+│   ├── tag_propagation.py       # Lineage-aware tag propagation
+│   └── governance_dashboard.py  # Governance metrics dashboard
+├── <span class="dir">terraform/</span>
+│   ├── main.tf
+│   ├── variables.tf
+│   ├── outputs.tf
+│   └── terraform.tfvars.example
+└── <span class="dir">examples/</span>
+    ├── full_setup_walkthrough.md
+    └── sample_governance_report.json</div>
+          </div>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128737; RBAC Role Hierarchy <span class="badge">YAML preview</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="preview-code"><span class="filename">rbac/role_definitions.yaml — 5-tier enterprise role hierarchy</span>
+# Role hierarchy (highest to lowest privilege)
+# Each role inherits permissions from all roles below it.
+roles:
+  admin:
+    level: 5
+    display_name: "Data Platform Admin"
+    description: &gt;
+      Full metastore and catalog management. Can create/drop
+      catalogs, manage groups, configure storage credentials.
+    inherits_from: ["engineer"]
+    group_name: "uc-admins"
+    max_members: 5
+    requires_approval: true
+    mfa_required: true
+
+  engineer:
+    level: 4
+    display_name: "Data Engineer"
+    description: &gt;
+      Create and modify schemas, tables, views, and functions.
+      Can manage Delta table properties, run OPTIMIZE/VACUUM.
+    inherits_from: ["analyst"]
+    group_name: "uc-engineers"
+    max_members: 50
+
+  analyst:
+    level: 3
+    display_name: "Data Analyst"
+    description: &gt;
+      Read access to all tables in assigned schemas. Can create
+      views and temporary tables for analysis.
+    inherits_from: ["viewer"]
+    group_name: "uc-analysts"
+    max_members: 200
+
+  viewer:
+    level: 2
+    display_name: "Data Viewer"
+    description: &gt;
+      Read-only access to approved datasets. For business users
+      and dashboard service accounts.
+    group_name: "uc-viewers"
+    max_members: 1000
+
+  service_account:
+    level: 1
+    display_name: "Service Account"
+    <span class="redacted">... permission_matrix.yaml maps each role to specific Unity Catalog grants ...</span></div>
+          </div>
+        </div>
+
+        <div class="preview-actions">
+          <a href="https://buy.stripe.com/aFa3cv7mL2yy10S9CpgjG2E" class="btn btn-primary">Buy Now — $39</a>
+          <a href="index.html#products" class="btn btn-secondary btn-sm">Back to Products</a>
+        </div>
+      </div>
+
+      <!-- ================================================================
+           6. Spark Performance Masterclass
+           ================================================================ -->
+      <div class="preview-product" id="performance-masterclass">
+        <div class="preview-header">
+          <div>
+            <h2>Spark Performance Masterclass</h2>
+            <p style="margin-top: var(--space-1);">Deep-dive guide to Spark optimization on Databricks with benchmarks and runbooks.</p>
+          </div>
+          <span class="price">$59</span>
+        </div>
+        <div class="preview-meta">
+          <span>&#128193; 35 files</span>
+          <span>&#128214; 10 chapters</span>
+          <span>&#9889; Benchmarks + config profiles</span>
+        </div>
+
+        <div class="preview-section open">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128214; Full Table of Contents <span class="badge">10 chapters</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="preview-code"><span class="filename">What's inside — chapters + benchmarks + configs + cheatsheets</span>
+<strong>Guide Chapters:</strong>
+  01. Spark Execution Model — Stages, tasks, shuffles explained
+  02. AQE Deep Dive — Adaptive Query Execution internals
+  03. Shuffle Optimization — Reduce shuffle, partition tuning
+  04. Memory Tuning — Executor memory, GC, caching strategies
+  05. Delta Lake Optimization — OPTIMIZE, VACUUM, Z-ORDER, liquid clustering
+  06. Photon Engine — When to use, when to avoid, benchmarks
+  07. Join Strategies — Broadcast, sort-merge, shuffle hash, skew joins
+  08. I/O Optimization — Partition pruning, predicate pushdown, file sizing
+  09. Streaming Performance — Trigger intervals, watermarks, state management
+  10. Troubleshooting Runbook — 30+ scenario-based fixes
+
+<strong>Benchmark Suite (runnable):</strong>
+  benchmark_runner.py     — Orchestrates all benchmarks
+  join_benchmarks.py      — Join strategy comparison
+  io_benchmarks.py        — Read/write performance
+  aggregation_benchmarks.py — GROUP BY, window, rollup
+  delta_benchmarks.py     — OPTIMIZE, VACUUM, Z-ORDER impact
+
+<strong>Config Profiles (copy-paste ready):</strong>
+  small_workload.py       — &lt;100GB, 4-8 workers
+  medium_workload.py      — 100GB-1TB, 8-32 workers
+  large_workload.py       — 1TB+, 32-128 workers
+  streaming_workload.py   — Structured Streaming tuning
+  config_validator.py     — Validates your config for anti-patterns
+
+<strong>Spark UI Visual Guide:</strong>
+  stages_tab.md    sql_tab.md    storage_tab.md    common_patterns.md
+
+<strong>Cheatsheets:</strong>
+  spark_config_cheatsheet.md    delta_optimization_cheatsheet.md
+  troubleshooting_flowchart.md</div>
+          </div>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#9889; Troubleshooting Flowchart <span class="badge">Decision tree</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="diagram-block">START: Job is slower than expected
+│
+├── Q: Is it a specific stage or the whole job?
+│   │
+│   ├── Specific stage is slow
+│   │   └── Go to: "Slow Stage" flowchart
+│   │
+│   ├── All stages are slow
+│   │   │
+│   │   ├── Q: Are executors idle between stages?
+│   │   │   ├── Yes → Driver bottleneck
+│   │   │   │   ├── Check: .collect() or .toPandas() calls
+│   │   │   │   ├── Check: Complex plan compilation
+│   │   │   │   └── Fix: Keep data distributed, avoid driver ops
+│   │   │   │
+│   │   │   └── No → Resource starvation
+│   │   │       ├── Check: Cluster has enough workers
+│   │   │       └── Fix: Scale up or right-size executors
+│   │   │
+│   │   └── Q: Did it used to be faster?
+│   │       ├── Yes → Data volume growth or config change
+│   │       └── No → Fundamental design issue
+│   │
+│   └── Job hasn't started / is queued
+│       ├── Check: Cluster is starting up
+│       └── Fix: Use job clusters instead of shared
+
+<span class="redacted">... continues with 8 more flowcharts: Slow Stage, OOM, Intermittent Failures,
+Streaming Lag, Slow Writes, Error Decoder, Pre-Flight Checklist, Emergency Runbook ...</span></div>
+          </div>
+        </div>
+
+        <div class="preview-actions">
+          <a href="https://buy.stripe.com/7sYaEX36v1uu24W5m9gjG2F" class="btn btn-primary">Buy Now — $59</a>
+          <a href="index.html#products" class="btn btn-secondary btn-sm">Back to Products</a>
+        </div>
+      </div>
+
+      <!-- ================================================================
+           Bottom CTA
+           ================================================================ -->
+      <div style="text-align: center; margin-top: var(--space-12); margin-bottom: var(--space-16);">
+        <h2>Want Everything?</h2>
+        <p style="margin: var(--space-2) auto var(--space-6);">All 6 products. 30% off individual prices.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center;">
+          <a href="https://buy.stripe.com/fZubJ122r7SS24W01PgjG2G" class="btn btn-bundle">Get the Bundle — $163</a>
+          <a href="index.html" class="btn btn-secondary">Back to Store</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2025 DataStack Pro. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="index.html">Store</a>
+          <a href="mailto:megafolder122122@hotmail.com">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

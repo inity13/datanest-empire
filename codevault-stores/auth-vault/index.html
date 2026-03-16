@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Vault &mdash; CodeVault</title>
+    <link rel="canonical" href="https://auth-vault.codevault.dev/">
+
+    <meta name="description" content="Production-ready authentication tools for indie hackers and developers. OAuth2, JWT, RBAC, 2FA, sessions, password hashing, and more — all Python stdlib, zero dependencies.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Auth Vault — CodeVault">
+    <meta property="og:description" content="Production-ready authentication tools for indie hackers and developers. OAuth2, JWT, RBAC, 2FA, sessions, password hashing, and more.">
+    <meta property="og:site_name" content="CodeVault">
+    <meta property="og:url" content="https://auth-vault.codevault.dev/">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Auth Vault — CodeVault">
+    <meta name="twitter:description" content="Production-ready authentication tools for indie hackers and developers. OAuth2, JWT, RBAC, 2FA, sessions, password hashing, and more.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F510;</text></svg>">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#E91E63">
+
+    <!-- Plausible Analytics -->
+    <script defer data-domain="auth-vault.codevault.dev" src="https://plausible.io/js/script.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Auth Vault",
+      "description": "Python authentication and authorization tools for developers.",
+      "url": "https://auth-vault.codevault.dev/",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any (Python 3.10+)",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "USD",
+        "lowPrice": "4.99",
+        "highPrice": "39.99",
+        "offerCount": "12"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "CodeVault",
+        "url": "https://codevault.dev"
+      }
+    }
+    </script>
+</head>
+<body>
+    <nav class="cross-nav" aria-label="CodeVault stores">
+        <div class="cross-nav__inner">
+            <span class="cross-nav__brand">CodeVault</span>
+            <a href="../email-arsenal/storefront/index.html" class="cross-nav__link">Email Arsenal</a>
+            <a href="../seo-toolkit/storefront/index.html" class="cross-nav__link">SEO Toolkit</a>
+            <a href="../form-forge/storefront/index.html" class="cross-nav__link">Form Forge</a>
+            <a href="../api-launchpad/storefront/index.html" class="cross-nav__link">API Launchpad</a>
+            <a href="../deploy-kit/storefront/index.html" class="cross-nav__link">Deploy Kit</a>
+            <a href="#" class="cross-nav__link cross-nav__link--active">Auth Vault</a>
+            <a href="../saas-starter/storefront/index.html" class="cross-nav__link">SaaS Starter</a>
+            <a href="../analytics-hub/storefront/index.html" class="cross-nav__link">Analytics Hub</a>
+            <a href="../payment-stack/storefront/index.html" class="cross-nav__link">Payment Stack</a>
+            <a href="../ai-toolkit/storefront/index.html" class="cross-nav__link">AI Toolkit</a>
+            <a href="../security-kit/storefront/index.html" class="cross-nav__link">Security Kit</a>
+            <a href="../landing-lab/storefront/index.html" class="cross-nav__link">Landing Lab</a>
+            <a href="../automation-hub/storefront/index.html" class="cross-nav__link">Automation Hub</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="top">
+        <div class="container">
+            <h1 class="hero__title glitch" data-text="Auth Vault">Auth Vault</h1>
+            <p class="hero__subtitle">Secure authentication. Zero vendor lock-in.</p>
+            <div class="hero__cta-row">
+                <a href="#products" class="btn btn--primary">Browse tools</a>
+                <a href="#faq" class="btn btn--secondary">How it works</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Products Section -->
+    <section class="section" id="products">
+        <div class="container">
+            <h2 class="section__heading">The toolkit</h2>
+            <p class="section__subheading">Production-ready Python auth scripts. No pip installs. No fluff.</p>
+
+            <div class="filter-bar">
+                <span class="filter-bar__label">Filter:</span>
+                <button class="filter-tag active" data-filter="all">All</button>
+                <button class="filter-tag" data-filter="bundle">bundle</button>
+                <button class="filter-tag" data-filter="auth">auth</button>
+                <button class="filter-tag" data-filter="token">token</button>
+                <button class="filter-tag" data-filter="access-control">access-control</button>
+                <button class="filter-tag" data-filter="session">session</button>
+                <button class="filter-tag" data-filter="password">password</button>
+                <button class="filter-tag" data-filter="middleware">middleware</button>
+                <button class="filter-tag" data-filter="logging">logging</button>
+                <select class="sort-select" aria-label="Sort products">
+                    <option value="default">Sort: Featured</option>
+                    <option value="price-asc">Price: Low &rarr; High</option>
+                    <option value="price-desc">Price: High &rarr; Low</option>
+                </select>
+            </div>
+
+            <div class="product-grid">
+
+        <!-- ===== BUNDLES ===== -->
+        <article class="product-card product-card--bundle fade-in"
+                 data-tags="bundle,starter"
+                 data-price="1999"
+                 data-slug="auth-vault-starter-bundle">
+            <div class="product-card__inner">
+                <div>
+                    <span class="bundle-badge">BUNDLE DEAL</span>
+                    <h3 class="product-card__name" style="margin-top: 12px">Auth Vault Starter Bundle</h3>
+                    <p class="product-card__desc">The essential auth toolkit &mdash; JWT Library, Password Hasher, Session Manager, and API Auth Middleware in one bundle.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">bundle</span>
+                        <span class="product-card__tag">starter</span>
+                    </div>
+                    <ul class="product-card__bundle-list">
+                        <li>JWT Library</li>
+                        <li>Password Hasher</li>
+                        <li>Session Manager</li>
+                        <li>API Auth Middleware</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$19.99</p>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card"
+                           data-stripe-link="https://buy.stripe.com/placeholder_starter_bundle"
+                           data-product="auth-vault-starter-bundle">
+                            Grab This Bundle
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Auth Vault Starter Bundle"
+                                data-crypto-price="1699">
+                            Pay with Crypto ($16.99)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="product-card product-card--bundle fade-in"
+                 data-tags="bundle,pro"
+                 data-price="3999"
+                 data-slug="auth-vault-pro-bundle">
+            <div class="product-card__inner">
+                <div>
+                    <span class="bundle-badge">BUNDLE DEAL</span>
+                    <h3 class="product-card__name" style="margin-top: 12px">Auth Vault Pro Bundle</h3>
+                    <p class="product-card__desc">Every tool in the Auth Vault &mdash; all 10 products at a massive discount. The complete authentication engineering toolkit.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">bundle</span>
+                        <span class="product-card__tag">pro</span>
+                    </div>
+                    <ul class="product-card__bundle-list">
+                        <li>OAuth2 Implementation</li>
+                        <li>JWT Library</li>
+                        <li>RBAC System</li>
+                        <li>Two-Factor Auth</li>
+                        <li>Session Manager</li>
+                        <li>Password Hasher</li>
+                        <li>Magic Link Auth</li>
+                        <li>Social Login Integrator</li>
+                        <li>API Auth Middleware</li>
+                        <li>Auth Audit Logger</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$39.99</p>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card"
+                           data-stripe-link="https://buy.stripe.com/placeholder_pro_bundle"
+                           data-product="auth-vault-pro-bundle">
+                            Grab This Bundle
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Auth Vault Pro Bundle"
+                                data-crypto-price="3399">
+                            Pay with Crypto ($33.99)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ===== INDIVIDUAL PRODUCTS ===== -->
+        <article class="product-card fade-in"
+                 data-tags="auth,oauth,token"
+                 data-price="999"
+                 data-slug="oauth2-implementation">
+            <div class="product-card__header">
+                <h3 class="product-card__name">OAuth2 Implementation</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Complete Python OAuth2 server/client with authorization code grant, PKCE, client credentials, and token refresh flows. Zero dependencies.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">auth</span>
+                <span class="product-card__tag">oauth</span>
+                <span class="product-card__tag">token</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_oauth2_implementation"
+                   data-product="oauth2-implementation">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="OAuth2 Implementation"
+                        data-crypto-price="849">
+                    Pay with Crypto ($8.49)
+                </button>
+                <a href="preview-oauth2-implementation.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="token,jwt"
+                 data-price="499"
+                 data-slug="jwt-library">
+            <div class="product-card__header">
+                <h3 class="product-card__name">JWT Library</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Lightweight JSON Web Token library with HS256/RS256 signing, standard claims validation, token refresh patterns, and a CLI tool.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">token</span>
+                <span class="product-card__tag">jwt</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_jwt_library"
+                   data-product="jwt-library">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="JWT Library"
+                        data-crypto-price="424">
+                    Pay with Crypto ($4.24)
+                </button>
+                <a href="preview-jwt-library.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="access-control,rbac"
+                 data-price="999"
+                 data-slug="rbac-system">
+            <div class="product-card__header">
+                <h3 class="product-card__name">RBAC System</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Complete role-based access control with hierarchical roles, granular permissions, deny-override policies, and JSON-based storage.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">access-control</span>
+                <span class="product-card__tag">rbac</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_rbac_system"
+                   data-product="rbac-system">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="RBAC System"
+                        data-crypto-price="849">
+                    Pay with Crypto ($8.49)
+                </button>
+                <a href="preview-rbac-system.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="auth,2fa,mfa"
+                 data-price="999"
+                 data-slug="two-factor-auth">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Two-Factor Auth</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Complete 2FA with TOTP generation (RFC 6238), QR code SVG output, backup codes, SMS/email hooks, and recovery flow.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">auth</span>
+                <span class="product-card__tag">2fa</span>
+                <span class="product-card__tag">mfa</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_two_factor_auth"
+                   data-product="two-factor-auth">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Two-Factor Auth"
+                        data-crypto-price="849">
+                    Pay with Crypto ($8.49)
+                </button>
+                <a href="preview-two-factor-auth.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="session,cookie"
+                 data-price="499"
+                 data-slug="session-manager">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Session Manager</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Production-ready session management with HMAC-signed cookies, pluggable storage, automatic expiration, and CSRF protection.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">session</span>
+                <span class="product-card__tag">cookie</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_session_manager"
+                   data-product="session-manager">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Session Manager"
+                        data-crypto-price="424">
+                    Pay with Crypto ($4.24)
+                </button>
+                <a href="preview-session-manager.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="password,hashing"
+                 data-price="499"
+                 data-slug="password-hasher">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Password Hasher</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Secure password hashing with PBKDF2 and scrypt, strength validation, timing-safe comparisons, and hash algorithm migration helpers.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">password</span>
+                <span class="product-card__tag">hashing</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_password_hasher"
+                   data-product="password-hasher">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Password Hasher"
+                        data-crypto-price="424">
+                    Pay with Crypto ($4.24)
+                </button>
+                <a href="preview-password-hasher.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="auth,magic-link,passwordless"
+                 data-price="499"
+                 data-slug="magic-link-auth">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Magic Link Auth</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Passwordless authentication via magic links with secure token generation, email templates, rate limiting, and a complete HTTP login flow.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">auth</span>
+                <span class="product-card__tag">magic-link</span>
+                <span class="product-card__tag">passwordless</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_magic_link_auth"
+                   data-product="magic-link-auth">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Magic Link Auth"
+                        data-crypto-price="424">
+                    Pay with Crypto ($4.24)
+                </button>
+                <a href="preview-magic-link-auth.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="auth,social,oauth"
+                 data-price="999"
+                 data-slug="social-login-integrator">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Social Login Integrator</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Social login for Google, GitHub, and Discord with OAuth2 flows, unified user profile normalization, and CSRF protection.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">auth</span>
+                <span class="product-card__tag">social</span>
+                <span class="product-card__tag">oauth</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_social_login_integrator"
+                   data-product="social-login-integrator">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Social Login Integrator"
+                        data-crypto-price="849">
+                    Pay with Crypto ($8.49)
+                </button>
+                <a href="preview-social-login-integrator.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="middleware,api-key,bearer"
+                 data-price="499"
+                 data-slug="api-auth-middleware">
+            <div class="product-card__header">
+                <h3 class="product-card__name">API Auth Middleware</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Multi-strategy API authentication middleware: bearer tokens, API keys, and HMAC signatures with per-route configuration.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">middleware</span>
+                <span class="product-card__tag">api-key</span>
+                <span class="product-card__tag">bearer</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_api_auth_middleware"
+                   data-product="api-auth-middleware">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="API Auth Middleware"
+                        data-crypto-price="424">
+                    Pay with Crypto ($4.24)
+                </button>
+                <a href="preview-api-auth-middleware.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="logging,audit,security"
+                 data-price="499"
+                 data-slug="auth-audit-logger">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Auth Audit Logger</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Authentication event audit logger with structured JSON logging, anomaly detection, account lockout, and IP-based tracking.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">logging</span>
+                <span class="product-card__tag">audit</span>
+                <span class="product-card__tag">security</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_auth_audit_logger"
+                   data-product="auth-audit-logger">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Auth Audit Logger"
+                        data-crypto-price="424">
+                    Pay with Crypto ($4.24)
+                </button>
+                <a href="preview-auth-audit-logger.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Signals -->
+    <section class="trust-section" id="trust">
+        <div class="container">
+            <h2 class="section__heading">Why devs grab from here</h2>
+            <p class="section__subheading">No fluff &mdash; here&rsquo;s why this store ships</p>
+            <div class="trust-grid">
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x26A1;</div>
+                    <p class="trust-card__text">
+                        <strong>Instant digital download</strong>
+                        Pay, unzip, run. Your auth tools are ready in seconds.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x1F512;</div>
+                    <p class="trust-card__text">
+                        <strong>MIT License &mdash; use anywhere</strong>
+                        SaaS, client work, side projects. No restrictions.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x1F48E;</div>
+                    <p class="trust-card__text">
+                        <strong>Python stdlib only &mdash; zero pip installs</strong>
+                        No virtual envs, no requirements.txt, no dependency hell.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x1F6E0;&#xFE0F;</div>
+                    <p class="trust-card__text">
+                        <strong>Security-first by design</strong>
+                        Timing-safe comparisons, HMAC signing, and CSRF protection baked in.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Companion App -->
+    <section class="app-section" id="app">
+        <div class="container">
+            <div class="app-promo fade-in">
+                <div class="app-promo__content">
+                    <span class="app-promo__badge">ANDROID APP</span>
+                    <h2 class="app-promo__title">Auth Vault Mobile</h2>
+                    <p class="app-promo__desc">Take your authentication toolkit on the go. Dashboard, community templates, daily challenges, and streak rewards &mdash; all in a dark-themed Material&nbsp;3 interface.</p>
+                    <ul class="app-promo__features">
+                        <li>Auth vulnerability scanner and auditor</li>
+                        <li>OAuth2, JWT, RBAC, and 2FA implementation tools</li>
+                        <li>Community sharing &amp; daily challenges</li>
+                        <li>Premium tools via in-app purchase ($0.99&ndash;$4.99)</li>
+                    </ul>
+                    <div class="app-promo__actions">
+                        <a href="https://play.google.com/store/apps/details?id=com.codevault.authvault" class="btn btn--primary">Get on Google Play</a>
+                        <a href="https://github.com/codevault/auth-vault-android" class="btn btn--secondary">View Source</a>
+                    </div>
+                </div>
+                <div class="app-promo__visual">
+                    <div class="app-mockup" style="--app-color: #E91E63">
+                        <div class="app-mockup__screen">
+                            <div class="app-mockup__header">Auth Vault</div>
+                            <div class="app-mockup__tabs">
+                                <span class="app-mockup__tab app-mockup__tab--active">Scanner</span>
+                                <span class="app-mockup__tab">Tools</span>
+                                <span class="app-mockup__tab">Community</span>
+                                <span class="app-mockup__tab">Store</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section__heading">Got questions?</h2>
+            <p class="section__subheading">Straight answers. No runaround.</p>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Do these tools require any pip packages?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">No. Every product uses Python&rsquo;s standard library only. No pip install needed. Just unzip, read the README, and run. Zero-dependency tools don&rsquo;t break when you upgrade Python or change environments.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What Python version do I need?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Python 3.10 or newer. We use modern Python features like match statements, type unions (X | Y), and structural pattern matching. All code includes type hints for IDE autocompletion.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I use these in commercial projects?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Yes. All products are MIT licensed &mdash; use them in personal projects, client work, SaaS products, or internal tools. No attribution required (though we appreciate it).</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What&rsquo;s the difference between Starter and Pro bundles?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">The Starter Bundle ($19.99) includes 4 core tools: JWT Library, Password Hasher, Session Manager, and API Auth Middleware. The Pro Bundle ($39.99) includes all 10 products &mdash; everything from OAuth2 to audit logging. Save 43%.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Are these production-ready or just demos?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Production-ready. Every tool uses cryptographically secure primitives from Python&rsquo;s stdlib (secrets, hmac, hashlib). Timing-safe comparisons, proper error handling, and structured logging are built in. That said, always review security-critical code for your specific requirements.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do I get my download?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Immediately after payment, you&rsquo;ll be redirected to a download page with a secure, time-limited download link. You&rsquo;ll also receive an email with the same link as a backup.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Do I get updates?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Yes. All purchases include 12 months of free updates. You&rsquo;ll receive email notifications when products are updated with new features or security fixes.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I get a refund?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">30-day money-back guarantee. If the products don&rsquo;t meet your expectations, email <a href="mailto:support@codevault.dev">support@codevault.dev</a> for a full refund. No questions asked.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__brand">CodeVault</p>
+            <p class="footer__tagline">Ship faster. Build smarter.</p>
+            <nav class="footer__links" aria-label="Other stores">
+                <a href="../email-arsenal/storefront/index.html" class="footer__link">Email Arsenal</a>
+                <a href="../seo-toolkit/storefront/index.html" class="footer__link">SEO Toolkit</a>
+                <a href="../form-forge/storefront/index.html" class="footer__link">Form Forge</a>
+                <a href="../api-launchpad/storefront/index.html" class="footer__link">API Launchpad</a>
+                <a href="../deploy-kit/storefront/index.html" class="footer__link">Deploy Kit</a>
+                <a href="../saas-starter/storefront/index.html" class="footer__link">SaaS Starter</a>
+                <a href="../analytics-hub/storefront/index.html" class="footer__link">Analytics Hub</a>
+                <a href="../payment-stack/storefront/index.html" class="footer__link">Payment Stack</a>
+                <a href="../ai-toolkit/storefront/index.html" class="footer__link">AI Toolkit</a>
+                <a href="../security-kit/storefront/index.html" class="footer__link">Security Kit</a>
+                <a href="../landing-lab/storefront/index.html" class="footer__link">Landing Lab</a>
+                <a href="../automation-hub/storefront/index.html" class="footer__link">Automation Hub</a>
+            </nav>
+            <p class="footer__copy">&copy; 2026 CodeVault. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

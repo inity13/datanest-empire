@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cohort Analyzer Demo — Analytics Hub | CodeVault</title>
+<meta name="description" content="Interactive demo of the Cohort Analyzer from Analytics Hub.">
+<style>
+  :root {
+    --bg: #0A0E1A; --surface: #141824; --surface2: #1E2436;
+    --border: #2A2E3E; --text: #EAEAFF; --muted: #8888AA;
+    --accent: #00E5FF; --danger: #FF4444; --success: #00E676;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 15px; min-height: 100vh; }
+  a { color: var(--accent); text-decoration: none; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  header .brand { font-weight: 700; font-size: 1.1rem; }
+  header .brand span { color: var(--accent); }
+  .badge { background: var(--accent); color: #0A0E1A; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; }
+
+  .container { max-width: 1000px; margin: 0 auto; padding: 32px 20px; }
+  h1 { font-size: 1.6rem; margin-bottom: 6px; }
+  .subtitle { color: var(--muted); margin-bottom: 28px; }
+
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+  .panel-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 16px; }
+
+  label { color: var(--muted); font-size: 0.82rem; display: inline-block; margin-right: 8px; }
+  select, input[type=number] { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 7px 12px; color: var(--text); font-size: 0.88rem; outline: none; }
+  select:focus, input:focus { border-color: var(--accent); }
+
+  .controls { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
+  .btn { background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 9px 20px; border-radius: 7px; border: none; cursor: pointer; font-size: 0.9rem; }
+  .btn:hover { opacity: .88; }
+  .btn-sec { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-sec:hover { border-color: var(--accent); color: var(--accent); opacity: 1; }
+
+  /* Cohort table */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  th { padding: 8px 10px; text-align: center; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  th:first-child { text-align: left; }
+  td { padding: 7px 10px; text-align: center; border-bottom: 1px solid var(--border); }
+  td:first-child { text-align: left; font-weight: 600; white-space: nowrap; }
+  td:nth-child(2) { color: var(--muted); font-size: 0.78rem; }
+  .cell { border-radius: 4px; padding: 4px 8px; font-weight: 600; display: inline-block; min-width: 44px; }
+
+  /* Legend */
+  .legend { display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--muted); }
+  .legend-box { width: 14px; height: 14px; border-radius: 3px; }
+
+  /* Summary */
+  .summary-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .sum { background: var(--surface2); border-radius: 8px; padding: 12px; text-align: center; }
+  .sum .v { font-size: 1.3rem; font-weight: 700; color: var(--accent); }
+  .sum .l { font-size: 0.75rem; color: var(--muted); margin-top: 3px; }
+
+  .cta-box { background: linear-gradient(135deg, rgba(0,229,255,.08), rgba(0,229,255,.02)); border: 1px solid rgba(0,229,255,.25); border-radius: 12px; padding: 28px 24px; text-align: center; margin-top: 32px; }
+  .cta-box h2 { font-size: 1.25rem; margin-bottom: 8px; }
+  .cta-box p { color: var(--muted); margin-bottom: 20px; font-size: 0.9rem; }
+  .btn-cta { display: inline-block; background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 12px 32px; border-radius: 8px; font-size: 1rem; text-decoration: none; }
+  .btn-cta:hover { opacity: .9; text-decoration: none; }
+  .demo-note { color: var(--muted); font-size: 0.82rem; margin-top: 14px; }
+
+  footer { text-align: center; padding: 24px; color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--border); margin-top: 40px; }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Analytics<span>Hub</span> — Cohort Analyzer</div>
+  <span class="badge">Demo</span>
+</header>
+
+<div class="container">
+  <h1>Cohort Analyzer</h1>
+  <p class="subtitle">Visualize user retention by cohort — see exactly when and where users churn over time.</p>
+
+  <div class="panel">
+    <div class="panel-title">Configuration</div>
+    <div class="controls">
+      <div><label>Cohorts</label><input type="number" id="numCohorts" value="8" min="3" max="12" style="width:70px"></div>
+      <div><label>Periods</label><input type="number" id="numPeriods" value="8" min="4" max="12" style="width:70px"></div>
+      <div><label>Period</label>
+        <select id="periodType">
+          <option value="week">Weekly</option>
+          <option value="month" selected>Monthly</option>
+        </select>
+      </div>
+      <div><label>Churn model</label>
+        <select id="churnModel">
+          <option value="aggressive">Aggressive (SaaS typical)</option>
+          <option value="moderate">Moderate</option>
+          <option value="sticky">Sticky (high LTV)</option>
+        </select>
+      </div>
+      <button class="btn" onclick="generate()">Generate</button>
+    </div>
+
+    <div class="summary-row" id="summaryRow"></div>
+
+    <div class="table-wrap">
+      <table id="cohortTable"></table>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-box" style="background:rgba(0,229,255,0.9)"></div> &gt;70%</div>
+      <div class="legend-item"><div class="legend-box" style="background:rgba(0,229,255,0.55)"></div> 40–70%</div>
+      <div class="legend-item"><div class="legend-box" style="background:rgba(0,229,255,0.3)"></div> 20–40%</div>
+      <div class="legend-item"><div class="legend-box" style="background:rgba(0,229,255,0.12)"></div> &lt;20%</div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h2>Get the Full Cohort Analyzer</h2>
+    <p>Import from any data warehouse, segment cohorts by plan/channel/geography, overlay revenue metrics, export to CSV/PNG, and auto-detect retention cliff anomalies.</p>
+    <a class="btn-cta" href="https://buy.stripe.com/6oU28r7mLehgfVM7uhgjI3Y">Buy Full Version — $69.00</a>
+    <button class="crypto-pay-btn" data-product-slug="funnel-analyzer" data-store-slug="analytics-hub" data-product-name="Funnel Analyzer" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+    <div class="demo-note">This demo shows limited functionality. Buy the full tool for all features.</div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 CodeVault / Analytics Hub &mdash; <a href="https://buy.stripe.com/6oU28r7mLehgfVM7uhgjI3Y">Back to Store</a>
+  &mdash; <a href="index.html">All Demos</a>
+</footer>
+
+<script>
+// Generate retention curve for a cohort given a churn model
+function retentionCurve(size, periods, model) {
+  const rates = { aggressive: 0.30, moderate: 0.18, sticky: 0.10 };
+  const noise = { aggressive: 0.08, moderate: 0.05, sticky: 0.03 };
+  const base = rates[model];
+  const noiseLvl = noise[model];
+  let retained = size;
+  const curve = [size];
+  for (let p = 1; p < periods; p++) {
+    const churn = base + (Math.random() - 0.5) * noiseLvl;
+    retained = Math.round(retained * (1 - churn));
+    if (retained < 1) retained = 1;
+    curve.push(retained);
+  }
+  return curve;
+}
+
+function pctColor(pct) {
+  if (pct >= 70) return 'rgba(0,229,255,0.9)';
+  if (pct >= 40) return 'rgba(0,229,255,0.55)';
+  if (pct >= 20) return 'rgba(0,229,255,0.3)';
+  return 'rgba(0,229,255,0.12)';
+}
+
+function pctText(pct) {
+  return pct >= 40 ? '#0A0E1A' : '#EAEAFF';
+}
+
+function generate() {
+  const n = parseInt(document.getElementById('numCohorts').value);
+  const p = parseInt(document.getElementById('numPeriods').value);
+  const period = document.getElementById('periodType').value;
+  const model = document.getElementById('churnModel').value;
+
+  // Build cohort labels going backwards from today
+  const now = new Date();
+  const cohorts = [];
+  for (let i = n-1; i >= 0; i--) {
+    const d = new Date(now);
+    if (period === 'month') d.setMonth(d.getMonth() - i);
+    else d.setDate(d.getDate() - i*7);
+    const label = period === 'month'
+      ? d.toLocaleDateString('en', {month:'short', year:'2-digit'})
+      : d.toLocaleDateString('en', {month:'short', day:'numeric'});
+    const size = Math.floor(Math.random()*800)+200;
+    const available = n - i; // number of periods available for this cohort
+    cohorts.push({ label, size, curve: retentionCurve(size, Math.min(p, available), model) });
+  }
+
+  // Header row
+  let thead = '<thead><tr><th>Cohort</th><th>Users</th>';
+  for (let col = 0; col < p; col++) thead += `<th>${period === 'month' ? 'M' : 'W'}${col}</th>`;
+  thead += '</tr></thead>';
+
+  // Data rows
+  let tbody = '<tbody>';
+  for (const c of cohorts) {
+    tbody += `<tr><td>${c.label}</td><td style="color:var(--muted)">${c.size}</td>`;
+    for (let col = 0; col < p; col++) {
+      if (col < c.curve.length) {
+        const pct = Math.round(c.curve[col] / c.size * 100);
+        const bg = col === 0 ? 'rgba(0,229,255,1)' : pctColor(pct);
+        const fg = col === 0 ? '#0A0E1A' : pctText(pct);
+        tbody += `<td><span class="cell" style="background:${bg};color:${fg}">${col===0?'100':pct}%</span></td>`;
+      } else {
+        tbody += '<td><span style="color:var(--border)">—</span></td>';
+      }
+    }
+    tbody += '</tr>';
+  }
+  tbody += '</tbody>';
+
+  document.getElementById('cohortTable').innerHTML = thead + tbody;
+
+  // Summary
+  const allSizes = cohorts.map(c => c.size);
+  const totalUsers = allSizes.reduce((a,b)=>a+b,0);
+  // avg retention at last period for cohorts that have it
+  const lastPeriod = cohorts.filter(c => c.curve.length >= p);
+  const avgRetention = lastPeriod.length
+    ? Math.round(lastPeriod.reduce((s,c) => s + c.curve[p-1]/c.size*100, 0) / lastPeriod.length)
+    : '—';
+  const avgSize = Math.round(totalUsers / cohorts.length);
+
+  document.getElementById('summaryRow').innerHTML = `
+    <div class="sum"><div class="v">${n}</div><div class="l">Cohorts</div></div>
+    <div class="sum"><div class="v">${totalUsers.toLocaleString()}</div><div class="l">Total Users</div></div>
+    <div class="sum"><div class="v">${avgSize}</div><div class="l">Avg Cohort Size</div></div>
+    <div class="sum"><div class="v" style="color:${avgRetention < 30 ? 'var(--danger)' : avgRetention < 50 ? 'var(--warn)' : 'var(--success)'}">${typeof avgRetention === 'number' ? avgRetention+'%' : avgRetention}</div><div class="l">Avg P${p-1} Retention</div></div>`;
+}
+
+generate();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

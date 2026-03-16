@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Step Wizard Demo — Form Forge</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:780px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#7C4DFF20;color:#7C4DFF;border:1px solid #7C4DFF40;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#7C4DFF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+  /* Wizard frame */
+  .wizard-frame{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.3);font-family:Arial,sans-serif}
+  .wizard-header{background:#7C4DFF;padding:24px 28px}
+  .wizard-title{font-size:20px;font-weight:700;color:#fff;margin-bottom:6px}
+  .wizard-subtitle{font-size:13px;color:rgba(255,255,255,.75)}
+  /* Steps indicator */
+  .steps-bar{display:flex;align-items:center;padding:20px 28px;border-bottom:1px solid #f0f0f0;background:#fafafa}
+  .step-item{display:flex;align-items:center;gap:8px;flex:1}
+  .step-item:last-child{flex:0}
+  .step-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;transition:all .3s}
+  .step-dot.done{background:#7C4DFF;color:#fff}
+  .step-dot.active{background:#7C4DFF;color:#fff;box-shadow:0 0 0 4px #7C4DFF30}
+  .step-dot.pending{background:#e2e8f0;color:#94a3b8}
+  .step-name{font-size:12px;font-weight:600;white-space:nowrap}
+  .step-name.active{color:#7C4DFF}
+  .step-name.done{color:#7C4DFF}
+  .step-name.pending{color:#94a3b8}
+  .step-line{flex:1;height:2px;background:#e2e8f0;margin:0 8px;transition:background .3s}
+  .step-line.done{background:#7C4DFF}
+  /* Form content */
+  .wizard-body{padding:28px}
+  .wizard-step{display:none}
+  .wizard-step.active{display:block}
+  .wiz-field{margin-bottom:18px}
+  .wiz-label{font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:flex;gap:4px}
+  .wiz-required{color:#ef4444}
+  .wiz-input{width:100%;border:2px solid #e2e8f0;border-radius:8px;padding:11px 14px;font-size:14px;color:#333;outline:none;transition:border-color .2s;font-family:Arial}
+  .wiz-input:focus{border-color:#7C4DFF}
+  .wiz-input.error{border-color:#ef4444}
+  .wiz-hint{font-size:12px;color:#999;margin-top:4px}
+  .wiz-error{font-size:12px;color:#ef4444;margin-top:4px;display:none}
+  .wiz-error.show{display:block}
+  .radio-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .radio-card{border:2px solid #e2e8f0;border-radius:8px;padding:14px;cursor:pointer;transition:all .2s;text-align:center}
+  .radio-card:hover{border-color:#7C4DFF;background:#7C4DFF05}
+  .radio-card.selected{border-color:#7C4DFF;background:#7C4DFF10}
+  .radio-card .rc-icon{font-size:24px;margin-bottom:6px}
+  .radio-card .rc-label{font-size:13px;font-weight:600;color:#333}
+  .plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px}
+  .plan-card{border:2px solid #e2e8f0;border-radius:8px;padding:14px;cursor:pointer;transition:all .2s;text-align:center;position:relative}
+  .plan-card:hover{border-color:#7C4DFF}
+  .plan-card.selected{border-color:#7C4DFF;background:#7C4DFF10}
+  .plan-pop{position:absolute;top:-10px;right:10px;background:#7C4DFF;color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px}
+  .plan-name{font-size:14px;font-weight:700;color:#333;margin-bottom:4px}
+  .plan-price{font-size:22px;font-weight:700;color:#7C4DFF}
+  .plan-period{font-size:11px;color:#999}
+  .plan-features{font-size:12px;color:#666;margin-top:8px;line-height:1.6}
+  /* Summary */
+  .summary-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:14px}
+  .summary-row:last-child{border-bottom:none}
+  .s-key{color:#555}
+  .s-val{font-weight:600;color:#333}
+  /* Navigation */
+  .wizard-footer{padding:20px 28px;border-top:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center;background:#fafafa}
+  .wiz-btn{padding:12px 28px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:Arial;transition:all .2s}
+  .wiz-next{background:#7C4DFF;color:#fff}
+  .wiz-next:hover{background:#6B3FEE}
+  .wiz-back{background:#e2e8f0;color:#555}
+  .wiz-back:hover{background:#cbd5e1}
+  .wiz-complete{background:#22c55e;color:#fff}
+  .wiz-complete:hover{background:#16a34a}
+  .step-of{font-size:13px;color:#999}
+  /* Config */
+  .config-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #1e293b}
+  .config-label{font-size:13px;color:#94a3b8}
+  .toggle{width:38px;height:22px;background:#1e293b;border-radius:11px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+  .toggle.on{background:#7C4DFF}
+  .toggle::after{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .2s}
+  .toggle.on::after{transform:translateX(16px)}
+  .cta-bar{background:linear-gradient(135deg,#7C4DFF15,#7C4DFF05);border:1px solid #7C4DFF30;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#7C4DFF;color:#fff;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#6B3FEE;transform:translateY(-1px);box-shadow:0 8px 24px #7C4DFF40}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  @media(max-width:540px){.radio-grid,.plan-grid{grid-template-columns:1fr}}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Multi-Step Wizard</h1>
+    <p class="subtitle">Interactive multi-step form with progress tracking and validation</p>
+  </div>
+
+  <div class="card">
+    <div class="wizard-frame">
+      <div class="wizard-header">
+        <div class="wizard-title">Create Your Account</div>
+        <div class="wizard-subtitle">Complete all steps to get started</div>
+      </div>
+      <div class="steps-bar" id="stepsBar"></div>
+      <div class="wizard-body">
+        <!-- Step 1: Account -->
+        <div class="wizard-step active" id="step-0">
+          <div class="wiz-field">
+            <div class="wiz-label">Full Name <span class="wiz-required">*</span></div>
+            <input class="wiz-input" id="f-name" type="text" placeholder="John Doe">
+            <div class="wiz-error" id="e-name">Please enter your full name</div>
+          </div>
+          <div class="wiz-field">
+            <div class="wiz-label">Email Address <span class="wiz-required">*</span></div>
+            <input class="wiz-input" id="f-email" type="email" placeholder="john@example.com">
+            <div class="wiz-error" id="e-email">Please enter a valid email</div>
+          </div>
+          <div class="wiz-field">
+            <div class="wiz-label">Password <span class="wiz-required">*</span></div>
+            <input class="wiz-input" id="f-pass" type="password" placeholder="Min 8 characters">
+            <div class="wiz-hint">Must be at least 8 characters</div>
+            <div class="wiz-error" id="e-pass">Password must be at least 8 characters</div>
+          </div>
+        </div>
+        <!-- Step 2: Role -->
+        <div class="wizard-step" id="step-1">
+          <div class="wiz-field">
+            <div class="wiz-label">I am a... <span class="wiz-required">*</span></div>
+            <div class="radio-grid" id="roleGrid">
+              <div class="radio-card" onclick="selectRole('developer')"><div class="rc-icon">💻</div><div class="rc-label">Developer</div></div>
+              <div class="radio-card" onclick="selectRole('designer')"><div class="rc-icon">🎨</div><div class="rc-label">Designer</div></div>
+              <div class="radio-card" onclick="selectRole('marketer')"><div class="rc-icon">📣</div><div class="rc-label">Marketer</div></div>
+              <div class="radio-card" onclick="selectRole('founder')"><div class="rc-icon">🚀</div><div class="rc-label">Founder</div></div>
+            </div>
+            <div class="wiz-error show" id="e-role" style="display:none">Please select your role</div>
+          </div>
+          <div class="wiz-field" style="margin-top:8px">
+            <div class="wiz-label">Company Name</div>
+            <input class="wiz-input" id="f-company" type="text" placeholder="Optional">
+          </div>
+        </div>
+        <!-- Step 3: Plan -->
+        <div class="wizard-step" id="step-2">
+          <div class="wiz-field">
+            <div class="wiz-label">Choose Your Plan <span class="wiz-required">*</span></div>
+            <div class="plan-grid">
+              <div class="plan-card" onclick="selectPlan('starter')">
+                <div class="plan-name">Starter</div>
+                <div class="plan-price">$9</div>
+                <div class="plan-period">/month</div>
+                <div class="plan-features">5 forms<br>1,000 submissions<br>Email support</div>
+              </div>
+              <div class="plan-card selected" id="plan-pro" onclick="selectPlan('pro')">
+                <div class="plan-pop">Popular</div>
+                <div class="plan-name">Pro</div>
+                <div class="plan-price">$29</div>
+                <div class="plan-period">/month</div>
+                <div class="plan-features">Unlimited forms<br>10,000 submissions<br>Priority support</div>
+              </div>
+              <div class="plan-card" onclick="selectPlan('enterprise')">
+                <div class="plan-name">Enterprise</div>
+                <div class="plan-price">$99</div>
+                <div class="plan-period">/month</div>
+                <div class="plan-features">Unlimited all<br>Custom domain<br>Dedicated support</div>
+              </div>
+            </div>
+            <div class="wiz-error" id="e-plan">Please select a plan</div>
+          </div>
+        </div>
+        <!-- Step 4: Summary -->
+        <div class="wizard-step" id="step-3">
+          <p style="font-size:14px;color:#555;margin-bottom:20px;font-family:Arial">Review your information before completing setup:</p>
+          <div id="summaryContent"></div>
+        </div>
+      </div>
+      <div class="wizard-footer">
+        <button class="wiz-btn wiz-back" id="backBtn" onclick="goBack()" style="display:none">← Back</button>
+        <span class="step-of" id="stepOf">Step 1 of 4</span>
+        <button class="wiz-btn wiz-next" id="nextBtn" onclick="goNext()">Next Step →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <p>Full version: custom step layouts, conditional logic between steps, save & resume, email notifications on completion, Zapier/webhook triggers, and embed anywhere.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/7sY00j8qP6OO5h89CpgjJ11">Buy Full Version — $49.00</a>
+    <button class="crypto-pay-btn" data-product-slug="multi-step-wizard" data-store-slug="form-forge" data-product-name="Multi-Step Wizard" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows limited functionality. Buy the full tool for all features.</div>
+</div>
+<script>
+const STEPS = ['Account','Role','Plan','Review'];
+let currentStep = 0;
+let selectedRole = null;
+let selectedPlan = 'pro';
+
+function renderStepsBar() {
+  document.getElementById('stepsBar').innerHTML = STEPS.map((s,i) => {
+    const state = i < currentStep ? 'done' : i === currentStep ? 'active' : 'pending';
+    const dot = i < currentStep ? '✓' : i+1;
+    return `<div class="step-item">
+      <div class="step-dot ${state}">${dot}</div>
+      <div class="step-name ${state}">${s}</div>
+      ${i < STEPS.length-1 ? `<div class="step-line ${i<currentStep?'done':''}"></div>` : ''}
+    </div>`;
+  }).join('');
+  document.getElementById('stepOf').textContent = `Step ${currentStep+1} of ${STEPS.length}`;
+  document.getElementById('backBtn').style.display = currentStep > 0 ? 'block' : 'none';
+  const btn = document.getElementById('nextBtn');
+  if (currentStep === STEPS.length-1) { btn.textContent = 'Complete Setup'; btn.className='wiz-btn wiz-complete'; }
+  else { btn.textContent = 'Next Step →'; btn.className='wiz-btn wiz-next'; }
+}
+
+function validate() {
+  if (currentStep === 0) {
+    const name = document.getElementById('f-name').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+    const pass = document.getElementById('f-pass').value;
+    let ok = true;
+    document.getElementById('e-name').classList.toggle('show', !name); if (!name) ok=false;
+    document.getElementById('e-email').classList.toggle('show', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)); if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) ok=false;
+    document.getElementById('e-pass').classList.toggle('show', pass.length < 8); if (pass.length < 8) ok=false;
+    return ok;
+  }
+  if (currentStep === 1) {
+    const ok = !!selectedRole;
+    document.getElementById('e-role').style.display = ok ? 'none' : 'block';
+    return ok;
+  }
+  if (currentStep === 2) return !!selectedPlan;
+  return true;
+}
+
+function goNext() {
+  if (!validate()) return;
+  if (currentStep === STEPS.length-1) {
+    document.getElementById('nextBtn').textContent = '✓ Setup Complete!';
+    document.getElementById('nextBtn').disabled = true;
+    document.getElementById('backBtn').style.display = 'none';
+    return;
+  }
+  currentStep++;
+  showStep();
+}
+
+function goBack() { currentStep = Math.max(0, currentStep-1); showStep(); }
+
+function showStep() {
+  document.querySelectorAll('.wizard-step').forEach((el,i) => el.classList.toggle('active', i===currentStep));
+  renderStepsBar();
+  if (currentStep === 3) buildSummary();
+}
+
+function selectRole(r) {
+  selectedRole = r;
+  document.querySelectorAll('.radio-card').forEach(el => el.classList.remove('selected'));
+  document.querySelector(`.radio-card[onclick*="${r}"]`).classList.add('selected');
+  document.getElementById('e-role').style.display = 'none';
+}
+
+function selectPlan(p) {
+  selectedPlan = p;
+  document.querySelectorAll('.plan-card').forEach(el => el.classList.remove('selected'));
+  document.querySelector(`.plan-card[onclick*="${p}"]`).classList.add('selected');
+}
+
+function buildSummary() {
+  const name = document.getElementById('f-name').value || '—';
+  const email = document.getElementById('f-email').value || '—';
+  const company = document.getElementById('f-company').value || '—';
+  const plans = {starter:'Starter — $9/mo',pro:'Pro — $29/mo',enterprise:'Enterprise — $99/mo'};
+  document.getElementById('summaryContent').innerHTML = `
+    <div class="summary-row"><span class="s-key">Full Name</span><span class="s-val">${name}</span></div>
+    <div class="summary-row"><span class="s-key">Email</span><span class="s-val">${email}</span></div>
+    <div class="summary-row"><span class="s-key">Role</span><span class="s-val">${selectedRole||'—'}</span></div>
+    <div class="summary-row"><span class="s-key">Company</span><span class="s-val">${company}</span></div>
+    <div class="summary-row"><span class="s-key">Plan</span><span class="s-val">${plans[selectedPlan]||'—'}</span></div>`;
+}
+
+renderStepsBar();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

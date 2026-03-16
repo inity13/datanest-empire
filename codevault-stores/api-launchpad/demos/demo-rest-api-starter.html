@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REST API Starter Demo — API Launchpad</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0A0E1A;color:#E2E8F0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+header{background:#0F1628;border-bottom:1px solid #1E2A45;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+header h1{font-size:1.1rem;color:#FF9100;font-weight:700}
+header span{font-size:0.8rem;color:#64748B;background:#1E2A45;padding:4px 10px;border-radius:20px}
+.container{flex:1;padding:24px;max-width:900px;margin:0 auto;width:100%}
+h2{font-size:1.3rem;margin-bottom:6px;color:#F1F5F9}
+.subtitle{color:#64748B;font-size:0.9rem;margin-bottom:24px}
+.builder{background:#0F1628;border:1px solid #1E2A45;border-radius:12px;overflow:hidden;margin-bottom:20px}
+.builder-row{display:flex;gap:0;border-bottom:1px solid #1E2A45}
+.method-select{background:#1E2A45;border:none;color:#FF9100;font-weight:700;padding:12px 16px;font-size:0.95rem;cursor:pointer;min-width:110px}
+.method-select option{background:#1E2A45;color:#F1F5F9}
+.url-input{flex:1;background:transparent;border:none;color:#F1F5F9;padding:12px 16px;font-size:0.95rem;outline:none}
+.url-input::placeholder{color:#475569}
+.send-btn{background:#FF9100;color:#0A0E1A;border:none;padding:12px 24px;font-weight:700;font-size:0.9rem;cursor:pointer;transition:background .2s}
+.send-btn:hover{background:#FFA733}
+.tabs{display:flex;border-bottom:1px solid #1E2A45}
+.tab{padding:10px 18px;font-size:0.85rem;color:#64748B;cursor:pointer;border-bottom:2px solid transparent;transition:.2s}
+.tab.active{color:#FF9100;border-bottom-color:#FF9100}
+.tab-content{display:none;padding:16px}
+.tab-content.active{display:block}
+.headers-table{width:100%;border-collapse:collapse}
+.headers-table th{text-align:left;color:#64748B;font-size:0.78rem;padding:6px 8px;border-bottom:1px solid #1E2A45}
+.headers-table td{padding:6px 8px}
+.headers-table input{background:#1E2A45;border:1px solid #2D3748;color:#F1F5F9;padding:5px 8px;border-radius:4px;font-size:0.82rem;width:100%}
+.body-textarea{width:100%;background:#1A2035;border:1px solid #2D3748;color:#94E2C8;padding:12px;border-radius:6px;font-family:'Courier New',monospace;font-size:0.85rem;resize:vertical;min-height:100px;outline:none}
+.response-area{background:#0A0E1A;border-top:1px solid #1E2A45;padding:16px}
+.response-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.status-badge{padding:3px 10px;border-radius:20px;font-size:0.78rem;font-weight:700}
+.status-200{background:#065F46;color:#6EE7B7}
+.status-400{background:#7F1D1D;color:#FCA5A5}
+.status-loading{background:#1E3A5F;color:#93C5FD}
+.response-time{font-size:0.78rem;color:#64748B}
+.response-body{background:#0A0E1A;border:1px solid #1E2A45;border-radius:6px;padding:14px;font-family:'Courier New',monospace;font-size:0.82rem;color:#94E2C8;white-space:pre-wrap;max-height:220px;overflow-y:auto}
+.add-header-btn{background:transparent;border:1px solid #2D3748;color:#94A3B8;padding:5px 12px;border-radius:4px;font-size:0.8rem;cursor:pointer;margin-top:8px}
+.add-header-btn:hover{border-color:#FF9100;color:#FF9100}
+.cta{background:linear-gradient(135deg,#FF9100,#FF5F00);color:#0A0E1A;border:none;padding:14px 32px;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px;transition:opacity .2s}
+.cta:hover{opacity:.9}
+footer{text-align:center;padding:16px;color:#475569;font-size:0.8rem;border-top:1px solid #1E2A45;margin-top:auto}
+footer a{color:#FF9100;text-decoration:none}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <h1>🚀 REST API Starter</h1>
+  <span>Demo — Limited Features</span>
+</header>
+<div class="container">
+  <h2>Interactive REST API Request Builder</h2>
+  <p class="subtitle">Build and send API requests with custom headers, body, and authentication.</p>
+
+  <div class="builder">
+    <div class="builder-row">
+      <select class="method-select" id="method">
+        <option>GET</option><option>POST</option><option>PUT</option><option>PATCH</option><option>DELETE</option>
+      </select>
+      <input class="url-input" id="url" placeholder="https://jsonplaceholder.typicode.com/posts/1" value="https://jsonplaceholder.typicode.com/posts/1">
+      <button class="send-btn" onclick="sendRequest()">SEND</button>
+    </div>
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('headers',this)">Headers</div>
+      <div class="tab" onclick="switchTab('body',this)">Body</div>
+      <div class="tab" onclick="switchTab('auth',this)">Auth</div>
+    </div>
+    <div class="tab-content active" id="tab-headers">
+      <table class="headers-table" id="headers-table">
+        <thead><tr><th>Key</th><th>Value</th></tr></thead>
+        <tbody id="headers-body">
+          <tr>
+            <td><input placeholder="Content-Type" value="application/json"></td>
+            <td><input placeholder="application/json" value="application/json"></td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="add-header-btn" onclick="addHeader()">+ Add Header</button>
+    </div>
+    <div class="tab-content" id="tab-body">
+      <textarea class="body-textarea" id="body-input" placeholder='{"key": "value"}'></textarea>
+    </div>
+    <div class="tab-content" id="tab-auth">
+      <table class="headers-table">
+        <tr><td style="padding:8px;color:#94A3B8;font-size:.85rem">Bearer Token:</td>
+        <td><input class="headers-table input" id="auth-token" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." style="background:#1E2A45;border:1px solid #2D3748;color:#F1F5F9;padding:6px 10px;border-radius:4px;width:100%;font-size:.82rem"></td></tr>
+      </table>
+    </div>
+
+    <div class="response-area" id="response-area" style="display:none">
+      <div class="response-header">
+        <span id="status-badge" class="status-badge status-200">200 OK</span>
+        <span class="response-time" id="resp-time"></span>
+      </div>
+      <div class="response-body" id="response-body"></div>
+    </div>
+  </div>
+
+  <a class="cta" href="https://buy.stripe.com/00wbJ17mL3CCgZQcOBgjJ00">Buy Full Version — $29.00 →</a>
+    <button class="crypto-pay-btn" data-product-slug="rest-api-starter" data-store-slug="api-launchpad" data-product-name="REST API Starter" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+</div>
+<footer>
+  This demo shows limited functionality. Buy the full tool for all features.<br>
+  <a href="../index.html">← Back to API Launchpad Store</a>
+</footer>
+
+<script>
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+function addHeader() {
+  const tbody = document.getElementById('headers-body');
+  const tr = document.createElement('tr');
+  tr.innerHTML = '<td><input placeholder="Key"></td><td><input placeholder="Value"></td>';
+  tbody.appendChild(tr);
+}
+
+async function sendRequest() {
+  const method = document.getElementById('method').value;
+  const url = document.getElementById('url').value.trim();
+  if (!url) return;
+
+  const ra = document.getElementById('response-area');
+  const rb = document.getElementById('response-body');
+  const sb = document.getElementById('status-badge');
+  const rt = document.getElementById('resp-time');
+
+  ra.style.display = 'block';
+  sb.className = 'status-badge status-loading';
+  sb.textContent = 'Sending...';
+  rb.textContent = '';
+  rt.textContent = '';
+
+  const start = Date.now();
+  try {
+    const headers = {};
+    const rows = document.querySelectorAll('#headers-body tr');
+    rows.forEach(r => {
+      const inputs = r.querySelectorAll('input');
+      if (inputs[0].value && inputs[1].value) headers[inputs[0].value] = inputs[1].value;
+    });
+    const token = document.getElementById('auth-token').value;
+    if (token) headers['Authorization'] = 'Bearer ' + token;
+
+    const opts = { method, headers };
+    const body = document.getElementById('body-input').value;
+    if (['POST','PUT','PATCH'].includes(method) && body) opts.body = body;
+
+    const res = await fetch(url, opts);
+    const elapsed = Date.now() - start;
+    const text = await res.text();
+    let pretty = text;
+    try { pretty = JSON.stringify(JSON.parse(text), null, 2); } catch(e) {}
+
+    sb.className = 'status-badge ' + (res.ok ? 'status-200' : 'status-400');
+    sb.textContent = res.status + ' ' + res.statusText;
+    rt.textContent = elapsed + 'ms';
+    rb.textContent = pretty;
+  } catch(e) {
+    const elapsed = Date.now() - start;
+    sb.className = 'status-badge status-400';
+    sb.textContent = 'Error';
+    rt.textContent = elapsed + 'ms';
+    rb.textContent = 'Request failed: ' + e.message + '\n\nNote: CORS may block browser requests to some APIs.\nThe full tool runs server-side and bypasses CORS restrictions.';
+  }
+}
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portfolio Risk Scorer — Coverage Vault | CryptoForge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D0D1A;color:#E0E0E0;font-family:'Inter',sans-serif;min-height:100vh}
+.header{background:linear-gradient(135deg,#FF6B0022,#FFD70011);border-bottom:1px solid #FF6B0044;padding:24px 32px}
+.header h1{font-family:'JetBrains Mono',monospace;font-size:1.4rem;color:#FF6B00}
+.header .store-name{font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:#E0E0E088;margin-bottom:4px}
+.header .tagline{font-size:.8rem;color:#E0E0E066;margin-top:4px}
+.content{display:grid;grid-template-columns:340px 1fr;gap:0;min-height:calc(100vh - 180px)}
+.panel-left{background:#0D0D1A;border-right:1px solid #1a1a3a;padding:28px 24px;overflow-y:auto}
+.panel-right{background:#0a0a16;padding:24px;overflow:auto}
+.section-title{font-family:'JetBrains Mono',monospace;font-size:.75rem;text-transform:uppercase;letter-spacing:1.5px;color:#FF6B00;margin-bottom:12px;margin-top:20px}
+.section-title:first-child{margin-top:0}
+.desc{font-size:.88rem;line-height:1.6;color:#E0E0E0cc;margin-bottom:16px}
+.tag{display:inline-block;background:#FF6B0018;color:#FF6B00;border:1px solid #FF6B0033;border-radius:4px;padding:2px 8px;font-size:.75rem;font-family:'JetBrains Mono',monospace;margin:2px}
+.tag.chain{background:#FFD70018;color:#FFD700;border-color:#FFD70033}
+.meta-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #1a1a3a;font-size:.84rem}
+.meta-row .label{color:#E0E0E066}
+.meta-row .value{color:#E0E0E0;font-family:'JetBrains Mono',monospace}
+.features{list-style:none;margin-top:8px}
+.features li{padding:6px 0;font-size:.84rem;color:#E0E0E0cc;display:flex;align-items:flex-start;gap:8px}
+.features .check{color:#00E676;font-weight:bold;flex-shrink:0}
+.code-window{background:#0d0f1a;border:1px solid #1a1a3a;border-radius:8px;overflow:hidden}
+.code-titlebar{background:#141428;padding:8px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #1a1a3a}
+.code-dot{width:10px;height:10px;border-radius:50%}
+.code-dot.r{background:#ff5f56}.code-dot.y{background:#ffbd2e}.code-dot.g{background:#27c93f}
+.code-filename{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#E0E0E066;margin-left:8px}
+.code-body{padding:16px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.7;color:#a9b7c6;white-space:pre}
+.cta-bar{background:linear-gradient(135deg,#FF6B0011,#FFD70008);border-top:1px solid #FF6B0033;padding:20px 32px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.cta-btn{display:inline-block;background:linear-gradient(135deg,#FF6B00,#FFD700);color:#fff;padding:12px 28px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s;font-family:'Space Grotesk',sans-serif}
+.cta-btn:hover{opacity:.9;transform:translateY(-2px)}
+.crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:0;transition:all .2s;font-family:'Space Grotesk',sans-serif}
+.crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+.price-tag{font-family:'JetBrains Mono',monospace;font-size:1.3rem;color:#FF6B00;font-weight:700}
+.cta-spacer{flex:1}
+@media(max-width:800px){.content{grid-template-columns:1fr}.panel-left{border-right:none;border-bottom:1px solid #1a1a3a}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="store-name">Coverage Vault &mdash; CryptoForge</div>
+  <h1>Portfolio Risk Scorer</h1>
+  <div class="tagline">Cross-protocol DeFi portfolio risk scoring with TypeScript SDK.</div>
+</div>
+<div class="content">
+  <div class="panel-left">
+    <div class="section-title">Contract Details</div>
+    <div class="meta-row"><span class="label">Category</span><span class="value">tooling</span></div>
+    <div class="meta-row"><span class="label">Files</span><span class="value">12</span></div>
+    <div class="meta-row"><span class="label">Price</span><span class="value">$12.99</span></div>
+
+    <div class="section-title">Tech Stack</div>
+    <div><span class="tag">Python 3.10+</span> <span class="tag">TypeScript 5+</span></div>
+
+    <div class="section-title">Chains</div>
+    <div><span class="tag chain">Any EVM</span></div>
+
+    <div class="section-title">Description</div>
+    <div class="desc">Risk scoring engine for DeFi portfolio positions across protocols. Python backend with TypeScript SDK for frontend integration. Evaluates protocol risk, concentration risk, correlation risk, and liquidity risk.</div>
+
+    <div class="section-title">Features</div>
+    <ul class="features"><li><span class="check">&#10003;</span> Four risk dimensions: protocol, concentration, correlation, liquidity</li>
+<li><span class="check">&#10003;</span> Protocol-specific risk profiles (Aave, Compound, Uniswap, etc.)</li>
+<li><span class="check">&#10003;</span> Portfolio-level aggregated risk score</li>
+<li><span class="check">&#10003;</span> Position-level risk breakdown</li>
+<li><span class="check">&#10003;</span> TypeScript SDK for frontend integration</li>
+<li><span class="check">&#10003;</span> Formatted risk reports with recommendations</li>
+<li><span class="check">&#10003;</span> Pytest test suite for Python backend</li>
+<li><span class="check">&#10003;</span> Zero-dependency TypeScript SDK</li></ul>
+  </div>
+  <div class="panel-right">
+    <div class="code-window">
+      <div class="code-titlebar">
+        <span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span>
+        <span class="code-filename">portfolio-risk-scorer.sol</span>
+      </div>
+      <div class="code-body"><pre><span style="color:#546e7a">// SPDX-License-Identifier: MIT</span>
+<span style="color:#c792ea">pragma</span> <span style="color:#c792ea">solidity</span> ^<span style="color:#f78c6c">0</span>.<span style="color:#f78c6c">8</span>.<span style="color:#f78c6c">24</span>;
+
+<span style="color:#c792ea">import</span> <span style="color:#c3e88d">"@openzeppelin/contracts/token/ERC20/IERC20.sol"</span>;
+
+<span style="color:#546e7a">/// @title Portfolio Risk Scorer</span>
+<span style="color:#546e7a">/// @notice Cross-protocol DeFi portfolio risk scoring with TypeScript SDK.</span>
+<span style="color:#c792ea">contract</span> PortfolioRiskScorer {
+    <span style="color:#c792ea">address</span> <span style="color:#c792ea">public</span> <span style="color:#c792ea">immutable</span> owner;
+    <span style="color:#c792ea">uint256</span> <span style="color:#c792ea">public</span> <span style="color:#c792ea">constant</span> VERSION = <span style="color:#f78c6c">1</span>;
+
+    <span style="color:#c792ea">event</span> Initialized(<span style="color:#c792ea">address</span> <span style="color:#c792ea">indexed</span> deployer);
+
+    <span style="color:#c792ea">constructor</span>() {
+        owner = msg.sender;
+        <span style="color:#c792ea">emit</span> Initialized(msg.sender);
+    }
+
+    <span style="color:#546e7a">// ... full implementation in purchased package</span>
+}</pre></div>
+    </div>
+  </div>
+</div>
+<div class="cta-bar">
+  <span class="price-tag">$12.99</span>
+  <div class="cta-spacer"></div>
+  <a href="https://buy.stripe.com/3cI4gz6iH0qqbFw6qdgjI39" target="_blank" rel="noopener" class="cta-btn">Buy Now &mdash; $12.99</a>
+  <button class="crypto-pay-btn" data-product-slug="portfolio-risk-scorer" data-store-slug="coverage-vault" data-product-name="Portfolio Risk Scorer" data-price-usd="12.99">Pay with Crypto (Save 15%)</button>
+</div>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

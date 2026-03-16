@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sitemap Builder Demo — SEO Toolkit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:820px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#00FF8820;color:#00FF88;border:1px solid #00FF8840;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#00FF88;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+  label{display:block;font-size:13px;color:#94a3b8;margin-bottom:6px;font-weight:500}
+  input,select{width:100%;background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:10px 14px;color:#e2e8f0;font-size:14px;outline:none;transition:border-color .2s}
+  input:focus,select:focus{border-color:#00FF88}
+  .grid3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;align-items:end;margin-bottom:10px}
+  @media(max-width:600px){.grid3{grid-template-columns:1fr}}
+  .url-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;max-height:260px;overflow-y:auto}
+  .url-row{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;align-items:center;background:#0A0E1A;border:1px solid #1e293b;border-radius:8px;padding:8px 12px}
+  @media(max-width:600px){.url-row{grid-template-columns:1fr;gap:6px}}
+  .url-path{color:#e2e8f0;font-size:13px;font-family:monospace}
+  .url-badge{font-size:11px;padding:2px 8px;border-radius:10px;text-align:center}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+  .btn-primary{background:#00FF88;color:#0A0E1A}
+  .btn-primary:hover{background:#00e67a}
+  .btn-add{background:#1e293b;color:#00FF88;border:1px solid #00FF8840;padding:10px 18px}
+  .btn-add:hover{background:#2d3748}
+  .btn-del{background:none;border:none;color:#ef4444;cursor:pointer;padding:4px 8px;border-radius:4px;font-size:16px}
+  .btn-del:hover{background:#ef444420}
+  .btn-copy{background:#1e293b;color:#e2e8f0;border:1px solid #2d3748;font-size:13px;padding:8px 16px}
+  .output-box{background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:16px;font-family:'Courier New',monospace;font-size:12px;line-height:1.7;color:#a3e635;white-space:pre;overflow-x:auto;max-height:340px;overflow-y:auto}
+  .output-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .stats-row{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+  .stat{background:#0A0E1A;border:1px solid #1e293b;border-radius:8px;padding:10px 16px;flex:1;min-width:100px;text-align:center}
+  .stat-val{font-size:22px;font-weight:700;color:#00FF88}
+  .stat-label{font-size:11px;color:#64748b;margin-top:2px}
+  .add-row{display:flex;gap:10px;align-items:end;margin-bottom:16px}
+  .add-row input{flex:1}
+  .cta-bar{background:linear-gradient(135deg,#00FF8815,#00FF8805);border:1px solid #00FF8830;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#00FF88;color:#0A0E1A;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#00e67a;transform:translateY(-1px);box-shadow:0 8px 24px #00FF8840}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Sitemap Builder</h1>
+    <p class="subtitle">Generate valid XML sitemaps for any website — add URLs and export instantly</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Base URL Settings</div>
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px">
+      <div>
+        <label>Website Base URL</label>
+        <input type="text" id="baseUrl" value="https://example.com" oninput="buildSitemap()">
+      </div>
+      <div>
+        <label>Default Change Frequency</label>
+        <select id="defaultFreq" onchange="buildSitemap()">
+          <option value="weekly">Weekly</option>
+          <option value="daily">Daily</option>
+          <option value="monthly">Monthly</option>
+          <option value="yearly">Yearly</option>
+        </select>
+      </div>
+    </div>
+    <div class="card-title">Add URLs</div>
+    <div class="add-row">
+      <input type="text" id="newPath" placeholder="/blog/my-post" onkeydown="if(event.key==='Enter')addUrl()">
+      <div style="min-width:130px">
+        <label>Priority</label>
+        <select id="newPriority">
+          <option value="1.0">1.0 (Homepage)</option>
+          <option value="0.9">0.9 (Key Page)</option>
+          <option value="0.8" selected>0.8 (High)</option>
+          <option value="0.6">0.6 (Medium)</option>
+          <option value="0.4">0.4 (Low)</option>
+        </select>
+      </div>
+      <button class="btn btn-add" onclick="addUrl()">+ Add URL</button>
+    </div>
+    <div class="url-list" id="urlList"></div>
+    <div class="stats-row" id="statsRow">
+      <div class="stat"><div class="stat-val" id="statTotal">0</div><div class="stat-label">Total URLs</div></div>
+      <div class="stat"><div class="stat-val" id="statHigh">0</div><div class="stat-label">High Priority</div></div>
+      <div class="stat"><div class="stat-val" id="statSize">0 KB</div><div class="stat-label">File Size</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="output-header">
+      <div class="card-title" style="margin:0">sitemap.xml Preview</div>
+      <button class="btn btn-copy" onclick="copyOutput()">📋 Copy XML</button>
+    </div>
+    <div class="output-box" id="output"><!-- Add URLs above to generate sitemap --></div>
+  </div>
+
+  <div class="cta-bar">
+    <p>This demo generates basic sitemaps. The full tool crawls your site automatically, handles image/video sitemaps, splits large sitemaps, pings Google/Bing after generation, and schedules automatic updates.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/6oU00jbD1b54dNE9CpgjJ1X">Buy Full Version — $24.00</a>
+    <button class="crypto-pay-btn" data-product-slug="sitemap-builder" data-store-slug="seo-toolkit" data-product-name="Sitemap Builder" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows limited functionality. Buy the full tool for all features.</div>
+</div>
+
+<script>
+const urls = [
+  {path:'/',priority:'1.0',freq:'daily'},
+  {path:'/about',priority:'0.8',freq:'monthly'},
+  {path:'/blog',priority:'0.9',freq:'weekly'},
+];
+
+function addUrl() {
+  const path = document.getElementById('newPath').value.trim();
+  if (!path) return;
+  const p = path.startsWith('/') ? path : '/' + path;
+  const priority = document.getElementById('newPriority').value;
+  const freq = document.getElementById('defaultFreq').value;
+  urls.push({path:p, priority, freq});
+  document.getElementById('newPath').value = '';
+  render();
+}
+
+function removeUrl(i) {
+  urls.splice(i, 1);
+  render();
+}
+
+function priorityColor(p) {
+  const n = parseFloat(p);
+  if (n >= 0.8) return 'background:#00FF8820;color:#00FF88';
+  if (n >= 0.6) return 'background:#f59e0b20;color:#f59e0b';
+  return 'background:#64748b20;color:#64748b';
+}
+
+function render() {
+  const base = document.getElementById('baseUrl').value.replace(/\/$/, '');
+  const list = document.getElementById('urlList');
+  list.innerHTML = urls.map((u, i) => `
+    <div class="url-row">
+      <span class="url-path">${base}${u.path}</span>
+      <span class="url-badge" style="${priorityColor(u.priority)}">P: ${u.priority}</span>
+      <span style="font-size:12px;color:#64748b">${u.freq}</span>
+      <button class="btn-del" onclick="removeUrl(${i})">✕</button>
+    </div>`).join('');
+  buildSitemap();
+}
+
+function buildSitemap() {
+  const base = document.getElementById('baseUrl').value.replace(/\/$/, '');
+  const today = new Date().toISOString().split('T')[0];
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+  urls.forEach(u => {
+    xml += `  <url>\n`;
+    xml += `    <loc>${base}${u.path}</loc>\n`;
+    xml += `    <lastmod>${today}</lastmod>\n`;
+    xml += `    <changefreq>${u.freq}</changefreq>\n`;
+    xml += `    <priority>${u.priority}</priority>\n`;
+    xml += `  </url>\n`;
+  });
+  xml += `</urlset>`;
+  document.getElementById('output').textContent = xml;
+  document.getElementById('statTotal').textContent = urls.length;
+  document.getElementById('statHigh').textContent = urls.filter(u=>parseFloat(u.priority)>=0.8).length;
+  document.getElementById('statSize').textContent = (new Blob([xml]).size / 1024).toFixed(1) + ' KB';
+}
+
+function copyOutput() {
+  navigator.clipboard.writeText(document.getElementById('output').textContent).then(() => {
+    const btn = document.querySelector('.btn-copy');
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = '📋 Copy XML', 2000);
+  });
+}
+
+render();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

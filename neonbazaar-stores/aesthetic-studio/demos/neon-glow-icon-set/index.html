@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neon Glow Icon Set — Interactive Browser</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0a0a12;
+    color: #e0e0f0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1 {
+    font-size: 1.5rem;
+    letter-spacing: 0.15em;
+    background: linear-gradient(90deg, #FF1493, #00FFFF, #8B00FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.3rem;
+  }
+  .subtitle { font-size: 0.85rem; color: #4a4a6a; margin-bottom: 1.5rem; }
+
+  .filters {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .filter-btn {
+    background: #12121c;
+    color: #8a8aaa;
+    border: 1px solid #2a2a3a;
+    padding: 0.35rem 0.9rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    border-color: var(--cat-color, #c084fc);
+    color: var(--cat-color, #c084fc);
+    background: rgba(192, 132, 252, 0.08);
+  }
+
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 1rem;
+    max-width: 900px;
+    width: 100%;
+  }
+  .icon-card {
+    background: #0a0a12;
+    border: 1px solid #1a1a2a;
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .icon-card:hover {
+    border-color: var(--glow-color);
+    box-shadow: 0 0 20px var(--glow-color-dim), 0 0 40px var(--glow-color-dim);
+    transform: translateY(-2px);
+  }
+  .icon-card svg {
+    width: 64px;
+    height: 64px;
+    transition: filter 0.3s;
+  }
+  .icon-card:hover svg {
+    filter: drop-shadow(0 0 8px var(--glow-color)) drop-shadow(0 0 16px var(--glow-color-dim));
+  }
+  .icon-card .name {
+    font-size: 0.7rem;
+    color: #6a6a8a;
+    text-align: center;
+  }
+  .icon-card .cat-tag {
+    font-size: 0.6rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.05);
+    color: var(--glow-color);
+  }
+  .brand { margin-top: 3rem; font-size: 0.65rem; color: #1a1a2a; letter-spacing: 0.2em; }
+.crypto-pay-btn{background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem}
+.crypto-pay-btn:hover{opacity:0.9}
+</style>
+</head>
+<body>
+
+<h1>NEON GLOW ICON SET</h1>
+<p class="subtitle">30 icons with neon glow — hover to activate</p>
+
+<div class="filters" id="filters">
+  <button class="filter-btn active" data-cat="all" style="--cat-color:#c084fc">All</button>
+</div>
+
+<div class="icon-grid" id="grid"></div>
+
+<p class="brand">NEON BAZAAR / AESTHETIC STUDIO</p>
+
+<script>
+const ICONS = [
+  { cat: "Social", color: "#FF1493", icons: [
+    { id:"heart", name:"Heart", d:"M60 30 C60 10, 90 10, 90 35 C90 55, 60 80, 60 80 C60 80, 30 55, 30 35 C30 10, 60 10, 60 30Z" },
+    { id:"chat", name:"Chat Bubble", d:"M20 25 L100 25 Q105 25 105 30 L105 70 Q105 75 100 75 L55 75 L40 95 L45 75 L20 75 Q15 75 15 70 L15 30 Q15 25 20 25Z" },
+    { id:"music_note", name:"Music Note", d:"M50 20 L50 80 M50 80 A15 15 0 1 1 50 50 M50 20 L80 15 L80 70 M80 70 A15 15 0 1 1 80 40" },
+    { id:"camera", name:"Camera", d:"M15 40 L40 40 L50 28 L70 28 L80 40 L105 40 L105 90 L15 90Z M60 60 A18 18 0 1 0 60 96 A18 18 0 1 0 60 60Z" },
+    { id:"star", name:"Star", d:"M60 15 L72 45 L105 48 L80 70 L87 103 L60 85 L33 103 L40 70 L15 48 L48 45Z" },
+    { id:"lightning", name:"Lightning", d:"M65 10 L35 55 L55 55 L45 110 L85 50 L60 50Z" },
+  ]},
+  { cat: "Tech", color: "#00FFFF", icons: [
+    { id:"phone", name:"Phone", d:"M35 10 Q35 5 40 5 L80 5 Q85 5 85 10 L85 110 Q85 115 80 115 L40 115 Q35 115 35 110Z M50 105 L70 105" },
+    { id:"laptop", name:"Laptop", d:"M20 30 L100 30 L100 80 L20 80Z M10 80 L110 80 L105 90 L15 90Z" },
+    { id:"headphones", name:"Headphones", d:"M30 60 A30 35 0 0 1 90 60 M25 55 L25 85 Q25 90 30 90 L35 90 L35 55Z M85 55 L85 90 L90 90 Q95 90 95 85 L95 55Z" },
+    { id:"gamepad", name:"Gamepad", d:"M20 45 Q20 35 30 35 L90 35 Q100 35 100 45 L100 75 Q100 85 90 85 L75 85 L65 95 L55 85 L30 85 Q20 85 20 75Z" },
+    { id:"wifi", name:"WiFi", d:"M60 90 A5 5 0 1 0 60 80 M40 70 A28 20 0 0 1 80 70 M25 55 A45 32 0 0 1 95 55 M10 40 A60 42 0 0 1 110 40" },
+    { id:"battery", name:"Battery", d:"M15 35 L95 35 L95 85 L15 85Z M95 50 L105 50 L105 70 L95 70 M25 45 L55 45 L55 75 L25 75Z" },
+  ]},
+  { cat: "Nature", color: "#8B00FF", icons: [
+    { id:"moon", name:"Moon", d:"M70 15 A45 45 0 1 0 70 105 A35 35 0 0 1 70 15Z" },
+    { id:"sun", name:"Sun", d:"M60 35 A25 25 0 1 0 60 85 A25 25 0 1 0 60 35 M60 10 L60 22 M60 98 L60 110 M10 60 L22 60 M98 60 L110 60" },
+    { id:"cloud", name:"Cloud", d:"M30 75 A20 20 0 0 1 25 40 A25 25 0 0 1 70 30 A20 20 0 0 1 100 50 A18 18 0 0 1 95 80Z" },
+    { id:"flower", name:"Flower", d:"M60 40 A20 10 0 1 0 60 60 A20 10 30 1 0 43 50 A20 10 60 1 0 43 70 A20 10 90 1 0 60 80 A20 10 120 1 0 77 70 A20 10 150 1 0 77 50Z" },
+    { id:"leaf", name:"Leaf", d:"M30 90 Q30 20 90 20 Q90 90 30 90Z M30 90 L90 20" },
+    { id:"flame", name:"Flame", d:"M60 10 Q80 40 75 60 Q85 45 90 65 Q95 90 60 110 Q25 90 30 65 Q35 45 45 60 Q40 40 60 10Z" },
+  ]},
+  { cat: "Symbols", color: "#39FF14", icons: [
+    { id:"arrow", name:"Arrow", d:"M60 100 L60 20 M60 20 L35 45 M60 20 L85 45" },
+    { id:"check", name:"Checkmark", d:"M20 60 L45 85 L100 25" },
+    { id:"cross", name:"Cross", d:"M30 30 L90 90 M90 30 L30 90" },
+    { id:"plus", name:"Plus", d:"M60 20 L60 100 M20 60 L100 60" },
+    { id:"diamond", name:"Diamond", d:"M60 10 L105 60 L60 110 L15 60Z" },
+    { id:"infinity", name:"Infinity", d:"M60 60 C60 35 15 35 15 60 C15 85 60 85 60 60 C60 35 105 35 105 60 C105 85 60 85 60 60" },
+  ]},
+  { cat: "Lifestyle", color: "#FF6600", icons: [
+    { id:"coffee", name:"Coffee Cup", d:"M20 30 L20 85 Q20 95 30 95 L80 95 Q90 95 90 85 L90 30Z M90 40 L105 40 Q115 40 115 55 Q115 70 105 70 L90 70" },
+    { id:"shopping", name:"Shopping Bag", d:"M25 40 L95 40 L90 100 L30 100Z M45 40 L45 30 A15 15 0 0 1 75 30 L75 40" },
+    { id:"crown", name:"Crown", d:"M15 80 L15 40 L35 55 L60 25 L85 55 L105 40 L105 80Z" },
+    { id:"palette", name:"Palette", d:"M60 15 A48 48 0 1 0 60 111 Q60 85 45 80 Q30 75 30 60 A30 30 0 0 1 60 30 Q85 30 90 55" },
+    { id:"rocket", name:"Rocket", d:"M60 10 Q80 30 80 60 L75 80 L65 75 L60 95 L55 75 L45 80 L40 60 Q40 30 60 10Z" },
+    { id:"globe", name:"Globe", d:"M60 10 A50 50 0 1 0 60 110 A50 50 0 1 0 60 10 M60 10 Q40 40 40 60 Q40 80 60 110 M60 10 Q80 40 80 60 Q80 80 60 110 M15 45 L105 45 M12 75 L108 75" },
+  ]},
+];
+
+const ns = "http://www.w3.org/2000/svg";
+const grid = document.getElementById("grid");
+const filters = document.getElementById("filters");
+
+// Build category filter buttons
+ICONS.forEach(cat => {
+  const btn = document.createElement("button");
+  btn.className = "filter-btn";
+  btn.dataset.cat = cat.cat;
+  btn.style.setProperty("--cat-color", cat.color);
+  btn.textContent = cat.cat;
+  filters.appendChild(btn);
+});
+
+// Build icon cards
+function renderIcons(filterCat) {
+  grid.innerHTML = "";
+  ICONS.forEach(cat => {
+    if (filterCat !== "all" && cat.cat !== filterCat) return;
+    cat.icons.forEach(icon => {
+      const card = document.createElement("div");
+      card.className = "icon-card";
+      card.style.setProperty("--glow-color", cat.color);
+      card.style.setProperty("--glow-color-dim", cat.color + "40");
+
+      const svg = document.createElementNS(ns, "svg");
+      svg.setAttribute("viewBox", "0 0 120 120");
+
+      // Glow filter
+      const defs = document.createElementNS(ns, "defs");
+      const filter = document.createElementNS(ns, "filter");
+      filter.setAttribute("id", "g-" + icon.id);
+      filter.setAttribute("x", "-50%"); filter.setAttribute("y", "-50%");
+      filter.setAttribute("width", "200%"); filter.setAttribute("height", "200%");
+      const flood = document.createElementNS(ns, "feFlood");
+      flood.setAttribute("flood-color", cat.color); flood.setAttribute("flood-opacity", "0.8"); flood.setAttribute("result", "fl");
+      const comp = document.createElementNS(ns, "feComposite");
+      comp.setAttribute("in", "fl"); comp.setAttribute("in2", "SourceGraphic"); comp.setAttribute("operator", "in"); comp.setAttribute("result", "c");
+      const blur1 = document.createElementNS(ns, "feGaussianBlur");
+      blur1.setAttribute("in", "c"); blur1.setAttribute("stdDeviation", "4"); blur1.setAttribute("result", "b1");
+      const blur2 = document.createElementNS(ns, "feGaussianBlur");
+      blur2.setAttribute("in", "c"); blur2.setAttribute("stdDeviation", "10"); blur2.setAttribute("result", "b2");
+      const merge = document.createElementNS(ns, "feMerge");
+      [["b2"],["b1"],["SourceGraphic"]].forEach(inputs => {
+        const mn = document.createElementNS(ns, "feMergeNode");
+        mn.setAttribute("in", inputs[0]);
+        merge.appendChild(mn);
+      });
+      filter.append(flood, comp, blur1, blur2, merge);
+      defs.appendChild(filter);
+      svg.appendChild(defs);
+
+      const path = document.createElementNS(ns, "path");
+      path.setAttribute("d", icon.d);
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", cat.color);
+      path.setAttribute("stroke-width", "2.5");
+      path.setAttribute("stroke-linecap", "round");
+      path.setAttribute("stroke-linejoin", "round");
+      path.setAttribute("filter", "url(#g-" + icon.id + ")");
+      svg.appendChild(path);
+
+      card.appendChild(svg);
+      card.innerHTML += `<span class="name">${icon.name}</span><span class="cat-tag">${cat.cat}</span>`;
+      grid.appendChild(card);
+    });
+  });
+}
+renderIcons("all");
+
+filters.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("filter-btn")) return;
+  filters.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  e.target.classList.add("active");
+  renderIcons(e.target.dataset.cat);
+});
+</script>
+
+<!-- payment-cta-start -->
+<div class="purchase-cta" style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,transparent,#0a0a12 20%);padding:20px;text-align:center;z-index:1000">
+  <div style="max-width:600px;margin:0 auto;background:#12122a;border:1px solid #1a1a3a;border-radius:12px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div><strong style="color:#fff;font-size:1rem">Neon Glow Icon Set</strong><br><span style="color:#8888aa;font-size:.85rem">$3.00</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a href="https://buy.stripe.com/aFa6oH7mL3CC7pgeWJgjG1G" class="cta-buy-btn" style="display:inline-block;background:#FF2D9B;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem">Buy Now</a>
+      <button class="crypto-pay-btn" data-product-slug="neon-glow-icon-set" data-store-slug="aesthetic-studio" data-product-name="Neon Glow Icon Set" data-price-usd="3.00">Crypto (15% off)</button>
+    </div>
+  </div>
+</div>
+<script src="../../crypto-checkout.js"></script>
+<!-- payment-cta-end -->
+
+</body>
+</html>

@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Toolkit — CodeVault</title>
+    <link rel="canonical" href="https://seo-toolkit.codevault.dev/">
+
+    <meta name="description" content="Production-ready Python SEO tools: meta tag generator, sitemap builder, SERP analyzer, structured data validator, page speed auditor, and more. Zero dependencies. Instant download.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="SEO Toolkit — CodeVault">
+    <meta property="og:description" content="Production-ready Python SEO tools: meta tag generator, sitemap builder, SERP analyzer, structured data validator, page speed auditor, and more. Zero dependencies. Instant download.">
+    <meta property="og:site_name" content="CodeVault">
+    <meta property="og:url" content="https://seo-toolkit.codevault.dev">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SEO Toolkit — CodeVault">
+    <meta name="twitter:description" content="Production-ready Python SEO tools: meta tag generator, sitemap builder, SERP analyzer, structured data validator, page speed auditor, and more. Zero dependencies. Instant download.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#00FF88">
+
+    <!-- Plausible Analytics -->
+    <script defer data-domain="seo-toolkit.codevault.dev" src="https://plausible.io/js/script.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "SEO Toolkit",
+      "description": "Python-powered SEO tools for indie hackers and solo developers.",
+      "url": "https://seo-toolkit.codevault.dev/",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any (Python 3.10+)",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "USD",
+        "lowPrice": "4.99",
+        "highPrice": "39.99",
+        "offerCount": "12"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "CodeVault",
+        "url": "https://codevault.dev"
+      }
+    }
+    </script>
+</head>
+<body>
+    <!-- Cross-Store Navigation -->
+    <nav class="cross-nav" aria-label="CodeVault stores">
+        <div class="cross-nav__inner">
+            <span class="cross-nav__brand">CodeVault</span>
+            <a href="#" class="cross-nav__link cross-nav__link--active">SEO Toolkit</a>
+            <a href="../email-arsenal/storefront/index.html" class="cross-nav__link">Email Arsenal</a>
+            <a href="../form-forge/storefront/index.html" class="cross-nav__link">Form Forge</a>
+            <a href="../api-launchpad/storefront/index.html" class="cross-nav__link">API Launchpad</a>
+            <a href="../deploy-kit/storefront/index.html" class="cross-nav__link">Deploy Kit</a>
+            <a href="../auth-vault/storefront/index.html" class="cross-nav__link">Auth Vault</a>
+            <a href="../saas-starter/storefront/index.html" class="cross-nav__link">SaaS Starter</a>
+            <a href="../analytics-hub/storefront/index.html" class="cross-nav__link">Analytics Hub</a>
+            <a href="../payment-stack/storefront/index.html" class="cross-nav__link">Payment Stack</a>
+            <a href="../ai-toolkit/storefront/index.html" class="cross-nav__link">AI Toolkit</a>
+            <a href="../security-kit/storefront/index.html" class="cross-nav__link">Security Kit</a>
+            <a href="../landing-lab/storefront/index.html" class="cross-nav__link">Landing Lab</a>
+            <a href="../automation-hub/storefront/index.html" class="cross-nav__link">Automation Hub</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="top">
+        <div class="container">
+            <h1 class="hero__title glitch" data-text="SEO Toolkit">SEO Toolkit</h1>
+            <p class="hero__subtitle">Python-powered SEO tools that actually ship — no bloat, no dependencies, just results</p>
+            <div class="hero__cta-row">
+                <a href="#products" class="btn btn--primary">Browse Tools</a>
+                <a href="#faq" class="btn btn--secondary">How it works</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Products Section -->
+    <section class="section" id="products">
+        <div class="container">
+            <h2 class="section__heading">What&rsquo;s in stock</h2>
+            <p class="section__subheading">Production-ready SEO tools. No filler, no fluff.</p>
+
+            <div class="filter-bar">
+                <span class="filter-bar__label">Filter:</span>
+                <button class="filter-tag active" data-filter="all">All</button>
+                <button class="filter-tag" data-filter="bundle">bundle</button>
+                <button class="filter-tag" data-filter="generator">generator</button>
+                <button class="filter-tag" data-filter="analysis">analysis</button>
+                <button class="filter-tag" data-filter="validation">validation</button>
+                <button class="filter-tag" data-filter="monitoring">monitoring</button>
+                <button class="filter-tag" data-filter="audit">audit</button>
+                <button class="filter-tag" data-filter="seo">seo</button>
+                <select class="sort-select" aria-label="Sort products">
+                    <option value="default">Sort: Featured</option>
+                    <option value="price-asc">Price: Low &rarr; High</option>
+                    <option value="price-desc">Price: High &rarr; Low</option>
+                </select>
+            </div>
+
+            <div class="product-grid">
+                <!-- Bundle: SEO Toolkit Starter Bundle -->
+                <article class="product-card product-card--bundle fade-in"
+                         data-tags="bundle,starter"
+                         data-price="1999"
+                         data-slug="seo-toolkit-starter-bundle">
+                    <div class="product-card__inner">
+                        <div>
+                            <span class="bundle-badge">BUNDLE DEAL</span>
+                            <h3 class="product-card__name" style="margin-top: 12px">SEO Toolkit Starter Bundle</h3>
+                            <p class="product-card__desc">The essentials &mdash; Meta Tag Generator, Sitemap Builder, Robots.txt Generator, and Redirect Mapper in one discounted bundle.</p>
+                            <div class="product-card__tags"><span class="product-card__tag">bundle</span><span class="product-card__tag">starter</span></div>
+                            <ul class="product-card__bundle-list">
+                                <li>Meta Tag Generator</li>
+                                <li>Sitemap Builder</li>
+                                <li>Robots.txt Generator</li>
+                                <li>Redirect Mapper</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$19.99</p>
+                            <div class="product-card__actions">
+                                <a href="https://buy.stripe.com/PLACEHOLDER_seo-toolkit-starter-bundle" class="btn btn--primary btn--card"
+                                   data-product="seo-toolkit-starter-bundle">
+                                    Grab This Bundle
+                                </a>
+                                <button class="btn btn--crypto btn--card"
+                                        data-crypto-product="SEO Toolkit Starter Bundle"
+                                        data-crypto-price="1999">
+                                    Pay with Crypto ($15.99)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Bundle: SEO Toolkit Pro Bundle -->
+                <article class="product-card product-card--bundle fade-in"
+                         data-tags="bundle,pro"
+                         data-price="3999"
+                         data-slug="seo-toolkit-pro-bundle">
+                    <div class="product-card__inner">
+                        <div>
+                            <span class="bundle-badge">BUNDLE DEAL</span>
+                            <h3 class="product-card__name" style="margin-top: 12px">SEO Toolkit Pro Bundle</h3>
+                            <p class="product-card__desc">Every tool in the SEO Toolkit &mdash; all 10 products at a massive discount. The complete SEO command-line arsenal.</p>
+                            <div class="product-card__tags"><span class="product-card__tag">bundle</span><span class="product-card__tag">pro</span></div>
+                            <ul class="product-card__bundle-list">
+                                <li>Meta Tag Generator</li>
+                                <li>Sitemap Builder</li>
+                                <li>Robots.txt Generator</li>
+                                <li>SERP Analyzer</li>
+                                <li>Keyword Density Checker</li>
+                                <li>Structured Data Validator</li>
+                                <li>Redirect Mapper</li>
+                                <li>Canonical URL Planner</li>
+                                <li>Backlink Checker</li>
+                                <li>Page Speed Auditor</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$39.99</p>
+                            <div class="product-card__actions">
+                                <a href="https://buy.stripe.com/PLACEHOLDER_seo-toolkit-pro-bundle" class="btn btn--primary btn--card"
+                                   data-product="seo-toolkit-pro-bundle">
+                                    Grab This Bundle
+                                </a>
+                                <button class="btn btn--crypto btn--card"
+                                        data-crypto-product="SEO Toolkit Pro Bundle"
+                                        data-crypto-price="3999">
+                                    Pay with Crypto ($31.99)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product: Meta Tag Generator -->
+                <article class="product-card fade-in"
+                         data-tags="meta-tags,seo,generator"
+                         data-price="499"
+                         data-slug="meta-tag-generator">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Meta Tag Generator</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Generate HTML meta tags, Open Graph, and Twitter Card tags from a simple config file. Covers all essential SEO head elements.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">meta-tags</span><span class="product-card__tag">seo</span><span class="product-card__tag">generator</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_meta-tag-generator" class="btn btn--primary btn--card"
+                           data-product="meta-tag-generator">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Meta Tag Generator"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Sitemap Builder -->
+                <article class="product-card fade-in"
+                         data-tags="sitemap,crawler,xml"
+                         data-price="499"
+                         data-slug="sitemap-builder">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Sitemap Builder</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Crawl a site and generate a standards-compliant sitemap.xml with configurable priorities, change frequencies, and last-modified dates.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">sitemap</span><span class="product-card__tag">crawler</span><span class="product-card__tag">xml</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_sitemap-builder" class="btn btn--primary btn--card"
+                           data-product="sitemap-builder">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Sitemap Builder"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Robots.txt Generator -->
+                <article class="product-card fade-in"
+                         data-tags="robots-txt,crawlers,generator"
+                         data-price="499"
+                         data-slug="robots-txt-generator">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Robots.txt Generator</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Generate production-ready robots.txt files with common crawler rules, sitemap references, and crawl-delay directives.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">robots-txt</span><span class="product-card__tag">crawlers</span><span class="product-card__tag">generator</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_robots-txt-generator" class="btn btn--primary btn--card"
+                           data-product="robots-txt-generator">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Robots.txt Generator"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: SERP Analyzer -->
+                <article class="product-card fade-in"
+                         data-tags="serp,analysis,ranking"
+                         data-price="999"
+                         data-slug="serp-analyzer">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">SERP Analyzer</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Analyze search engine results pages &mdash; extract featured snippets, People Also Ask boxes, ranking signals, and SERP feature opportunities.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">serp</span><span class="product-card__tag">analysis</span><span class="product-card__tag">ranking</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_serp-analyzer" class="btn btn--primary btn--card"
+                           data-product="serp-analyzer">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="SERP Analyzer"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Keyword Density Checker -->
+                <article class="product-card fade-in"
+                         data-tags="keywords,content,analysis"
+                         data-price="499"
+                         data-slug="keyword-density-checker">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Keyword Density Checker</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Analyze text or HTML content for keyword density, n-gram frequency, readability scores (Flesch-Kincaid), and content optimization signals.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">keywords</span><span class="product-card__tag">content</span><span class="product-card__tag">analysis</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_keyword-density-checker" class="btn btn--primary btn--card"
+                           data-product="keyword-density-checker">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Keyword Density Checker"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Structured Data Validator -->
+                <article class="product-card fade-in"
+                         data-tags="schema-org,json-ld,validation"
+                         data-price="999"
+                         data-slug="structured-data-validator">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Structured Data Validator</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Validate JSON-LD structured data against Schema.org specs. Catches missing required fields, type mismatches, and common markup errors.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">schema-org</span><span class="product-card__tag">json-ld</span><span class="product-card__tag">validation</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_structured-data-validator" class="btn btn--primary btn--card"
+                           data-product="structured-data-validator">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Structured Data Validator"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Redirect Mapper -->
+                <article class="product-card fade-in"
+                         data-tags="redirects,http,migration"
+                         data-price="499"
+                         data-slug="redirect-mapper">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Redirect Mapper</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Check HTTP redirect chains, detect loops, validate status codes, and generate redirect maps for site migrations.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">redirects</span><span class="product-card__tag">http</span><span class="product-card__tag">migration</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_redirect-mapper" class="btn btn--primary btn--card"
+                           data-product="redirect-mapper">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Redirect Mapper"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Canonical URL Planner -->
+                <article class="product-card fade-in"
+                         data-tags="canonical,urls,planning"
+                         data-price="499"
+                         data-slug="canonical-url-planner">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Canonical URL Planner</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Plan and validate canonical URLs across your site. Detect duplicates, conflicting canonicals, and self-referencing issues.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">canonical</span><span class="product-card__tag">urls</span><span class="product-card__tag">planning</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_canonical-url-planner" class="btn btn--primary btn--card"
+                           data-product="canonical-url-planner">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Canonical URL Planner"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Backlink Checker -->
+                <article class="product-card fade-in"
+                         data-tags="backlinks,links,monitoring"
+                         data-price="999"
+                         data-slug="backlink-checker">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Backlink Checker</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Check backlink status codes, detect broken links, monitor anchor text distribution, and export link health reports.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">backlinks</span><span class="product-card__tag">links</span><span class="product-card__tag">monitoring</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_backlink-checker" class="btn btn--primary btn--card"
+                           data-product="backlink-checker">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Backlink Checker"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Product: Page Speed Auditor -->
+                <article class="product-card fade-in"
+                         data-tags="performance,speed,audit"
+                         data-price="999"
+                         data-slug="page-speed-auditor">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Page Speed Auditor</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Audit page performance &mdash; analyze HTML size, image weights, render-blocking resources, and generate actionable optimization reports.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">performance</span><span class="product-card__tag">speed</span><span class="product-card__tag">audit</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_page-speed-auditor" class="btn btn--primary btn--card"
+                           data-product="page-speed-auditor">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Page Speed Auditor"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Signals -->
+    <section class="trust-section" id="trust">
+        <div class="container">
+            <h2 class="section__heading">Why devs grab from here</h2>
+            <p class="section__subheading">Built by developers, for developers</p>
+            <div class="trust-grid">
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#9889;</div>
+                    <p class="trust-card__text">
+                        <strong>Instant digital download</strong>
+                        Unzip and run. No setup, no accounts, no waiting.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128274;</div>
+                    <p class="trust-card__text">
+                        <strong>MIT License &mdash; use anywhere</strong>
+                        Personal projects, client work, SaaS products. You own it.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128142;</div>
+                    <p class="trust-card__text">
+                        <strong>Python stdlib only &mdash; zero dependencies</strong>
+                        No pip install, no virtualenv, no dependency hell.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128187;</div>
+                    <p class="trust-card__text">
+                        <strong>Works on any OS with Python 3.10+</strong>
+                        macOS, Linux, Windows &mdash; if Python runs, these tools run.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- License Tiers -->
+    <section class="tier-section" id="tiers">
+        <div class="container">
+            <h2 class="section__heading">License tiers</h2>
+            <p class="section__subheading">Every purchase is MIT-licensed. Pick what fits.</p>
+            <div class="tier-grid">
+                <div class="tier-card fade-in">
+                    <h3 class="tier-card__name">Personal</h3>
+                    <p class="tier-card__desc">For solo devs and side projects</p>
+                    <ul class="tier-card__features">
+                        <li>Use on unlimited personal projects</li>
+                        <li>Full source code access</li>
+                        <li>Lifetime updates</li>
+                        <li>MIT License included</li>
+                    </ul>
+                    <a href="#products" class="btn btn--secondary btn--sm">Browse tools</a>
+                </div>
+                <div class="tier-card tier-card--featured fade-in">
+                    <h3 class="tier-card__name">Team</h3>
+                    <p class="tier-card__desc">For small teams and agencies</p>
+                    <ul class="tier-card__features">
+                        <li>Everything in Personal</li>
+                        <li>Share with up to 10 team members</li>
+                        <li>Use in client deliverables</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <a href="#products" class="btn btn--primary btn--sm">Grab the Pro Bundle</a>
+                </div>
+                <div class="tier-card fade-in">
+                    <h3 class="tier-card__name">Enterprise</h3>
+                    <p class="tier-card__desc">For large teams and SaaS products</p>
+                    <ul class="tier-card__features">
+                        <li>Everything in Team</li>
+                        <li>Unlimited team members</li>
+                        <li>Embed in commercial SaaS</li>
+                        <li>Dedicated support channel</li>
+                    </ul>
+                    <a href="mailto:support@codevault.dev" class="btn btn--secondary btn--sm">Contact us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter-section" id="newsletter">
+        <div class="container">
+            <div class="newsletter-box fade-in">
+                <h2 class="newsletter-box__title">Stay in the loop</h2>
+                <p class="newsletter-box__desc">Get notified when we ship new tools. No spam, just releases.</p>
+                <form class="newsletter-form" action="https://app.convertkit.com/forms/PLACEHOLDER/subscriptions" method="post" onsubmit="return false;">
+                    <input type="email" class="newsletter-form__input" placeholder="you@example.com" required aria-label="Email address">
+                    <button type="submit" class="newsletter-form__btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Companion App -->
+    <section class="app-section" id="app">
+        <div class="container">
+            <div class="app-promo fade-in">
+                <div class="app-promo__content">
+                    <span class="app-promo__badge">ANDROID APP</span>
+                    <h2 class="app-promo__title">SEO Toolkit Mobile</h2>
+                    <p class="app-promo__desc">Take your SEO toolkit on the go. Dashboard, community templates, daily challenges, and streak rewards &mdash; all in a dark-themed Material&nbsp;3 interface.</p>
+                    <ul class="app-promo__features">
+                        <li>SEO analysis dashboard with live metrics</li>
+                        <li>Keyword tools, meta tag generators, sitemap builders</li>
+                        <li>Community sharing &amp; daily challenges</li>
+                        <li>Premium tools via in-app purchase ($0.99&ndash;$4.99)</li>
+                    </ul>
+                    <div class="app-promo__actions">
+                        <a href="https://play.google.com/store/apps/details?id=com.codevault.seotoolkit" class="btn btn--primary">Get on Google Play</a>
+                        <a href="https://github.com/codevault/seo-toolkit-android" class="btn btn--secondary">View Source</a>
+                    </div>
+                </div>
+                <div class="app-promo__visual">
+                    <div class="app-mockup" style="--app-color: #00FF88">
+                        <div class="app-mockup__screen">
+                            <div class="app-mockup__header">SEO Toolkit</div>
+                            <div class="app-mockup__tabs">
+                                <span class="app-mockup__tab app-mockup__tab--active">Analyzer</span>
+                                <span class="app-mockup__tab">Tools</span>
+                                <span class="app-mockup__tab">Community</span>
+                                <span class="app-mockup__tab">Store</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section__heading">Got questions?</h2>
+            <p class="section__subheading">We got answers.</p>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Do these tools require any pip packages?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Nope. Every tool uses Python&#x27;s standard library only. No pip install, no virtualenv, no dependency hell. Just run it.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I integrate these into my CI/CD pipeline?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Absolutely. Every tool has a CLI with argparse, supports JSON output, and exits with proper status codes. Drop them into GitHub Actions, GitLab CI, or any pipeline.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do I get my download after purchase?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Instant download after payment. You&#x27;ll get a .zip with the tool, README, examples, and a LICENSE file.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I use these tools for client projects?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Yes &mdash; MIT license. Use them for your own sites, client work, or inside your SaaS. Just don&#x27;t resell the tools themselves.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What if a tool doesn&#x27;t work as described?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Reach out and we&#x27;ll make it right. If we can&#x27;t fix it, you get a full refund. No questions asked.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__brand">CodeVault</p>
+            <p class="footer__tagline">Ship faster. Build smarter.</p>
+            <nav class="footer__links" aria-label="Other stores">
+                <a href="../email-arsenal/storefront/index.html" class="footer__link">Email Arsenal</a>
+                <a href="../form-forge/storefront/index.html" class="footer__link">Form Forge</a>
+                <a href="../api-launchpad/storefront/index.html" class="footer__link">API Launchpad</a>
+                <a href="../deploy-kit/storefront/index.html" class="footer__link">Deploy Kit</a>
+                <a href="../auth-vault/storefront/index.html" class="footer__link">Auth Vault</a>
+                <a href="../saas-starter/storefront/index.html" class="footer__link">SaaS Starter</a>
+                <a href="../analytics-hub/storefront/index.html" class="footer__link">Analytics Hub</a>
+                <a href="../payment-stack/storefront/index.html" class="footer__link">Payment Stack</a>
+                <a href="../ai-toolkit/storefront/index.html" class="footer__link">AI Toolkit</a>
+                <a href="../security-kit/storefront/index.html" class="footer__link">Security Kit</a>
+                <a href="../landing-lab/storefront/index.html" class="footer__link">Landing Lab</a>
+                <a href="../automation-hub/storefront/index.html" class="footer__link">Automation Hub</a>
+            </nav>
+            <p class="footer__copy">&copy; 2026 CodeVault. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

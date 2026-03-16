@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Retry Logic — Demo | Payment Stack</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#76FF03}.header .back{color:#76FF03;text-decoration:none;font-size:.85rem}
+  .container{max-width:880px;margin:0 auto;padding:28px 20px}
+  h2{font-size:1.5rem;margin-bottom:6px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+  @media(max-width:600px){.grid2{grid-template-columns:1fr}}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#76FF03;margin-bottom:14px}
+  label{display:block;font-size:.8rem;color:#8899aa;margin-bottom:4px}
+  input,select{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:8px 10px;font-size:.88rem;margin-bottom:12px;outline:none;transition:border-color .2s}
+  input:focus,select:focus{border-color:#76FF03}
+  .btn{padding:11px 18px;border:none;border-radius:8px;font-size:.92rem;font-weight:600;cursor:pointer;background:#76FF03;color:#0A0E1A;transition:all .2s;width:100%}
+  .btn:hover{background:#8fff1a}
+  .chart-wrap{position:relative;height:200px;margin-top:12px}
+  canvas{width:100%!important;max-width:100%}
+  .retry-timeline{margin-top:6px}
+  .retry-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:6px;margin-bottom:6px;font-size:.83rem;transition:all .3s}
+  .retry-item.pending{background:#111827;color:#8899aa}
+  .retry-item.running{background:rgba(255,171,0,.1);border:1px solid rgba(255,171,0,.25);color:#ffab00}
+  .retry-item.success{background:rgba(118,255,3,.1);border:1px solid rgba(118,255,3,.25);color:#76FF03}
+  .retry-item.fail{background:rgba(255,60,60,.08);border:1px solid rgba(255,60,60,.2);color:#ff6060}
+  .retry-icon{font-size:1rem;width:22px;text-align:center}
+  .retry-info{flex:1}
+  .retry-time{color:#8899aa;font-size:.75rem}
+  .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+  .stat{background:#060a12;border:1px solid #1e2a3a;border-radius:8px;padding:12px;text-align:center}
+  .stat-val{font-size:1.4rem;font-weight:700;color:#76FF03}
+  .stat-label{font-size:.72rem;color:#8899aa;margin-top:3px}
+  .cta-bar{background:linear-gradient(135deg,#0d1321,#111827);border:1px solid #76FF03;border-radius:12px;padding:20px;text-align:center;margin-top:18px}
+  .cta-bar p{color:#8899aa;font-size:.85rem;margin-bottom:12px;margin-top:6px}
+  .cta-btn{display:inline-block;background:#76FF03;color:#0A0E1A;padding:12px 26px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s}
+  .cta-btn:hover{background:#8fff1a;transform:translateY(-2px)}
+  .footer-note{text-align:center;color:#445566;font-size:.77rem;margin-top:16px;padding-top:12px;border-top:1px solid #1e2a3a}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>⚡ Payment Stack — Payment Retry Logic Demo</h1>
+  <a class="back" href="../index.html">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>Payment Retry Strategy Visualizer</h2>
+  <p class="subtitle">Configure retry strategies with exponential backoff, jitter, and failure thresholds. Watch retries execute in real time.</p>
+  <div class="grid2">
+    <div class="panel">
+      <h3>⚙ Strategy Configuration</h3>
+      <label>Max Retries</label>
+      <input id="maxRetries" type="number" value="5" min="1" max="10">
+      <label>Initial Delay (seconds)</label>
+      <input id="initDelay" type="number" value="2" min="1" max="30">
+      <label>Backoff Multiplier</label>
+      <input id="multiplier" type="number" value="2" min="1" max="5" step="0.5">
+      <label>Max Delay (seconds)</label>
+      <input id="maxDelay" type="number" value="60" min="5" max="300">
+      <label>Jitter (%)</label>
+      <input id="jitter" type="number" value="20" min="0" max="50">
+      <label>Failure Simulation</label>
+      <select id="scenario">
+        <option value="recover3">Recovers on attempt 3</option>
+        <option value="recover1">Recovers on attempt 1 (first retry)</option>
+        <option value="never">All retries fail</option>
+        <option value="random">Random failure (~40%)</option>
+      </select>
+      <button class="btn" onclick="runSimulation()">▶ Run Simulation</button>
+    </div>
+    <div class="panel">
+      <h3>📊 Backoff Schedule</h3>
+      <div style="background:#060a12;border:1px solid #1e2a3a;border-radius:8px;padding:12px" id="scheduleTable">
+        <div style="color:#445566;text-align:center;padding:20px">Configure and run simulation</div>
+      </div>
+      <div class="stats-grid" id="statsGrid" style="display:none">
+        <div class="stat"><div class="stat-val" id="statAttempts">—</div><div class="stat-label">Attempts</div></div>
+        <div class="stat"><div class="stat-val" id="statDelay">—</div><div class="stat-label">Total Wait</div></div>
+        <div class="stat"><div class="stat-val" id="statResult">—</div><div class="stat-label">Outcome</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>🔁 Retry Execution Timeline</h3>
+    <div id="timeline"><div style="color:#445566;padding:20px;text-align:center">Press "Run Simulation" to see retry timeline</div></div>
+  </div>
+  <div class="cta-bar">
+    <h3>Get the Full Payment Retry Logic Tool</h3>
+    <p>Python module with Stripe webhook integration, smart decline codes (retry vs. permanent), email dunning, and metrics collection.</p>
+    <a class="cta-btn" href="https://buy.stripe.com/aFaaEX7mL4GG4d49CpgjJ1q">Buy Full Version — $29.00</a>
+    <button class="crypto-pay-btn" data-product-slug="payment-retry-logic" data-store-slug="payment-stack" data-product-name="Payment Retry Logic" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+let running = false;
+const delay = ms => new Promise(r => setTimeout(r, ms));
+
+function computeSchedule() {
+  const max = parseInt(document.getElementById('maxRetries').value)||5;
+  const init = parseFloat(document.getElementById('initDelay').value)||2;
+  const mult = parseFloat(document.getElementById('multiplier').value)||2;
+  const maxD = parseFloat(document.getElementById('maxDelay').value)||60;
+  const jitter = parseFloat(document.getElementById('jitter').value)||20;
+  const schedule = [];
+  for(let i=0;i<max;i++) {
+    const base = Math.min(init * Math.pow(mult, i), maxD);
+    const j = base * (jitter/100) * (Math.random()*2-1);
+    schedule.push(Math.max(0.5, base+j));
+  }
+  return schedule;
+}
+
+function renderSchedule(schedule) {
+  const max = Math.max(...schedule);
+  const rows = schedule.map((d,i) => {
+    const pct = (d/max*100).toFixed(0);
+    return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:.8rem">
+      <span style="color:#8899aa;width:70px">Attempt ${i+1}</span>
+      <div style="flex:1;background:#1e2a3a;border-radius:3px;height:12px"><div style="background:#76FF03;width:${pct}%;height:100%;border-radius:3px;transition:width .3s"></div></div>
+      <span style="color:#76FF03;width:55px;text-align:right">${d.toFixed(1)}s</span>
+    </div>`;
+  }).join('');
+  document.getElementById('scheduleTable').innerHTML = rows;
+}
+
+async function runSimulation() {
+  if(running) return;
+  running = true;
+  const schedule = computeSchedule();
+  renderSchedule(schedule);
+  const scenario = document.getElementById('scenario').value;
+  const max = schedule.length;
+  const timeline = document.getElementById('timeline');
+  
+  // Determine which attempt succeeds
+  let successAt = -1;
+  if(scenario === 'recover3') successAt = 2;
+  else if(scenario === 'recover1') successAt = 0;
+  else if(scenario === 'never') successAt = -1;
+  else successAt = Math.floor(Math.random()*max) < Math.ceil(max*.6) ? Math.floor(Math.random()*max) : -1;
+
+  // Build items
+  const items = schedule.map((d,i) => ({delay:d, willSucceed: i===successAt}));
+  timeline.innerHTML = items.map((_,i)=>`
+    <div class="retry-item pending" id="ri${i}">
+      <div class="retry-icon">⏳</div>
+      <div class="retry-info">
+        <div>Attempt ${i+1}</div>
+        <div class="retry-time">Wait: ${schedule[i].toFixed(1)}s before retry</div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('statsGrid').style.display = 'grid';
+  let totalDelay = 0;
+  let finalResult = 'Failed';
+
+  // Initial charge (attempt 0 is the original)
+  const initItem = document.createElement('div');
+  initItem.className = 'retry-item running';
+  initItem.innerHTML = '<div class="retry-icon">💳</div><div class="retry-info"><div>Initial charge attempt</div><div class="retry-time">Processing...</div></div>';
+  timeline.insertBefore(initItem, timeline.firstChild);
+  await delay(600);
+  initItem.className = 'retry-item fail';
+  initItem.querySelector('.retry-icon').textContent = '✗';
+  initItem.querySelector('.retry-time').textContent = 'Declined — card_declined';
+
+  for(let i=0;i<items.length;i++) {
+    const el = document.getElementById('ri'+i);
+    el.className = 'retry-item running';
+    el.querySelector('.retry-icon').textContent = '⏳';
+    document.getElementById('statAttempts').textContent = i+2;
+    totalDelay += items[i].delay;
+    document.getElementById('statDelay').textContent = `${totalDelay.toFixed(0)}s`;
+    await delay(700);
+    if(items[i].willSucceed) {
+      el.className = 'retry-item success';
+      el.querySelector('.retry-icon').textContent = '✓';
+      el.querySelector('.retry-time').textContent = `Succeeded after ${totalDelay.toFixed(0)}s total wait`;
+      finalResult = '✓ OK';
+      break;
+    } else {
+      el.className = 'retry-item fail';
+      el.querySelector('.retry-icon').textContent = '✗';
+      el.querySelector('.retry-time').textContent = i===items.length-1 ? 'Max retries exceeded — giving up' : 'Failed — will retry';
+    }
+  }
+  document.getElementById('statResult').textContent = finalResult;
+  running = false;
+}
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

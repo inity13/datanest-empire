@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Arsenal &mdash; CodeVault</title>
+    <link rel="canonical" href="https://email-arsenal.codevault.dev/">
+
+    <meta name="description" content="Production-ready email tools for indie hackers and developers. SMTP verification, warmup scheduling, DKIM validation, bounce handling, and more — all Python stdlib, zero dependencies.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Email Arsenal — CodeVault">
+    <meta property="og:description" content="Production-ready email tools for indie hackers and developers. SMTP verification, warmup scheduling, DKIM validation, bounce handling, and more.">
+    <meta property="og:site_name" content="CodeVault">
+    <meta property="og:url" content="https://email-arsenal.codevault.dev/">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Email Arsenal — CodeVault">
+    <meta name="twitter:description" content="Production-ready email tools for indie hackers and developers. SMTP verification, warmup scheduling, DKIM validation, bounce handling, and more.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F4E7;</text></svg>">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#FF3366">
+
+    <!-- Plausible Analytics -->
+    <script defer data-domain="email-arsenal.codevault.dev" src="https://plausible.io/js/script.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Email Arsenal",
+      "description": "Python email marketing tools for indie hackers and solo developers.",
+      "url": "https://email-arsenal.codevault.dev/",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any (Python 3.10+)",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "USD",
+        "lowPrice": "4.99",
+        "highPrice": "39.99",
+        "offerCount": "12"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "CodeVault",
+        "url": "https://codevault.dev"
+      }
+    }
+    </script>
+</head>
+<body>
+    <nav class="cross-nav" aria-label="CodeVault stores">
+        <div class="cross-nav__inner">
+            <span class="cross-nav__brand">CodeVault</span>
+            <a href="#" class="cross-nav__link cross-nav__link--active">Email Arsenal</a>
+            <a href="../seo-toolkit/storefront/index.html" class="cross-nav__link">SEO Toolkit</a>
+            <a href="../form-forge/storefront/index.html" class="cross-nav__link">Form Forge</a>
+            <a href="../api-launchpad/storefront/index.html" class="cross-nav__link">API Launchpad</a>
+            <a href="../deploy-kit/storefront/index.html" class="cross-nav__link">Deploy Kit</a>
+            <a href="../auth-vault/storefront/index.html" class="cross-nav__link">Auth Vault</a>
+            <a href="../saas-starter/storefront/index.html" class="cross-nav__link">SaaS Starter</a>
+            <a href="../analytics-hub/storefront/index.html" class="cross-nav__link">Analytics Hub</a>
+            <a href="../payment-stack/storefront/index.html" class="cross-nav__link">Payment Stack</a>
+            <a href="../ai-toolkit/storefront/index.html" class="cross-nav__link">AI Toolkit</a>
+            <a href="../security-kit/storefront/index.html" class="cross-nav__link">Security Kit</a>
+            <a href="../landing-lab/storefront/index.html" class="cross-nav__link">Landing Lab</a>
+            <a href="../automation-hub/storefront/index.html" class="cross-nav__link">Automation Hub</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="top">
+        <div class="container">
+            <h1 class="hero__title glitch" data-text="Email Arsenal">Email Arsenal</h1>
+            <p class="hero__subtitle">Every email tool you need. Zero dependencies.</p>
+            <div class="hero__cta-row">
+                <a href="#products" class="btn btn--primary">Browse tools</a>
+                <a href="#faq" class="btn btn--secondary">How it works</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Products Section -->
+    <section class="section" id="products">
+        <div class="container">
+            <h2 class="section__heading">The toolkit</h2>
+            <p class="section__subheading">Production-ready Python scripts. No pip installs. No fluff.</p>
+
+            <div class="filter-bar">
+                <span class="filter-bar__label">Filter:</span>
+                <button class="filter-tag active" data-filter="all">All</button>
+                <button class="filter-tag" data-filter="bundle">bundle</button>
+                <button class="filter-tag" data-filter="verification">verification</button>
+                <button class="filter-tag" data-filter="smtp">smtp</button>
+                <button class="filter-tag" data-filter="deliverability">deliverability</button>
+                <button class="filter-tag" data-filter="html">html</button>
+                <button class="filter-tag" data-filter="templates">templates</button>
+                <button class="filter-tag" data-filter="dns">dns</button>
+                <button class="filter-tag" data-filter="authentication">authentication</button>
+                <button class="filter-tag" data-filter="list-management">list-management</button>
+                <button class="filter-tag" data-filter="analytics">analytics</button>
+                <button class="filter-tag" data-filter="tool">tool</button>
+                <select class="sort-select" aria-label="Sort products">
+                    <option value="default">Sort: Featured</option>
+                    <option value="price-asc">Price: Low &rarr; High</option>
+                    <option value="price-desc">Price: High &rarr; Low</option>
+                </select>
+            </div>
+
+            <div class="product-grid">
+
+        <!-- ===== BUNDLES ===== -->
+        <article class="product-card product-card--bundle fade-in"
+                 data-tags="bundle,starter"
+                 data-price="1999"
+                 data-slug="email-arsenal-starter-bundle">
+            <div class="product-card__inner">
+                <div>
+                    <span class="bundle-badge">BUNDLE DEAL</span>
+                    <h3 class="product-card__name" style="margin-top: 12px">Email Arsenal Starter Bundle</h3>
+                    <p class="product-card__desc">The essential email toolkit &mdash; Email Verifier, Signature Generator, Bounce Handler, and List Hygiene Tool in one bundle. Save 50%.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">bundle</span>
+                        <span class="product-card__tag">starter</span>
+                    </div>
+                    <ul class="product-card__bundle-list">
+                        <li>Email Verifier</li>
+                        <li>Signature Generator</li>
+                        <li>Bounce Handler</li>
+                        <li>List Hygiene Tool</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$19.99</p>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card"
+                           data-stripe-link="https://buy.stripe.com/placeholder_starter_bundle"
+                           data-product="email-arsenal-starter-bundle">
+                            Grab This Bundle
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Email Arsenal Starter Bundle"
+                                data-crypto-price="1999">
+                            Pay with Crypto ($15.99)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="product-card product-card--bundle fade-in"
+                 data-tags="bundle,pro"
+                 data-price="3999"
+                 data-slug="email-arsenal-pro-bundle">
+            <div class="product-card__inner">
+                <div>
+                    <span class="bundle-badge">BUNDLE DEAL</span>
+                    <h3 class="product-card__name" style="margin-top: 12px">Email Arsenal Pro Bundle</h3>
+                    <p class="product-card__desc">Every tool in the Email Arsenal &mdash; all 10 products at a massive discount. The complete email infrastructure toolkit.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">bundle</span>
+                        <span class="product-card__tag">pro</span>
+                    </div>
+                    <ul class="product-card__bundle-list">
+                        <li>Email Verifier</li>
+                        <li>Warmup Scheduler</li>
+                        <li>Signature Generator</li>
+                        <li>Transactional Templates</li>
+                        <li>Deliverability Checker</li>
+                        <li>Bounce Handler</li>
+                        <li>List Hygiene Tool</li>
+                        <li>DKIM Validator</li>
+                        <li>Email Preview Renderer</li>
+                        <li>Newsletter Analytics</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$39.99</p>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card"
+                           data-stripe-link="https://buy.stripe.com/placeholder_pro_bundle"
+                           data-product="email-arsenal-pro-bundle">
+                            Grab This Bundle
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Email Arsenal Pro Bundle"
+                                data-crypto-price="3999">
+                            Pay with Crypto ($31.99)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ===== INDIVIDUAL PRODUCTS ===== -->
+        <article class="product-card fade-in"
+                 data-tags="verification,smtp,tool"
+                 data-price="999"
+                 data-slug="email-verifier">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Email Verifier</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python script that verifies email addresses via SMTP handshake, MX record lookup, and syntax validation. Catch bad emails before they bounce.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">verification</span>
+                <span class="product-card__tag">smtp</span>
+                <span class="product-card__tag">tool</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_email_verifier"
+                   data-product="email-verifier">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Email Verifier"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+                <a href="preview-email-verifier.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="warmup,deliverability,tool"
+                 data-price="999"
+                 data-slug="warmup-scheduler">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Warmup Scheduler</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python tool to schedule and manage email warmup campaigns with gradual volume increase. Protect your sender reputation from day one.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">warmup</span>
+                <span class="product-card__tag">deliverability</span>
+                <span class="product-card__tag">tool</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_warmup_scheduler"
+                   data-product="warmup-scheduler">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Warmup Scheduler"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+                <a href="preview-warmup-scheduler.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="signature,html,tool"
+                 data-price="499"
+                 data-slug="signature-generator">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Signature Generator</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Python script that generates professional HTML email signatures from templates. Consistent branding across your whole team.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">signature</span>
+                <span class="product-card__tag">html</span>
+                <span class="product-card__tag">tool</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_signature_generator"
+                   data-product="signature-generator">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Signature Generator"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+                <a href="preview-signature-generator.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="templates,html,transactional"
+                 data-price="999"
+                 data-slug="transactional-templates">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Transactional Templates</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Collection of responsive HTML email templates for transactional emails &mdash; welcome, password reset, invoice, shipping, and more. Jinja-style placeholders.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">templates</span>
+                <span class="product-card__tag">html</span>
+                <span class="product-card__tag">transactional</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_transactional_templates"
+                   data-product="transactional-templates">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Transactional Templates"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+                <a href="preview-transactional-templates.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="deliverability,dns,tool"
+                 data-price="999"
+                 data-slug="deliverability-checker">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Deliverability Checker</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python tool to check SPF, DKIM, and DMARC records and diagnose deliverability issues. Know why your emails land in spam.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">deliverability</span>
+                <span class="product-card__tag">dns</span>
+                <span class="product-card__tag">tool</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_deliverability_checker"
+                   data-product="deliverability-checker">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Deliverability Checker"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+                <a href="preview-deliverability-checker.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="bounce,list-management,tool"
+                 data-price="499"
+                 data-slug="bounce-handler">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Bounce Handler</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Python script to parse and categorize email bounces (hard/soft) and automatically clean your mailing lists.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">bounce</span>
+                <span class="product-card__tag">list-management</span>
+                <span class="product-card__tag">tool</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_bounce_handler"
+                   data-product="bounce-handler">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Bounce Handler"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+                <a href="preview-bounce-handler.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="list-management,hygiene,tool"
+                 data-price="499"
+                 data-slug="list-hygiene-tool">
+            <div class="product-card__header">
+                <h3 class="product-card__name">List Hygiene Tool</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Python script to clean email lists: dedup, validate format, remove role addresses, and check for disposable domains.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">list-management</span>
+                <span class="product-card__tag">hygiene</span>
+                <span class="product-card__tag">tool</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_list_hygiene_tool"
+                   data-product="list-hygiene-tool">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="List Hygiene Tool"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+                <a href="preview-list-hygiene-tool.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="dkim,authentication,tool"
+                 data-price="499"
+                 data-slug="dkim-validator">
+            <div class="product-card__header">
+                <h3 class="product-card__name">DKIM Validator</h3>
+                <span class="product-card__price">$4.99</span>
+            </div>
+            <p class="product-card__desc">Python tool to generate and validate DKIM signatures and DNS records. Debug authentication failures before they tank your deliverability.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">dkim</span>
+                <span class="product-card__tag">authentication</span>
+                <span class="product-card__tag">tool</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_dkim_validator"
+                   data-product="dkim-validator">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="DKIM Validator"
+                        data-crypto-price="499">
+                    Pay with Crypto ($3.99)
+                </button>
+                <a href="preview-dkim-validator.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="preview,rendering,tool"
+                 data-price="999"
+                 data-slug="email-preview-renderer">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Email Preview Renderer</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python tool to render HTML emails and check rendering compatibility across different email clients. Catch layout bugs before you send.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">preview</span>
+                <span class="product-card__tag">rendering</span>
+                <span class="product-card__tag">tool</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_email_preview_renderer"
+                   data-product="email-preview-renderer">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Email Preview Renderer"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+                <a href="preview-email-preview-renderer.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+        <article class="product-card fade-in"
+                 data-tags="analytics,newsletter,tool"
+                 data-price="999"
+                 data-slug="newsletter-analytics">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Newsletter Analytics</h3>
+                <span class="product-card__price">$9.99</span>
+            </div>
+            <p class="product-card__desc">Python tool to track and analyze newsletter performance metrics &mdash; open rates, click-through rates, bounces, and subscriber engagement.</p>
+            <div class="product-card__tags">
+                <span class="product-card__tag">analytics</span>
+                <span class="product-card__tag">newsletter</span>
+                <span class="product-card__tag">tool</span>
+            </div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card"
+                   data-stripe-link="https://buy.stripe.com/placeholder_newsletter_analytics"
+                   data-product="newsletter-analytics">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Newsletter Analytics"
+                        data-crypto-price="999">
+                    Pay with Crypto ($7.99)
+                </button>
+                <a href="preview-newsletter-analytics.html" class="product-card__preview">Preview &rarr;</a>
+            </div>
+        </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Signals -->
+    <section class="trust-section" id="trust">
+        <div class="container">
+            <h2 class="section__heading">Why devs grab from here</h2>
+            <p class="section__subheading">No fluff &mdash; here&rsquo;s why this store ships</p>
+            <div class="trust-grid">
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x26A1;</div>
+                    <p class="trust-card__text">
+                        <strong>Instant digital download</strong>
+                        Pay, unzip, run. Your tools are ready in seconds.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x1F512;</div>
+                    <p class="trust-card__text">
+                        <strong>MIT License &mdash; use anywhere</strong>
+                        SaaS, client work, side projects. No restrictions.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x1F48E;</div>
+                    <p class="trust-card__text">
+                        <strong>Python stdlib only &mdash; zero pip installs</strong>
+                        No virtual envs, no requirements.txt, no dependency hell.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#x1F6E0;&#xFE0F;</div>
+                    <p class="trust-card__text">
+                        <strong>Battle-tested by indie hackers</strong>
+                        Built for devs who ship fast and break nothing.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Companion App -->
+    <section class="app-section" id="app">
+        <div class="container">
+            <div class="app-promo fade-in">
+                <div class="app-promo__content">
+                    <span class="app-promo__badge">ANDROID APP</span>
+                    <h2 class="app-promo__title">Email Arsenal Mobile</h2>
+                    <p class="app-promo__desc">Take your email toolkit on the go. Dashboard, community templates, daily challenges, and streak rewards &mdash; all in a dark-themed Material&nbsp;3 interface.</p>
+                    <ul class="app-promo__features">
+                        <li>Email campaign builder with deliverability tracking</li>
+                        <li>Transactional email templates and signature generators</li>
+                        <li>Community sharing &amp; daily challenges</li>
+                        <li>Premium tools via in-app purchase ($0.99&ndash;$4.99)</li>
+                    </ul>
+                    <div class="app-promo__actions">
+                        <a href="https://play.google.com/store/apps/details?id=com.codevault.emailarsenal" class="btn btn--primary">Get on Google Play</a>
+                        <a href="https://github.com/codevault/email-arsenal-android" class="btn btn--secondary">View Source</a>
+                    </div>
+                </div>
+                <div class="app-promo__visual">
+                    <div class="app-mockup" style="--app-color: #FF3366">
+                        <div class="app-mockup__screen">
+                            <div class="app-mockup__header">Email Arsenal</div>
+                            <div class="app-mockup__tabs">
+                                <span class="app-mockup__tab app-mockup__tab--active">Campaigns</span>
+                                <span class="app-mockup__tab">Templates</span>
+                                <span class="app-mockup__tab">Community</span>
+                                <span class="app-mockup__tab">Store</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section__heading">Got questions?</h2>
+            <p class="section__subheading">Straight answers. No runaround.</p>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Do these tools require any pip packages?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Nope. Every tool runs on Python 3.10+ stdlib only. No virtual environments, no requirements.txt, no dependency hell.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I use these in my SaaS product?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Absolutely. MIT license &mdash; use them in personal projects, client work, SaaS products, whatever. Just don&rsquo;t resell the tools as-is.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do I get my download?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Instant download after payment. Unzip, read the README, run the script.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What Python version do I need?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Python 3.10 or newer. We use modern syntax like match statements, type hints, and the walrus operator where it makes sense.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What&rsquo;s the difference between bundles and individual tools?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Bundles give you multiple tools at a discount. The Starter Bundle covers the essentials, the Pro Bundle gets you everything.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I get a refund?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">If a tool doesn&rsquo;t work as described, absolutely. Email <a href="mailto:support@codevault.dev">support@codevault.dev</a> and we&rsquo;ll sort it out.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__brand">CodeVault</p>
+            <p class="footer__tagline">Ship faster. Build smarter.</p>
+            <nav class="footer__links" aria-label="Other stores">
+                <a href="../seo-toolkit/storefront/index.html" class="footer__link">SEO Toolkit</a>
+                <a href="../form-forge/storefront/index.html" class="footer__link">Form Forge</a>
+                <a href="../api-launchpad/storefront/index.html" class="footer__link">API Launchpad</a>
+                <a href="../deploy-kit/storefront/index.html" class="footer__link">Deploy Kit</a>
+                <a href="../auth-vault/storefront/index.html" class="footer__link">Auth Vault</a>
+                <a href="../saas-starter/storefront/index.html" class="footer__link">SaaS Starter</a>
+                <a href="../analytics-hub/storefront/index.html" class="footer__link">Analytics Hub</a>
+                <a href="../payment-stack/storefront/index.html" class="footer__link">Payment Stack</a>
+                <a href="../ai-toolkit/storefront/index.html" class="footer__link">AI Toolkit</a>
+                <a href="../security-kit/storefront/index.html" class="footer__link">Security Kit</a>
+                <a href="../landing-lab/storefront/index.html" class="footer__link">Landing Lab</a>
+                <a href="../automation-hub/storefront/index.html" class="footer__link">Automation Hub</a>
+            </nav>
+            <p class="footer__copy">&copy; 2026 CodeVault. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

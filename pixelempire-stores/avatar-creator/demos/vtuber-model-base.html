@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VTuber Model Base Pack | Pixel Empire Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#0a0a0f; color:#e0e0e0; font-family:'Inter', system-ui, sans-serif; line-height:1.6; }
+    h1,h2,h3 { font-family:'Press Start 2P', 'Inter', system-ui, sans-serif; letter-spacing:1px; }
+    a { color:#eab308; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .container { max-width:960px; margin:0 auto; padding:24px 16px; }
+    .btn { display:inline-block; padding:12px 28px; background:#eab308; color:#000;
+            font-weight:700; border:none; border-radius:6px; cursor:pointer; font-size:14px; }
+    .btn:hover { opacity:0.85; text-decoration:none; }
+    .price { font-size:22px; font-weight:700; color:#eab308; }
+    .muted { color:#888; font-size:13px; }
+    .card { background:#14141f; border-radius:10px; padding:16px; }
+    canvas { display:block; border-radius:8px; image-rendering:pixelated; }
+    .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+.crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+    </style>
+</head>
+<body>
+<div class="container">
+
+<h1 style="font-size:16px;margin-bottom:8px;color:#eab308">VTuber Model Base Pack</h1>
+<p class="muted" style="margin-bottom:12px">5 VTuber-ready character bases. PSD layers for rigging in Live2D. Simple models perfect for beginners.</p>
+<input id="search" type="text" placeholder="Search items..."
+  style="width:100%;padding:10px;margin-bottom:16px;background:#14141f;color:#e0e0e0;border:1px solid #333;border-radius:6px;font-size:14px">
+<div style="display:flex;gap:8px;align-items:center;margin-bottom:16px">
+  <span class="price">$4.99</span>
+  <a href="https://buy.stripe.com/4gMdR9fTh0qq8tk6qdgjH3T" class="btn" target="_blank" rel="noopener">Buy Now</a>
+<button class="crypto-pay-btn" data-product-slug="vtuber-model-base" data-store-slug="avatar-creator" data-product-name="VTuber Model Base Pack" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+
+</div>
+<div id="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px">
+
+<div class="card grid-item" data-name="item-0">
+  <div style="width:100%;height:100px;background:rgb(139,36,173);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Item 1</h3>
+  <p class="muted">5 VTuber-ready character bases. PSD layers for rigging in Li...</p>
+</div>
+<div class="card grid-item" data-name="item-1">
+  <div style="width:100%;height:100px;background:rgb(89,51,16);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Item 2</h3>
+  <p class="muted">5 VTuber-ready character bases. PSD layers for rigging in Li...</p>
+</div>
+<div class="card grid-item" data-name="item-2">
+  <div style="width:100%;height:100px;background:rgb(139,36,173);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Item 3</h3>
+  <p class="muted">5 VTuber-ready character bases. PSD layers for rigging in Li...</p>
+</div>
+<div class="card grid-item" data-name="item-3">
+  <div style="width:100%;height:100px;background:rgb(89,51,16);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Item 4</h3>
+  <p class="muted">5 VTuber-ready character bases. PSD layers for rigging in Li...</p>
+</div>
+<div class="card grid-item" data-name="item-4">
+  <div style="width:100%;height:100px;background:rgb(139,36,173);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Item 5</h3>
+  <p class="muted">5 VTuber-ready character bases. PSD layers for rigging in Li...</p>
+</div>
+<div class="card grid-item" data-name="item-5">
+  <div style="width:100%;height:100px;background:rgb(89,51,16);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Item 6</h3>
+  <p class="muted">5 VTuber-ready character bases. PSD layers for rigging in Li...</p>
+</div>
+<div class="card grid-item" data-name="item-6">
+  <div style="width:100%;height:100px;background:rgb(139,36,173);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Item 7</h3>
+  <p class="muted">5 VTuber-ready character bases. PSD layers for rigging in Li...</p>
+</div>
+<div class="card grid-item" data-name="item-7">
+  <div style="width:100%;height:100px;background:rgb(89,51,16);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Item 8</h3>
+  <p class="muted">5 VTuber-ready character bases. PSD layers for rigging in Li...</p>
+</div>
+<div class="card grid-item" data-name="item-8">
+  <div style="width:100%;height:100px;background:rgb(139,36,173);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Item 9</h3>
+  <p class="muted">5 VTuber-ready character bases. PSD layers for rigging in Li...</p>
+</div>
+</div>
+
+</div>
+<script>
+document.getElementById('search').addEventListener('input',function(){
+  var q=this.value.toLowerCase();
+  document.querySelectorAll('.grid-item').forEach(function(el){
+    el.style.display=el.getAttribute('data-name').includes(q)?'':'none';
+  });
+});
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Backup Automation — Interactive Demo | Deploy Kit</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#00BCD4;--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;} .badge{background:var(--accent);color:#000;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1000px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+  @media(max-width:700px){.grid{grid-template-columns:1fr;}}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+  select,input{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.55rem .8rem;border-radius:8px;font-size:.88rem;margin-bottom:.9rem;}
+  select:focus,input:focus{outline:none;border-color:var(--accent);}
+  .checks{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.9rem;}
+  .checks label{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--text);text-transform:none;letter-spacing:0;margin:0;cursor:pointer;}
+  .checks input[type=checkbox]{width:auto;margin:0;}
+  .btn{display:block;width:100%;padding:.7rem;background:var(--accent);color:#000;border:none;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;}
+  .btn:hover{opacity:.85;}
+  .schedule-visual{display:flex;flex-direction:column;gap:.75rem;}
+  .schedule-row{display:flex;align-items:center;gap:.75rem;background:var(--surface2);border-radius:8px;padding:.75rem 1rem;}
+  .sched-type{font-size:.75rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;min-width:50px;text-align:center;}
+  .st-daily{background:rgba(0,188,212,.15);color:var(--accent);}
+  .st-weekly{background:rgba(0,255,136,.1);color:var(--green);}
+  .st-monthly{background:rgba(157,78,221,.15);color:#cba6f7;}
+  .sched-dots{display:flex;gap:.2rem;flex:1;justify-content:center;}
+  .dot{width:14px;height:14px;border-radius:3px;background:var(--surface);border:1px solid var(--border);}
+  .dot.active{background:var(--accent);border-color:var(--accent);}
+  .dot.semi{background:rgba(0,188,212,.3);border-color:var(--accent);}
+  .sched-lbl{font-size:.78rem;color:var(--muted);min-width:70px;text-align:right;}
+  .retention-bar{margin-top:1rem;}
+  .ret-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.5rem;font-size:.82rem;}
+  .ret-bar-outer{flex:1;background:var(--surface2);border-radius:4px;height:14px;overflow:hidden;}
+  .ret-bar-inner{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),#00e5ff);}
+  .ret-lbl{min-width:100px;color:var(--muted);}
+  .ret-count{min-width:50px;text-align:right;color:var(--accent);font-weight:600;}
+  .script-panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:1.5rem;}
+  .s-header{background:var(--surface2);padding:.65rem 1.25rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);}
+  .s-header span{font-size:.78rem;font-family:monospace;color:var(--muted);}
+  .copy-btn{background:transparent;border:1px solid var(--border);color:var(--accent);padding:.25rem .6rem;border-radius:5px;font-size:.72rem;cursor:pointer;}
+  .copy-btn:hover{background:var(--accent);color:#000;}
+  pre{padding:1rem;font-family:'Courier New',monospace;font-size:.75rem;line-height:1.6;overflow-x:auto;color:#cdd6f4;max-height:350px;overflow-y:auto;}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a2040);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#000;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">💾</span>
+  <h1>Backup Automation</h1>
+  <span>Interactive Demo</span>
+  <span class="badge">Deploy Kit</span>
+</header>
+<div class="container">
+  <h2>Backup Schedule Planner</h2>
+  <p class="subtitle">Configure your backup strategy — visualize the schedule and generate the automation script.</p>
+  <div class="grid">
+    <div class="panel">
+      <label>Backup Source</label>
+      <select id="source" onchange="update()">
+        <option value="postgres">PostgreSQL Database</option>
+        <option value="mysql">MySQL Database</option>
+        <option value="files">File System / Volumes</option>
+        <option value="redis">Redis Snapshot</option>
+        <option value="mongodb">MongoDB</option>
+      </select>
+      <label>Destination</label>
+      <select id="dest" onchange="update()">
+        <option value="s3">AWS S3</option>
+        <option value="gcs">Google Cloud Storage</option>
+        <option value="b2">Backblaze B2</option>
+        <option value="local">Local NAS / External</option>
+      </select>
+      <label>Backup Frequency</label>
+      <select id="freq" onchange="update()">
+        <option value="hourly">Hourly</option>
+        <option value="daily" selected>Daily</option>
+        <option value="weekly">Weekly</option>
+      </select>
+      <label>Backup Time</label>
+      <input type="time" id="backupTime" value="02:00" oninput="update()">
+      <label>Options</label>
+      <div class="checks">
+        <label><input type="checkbox" id="encrypt" checked> Encrypt backups (GPG)</label>
+        <label><input type="checkbox" id="compress" checked> Compress (gzip)</label>
+        <label><input type="checkbox" id="verify" checked> Verify backup integrity</label>
+        <label><input type="checkbox" id="notify"> Notify on failure (email/Slack)</label>
+        <label><input type="checkbox" id="prune"> Auto-prune old backups</label>
+      </div>
+      <button class="btn" onclick="update()">⚡ Update Plan</button>
+    </div>
+    <div>
+      <div class="panel">
+        <label>Retention Schedule</label>
+        <div class="schedule-visual" id="schedVis"></div>
+        <div class="retention-bar" id="retBar"></div>
+      </div>
+    </div>
+  </div>
+  <div class="script-panel">
+    <div class="s-header">
+      <span id="scriptFname">backup.sh</span>
+      <button class="copy-btn" onclick="copyScript()">Copy</button>
+    </div>
+    <pre id="scriptOut"></pre>
+  </div>
+  <div class="cta-box">
+    <h3>💾 Full Backup Automation Kit</h3>
+    <p>Includes incremental backups, cross-region replication, restore testing, S3 lifecycle policies, and monitoring dashboards.</p>
+    <a href="https://buy.stripe.com/dRmeVdePd4GGbFw15TgjJ0J" class="cta-btn">Buy Full Version — $12.99</a>
+    <button class="crypto-pay-btn" data-product-slug="backup-automation" data-store-slug="deploy-kit" data-product-name="Backup Automation" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+<script>
+function g(id){return document.getElementById(id).value;}
+function ch(id){return document.getElementById(id).checked;}
+
+function update(){
+  const src=g('source'),dest=g('dest'),freq=g('freq'),time=g('backupTime');
+  renderSchedule(freq);
+  renderScript(src,dest,freq,time);
+}
+
+function renderSchedule(freq){
+  const daily=freq==='daily'||freq==='hourly';
+  const weekly=true, monthly=true;
+
+  // 7-day row
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  let vis=`<div class="schedule-row">
+    <span class="sched-type st-daily">Daily</span>
+    <div class="sched-dots">${days.map(d=>`<div class="dot ${daily?'active':''}" title="${d}"></div>`).join('')}</div>
+    <span class="sched-lbl">${daily?'Every day':'Disabled'}</span>
+  </div>`;
+
+  vis+=`<div class="schedule-row">
+    <span class="sched-type st-weekly">Weekly</span>
+    <div class="sched-dots">${Array(4).fill(0).map((_,i)=>`<div class="dot active" title="Week ${i+1}"></div>`).join('')}</div>
+    <span class="sched-lbl">4 weeks kept</span>
+  </div>`;
+
+  vis+=`<div class="schedule-row">
+    <span class="sched-type st-monthly" style="font-size:.6rem">Monthly</span>
+    <div class="sched-dots">${Array(12).fill(0).map((_,i)=>`<div class="dot ${i<6?'active':'semi'}" title="Month ${i+1}"></div>`).join('')}</div>
+    <span class="sched-lbl">12 months kept</span>
+  </div>`;
+
+  document.getElementById('schedVis').innerHTML=vis;
+
+  // Retention bars
+  const counts=[{label:'Daily backups',n:7,max:30},{label:'Weekly backups',n:4,max:12},{label:'Monthly backups',n:12,max:12}];
+  document.getElementById('retBar').innerHTML=counts.map(c=>`
+    <div class="ret-row">
+      <span class="ret-lbl">${c.label}</span>
+      <div class="ret-bar-outer"><div class="ret-bar-inner" style="width:${c.n/c.max*100}%"></div></div>
+      <span class="ret-count">${c.n}</span>
+    </div>
+  `).join('');
+}
+
+function renderScript(src,dest,freq,time){
+  const [h,m]=time.split(':');
+  const cron=freq==='hourly'?`0 * * * *`:freq==='daily'?`${m} ${h} * * *`:`${m} ${h} * * 0`;
+
+  const destCmds={s3:'aws s3 cp "$BACKUP_FILE" "s3://\${BUCKET}/\${FILENAME}"',gcs:'gsutil cp "$BACKUP_FILE" "gs://\${BUCKET}/\${FILENAME}"',b2:'b2 upload-file "\${BUCKET}" "$BACKUP_FILE" "\${FILENAME}"',local:'cp "$BACKUP_FILE" "\${LOCAL_DEST}/\${FILENAME}"'};
+  const srcCmds={postgres:'pg_dump -Fc -h "\${DB_HOST}" -U "\${DB_USER}" "\${DB_NAME}" > "$BACKUP_FILE"',mysql:'mysqldump -h "\${DB_HOST}" -u "\${DB_USER}" -p"\${DB_PASS}" "\${DB_NAME}" | gzip > "$BACKUP_FILE"',files:'tar -czf "$BACKUP_FILE" "\${BACKUP_SRC_DIR}"',redis:'redis-cli -h "\${REDIS_HOST}" BGSAVE && cp "\${REDIS_DIR}/dump.rdb" "$BACKUP_FILE"',mongodb:'mongodump --uri="\${MONGO_URI}" --archive="$BACKUP_FILE" --gzip'};
+
+  let script=`#!/usr/bin/env bash\n# Generated by Deploy Kit — backup-automation\n# Source: ${src} | Dest: ${dest.toUpperCase()} | Freq: ${freq}\n\nset -euo pipefail\n\nBACKUP_DIR="/tmp/backups"\nFILENAME="${src}-\$(date +%Y%m%d_%H%M%S).backup"\n`;
+  if(ch('compress')&&src!=='mysql') script+=`FILENAME="${src}-\$(date +%Y%m%d_%H%M%S).backup.gz"\n`;
+  script+=`BACKUP_FILE="\${BACKUP_DIR}/\${FILENAME}"\nBUCKET="\${BACKUP_BUCKET:-my-app-backups}"\n\nmkdir -p "\$BACKUP_DIR"\n\n`;
+
+  script+=`# Step 1: Create backup\nlog() { echo "[\$(date '+%Y-%m-%d %H:%M:%S')] \$*"; }\nlog "Starting ${src} backup..."\n${srcCmds[src]}\nlog "Backup created: \$BACKUP_FILE (\$(du -sh "\$BACKUP_FILE" | cut -f1))"\n\n`;
+
+  if(ch('verify')){
+    script+=`# Step 2: Verify integrity\nlog "Verifying backup..."\n${src==='postgres'?'pg_restore --list "$BACKUP_FILE" > /dev/null':src==='files'?'tar -tzf "$BACKUP_FILE" > /dev/null':'ls -la "$BACKUP_FILE"'}\nlog "Integrity check passed"\n\n`;
+  }
+
+  if(ch('encrypt')){
+    script+=`# Step 3: Encrypt\nlog "Encrypting backup..."\ngpg --batch --yes --passphrase "\${BACKUP_PASSPHRASE}" -c "\$BACKUP_FILE"\nBACKUP_FILE="\${BACKUP_FILE}.gpg"\nFILENAME="\${FILENAME}.gpg"\n\n`;
+  }
+
+  script+=`# Step ${ch('verify')?ch('encrypt')?4:3:ch('encrypt')?3:2}: Upload to ${dest.toUpperCase()}\nlog "Uploading to ${dest}..."\n${destCmds[dest]}\nlog "Upload complete"\n\n`;
+
+  if(ch('prune')){
+    script+=`# Prune: Keep last 7 daily, 4 weekly, 12 monthly\nlog "Pruning old backups..."\n# Full pruning logic in complete package\naws s3 ls "s3://\${BUCKET}/" | grep ${src} | sort | head -n -7 | awk '{print \$4}' | xargs -I{} aws s3 rm "s3://\${BUCKET}/{}"\n\n`;
+  }
+
+  script+=`# Cleanup\nrm -f "\$BACKUP_FILE"\nlog "Backup complete!"\n\n`;
+  script+=`# Cron schedule: ${cron}\n# Add to crontab: ${cron} /opt/scripts/backup.sh >> /var/log/backup.log 2>&1\n`;
+
+  document.getElementById('scriptFname').textContent='backup.sh';
+  document.getElementById('scriptOut').textContent=script;
+}
+
+update();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

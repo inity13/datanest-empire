@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MEV Shield — Product Demos | CryptoForge</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D0D1A;color:#E0E0E0;font-family:'Inter',sans-serif;min-height:100vh;padding:40px 32px}
+h1{font-family:'JetBrains Mono',monospace;font-size:1.6rem;color:#FF6B00;margin-bottom:6px}
+.tagline{font-size:.9rem;color:#E0E0E088;margin-bottom:32px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.card{display:block;background:#111128;border:1px solid #1a1a3a;border-radius:10px;padding:24px;text-decoration:none;color:#E0E0E0;transition:all .2s}
+.card:hover{border-color:#FF6B00;transform:translateY(-3px);box-shadow:0 8px 32px #FF6B0022}
+.card-name{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:6px}
+.card-price{font-family:'JetBrains Mono',monospace;color:#FF6B00;font-weight:700;font-size:.95rem;margin-bottom:10px}
+.card-desc{font-size:.82rem;color:#E0E0E099;line-height:1.5;margin-bottom:14px}
+.card-cta{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:#FFD700;font-weight:500}
+.back{display:inline-block;margin-bottom:24px;color:#FF6B00;text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:.85rem}
+.back:hover{text-decoration:underline}
+.count{font-size:.8rem;color:#E0E0E055;margin-bottom:24px}
+</style>
+</head>
+<body>
+<a href="../index.html" class="back">&larr; Back to MEV Shield</a>
+<h1>MEV Shield — Demos</h1>
+<div class="tagline">MEV protection, orderflow auctions, and searcher tooling for DeFi builders.</div>
+<div class="count">10 interactive product demos</div>
+<div class="grid">
+<a href="mev-share-sdk.html" class="card">
+  <div class="card-name">MEV-Share SDK</div>
+  <div class="card-price">$12.99</div>
+  <div class="card-desc">TypeScript/Python SDK for Flashbots MEV-Share orderflow auctions.</div>
+  <div class="card-cta">Try Demo &rarr;</div>
+</a>
+<a href="paymaster-template.html" class="card">
+  <div class="card-name">Paymaster Template</div>
+  <div class="card-price">$14.99</div>
+  <div class="card-desc">ERC-4337 paymaster sponsoring gas from MEV rebate proceeds.</div>
+  <div class="card-cta">Try Demo &rarr;</div>
+</a>
+<a href="mev-rebate-router.html" class="card">
+  <div class="card-name">MEV Rebate Router</div>
+  <div class="card-price">$9.99</div>
+  <div class="card-desc">Router that captures and redistributes MEV rebates to users.</div>
+  <div class="card-cta">Try Demo &rarr;</div>
+</a>
+<a href="sandwich-detector.html" class="card">
+  <div class="card-name">Sandwich Detector</div>
+  <div class="card-price">$7.99</div>
+  <div class="card-desc">Real-time mempool monitor detecting sandwich attacks on your txs.</div>
+  <div class="card-cta">Try Demo &rarr;</div>
+</a>
+<a href="orderflow-analytics.html" class="card">
+  <div class="card-name">Orderflow Analytics</div>
+  <div class="card-price">$12.99</div>
+  <div class="card-desc">Dashboard tracking MEV extracted, rebates, and provider revenue.</div>
+  <div class="card-cta">Try Demo &rarr;</div>
+</a>
+<a href="private-tx-relay.html" class="card">
+  <div class="card-name">Private Tx Relay</div>
+  <div class="card-price">$9.99</div>
+  <div class="card-desc">Template for submitting txs via Flashbots Protect + MEV-Share.</div>
+  <div class="card-cta">Try Demo &rarr;</div>
+</a>
+<a href="searcher-starter-kit.html" class="card">
+  <div class="card-name">Searcher Starter Kit</div>
+  <div class="card-price">$14.99</div>
+  <div class="card-desc">Bot framework for MEV searching: arb, liquidation, backrunning.</div>
+  <div class="card-cta">Try Demo &rarr;</div>
+</a>
+<a href="bundle-simulator.html" class="card">
+  <div class="card-name">Bundle Simulator</div>
+  <div class="card-price">$9.99</div>
+  <div class="card-desc">Local simulation harness for testing MEV bundles before submission.</div>
+  <div class="card-cta">Try Demo &rarr;</div>
+</a>
+<a href="eip712-signing-lib.html" class="card">
+  <div class="card-name">EIP-712 Signing Library</div>
+  <div class="card-price">$6.99</div>
+  <div class="card-desc">Human-readable EIP-712 signing library with replay protection.</div>
+  <div class="card-cta">Try Demo &rarr;</div>
+</a>
+<a href="mev-monitoring-agent.html" class="card">
+  <div class="card-name">MEV Monitoring Agent</div>
+  <div class="card-price">$12.99</div>
+  <div class="card-desc">Background service alerting when your contracts are being MEV'd.</div>
+  <div class="card-cta">Try Demo &rarr;</div>
+</a>
+</div>
+</body>
+</html>

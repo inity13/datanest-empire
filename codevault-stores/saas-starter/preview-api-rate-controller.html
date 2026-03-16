@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Rate Controller &mdash; SaaS Starter &mdash; CodeVault</title>
+    <meta name="description" content="Python API rate limiting per tenant and plan: quotas, throttling, and overage handling. Protect your API from abuse.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F680;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#FFD600">
+    <script defer data-domain="saas-starter.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to SaaS Starter</a>
+        <h1 class="preview-page__title">API Rate Controller</h1>
+        <p class="preview-page__price">$4.99</p>
+        <p class="preview-page__desc">Python API rate limiting per tenant and plan: quotas, throttling, and overage handling. Protect your API from abuse. Runs on Python 3.10+ stdlib only.</p>
+
+        <ul class="preview-page__features">
+            <li>Token bucket and sliding window rate limiting algorithms</li>
+            <li>Per-tenant rate limits tied to subscription plan</li>
+            <li>Global, per-endpoint, and per-user limit scopes</li>
+            <li>Overage handling: block, throttle, or charge</li>
+            <li>Rate limit headers (X-RateLimit-Limit, Remaining, Reset)</li>
+            <li>Burst allowance for temporary traffic spikes</li>
+            <li>Real-time quota dashboard data</li>
+            <li>Configurable via JSON with hot-reload support</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Run rate controller demo
+python src/main.py --demo
+
+# Check rate limit status
+python src/main.py --status --tenant acme --endpoint /api/v1/users
+
+# Configure limits for a plan
+python src/main.py --set-plan pro --rpm 1000 --rpd 50000</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_api_rate_controller"
+               data-product="api-rate-controller">
+                Grab This &mdash; $4.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="API Rate Controller"
+                    data-crypto-price="499">
+                Pay with Crypto ($3.99)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

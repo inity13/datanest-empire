@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Azure DevOps for Data Pipelines | Digital Stores Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#0f1117;color:#e2e8f0;font-family:'Inter', 'SF Pro', system-ui, sans-serif;line-height:1.6}
+    a{color:#3b82f6;text-decoration:none} a:hover{text-decoration:underline}
+    .container{max-width:1000px;margin:0 auto;padding:24px 16px}
+    .btn{display:inline-block;padding:10px 24px;background:#3b82f6;color:#fff;
+          font-weight:600;border:none;border-radius:6px;cursor:pointer;font-size:14px}
+    .btn:hover{opacity:0.85;text-decoration:none}
+    .price{font-size:20px;font-weight:700;color:#3b82f6}
+    .muted{color:#94a3b8;font-size:13px}
+    .card{background:#1a1d27;border-radius:8px;padding:16px;border:1px solid #2a2d37}
+    .tag{display:inline-block;padding:2px 8px;background:#3b82f622;color:#3b82f6;
+         border-radius:4px;font-size:11px;font-weight:600}
+    code,.mono{font-family:'JetBrains Mono',monospace}
+    </style>
+<style>.crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}.crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}</style>
+</head>
+<body>
+<div class="container">
+
+<h1 style="font-size:18px;margin-bottom:4px">Azure DevOps for Data Pipelines</h1>
+<p class="muted" style="margin-bottom:16px">Complete Azure DevOps configuration for data pipeline CI/CD covering Terraform, DABs, ADF, and SQL deployments in a unified architecture.</p>
+<div style="display:grid;grid-template-columns:200px 1fr;gap:16px;margin-bottom:20px">
+<div class="card" style="padding:12px">
+  <div style="font-size:12px;font-weight:600;color:#94a3b8;margin-bottom:8px;padding:0 12px">📁 azure-devops-data-pi/</div>
+  <div class="tree-item" data-idx="0" style="padding:6px 12px;cursor:pointer;border-radius:4px;font-size:13px;margin-bottom:2px;background:#3b82f622;color:#3b82f6" onclick="showFile(0)">📄 config.yaml</div><div class="tree-item" data-idx="1" style="padding:6px 12px;cursor:pointer;border-radius:4px;font-size:13px;margin-bottom:2px;color:#94a3b8" onclick="showFile(1)">📄 deploy.yaml</div><div class="tree-item" data-idx="2" style="padding:6px 12px;cursor:pointer;border-radius:4px;font-size:13px;margin-bottom:2px;color:#94a3b8" onclick="showFile(2)">📄 monitoring.yaml</div>
+</div>
+<div class="card" style="padding:0;overflow:hidden">
+  <div style="padding:8px 16px;background:#12141c;font-size:12px;color:#94a3b8" id="fileName">config.yaml</div>
+  <pre id="configContent" class="mono" style="padding:16px;font-size:13px;line-height:1.6;overflow-x:auto;min-height:280px;margin:0;white-space:pre-wrap;color:#e2e8f0"></pre>
+</div>
+</div>
+<div style="display:flex;gap:12px;align-items:center">
+<span class="price">$59.00</span>
+<a href="https://buy.stripe.com/7sY7sLgXl6OOfVM8ylgjH0D" class="btn">Buy Now</a>
+<button class="crypto-pay-btn" data-product-slug="azure-devops-data-pipelines" data-store-slug="datanest-platform-pro" data-product-name="Azure DevOps for Data Pipelines" data-price-usd="59">Pay with Crypto (Save 15%)</button>
+</div>
+
+</div>
+<script>
+(function(){
+  var names=["config.yaml","deploy.yaml","monitoring.yaml"];
+  var contents=["# Azure DevOps for Data Pipelines Configuration\nproject:\n  name: azure-devops-data-pipelines\n  version: 1.29.49\n\ncompute:\n  cluster_type: autoscaling\n  min_workers: 1\n  max_workers: 7\n  node_type: Standard_DS3_v2\n\nstorage:\n  catalog: unity_catalog\n  schema: production\n  format: delta","# Deployment Config\nstages:\n  - name: dev\n    auto_deploy: true\n  - name: staging\n    requires_approval: true\n  - name: production\n    requires_approval: true\n    rollback_enabled: true","# Monitoring\nalerts:\n  - name: pipeline_failure\n    severity: critical\n    channel: pagerduty\n  - name: data_quality\n    severity: warning\n    channel: slack\n\ndashboards:\n  refresh_interval: 30s"];
+  var items=document.querySelectorAll('.tree-item');
+  function showFile(i){
+    document.getElementById('configContent').textContent=contents[i].replace(/\\n/g,'\n');
+    document.getElementById('fileName').textContent=names[i];
+    items.forEach(function(el,j){
+      el.style.background=j===i?'#3b82f622':'transparent';
+      el.style.color=j===i?'#3b82f6':'#94a3b8';
+    });
+  }
+  window.showFile=showFile;
+  showFile(0);
+})();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

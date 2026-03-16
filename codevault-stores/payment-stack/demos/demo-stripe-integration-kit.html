@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stripe Integration Kit — Live Demo | Payment Stack</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#76FF03}
+  .header .back{color:#76FF03;text-decoration:none;font-size:.85rem}
+  .container{max-width:900px;margin:0 auto;padding:32px 24px}
+  h2{font-size:1.6rem;margin-bottom:8px}
+  .subtitle{color:#8899aa;margin-bottom:32px}
+  .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px}
+  @media(max-width:640px){.demo-grid{grid-template-columns:1fr}}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:24px}
+  .panel h3{font-size:.9rem;text-transform:uppercase;letter-spacing:.08em;color:#76FF03;margin-bottom:16px}
+  label{display:block;font-size:.85rem;color:#8899aa;margin-bottom:6px}
+  input,select{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:8px;color:#fff;padding:10px 14px;font-size:.95rem;margin-bottom:14px;outline:none;transition:border-color .2s}
+  input:focus,select:focus{border-color:#76FF03}
+  .card-row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
+  .btn{width:100%;padding:12px;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;transition:all .2s}
+  .btn-pay{background:#76FF03;color:#0A0E1A}
+  .btn-pay:hover{background:#8fff1a;transform:translateY(-1px)}
+  .status-box{margin-top:16px;padding:14px;border-radius:8px;font-size:.9rem;display:none}
+  .status-box.show{display:block}
+  .status-processing{background:rgba(118,255,3,.1);border:1px solid rgba(118,255,3,.3);color:#76FF03}
+  .status-success{background:rgba(118,255,3,.15);border:1px solid #76FF03;color:#76FF03}
+  .status-error{background:rgba(255,60,60,.1);border:1px solid rgba(255,60,60,.3);color:#ff6060}
+  .code-output{background:#060a12;border:1px solid #1e2a3a;border-radius:8px;padding:16px;font-family:'Courier New',monospace;font-size:.8rem;color:#76FF03;white-space:pre;overflow-x:auto;max-height:220px;overflow-y:auto}
+  .step{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #1e2a3a;font-size:.85rem}
+  .step:last-child{border:none}
+  .step-dot{width:10px;height:10px;border-radius:50%;background:#1e2a3a;flex-shrink:0}
+  .step-dot.active{background:#76FF03;box-shadow:0 0 8px #76FF03}
+  .step-dot.done{background:#76FF03}
+  .step-label{color:#8899aa}
+  .step-label.active{color:#fff}
+  .step-label.done{color:#76FF03}
+  .cta-bar{background:linear-gradient(135deg,#0d1321,#111827);border:1px solid #76FF03;border-radius:12px;padding:24px;text-align:center;margin-top:32px}
+  .cta-bar h3{margin-bottom:8px}
+  .cta-bar p{color:#8899aa;font-size:.9rem;margin-bottom:16px}
+  .cta-btn{display:inline-block;background:#76FF03;color:#0A0E1A;padding:14px 32px;border-radius:8px;font-weight:700;text-decoration:none;font-size:1rem;transition:all .2s}
+  .cta-btn:hover{background:#8fff1a;transform:translateY(-2px)}
+  .footer-note{text-align:center;color:#445566;font-size:.8rem;margin-top:24px;padding-top:16px;border-top:1px solid #1e2a3a}
+  .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(118,255,3,.1);border:1px solid rgba(118,255,3,.3);color:#76FF03;padding:4px 10px;border-radius:20px;font-size:.75rem;margin-bottom:12px}
+  .amount-display{font-size:2rem;font-weight:700;color:#76FF03;text-align:center;margin:12px 0}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>⚡ Payment Stack — Stripe Integration Kit Demo</h1>
+  <a class="back" href="../index.html">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>Stripe Checkout Flow Demo</h2>
+  <p class="subtitle">Simulate a complete Stripe payment flow — form validation, tokenization, charge creation, and webhook events.</p>
+
+  <div class="demo-grid">
+    <div class="panel">
+      <h3>💳 Payment Form</h3>
+      <div class="badge">✓ PCI-DSS Safe Pattern</div>
+      <label>Product / Description</label>
+      <input id="product" value="Pro Developer Bundle" placeholder="Product name">
+      <label>Amount ($)</label>
+      <input id="amount" type="number" value="49" min="1" max="9999">
+      <label>Currency</label>
+      <select id="currency">
+        <option value="USD">USD — US Dollar</option>
+        <option value="EUR">EUR — Euro</option>
+        <option value="GBP">GBP — British Pound</option>
+        <option value="CAD">CAD — Canadian Dollar</option>
+      </select>
+      <label>Card Number</label>
+      <input id="cardnum" value="4242 4242 4242 4242" placeholder="4242 4242 4242 4242" maxlength="19">
+      <div class="card-row">
+        <div>
+          <label>Expiry</label>
+          <input id="expiry" value="12/27" placeholder="MM/YY">
+        </div>
+        <div>
+          <label>CVC</label>
+          <input id="cvc" value="123" placeholder="CVC" maxlength="4">
+        </div>
+        <div>
+          <label>ZIP</label>
+          <input id="zip" value="10001" placeholder="ZIP">
+        </div>
+      </div>
+      <div id="amountDisplay" class="amount-display">$49.00 USD</div>
+      <button class="btn btn-pay" onclick="runPayment()">▶ Simulate Payment</button>
+      <div id="status" class="status-box"></div>
+    </div>
+
+    <div class="panel">
+      <h3>⚙ Checkout Flow Steps</h3>
+      <div id="steps">
+        <div class="step"><div class="step-dot" id="d1"></div><span class="step-label" id="s1">Validate form inputs</span></div>
+        <div class="step"><div class="step-dot" id="d2"></div><span class="step-label" id="s2">Create payment method</span></div>
+        <div class="step"><div class="step-dot" id="d3"></div><span class="step-label" id="s3">Create PaymentIntent</span></div>
+        <div class="step"><div class="step-dot" id="d4"></div><span class="step-label" id="s4">Confirm payment</span></div>
+        <div class="step"><div class="step-dot" id="d5"></div><span class="step-label" id="s5">Handle 3DS auth (if needed)</span></div>
+        <div class="step"><div class="step-dot" id="d6"></div><span class="step-label" id="s6">Charge succeeded</span></div>
+        <div class="step"><div class="step-dot" id="d7"></div><span class="step-label" id="s7">Fire payment_intent.succeeded webhook</span></div>
+        <div class="step"><div class="step-dot" id="d8"></div><span class="step-label" id="s8">Deliver product / send receipt</span></div>
+      </div>
+      <h3 style="margin-top:20px">📦 API Response</h3>
+      <div class="code-output" id="apiOutput">// Run a payment to see the API response...</div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Get the Full Stripe Integration Kit</h3>
+    <p>Complete Python package with webhooks, idempotency keys, retry logic, 3DS2 handling, and production-ready error management.</p>
+    <a class="cta-btn" href="https://buy.stripe.com/eVq3cv6iH8WW10Sg0NgjJ1m">Buy Full Version — $39.00</a>
+    <button class="crypto-pay-btn" data-product-slug="stripe-integration-kit" data-store-slug="payment-stack" data-product-name="Stripe Integration Kit" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows limited functionality. Buy the full tool for all features including webhook verification, idempotency, and production error handling.</p>
+</div>
+
+<script>
+const delay = ms => new Promise(r => setTimeout(r, ms));
+let running = false;
+
+document.getElementById('amount').addEventListener('input', updateAmount);
+document.getElementById('currency').addEventListener('change', updateAmount);
+
+function updateAmount() {
+  const amt = parseFloat(document.getElementById('amount').value) || 0;
+  const cur = document.getElementById('currency').value;
+  document.getElementById('amountDisplay').textContent = `$${amt.toFixed(2)} ${cur}`;
+}
+
+function setStep(i, state) {
+  const dot = document.getElementById('d'+i);
+  const lbl = document.getElementById('s'+i);
+  dot.className = 'step-dot ' + state;
+  lbl.className = 'step-label ' + state;
+}
+
+function resetSteps() {
+  for(let i=1;i<=8;i++) setStep(i,'');
+}
+
+async function runPayment() {
+  if(running) return;
+  running = true;
+  resetSteps();
+
+  const card = document.getElementById('cardnum').value.replace(/\s/g,'');
+  const amt = parseFloat(document.getElementById('amount').value);
+  const cur = document.getElementById('currency').value;
+  const product = document.getElementById('product').value;
+  const status = document.getElementById('status');
+  const output = document.getElementById('apiOutput');
+
+  // Determine outcome based on test card
+  const isDecline = card.startsWith('4000000000000002');
+  const is3ds = card.startsWith('4000002760003184');
+
+  status.className = 'status-box show status-processing';
+  status.textContent = '⏳ Processing payment...';
+
+  const steps = [
+    [1, 'Validating form inputs...'],
+    [2, 'Creating payment method...'],
+    [3, 'Creating PaymentIntent...'],
+    [4, 'Confirming payment...'],
+    [5, is3ds ? '3DS authentication required!' : '3DS not required — skipping'],
+    [6, isDecline ? 'Charge failed — card declined' : 'Charge succeeded!'],
+    [7, isDecline ? '' : 'Firing webhook event...'],
+    [8, isDecline ? '' : 'Delivering product...'],
+  ];
+
+  for(let i=0; i<steps.length; i++) {
+    const [idx, msg] = steps[i];
+    setStep(idx, 'active');
+    output.textContent = `// Step ${idx}: ${msg}`;
+    await delay(420);
+    if(isDecline && idx === 6) { setStep(idx, 'active'); break; }
+    setStep(idx, 'done');
+  }
+
+  const piId = 'pi_' + Math.random().toString(36).slice(2,18);
+  const pmId = 'pm_' + Math.random().toString(36).slice(2,18);
+  const chId = 'ch_' + Math.random().toString(36).slice(2,18);
+
+  if(isDecline) {
+    status.className = 'status-box show status-error';
+    status.textContent = '✗ Payment declined — card_declined (use 4242... for success)';
+    output.textContent = JSON.stringify({
+      id: piId, object: "payment_intent",
+      status: "requires_payment_method",
+      last_payment_error: { code: "card_declined", decline_code: "generic_decline", message: "Your card was declined." },
+      amount: amt * 100, currency: cur.toLowerCase()
+    }, null, 2);
+  } else {
+    status.className = 'status-box show status-success';
+    status.textContent = `✓ Payment succeeded! ${cur} ${amt.toFixed(2)} charged to ****${card.slice(-4)}`;
+    output.textContent = JSON.stringify({
+      id: piId, object: "payment_intent", status: "succeeded",
+      amount: amt * 100, currency: cur.toLowerCase(),
+      payment_method: pmId,
+      latest_charge: chId,
+      metadata: { product: product, demo: "true" },
+      webhook_event: "payment_intent.succeeded",
+      created: Math.floor(Date.now()/1000)
+    }, null, 2);
+  }
+  running = false;
+}
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

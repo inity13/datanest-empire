@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rate Limiter Demo — API Launchpad</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0A0E1A;color:#E2E8F0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+header{background:#0F1628;border-bottom:1px solid #1E2A45;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+header h1{font-size:1.1rem;color:#FF9100;font-weight:700}
+header span{font-size:0.8rem;color:#64748B;background:#1E2A45;padding:4px 10px;border-radius:20px}
+.container{flex:1;padding:24px;max-width:800px;margin:0 auto;width:100%}
+h2{font-size:1.3rem;margin-bottom:6px;color:#F1F5F9}
+.subtitle{color:#64748B;font-size:0.9rem;margin-bottom:24px}
+.config-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+@media(max-width:500px){.config-grid{grid-template-columns:1fr}}
+label{display:block;font-size:0.8rem;color:#94A3B8;margin-bottom:4px}
+input[type=number],select{width:100%;background:#0F1628;border:1px solid #1E2A45;color:#F1F5F9;padding:9px 12px;border-radius:6px;font-size:0.9rem;outline:none}
+input[type=number]:focus,select:focus{border-color:#FF9100}
+.controls{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.btn{padding:10px 20px;border-radius:6px;font-size:0.88rem;font-weight:600;cursor:pointer;border:none;transition:.2s}
+.btn-primary{background:#FF9100;color:#0A0E1A}
+.btn-primary:hover{background:#FFA733}
+.btn-secondary{background:#1E2A45;color:#CBD5E1;border:1px solid #2D3748}
+.btn-secondary:hover{border-color:#FF9100;color:#FF9100}
+.btn-danger{background:#7F1D1D;color:#FCA5A5;border:1px solid #991B1B}
+.btn-danger:hover{background:#991B1B}
+.bucket-viz{background:#0F1628;border:1px solid #1E2A45;border-radius:12px;padding:20px;margin-bottom:20px}
+.bucket-label{display:flex;justify-content:space-between;font-size:0.85rem;color:#94A3B8;margin-bottom:8px}
+.bucket-bar-bg{background:#1E2A45;border-radius:8px;height:28px;overflow:hidden;position:relative}
+.bucket-bar{height:100%;border-radius:8px;transition:width .4s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:12px;font-size:0.8rem;font-weight:700;color:#0A0E1A}
+.bucket-bar.ok{background:#FF9100}
+.bucket-bar.warn{background:#EF4444}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.stat-card{background:#0F1628;border:1px solid #1E2A45;border-radius:8px;padding:14px;text-align:center}
+.stat-value{font-size:1.6rem;font-weight:700;color:#FF9100}
+.stat-label{font-size:0.75rem;color:#64748B;margin-top:4px}
+.log{background:#0F1628;border:1px solid #1E2A45;border-radius:8px;height:180px;overflow-y:auto;padding:12px;font-family:'Courier New',monospace;font-size:0.8rem}
+.log-entry{padding:2px 0;border-bottom:1px solid #0A0E1A}
+.log-entry.allowed{color:#4ADE80}
+.log-entry.blocked{color:#F87171}
+.log-entry.refill{color:#60A5FA}
+.cta{background:linear-gradient(135deg,#FF9100,#FF5F00);color:#0A0E1A;border:none;padding:14px 32px;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px;transition:opacity .2s}
+.cta:hover{opacity:.9}
+footer{text-align:center;padding:16px;color:#475569;font-size:0.8rem;border-top:1px solid #1E2A45;margin-top:auto}
+footer a{color:#FF9100;text-decoration:none}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <h1>🛡️ Rate Limiter</h1>
+  <span>Demo — Limited Features</span>
+</header>
+<div class="container">
+  <h2>Token Bucket Rate Limiter Simulator</h2>
+  <p class="subtitle">Configure a token bucket rate limiter and simulate burst traffic to see request throttling in action.</p>
+
+  <div class="config-grid">
+    <div>
+      <label>Bucket Capacity (max tokens)</label>
+      <input type="number" id="capacity" value="10" min="1" max="100">
+    </div>
+    <div>
+      <label>Refill Rate (tokens/second)</label>
+      <input type="number" id="refill-rate" value="2" min="1" max="20">
+    </div>
+    <div>
+      <label>Tokens per Request</label>
+      <input type="number" id="tokens-per-req" value="1" min="1" max="10">
+    </div>
+    <div>
+      <label>Strategy</label>
+      <select id="strategy">
+        <option>Token Bucket</option>
+        <option>Leaky Bucket</option>
+        <option>Fixed Window</option>
+        <option>Sliding Window</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn btn-primary" onclick="sendRequest()">Send Request</button>
+    <button class="btn btn-secondary" onclick="sendBurst()">Burst (10x)</button>
+    <button class="btn btn-secondary" onclick="startAuto()">Auto Fire</button>
+    <button class="btn btn-danger" onclick="resetAll()">Reset</button>
+  </div>
+
+  <div class="bucket-viz">
+    <div class="bucket-label">
+      <span>Token Bucket</span>
+      <span id="token-count">10 / 10 tokens</span>
+    </div>
+    <div class="bucket-bar-bg">
+      <div class="bucket-bar ok" id="bucket-bar" style="width:100%">100%</div>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value" id="stat-allowed">0</div>
+      <div class="stat-label">Allowed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" style="color:#F87171" id="stat-blocked">0</div>
+      <div class="stat-label">Blocked (429)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" style="color:#60A5FA" id="stat-rate">0%</div>
+      <div class="stat-label">Block Rate</div>
+    </div>
+  </div>
+
+  <div class="log" id="log"></div>
+
+  <a class="cta" href="https://buy.stripe.com/bJeaEXcH5flk5h801PgjJ03">Buy Full Version — $29.00 →</a>
+    <button class="crypto-pay-btn" data-product-slug="rate-limiter" data-store-slug="api-launchpad" data-product-name="Rate Limiter" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+</div>
+<footer>
+  This demo shows limited functionality. Buy the full tool for all features.<br>
+  <a href="../index.html">← Back to API Launchpad Store</a>
+</footer>
+
+<script>
+let tokens, maxTokens, refillRate, tokensPerReq, allowed, blocked, autoTimer;
+
+function init() {
+  maxTokens = parseInt(document.getElementById('capacity').value);
+  refillRate = parseInt(document.getElementById('refill-rate').value);
+  tokensPerReq = parseInt(document.getElementById('tokens-per-req').value);
+  tokens = maxTokens;
+  allowed = 0; blocked = 0;
+  updateViz();
+  log('System initialized: capacity=' + maxTokens + ', refill=' + refillRate + '/s', 'refill');
+}
+
+function updateViz() {
+  const pct = Math.round((tokens / maxTokens) * 100);
+  const bar = document.getElementById('bucket-bar');
+  bar.style.width = pct + '%';
+  bar.textContent = pct + '%';
+  bar.className = 'bucket-bar ' + (pct > 30 ? 'ok' : 'warn');
+  document.getElementById('token-count').textContent = tokens.toFixed(1) + ' / ' + maxTokens + ' tokens';
+  document.getElementById('stat-allowed').textContent = allowed;
+  document.getElementById('stat-blocked').textContent = blocked;
+  const total = allowed + blocked;
+  document.getElementById('stat-rate').textContent = total ? Math.round((blocked/total)*100) + '%' : '0%';
+}
+
+function log(msg, type) {
+  const el = document.getElementById('log');
+  const ts = new Date().toLocaleTimeString();
+  const div = document.createElement('div');
+  div.className = 'log-entry ' + type;
+  div.textContent = '[' + ts + '] ' + msg;
+  el.insertBefore(div, el.firstChild);
+  if (el.children.length > 50) el.removeChild(el.lastChild);
+}
+
+function sendRequest() {
+  refillTokens();
+  if (tokens >= tokensPerReq) {
+    tokens -= tokensPerReq;
+    allowed++;
+    log('GET /api/resource → 200 OK (tokens left: ' + tokens.toFixed(1) + ')', 'allowed');
+  } else {
+    blocked++;
+    log('GET /api/resource → 429 Too Many Requests (retry-after: ' + Math.ceil((tokensPerReq - tokens) / refillRate) + 's)', 'blocked');
+  }
+  updateViz();
+}
+
+function refillTokens() {
+  // Simplified: add proportional to button-click timing
+  tokens = Math.min(maxTokens, tokens + (refillRate * 0.1));
+}
+
+function sendBurst() {
+  for (let i = 0; i < 10; i++) setTimeout(sendRequest, i * 50);
+}
+
+let autoActive = false;
+function startAuto() {
+  if (autoActive) {
+    clearInterval(autoTimer);
+    autoActive = false;
+    document.querySelector('.btn-secondary:nth-of-type(3)').textContent = 'Auto Fire';
+  } else {
+    autoActive = true;
+    document.querySelector('.btn-secondary:nth-of-type(3)').textContent = 'Stop Auto';
+    autoTimer = setInterval(sendRequest, 300);
+    // Refill periodically
+    setInterval(() => {
+      tokens = Math.min(maxTokens, tokens + (refillRate / 5));
+      log('Token refill: +' + (refillRate/5).toFixed(1) + ' tokens', 'refill');
+      updateViz();
+    }, 1000);
+  }
+}
+
+function resetAll() {
+  clearInterval(autoTimer);
+  autoActive = false;
+  document.getElementById('log').innerHTML = '';
+  init();
+}
+
+init();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

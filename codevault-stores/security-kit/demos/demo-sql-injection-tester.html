@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Injection Tester — Demo | Security Kit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#D500F9}.header .back{color:#D500F9;text-decoration:none;font-size:.85rem}
+  .container{max-width:960px;margin:0 auto;padding:32px 20px}
+  h2{font-size:1.5rem;margin-bottom:8px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px;margin-bottom:20px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#D500F9;margin-bottom:12px}
+  .samples{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .sample-btn{background:#0A0E1A;border:1px solid #1e2a3a;color:#8899aa;padding:4px 10px;border-radius:6px;font-size:.76rem;cursor:pointer;transition:all .2s}
+  .sample-btn:hover{border-color:#D500F9;color:#fff}
+  textarea{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:10px;font-size:.85rem;outline:none;font-family:monospace;resize:vertical;transition:border-color .2s}
+  textarea:focus{border-color:#D500F9}
+  .btn{padding:10px 22px;border:none;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer;background:#D500F9;color:#fff;margin-top:10px;transition:all .2s}
+  .btn:hover{background:#e040fb}
+  .layout{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:700px){.layout{grid-template-columns:1fr}}
+  .finding{background:#0A0E1A;border-left:3px solid #ef5350;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:8px}
+  .finding.medium{border-color:#FFAB00}
+  .finding.low{border-color:#76FF03}
+  .finding-name{font-size:.85rem;font-weight:600;margin-bottom:4px}
+  .finding-desc{font-size:.78rem;color:#8899aa;line-height:1.5}
+  .highlighted{background:rgba(213,0,249,.15);color:#e040fb;border-radius:2px;padding:1px 2px}
+  .code-block{background:#060a12;border:1px solid #1e2a3a;border-radius:8px;padding:12px;font-family:monospace;font-size:.78rem;color:#76FF03;overflow-x:auto;white-space:pre;margin-top:12px}
+  .safe-msg{color:#76FF03;font-size:.88rem;padding:16px 0}
+  .badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:.7rem;font-weight:700;margin-right:6px}
+  .critical{background:rgba(229,57,53,.2);color:#ef5350}.high{background:rgba(255,87,34,.2);color:#ff7043}
+  .medium{background:rgba(255,171,0,.2);color:#FFAB00}.low-b{background:rgba(118,255,3,.2);color:#76FF03}
+  .cta-bar{text-align:center;padding:24px;background:#0d1321;border-radius:12px;border:1px solid #1e2a3a}
+  .cta-bar p{color:#8899aa;font-size:.88rem;margin-bottom:14px}
+  .btn-buy{display:inline-block;background:#D500F9;color:#fff;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none}
+  .note{text-align:center;font-size:.75rem;color:#4a5568;margin-top:14px}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>💉 SQL Injection Tester — Demo</h1>
+  <a href="../index.html" class="back">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>SQL Injection Tester</h2>
+  <p class="subtitle">Detect SQL injection patterns in queries and user input. See what to fix and how.</p>
+  <div class="layout">
+    <div class="panel" style="margin-bottom:0">
+      <h3>Input Query / String</h3>
+      <div class="samples">
+        <button class="sample-btn" onclick="loadSample('tautology')">Tautology</button>
+        <button class="sample-btn" onclick="loadSample('union')">UNION attack</button>
+        <button class="sample-btn" onclick="loadSample('drop')">DROP TABLE</button>
+        <button class="sample-btn" onclick="loadSample('blind')">Blind injection</button>
+        <button class="sample-btn" onclick="loadSample('clean')">Safe query</button>
+      </div>
+      <textarea id="sqlInput" rows="8" oninput="analyze()" placeholder="Paste SQL query or user input string..."></textarea>
+      <div style="margin-top:14px">
+        <div style="font-size:.8rem;color:#8899aa;margin-bottom:6px">Parameterized Safe Version:</div>
+        <div class="code-block" id="safeVersion">-- Enter a query above</div>
+      </div>
+    </div>
+    <div class="panel" style="margin-bottom:0">
+      <h3>Detected Patterns</h3>
+      <div id="findingsOutput"><p style="color:#4a5568;font-size:.85rem;padding-top:8px">Enter a query to see analysis.</p></div>
+    </div>
+  </div>
+  <div class="cta-bar" style="margin-top:20px">
+    <p>Full version: automated test suite generation, WAF rule export, database-specific checks, CI/CD integration.</p>
+    <a href="https://buy.stripe.com/6oU14n7mL2yy24W15TgjJ1L" class="btn-buy">Buy Full Version — $19</a>
+    <button class="crypto-pay-btn" data-product-slug="sql-injection-tester" data-store-slug="security-kit" data-product-name="sql-injection-tester" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+const SAMPLES = {
+  tautology: `SELECT * FROM users WHERE username='admin' AND password='' OR '1'='1'`,
+  union: `SELECT name FROM products WHERE id=1 UNION SELECT username,password FROM users--`,
+  drop: `'; DROP TABLE users; --\nSELECT * FROM orders WHERE id=1; EXEC xp_cmdshell('dir')`,
+  blind: `SELECT * FROM accounts WHERE id=1 AND SLEEP(5)\n1 AND IF(1=1, SLEEP(5), 0)\n1; WAITFOR DELAY '0:0:5'`,
+  clean: `SELECT id, username, email FROM users WHERE id = ? AND active = 1 LIMIT 10`
+};
+
+const PATTERNS = [
+  { rx: /'\s*or\s*'?1'?\s*=\s*'?1|"\s*or\s*"?1"?\s*=\s*"?1|'\s*or\s+1\s*=\s*1/i, name: 'Tautology (OR 1=1)', sev: 'critical', desc: 'Bypasses authentication by making the WHERE clause always true.' },
+  { rx: /union\s+(?:all\s+)?select/i, name: 'UNION SELECT', sev: 'critical', desc: 'Appends a second SELECT to extract data from other tables.' },
+  { rx: /drop\s+table/i, name: 'DROP TABLE', sev: 'critical', desc: 'Attempts to delete a database table, causing data loss.' },
+  { rx: /;\s*exec|xp_cmdshell|sp_executesql/i, name: 'Stored Procedure / Shell', sev: 'critical', desc: 'Executes OS commands or stored procedures on the database server.' },
+  { rx: /sleep\s*\(|waitfor\s+delay|pg_sleep/i, name: 'Time-Based Blind Injection', sev: 'high', desc: 'Infers data by measuring server response delays.' },
+  { rx: /and\s+if\s*\(|and\s+\(select/i, name: 'Boolean-Based Blind Injection', sev: 'high', desc: 'Extracts data bit-by-bit using true/false conditions.' },
+  { rx: /--\s*$|#\s*$|\/\*[\s\S]*?\*\//m, name: 'Comment Injection', sev: 'medium', desc: 'Comments out the rest of the query to neutralize conditions.' },
+  { rx: /'\s*;\s*/i, name: 'Stacked Query', sev: 'high', desc: 'Terminates the original query and injects a second one.' },
+  { rx: /char\s*\(|0x[0-9a-f]{2,}/i, name: 'Hex / CHAR Encoding', sev: 'medium', desc: 'Encodes characters to bypass string-based filters.' },
+  { rx: /information_schema|sys\.tables|sqlite_master/i, name: 'Schema Enumeration', sev: 'high', desc: 'Queries metadata to enumerate table and column names.' }
+];
+
+function loadSample(t) { document.getElementById('sqlInput').value = SAMPLES[t]; analyze(); }
+
+function analyze() {
+  const input = document.getElementById('sqlInput').value;
+  if (!input.trim()) {
+    document.getElementById('findingsOutput').innerHTML = '<p style="color:#4a5568;font-size:.85rem">Enter a query to see analysis.</p>';
+    document.getElementById('safeVersion').textContent = '-- Enter a query above';
+    return;
+  }
+  const found = PATTERNS.filter(p => p.rx.test(input));
+  const sevCls = { critical: 'critical', high: 'high', medium: 'medium' };
+  const borderCls = { critical: '', high: '', medium: 'medium', low: 'low' };
+  if (found.length === 0) {
+    document.getElementById('findingsOutput').innerHTML = '<div class="safe-msg">✅ No injection patterns detected. This query appears safe.</div>';
+  } else {
+    document.getElementById('findingsOutput').innerHTML = found.map(f =>
+      `<div class="finding ${f.sev === 'medium' ? 'medium' : f.sev === 'low' ? 'low' : ''}">
+        <div class="finding-name"><span class="badge ${sevCls[f.sev]}">${f.sev.toUpperCase()}</span>${f.name}</div>
+        <div class="finding-desc">${f.desc}</div>
+      </div>`).join('');
+  }
+  // Generate parameterized version suggestion
+  let safe = input.trim();
+  safe = safe.replace(/'[^']*'/g, '?').replace(/"[^"]*"/g, '?');
+  safe = safe.replace(/\b\d+\b/g, (m, offset) => {
+    // only replace numbers in WHERE context
+    const before = input.slice(Math.max(0, offset-10), offset);
+    return /where|=|>|</i.test(before) ? '?' : m;
+  });
+  safe = safe.replace(/--.*|\/\*[\s\S]*?\*\//g, '');
+  document.getElementById('safeVersion').textContent = '-- Parameterized:\n' + safe.trim();
+}
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subscription Manager — Interactive Demo | SaaS Starter</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#FFD600;--accent-dim:rgba(255,214,0,.1);--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;--red:#FF4B6E;--blue:#60A5FA;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;}
+  .badge{background:var(--accent);color:#0A0E1A;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1050px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;border-bottom:1px solid var(--border);padding-bottom:.75rem;}
+  .tab{padding:.45rem 1rem;border-radius:8px;font-size:.88rem;cursor:pointer;color:var(--muted);border:1px solid transparent;}
+  .tab.active{background:var(--accent-dim);border-color:var(--accent);color:var(--accent);}
+  .tab-pane{display:none;} .tab-pane.active{display:block;}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;}
+  h3{font-size:1rem;font-weight:700;margin-bottom:1rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+  input,select{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.55rem .8rem;border-radius:8px;font-size:.88rem;margin-bottom:.85rem;font-family:inherit;}
+  input:focus,select:focus{outline:none;border-color:var(--accent);}
+  .btn{padding:.6rem 1.2rem;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;background:var(--accent);color:#0A0E1A;}
+  .btn:hover{opacity:.85;}
+  .btn-sm{padding:.3rem .65rem;font-size:.75rem;}
+  .btn-muted{background:var(--surface2);border:1px solid var(--border);color:var(--text);}
+  .btn-danger{background:var(--red);color:#fff;}
+  /* Stats */
+  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem;}
+  @media(max-width:650px){.stats-row{grid-template-columns:repeat(2,1fr);}}
+  .stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1rem;text-align:center;}
+  .stat-n{font-size:1.5rem;font-weight:700;color:var(--accent);}
+  .stat-l{font-size:.7rem;color:var(--muted);text-transform:uppercase;margin-top:.2rem;}
+  /* Sub cards */
+  .sub-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:1.25rem;margin-bottom:.85rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+  .sub-avatar{width:36px;height:36px;border-radius:50%;background:var(--accent-dim);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:var(--accent);flex-shrink:0;}
+  .sub-info{flex:1;}
+  .sub-name{font-weight:700;font-size:.9rem;}
+  .sub-email{font-size:.75rem;color:var(--muted);}
+  .sub-meta{display:flex;gap:1rem;margin-top:.35rem;flex-wrap:wrap;}
+  .sub-meta span{font-size:.75rem;color:var(--muted);}
+  .sub-meta .v{color:var(--text);font-weight:600;}
+  .pill{display:inline-block;padding:.15rem .5rem;border-radius:20px;font-size:.7rem;font-weight:600;}
+  .pill-active{background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.2);}
+  .pill-trial{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(255,214,0,.2);}
+  .pill-cancelled{background:rgba(255,75,110,.1);color:var(--red);border:1px solid rgba(255,75,110,.2);}
+  .pill-past_due{background:rgba(255,100,0,.1);color:#ff8844;border:1px solid rgba(255,100,0,.2);}
+  .sub-actions{display:flex;gap:.5rem;}
+  /* Timeline */
+  .timeline{list-style:none;}
+  .tl-item{display:flex;gap:1rem;padding-bottom:1.25rem;position:relative;}
+  .tl-item:not(:last-child)::after{content:'';position:absolute;left:14px;top:28px;width:2px;height:calc(100% - 14px);background:var(--border);}
+  .tl-dot{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;z-index:1;}
+  .tl-body h4{font-size:.85rem;font-weight:600;}
+  .tl-body p{font-size:.78rem;color:var(--muted);margin-top:.15rem;}
+  .tl-time{font-size:.72rem;color:var(--muted);margin-top:.15rem;}
+  /* Proration calc */
+  .proration-result{background:var(--surface2);border:1px solid var(--accent);border-radius:10px;padding:1.25rem;margin-top:1rem;}
+  .pr-row{display:flex;justify-content:space-between;padding:.3rem 0;font-size:.85rem;border-bottom:1px solid rgba(42,46,62,.4);}
+  .pr-row:last-child{border-bottom:none;font-weight:700;}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a1a0a);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#0A0E1A;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">💳</span>
+  <h1>Subscription Manager</h1>
+  <span style="color:var(--muted);font-size:.9rem">Interactive Demo</span>
+  <span class="badge">SaaS Starter</span>
+</header>
+<div class="container">
+  <h2>Subscription Lifecycle Management</h2>
+  <p class="subtitle">Manage subscriber states, calculate proration, handle trials and cancellations — complete subscription billing logic in one demo.</p>
+
+  <div class="stats-row">
+    <div class="stat"><div class="stat-n" id="sActive">0</div><div class="stat-l">Active</div></div>
+    <div class="stat"><div class="stat-n" id="sTrial">0</div><div class="stat-l">Trial</div></div>
+    <div class="stat"><div class="stat-n" id="sMRR" style="font-size:1.2rem">$0</div><div class="stat-l">MRR</div></div>
+    <div class="stat"><div class="stat-n" id="sChurn">0%</div><div class="stat-l">Churn Rate</div></div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('subs',this)">Subscribers</div>
+    <div class="tab" onclick="switchTab('proration',this)">Proration Calc</div>
+    <div class="tab" onclick="switchTab('timeline',this)">Event Timeline</div>
+  </div>
+
+  <!-- Subscribers -->
+  <div class="tab-pane active" id="tab-subs">
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.75rem">
+        <h3 style="margin:0">Subscriber List</h3>
+        <button class="btn btn-sm" onclick="addRandomSub()">+ Add Random Subscriber</button>
+      </div>
+      <div id="subList"></div>
+    </div>
+  </div>
+
+  <!-- Proration -->
+  <div class="tab-pane" id="tab-proration">
+    <div class="panel">
+      <h3>Proration Calculator</h3>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:1rem">Calculate the prorated credit/charge when a subscriber changes plans mid-cycle.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div>
+          <label>Current Plan Price ($/mo)</label>
+          <input type="number" id="pCurrent" value="29">
+          <label>New Plan Price ($/mo)</label>
+          <input type="number" id="pNew" value="99">
+        </div>
+        <div>
+          <label>Billing Cycle Day</label>
+          <input type="number" id="pCycleDay" value="1" min="1" max="28">
+          <label>Change On Day</label>
+          <input type="number" id="pChangeDay" value="15" min="1" max="28">
+        </div>
+      </div>
+      <button class="btn" onclick="calcProration()">Calculate Proration</button>
+      <div id="prorationResult" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="tab-pane" id="tab-timeline">
+    <div class="panel">
+      <h3>Subscription Event Timeline</h3>
+      <ul class="timeline" id="timeline"></ul>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <p>Full version includes Stripe webhook handling, dunning automation, trial-to-paid conversion tracking, cancellation flow with save offers, and revenue forecasting.</p>
+    <a href="https://buy.stripe.com/28E00jcH5flk10S9CpgjJ1D" class="cta-btn">Buy Full Version — $19.99</a>
+    <button class="crypto-pay-btn" data-product-slug="subscription-manager" data-store-slug="saas-starter" data-product-name="subscription-manager" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+<script>
+const PLANS = [{name:'Free',price:0},{name:'Starter',price:9},{name:'Pro',price:29},{name:'Business',price:79},{name:'Enterprise',price:199}];
+const STATUSES = ['active','active','active','trial','cancelled','past_due'];
+const NAMES = ['Alice Chen','Bob Martinez','Carol Smith','Dave Wilson','Emma Johnson','Frank Lee','Grace Park','Henry Brown'];
+const DOMAINS = ['acme.com','startup.io','techco.dev','newapp.xyz','saasco.com'];
+
+let subs = [];
+let events = [];
+
+function randEl(a){return a[Math.floor(Math.random()*a.length)];}
+function randInt(a,b){return Math.floor(Math.random()*(b-a))+a;}
+
+function addRandomSub() {
+  const name = randEl(NAMES);
+  const plan = randEl(PLANS.slice(1));
+  const status = randEl(STATUSES);
+  const domain = randEl(DOMAINS);
+  const sub = {
+    id:'sub_'+Date.now(),
+    name, email: name.toLowerCase().replace(' ','.')+`@${domain}`,
+    plan, status,
+    startDate: new Date(Date.now()-randInt(0,365)*86400000).toLocaleDateString(),
+    nextBilling: new Date(Date.now()+randInt(1,30)*86400000).toLocaleDateString(),
+    avatar: name.charAt(0)
+  };
+  subs.unshift(sub);
+  events.unshift({icon:'➕',text:`New subscriber: ${name} signed up for ${plan.name}`,time:new Date().toLocaleTimeString()});
+  render();
+}
+
+function cancelSub(id) {
+  const s = subs.find(s=>s.id===id);
+  if(s){s.status='cancelled';events.unshift({icon:'❌',text:`${s.name} cancelled their ${s.plan.name} subscription`,time:new Date().toLocaleTimeString()});}
+  render();
+}
+
+function upgradeSub(id) {
+  const s = subs.find(s=>s.id===id);
+  if(s){
+    const idx = PLANS.findIndex(p=>p.name===s.plan.name);
+    if(idx<PLANS.length-1){s.plan=PLANS[idx+1];events.unshift({icon:'⬆️',text:`${s.name} upgraded to ${s.plan.name}`,time:new Date().toLocaleTimeString()});}
+  }
+  render();
+}
+
+function render() {
+  const active = subs.filter(s=>s.status==='active');
+  const trial = subs.filter(s=>s.status==='trial');
+  const cancelled = subs.filter(s=>s.status==='cancelled');
+  const mrr = active.reduce((t,s)=>t+s.plan.price,0)+trial.reduce((t,s)=>t+s.plan.price,0)*0.4;
+  const churn = subs.length>0?Math.round(cancelled.length/subs.length*100):0;
+  document.getElementById('sActive').textContent=active.length;
+  document.getElementById('sTrial').textContent=trial.length;
+  document.getElementById('sMRR').textContent='$'+Math.round(mrr).toLocaleString();
+  document.getElementById('sChurn').textContent=churn+'%';
+
+  const list = document.getElementById('subList');
+  if(!subs.length){list.innerHTML='<div style="text-align:center;color:var(--muted);padding:2rem">No subscribers yet — add one above.</div>';return;}
+  list.innerHTML=subs.map(s=>`
+    <div class="sub-card">
+      <div class="sub-avatar">${s.avatar}</div>
+      <div class="sub-info">
+        <div class="sub-name">${s.name} <span class="pill pill-${s.status}">${s.status.replace('_',' ')}</span></div>
+        <div class="sub-email">${s.email}</div>
+        <div class="sub-meta">
+          <span>Plan: <span class="v">${s.plan.name}</span></span>
+          <span>$${s.plan.price}/mo</span>
+          <span>Since: <span class="v">${s.startDate}</span></span>
+          <span>Next bill: <span class="v">${s.nextBilling}</span></span>
+        </div>
+      </div>
+      <div class="sub-actions">
+        ${s.status!=='cancelled'?`<button class="btn btn-sm btn-muted" onclick="upgradeSub('${s.id}')">Upgrade</button><button class="btn btn-sm btn-danger" onclick="cancelSub('${s.id}')">Cancel</button>`:'<span style="color:var(--muted);font-size:.75rem">Cancelled</span>'}
+      </div>
+    </div>`).join('');
+
+  const tl = document.getElementById('timeline');
+  tl.innerHTML=events.slice(0,15).map(e=>`<li class="tl-item"><div class="tl-dot">${e.icon}</div><div class="tl-body"><h4>${e.text}</h4><div class="tl-time">${e.time}</div></div></li>`).join('') || '<li style="color:var(--muted)">No events yet</li>';
+}
+
+function calcProration() {
+  const cur=parseFloat(document.getElementById('pCurrent').value)||0;
+  const nw=parseFloat(document.getElementById('pNew').value)||0;
+  const cycleDay=parseInt(document.getElementById('pCycleDay').value)||1;
+  const changeDay=parseInt(document.getElementById('pChangeDay').value)||15;
+  const daysInMonth=30;
+  const daysUsed=Math.max(0,changeDay-cycleDay);
+  const daysRemaining=daysInMonth-daysUsed;
+  const credit=(cur/daysInMonth)*daysRemaining;
+  const charge=(nw/daysInMonth)*daysRemaining;
+  const net=charge-credit;
+  const res=document.getElementById('prorationResult');
+  res.style.display='block';
+  res.innerHTML=`<div class="proration-result">
+    <div class="pr-row"><span>Days used on current plan</span><span>${daysUsed} days</span></div>
+    <div class="pr-row"><span>Days remaining in cycle</span><span>${daysRemaining} days</span></div>
+    <div class="pr-row"><span>Credit for unused ${daysRemaining} days at $${cur}/mo</span><span style="color:var(--green)">-$${credit.toFixed(2)}</span></div>
+    <div class="pr-row"><span>Charge for ${daysRemaining} days at $${nw}/mo</span><span>$${charge.toFixed(2)}</span></div>
+    <div class="pr-row"><span>Net amount due now</span><span style="color:${net>=0?'var(--accent)':'var(--green)'}">$${net.toFixed(2)}</span></div>
+  </div>`;
+}
+
+function switchTab(id,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+}
+
+// Seed
+for(let i=0;i<6;i++) addRandomSub();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

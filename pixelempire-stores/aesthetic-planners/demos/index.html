@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>StudyGlow Demos | Pixel Empire Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#0a0a0f; color:#e0e0e0; font-family:'Inter', system-ui, sans-serif; line-height:1.6; }
+    h1,h2,h3 { font-family:'Press Start 2P', 'Inter', system-ui, sans-serif; letter-spacing:1px; }
+    a { color:#c084fc; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .container { max-width:960px; margin:0 auto; padding:24px 16px; }
+    .btn { display:inline-block; padding:12px 28px; background:#c084fc; color:#000;
+            font-weight:700; border:none; border-radius:6px; cursor:pointer; font-size:14px; }
+    .btn:hover { opacity:0.85; text-decoration:none; }
+    .price { font-size:22px; font-weight:700; color:#c084fc; }
+    .muted { color:#888; font-size:13px; }
+    .card { background:#14141f; border-radius:10px; padding:16px; }
+    canvas { display:block; border-radius:8px; image-rendering:pixelated; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+<h1 style="font-size:18px;margin-bottom:4px;color:#c084fc">StudyGlow Demos</h1>
+<p class="muted" style="margin-bottom:16px">Aesthetic planners & templates for your best student life &mdash; 12 products</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px">
+
+<a href="notion-student-dashboard.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(88,62,52);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Notion Student Dashboard</h3>
+  <span class="muted">$4.99</span>
+  <div style="margin-top:6px;color:#c084fc;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="notion-aesthetic-journal.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(83,76,255);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Notion Aesthetic Journal</h3>
+  <span class="muted">$3.99</span>
+  <div style="margin-top:6px;color:#c084fc;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="digital-planner-ipad.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(73,63,12);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Digital Planner for iPad</h3>
+  <span class="muted">$7.99</span>
+  <div style="margin-top:6px;color:#c084fc;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="study-flashcard-templates.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(119,189,25);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Study Flashcard Templates</h3>
+  <span class="muted">$2.99</span>
+  <div style="margin-top:6px;color:#c084fc;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="notion-budget-tracker.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(240,120,61);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Notion Budget Tracker (Teen)</h3>
+  <span class="muted">$2.99</span>
+  <div style="margin-top:6px;color:#c084fc;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="aesthetic-wallpaper-calendar.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(34,195,142);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">2026 Aesthetic Calendar Wallpapers</h3>
+  <span class="muted">$1.99</span>
+  <div style="margin-top:6px;color:#c084fc;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="notion-reading-tracker.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(105,68,105);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Notion Reading Tracker</h3>
+  <span class="muted">$2.99</span>
+  <div style="margin-top:6px;color:#c084fc;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="exam-prep-planner.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(37,65,153);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Exam Prep Planner</h3>
+  <span class="muted">$3.99</span>
+  <div style="margin-top:6px;color:#c084fc;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="notion-fitness-tracker.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(139,76,10);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Notion Fitness Tracker</h3>
+  <span class="muted">$2.99</span>
+  <div style="margin-top:6px;color:#c084fc;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="digital-bullet-journal.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(38,149,87);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Digital Bullet Journal Kit</h3>
+  <span class="muted">$5.99</span>
+  <div style="margin-top:6px;color:#c084fc;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="notion-content-planner.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(6,212,243);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Notion Content Creator Planner</h3>
+  <span class="muted">$4.99</span>
+  <div style="margin-top:6px;color:#c084fc;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="college-app-tracker.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(152,252,13);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">College Application Tracker</h3>
+  <span class="muted">$3.99</span>
+  <div style="margin-top:6px;color:#c084fc;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+</div>
+<div style="margin-top:24px"><a href="../../../demos/index.html" style="color:#c084fc">&larr; All Stores</a></div>
+
+</div>
+<script></script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Sync Demo — Automation Hub</title>
+<style>
+  :root { --brand: #18FFFF; --bg: #0A0E1A; --panel: #0d1321; --border: #1e2a3a; --text: #e2e8f0; --muted: #64748b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; }
+  header { background: var(--panel); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  header h1 { font-size: 1.1rem; color: var(--brand); }
+  header a { color: var(--muted); font-size: 0.85rem; text-decoration: none; }
+  header a:hover { color: var(--brand); }
+  .container { max-width: 900px; margin: 0 auto; padding: 28px 16px 60px; }
+  .intro { margin-bottom: 24px; }
+  .intro h2 { font-size: 1.4rem; margin-bottom: 6px; }
+  .intro p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
+  .badge { display: inline-block; background: var(--brand); color: #000; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+  .panel h3 { color: var(--brand); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px; }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .field { flex: 1; min-width: 160px; }
+  label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 5px; }
+  select, input[type=number], input[type=text] { width: 100%; background: #0a0f1e; border: 1px solid var(--border); color: var(--text); padding: 8px 10px; border-radius: 6px; font-size: 0.9rem; }
+  select:focus, input:focus { outline: none; border-color: var(--brand); }
+  .btn { background: var(--brand); color: #000; border: none; padding: 10px 22px; border-radius: 6px; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: opacity 0.15s; }
+  .btn:hover { opacity: 0.85; }
+  .btn-outline { background: transparent; border: 1px solid var(--brand); color: var(--brand); }
+  /* Sync visual */
+  .sync-visual { display: flex; align-items: center; gap: 10px; margin: 16px 0; flex-wrap: wrap; }
+  .db-box { background: #0a0f1e; border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; min-width: 140px; flex: 1; }
+  .db-box .db-name { font-size: 0.85rem; color: var(--brand); font-weight: 600; margin-bottom: 4px; }
+  .db-box .db-count { font-size: 1.3rem; font-weight: 700; }
+  .db-box .db-label { font-size: 0.75rem; color: var(--muted); }
+  .arrow { font-size: 1.4rem; color: var(--brand); flex-shrink: 0; }
+  .progress-bar { background: var(--border); border-radius: 4px; height: 8px; overflow: hidden; margin: 8px 0; }
+  .progress-fill { height: 100%; background: var(--brand); border-radius: 4px; transition: width 0.4s ease; width: 0%; }
+  .log { background: #040710; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-family: monospace; font-size: 0.8rem; height: 160px; overflow-y: auto; }
+  .log-line { margin-bottom: 3px; }
+  .log-line.ok { color: var(--brand); }
+  .log-line.info { color: #94a3b8; }
+  .log-line.warn { color: #f59e0b; }
+  .log-line.err { color: #f87171; }
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 12px; }
+  .stat-card { background: #0a0f1e; border: 1px solid var(--border); border-radius: 6px; padding: 12px; text-align: center; }
+  .stat-card .val { font-size: 1.4rem; font-weight: 700; color: var(--brand); }
+  .stat-card .lbl { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+  /* CTA */
+  .cta-bar { background: linear-gradient(135deg, #001a1a, #002a2a); border: 1px solid var(--brand); border-radius: 10px; padding: 24px 28px; text-align: center; margin-top: 28px; }
+  .cta-bar h3 { font-size: 1.15rem; margin-bottom: 6px; }
+  .cta-bar p { color: var(--muted); font-size: 0.9rem; margin-bottom: 16px; }
+  .cta-bar .price { font-size: 1.5rem; font-weight: 700; color: var(--brand); }
+  .buy-btn { display: inline-block; background: var(--brand); color: #000; font-weight: 700; padding: 12px 32px; border-radius: 7px; text-decoration: none; font-size: 1rem; margin-top: 10px; transition: opacity 0.15s; }
+  .buy-btn:hover { opacity: 0.85; }
+  footer { text-align: center; color: var(--muted); font-size: 0.8rem; padding: 20px; border-top: 1px solid var(--border); margin-top: 20px; }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <h1>⚡ Automation Hub <span class="badge">DEMO</span></h1>
+  <a href="../index.html">← Back to Store</a>
+</header>
+<div class="container">
+  <div class="intro">
+    <h2>Data Sync <span style="color:var(--brand)">Tool</span></h2>
+    <p>Configure source/destination sync strategies and simulate how records are matched, merged, and transferred. The full tool runs real database connections with incremental sync, conflict resolution, and retry logic.</p>
+  </div>
+
+  <!-- Config -->
+  <div class="panel">
+    <h3>Sync Configuration</h3>
+    <div class="row">
+      <div class="field">
+        <label>Source Type</label>
+        <select id="srcType">
+          <option>PostgreSQL</option>
+          <option>MySQL</option>
+          <option>MongoDB</option>
+          <option>CSV File</option>
+          <option>REST API</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Destination Type</label>
+        <select id="dstType">
+          <option>PostgreSQL</option>
+          <option>BigQuery</option>
+          <option>Snowflake</option>
+          <option>Elasticsearch</option>
+          <option>S3 Parquet</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Sync Mode</label>
+        <select id="syncMode">
+          <option>Full Refresh</option>
+          <option>Incremental (Append)</option>
+          <option>Incremental (Upsert)</option>
+          <option>CDC (Change Data Capture)</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label>Source Records</label>
+        <input type="number" id="srcCount" value="10000" min="100" max="1000000">
+      </div>
+      <div class="field">
+        <label>Batch Size</label>
+        <input type="number" id="batchSize" value="500" min="100" max="10000">
+      </div>
+      <div class="field">
+        <label>Conflict Strategy</label>
+        <select id="conflictStrat">
+          <option>Source Wins</option>
+          <option>Destination Wins</option>
+          <option>Newest Wins</option>
+          <option>Merge Fields</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" onclick="runSync()">▶ Run Sync Simulation</button>
+    <button class="btn btn-outline" onclick="resetSync()" style="margin-left:8px">Reset</button>
+  </div>
+
+  <!-- Visual -->
+  <div class="panel">
+    <h3>Sync Progress</h3>
+    <div class="sync-visual">
+      <div class="db-box">
+        <div class="db-name" id="srcLabel">PostgreSQL (Source)</div>
+        <div class="db-count" id="srcRecords">10,000</div>
+        <div class="db-label">records</div>
+      </div>
+      <div class="arrow" id="arrowAnim">→</div>
+      <div class="db-box">
+        <div class="db-name" id="dstLabel">PostgreSQL (Destination)</div>
+        <div class="db-count" id="dstRecords">0</div>
+        <div class="db-label">synced</div>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+    <div style="font-size:0.8rem;color:var(--muted);margin-top:4px" id="progLabel">Ready to sync</div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="val" id="statInserted">0</div><div class="lbl">Inserted</div></div>
+      <div class="stat-card"><div class="val" id="statUpdated">0</div><div class="lbl">Updated</div></div>
+      <div class="stat-card"><div class="val" id="statSkipped">0</div><div class="lbl">Skipped</div></div>
+      <div class="stat-card"><div class="val" id="statErrors">0</div><div class="lbl">Errors</div></div>
+      <div class="stat-card"><div class="val" id="statBatches">0</div><div class="lbl">Batches</div></div>
+      <div class="stat-card"><div class="val" id="statTime">—</div><div class="lbl">Duration</div></div>
+    </div>
+  </div>
+
+  <!-- Log -->
+  <div class="panel">
+    <h3>Sync Log</h3>
+    <div class="log" id="syncLog">
+      <div class="log-line info">[00:00:00] Sync engine ready. Configure above and click Run.</div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Full Data Sync Tool</h3>
+    <p>Real DB connections · Incremental CDC · Schema mapping · Retry logic · Dry-run mode</p>
+    <div class="price">$19.00</div>
+    <br>
+    <a class="buy-btn" href="https://buy.stripe.com/5kQ7sL5eD2yyfVM3e1gjJ0t">Buy Full Version — $19</a>
+    <button class="crypto-pay-btn" data-product-slug="data-sync-tool" data-store-slug="automation-hub" data-product-name="Data Sync Tool" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo simulates sync behavior in-browser. Buy the full tool for live database connections and production-grade sync.</footer>
+
+<script>
+// Sync simulation
+let syncTimer = null;
+
+function fmt(n) { return n.toLocaleString(); }
+
+function log(msg, type='info') {
+  const el = document.getElementById('syncLog');
+  const now = new Date();
+  const ts = [now.getHours(), now.getMinutes(), now.getSeconds()].map(x => String(x).padStart(2,'0')).join(':');
+  const line = document.createElement('div');
+  line.className = 'log-line ' + type;
+  line.textContent = `[${ts}] ${msg}`;
+  el.appendChild(line);
+  el.scrollTop = el.scrollHeight;
+}
+
+function resetSync() {
+  if (syncTimer) { clearInterval(syncTimer); syncTimer = null; }
+  document.getElementById('progFill').style.width = '0%';
+  document.getElementById('progLabel').textContent = 'Ready to sync';
+  document.getElementById('dstRecords').textContent = '0';
+  ['statInserted','statUpdated','statSkipped','statErrors','statBatches','statTime'].forEach(id => {
+    document.getElementById(id).textContent = id === 'statTime' ? '—' : '0';
+  });
+  document.getElementById('syncLog').innerHTML = '<div class="log-line info">[00:00:00] Reset. Ready to sync.</div>';
+}
+
+function runSync() {
+  resetSync();
+  const srcCount = parseInt(document.getElementById('srcCount').value) || 10000;
+  const batchSz  = parseInt(document.getElementById('batchSize').value) || 500;
+  const mode     = document.getElementById('syncMode').value;
+  const conflict = document.getElementById('conflictStrat').value;
+  const src      = document.getElementById('srcType').value;
+  const dst      = document.getElementById('dstType').value;
+
+  document.getElementById('srcLabel').textContent = src + ' (Source)';
+  document.getElementById('dstLabel').textContent = dst + ' (Dest)';
+  document.getElementById('srcRecords').textContent = fmt(srcCount);
+
+  const totalBatches = Math.ceil(srcCount / batchSz);
+  let batch = 0, inserted = 0, updated = 0, skipped = 0, errors = 0;
+  const startMs = Date.now();
+
+  log(`Starting ${mode} sync: ${fmt(srcCount)} records, batch size ${batchSz}`, 'info');
+  log(`Source: ${src} → Destination: ${dst}`, 'info');
+  log(`Conflict strategy: ${conflict}`, 'info');
+
+  if (mode === 'CDC (Change Data Capture)') log('CDC: Tailing WAL / change stream...', 'warn');
+
+  syncTimer = setInterval(() => {
+    if (batch >= totalBatches) {
+      clearInterval(syncTimer);
+      const elapsed = ((Date.now() - startMs) / 1000).toFixed(1);
+      log(`Sync complete in ${elapsed}s — ${fmt(inserted)} inserted, ${fmt(updated)} updated, ${fmt(skipped)} skipped, ${errors} errors`, 'ok');
+      document.getElementById('statTime').textContent = elapsed + 's';
+      document.getElementById('progLabel').textContent = 'Sync complete ✓';
+      document.getElementById('arrowAnim').style.color = '#4ade80';
+      return;
+    }
+
+    batch++;
+    const remaining = srcCount - (batch - 1) * batchSz;
+    const thisBatch = Math.min(batchSz, remaining);
+
+    // Simulate insert/update/skip distribution based on mode
+    let ins, upd, skip, err;
+    if (mode === 'Full Refresh') {
+      ins = thisBatch; upd = 0; skip = 0; err = Math.random() < 0.03 ? 1 : 0;
+    } else if (mode === 'Incremental (Append)') {
+      ins = Math.floor(thisBatch * 0.7); upd = 0; skip = thisBatch - ins; err = Math.random() < 0.02 ? 1 : 0;
+    } else if (mode === 'Incremental (Upsert)') {
+      ins = Math.floor(thisBatch * 0.5); upd = Math.floor(thisBatch * 0.4); skip = thisBatch - ins - upd; err = Math.random() < 0.02 ? 1 : 0;
+    } else { // CDC
+      ins = Math.floor(thisBatch * 0.4); upd = Math.floor(thisBatch * 0.45); skip = Math.floor(thisBatch * 0.1); err = Math.random() < 0.04 ? 2 : 0;
+    }
+
+    inserted += ins; updated += upd; skipped += skip; errors += err;
+    const synced = inserted + updated;
+    const pct = Math.round((batch / totalBatches) * 100);
+
+    document.getElementById('progFill').style.width = pct + '%';
+    document.getElementById('progLabel').textContent = `Batch ${batch}/${totalBatches} — ${pct}%`;
+    document.getElementById('dstRecords').textContent = fmt(synced);
+    document.getElementById('statInserted').textContent = fmt(inserted);
+    document.getElementById('statUpdated').textContent = fmt(updated);
+    document.getElementById('statSkipped').textContent = fmt(skipped);
+    document.getElementById('statErrors').textContent = errors;
+    document.getElementById('statBatches').textContent = batch;
+
+    if (batch % 3 === 0 || batch === 1) {
+      const type = err > 0 ? 'warn' : 'ok';
+      const errNote = err > 0 ? ` (${err} error${err>1?'s':''})` : '';
+      log(`Batch ${batch}: +${ins} ins, ~${upd} upd, ${skip} skip${errNote}`, type);
+    }
+  }, 180);
+}
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

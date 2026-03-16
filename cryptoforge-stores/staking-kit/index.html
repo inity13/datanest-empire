@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staking Kit — Staking & Liquid Staking Toolkit | CryptoForge</title>
+<meta name="description" content="Production-ready staking contracts, LST factories, validator monitors, and restaking adapters. Stake smarter, not harder.">
+<meta property="og:title" content="Staking Kit — Staking & Liquid Staking Toolkit | CryptoForge">
+<meta property="og:description" content="Production-ready staking contracts, LST factories, validator monitors, and restaking adapters. Stake smarter, not harder.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stakingkit.cryptoforge.dev">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script defer data-domain="stakingkit.cryptoforge.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                         NAVIGATION                            -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <span class="logo-icon">&#x26A1;</span>
+      <span class="logo-text">STAKING<span class="logo-accent">KIT</span></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#products">Products</a>
+      <a href="#bundles">Bundles</a>
+      <a href="#features">Features</a>
+      <a href="#free">Free Tools</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://cryptoforge.dev" class="nav-cta">All Stores &rarr;</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                            HERO                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">CryptoForge Store #4</div>
+    <h1 class="hero-title">
+      <span class="gradient-text">Staking Kit</span>
+    </h1>
+    <p class="hero-subtitle">
+      Production-ready staking contracts, liquid staking tools, and validator infrastructure.<br>
+      Stake smarter, not harder.
+    </p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-value">10</span>
+        <span class="stat-label">Products</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">140+</span>
+        <span class="stat-label">Files</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">4</span>
+        <span class="stat-label">Chains</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">95%+</span>
+        <span class="stat-label">Test Coverage</span>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a href="#bundles" class="btn btn-primary btn-lg">Get the Pro Bundle &mdash; $59.99</a>
+      <a href="#products" class="btn btn-ghost btn-lg">Browse Products</a>
+    </div>
+    <div class="hero-trust">
+      <span>Solidity ^0.8.24</span>
+      <span class="trust-sep">&bull;</span>
+      <span>OpenZeppelin v5</span>
+      <span class="trust-sep">&bull;</span>
+      <span>Foundry Tests</span>
+      <span class="trust-sep">&bull;</span>
+      <span>Ethereum &bull; Arbitrum &bull; Base &bull; Optimism</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          BUNDLES                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="bundles">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Save with Bundles</span></h2>
+    <p class="section-desc">Get multiple products at a fraction of the individual price.</p>
+
+    <div class="bundle-grid">
+      <!-- Starter Bundle -->
+      <div class="bundle-card">
+        <div class="bundle-badge">SAVE 40%</div>
+        <h3 class="bundle-name">Starter Bundle</h3>
+        <p class="bundle-desc">Essential staking toolkit. Validator monitor, rewards calculator, staking dashboard, and tax reporter.</p>
+        <div class="bundle-pricing">
+          <span class="bundle-original">$41.96</span>
+          <span class="bundle-price">$24.99</span>
+        </div>
+        <ul class="bundle-includes">
+          <li>Validator Monitor <span class="include-price">$12.99</span></li>
+          <li>Staking Rewards Calculator <span class="include-price">$7.99</span></li>
+          <li>Staking Dashboard <span class="include-price">$12.99</span></li>
+          <li>Staking Tax Reporter <span class="include-price">$7.99</span></li>
+        </ul>
+        <a href="#" class="btn btn-secondary btn-full" data-product="starter-bundle">Buy Starter &mdash; $24.99</a>
+      </div>
+
+      <!-- Pro Bundle -->
+      <div class="bundle-card bundle-featured">
+        <div class="bundle-badge bundle-badge-gold">BEST VALUE &mdash; SAVE 50%</div>
+        <h3 class="bundle-name">Pro Bundle</h3>
+        <p class="bundle-desc">The complete staking toolkit. All 10 products &mdash; contracts, dashboards, tools, and insurance.</p>
+        <div class="bundle-pricing">
+          <span class="bundle-original">$119.91</span>
+          <span class="bundle-price">$59.99</span>
+        </div>
+        <ul class="bundle-includes">
+          <li>All 10 Staking Products</li>
+          <li>All future updates included</li>
+          <li>Priority support (30 days)</li>
+        </ul>
+        <a href="#" class="btn btn-primary btn-full" data-product="pro-bundle">Buy Pro Bundle &mdash; $59.99</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                         PRODUCTS                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="products">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Product Catalog</span></h2>
+    <p class="section-desc">10 battle-tested products for building, deploying, and operating staking infrastructure.</p>
+
+    <!-- Filter tabs -->
+    <div class="filter-tabs">
+      <button class="filter-btn active" data-filter="all">All (10)</button>
+      <button class="filter-btn" data-filter="contracts">Contracts (5)</button>
+      <button class="filter-btn" data-filter="frontend">Frontend (2)</button>
+      <button class="filter-btn" data-filter="tooling">Tools (3)</button>
+    </div>
+
+    <div class="product-grid">
+      <!-- Product 1 -->
+      <div class="product-card" data-category="frontend">
+        <div class="product-number">#1</div>
+        <div class="product-tag tag-frontend">Frontend</div>
+        <h3 class="product-name">Validator Monitor</h3>
+        <p class="product-desc">Monitoring dashboard for PoS validator performance. Track attestations, proposals, balance history, and alerts.</p>
+        <div class="product-tech">
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Recharts</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$12.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="validator-monitor">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#2</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">LST Factory</h3>
+        <p class="product-desc">Liquid staking token factory with mint/burn/accounting. Exchange-rate model, oracle-fed balances, protocol fees.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">OpenZeppelin v5</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$19.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="lst-factory">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card" data-category="tooling">
+        <div class="product-number">#3</div>
+        <div class="product-tag tag-tooling">Tooling</div>
+        <h3 class="product-name">Staking Rewards Calculator</h3>
+        <p class="product-desc">Calculator engine for staking APY, emissions, fee deductions. Python + TypeScript implementations.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">TypeScript</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$7.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="staking-rewards-calc">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#4</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">Delegation Manager</h3>
+        <p class="product-desc">Multi-validator delegation with weighted allocation, rebalancing, and validator scoring.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">OpenZeppelin v5</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="delegation-manager">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 5 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#5</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">Slashing Insurance</h3>
+        <p class="product-desc">Insurance pool protecting delegators from slashing. Underwriter deposits, premiums, oracle-based claims.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">OpenZeppelin v5</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$14.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="slashing-insurance">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 6 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#6</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">Restaking Adapter</h3>
+        <p class="product-desc">EigenLayer integration for restaking LSTs. Strategy deposits, operator delegation, reward accounting.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">EigenLayer</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$12.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="restaking-adapter">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 7 -->
+      <div class="product-card" data-category="frontend">
+        <div class="product-number">#7</div>
+        <div class="product-tag tag-frontend">Frontend</div>
+        <h3 class="product-name">Staking Dashboard</h3>
+        <p class="product-desc">React dashboard for staking positions, rewards, APY history, and delegation allocation.</p>
+        <div class="product-tech">
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">wagmi</span>
+          <span class="tech-tag">Recharts</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$12.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="staking-dashboard">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 8 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#8</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">Withdrawal Queue</h3>
+        <p class="product-desc">Fair FIFO withdrawal queue with configurable cooldowns, batch processing, and NFT receipts.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">OpenZeppelin v5</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="withdrawal-queue">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 9 -->
+      <div class="product-card" data-category="tooling">
+        <div class="product-number">#9</div>
+        <div class="product-tag tag-tooling">Tooling</div>
+        <h3 class="product-name">Validator Key Manager</h3>
+        <p class="product-desc">Secure BLS key management: generation, encrypted storage, rotation, and signing ceremonies.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">cryptography</span>
+          <span class="tech-tag">Click</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="validator-key-manager">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 10 -->
+      <div class="product-card" data-category="tooling">
+        <div class="product-number">#10</div>
+        <div class="product-tag tag-tooling">Tooling</div>
+        <h3 class="product-name">Staking Tax Reporter</h3>
+        <p class="product-desc">Export staking rewards as CSV for tax reporting. US and EU formats, compatible with TurboTax and Koinly.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">pandas</span>
+          <span class="tech-tag">web3.py</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$7.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="staking-tax-reporter">Buy Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                        FEATURES                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="features">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Why Staking Kit?</span></h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F6E1;</div>
+        <h3>Slashing Protection</h3>
+        <p>Insurance pools protect delegators from validator slashing. Oracle-verified claims, automatic payouts, and configurable coverage limits.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x2699;</div>
+        <h3>Production-Ready</h3>
+        <p>Not hackathon code. Every contract has NatSpec documentation, deploy scripts, comprehensive Foundry tests (unit + fuzz + invariant), and security notes.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x26D3;</div>
+        <h3>Multi-Chain</h3>
+        <p>Deploy to Ethereum, Arbitrum, Base, and Optimism. Chain configs included. Same contracts, same security, lower gas on L2s.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F4CA;</div>
+        <h3>Full Stack</h3>
+        <p>Contracts + dashboards + CLI tools + tax reporting. Everything from Solidity to React to Python. Ship the whole staking stack.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F504;</div>
+        <h3>Restaking Ready</h3>
+        <p>EigenLayer integration adapter included. Restake your LSTs for additional yield. Operator delegation and reward accounting built in.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F680;</div>
+        <h3>Ship Fast</h3>
+        <p>From zero to deployed staking infrastructure in under an hour. LST factory, delegation manager, withdrawal queue &mdash; all configured and ready.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                       FREE TOOLS                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="free">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Free Resources</span></h2>
+    <div class="lead-magnet-grid">
+      <div class="lead-magnet-card">
+        <div class="lm-icon">&#x1F4CB;</div>
+        <h3>Staking Contract Security Checklist</h3>
+        <p>25-point security checklist for auditing staking contracts. Covers slashing, oracle manipulation, withdrawal exploits, and more.</p>
+        <form class="lm-form" data-magnet="staking-security-checklist">
+          <input type="email" placeholder="your@email.com" class="lm-input" required>
+          <button type="submit" class="btn btn-primary">Download Free</button>
+        </form>
+      </div>
+      <div class="lead-magnet-card">
+        <div class="lm-icon">&#x1F3D7;</div>
+        <h3>LST Architecture Guide</h3>
+        <p>Design patterns for liquid staking tokens: rebasing vs exchange-rate, oracle design, and withdrawal queue mechanics.</p>
+        <form class="lm-form" data-magnet="lst-architecture-guide">
+          <input type="email" placeholder="your@email.com" class="lm-input" required>
+          <button type="submit" class="btn btn-primary">Download Free</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          FAQ                                  -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="faq">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">FAQ</span></h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h3 class="faq-question">What chains are supported?</h3>
+        <p class="faq-answer">All Solidity contracts deploy to Ethereum, Arbitrum, Base, and Optimism. The validator monitor also supports Gnosis chain. Python and TypeScript tools work with any EVM chain.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Do I need all 10 products?</h3>
+        <p class="faq-answer">No. Each product is standalone and independently useful. The Starter Bundle covers the most common needs. The Pro Bundle is for teams building complete staking infrastructure.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Are the contracts audited?</h3>
+        <p class="faq-answer">All contracts include comprehensive Foundry test suites with fuzz testing, invariant testing, and security notes documenting trust assumptions. We recommend a professional audit before mainnet deployment.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What license are the products?</h3>
+        <p class="faq-answer">All products include an MIT license. You can use them in commercial and open-source projects without restrictions.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Does the LST Factory work with EigenLayer?</h3>
+        <p class="faq-answer">Yes. The LST Factory produces standard ERC-20 tokens that are compatible with the Restaking Adapter (#6) for EigenLayer integration. Buy both for the complete flow.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">How do I get support?</h3>
+        <p class="faq-answer">Pro Bundle includes 30 days of priority support via email. Individual product buyers get community support via GitHub Discussions. All products include comprehensive READMEs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                       CROSS-SELL                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">More from CryptoForge</span></h2>
+    <p class="section-desc">Staking Kit is one of 10 CryptoForge stores. Build your entire DeFi stack.</p>
+    <div class="cross-sell-grid">
+      <a href="#" class="cross-sell-card">
+        <h3>Vault Forge</h3>
+        <p>ERC-4626 yield vault toolkit. Use LSTs as vault underlying assets for compounded yield.</p>
+        <span class="cross-sell-link">Browse Store &rarr;</span>
+      </a>
+      <a href="#" class="cross-sell-card">
+        <h3>DeFi Router</h3>
+        <p>Routing & swap aggregation tools. Route LST swaps with optimized aggregation and fee monetization.</p>
+        <span class="cross-sell-link">Browse Store &rarr;</span>
+      </a>
+      <a href="#" class="cross-sell-card">
+        <h3>Coverage Vault</h3>
+        <p>DeFi insurance & risk tools. Build additional slashing coverage layers for your staking products.</p>
+        <span class="cross-sell-link">Browse Store &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          FOOTER                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo-icon">&#x2692;</span>
+        <span class="logo-text">CRYPTO<span class="logo-accent">FORGE</span></span>
+        <p class="footer-tagline">Forge the future of DeFi.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Stores</h4>
+        <a href="#">Vault Forge</a>
+        <a href="#">DeFi Router</a>
+        <a href="#">MEV Shield</a>
+        <a href="#">Staking Kit</a>
+        <a href="#">Sub Protocol</a>
+      </div>
+      <div class="footer-links">
+        <h4>Resources</h4>
+        <a href="#">Documentation</a>
+        <a href="#">Security Checklist</a>
+        <a href="#">LST Guide</a>
+        <a href="#">Blog</a>
+      </div>
+      <div class="footer-links">
+        <h4>Payment</h4>
+        <p class="footer-note">We accept Stripe (credit/debit) and crypto payments (ETH, BTC).</p>
+        <p class="footer-note">All products include MIT license.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 CryptoForge. All rights reserved. Part of the DATANEST empire.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

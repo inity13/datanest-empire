@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Environment Manager — Interactive Demo | Deploy Kit</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#00BCD4;--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;--red:#FF4B6E;--yellow:#FFD600;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;} .badge{background:var(--accent);color:#000;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1000px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .envgrid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;}
+  @media(max-width:700px){.envgrid{grid-template-columns:1fr;}}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.25rem;}
+  .panel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;}
+  .panel-title{font-weight:700;font-size:.95rem;}
+  .env-badge{font-size:.7rem;padding:.2rem .5rem;border-radius:4px;font-weight:700;}
+  .env-local{background:rgba(0,255,136,.15);color:var(--green);border:1px solid rgba(0,255,136,.3);}
+  .env-prod{background:rgba(255,75,110,.15);color:var(--red);border:1px solid rgba(255,75,110,.3);}
+  textarea{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.75rem;border-radius:8px;font-family:'Courier New',monospace;font-size:.78rem;line-height:1.6;resize:vertical;min-height:180px;}
+  textarea:focus{outline:none;border-color:var(--accent);}
+  .btn-row{display:flex;gap:.75rem;margin-bottom:1.5rem;}
+  .btn{flex:1;padding:.7rem;background:var(--accent);color:#000;border:none;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer;}
+  .btn:hover{opacity:.85;}
+  .btn-ghost{flex:1;padding:.7rem;background:transparent;color:var(--text);border:1px solid var(--border);border-radius:8px;font-size:.88rem;cursor:pointer;}
+  .btn-ghost:hover{border-color:var(--accent);}
+  .diff-panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  .diff-header{background:var(--surface2);padding:.75rem 1.25rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);}
+  .diff-title{font-weight:600;font-size:.9rem;}
+  .diff-stats{display:flex;gap:.75rem;font-size:.78rem;}
+  .stat-add{color:var(--green);} .stat-rem{color:var(--red);} .stat-chg{color:var(--yellow);}
+  .diff-list{padding:1rem;}
+  .diff-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;padding:.4rem .6rem;border-radius:6px;margin-bottom:.3rem;font-size:.78rem;font-family:'Courier New',monospace;align-items:center;}
+  .diff-added{background:rgba(0,255,136,.07);border-left:3px solid var(--green);}
+  .diff-removed{background:rgba(255,75,110,.07);border-left:3px solid var(--red);}
+  .diff-changed{background:rgba(255,214,0,.07);border-left:3px solid var(--yellow);}
+  .diff-same{opacity:.4;}
+  .diff-key{color:var(--accent);font-weight:600;}
+  .diff-val-old{color:var(--red);}
+  .diff-val-new{color:var(--green);}
+  .diff-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.05em;padding:.1rem .3rem;border-radius:3px;margin-right:.3rem;}
+  .lbl-add{background:rgba(0,255,136,.2);color:var(--green);}
+  .lbl-rem{background:rgba(255,75,110,.2);color:var(--red);}
+  .lbl-chg{background:rgba(255,214,0,.2);color:var(--yellow);}
+  .lbl-ok{background:rgba(136,136,170,.15);color:var(--muted);}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a2040);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#000;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">🔧</span>
+  <h1>Environment Manager</h1>
+  <span>Interactive Demo</span>
+  <span class="badge">Deploy Kit</span>
+</header>
+<div class="container">
+  <h2>.env File Diff & Sync Tool</h2>
+  <p class="subtitle">Paste two .env files below — see what's different, missing, or changed between environments.</p>
+  <div class="envgrid">
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">.env.local</span>
+        <span class="env-badge env-local">LOCAL</span>
+      </div>
+      <textarea id="envA">APP_NAME=my-app
+DEBUG=true
+DATABASE_URL=postgresql://localhost:5432/devdb
+REDIS_URL=redis://localhost:6379
+SECRET_KEY=dev-secret-key-not-for-prod
+API_KEY=test-api-key-12345
+ALLOWED_HOSTS=localhost,127.0.0.1
+LOG_LEVEL=debug
+SMTP_HOST=mailhog
+SMTP_PORT=1025
+FRONTEND_URL=http://localhost:3000</textarea>
+    </div>
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">.env.production</span>
+        <span class="env-badge env-prod">PRODUCTION</span>
+      </div>
+      <textarea id="envB">APP_NAME=my-app
+DEBUG=false
+DATABASE_URL=postgresql://prod-host:5432/proddb
+REDIS_URL=redis://prod-redis:6379
+SECRET_KEY=
+API_KEY=
+ALLOWED_HOSTS=api.myapp.com,myapp.com
+LOG_LEVEL=warning
+SMTP_HOST=smtp.sendgrid.net
+SMTP_PORT=587
+SENDGRID_API_KEY=
+SENTRY_DSN=https://xxx@sentry.io/123
+FEATURE_FLAGS_API_KEY=</textarea>
+    </div>
+  </div>
+  <div class="btn-row">
+    <button class="btn" onclick="diffEnvs()">🔍 Compare .env Files</button>
+    <button class="btn-ghost" onclick="loadExample()">Load Example</button>
+  </div>
+  <div class="diff-panel" id="diffPanel" style="display:none">
+    <div class="diff-header">
+      <span class="diff-title">Diff Results</span>
+      <div class="diff-stats">
+        <span class="stat-add" id="statAdd">+0 added</span>
+        <span class="stat-rem" id="statRem">-0 removed</span>
+        <span class="stat-chg" id="statChg">~0 changed</span>
+      </div>
+    </div>
+    <div class="diff-list" id="diffList"></div>
+  </div>
+  <div class="cta-box">
+    <h3>🔧 Full Environment Manager</h3>
+    <p>Full version adds secret detection, .env.example generation, multi-environment sync, vault integration, and CI/CD secret injection.</p>
+    <a href="https://buy.stripe.com/4gMeVd22rb54eRIdSFgjJ0G" class="cta-btn">Buy Full Version — $9.99</a>
+    <button class="crypto-pay-btn" data-product-slug="environment-manager" data-store-slug="deploy-kit" data-product-name="Environment Manager" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+<script>
+function parseEnv(text){
+  const out={};
+  text.split('\n').forEach(line=>{
+    line=line.trim();
+    if(!line||line.startsWith('#')) return;
+    const eq=line.indexOf('=');
+    if(eq<0) return;
+    out[line.slice(0,eq).trim()]=line.slice(eq+1).trim();
+  });
+  return out;
+}
+
+function isSensitive(key){
+  return /secret|password|key|token|dsn|api/i.test(key);
+}
+
+function maskVal(key, val){
+  if(!val) return '<span style="color:var(--red)">⚠️ EMPTY</span>';
+  if(isSensitive(key)) return '••••••••';
+  return val.length>30?val.slice(0,27)+'…':val;
+}
+
+function diffEnvs(){
+  const a=parseEnv(document.getElementById('envA').value);
+  const b=parseEnv(document.getElementById('envB').value);
+  const allKeys=new Set([...Object.keys(a),...Object.keys(b)]);
+  const rows=[];
+  let added=0, removed=0, changed=0;
+
+  allKeys.forEach(key=>{
+    const inA=key in a, inB=key in b;
+    if(inA&&inB){
+      if(a[key]!==b[key]){changed++;rows.push({type:'changed',key,old:a[key],new:b[key]});}
+      else rows.push({type:'same',key,val:a[key]});
+    } else if(inA&&!inB){removed++;rows.push({type:'removed',key,val:a[key]});}
+    else{added++;rows.push({type:'added',key,val:b[key]});}
+  });
+
+  rows.sort((a,b)=>{const o={removed:0,added:1,changed:2,same:3};return o[a.type]-o[b.type];});
+
+  document.getElementById('statAdd').textContent=`+${added} added`;
+  document.getElementById('statRem').textContent=`-${removed} removed`;
+  document.getElementById('statChg').textContent=`~${changed} changed`;
+
+  let html='';
+  rows.forEach(r=>{
+    if(r.type==='same'){
+      html+=`<div class="diff-row diff-same"><span><span class="diff-label lbl-ok">OK</span><span class="diff-key">${r.key}</span></span><span>${maskVal(r.key,r.val)}</span></div>`;
+    } else if(r.type==='added'){
+      html+=`<div class="diff-row diff-added"><span><span class="diff-label lbl-add">+ADD</span><span class="diff-key">${r.key}</span></span><span class="diff-val-new">${maskVal(r.key,r.val)}</span></div>`;
+    } else if(r.type==='removed'){
+      html+=`<div class="diff-row diff-removed"><span><span class="diff-label lbl-rem">-REM</span><span class="diff-key">${r.key}</span></span><span class="diff-val-old">${maskVal(r.key,r.val)}</span></div>`;
+    } else {
+      html+=`<div class="diff-row diff-changed"><span><span class="diff-label lbl-chg">~CHG</span><span class="diff-key">${r.key}</span></span><span class="diff-val-old">${maskVal(r.key,r.old)}</span></div>`;
+    }
+  });
+
+  const panel=document.getElementById('diffPanel');
+  document.getElementById('diffList').innerHTML=html;
+  panel.style.display='block';
+}
+function loadExample(){diffEnvs();}
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

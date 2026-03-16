@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Script Kit &mdash; Security Kit &mdash; CodeVault</title>
+    <meta name="description" content="Linux/macOS security audit scripts: file permission checker, cron job auditor, SUID/SGID finder, and running process monitor. Python 3.10+ stdlib only.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F6E1;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#D500F9">
+    <script defer data-domain="security-kit.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Security Kit</a>
+        <h1 class="preview-page__title">&#x1F4CB; Audit Script Kit</h1>
+        <p class="preview-page__price">$4.99</p>
+        <p class="preview-page__desc">A collection of read-only audit scripts for Linux and macOS systems. Check file permissions, find SUID/SGID binaries, review cron jobs, and monitor running processes for anomalies. Safe to run on production &mdash; no writes, no changes.</p>
+
+        <ul class="preview-page__features">
+            <li>World-writable file and directory finder</li>
+            <li>SUID/SGID binary enumeration with known-safe whitelist</li>
+            <li>Cron job auditor (user and system crontabs)</li>
+            <li>Listening port &rarr; process mapper</li>
+            <li>Sudoers file parser and privilege escalation risk score</li>
+            <li>SSH config auditor (weak ciphers, root login, password auth)</li>
+            <li>JSON and plain-text report output</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Full system audit
+python audit.py --all
+
+# Permissions audit only
+python audit.py --permissions --path /var/www
+
+# Check cron jobs and SSH config
+python audit.py --cron --ssh</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="https://buy.stripe.com/PLACEHOLDER_audit-script-kit"
+               class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/PLACEHOLDER_audit-script-kit"
+               data-product="audit-script-kit">
+                Buy Now &mdash; $4.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Audit Script Kit"
+                    data-crypto-price="424">
+                Pay with Crypto ($4.24)
+            </button>
+        </div>
+
+        <hr style="border-color: var(--cv-border); margin: 32px 0;">
+        <h2 style="font-size: 1rem; margin-bottom: 16px; color: var(--cv-text-muted);">Related tools</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <a href="preview-compliance-checker.html" class="btn btn--secondary" style="font-size: 0.85rem;">Compliance Checker</a>
+            <a href="preview-incident-response-kit.html" class="btn btn--secondary" style="font-size: 0.85rem;">Incident Response Kit</a>
+            <a href="preview-security-report-generator.html" class="btn btn--secondary" style="font-size: 0.85rem;">Security Report Generator</a>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

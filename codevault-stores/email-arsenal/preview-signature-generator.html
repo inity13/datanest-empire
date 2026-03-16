@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signature Generator &mdash; Email Arsenal &mdash; CodeVault</title>
+    <meta name="description" content="Python script that generates professional HTML email signatures from templates. Consistent branding across your whole team.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F4E7;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#FF3366">
+    <script defer data-domain="email-arsenal.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Email Arsenal</a>
+        <h1 class="preview-page__title">Signature Generator</h1>
+        <p class="preview-page__price">$4.99</p>
+        <p class="preview-page__desc">Python script that generates professional HTML email signatures from JSON config files. Keep branding consistent across your whole team &mdash; generate signatures for everyone from one template.</p>
+
+        <ul class="preview-page__features">
+            <li>Multiple built-in signature templates (minimal, professional, modern)</li>
+            <li>JSON-based configuration for team member details</li>
+            <li>Custom brand colors, fonts, and social media icons</li>
+            <li>Batch generation for entire teams from a single config</li>
+            <li>Gmail, Outlook, and Apple Mail compatible HTML output</li>
+            <li>Optional profile image support with base64 embedding</li>
+            <li>Live preview server for quick iteration</li>
+            <li>Output as standalone HTML files ready to paste</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Generate a single signature
+python signature_generator.py --config config.json --template professional
+
+# Batch generate for a team
+python signature_generator.py --config team.json --template modern --output-dir ./sigs
+
+# Preview in browser
+python signature_generator.py --config config.json --preview</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_signature_generator"
+               data-product="signature-generator">
+                Grab This &mdash; $4.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Signature Generator"
+                    data-crypto-price="499">
+                Pay with Crypto ($3.99)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

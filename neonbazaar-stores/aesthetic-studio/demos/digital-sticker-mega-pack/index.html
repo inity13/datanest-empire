@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Sticker Mega Pack — Demo</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a12; font-family: 'Segoe UI', sans-serif; color: #E8E0F0; min-height: 100vh; }
+  .header { text-align: center; padding: 1.5rem; }
+  h1 { font-size: 2rem; font-weight: 300; color: #FFB5C5; }
+  .subtitle { color: #888; margin-top: 0.3rem; font-size: 0.9rem; }
+  .layout { display: flex; height: calc(100vh - 100px); }
+  .sidebar { width: 220px; background: #15152a; padding: 1rem; overflow-y: auto; border-right: 1px solid #252545; }
+  .sidebar h3 { font-size: 0.8rem; color: #C5A3D9; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.1em; }
+  .sticker-thumb { width: 60px; height: 60px; display: inline-block; margin: 4px; cursor: grab; border-radius: 8px; transition: transform 0.2s; }
+  .sticker-thumb:hover { transform: scale(1.15); }
+  .canvas-area { flex: 1; position: relative; overflow: hidden; }
+  .canvas { width: 100%; height: 100%; background: repeating-conic-gradient(#15152a 0% 25%, #0f0f20 0% 50%) 0 0 / 30px 30px; }
+  .placed { position: absolute; width: 80px; height: 80px; cursor: move; user-select: none; }
+  .instructions { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #333; font-size: 1.2rem; pointer-events: none; }
+.crypto-pay-btn{background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem}
+.crypto-pay-btn:hover{opacity:0.9}
+</style>
+</head>
+<body>
+  <div class="header">
+    <h1>Sticker Canvas</h1>
+    <p class="subtitle">Drag stickers from the sidebar onto the canvas</p>
+  </div>
+  <div class="layout">
+    <div class="sidebar" id="sidebar">
+      <h3>Stickers</h3>
+    </div>
+    <div class="canvas-area">
+      <div class="canvas" id="canvas">
+        <div class="instructions">Drag stickers here!</div>
+      </div>
+    </div>
+  </div>
+
+<script>
+const stickers = [
+  "01-bear","02-bunny","03-cat","04-puppy","05-penguin","06-frog","07-duck","08-hamster","09-fox","10-panda",
+  "11-crescent-moon","12-sparkle-star","13-happy-cloud","14-rainbow","15-sunshine","16-planet","17-shooting-star","18-constellation",
+  "19-boba-tea","20-cupcake","21-strawberry","22-ice-cream","23-cookie","24-donut","25-lollipop","26-matcha-latte",
+  "27-you-got-this","28-main-character","29-vibe-check","30-self-love","31-be-kind","32-dream-big","33-good-vibes","34-its-okay","35-slay","36-no-bad-days",
+  "37-heart-frame","38-cloud-frame","39-star-frame","40-ribbon-banner","41-scallop-frame","42-polaroid-frame","43-circle-wreath","44-ticket-stub",
+  "45-sparkles","46-hearts","47-flowers","48-butterflies","49-music-notes","50-gems","51-bow","52-washi-tape"
+];
+
+const sidebar = document.getElementById('sidebar');
+const canvas = document.getElementById('canvas');
+
+stickers.forEach(s => {
+  const img = document.createElement('img');
+  img.src = `../src/stickers/${s}.svg`;
+  img.className = 'sticker-thumb';
+  img.draggable = true;
+  img.dataset.sticker = s;
+  img.addEventListener('dragstart', e => {
+    e.dataTransfer.setData('text/plain', s);
+  });
+  sidebar.appendChild(img);
+});
+
+canvas.addEventListener('dragover', e => e.preventDefault());
+canvas.addEventListener('drop', e => {
+  e.preventDefault();
+  const s = e.dataTransfer.getData('text/plain');
+  const img = document.createElement('img');
+  img.src = `../src/stickers/${s}.svg`;
+  img.className = 'placed';
+  img.style.left = (e.offsetX - 40) + 'px';
+  img.style.top = (e.offsetY - 40) + 'px';
+  // Make draggable within canvas
+  let dragging = false, ox, oy;
+  img.addEventListener('mousedown', e2 => { dragging = true; ox = e2.offsetX; oy = e2.offsetY; });
+  document.addEventListener('mousemove', e2 => {
+    if (!dragging) return;
+    const rect = canvas.getBoundingClientRect();
+    img.style.left = (e2.clientX - rect.left - ox) + 'px';
+    img.style.top = (e2.clientY - rect.top - oy) + 'px';
+  });
+  document.addEventListener('mouseup', () => { dragging = false; });
+  canvas.appendChild(img);
+  // Remove instructions
+  const instr = canvas.querySelector('.instructions');
+  if (instr) instr.remove();
+});
+</script>
+
+<!-- payment-cta-start -->
+<div class="purchase-cta" style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,transparent,#0a0a12 20%);padding:20px;text-align:center;z-index:1000">
+  <div style="max-width:600px;margin:0 auto;background:#12122a;border:1px solid #1a1a3a;border-radius:12px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div><strong style="color:#fff;font-size:1rem">Digital Sticker Mega Pack</strong><br><span style="color:#8888aa;font-size:.85rem">$5.00</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a href="https://buy.stripe.com/aFafZh9uTgpo6lcdSFgjG1D" class="cta-buy-btn" style="display:inline-block;background:#FF2D9B;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem">Buy Now</a>
+      <button class="crypto-pay-btn" data-product-slug="digital-sticker-mega-pack" data-store-slug="aesthetic-studio" data-product-name="Digital Sticker Mega Pack" data-price-usd="5.00">Crypto (15% off)</button>
+    </div>
+  </div>
+</div>
+<script src="../../crypto-checkout.js"></script>
+<!-- payment-cta-end -->
+
+</body>
+</html>

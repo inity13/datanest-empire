@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deploy Kit — CodeVault</title>
+    <meta name="description" content="Production-ready deployment tools: Docker Compose templates, CI/CD pipelines, Terraform starters, Kubernetes manifests, and more. Zero dependencies. Instant download.">
+    <meta name="keywords" content="docker compose templates, ci cd pipeline, terraform starter, kubernetes manifests, deployment scripts, devops tools, python devops">
+    <link rel="canonical" href="https://deploy-kit.codevault.dev/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Deploy Kit — CodeVault">
+    <meta property="og:description" content="Production-ready deployment tools: Docker Compose templates, CI/CD pipelines, Terraform starters, Kubernetes manifests, and more. Zero dependencies. Instant download.">
+    <meta property="og:site_name" content="CodeVault">
+    <meta property="og:url" content="https://deploy-kit.codevault.dev/">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Deploy Kit — CodeVault">
+    <meta name="twitter:description" content="Production-ready deployment tools: Docker Compose templates, CI/CD pipelines, Terraform starters, Kubernetes manifests, and more. Zero dependencies. Instant download.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚢</text></svg>">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#00BCD4">
+
+    <!-- Plausible Analytics -->
+    <script defer data-domain="deploy-kit.codevault.dev" src="https://plausible.io/js/script.js"></script>
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Store",
+        "name": "Deploy Kit",
+        "description": "Production-ready deployment tools for indie hackers and solo developers.",
+        "url": "https://deploy-kit.codevault.dev/",
+        "offers": {
+            "@type": "AggregateOffer",
+            "lowPrice": "4.99",
+            "highPrice": "39.99",
+            "priceCurrency": "USD",
+            "offerCount": "12"
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- Cross-Store Navigation -->
+    <nav class="cross-nav" aria-label="CodeVault stores">
+        <div class="cross-nav__inner">
+            <span class="cross-nav__brand">CodeVault</span>
+            <a href="../seo-toolkit/storefront/index.html" class="cross-nav__link">SEO Toolkit</a>
+            <a href="../email-arsenal/storefront/index.html" class="cross-nav__link">Email Arsenal</a>
+            <a href="../form-forge/storefront/index.html" class="cross-nav__link">Form Forge</a>
+            <a href="../api-launchpad/storefront/index.html" class="cross-nav__link">API Launchpad</a>
+            <a href="#" class="cross-nav__link cross-nav__link--active">Deploy Kit</a>
+            <a href="../auth-vault/storefront/index.html" class="cross-nav__link">Auth Vault</a>
+            <a href="../saas-starter/storefront/index.html" class="cross-nav__link">SaaS Starter</a>
+            <a href="../analytics-hub/storefront/index.html" class="cross-nav__link">Analytics Hub</a>
+            <a href="../payment-stack/storefront/index.html" class="cross-nav__link">Payment Stack</a>
+            <a href="../ai-toolkit/storefront/index.html" class="cross-nav__link">AI Toolkit</a>
+            <a href="../security-kit/storefront/index.html" class="cross-nav__link">Security Kit</a>
+            <a href="../landing-lab/storefront/index.html" class="cross-nav__link">Landing Lab</a>
+            <a href="../automation-hub/storefront/index.html" class="cross-nav__link">Automation Hub</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="top">
+        <div class="container">
+            <h1 class="hero__title glitch" data-text="Deploy Kit">Deploy Kit</h1>
+            <p class="hero__subtitle">Ship to production in minutes. Docker, CI/CD, Terraform, Kubernetes &mdash; all wired up and ready to go.</p>
+            <div class="hero__cta-row">
+                <a href="#products" class="btn btn--primary">Browse Tools</a>
+                <a href="#faq" class="btn btn--secondary">How it works</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Products Section -->
+    <section class="section" id="products">
+        <div class="container">
+            <h2 class="section__heading">What&rsquo;s in stock</h2>
+            <p class="section__subheading">Battle-tested deployment configs. No hand-holding required.</p>
+
+            <div class="filter-bar">
+                <span class="filter-bar__label">Filter:</span>
+                <button class="filter-tag active" data-filter="all">All</button>
+                <button class="filter-tag" data-filter="bundle">bundle</button>
+                <button class="filter-tag" data-filter="docker">docker</button>
+                <button class="filter-tag" data-filter="ci-cd">ci/cd</button>
+                <button class="filter-tag" data-filter="infra">infra</button>
+                <button class="filter-tag" data-filter="ops">ops</button>
+                <select class="sort-select" aria-label="Sort products">
+                    <option value="default">Sort: Featured</option>
+                    <option value="price-asc">Price: Low &rarr; High</option>
+                    <option value="price-desc">Price: High &rarr; Low</option>
+                </select>
+            </div>
+
+            <div class="product-grid" id="product-grid">
+
+                <!-- Bundle: Deploy Kit Starter Bundle -->
+                <article class="product-card product-card--bundle fade-in"
+                         data-tags="bundle,starter"
+                         data-price="1999"
+                         data-slug="deploy-kit-starter-bundle">
+                    <div class="product-card__inner">
+                        <div>
+                            <span class="bundle-badge">&#128994; BUNDLE DEAL</span>
+                            <h3 class="product-card__name" style="margin-top:12px">Deploy Kit Starter Bundle</h3>
+                            <p class="product-card__desc">Everything you need to containerize and deploy your first service &mdash; Docker Compose templates, deploy scripts, health checks, and environment management at 20% off.</p>
+                            <div class="product-card__tags">
+                                <span class="product-card__tag">bundle</span>
+                                <span class="product-card__tag">starter</span>
+                            </div>
+                            <ul class="product-card__bundle-list">
+                                <li>Docker Compose Templates</li>
+                                <li>Deploy Scripts</li>
+                                <li>Health Check System</li>
+                                <li>Environment Manager</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="product-card__price" style="font-size:1.6rem;margin-bottom:8px">$19.99</p>
+                            <p style="font-size:0.82rem;color:var(--cv-text-dim);margin-bottom:16px">Save vs. $24.96 individually</p>
+                            <div class="product-card__actions">
+                                <a href="https://buy.stripe.com/PLACEHOLDER_deploy-kit-starter-bundle"
+                                   class="btn btn--primary btn--card"
+                                   data-product="deploy-kit-starter-bundle">
+                                    Grab This Bundle
+                                </a>
+                                <button class="btn btn--crypto btn--card"
+                                        data-crypto-product="Deploy Kit Starter Bundle"
+                                        data-crypto-price="1999">
+                                    Pay with Crypto ($16.99)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Bundle: Deploy Kit Pro Bundle -->
+                <article class="product-card product-card--bundle fade-in"
+                         data-tags="bundle,pro"
+                         data-price="3999"
+                         data-slug="deploy-kit-pro-bundle">
+                    <div class="product-card__inner">
+                        <div>
+                            <span class="bundle-badge">&#128142; PRO BUNDLE</span>
+                            <h3 class="product-card__name" style="margin-top:12px">Deploy Kit Pro Bundle</h3>
+                            <p class="product-card__desc">Every product in Deploy Kit &mdash; all 10 tools. Docker, CI/CD, Terraform, Kubernetes, deploy scripts, health checks, env management, SSL, logging, and backups. Save 43%.</p>
+                            <div class="product-card__tags">
+                                <span class="product-card__tag">bundle</span>
+                                <span class="product-card__tag">pro</span>
+                            </div>
+                            <ul class="product-card__bundle-list">
+                                <li>Docker Compose Templates + CI/CD Pipeline Kit</li>
+                                <li>Terraform Starter + Kubernetes Manifests</li>
+                                <li>Deploy Scripts + Health Check System</li>
+                                <li>Environment Manager + SSL Cert Manager</li>
+                                <li>Log Aggregator + Backup Automation</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="product-card__price" style="font-size:1.6rem;margin-bottom:8px">$39.99</p>
+                            <p style="font-size:0.82rem;color:var(--cv-text-dim);margin-bottom:16px">Save 43% vs. $69.90 individually</p>
+                            <div class="product-card__actions">
+                                <a href="https://buy.stripe.com/PLACEHOLDER_deploy-kit-pro-bundle"
+                                   class="btn btn--primary btn--card"
+                                   data-product="deploy-kit-pro-bundle">
+                                    Grab This Bundle
+                                </a>
+                                <button class="btn btn--crypto btn--card"
+                                        data-crypto-product="Deploy Kit Pro Bundle"
+                                        data-crypto-price="3999">
+                                    Pay with Crypto ($33.99)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product: Docker Compose Templates -->
+                <article class="product-card fade-in"
+                         data-tags="docker,starter"
+                         data-price="499"
+                         data-slug="docker-compose-templates">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">🐳</div>
+                            <h3 class="product-card__name">Docker Compose Templates</h3>
+                        </div>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">10 production-ready Docker Compose configs for popular stacks: Python + PostgreSQL, Node + Redis, FastAPI + Nginx, and more. With healthchecks, volumes, and networks wired up.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">docker</span>
+                        <span class="product-card__tag">starter</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_docker-compose-templates"
+                           class="btn btn--primary btn--card"
+                           data-product="docker-compose-templates">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Docker Compose Templates"
+                                data-crypto-price="499">
+                            Pay with Crypto ($4.24)
+                        </button>
+                        <a href="preview-docker-compose-templates.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: CI/CD Pipeline Kit -->
+                <article class="product-card fade-in"
+                         data-tags="ci-cd,infra"
+                         data-price="999"
+                         data-slug="ci-cd-pipeline-kit">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">⚙️</div>
+                            <h3 class="product-card__name">CI/CD Pipeline Kit</h3>
+                        </div>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">GitHub Actions, GitLab CI, and Bitbucket Pipelines configs for Python projects. Includes lint, test, build, and deploy stages with environment-specific overrides.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">ci-cd</span>
+                        <span class="product-card__tag">infra</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_ci-cd-pipeline-kit"
+                           class="btn btn--primary btn--card"
+                           data-product="ci-cd-pipeline-kit">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="CI/CD Pipeline Kit"
+                                data-crypto-price="999">
+                            Pay with Crypto ($8.49)
+                        </button>
+                        <a href="preview-ci-cd-pipeline-kit.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Terraform Starter -->
+                <article class="product-card fade-in"
+                         data-tags="infra,terraform"
+                         data-price="999"
+                         data-slug="terraform-starter">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">🏗️</div>
+                            <h3 class="product-card__name">Terraform Starter</h3>
+                        </div>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Modular Terraform configs for AWS, GCP, and Azure. VPC, EC2/GCE/VM, S3/GCS/Blob, RDS/Cloud SQL, and IAM roles — all production-hardened with remote state and locking.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">infra</span>
+                        <span class="product-card__tag">terraform</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_terraform-starter"
+                           class="btn btn--primary btn--card"
+                           data-product="terraform-starter">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Terraform Starter"
+                                data-crypto-price="999">
+                            Pay with Crypto ($8.49)
+                        </button>
+                        <a href="preview-terraform-starter.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Kubernetes Manifests -->
+                <article class="product-card fade-in"
+                         data-tags="infra,kubernetes"
+                         data-price="999"
+                         data-slug="kubernetes-manifests">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">☸️</div>
+                            <h3 class="product-card__name">Kubernetes Manifests</h3>
+                        </div>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Production-grade K8s manifests: Deployments, Services, Ingress, ConfigMaps, Secrets, HPA, and PodDisruptionBudgets. Kustomize overlays for dev/staging/prod.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">infra</span>
+                        <span class="product-card__tag">kubernetes</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_kubernetes-manifests"
+                           class="btn btn--primary btn--card"
+                           data-product="kubernetes-manifests">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Kubernetes Manifests"
+                                data-crypto-price="999">
+                            Pay with Crypto ($8.49)
+                        </button>
+                        <a href="preview-kubernetes-manifests.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Deploy Scripts -->
+                <article class="product-card fade-in"
+                         data-tags="ops,deploy"
+                         data-price="499"
+                         data-slug="deploy-scripts">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">📦</div>
+                            <h3 class="product-card__name">Deploy Scripts</h3>
+                        </div>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Bash deploy scripts for zero-downtime deploys: blue/green, rolling, and canary strategies. Includes rollback, smoke tests, and Slack/email notifications.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">ops</span>
+                        <span class="product-card__tag">deploy</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_deploy-scripts"
+                           class="btn btn--primary btn--card"
+                           data-product="deploy-scripts">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Deploy Scripts"
+                                data-crypto-price="499">
+                            Pay with Crypto ($4.24)
+                        </button>
+                        <a href="preview-deploy-scripts.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Health Check System -->
+                <article class="product-card fade-in"
+                         data-tags="ops,monitoring"
+                         data-price="499"
+                         data-slug="health-check-system">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">🩺</div>
+                            <h3 class="product-card__name">Health Check System</h3>
+                        </div>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Configurable HTTP health check endpoints with dependency checks (DB, Redis, S3). Returns structured JSON with individual component status and latency.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">ops</span>
+                        <span class="product-card__tag">monitoring</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_health-check-system"
+                           class="btn btn--primary btn--card"
+                           data-product="health-check-system">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Health Check System"
+                                data-crypto-price="499">
+                            Pay with Crypto ($4.24)
+                        </button>
+                        <a href="preview-health-check-system.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Environment Manager -->
+                <article class="product-card fade-in"
+                         data-tags="ops,config"
+                         data-price="499"
+                         data-slug="environment-manager">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">🌍</div>
+                            <h3 class="product-card__name">Environment Manager</h3>
+                        </div>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Manage .env files across dev/staging/prod with schema validation, secret masking, and environment diff. Never accidentally deploy dev secrets again.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">ops</span>
+                        <span class="product-card__tag">config</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_environment-manager"
+                           class="btn btn--primary btn--card"
+                           data-product="environment-manager">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Environment Manager"
+                                data-crypto-price="499">
+                            Pay with Crypto ($4.24)
+                        </button>
+                        <a href="preview-environment-manager.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: SSL Cert Manager -->
+                <article class="product-card fade-in"
+                         data-tags="ops,security"
+                         data-price="499"
+                         data-slug="ssl-cert-manager">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">🔒</div>
+                            <h3 class="product-card__name">SSL Cert Manager</h3>
+                        </div>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Automate Let's Encrypt certificate provisioning and renewal using ACME protocol. Supports HTTP-01 and DNS-01 challenges. No Certbot required.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">ops</span>
+                        <span class="product-card__tag">security</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_ssl-cert-manager"
+                           class="btn btn--primary btn--card"
+                           data-product="ssl-cert-manager">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="SSL Cert Manager"
+                                data-crypto-price="499">
+                            Pay with Crypto ($4.24)
+                        </button>
+                        <a href="preview-ssl-cert-manager.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Log Aggregator -->
+                <article class="product-card fade-in"
+                         data-tags="ops,monitoring"
+                         data-price="999"
+                         data-slug="log-aggregator">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">📊</div>
+                            <h3 class="product-card__name">Log Aggregator</h3>
+                        </div>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Aggregate logs from multiple services into a single stream. Structured JSON parsing, log levels, filtering, and output to stdout, file, or HTTP webhook. Pure Python.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">ops</span>
+                        <span class="product-card__tag">monitoring</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_log-aggregator"
+                           class="btn btn--primary btn--card"
+                           data-product="log-aggregator">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Log Aggregator"
+                                data-crypto-price="999">
+                            Pay with Crypto ($8.49)
+                        </button>
+                        <a href="preview-log-aggregator.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Backup Automation -->
+                <article class="product-card fade-in"
+                         data-tags="ops,backup"
+                         data-price="499"
+                         data-slug="backup-automation">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">💾</div>
+                            <h3 class="product-card__name">Backup Automation</h3>
+                        </div>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Automated PostgreSQL, MySQL, and file backup scripts with S3/GCS/Blob upload, retention policies, encryption, and Slack/email alerts on failure.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">ops</span>
+                        <span class="product-card__tag">backup</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_backup-automation"
+                           class="btn btn--primary btn--card"
+                           data-product="backup-automation">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Backup Automation"
+                                data-crypto-price="499">
+                            Pay with Crypto ($4.24)
+                        </button>
+                        <a href="preview-backup-automation.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Signals -->
+    <section class="trust-section" id="trust">
+        <div class="container">
+            <h2 class="section__heading">Why devs deploy with these</h2>
+            <p class="section__subheading">Built from real production experience</p>
+            <div class="trust-grid">
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#9889;</div>
+                    <p class="trust-card__text">
+                        <strong>Zero Fluff</strong>
+                        No over-engineered frameworks. Clean, commented configs you can understand and modify.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#127759;</div>
+                    <p class="trust-card__text">
+                        <strong>Multi-Cloud Ready</strong>
+                        Terraform and CI/CD configs for AWS, GCP, and Azure. Pick your cloud.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128274;</div>
+                    <p class="trust-card__text">
+                        <strong>MIT Licensed &mdash; use anywhere</strong>
+                        Personal projects, client work, SaaS products. Full commercial use.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#9881;&#65039;</div>
+                    <p class="trust-card__text">
+                        <strong>Battle-Tested Patterns</strong>
+                        Blue/green deploys, rolling updates, health checks, rollbacks &mdash; all included.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- License Tiers -->
+    <section class="tier-section" id="tiers">
+        <div class="container">
+            <h2 class="section__heading">License tiers</h2>
+            <p class="section__subheading">Every purchase is MIT-licensed. Pick what fits.</p>
+            <div class="tier-grid">
+                <div class="tier-card fade-in">
+                    <h3 class="tier-card__name">Personal</h3>
+                    <p class="tier-card__desc">For solo devs and side projects</p>
+                    <ul class="tier-card__features">
+                        <li>Single developer use</li>
+                        <li>Unlimited personal projects</li>
+                        <li>12 months of updates</li>
+                        <li>Community support</li>
+                    </ul>
+                    <a href="#products" class="btn btn--secondary btn--sm">Browse tools</a>
+                </div>
+                <div class="tier-card tier-card--featured fade-in">
+                    <h3 class="tier-card__name">Team</h3>
+                    <p class="tier-card__desc">For small teams and startups (up to 5 devs)</p>
+                    <ul class="tier-card__features">
+                        <li>Up to 5 developers</li>
+                        <li>Unlimited commercial projects</li>
+                        <li>12 months of updates</li>
+                        <li>Email support (48h response)</li>
+                    </ul>
+                    <a href="#products" class="btn btn--primary btn--sm">Grab the Pro Bundle</a>
+                </div>
+                <div class="tier-card fade-in">
+                    <h3 class="tier-card__name">Enterprise</h3>
+                    <p class="tier-card__desc">For larger teams (unlimited devs)</p>
+                    <ul class="tier-card__features">
+                        <li>Unlimited developers</li>
+                        <li>Unlimited commercial projects</li>
+                        <li>24 months of updates</li>
+                        <li>Priority email support (24h)</li>
+                    </ul>
+                    <a href="mailto:support@codevault.dev" class="btn btn--secondary btn--sm">Contact us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter-section" id="newsletter">
+        <div class="container">
+            <div class="newsletter-box fade-in">
+                <h2 class="newsletter-box__title">Stay in the loop</h2>
+                <p class="newsletter-box__desc">Get notified when we ship new deployment tools. No spam, just releases.</p>
+                <!-- ConvertKit Form ID: PLACEHOLDER -->
+                <form class="newsletter-form"
+                      action="https://app.convertkit.com/forms/PLACEHOLDER/subscriptions"
+                      method="post"
+                      onsubmit="event.preventDefault(); alert('Newsletter coming soon!');">
+                    <input type="email" class="newsletter-form__input"
+                           name="email_address"
+                           placeholder="you@example.com"
+                           required
+                           aria-label="Email address">
+                    <button type="submit" class="newsletter-form__btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Companion App -->
+    <section class="app-section" id="app">
+        <div class="container">
+            <div class="app-promo fade-in">
+                <div class="app-promo__content">
+                    <span class="app-promo__badge">ANDROID APP</span>
+                    <h2 class="app-promo__title">Deploy Kit Mobile</h2>
+                    <p class="app-promo__desc">Take your deployment toolkit on the go. Dashboard, community templates, daily challenges, and streak rewards &mdash; all in a dark-themed Material&nbsp;3 interface.</p>
+                    <ul class="app-promo__features">
+                        <li>CI/CD pipeline manager with live status</li>
+                        <li>Docker, Terraform, and Kubernetes config library</li>
+                        <li>Community sharing &amp; daily challenges</li>
+                        <li>Premium tools via in-app purchase ($0.99&ndash;$4.99)</li>
+                    </ul>
+                    <div class="app-promo__actions">
+                        <a href="https://play.google.com/store/apps/details?id=com.codevault.deploykit" class="btn btn--primary">Get on Google Play</a>
+                        <a href="https://github.com/codevault/deploy-kit-android" class="btn btn--secondary">View Source</a>
+                    </div>
+                </div>
+                <div class="app-promo__visual">
+                    <div class="app-mockup" style="--app-color: #00BCD4">
+                        <div class="app-mockup__screen">
+                            <div class="app-mockup__header">Deploy Kit</div>
+                            <div class="app-mockup__tabs">
+                                <span class="app-mockup__tab app-mockup__tab--active">Pipelines</span>
+                                <span class="app-mockup__tab">Configs</span>
+                                <span class="app-mockup__tab">Community</span>
+                                <span class="app-mockup__tab">Store</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section__heading">Got questions?</h2>
+            <p class="section__subheading">We got answers.</p>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What cloud providers do these work with?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">The Terraform starter supports AWS, GCP, and Azure. Docker Compose templates and deploy scripts are cloud-agnostic &mdash; they run anywhere Docker runs. Kubernetes manifests work with EKS, GKE, AKS, or any conformant cluster.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Are these just templates or do they actually run?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">They run. Each product is tested and includes a quick-start README. Scripts are executable bash/Python. Docker Compose files are valid YAML. Terraform configs have been `terraform plan`'d against real environments.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I use these in commercial projects?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Yes. All products are MIT licensed &mdash; use them in personal projects, client work, SaaS products, or internal tools. No attribution required.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do I receive the products after purchase?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Immediately after payment, you'll be redirected to a download page with a secure, time-limited link. You'll also receive an email backup.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What's the difference between the Starter and Pro bundle?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">The Starter Bundle covers containerization and basic deployment (Docker, deploy scripts, health checks, env management &mdash; the $4.99 tools). The Pro Bundle includes everything: Terraform, Kubernetes, CI/CD, SSL, logging, and backups too.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What if I'm not satisfied?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">30-day money-back guarantee. If the products don't meet your expectations, email support@codevault.dev for a full refund. No questions asked.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__brand">CodeVault</p>
+            <p class="footer__tagline">Ship faster. Build smarter.</p>
+            <nav class="footer__links" aria-label="Other stores">
+                <a href="../seo-toolkit/storefront/index.html" class="footer__link">SEO Toolkit</a>
+                <a href="../email-arsenal/storefront/index.html" class="footer__link">Email Arsenal</a>
+                <a href="../form-forge/storefront/index.html" class="footer__link">Form Forge</a>
+                <a href="../api-launchpad/storefront/index.html" class="footer__link">API Launchpad</a>
+                <a href="../auth-vault/storefront/index.html" class="footer__link">Auth Vault</a>
+                <a href="../saas-starter/storefront/index.html" class="footer__link">SaaS Starter</a>
+                <a href="../analytics-hub/storefront/index.html" class="footer__link">Analytics Hub</a>
+                <a href="../payment-stack/storefront/index.html" class="footer__link">Payment Stack</a>
+                <a href="../ai-toolkit/storefront/index.html" class="footer__link">AI Toolkit</a>
+                <a href="../security-kit/storefront/index.html" class="footer__link">Security Kit</a>
+                <a href="../landing-lab/storefront/index.html" class="footer__link">Landing Lab</a>
+                <a href="../automation-hub/storefront/index.html" class="footer__link">Automation Hub</a>
+            </nav>
+            <p class="footer__copy">&copy; 2026 CodeVault. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

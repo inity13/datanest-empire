@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A/B Test Calculator Demo — Analytics Hub | CodeVault</title>
+<meta name="description" content="Interactive A/B test statistical significance calculator from Analytics Hub.">
+<style>
+  :root {
+    --bg: #0A0E1A; --surface: #141824; --surface2: #1E2436;
+    --border: #2A2E3E; --text: #EAEAFF; --muted: #8888AA;
+    --accent: #00E5FF; --danger: #FF4444; --success: #00E676; --warn: #FF9800;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 15px; min-height: 100vh; }
+  a { color: var(--accent); text-decoration: none; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  header .brand { font-weight: 700; font-size: 1.1rem; }
+  header .brand span { color: var(--accent); }
+  .badge { background: var(--accent); color: #0A0E1A; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; }
+
+  .container { max-width: 820px; margin: 0 auto; padding: 32px 20px; }
+  h1 { font-size: 1.6rem; margin-bottom: 6px; }
+  .subtitle { color: var(--muted); margin-bottom: 28px; }
+
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 22px; margin-bottom: 20px; }
+  .panel-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 18px; }
+
+  .variants { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+  @media(max-width:600px) { .variants { grid-template-columns: 1fr; } }
+
+  .variant-card { background: var(--surface2); border: 2px solid var(--border); border-radius: 8px; padding: 16px; }
+  .variant-card.control { border-color: rgba(136,136,170,.4); }
+  .variant-card.treatment { border-color: rgba(0,229,255,.3); }
+  .variant-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 12px; }
+  .variant-card.control .variant-label { color: var(--muted); }
+  .variant-card.treatment .variant-label { color: var(--accent); }
+
+  label { display: block; color: var(--muted); font-size: 0.8rem; margin-bottom: 4px; margin-top: 10px; }
+  label:first-of-type { margin-top: 0; }
+  input[type=number], select { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; color: var(--text); font-size: 0.9rem; outline: none; }
+  input:focus, select:focus { border-color: var(--accent); }
+
+  .settings-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+  .settings-row > div { flex: 1; min-width: 160px; }
+
+  .btn { background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 10px 24px; border-radius: 7px; border: none; cursor: pointer; font-size: 0.95rem; }
+  .btn:hover { opacity: .88; }
+
+  /* Results */
+  .result-verdict { font-size: 1.15rem; font-weight: 700; padding: 16px 20px; border-radius: 8px; margin-bottom: 18px; text-align: center; }
+  .verdict-sig { background: rgba(0,230,118,.12); color: var(--success); border: 1px solid rgba(0,230,118,.3); }
+  .verdict-insig { background: rgba(255,152,0,.12); color: var(--warn); border: 1px solid rgba(255,152,0,.3); }
+  .verdict-negative { background: rgba(255,68,68,.12); color: var(--danger); border: 1px solid rgba(255,68,68,.3); }
+
+  .result-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 18px; }
+  @media(max-width:600px) { .result-grid { grid-template-columns: 1fr 1fr; } }
+  .res-card { background: var(--surface2); border-radius: 8px; padding: 14px; text-align: center; }
+  .res-val { font-size: 1.3rem; font-weight: 700; }
+  .res-lbl { font-size: 0.75rem; color: var(--muted); margin-top: 3px; }
+
+  /* Confidence bar */
+  .conf-bar-wrap { margin-top: 4px; }
+  .conf-bar-track { height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden; margin: 6px 0; }
+  .conf-bar-fill { height: 100%; border-radius: 4px; background: var(--accent); transition: width .6s ease; }
+  .conf-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); }
+  .threshold-note { font-size: 0.8rem; color: var(--muted); margin-top: 8px; }
+
+  .sample-presets { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .preset { background: var(--surface2); border: 1px solid var(--border); border-radius: 5px; padding: 5px 12px; font-size: 0.78rem; cursor: pointer; color: var(--muted); }
+  .preset:hover { border-color: var(--accent); color: var(--accent); }
+
+  .cta-box { background: linear-gradient(135deg, rgba(0,229,255,.08), rgba(0,229,255,.02)); border: 1px solid rgba(0,229,255,.25); border-radius: 12px; padding: 28px 24px; text-align: center; margin-top: 32px; }
+  .cta-box h2 { font-size: 1.25rem; margin-bottom: 8px; }
+  .cta-box p { color: var(--muted); margin-bottom: 20px; font-size: 0.9rem; }
+  .btn-cta { display: inline-block; background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 12px 32px; border-radius: 8px; font-size: 1rem; text-decoration: none; }
+  .btn-cta:hover { opacity: .9; text-decoration: none; }
+  .demo-note { color: var(--muted); font-size: 0.82rem; margin-top: 14px; }
+
+  footer { text-align: center; padding: 24px; color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--border); margin-top: 40px; }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Analytics<span>Hub</span> — A/B Test Calculator</div>
+  <span class="badge">Demo</span>
+</header>
+
+<div class="container">
+  <h1>A/B Test Calculator</h1>
+  <p class="subtitle">Calculate statistical significance, confidence intervals, and uplift for your A/B tests.</p>
+
+  <div class="panel">
+    <div class="panel-title">Test Data</div>
+
+    <div style="margin-bottom:14px">
+      <div style="font-size:.82rem;color:var(--muted);margin-bottom:6px">Load a preset:</div>
+      <div class="sample-presets">
+        <span class="preset" onclick="loadPreset('cta')">CTA Button Color</span>
+        <span class="preset" onclick="loadPreset('price')">Pricing Page</span>
+        <span class="preset" onclick="loadPreset('subject')">Email Subject</span>
+        <span class="preset" onclick="loadPreset('close')">Close Call</span>
+      </div>
+    </div>
+
+    <div class="variants">
+      <div class="variant-card control">
+        <div class="variant-label">Control (A)</div>
+        <label>Visitors</label>
+        <input type="number" id="aVisitors" value="5000" min="1">
+        <label>Conversions</label>
+        <input type="number" id="aConversions" value="250" min="0">
+      </div>
+      <div class="variant-card treatment">
+        <div class="variant-label">Treatment (B)</div>
+        <label>Visitors</label>
+        <input type="number" id="bVisitors" value="5000" min="1">
+        <label>Conversions</label>
+        <input type="number" id="bConversions" value="302" min="0">
+      </div>
+    </div>
+
+    <div class="settings-row">
+      <div>
+        <label>Significance level</label>
+        <select id="sigLevel">
+          <option value="0.10">90% confidence</option>
+          <option value="0.05" selected>95% confidence</option>
+          <option value="0.01">99% confidence</option>
+        </select>
+      </div>
+      <div>
+        <label>Test type</label>
+        <select id="testType">
+          <option value="two">Two-tailed</option>
+          <option value="one">One-tailed</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn" onclick="calculate()">Calculate</button>
+  </div>
+
+  <div class="panel" id="resultsPanel" style="display:none">
+    <div class="panel-title">Results</div>
+    <div id="verdict"></div>
+    <div class="result-grid" id="resultGrid"></div>
+    <div class="conf-bar-wrap">
+      <div style="font-size:.82rem;color:var(--muted);margin-bottom:2px">Confidence level</div>
+      <div class="conf-bar-track"><div class="conf-bar-fill" id="confBarFill"></div></div>
+      <div class="conf-labels"><span>0%</span><span id="thresholdLabel"></span><span>100%</span></div>
+      <div class="threshold-note" id="thresholdNote"></div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h2>Get the Full A/B Test Calculator</h2>
+    <p>Multi-variant (MVT) testing, Bayesian analysis, sequential testing, sample size planner, and automated test stopping rules with Slack alerts.</p>
+    <a class="btn-cta" href="https://buy.stripe.com/dRm6oH7mLflkaBscOBgjI40">Buy Full Version — $39.00</a>
+    <button class="crypto-pay-btn" data-product-slug="ab-test-framework" data-store-slug="analytics-hub" data-product-name="A/B Test Framework" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+    <div class="demo-note">This demo shows limited functionality. Buy the full tool for all features.</div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 CodeVault / Analytics Hub &mdash; <a href="https://buy.stripe.com/dRm6oH7mLflkaBscOBgjI40">Back to Store</a>
+  &mdash; <a href="index.html">All Demos</a>
+</footer>
+
+<script>
+function loadPreset(name) {
+  const presets = {
+    cta:     [5000, 250, 5000, 302],
+    price:   [3200, 128, 3100, 186],
+    subject: [12000, 1440, 12000, 1512],
+    close:   [4000, 200, 4050, 212],
+  };
+  const [av, ac, bv, bc] = presets[name];
+  document.getElementById('aVisitors').value = av;
+  document.getElementById('aConversions').value = ac;
+  document.getElementById('bVisitors').value = bv;
+  document.getElementById('bConversions').value = bc;
+  calculate();
+}
+
+// Normal CDF approximation
+function normCDF(z) {
+  const a1=0.254829592,a2=-0.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=0.3275911;
+  const sign = z < 0 ? -1 : 1;
+  z = Math.abs(z) / Math.sqrt(2);
+  const t = 1 / (1 + p*z);
+  const y = 1 - (((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-z*z);
+  return 0.5*(1+sign*y);
+}
+
+function calculate() {
+  const aV = parseInt(document.getElementById('aVisitors').value)||1;
+  const aC = parseInt(document.getElementById('aConversions').value)||0;
+  const bV = parseInt(document.getElementById('bVisitors').value)||1;
+  const bC = parseInt(document.getElementById('bConversions').value)||0;
+  const alpha = parseFloat(document.getElementById('sigLevel').value);
+  const twoTailed = document.getElementById('testType').value === 'two';
+
+  const pA = aC / aV;
+  const pB = bC / bV;
+  const uplift = pA > 0 ? ((pB - pA) / pA * 100) : 0;
+
+  // Z-test for two proportions
+  const pPool = (aC + bC) / (aV + bV);
+  const se = Math.sqrt(pPool * (1-pPool) * (1/aV + 1/bV));
+  const z = se > 0 ? (pB - pA) / se : 0;
+
+  const pVal = twoTailed ? 2 * (1 - normCDF(Math.abs(z))) : (1 - normCDF(z));
+  const confidence = (1 - pVal) * 100;
+
+  const threshold = (1-alpha)*100;
+  const significant = confidence >= threshold;
+  const positive = pB > pA;
+
+  document.getElementById('resultsPanel').style.display = 'block';
+
+  let verdictClass, verdictText;
+  if (significant && positive) { verdictClass = 'verdict-sig'; verdictText = `✓ Statistically significant — B outperforms A by ${uplift.toFixed(1)}%`; }
+  else if (significant && !positive) { verdictClass = 'verdict-negative'; verdictText = `✗ Statistically significant — B underperforms A by ${Math.abs(uplift).toFixed(1)}%`; }
+  else { verdictClass = 'verdict-insig'; verdictText = `⚠ Not statistically significant — need more data (p = ${pVal.toFixed(3)})`; }
+
+  document.getElementById('verdict').innerHTML = `<div class="result-verdict ${verdictClass}">${verdictText}</div>`;
+  document.getElementById('resultGrid').innerHTML = `
+    <div class="res-card"><div class="res-val">${(pA*100).toFixed(2)}%</div><div class="res-lbl">Control Rate</div></div>
+    <div class="res-card"><div class="res-val">${(pB*100).toFixed(2)}%</div><div class="res-lbl">Treatment Rate</div></div>
+    <div class="res-card"><div class="res-val" style="color:${uplift>=0?'var(--success)':'var(--danger)'}">${uplift>=0?'+':''}${uplift.toFixed(1)}%</div><div class="res-lbl">Uplift</div></div>
+    <div class="res-card"><div class="res-val">${confidence.toFixed(1)}%</div><div class="res-lbl">Confidence</div></div>
+    <div class="res-card"><div class="res-val">${pVal.toFixed(4)}</div><div class="res-lbl">p-value</div></div>
+    <div class="res-card"><div class="res-val">${z.toFixed(3)}</div><div class="res-lbl">Z-score</div></div>`;
+
+  const barPct = Math.min(100, Math.max(0, confidence));
+  document.getElementById('confBarFill').style.width = barPct + '%';
+  document.getElementById('confBarFill').style.background = significant ? 'var(--success)' : 'var(--warn)';
+  document.getElementById('thresholdLabel').textContent = threshold + '% threshold';
+  document.getElementById('thresholdNote').textContent = `${twoTailed?'Two':'One'}-tailed test at α=${alpha}. ${significant ? 'Result is significant.' : 'Collect more data to reach significance.'}`;
+}
+
+calculate();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

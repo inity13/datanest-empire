@@ -1,0 +1,4 @@
+sync_demos.py
+__pycache__/
+*.pyc
+deploy_to_github.py

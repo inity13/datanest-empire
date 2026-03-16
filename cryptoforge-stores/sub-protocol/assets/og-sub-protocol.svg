@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0D0D1A"/>
+      <stop offset="100%" stop-color="#0A0A14"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="300" y1="200" x2="900" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF6B00" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#FF6B00" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="titleGrad" x1="200" y1="240" x2="1000" y2="300" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E8E8F0"/>
+      <stop offset="100%" stop-color="#FF6B00"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Grid pattern -->
+  <g opacity="0.06" stroke="#FF6B00" stroke-width="0.5">
+    <line x1="0" y1="60" x2="1200" y2="60"/>
+    <line x1="0" y1="120" x2="1200" y2="120"/>
+    <line x1="0" y1="180" x2="1200" y2="180"/>
+    <line x1="0" y1="240" x2="1200" y2="240"/>
+    <line x1="0" y1="300" x2="1200" y2="300"/>
+    <line x1="0" y1="360" x2="1200" y2="360"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="480" x2="1200" y2="480"/>
+    <line x1="0" y1="540" x2="1200" y2="540"/>
+    <line x1="60" y1="0" x2="60" y2="630"/>
+    <line x1="120" y1="0" x2="120" y2="630"/>
+    <line x1="180" y1="0" x2="180" y2="630"/>
+    <line x1="240" y1="0" x2="240" y2="630"/>
+    <line x1="300" y1="0" x2="300" y2="630"/>
+    <line x1="360" y1="0" x2="360" y2="630"/>
+    <line x1="420" y1="0" x2="420" y2="630"/>
+    <line x1="480" y1="0" x2="480" y2="630"/>
+    <line x1="540" y1="0" x2="540" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="660" y1="0" x2="660" y2="630"/>
+    <line x1="720" y1="0" x2="720" y2="630"/>
+    <line x1="780" y1="0" x2="780" y2="630"/>
+    <line x1="840" y1="0" x2="840" y2="630"/>
+    <line x1="900" y1="0" x2="900" y2="630"/>
+    <line x1="960" y1="0" x2="960" y2="630"/>
+    <line x1="1020" y1="0" x2="1020" y2="630"/>
+    <line x1="1080" y1="0" x2="1080" y2="630"/>
+    <line x1="1140" y1="0" x2="1140" y2="630"/>
+  </g>
+
+  <!-- Glow -->
+  <ellipse cx="600" cy="315" rx="500" ry="250" fill="url(#glow)"/>
+
+  <!-- Badge -->
+  <rect x="460" y="140" width="280" height="32" rx="16" fill="rgba(255,107,0,0.1)" stroke="#FF6B00" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="600" y="162" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" font-weight="600" fill="#FF6B00" letter-spacing="0.05em">CRYPTOFORGE STORE #5</text>
+
+  <!-- Title -->
+  <text x="600" y="250" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="56" font-weight="700" fill="url(#titleGrad)">sub-protocol</text>
+
+  <!-- Subtitle -->
+  <text x="600" y="295" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" fill="#8888A0">Subscription &amp; Token-Gating Tools</text>
+
+  <!-- Stats -->
+  <g transform="translate(235, 340)">
+    <!-- 10 Products -->
+    <text x="0" y="0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="32" font-weight="700" fill="#FF6B00">10</text>
+    <text x="0" y="22" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#555570" letter-spacing="0.1em">PRODUCTS</text>
+  </g>
+  <g transform="translate(445, 340)">
+    <!-- 130+ Files -->
+    <text x="0" y="0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="32" font-weight="700" fill="#FF6B00">130+</text>
+    <text x="0" y="22" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#555570" letter-spacing="0.1em">FILES</text>
+  </g>
+  <g transform="translate(660, 340)">
+    <!-- 5 Languages -->
+    <text x="0" y="0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="32" font-weight="700" fill="#FF6B00">5</text>
+    <text x="0" y="22" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#555570" letter-spacing="0.1em">LANGUAGES</text>
+  </g>
+  <g transform="translate(880, 340)">
+    <!-- From $7.99 -->
+    <text x="0" y="0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="32" font-weight="700" fill="#FF6B00">$7.99</text>
+    <text x="0" y="22" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#555570" letter-spacing="0.1em">FROM</text>
+  </g>
+
+  <!-- Tech Tags -->
+  <g transform="translate(600, 430)">
+    <rect x="-280" y="-14" width="80" height="28" rx="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    <text x="-240" y="4" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#8888A0">Solidity</text>
+
+    <rect x="-180" y="-14" width="100" height="28" rx="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    <text x="-130" y="4" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#8888A0">TypeScript</text>
+
+    <rect x="-60" y="-14" width="65" height="28" rx="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    <text x="-28" y="4" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#8888A0">React</text>
+
+    <rect x="25" y="-14" width="70" height="28" rx="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    <text x="60" y="4" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#8888A0">Python</text>
+
+    <rect x="115" y="-14" width="80" height="28" rx="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    <text x="155" y="4" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#8888A0">ERC-4337</text>
+  </g>
+
+  <!-- CryptoForge Logo -->
+  <g transform="translate(60, 540)">
+    <rect width="32" height="32" rx="6" fill="#FF6B00"/>
+    <text x="16" y="22" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" fill="#000">CF</text>
+    <text x="44" y="22" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" fill="#E8E8F0">CryptoForge</text>
+  </g>
+
+  <!-- URL -->
+  <text x="1140" y="562" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="13" fill="#555570">store.cryptoforge.dev/sub-protocol</text>
+
+  <!-- Border -->
+  <rect x="0.5" y="0.5" width="1199" height="629" rx="0" fill="none" stroke="#1E1E35" stroke-width="1"/>
+</svg>

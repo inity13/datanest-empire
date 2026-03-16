@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Y2K Widget Theme — Phone Mockup</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0a0a12;
+    color: #e0e0f0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+  }
+  h1 {
+    font-size: 1.5rem;
+    letter-spacing: 0.12em;
+    background: linear-gradient(90deg, #FF69B4, #87CEEB, #DDA0DD, #FFD700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.3rem;
+  }
+  .subtitle { font-size: 0.85rem; color: #5a5a7a; margin-bottom: 1.5rem; }
+
+  .demo-layout {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* ── Phone frame ── */
+  .phone {
+    width: 375px;
+    height: 780px;
+    border-radius: 42px;
+    border: 3px solid #333;
+    background: linear-gradient(135deg, #1a0a2a 0%, #0a0a2a 40%, #0a1a2a 100%);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(255,105,180,0.08), 0 0 0 1px #222, inset 0 0 80px rgba(255,105,180,0.03);
+  }
+  /* Notch */
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 30px;
+    background: #111;
+    border-radius: 0 0 18px 18px;
+    z-index: 10;
+  }
+  /* Status bar */
+  .phone-status {
+    height: 44px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 24px 4px;
+    font-size: 0.7rem;
+    color: #8a8aaa;
+    position: relative;
+    z-index: 5;
+  }
+
+  /* Y2K wallpaper (stars + gradient) */
+  .phone-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: 39px;
+    overflow: hidden;
+  }
+  .phone-bg .star {
+    position: absolute;
+    width: 3px; height: 3px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: twinkle 3s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle { 0% { opacity: 0.2; } 100% { opacity: 0.8; } }
+
+  /* Widget grid inside phone */
+  .phone-grid {
+    position: relative;
+    z-index: 2;
+    padding: 8px 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    overflow-y: auto;
+    max-height: 700px;
+  }
+  .widget-slot {
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+  }
+  .widget-slot:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 20px rgba(255,105,180,0.25);
+  }
+  .widget-slot.small { grid-column: span 1; }
+  .widget-slot.medium { grid-column: span 2; }
+  .widget-slot.large { grid-column: span 2; }
+
+  .widget-inner {
+    width: 100%;
+    padding-bottom: 100%;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .widget-slot.medium .widget-inner { padding-bottom: 48%; }
+  .widget-slot.large .widget-inner { padding-bottom: 100%; }
+
+  .widget-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    border: 1px solid rgba(192,192,208,0.15);
+    font-size: 0.75rem;
+    padding: 0.5rem;
+    text-align: center;
+  }
+  .widget-content .w-icon { font-size: 1.6rem; margin-bottom: 0.3rem; }
+  .widget-content .w-label {
+    font-size: 0.65rem;
+    color: #8a8aaa;
+    margin-top: 0.15rem;
+  }
+  .widget-content .w-value {
+    font-size: 1.2rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, #E8E8F0, #C0C0D0, #FFFFFF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Sparkle animation on click */
+  .sparkle {
+    position: absolute;
+    pointer-events: none;
+    z-index: 20;
+  }
+  .sparkle-dot {
+    position: absolute;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    animation: sparkle-fly 0.6s ease-out forwards;
+  }
+  @keyframes sparkle-fly {
+    0% { transform: scale(1) translate(0,0); opacity: 1; }
+    100% { transform: scale(0) translate(var(--dx), var(--dy)); opacity: 0; }
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 240px;
+  }
+  .sidebar h2 {
+    font-size: 0.95rem;
+    color: #FF69B4;
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.08em;
+  }
+  .sidebar-category {
+    margin-bottom: 1rem;
+  }
+  .sidebar-category h3 {
+    font-size: 0.75rem;
+    color: #6a6a8a;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.4rem;
+  }
+  .sidebar-widget {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.78rem;
+    color: #aaa;
+    transition: all 0.15s;
+    margin-bottom: 0.2rem;
+  }
+  .sidebar-widget:hover { background: rgba(255,105,180,0.06); color: #FF69B4; }
+  .sidebar-widget .sw-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .sidebar-widget .sw-size {
+    font-size: 0.6rem;
+    color: #555;
+    margin-left: auto;
+  }
+.crypto-pay-btn{background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem}
+.crypto-pay-btn:hover{opacity:0.9}
+</style>
+</head>
+<body>
+
+<h1>Y2K Widget Theme</h1>
+<p class="subtitle">Phone Mockup &middot; Tap widgets for sparkle effect</p>
+
+<div class="demo-layout">
+
+  <div class="phone" id="phone">
+    <div class="phone-bg" id="phoneBg"></div>
+    <div class="phone-status">
+      <span>12:00</span>
+      <span>5G &bull; 78%</span>
+    </div>
+    <div class="phone-grid" id="phoneGrid"></div>
+  </div>
+
+  <div class="sidebar">
+    <h2>Widget Selector</h2>
+    <div id="sidebarList"></div>
+    <p style="font-size:0.7rem; color:#4a4a5a; margin-top:1rem;">Click a widget in the sidebar to add/swap it into the phone layout.</p>
+  </div>
+
+</div>
+
+<script>
+const widgets = [
+  { id:'digital_clock', name:'Digital Clock', cat:'Time', size:'small', icon:'\u{1F552}', value:'12:00', bg:'linear-gradient(135deg,#2a0a2a,#1a0a3a)', primary:'#FF69B4' },
+  { id:'analog_clock', name:'Analog Clock', cat:'Time', size:'small', icon:'\u{1F570}', value:'', bg:'linear-gradient(135deg,#0a1a2a,#0a0a2a)', primary:'#87CEEB' },
+  { id:'countdown_timer', name:'Countdown Timer', cat:'Time', size:'medium', icon:'\u23F3', value:'07:14:32', bg:'linear-gradient(135deg,#2a1a0a,#1a0a2a)', primary:'#FFD700' },
+  { id:'weather_widget', name:'Weather', cat:'Info', size:'medium', icon:'\u2600\uFE0F', value:'22\u00B0C', bg:'linear-gradient(135deg,#0a1a2a,#0a2a1a)', primary:'#87CEEB' },
+  { id:'calendar_widget', name:'Calendar', cat:'Info', size:'medium', icon:'\u{1F4C5}', value:'MAR 12', bg:'linear-gradient(135deg,#1a0a2a,#2a0a1a)', primary:'#DDA0DD' },
+  { id:'battery_widget', name:'Battery', cat:'Info', size:'small', icon:'\u{1F50B}', value:'78%', bg:'linear-gradient(135deg,#0a2a0a,#0a1a2a)', primary:'#98FB98' },
+  { id:'music_player', name:'Music Player', cat:'Media', size:'medium', icon:'\u{1F3B5}', value:'Now Playing', bg:'linear-gradient(135deg,#2a0a1a,#0a0a2a)', primary:'#FF69B4' },
+  { id:'photo_frame', name:'Photo Frame', cat:'Media', size:'large', icon:'\u{1F5BC}', value:'', bg:'linear-gradient(135deg,#1a0a2a,#2a0a2a)', primary:'#DDA0DD' },
+  { id:'video_thumbnail', name:'Video', cat:'Media', size:'medium', icon:'\u{1F3AC}', value:'3:42', bg:'linear-gradient(135deg,#2a1a0a,#2a0a1a)', primary:'#FFD700' },
+  { id:'notification_badge', name:'Notifications', cat:'Social', size:'small', icon:'\u{1F514}', value:'7', bg:'linear-gradient(135deg,#2a0a1a,#2a1a0a)', primary:'#FF69B4' },
+  { id:'status_widget', name:'Status', cat:'Social', size:'medium', icon:'\u{1F31F}', value:'Online', bg:'linear-gradient(135deg,#0a2a0a,#0a1a2a)', primary:'#98FB98' },
+  { id:'chat_bubble', name:'Chat', cat:'Social', size:'medium', icon:'\u{1F4AC}', value:'1 new', bg:'linear-gradient(135deg,#1a0a2a,#2a0a2a)', primary:'#DDA0DD' },
+  { id:'notes_widget', name:'Notes', cat:'Utility', size:'large', icon:'\u{1F4DD}', value:'', bg:'linear-gradient(135deg,#2a1a0a,#0a2a0a)', primary:'#FFD700' },
+  { id:'search_bar', name:'Search', cat:'Utility', size:'medium', icon:'\u{1F50D}', value:'', bg:'linear-gradient(135deg,#0a1a2a,#1a0a2a)', primary:'#87CEEB' },
+  { id:'quick_links', name:'Quick Links', cat:'Utility', size:'large', icon:'\u{1F517}', value:'9 links', bg:'linear-gradient(135deg,#2a0a2a,#0a0a2a)', primary:'#FF69B4' },
+];
+
+// Default layout (subset that fits nicely)
+let layout = ['digital_clock','battery_widget','weather_widget','music_player','notification_badge','analog_clock','status_widget'];
+
+const phoneGrid = document.getElementById('phoneGrid');
+const phoneBg = document.getElementById('phoneBg');
+const sidebarList = document.getElementById('sidebarList');
+
+// Stars in phone bg
+for (let i = 0; i < 60; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  s.style.left = Math.random() * 100 + '%';
+  s.style.top = Math.random() * 100 + '%';
+  s.style.animationDelay = (Math.random() * 3) + 's';
+  s.style.width = s.style.height = (1 + Math.random() * 2) + 'px';
+  phoneBg.appendChild(s);
+}
+
+function renderPhone() {
+  phoneGrid.innerHTML = '';
+  layout.forEach(id => {
+    const w = widgets.find(x => x.id === id);
+    if (!w) return;
+    const slot = document.createElement('div');
+    slot.className = `widget-slot ${w.size}`;
+    slot.innerHTML = `<div class="widget-inner"><div class="widget-content" style="background:${w.bg}; border-color:${w.primary}33;">
+      <div class="w-icon">${w.icon}</div>
+      ${w.value ? `<div class="w-value">${w.value}</div>` : ''}
+      <div class="w-label">${w.name}</div>
+    </div></div>`;
+    slot.addEventListener('click', (e) => sparkle(e, w.primary));
+    phoneGrid.appendChild(slot);
+  });
+}
+
+function sparkle(e, color) {
+  const rect = e.currentTarget.getBoundingClientRect();
+  const container = document.createElement('div');
+  container.className = 'sparkle';
+  container.style.left = (e.clientX - rect.left) + 'px';
+  container.style.top = (e.clientY - rect.top) + 'px';
+  for (let i = 0; i < 12; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'sparkle-dot';
+    const angle = (i / 12) * Math.PI * 2;
+    const dist = 20 + Math.random() * 30;
+    dot.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+    dot.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+    dot.style.background = i % 2 === 0 ? color : '#FFD700';
+    container.appendChild(dot);
+  }
+  e.currentTarget.appendChild(container);
+  setTimeout(() => container.remove(), 700);
+}
+
+// Build sidebar
+const cats = ['Time','Info','Media','Social','Utility'];
+cats.forEach(cat => {
+  const group = document.createElement('div');
+  group.className = 'sidebar-category';
+  group.innerHTML = `<h3>${cat}</h3>`;
+  widgets.filter(w => w.cat === cat).forEach(w => {
+    const item = document.createElement('div');
+    item.className = 'sidebar-widget';
+    item.innerHTML = `<span class="sw-dot" style="background:${w.primary};"></span>${w.name}<span class="sw-size">${w.size}</span>`;
+    item.addEventListener('click', () => {
+      if (!layout.includes(w.id)) {
+        // Replace last or add
+        if (layout.length >= 7) layout.pop();
+        layout.push(w.id);
+      } else {
+        layout = layout.filter(x => x !== w.id);
+      }
+      renderPhone();
+    });
+    group.appendChild(item);
+  });
+  sidebarList.appendChild(group);
+});
+
+renderPhone();
+</script>
+
+<!-- payment-cta-start -->
+<div class="purchase-cta" style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,transparent,#0a0a12 20%);padding:20px;text-align:center;z-index:1000">
+  <div style="max-width:600px;margin:0 auto;background:#12122a;border:1px solid #1a1a3a;border-radius:12px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div><strong style="color:#fff;font-size:1rem">Y2K Widget Theme</strong><br><span style="color:#8888aa;font-size:.85rem">$3.00</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a href="https://buy.stripe.com/5kQ7sL9uTgpo8tkbKxgjG1I" class="cta-buy-btn" style="display:inline-block;background:#FF2D9B;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem">Buy Now</a>
+      <button class="crypto-pay-btn" data-product-slug="y2k-widget-theme" data-store-slug="aesthetic-studio" data-product-name="Y2K Widget Theme" data-price-usd="3.00">Crypto (15% off)</button>
+    </div>
+  </div>
+</div>
+<script src="../../crypto-checkout.js"></script>
+<!-- payment-cta-end -->
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anime Wallpapers — Phone Mockup</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: linear-gradient(135deg, #1a1028, #0a0a12); min-height: 100vh; font-family: 'Segoe UI', sans-serif; color: #E8E0F0; display: flex; flex-direction: column; align-items: center; padding: 2rem; }
+  h1 { font-size: 2rem; font-weight: 300; color: #FFB7C5; margin-bottom: 1rem; letter-spacing: 0.1em; }
+  .controls { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; }
+  .controls button { background: #6B5B95; color: #E8E0F0; border: none; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Segoe UI', sans-serif; font-size: 0.85rem; transition: all 0.3s; }
+  .controls button:hover, .controls button.active { background: #FF7E5F; }
+  .phone-frame { width: 300px; height: 534px; background: #1a1a1a; border-radius: 40px; padding: 12px; box-shadow: 0 20px 60px rgba(107,91,149,0.3), inset 0 0 0 2px #333; position: relative; }
+  .phone-screen { width: 100%; height: 100%; border-radius: 30px; overflow: hidden; background: #000; }
+  .phone-screen img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s; }
+  .phone-notch { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 120px; height: 25px; background: #1a1a1a; border-radius: 0 0 15px 15px; z-index: 2; }
+  .phone-bar { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 100px; height: 4px; background: #555; border-radius: 2px; z-index: 2; }
+  .label { margin-top: 1.5rem; font-style: italic; color: #87CEEB; font-size: 1.1rem; text-align: center; }
+  .nav { display: flex; gap: 1rem; margin-top: 1rem; }
+  .nav button { background: none; border: 2px solid #6B5B95; color: #FFB7C5; padding: 0.4rem 1.5rem; border-radius: 20px; cursor: pointer; font-family: 'Segoe UI', sans-serif; font-size: 1rem; }
+  .nav button:hover { background: #6B5B95; color: white; }
+</style>
+</head>
+<body>
+  <h1>Phone Preview</h1>
+  <div class="controls" id="thumbs"></div>
+  <div class="phone-frame">
+    <div class="phone-notch"></div>
+    <div class="phone-screen">
+      <img id="wallpaper" src="../src/phone/01-cherry-blossom-path.svg" alt="Wallpaper Preview">
+    </div>
+    <div class="phone-bar"></div>
+  </div>
+  <p class="label" id="label">01 — Cherry Blossom Path</p>
+  <div class="nav">
+    <button onclick="prev()">← Prev</button>
+    <button onclick="next()">Next →</button>
+  </div>
+
+<script>
+const wallpapers = [
+  { file: '01-cherry-blossom-path.svg', name: '01 — Cherry Blossom Path' },
+  { file: '02-neon-alley.svg', name: '02 — Neon Alley' },
+  { file: '03-cloud-ocean.svg', name: '03 — Cloud Ocean' },
+  { file: '04-shrine-steps.svg', name: '04 — Shrine Steps' },
+  { file: '05-rooftop-sunset.svg', name: '05 — Rooftop Sunset' },
+  { file: '06-starfall-lake.svg', name: '06 — Starfall Lake' },
+  { file: '07-bamboo-forest.svg', name: '07 — Bamboo Forest' },
+  { file: '08-train-window.svg', name: '08 — Train Window' },
+  { file: '09-lantern-festival.svg', name: '09 — Lantern Festival' },
+  { file: '10-moon-bridge.svg', name: '10 — Moon Bridge' },
+  { file: '11-flower-field.svg', name: '11 — Flower Field' },
+  { file: '12-rainy-crosswalk.svg', name: '12 — Rainy Crosswalk' },
+  { file: '13-island-cove.svg', name: '13 — Island Cove' },
+  { file: '14-snow-village.svg', name: '14 — Snow Village' },
+  { file: '15-galaxy-hilltop.svg', name: '15 — Galaxy Hilltop' },
+];
+
+let current = 0;
+const img = document.getElementById('wallpaper');
+const label = document.getElementById('label');
+const thumbs = document.getElementById('thumbs');
+
+wallpapers.forEach((w, i) => {
+  const btn = document.createElement('button');
+  btn.textContent = (i + 1).toString().padStart(2, '0');
+  btn.onclick = () => show(i);
+  if (i === 0) btn.classList.add('active');
+  thumbs.appendChild(btn);
+});
+
+function show(i) {
+  current = i;
+  img.src = '../src/phone/' + wallpapers[i].file;
+  label.textContent = wallpapers[i].name;
+  document.querySelectorAll('.controls button').forEach((b, j) => {
+    b.classList.toggle('active', j === i);
+  });
+}
+
+function next() { show((current + 1) % wallpapers.length); }
+function prev() { show((current - 1 + wallpapers.length) % wallpapers.length); }
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') next();
+  if (e.key === 'ArrowLeft') prev();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Preview Async Task Queue Toolkit — see the file structure, code samples, and documentation before you buy.">
+  <meta name="theme-color" content="#2563eb">
+  <title>Async Task Queue Toolkit — Preview | Python Developer Pro</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Preview page specific styles */
+    .preview-page { padding-top: calc(var(--header-height, 72px) + 2rem); padding-bottom: 4rem; }
+
+    .preview-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--color-text-muted, #94a3b8);
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .preview-back:hover { color: var(--color-primary, #3b82f6); }
+
+    .preview-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--color-card-border, #334155);
+    }
+    .preview-header h1 { margin: 0; font-size: 1.75rem; }
+    .preview-header .price {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--color-accent, #22d3ee);
+    }
+
+    .preview-desc {
+      color: var(--color-text-muted, #94a3b8);
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      line-height: 1.6;
+      max-width: 80ch;
+    }
+
+    .preview-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .preview-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid;
+    }
+    .preview-badge .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .preview-section {
+      background: var(--color-card, #1e293b);
+      border: 1px solid var(--color-card-border, #334155);
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .preview-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      background: var(--color-surface, #0f172a);
+      border-bottom: 1px solid var(--color-card-border, #334155);
+      cursor: pointer;
+      user-select: none;
+    }
+    .preview-section-header:hover { background: var(--color-card-hover, #263044); }
+    .preview-section-header h3 {
+      font-size: 1.125rem;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .preview-section-header .badge {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--color-accent, #22d3ee);
+      font-weight: 600;
+    }
+
+    .preview-section-body {
+      padding: 1.5rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .preview-section.open .preview-section-body {
+      max-height: 8000px;
+    }
+
+    .preview-section .chevron {
+      transition: transform 0.3s ease;
+      color: var(--color-text-muted, #94a3b8);
+    }
+    .preview-section.open .chevron { transform: rotate(180deg); }
+
+    .preview-code {
+      background: var(--color-bg-alt, #0f172a);
+      border: 1px solid var(--color-card-border, #334155);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-family: var(--font-mono, 'SF Mono', Consolas, monospace);
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      white-space: pre;
+      color: var(--color-text, #f8fafc);
+    }
+    .preview-code .filename {
+      display: block;
+      color: var(--color-text-muted, #94a3b8);
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--color-card-border, #334155);
+    }
+
+    .file-tree {
+      font-family: var(--font-mono, 'SF Mono', Consolas, monospace);
+      font-size: 0.8125rem;
+      line-height: 1.8;
+      color: var(--color-text-muted, #94a3b8);
+      background: var(--color-bg-alt, #0f172a);
+      border: 1px solid var(--color-card-border, #334155);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .file-tree .dir { color: var(--color-primary-light, #60a5fa); font-weight: 600; }
+    .file-tree .file { color: var(--color-text, #f8fafc); }
+
+    .readme-excerpt {
+      line-height: 1.7;
+      color: var(--color-text-muted, #94a3b8);
+    }
+    .readme-excerpt h3 { color: var(--color-text, #f8fafc); margin: 1.25rem 0 0.5rem; font-size: 1.1rem; }
+    .readme-excerpt h4 { color: var(--color-text, #f8fafc); margin: 1rem 0 0.5rem; font-size: 1rem; }
+    .readme-excerpt p { margin: 0.5rem 0; }
+    .readme-excerpt ul { margin: 0.5rem 0; padding-left: 1.5rem; }
+    .readme-excerpt li { margin: 0.25rem 0; }
+    .readme-excerpt code { background: var(--color-bg-alt, #0f172a); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.85em; }
+    .readme-excerpt pre { background: var(--color-bg-alt, #0f172a); border: 1px solid var(--color-card-border, #334155); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 0.75rem 0; }
+    .readme-excerpt pre code { background: none; padding: 0; font-size: 0.8125rem; }
+    .readme-excerpt blockquote { border-left: 3px solid var(--color-primary, #3b82f6); margin: 0.75rem 0; padding: 0.5rem 1rem; color: var(--color-text-muted, #94a3b8); }
+
+    .preview-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--color-card-border, #334155);
+    }
+
+    .redacted {
+      color: var(--color-text-muted, #64748b);
+      font-style: italic;
+      opacity: 0.6;
+    }
+    .redacted::before { content: "# "; }
+
+    @media (max-width: 640px) {
+      .preview-section-header { padding: 0.75rem 1rem; }
+      .preview-section-body { padding: 1rem; }
+      .preview-code, .file-tree { font-size: 0.7rem; }
+      .preview-header h1 { font-size: 1.25rem; }
+    }
+</style>
+  <script defer data-domain="inity13.github.io" src="https://plausible.io/js/script.js"></script>
+<!-- analytics-start -->
+<script>
+(function(){
+  try{
+    fetch("https://ferovwapilhcpqozqinn.supabase.co/rest/v1/page_views",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Prefer":"return=minimal"},
+      body:JSON.stringify({store_name:"Python Developer Pro",page_path:location.pathname,referrer:document.referrer||null,user_agent:navigator.userAgent}),
+      keepalive:true
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+<!-- analytics-end -->
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a href="index.html" class="logo" aria-label="Python Developer Pro home">
+        <span class="logo-icon" aria-hidden="true">&#128013;</span>
+        Python Developer Pro
+      </a>
+      <nav class="nav-desktop" aria-label="Main navigation">
+        <a href="index.html#products">Products</a>
+        <a href="index.html#bundle">Bundle</a>
+        <a href="index.html#faq">FAQ</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" aria-label="Toggle dark/light mode">
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="preview-page">
+    <div class="container">
+      <a href="index.html#products" class="preview-back">&larr; Back to all products</a>
+
+      <div class="preview-header">
+        <div>
+          <h1>Async Task Queue Toolkit</h1>
+        </div>
+        <span class="price"><span class="currency">$</span>39</span>
+      </div>
+
+      <p class="preview-desc">Celery + Redis task queue setup with retry logic, monitoring, scheduling, and dead letter handling patterns.</p>
+
+      <div class="preview-meta" style="display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;font-size:0.875rem;color:var(--color-text-muted,#94a3b8);"><span>&#128193; 18 files</span><span>&#128187; Python</span><span>&#127991; v1.0.0</span></div>
+
+      <div class="preview-badges"><span class="preview-badge" style="border-color: #CB171E40; color: #CB171E;"><span class="dot" style="background: #CB171E;"></span>YAML</span><span class="preview-badge" style="border-color: #3776AB40; color: #3776AB;"><span class="dot" style="background: #3776AB;"></span>Python</span><span class="preview-badge" style="border-color: #083FA140; color: #083FA1;"><span class="dot" style="background: #083FA1;"></span>Markdown</span><span class="preview-badge" style="border-color: #29292940; color: #292929;"><span class="dot" style="background: #292929;"></span>JSON</span><span class="preview-badge" style="border-color: #2496ED40; color: #2496ED;"><span class="dot" style="background: #2496ED;"></span>Docker</span><span class="preview-badge" style="border-color: #DC382D40; color: #DC382D;"><span class="dot" style="background: #DC382D;"></span>Redis</span></div>
+
+      
+        <div class="preview-section open">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128193; File Structure <span class="badge">18 files</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="file-tree"><span class="dir">async-task-queue-toolkit/</span>
+├── <span class="file">LICENSE</span>
+├── <span class="file">README.md</span>
+├── <span class="dir">docker/</span>
+│   └── <span class="file">docker-compose.yml</span>
+├── <span class="dir">examples/</span>
+│   ├── <span class="file">email_tasks.py</span>
+│   └── <span class="file">image_processing.py</span>
+├── <span class="dir">guides/</span>
+│   └── <span class="file">task-queue-patterns.md</span>
+├── <span class="dir">src/</span>
+│   └── <span class="dir">queue/</span>
+│       ├── <span class="file">broker.py</span>
+│       ├── <span class="file">dead_letter.py</span>
+│       ├── <span class="file">middleware.py</span>
+│       ├── <span class="file">monitoring.py</span>
+│       ├── <span class="file">scheduler.py</span>
+│       ├── <span class="file">serializers.py</span>
+│       ├── <span class="file">task.py</span>
+│       └── <span class="file">worker.py</span>
+└── <span class="dir">tests/</span>
+    ├── <span class="file">conftest.py</span>
+    ├── <span class="file">test_broker.py</span>
+    └── <span class="file">test_worker.py</span></div>
+          </div>
+        </div>
+
+        <div class="preview-section open">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128214; Documentation Preview <span class="badge">README excerpt</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="readme-excerpt">
+              <h3>Async Task Queue Toolkit</h3>
+
+<p>A production-ready, Redis-backed asynchronous task queue for Python applications. Built on <code>asyncio</code> with support for retries, scheduling, middleware chains, dead-letter queues, and real-time monitoring.</p>
+
+<h3>Features</h3>
+
+<ul>
+  <li><strong>Redis-backed broker</strong> with reliable enqueue/dequeue/ack semantics</li>
+  <li><strong>Worker processes</strong> that consume tasks, execute handlers, and manage failures</li>
+  <li><strong><code>@task()</code> decorator</strong> with configurable retries, timeout, and priority</li>
+  <li><strong>Cron-like scheduler</strong> for recurring tasks (interval and cron expressions)</li>
+  <li><strong>Middleware chain</strong> for logging, timing, retry logic, and rate limiting</li>
+  <li><strong>Dead-letter queue</strong> for failed task inspection and replay</li>
+  <li><strong>Monitoring</strong> with queue depth, throughput, latency, and error metrics</li>
+  <li><strong>Pluggable serializers</strong> (JSON and msgpack)</li>
+</ul>
+
+<h3>Quick Start</h3>
+
+<h4>Installation</h4>
+
+<pre><code class="lang-bash">
+pip install redis msgpack aioredis
+</code></pre>
+
+<h4>Define a Task</h4>
+
+<pre><code class="lang-python">
+from queue.task import task
+
+@task(retries=3, timeout=30, priority=5)
+async def send_welcome_email(user_id: int, email: str) -&gt; dict:
+    &quot;&quot;&quot;Send a welcome email to a new user.&quot;&quot;&quot;
+    # your email logic here
+    return {&quot;status&quot;: &quot;sent&quot;, &quot;user_id&quot;: user_id}
+</code></pre>
+
+<h4>Enqueue and Process</h4>
+
+<pre><code class="lang-python">
+import asyncio
+from queue.broker import RedisBroker
+from queue.worker import Worker
+
+async def main():
+    broker = RedisBroker(redis_url=&quot;redis://localhost:6379/0&quot;)
+    await broker.connect()
+
+    # Enqueue a task
+    task_id = await broker.enqueue(
+        &quot;send_welcome_email&quot;,
+        kwargs={&quot;user_id&quot;: 42, &quot;email&quot;: &quot;user@example.com&quot;},
+        priority=5,
+    )
+    print(f&quot;Enqueued task: {task_id}&quot;)
+
+    # Start a worker
+    worker = Worker(broker=broker, concurrency=10)
+    worker.register_handler(&quot;send_welcome_email&quot;, send_welcome_email)
+    await worker.start()
+
+asyncio.run(main())
+
+*... continues with setup instructions, usage examples, and more.*
+</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>&#128196; Code Sample <span class="badge">.py preview</span></h3>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="preview-section-body">
+            <div class="preview-code"><span class="filename">src/queue/broker.py</span>
+&quot;&quot;&quot;
+Redis-backed task broker for async task queue.
+
+Provides reliable enqueue, dequeue, acknowledge, and retry operations
+using Redis lists and sorted sets for priority-based task management.
+&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import asyncio
+import json
+import time
+import uuid
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any, Optional
+
+import redis.asyncio as aioredis
+
+from .serializers import JsonSerializer, Serializer
+
+
+class TaskStatus(str, Enum):
+    &quot;&quot;&quot;Possible states of a task in the queue.&quot;&quot;&quot;
+    PENDING = &quot;pending&quot;
+    PROCESSING = &quot;processing&quot;
+    COMPLETED = &quot;completed&quot;
+    FAILED = &quot;failed&quot;
+    RETRYING = &quot;retrying&quot;
+
+
+@dataclass
+class TaskMessage:
+    &quot;&quot;&quot;Represents a serialized task message in the queue.&quot;&quot;&quot;
+    task_id: str
+    task_name: str
+    args: tuple[Any, ...] = ()
+    kwargs: dict[str, Any] = field(default_factory=dict)
+    priority: int = 0
+    retries_left: int = 3
+    timeout: float = 300.0
+    created_at: float = field(default_factory=time.time)
+    attempt: int = 0
+
+    def to_dict(self) -&gt; dict[str, Any]:
+        &quot;&quot;&quot;Serialize the task message to a dictionary.&quot;&quot;&quot;
+        return {
+            &quot;task_id&quot;: self.task_id,
+            &quot;task_name&quot;: self.task_name,
+            &quot;args&quot;: list(self.args),
+
+# ... 177 more lines ...</div>
+          </div>
+        </div>
+
+      <div class="preview-actions">
+        <a href="https://buy.stripe.com/3cI00jcH54GGdNE6qdgjH2y" class="btn btn-primary">Buy Now &mdash; $39</a>
+        <button class="crypto-pay-btn" data-product-slug="async-task-queue-toolkit" data-store-slug="python-developer" data-product-name="Async Task Queue Toolkit" data-price-usd="39">&#8383; Pay with Crypto &mdash; Save 15%</button>
+        <a href="index.html#products" class="btn btn-secondary btn-sm">Back to Products</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2025 Python Developer Pro. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="index.html">Store</a>
+          <a href="about.html">About</a>
+          <a href="mailto:megafolder122122@hotmail.com">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="crypto-checkout.js"></script>
+</body>
+</html>

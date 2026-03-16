@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OAuth2 Client — Interactive Demo | Auth Vault</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#E91E63;--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;--red:#FF4B6E;--yellow:#FFD600;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;}
+  .badge{background:var(--accent);color:#fff;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1000px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+  input,select{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.55rem .8rem;border-radius:8px;font-size:.88rem;margin-bottom:.85rem;font-family:inherit;}
+  input:focus,select:focus{outline:none;border-color:var(--accent);}
+  .btn{display:inline-block;padding:.7rem 1.5rem;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;}
+  .btn:hover{opacity:.85;}
+  .btn-outline{background:transparent;border:1px solid var(--accent);color:var(--accent);}
+  .flow-diagram{display:flex;flex-direction:column;gap:.75rem;margin:1.5rem 0;}
+  .flow-step{display:flex;align-items:flex-start;gap:1rem;padding:1rem;background:var(--surface2);border-radius:10px;border:1px solid var(--border);transition:all .3s;}
+  .flow-step.active{border-color:var(--accent);background:rgba(233,30,99,.06);}
+  .flow-step.done{border-color:var(--green);background:rgba(0,255,136,.04);}
+  .step-num{width:28px;height:28px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0;}
+  .flow-step.active .step-num{background:var(--accent);}
+  .flow-step.done .step-num{background:var(--green);color:#0A0E1A;}
+  .step-body h3{font-size:.88rem;font-weight:700;margin-bottom:.25rem;}
+  .step-body p{font-size:.8rem;color:var(--muted);line-height:1.5;}
+  .step-body code{font-size:.75rem;background:var(--surface);border-radius:4px;padding:.15rem .4rem;color:var(--accent);font-family:'Courier New',monospace;}
+  .url-display{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;font-family:'Courier New',monospace;font-size:.75rem;color:#a6e3a1;word-break:break-all;line-height:1.6;margin:.75rem 0;}
+  .token-box{background:var(--surface2);border:1px solid var(--green);border-radius:8px;padding:1rem;}
+  .token-field{margin-bottom:.5rem;font-size:.8rem;}
+  .token-field strong{color:var(--muted);display:inline-block;width:100px;font-size:.75rem;}
+  .token-value{font-family:'Courier New',monospace;color:#cba6f7;font-size:.72rem;word-break:break-all;}
+  .provider-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1rem;}
+  @media(max-width:600px){.provider-grid{grid-template-columns:repeat(2,1fr);}}
+  .provider-card{background:var(--surface2);border:2px solid var(--border);border-radius:10px;padding:.75rem;text-align:center;cursor:pointer;transition:all .2s;}
+  .provider-card.selected{border-color:var(--accent);}
+  .provider-card:hover{border-color:var(--muted);}
+  .provider-icon{font-size:1.5rem;margin-bottom:.25rem;}
+  .provider-name{font-size:.75rem;font-weight:600;}
+  .scopes-grid{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem;}
+  .scope-tag{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.3rem .65rem;font-size:.75rem;cursor:pointer;user-select:none;transition:all .2s;}
+  .scope-tag.selected{border-color:var(--accent);background:rgba(233,30,99,.1);color:var(--accent);}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a1025);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#fff;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">🔐</span>
+  <h1>OAuth2 Client</h1>
+  <span style="color:var(--muted);font-size:.9rem">Interactive Flow Demo</span>
+  <span class="badge">Auth Vault</span>
+</header>
+<div class="container">
+  <h2>OAuth2 Authorization Flow Visualizer</h2>
+  <p class="subtitle">Walk through the complete OAuth2 Authorization Code flow step by step — see every URL, parameter, and token exchange in real time.</p>
+
+  <!-- Provider + Config -->
+  <div class="panel">
+    <h3 style="font-size:1rem;font-weight:700;margin-bottom:1rem">1. Configure Your OAuth2 App</h3>
+    <label>Identity Provider</label>
+    <div class="provider-grid" id="providerGrid">
+      <div class="provider-card selected" data-provider="google" onclick="selectProvider(this)">
+        <div class="provider-icon">🔵</div><div class="provider-name">Google</div>
+      </div>
+      <div class="provider-card" data-provider="github" onclick="selectProvider(this)">
+        <div class="provider-icon">⚫</div><div class="provider-name">GitHub</div>
+      </div>
+      <div class="provider-card" data-provider="discord" onclick="selectProvider(this)">
+        <div class="provider-icon">🟣</div><div class="provider-name">Discord</div>
+      </div>
+      <div class="provider-card" data-provider="twitter" onclick="selectProvider(this)">
+        <div class="provider-icon">🐦</div><div class="provider-name">Twitter/X</div>
+      </div>
+      <div class="provider-card" data-provider="microsoft" onclick="selectProvider(this)">
+        <div class="provider-icon">🟦</div><div class="provider-name">Microsoft</div>
+      </div>
+      <div class="provider-card" data-provider="custom" onclick="selectProvider(this)">
+        <div class="provider-icon">⚙️</div><div class="provider-name">Custom</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div>
+        <label>Client ID</label>
+        <input type="text" id="clientId" value="my-app-client-id-12345" placeholder="Your client_id">
+      </div>
+      <div>
+        <label>Redirect URI</label>
+        <input type="text" id="redirectUri" value="https://myapp.com/auth/callback" placeholder="https://...">
+      </div>
+    </div>
+    <label>Requested Scopes</label>
+    <div class="scopes-grid" id="scopesGrid"></div>
+  </div>
+
+  <!-- Flow -->
+  <div class="panel">
+    <h3 style="font-size:1rem;font-weight:700;margin-bottom:1rem">2. Step-by-Step Authorization Flow</h3>
+    <div style="display:flex;gap:.75rem;margin-bottom:1.5rem;flex-wrap:wrap">
+      <button class="btn" onclick="runFlow()">▶ Start Flow</button>
+      <button class="btn btn-outline" onclick="resetFlow()">↺ Reset</button>
+    </div>
+    <div class="flow-diagram" id="flowDiagram">
+      <div class="flow-step" id="step1">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Build Authorization URL</h3>
+          <p>Construct the URL to redirect the user to the provider's login page with <code>response_type=code</code>, <code>scope</code>, and a random <code>state</code> parameter for CSRF protection.</p>
+        </div>
+      </div>
+      <div class="flow-step" id="step2">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>User Authenticates &amp; Authorizes</h3>
+          <p>User logs in at the provider and grants permission to your app's requested scopes. Provider redirects back to your <code>redirect_uri</code> with an authorization <code>code</code>.</p>
+        </div>
+      </div>
+      <div class="flow-step" id="step3">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Validate State &amp; Extract Code</h3>
+          <p>Verify the returned <code>state</code> matches the one you sent (CSRF check). Extract the <code>code</code> from the callback URL query parameters.</p>
+        </div>
+      </div>
+      <div class="flow-step" id="step4">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>Exchange Code for Tokens</h3>
+          <p>POST to the token endpoint with your <code>client_secret</code>, <code>code</code>, and <code>redirect_uri</code>. Receive <code>access_token</code> and optionally a <code>refresh_token</code>.</p>
+        </div>
+      </div>
+      <div class="flow-step" id="step5">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h3>Fetch User Profile</h3>
+          <p>Use the <code>access_token</code> in an <code>Authorization: Bearer</code> header to call the provider's userinfo endpoint and retrieve the authenticated user's data.</p>
+        </div>
+      </div>
+    </div>
+    <div id="urlOutput" style="display:none">
+      <div style="margin-bottom:.5rem;font-size:.85rem;font-weight:600">Authorization URL:</div>
+      <div class="url-display" id="authUrl"></div>
+      <div style="margin:.75rem 0 .5rem;font-size:.85rem;font-weight:600">Token Exchange Request:</div>
+      <div class="url-display" id="tokenUrl"></div>
+      <div style="margin:.75rem 0 .5rem;font-size:.85rem;font-weight:600" id="tokenTitle" style="display:none">Response Tokens:</div>
+      <div class="token-box" id="tokenBox" style="display:none">
+        <div class="token-field"><strong>access_token</strong><div class="token-value" id="tAccess"></div></div>
+        <div class="token-field"><strong>token_type</strong><span style="color:#a6e3a1;font-size:.8rem"> Bearer</span></div>
+        <div class="token-field"><strong>expires_in</strong><span style="color:#a6e3a1;font-size:.8rem"> 3600</span></div>
+        <div class="token-field"><strong>refresh_token</strong><div class="token-value" id="tRefresh"></div></div>
+        <div class="token-field"><strong>scope</strong><div class="token-value" id="tScope"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <p>Full version includes PKCE support, token refresh logic, multiple provider configs, session storage, and production-ready error handling.</p>
+    <a href="https://buy.stripe.com/3cIfZh7mL8WWeRI15TgjJ0c" class="cta-btn">Buy Full Version — $14.99</a>
+    <button class="crypto-pay-btn" data-product-slug="oauth2-client" data-store-slug="auth-vault" data-product-name="oauth2-client" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+<script>
+const PROVIDERS = {
+  google:    { auth:'https://accounts.google.com/o/oauth2/v2/auth', token:'https://oauth2.googleapis.com/token', userinfo:'https://www.googleapis.com/oauth2/v3/userinfo', scopes:['openid','email','profile','https://www.googleapis.com/auth/drive.readonly','https://www.googleapis.com/auth/calendar.readonly'] },
+  github:    { auth:'https://github.com/login/oauth/authorize', token:'https://github.com/login/oauth/access_token', userinfo:'https://api.github.com/user', scopes:['read:user','user:email','repo','read:org','gist'] },
+  discord:   { auth:'https://discord.com/api/oauth2/authorize', token:'https://discord.com/api/oauth2/token', userinfo:'https://discord.com/api/users/@me', scopes:['identify','email','guilds','guilds.members.read','bot'] },
+  twitter:   { auth:'https://twitter.com/i/oauth2/authorize', token:'https://api.twitter.com/2/oauth2/token', userinfo:'https://api.twitter.com/2/users/me', scopes:['tweet.read','users.read','follows.read','offline.access'] },
+  microsoft: { auth:'https://login.microsoftonline.com/common/oauth2/v2.0/authorize', token:'https://login.microsoftonline.com/common/oauth2/v2.0/token', userinfo:'https://graph.microsoft.com/v1.0/me', scopes:['openid','email','profile','User.Read','Mail.Read'] },
+  custom:    { auth:'https://provider.example.com/oauth/authorize', token:'https://provider.example.com/oauth/token', userinfo:'https://provider.example.com/api/userinfo', scopes:['openid','email','profile','read','write'] },
+};
+let selectedProvider = 'google';
+let selectedScopes = ['openid','email','profile'];
+let currentStep = 0;
+
+function selectProvider(el) {
+  document.querySelectorAll('.provider-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedProvider = el.dataset.provider;
+  selectedScopes = [];
+  renderScopes();
+}
+
+function renderScopes() {
+  const scopes = PROVIDERS[selectedProvider].scopes;
+  const grid = document.getElementById('scopesGrid');
+  grid.innerHTML = scopes.map(s => `<div class="scope-tag${selectedScopes.includes(s)?' selected':''}" onclick="toggleScope(this,'${s}')">${s}</div>`).join('');
+  if (selectedScopes.length === 0) { selectedScopes = scopes.slice(0, 3); renderScopes(); }
+}
+
+function toggleScope(el, scope) {
+  if (selectedScopes.includes(scope)) { selectedScopes = selectedScopes.filter(s=>s!==scope); el.classList.remove('selected'); }
+  else { selectedScopes.push(scope); el.classList.add('selected'); }
+}
+
+function randHex(n) { return Array.from({length:n},()=>Math.floor(Math.random()*16).toString(16)).join(''); }
+
+async function runFlow() {
+  resetFlow();
+  const p = PROVIDERS[selectedProvider];
+  const clientId = document.getElementById('clientId').value || 'my-app-client-id';
+  const redirectUri = encodeURIComponent(document.getElementById('redirectUri').value || 'https://myapp.com/callback');
+  const state = randHex(16);
+  const code = randHex(32);
+  const accessToken = 'ya29.' + randHex(64);
+  const refreshToken = randHex(48);
+
+  const steps = [1,2,3,4,5];
+  for (let i = 0; i < steps.length; i++) {
+    await delay(700);
+    document.getElementById('step'+(i+1)).classList.add('active');
+    if (i === 4) {
+      document.querySelectorAll('.flow-step').forEach(s=>{ s.classList.remove('active'); s.classList.add('done'); });
+      document.getElementById('urlOutput').style.display = 'block';
+      const scopeStr = selectedScopes.join('+');
+      document.getElementById('authUrl').textContent =
+        `${p.auth}?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopeStr}&state=${state}&access_type=offline&prompt=consent`;
+      document.getElementById('tokenUrl').textContent =
+        `POST ${p.token}\ncontent-type: application/x-www-form-urlencoded\n\ngrant_type=authorization_code&code=${code}&redirect_uri=${decodeURIComponent(redirectUri)}&client_id=${clientId}&client_secret=CLIENT_SECRET_HERE`;
+      document.getElementById('tokenTitle').style.display = 'block';
+      document.getElementById('tokenBox').style.display = 'block';
+      document.getElementById('tAccess').textContent = accessToken;
+      document.getElementById('tRefresh').textContent = refreshToken;
+      document.getElementById('tScope').textContent = selectedScopes.join(' ');
+    }
+  }
+}
+
+function resetFlow() {
+  document.querySelectorAll('.flow-step').forEach(s=>{ s.classList.remove('active','done'); });
+  document.getElementById('urlOutput').style.display = 'none';
+  document.getElementById('tokenBox').style.display = 'none';
+  document.getElementById('tokenTitle').style.display = 'none';
+}
+
+function delay(ms) { return new Promise(r=>setTimeout(r,ms)); }
+
+renderScopes();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

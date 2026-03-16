@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Webhook Trigger Demo — Automation Hub</title>
+<style>
+  :root { --brand: #18FFFF; --bg: #0A0E1A; --panel: #0d1321; --border: #1e2a3a; --text: #e2e8f0; --muted: #64748b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 820px; margin: 0 auto; }
+  h1 { color: var(--brand); font-size: 1.6rem; margin-bottom: 0.3rem; }
+  .subtitle { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem; }
+  .panel h2 { color: var(--brand); font-size: 1rem; margin-bottom: 1rem; }
+  label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 0.3rem; margin-top: 0.75rem; }
+  input, select, textarea { width: 100%; background: #0a1020; border: 1px solid var(--border); border-radius: 4px; color: var(--text); padding: 0.5rem 0.75rem; font-size: 0.9rem; }
+  textarea { resize: vertical; font-family: monospace; min-height: 100px; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--brand); }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn { background: var(--brand); color: #000; border: none; border-radius: 6px; padding: 0.6rem 1.4rem; font-weight: 700; cursor: pointer; font-size: 0.9rem; margin-top: 1rem; }
+  .btn:hover { opacity: 0.85; }
+  /* Request/Response panels */
+  .req-res { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+  .http-box { background: #060d1a; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .http-box-header { padding: 0.4rem 0.75rem; background: #0a1020; font-size: 0.75rem; font-weight: 700; color: var(--muted); border-bottom: 1px solid var(--border); }
+  .http-content { padding: 0.75rem; font-family: monospace; font-size: 0.78rem; white-space: pre; overflow-x: auto; max-height: 280px; overflow-y: auto; }
+  .status-200 { color: #4ade80; }
+  .status-4xx { color: #f87171; }
+  .method-POST { color: #818cf8; }
+  .method-GET { color: var(--brand); }
+  .key { color: #94a3b8; }
+  .val { color: #e2e8f0; }
+  .str { color: #86efac; }
+  .num { color: #fb923c; }
+  /* Flow diagram */
+  .flow { display: flex; align-items: center; gap: 0.5rem; margin: 1rem 0; flex-wrap: wrap; }
+  .flow-node { background: #060d1a; border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem 0.75rem; font-size: 0.82rem; text-align: center; min-width: 100px; }
+  .flow-node.active { border-color: var(--brand); color: var(--brand); }
+  .flow-arrow { color: var(--muted); font-size: 1.2rem; }
+  .cta-bar { background: linear-gradient(135deg, #001a1a, #002a2a); border: 1px solid var(--brand); border-radius: 8px; padding: 1.25rem; margin-top: 1.5rem; text-align: center; }
+  .cta-bar h3 { color: var(--brand); margin-bottom: 0.4rem; }
+  .cta-bar p { color: var(--muted); font-size: 0.85rem; margin-bottom: 1rem; }
+  .buy-btn { display: inline-block; background: var(--brand); color: #000; text-decoration: none; padding: 0.75rem 2rem; border-radius: 6px; font-weight: 700; font-size: 1rem; }
+  .buy-btn:hover { opacity: 0.85; }
+  .footer-note { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 1rem; }
+  @media (max-width: 600px) { .row, .req-res { grid-template-columns: 1fr; } }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🔔 Webhook Trigger</h1>
+  <p class="subtitle">Build webhook integrations, simulate HTTP requests and responses, and get the Python handler code.</p>
+
+  <div class="panel">
+    <h2>Webhook Configuration</h2>
+    <div class="row">
+      <div>
+        <label>Trigger Source</label>
+        <select id="source" onchange="updateTemplate()">
+          <option value="stripe">Stripe — payment.succeeded</option>
+          <option value="github">GitHub — push event</option>
+          <option value="shopify">Shopify — order.created</option>
+          <option value="custom">Custom webhook</option>
+        </select>
+        <label>Target Action</label>
+        <select id="target">
+          <option value="slack">Send Slack message</option>
+          <option value="email">Send email</option>
+          <option value="db">Write to database</option>
+          <option value="script">Run Python script</option>
+        </select>
+      </div>
+      <div>
+        <label>Your Webhook Endpoint</label>
+        <input id="endpoint" type="text" value="https://myapp.com/webhooks/handler" />
+        <label>Secret Token</label>
+        <input id="secret" type="text" value="whsec_abc123xyz" />
+      </div>
+    </div>
+    <label>Simulated Payload (JSON)</label>
+    <textarea id="payload" rows="5"></textarea>
+    <button class="btn" onclick="fireWebhook()">▶ Fire Webhook (Simulate)</button>
+  </div>
+
+  <div class="panel" id="responsePanel" style="display:none">
+    <h2>Request / Response</h2>
+    <div class="flow" id="flowDiagram"></div>
+    <div class="req-res">
+      <div class="http-box">
+        <div class="http-box-header">REQUEST</div>
+        <div class="http-content" id="reqBox"></div>
+      </div>
+      <div class="http-box">
+        <div class="http-box-header">RESPONSE</div>
+        <div class="http-content" id="resBox"></div>
+      </div>
+    </div>
+    <div style="margin-top:1rem;background:#060d1a;border:1px solid var(--border);border-radius:6px;overflow:hidden">
+      <div style="padding:0.4rem 0.75rem;background:#0a1020;font-size:0.75rem;font-weight:700;color:var(--muted);border-bottom:1px solid var(--border)">PYTHON HANDLER</div>
+      <div class="http-content" id="handlerCode"></div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Get the Full Webhook Trigger — $19</h3>
+    <p>Production-ready webhook server with signature verification, retry queues, dead-letter handling, and 20+ integrations.</p>
+    <a class="buy-btn" href="https://buy.stripe.com/14AfZh8qPgpo6lc5m9gjJ0r">Buy Full Version — $19</a>
+    <button class="crypto-pay-btn" data-product-slug="webhook-router" data-store-slug="automation-hub" data-product-name="Webhook Router" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo simulates webhook flows. Full version is a deployable Python webhook server with real integrations.</p>
+</div>
+<script>
+  const PAYLOADS = {
+    stripe: `{
+  "id": "evt_1NirD82eZvKYlo2CML1Q8kHl",
+  "type": "payment_intent.succeeded",
+  "data": {
+    "object": {
+      "id": "pi_3NirD82eZvKYlo2C00000000",
+      "amount": 4900,
+      "currency": "usd",
+      "customer": "cus_OHxLLwHZCdPMqx",
+      "receipt_email": "alex@example.com",
+      "status": "succeeded"
+    }
+  }
+}`,
+    github: `{
+  "ref": "refs/heads/main",
+  "repository": { "name": "my-app", "full_name": "user/my-app" },
+  "pusher": { "name": "alex", "email": "alex@example.com" },
+  "commits": [
+    { "id": "abc1234", "message": "feat: add new dashboard", "author": { "name": "Alex" } }
+  ]
+}`,
+    shopify: `{
+  "id": 820982911946154500,
+  "email": "alex@example.com",
+  "financial_status": "paid",
+  "total_price": "199.00",
+  "currency": "USD",
+  "line_items": [
+    { "title": "Landing Lab Pro", "quantity": 1, "price": "199.00" }
+  ]
+}`,
+    custom: `{
+  "event": "user.signed_up",
+  "timestamp": "2026-03-14T09:00:00Z",
+  "data": {
+    "user_id": "usr_12345",
+    "email": "new@example.com",
+    "plan": "pro"
+  }
+}`
+  };
+
+  const TARGET_ACTIONS = {
+    slack: "send_slack_notification(event_data)",
+    email: "send_email(event_data['email'], template='welcome')",
+    db: "db.insert('events', event_data)",
+    script: "subprocess.run(['python3', 'handler.py'], input=json.dumps(event_data))",
+  };
+
+  function updateTemplate() {
+    const src = document.getElementById('source').value;
+    document.getElementById('payload').value = PAYLOADS[src];
+  }
+
+  function fireWebhook() {
+    const endpoint = document.getElementById('endpoint').value;
+    const secret = document.getElementById('secret').value;
+    const src = document.getElementById('source').value;
+    const tgt = document.getElementById('target').value;
+    let payload;
+    try { payload = JSON.parse(document.getElementById('payload').value); } catch(e) { payload = {}; }
+
+    // Simulate delay
+    const panel = document.getElementById('responsePanel');
+    panel.style.display = 'block';
+
+    const now = new Date().toISOString();
+    const sig = 'sha256=' + btoa(secret + now).slice(0,32);
+
+    document.getElementById('reqBox').innerHTML = `<span class="method-POST">POST</span> ${endpoint}
+<span class="key">Content-Type:</span> <span class="val">application/json</span>
+<span class="key">X-Hub-Signature-256:</span> <span class="val">${sig}</span>
+<span class="key">X-Timestamp:</span> <span class="val">${now}</span>
+<span class="key">User-Agent:</span> <span class="val">AutomationHub-Webhooks/1.0</span>
+
+${syntaxHighlight(payload)}`;
+
+    document.getElementById('resBox').innerHTML = `<span class="status-200">HTTP/1.1 200 OK</span>
+<span class="key">Content-Type:</span> <span class="val">application/json</span>
+<span class="key">X-Processing-Time:</span> <span class="val">${(Math.random()*50+12).toFixed(0)}ms</span>
+
+{
+  <span class="key">"status":</span> <span class="str">"received"</span>,
+  <span class="key">"event_id":</span> <span class="str">"${Math.random().toString(36).slice(2,12)}"</span>,
+  <span class="key">"processed_at":</span> <span class="str">"${now}"</span>
+}`;
+
+    const action = TARGET_ACTIONS[tgt];
+    document.getElementById('handlerCode').innerHTML =
+`<span class="key">from</span> automation_hub <span class="key">import</span> WebhookHandler
+<span class="key">import</span> hmac, hashlib, json
+
+handler = WebhookHandler(
+    secret=<span class="str">"${secret}"</span>,
+    endpoint=<span class="str">"${endpoint}"</span>
+)
+
+@handler.on(<span class="str">"${src === 'custom' ? 'user.signed_up' : src + '.event'}"</span>)
+<span class="key">def</span> <span class="val">process_event</span>(event_data):
+    <span class="str">"""Triggered automatically when webhook fires."""</span>
+    ${action}
+    <span class="key">return</span> {<span class="str">"status"</span>: <span class="str">"received"</span>}
+
+handler.start(port=8080)`;
+
+    document.getElementById('flowDiagram').innerHTML = [
+      [src.toUpperCase(), true], ['→',''], ['Your Server', true], ['→',''], [tgt.toUpperCase() + ' Action', true]
+    ].map(([n, active]) => n === '→'
+      ? `<span class="flow-arrow">→</span>`
+      : `<div class="flow-node ${active ? 'active' : ''}">${n}</div>`
+    ).join('');
+  }
+
+  function syntaxHighlight(obj) {
+    const str = JSON.stringify(obj, null, 2);
+    return str
+      .replace(/"([^"]+)":/g, '<span class="key">"$1":</span>')
+      .replace(/: "([^"]*)"/g, ': <span class="str">"$1"</span>')
+      .replace(/: (\d+)/g, ': <span class="num">$1</span>');
+  }
+
+  updateTemplate();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

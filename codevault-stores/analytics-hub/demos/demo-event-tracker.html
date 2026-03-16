@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Tracker Demo — Analytics Hub | CodeVault</title>
+<meta name="description" content="Interactive demo of the Event Tracker tool from Analytics Hub.">
+<style>
+  :root {
+    --bg: #0A0E1A; --surface: #141824; --surface2: #1E2436;
+    --border: #2A2E3E; --text: #EAEAFF; --muted: #8888AA;
+    --accent: #00E5FF; --danger: #FF4444; --success: #00E676; --warn: #FF9800;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 15px; min-height: 100vh; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  header .brand { font-weight: 700; font-size: 1.1rem; }
+  header .brand span { color: var(--accent); }
+  .badge { background: var(--accent); color: #0A0E1A; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 32px 20px; }
+  h1 { font-size: 1.6rem; margin-bottom: 6px; }
+  .subtitle { color: var(--muted); margin-bottom: 28px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+  .panel-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 14px; }
+
+  label { display: block; color: var(--muted); font-size: 0.82rem; margin-bottom: 5px; margin-top: 12px; }
+  label:first-child { margin-top: 0; }
+  input[type=text], select { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; color: var(--text); font-size: 0.88rem; outline: none; }
+  input:focus, select:focus { border-color: var(--accent); }
+
+  .btn { background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 9px 20px; border-radius: 7px; border: none; cursor: pointer; font-size: 0.9rem; transition: opacity .2s; }
+  .btn:hover { opacity: .88; }
+  .btn-sec { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-sec:hover { border-color: var(--accent); color: var(--accent); opacity: 1; }
+
+  /* Property builder */
+  .prop-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; max-height: 160px; overflow-y: auto; }
+  .prop-row { display: flex; gap: 6px; align-items: center; }
+  .prop-row input { flex: 1; padding: 6px 10px; font-size: 0.82rem; }
+  .rm-btn { background: none; border: 1px solid var(--border); border-radius: 4px; color: var(--muted); cursor: pointer; padding: 4px 8px; font-size: 0.85rem; }
+  .rm-btn:hover { border-color: var(--danger); color: var(--danger); }
+
+  /* Event stream */
+  .stream { display: flex; flex-direction: column; gap: 6px; max-height: 380px; overflow-y: auto; }
+  .event-row { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; font-family: monospace; font-size: 0.8rem; animation: slideIn .25s ease; }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+  .event-name { color: var(--accent); font-weight: 700; }
+  .event-ts { color: var(--muted); float: right; }
+  .event-props { color: var(--muted); margin-top: 4px; }
+  .event-props span { color: var(--text); }
+
+  /* Counter */
+  .counter-bar { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 20px; }
+  .counter { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px; text-align: center; }
+  .counter .val { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+  .counter .lbl { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+  /* CTA */
+  .cta-box { background: linear-gradient(135deg, rgba(0,229,255,.08), rgba(0,229,255,.02)); border: 1px solid rgba(0,229,255,.25); border-radius: 12px; padding: 28px 24px; text-align: center; margin-top: 32px; }
+  .cta-box h2 { font-size: 1.25rem; margin-bottom: 8px; }
+  .cta-box p { color: var(--muted); margin-bottom: 20px; font-size: 0.9rem; }
+  .btn-cta { display: inline-block; background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 12px 32px; border-radius: 8px; font-size: 1rem; border: none; cursor: pointer; text-decoration: none; }
+  .btn-cta:hover { opacity: .9; text-decoration: none; }
+  .demo-note { color: var(--muted); font-size: 0.82rem; margin-top: 14px; }
+
+  footer { text-align: center; padding: 24px; color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--border); margin-top: 40px; }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Analytics<span>Hub</span> — Event Tracker</div>
+  <span class="badge">Demo</span>
+</header>
+
+<div class="container">
+  <h1>Event Tracker</h1>
+  <p class="subtitle">Build custom event schemas with properties, fire them, and watch the live event stream.</p>
+
+  <div class="counter-bar">
+    <div class="counter"><div class="val" id="cTotal">0</div><div class="lbl">Events Fired</div></div>
+    <div class="counter"><div class="val" id="cUnique">0</div><div class="lbl">Unique Events</div></div>
+    <div class="counter"><div class="val" id="cUsers">0</div><div class="lbl">Distinct Users</div></div>
+  </div>
+
+  <div class="two-col">
+    <!-- Builder -->
+    <div class="panel">
+      <div class="panel-title">Event Builder</div>
+
+      <label>Event name</label>
+      <input type="text" id="evtName" value="button_click" placeholder="e.g. page_view, purchase">
+
+      <label>User ID (optional)</label>
+      <input type="text" id="evtUser" placeholder="e.g. usr_abc123">
+
+      <label>Properties</label>
+      <div class="prop-list" id="propList"></div>
+
+      <div style="display:flex;gap:8px;margin-bottom:14px">
+        <button class="btn btn-sec" style="flex:1" onclick="addProp()">+ Add Property</button>
+      </div>
+
+      <button class="btn" style="width:100%;margin-bottom:8px" onclick="fireEvent()">Fire Event</button>
+      <button class="btn btn-sec" style="width:100%" onclick="fireRandom()">Fire Random Batch (x5)</button>
+    </div>
+
+    <!-- Stream -->
+    <div class="panel">
+      <div class="panel-title" style="display:flex;justify-content:space-between;align-items:center">
+        <span>Live Event Stream</span>
+        <button class="btn btn-sec" style="padding:4px 10px;font-size:.78rem" onclick="clearStream()">Clear</button>
+      </div>
+      <div class="stream" id="eventStream">
+        <div style="color:var(--muted);font-size:.85rem">Waiting for events...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h2>Get the Full Event Tracker</h2>
+    <p>SDK integrations (JS, Python, Go), real-time dashboards, event validation schemas, funnel hooks, data warehouse export, and 90-day event history.</p>
+    <a class="btn-cta" href="https://buy.stripe.com/8x214n9uTflk7pgcOBgjI3X">Buy Full Version — $49.00</a>
+    <button class="crypto-pay-btn" data-product-slug="event-tracker" data-store-slug="analytics-hub" data-product-name="Event Tracker" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+    <div class="demo-note">This demo shows limited functionality. Buy the full tool for all features.</div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 CodeVault / Analytics Hub &mdash; <a href="https://buy.stripe.com/8x214n9uTflk7pgcOBgjI3X">Back to Store</a>
+  &mdash; <a href="index.html">All Demos</a>
+</footer>
+
+<script>
+let events = [];
+let propCount = 0;
+
+const SAMPLE_EVENTS = [
+  { name: 'page_view', props: { page: '/pricing', referrer: 'google.com' } },
+  { name: 'button_click', props: { element: 'cta_hero', label: 'Get Started' } },
+  { name: 'signup', props: { plan: 'pro', method: 'email' } },
+  { name: 'purchase', props: { amount: 79, currency: 'USD', product: 'pro_monthly' } },
+  { name: 'feature_used', props: { feature: 'export_csv', user_tier: 'pro' } },
+  { name: 'session_start', props: { device: 'mobile', os: 'iOS' } },
+  { name: 'error_occurred', props: { code: 500, endpoint: '/api/users' } },
+];
+
+const SAMPLE_USERS = ['usr_a1b2', 'usr_c3d4', 'usr_e5f6', 'usr_g7h8', 'usr_i9j0'];
+
+function addProp(key = '', val = '') {
+  const id = propCount++;
+  const div = document.createElement('div');
+  div.className = 'prop-row';
+  div.id = 'prop-' + id;
+  div.innerHTML = `
+    <input type="text" placeholder="key" value="${key}" class="prop-key">
+    <input type="text" placeholder="value" value="${val}" class="prop-val">
+    <button class="rm-btn" onclick="removeProp(${id})">×</button>`;
+  document.getElementById('propList').appendChild(div);
+}
+
+function removeProp(id) {
+  document.getElementById('prop-' + id)?.remove();
+}
+
+function getProps() {
+  const props = {};
+  document.querySelectorAll('.prop-row').forEach(row => {
+    const k = row.querySelector('.prop-key').value.trim();
+    const v = row.querySelector('.prop-val').value.trim();
+    if (k) props[k] = v;
+  });
+  return props;
+}
+
+function fireEvent() {
+  const name = document.getElementById('evtName').value.trim() || 'custom_event';
+  const user = document.getElementById('evtUser').value.trim() || null;
+  const props = getProps();
+  pushEvent(name, user, props);
+}
+
+function fireRandom() {
+  for (let i = 0; i < 5; i++) {
+    const s = SAMPLE_EVENTS[Math.floor(Math.random()*SAMPLE_EVENTS.length)];
+    const user = SAMPLE_USERS[Math.floor(Math.random()*SAMPLE_USERS.length)];
+    setTimeout(() => pushEvent(s.name, user, {...s.props}), i * 200);
+  }
+}
+
+function pushEvent(name, user, props) {
+  const ts = new Date().toISOString().replace('T',' ').slice(0,19);
+  events.unshift({ name, user, props, ts });
+  renderStream();
+  updateCounters();
+}
+
+function renderStream() {
+  const el = document.getElementById('eventStream');
+  if (!events.length) { el.innerHTML = '<div style="color:var(--muted);font-size:.85rem">Waiting for events...</div>'; return; }
+  el.innerHTML = events.slice(0,30).map(e => {
+    const propStr = Object.entries(e.props).map(([k,v]) => `  ${k}: <span>${v}</span>`).join('\n');
+    return `<div class="event-row">
+      <span class="event-name">${e.name}</span>${e.user ? ' &nbsp;<span style="color:var(--muted)">'+e.user+'</span>' : ''}<span class="event-ts">${e.ts}</span>
+      ${propStr ? `<div class="event-props"><pre style="margin:0;font-family:monospace">${propStr}</pre></div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function updateCounters() {
+  document.getElementById('cTotal').textContent = events.length;
+  document.getElementById('cUnique').textContent = new Set(events.map(e=>e.name)).size;
+  document.getElementById('cUsers').textContent = new Set(events.filter(e=>e.user).map(e=>e.user)).size;
+}
+
+function clearStream() { events = []; renderStream(); updateCounters(); }
+
+// Seed props
+addProp('page', '/dashboard');
+addProp('referrer', 'google.com');
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feedback Collector Demo — SaaS Starter | CodeVault</title>
+<meta name="description" content="Interactive demo of the Feedback Collector tool from SaaS Starter.">
+<style>
+  :root {
+    --bg: #0A0E1A; --surface: #141824; --surface2: #1E2436;
+    --border: #2A2E3E; --text: #EAEAFF; --muted: #8888AA;
+    --accent: #FFD600; --danger: #FF4444; --success: #00E676;
+    --warn: #FF9800; --info: #2196F3;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 15px; min-height: 100vh; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  header .brand { font-weight: 700; font-size: 1.1rem; }
+  header .brand span { color: var(--accent); }
+  .badge { background: var(--accent); color: #0A0E1A; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; }
+
+  .container { max-width: 1000px; margin: 0 auto; padding: 32px 20px; }
+  h1 { font-size: 1.6rem; margin-bottom: 6px; }
+  .subtitle { color: var(--muted); margin-bottom: 28px; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+  .tab { padding: 9px 18px; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 0.88rem; font-weight: 600; border: none; background: transparent; color: var(--muted); transition: all .2s; }
+  .tab.active { background: var(--surface); color: var(--accent); border-bottom: 2px solid var(--accent); }
+  .tab:hover:not(.active) { color: var(--text); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+  .panel-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 14px; }
+
+  label { display: block; color: var(--muted); font-size: 0.82rem; margin-bottom: 5px; margin-top: 12px; }
+  label:first-child { margin-top: 0; }
+  input[type=text], input[type=email], select, textarea {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 8px 12px; color: var(--text); font-size: 0.88rem; outline: none; font-family: inherit;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 80px; }
+  input[type=range] { width: 100%; accent-color: var(--accent); }
+
+  .btn { background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 9px 20px; border-radius: 7px; border: none; cursor: pointer; font-size: 0.9rem; transition: opacity .2s; }
+  .btn:hover { opacity: .88; }
+  .btn-sec { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-sec:hover { border-color: var(--accent); color: var(--accent); opacity: 1; }
+
+  /* Widget preview */
+  .widget-wrap { display: flex; align-items: center; justify-content: center; min-height: 240px; background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232A2E3E' fill-opacity='0.4'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); border-radius: 8px; position: relative; overflow: hidden; }
+  .widget-bg-label { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: .75rem; color: var(--muted); white-space: nowrap; }
+
+  /* The widget itself */
+  .feedback-widget { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; width: 280px; box-shadow: 0 8px 32px rgba(0,0,0,.4); }
+  .widget-header { font-weight: 700; font-size: 0.95rem; margin-bottom: 12px; }
+  .widget-question { font-size: 0.85rem; color: var(--muted); margin-bottom: 12px; }
+  .stars { display: flex; gap: 6px; font-size: 1.4rem; cursor: pointer; margin-bottom: 14px; }
+  .star { color: var(--border); transition: color .15s; }
+  .star.lit { color: var(--accent); }
+  .nps-row { display: flex; gap: 4px; margin-bottom: 14px; }
+  .nps-btn { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 6px 2px; font-size: 0.75rem; text-align: center; cursor: pointer; color: var(--muted); transition: all .15s; }
+  .nps-btn.sel { background: var(--accent); color: #0A0E1A; border-color: var(--accent); font-weight: 700; }
+  .widget-textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; color: var(--text); font-size: 0.82rem; resize: none; outline: none; font-family: inherit; min-height: 60px; }
+  .widget-submit { width: 100%; margin-top: 10px; }
+
+  /* Inbox */
+  .inbox-list { display: flex; flex-direction: column; gap: 10px; max-height: 380px; overflow-y: auto; }
+  .inbox-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
+  .inbox-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+  .inbox-score { font-weight: 700; font-size: 0.9rem; }
+  .inbox-type { font-size: 0.72rem; background: rgba(33,150,243,.15); color: var(--info); padding: 2px 7px; border-radius: 4px; }
+  .inbox-stars { color: var(--accent); font-size: 0.85rem; letter-spacing: 1px; }
+  .inbox-time { color: var(--muted); font-size: 0.75rem; margin-left: auto; }
+  .inbox-text { font-size: 0.85rem; color: var(--muted); margin-bottom: 4px; }
+  .inbox-user { font-size: 0.78rem; color: var(--muted); font-style: italic; }
+
+  /* Stats bar */
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+  .stat { background: var(--surface2); border-radius: 8px; padding: 12px 14px; text-align: center; }
+  .stat .val { font-size: 1.4rem; font-weight: 700; }
+  .stat .lbl { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+  /* CTA */
+  .cta-box { background: linear-gradient(135deg, rgba(255,214,0,.08), rgba(255,214,0,.03)); border: 1px solid rgba(255,214,0,.3); border-radius: 12px; padding: 28px 24px; text-align: center; margin-top: 32px; }
+  .cta-box h2 { font-size: 1.25rem; margin-bottom: 8px; }
+  .cta-box p { color: var(--muted); margin-bottom: 20px; font-size: 0.9rem; }
+  .btn-cta { display: inline-block; background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 12px 32px; border-radius: 8px; font-size: 1rem; border: none; cursor: pointer; text-decoration: none; }
+  .btn-cta:hover { opacity: .9; text-decoration: none; }
+  .demo-note { text-align: center; color: var(--muted); font-size: 0.82rem; margin-top: 14px; }
+
+  footer { text-align: center; padding: 24px; color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--border); margin-top: 40px; }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">SaaS<span>Starter</span> — Feedback Collector</div>
+  <span class="badge">Demo</span>
+</header>
+
+<div class="container">
+  <h1>Feedback Collector</h1>
+  <p class="subtitle">Embeddable feedback widgets + unified inbox. Build and preview widgets, then see all submissions in one place.</p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('builder')">Widget Builder</button>
+    <button class="tab" onclick="switchTab('inbox')">Feedback Inbox</button>
+  </div>
+
+  <!-- Widget Builder -->
+  <div class="tab-panel active" id="tab-builder">
+    <div class="two-col">
+      <div class="panel">
+        <div class="panel-title">Configure Widget</div>
+
+        <label>Widget type</label>
+        <select id="widgetType" onchange="updatePreview()">
+          <option value="stars">Star Rating</option>
+          <option value="nps">NPS Score (0–10)</option>
+          <option value="text">Open Text</option>
+        </select>
+
+        <label>Question text</label>
+        <input type="text" id="widgetQuestion" value="How would you rate your experience?" oninput="updatePreview()">
+
+        <label>Button label</label>
+        <input type="text" id="widgetBtn" value="Send Feedback" oninput="updatePreview()">
+
+        <label>Accent color</label>
+        <input type="text" id="widgetColor" value="#FFD600" oninput="updatePreview()" placeholder="#FFD600">
+
+        <div style="margin-top:16px">
+          <button class="btn" onclick="submitWidgetFeedback()">Submit Demo Response</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Live Preview</div>
+        <div class="widget-wrap" id="widgetPreview">
+          <span class="widget-bg-label">Widget preview</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inbox -->
+  <div class="tab-panel" id="tab-inbox">
+    <div class="stats-row" id="statsRow">
+      <div class="stat"><div class="val" id="statCount">0</div><div class="lbl">Total Responses</div></div>
+      <div class="stat"><div class="val" id="statAvg">—</div><div class="lbl">Avg Rating</div></div>
+      <div class="stat"><div class="val" id="statNPS">—</div><div class="lbl">NPS Score</div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title" style="display:flex;justify-content:space-between;align-items:center">
+        <span>Submissions (<span id="inboxCount">0</span>)</span>
+        <button class="btn btn-sec" style="padding:5px 12px;font-size:.8rem" onclick="clearInbox()">Clear</button>
+      </div>
+      <div class="inbox-list" id="inboxList">
+        <div style="color:var(--muted);font-size:.85rem;padding:8px 0">No feedback yet. Submit responses from the Widget Builder tab.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h2>Get the Full Feedback Collector</h2>
+    <p>Multi-page flows, conditional logic, Zapier/webhook integrations, sentiment analysis, CSV export, team assignment, and embed on any page with one script tag.</p>
+    <a class="btn-cta" href="https://buy.stripe.com/7sY3cv0Ynflk4d4aGtgjJ1H">Buy Full Version — $49.00</a>
+    <button class="crypto-pay-btn" data-product-slug="feedback-collector" data-store-slug="saas-starter" data-product-name="Feedback Collector" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+    <div class="demo-note">This demo shows limited functionality. Buy the full tool for all features.</div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 CodeVault / SaaS Starter &mdash; <a href="https://buy.stripe.com/7sY3cv0Ynflk4d4aGtgjJ1H">Back to Store</a>
+  &mdash; <a href="index.html">All Demos</a>
+</footer>
+
+<script>
+// --- Tab switching ---
+function switchTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  document.querySelectorAll('.tab')[id === 'builder' ? 0 : 1].classList.add('active');
+  if (id === 'inbox') renderInbox();
+}
+
+// --- State ---
+let inbox = [];
+let selectedStars = 0;
+let selectedNPS = null;
+
+// --- Widget preview ---
+function updatePreview() {
+  const type = document.getElementById('widgetType').value;
+  const question = document.getElementById('widgetQuestion').value;
+  const btnLabel = document.getElementById('widgetBtn').value;
+  const color = document.getElementById('widgetColor').value || '#FFD600';
+  selectedStars = 0; selectedNPS = null;
+
+  let inner = '';
+  if (type === 'stars') {
+    inner = `<div class="stars" id="starRow">
+      ${[1,2,3,4,5].map(i => `<span class="star" data-v="${i}" onclick="setStars(${i})">★</span>`).join('')}
+    </div>
+    <textarea class="widget-textarea" id="widgetComment" placeholder="Any additional comments? (optional)"></textarea>`;
+  } else if (type === 'nps') {
+    inner = `<div class="nps-row" id="npsRow">
+      ${[0,1,2,3,4,5,6,7,8,9,10].map(i => `<div class="nps-btn" data-v="${i}" onclick="setNPS(${i})">${i}</div>`).join('')}
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-bottom:10px"><span>Not likely</span><span>Very likely</span></div>
+    <textarea class="widget-textarea" id="widgetComment" placeholder="Why did you choose this score?"></textarea>`;
+  } else {
+    inner = `<textarea class="widget-textarea" id="widgetComment" placeholder="Tell us what you think..." style="min-height:90px"></textarea>`;
+  }
+
+  document.getElementById('widgetPreview').innerHTML = `
+    <div class="feedback-widget">
+      <div class="widget-header" style="color:${color}">Feedback</div>
+      <div class="widget-question">${question}</div>
+      ${inner}
+      <button class="btn widget-submit" style="background:${color};color:#0A0E1A" onclick="submitWidgetFeedback()">${btnLabel}</button>
+    </div>`;
+}
+
+function setStars(n) {
+  selectedStars = n;
+  document.querySelectorAll('.star').forEach(s => {
+    s.classList.toggle('lit', parseInt(s.dataset.v) <= n);
+  });
+}
+
+function setNPS(n) {
+  selectedNPS = n;
+  document.querySelectorAll('.nps-btn').forEach(b => {
+    b.classList.toggle('sel', parseInt(b.dataset.v) === n);
+  });
+}
+
+function submitWidgetFeedback() {
+  const type = document.getElementById('widgetType').value;
+  const comment = document.getElementById('widgetComment') ? document.getElementById('widgetComment').value.trim() : '';
+  const users = ['alice@example.com','bob@demo.io','clara@startup.co','dan@widgets.com','anonymous'];
+  const user = users[Math.floor(Math.random()*users.length)];
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString('en', {hour:'2-digit',minute:'2-digit'});
+
+  let score = null, stars = null;
+  if (type === 'stars') { stars = selectedStars || Math.floor(Math.random()*5)+1; }
+  if (type === 'nps') { score = selectedNPS !== null ? selectedNPS : Math.floor(Math.random()*11); }
+
+  const texts = [
+    'Really helpful, saves me a ton of time.',
+    'Works well, would love more customization options.',
+    'Solid product, the documentation could be clearer.',
+    'Great for quick setup, wish there was dark mode.',
+    'Exactly what I needed for my SaaS project.'
+  ];
+  const text = comment || texts[Math.floor(Math.random()*texts.length)];
+
+  inbox.unshift({ type, stars, score, text, user, time: timeStr });
+  alert(`Feedback submitted! Check the Inbox tab to see it.`);
+  updatePreview();
+  renderInbox();
+}
+
+// --- Inbox ---
+function renderInbox() {
+  const el = document.getElementById('inboxList');
+  document.getElementById('inboxCount').textContent = inbox.length;
+  if (!inbox.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:.85rem;padding:8px 0">No feedback yet. Submit responses from the Widget Builder tab.</div>';
+    document.getElementById('statCount').textContent = 0;
+    document.getElementById('statAvg').textContent = '—';
+    document.getElementById('statNPS').textContent = '—';
+    return;
+  }
+
+  el.innerHTML = inbox.map(item => {
+    const starsStr = item.stars ? '★'.repeat(item.stars) + '☆'.repeat(5-item.stars) : '';
+    const scoreStr = item.score !== null ? `${item.score}/10` : '';
+    return `<div class="inbox-item">
+      <div class="inbox-meta">
+        ${starsStr ? `<span class="inbox-stars">${starsStr}</span>` : ''}
+        ${scoreStr ? `<span class="inbox-score">${scoreStr}</span>` : ''}
+        <span class="inbox-type">${item.type}</span>
+        <span class="inbox-time">${item.time}</span>
+      </div>
+      <div class="inbox-text">"${item.text}"</div>
+      <div class="inbox-user">— ${item.user}</div>
+    </div>`;
+  }).join('');
+
+  // Stats
+  document.getElementById('statCount').textContent = inbox.length;
+  const starItems = inbox.filter(i => i.stars);
+  if (starItems.length) {
+    const avg = starItems.reduce((s,i) => s+i.stars,0)/starItems.length;
+    document.getElementById('statAvg').textContent = avg.toFixed(1) + ' ★';
+  }
+  const npsItems = inbox.filter(i => i.score !== null);
+  if (npsItems.length) {
+    const promoters = npsItems.filter(i => i.score >= 9).length;
+    const detractors = npsItems.filter(i => i.score <= 6).length;
+    const nps = Math.round(((promoters - detractors) / npsItems.length)*100);
+    document.getElementById('statNPS').textContent = (nps >= 0 ? '+' : '') + nps;
+  }
+}
+
+function clearInbox() {
+  inbox = [];
+  renderInbox();
+}
+
+// Seed some sample responses
+function seedInbox() {
+  const samples = [
+    { type:'stars', stars:5, score:null, text:'Excellent product, highly recommend to any SaaS builder!', user:'clara@startup.co', time:'09:15' },
+    { type:'nps', stars:null, score:9, text:'Would definitely recommend. Saved me 2 weeks of dev time.', user:'dan@widgets.com', time:'10:02' },
+    { type:'text', stars:null, score:null, text:'The multi-tenant routing was the piece I was missing. Works great!', user:'alice@example.com', time:'10:47' },
+    { type:'stars', stars:4, score:null, text:'Very good, docs could be more detailed for edge cases.', user:'bob@demo.io', time:'11:30' },
+    { type:'nps', stars:null, score:7, text:'Solid, but I\'d love better webhook documentation.', user:'anonymous', time:'12:05' },
+  ];
+  inbox = [...samples];
+}
+
+// Init
+updatePreview();
+seedInbox();
+renderInbox();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

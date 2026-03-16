@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="React, TypeScript, and modern frontend templates and components. Professional tools, templates, and guides you can deploy immediately.">
+  <meta name="keywords" content="React, Next.js, TypeScript, Tailwind CSS, frontend testing, accessibility">
+  <meta name="author" content="Frontend Developer Pro">
+
+  <link rel="canonical" href="https://inity13.github.io/frontend-developer-pro/">
+  <meta name="theme-color" content="#e11d48">
+
+  <meta property="og:title" content="Frontend Developer Pro — React, TypeScript, and modern frontend templates and components">
+  <meta property="og:description" content="React, TypeScript, and modern frontend templates and components. Ship faster with production-ready code.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://inity13.github.io/frontend-developer-pro/">
+  <meta property="og:image" content="https://inity13.github.io/frontend-developer-pro/og-image.svg">
+  <meta property="og:site_name" content="Frontend Developer Pro">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Frontend Developer Pro — React, TypeScript, and modern frontend templates and components">
+  <meta name="twitter:description" content="React, TypeScript, and modern frontend templates and components">
+  <meta name="twitter:image" content="https://inity13.github.io/frontend-developer-pro/og-image.svg">
+  <meta name="twitter:site" content="@DatanestDev">
+
+  <title>Frontend Developer Pro — React, TypeScript, and modern frontend templates and components</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" href="og-image.svg">
+  <link rel="stylesheet" href="style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Frontend Developer Pro",
+    "url": "https://inity13.github.io/frontend-developer-pro",
+    "description": "React, TypeScript, and modern frontend templates and components"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Frontend Developer Pro Products",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "Product",
+          "name": "React SaaS Template",
+          "description": "Production React SaaS starter with TypeScript, authentication, billing, dashboard, and component library.",
+          "image": "https://inity13.github.io/frontend-developer-pro/og-image.svg",
+          "url": "https://buy.stripe.com/6oUdR90Ynb54gZQdSFgjH1l",
+          "brand": { "@type": "Brand", "name": "Frontend Developer Pro" },
+          "offers": {
+            "@type": "Offer",
+            "price": "59.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://buy.stripe.com/6oUdR90Ynb54gZQdSFgjH1l",
+            "seller": { "@type": "Organization", "name": "Frontend Developer Pro" }
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@type": "Product",
+          "name": "Next.js Starter Kit",
+          "description": "Next.js 14+ App Router template with SSR, ISR, API routes, Prisma ORM, and Vercel deployment configs.",
+          "image": "https://inity13.github.io/frontend-developer-pro/og-image.svg",
+          "url": "https://buy.stripe.com/dRm00j22ra10cJAcOBgjH1m",
+          "brand": { "@type": "Brand", "name": "Frontend Developer Pro" },
+          "offers": {
+            "@type": "Offer",
+            "price": "49.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://buy.stripe.com/dRm00j22ra10cJAcOBgjH1m",
+            "seller": { "@type": "Organization", "name": "Frontend Developer Pro" }
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@type": "Product",
+          "name": "Tailwind Component Library",
+          "description": "80+ accessible Tailwind CSS components: forms, tables, modals, navigation, cards, and data visualization.",
+          "image": "https://inity13.github.io/frontend-developer-pro/og-image.svg",
+          "url": "https://buy.stripe.com/bJe8wP8qP5KKgZQdSFgjH1n",
+          "brand": { "@type": "Brand", "name": "Frontend Developer Pro" },
+          "offers": {
+            "@type": "Offer",
+            "price": "39.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://buy.stripe.com/bJe8wP8qP5KKgZQdSFgjH1n",
+            "seller": { "@type": "Organization", "name": "Frontend Developer Pro" }
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "item": {
+          "@type": "Product",
+          "name": "TypeScript Utility Library",
+          "description": "Type-safe utility functions, custom hooks, generic patterns, and advanced TypeScript techniques with full test coverage.",
+          "image": "https://inity13.github.io/frontend-developer-pro/og-image.svg",
+          "url": "https://buy.stripe.com/fZufZhbD1flkfVM7uhgjH1o",
+          "brand": { "@type": "Brand", "name": "Frontend Developer Pro" },
+          "offers": {
+            "@type": "Offer",
+            "price": "29.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://buy.stripe.com/fZufZhbD1flkfVM7uhgjH1o",
+            "seller": { "@type": "Organization", "name": "Frontend Developer Pro" }
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 5,
+        "item": {
+          "@type": "Product",
+          "name": "State Management Patterns",
+          "description": "Zustand, Jotai, and React Query patterns for complex state: optimistic updates, caching, and real-time sync.",
+          "image": "https://inity13.github.io/frontend-developer-pro/og-image.svg",
+          "url": "https://buy.stripe.com/7sY00j6iHgpoaBscOBgjH1p",
+          "brand": { "@type": "Brand", "name": "Frontend Developer Pro" },
+          "offers": {
+            "@type": "Offer",
+            "price": "29.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://buy.stripe.com/7sY00j6iHgpoaBscOBgjH1p",
+            "seller": { "@type": "Organization", "name": "Frontend Developer Pro" }
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 6,
+        "item": {
+          "@type": "Product",
+          "name": "Frontend Testing Toolkit",
+          "description": "Vitest, Testing Library, Playwright, and Storybook integration for unit, integration, and E2E testing.",
+          "image": "https://inity13.github.io/frontend-developer-pro/og-image.svg",
+          "url": "https://buy.stripe.com/aFa4gzayXddc9xo4i5gjH1q",
+          "brand": { "@type": "Brand", "name": "Frontend Developer Pro" },
+          "offers": {
+            "@type": "Offer",
+            "price": "29.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://buy.stripe.com/aFa4gzayXddc9xo4i5gjH1q",
+            "seller": { "@type": "Organization", "name": "Frontend Developer Pro" }
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 7,
+        "item": {
+          "@type": "Product",
+          "name": "Form Validation Library",
+          "description": "React Hook Form + Zod validation patterns, multi-step forms, file uploads, and accessible error handling.",
+          "image": "https://inity13.github.io/frontend-developer-pro/og-image.svg",
+          "url": "https://buy.stripe.com/cNidR98qP3CC9xo15TgjH1r",
+          "brand": { "@type": "Brand", "name": "Frontend Developer Pro" },
+          "offers": {
+            "@type": "Offer",
+            "price": "19.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://buy.stripe.com/cNidR98qP3CC9xo15TgjH1r",
+            "seller": { "@type": "Organization", "name": "Frontend Developer Pro" }
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 8,
+        "item": {
+          "@type": "Product",
+          "name": "Animation & Effects Pack",
+          "description": "Framer Motion animations, scroll effects, page transitions, loading states, and micro-interactions library.",
+          "image": "https://inity13.github.io/frontend-developer-pro/og-image.svg",
+          "url": "https://buy.stripe.com/6oUdR936v6OO4d429XgjH1s",
+          "brand": { "@type": "Brand", "name": "Frontend Developer Pro" },
+          "offers": {
+            "@type": "Offer",
+            "price": "29.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://buy.stripe.com/6oUdR936v6OO4d429XgjH1s",
+            "seller": { "@type": "Organization", "name": "Frontend Developer Pro" }
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 9,
+        "item": {
+          "@type": "Product",
+          "name": "Responsive Email Templates",
+          "description": "30+ HTML email templates: transactional, marketing, newsletters. Compatible with all major email clients.",
+          "image": "https://inity13.github.io/frontend-developer-pro/og-image.svg",
+          "url": "https://buy.stripe.com/14AdR9fTh1uu7pg4i5gjH1t",
+          "brand": { "@type": "Brand", "name": "Frontend Developer Pro" },
+          "offers": {
+            "@type": "Offer",
+            "price": "29.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://buy.stripe.com/14AdR9fTh1uu7pg4i5gjH1t",
+            "seller": { "@type": "Organization", "name": "Frontend Developer Pro" }
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 10,
+        "item": {
+          "@type": "Product",
+          "name": "Accessibility Audit Toolkit",
+          "description": "WCAG 2.1 compliance checklist, axe-core configs, screen reader testing scripts, and ARIA pattern library.",
+          "image": "https://inity13.github.io/frontend-developer-pro/og-image.svg",
+          "url": "https://buy.stripe.com/eVqeVd36v6OOfVM29XgjH1u",
+          "brand": { "@type": "Brand", "name": "Frontend Developer Pro" },
+          "offers": {
+            "@type": "Offer",
+            "price": "29.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://buy.stripe.com/eVqeVd36v6OOfVM29XgjH1u",
+            "seller": { "@type": "Organization", "name": "Frontend Developer Pro" }
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 11,
+        "item": {
+          "@type": "Product",
+          "name": "Frontend Performance Guide",
+          "description": "Core Web Vitals optimization: code splitting, image optimization, caching strategies, and bundle analysis tools.",
+          "image": "https://inity13.github.io/frontend-developer-pro/og-image.svg",
+          "url": "https://buy.stripe.com/8x24gz7mL5KKgZQ4i5gjH1v",
+          "brand": { "@type": "Brand", "name": "Frontend Developer Pro" },
+          "offers": {
+            "@type": "Offer",
+            "price": "29.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://buy.stripe.com/8x24gz7mL5KKgZQ4i5gjH1v",
+            "seller": { "@type": "Organization", "name": "Frontend Developer Pro" }
+          }
+        }
+      }
+    ]
+  }
+  </script>
+  <script defer data-domain="inity13.github.io" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a href="#" class="logo" aria-label="Frontend Developer Pro home">
+        <span class="logo-icon" aria-hidden="true">&#127912;</span>
+        Frontend Developer Pro
+      </a>
+      <nav class="nav-desktop" aria-label="Main navigation">
+        <a href="#products">Products</a>
+        <a href="#bundle">Bundle</a>
+        <a href="#features">Features</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" aria-label="Toggle dark/light mode">
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-nav">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav class="nav-mobile" id="mobile-nav" aria-label="Mobile navigation">
+      <a href="#products">Products</a>
+      <a href="#bundle">Bundle</a>
+      <a href="#features">Features</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="container hero-content">
+        <div class="hero-badge">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          React, TypeScript, and modern frontend templates and components
+        </div>
+        <h1 id="hero-heading">
+          Ship <span class="gradient-text">Production-Grade</span><br>Pro Faster
+        </h1>
+        <p class="hero-subtitle">
+          React, TypeScript, and modern frontend templates and components. Stop reinventing the wheel — start with production-ready code.
+        </p>
+        <div class="hero-actions">
+          <a href="#products" class="btn btn-primary btn-lg">
+            Browse Products
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="https://buy.stripe.com/6oUdR96iH3CC4d46qdgjH1w" class="btn btn-secondary btn-lg">
+            Get the Bundle — Save 65%
+          </a>
+        </div>
+        <div class="trust-indicators">
+          <div class="trust-item">
+            <span class="trust-icon" aria-hidden="true">&#9881;</span>
+            <span>Production-tested code</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon" aria-hidden="true">&#128274;</span>
+            <span>Secure Stripe checkout</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon" aria-hidden="true">&#9989;</span>
+            <span>30-day money-back guarantee</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon" aria-hidden="true">&#9889;</span>
+            <span>Instant download</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon" aria-hidden="true">&#128230;</span>
+            <span>MIT licensed</span>
+          </div>
+        </div>
+
+        <div class="social-proof" style="margin-top: 2rem; display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; font-size: 0.875rem; color: var(--color-text-muted, #94a3b8);">
+          <span>&#128188; Built from 10+ years of engineering experience</span>
+          <span>&#128230; 11 products &middot; 1 bundles</span>
+          <span>&#9889; Instant delivery after purchase</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="products" aria-labelledby="products-heading">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Products</span>
+          <h2 id="products-heading">Tools Built for Production</h2>
+          <p>Each product is built from real implementations. No toy examples.</p>
+        </div>
+        <div class="products-grid">
+          <article class="product-card reveal" style="--card-gradient: linear-gradient(135deg, #f97316, #ea580c)">
+            <span class="product-card-icon" aria-hidden="true">&#9881;</span>
+            <h3>React SaaS Template</h3>
+            <p class="tagline">Production React SaaS starter with TypeScript, authentication, billing, dashboard, and component library.</p>
+            <div class="price-row">
+              <span class="price"><span class="currency">$</span>59</span>
+              <a href="preview-react-saas-template.html" class="btn btn-secondary btn-sm">Preview</a>
+              <a href="https://buy.stripe.com/6oUdR90Ynb54gZQdSFgjH1l" class="btn btn-primary btn-sm">Buy Now</a>
+            </div>
+            <div class="crypto-row">
+              <button class="crypto-pay-btn" data-product-slug="react-saas-template" data-store-slug="frontend-developer" data-product-name="React SaaS Template" data-price-usd="59">&#8383; Pay with Crypto &mdash; Save 15%</button>
+            </div>
+            <p class="product-trust-line">&#128274; Secure checkout &middot; Instant download &middot; 30-day guarantee</p>
+          </article>
+
+          <article class="product-card reveal reveal-delay-1" style="--card-gradient: linear-gradient(135deg, #3b82f6, #2563eb)">
+            <span class="product-card-icon" aria-hidden="true">&#128230;</span>
+            <h3>Next.js Starter Kit</h3>
+            <p class="tagline">Next.js 14+ App Router template with SSR, ISR, API routes, Prisma ORM, and Vercel deployment configs.</p>
+            <div class="price-row">
+              <span class="price"><span class="currency">$</span>49</span>
+              <a href="preview-nextjs-starter-kit.html" class="btn btn-secondary btn-sm">Preview</a>
+              <a href="https://buy.stripe.com/dRm00j22ra10cJAcOBgjH1m" class="btn btn-primary btn-sm">Buy Now</a>
+            </div>
+            <div class="crypto-row">
+              <button class="crypto-pay-btn" data-product-slug="nextjs-starter-kit" data-store-slug="frontend-developer" data-product-name="Next.js Starter Kit" data-price-usd="49">&#8383; Pay with Crypto &mdash; Save 15%</button>
+            </div>
+            <p class="product-trust-line">&#128274; Secure checkout &middot; Instant download &middot; 30-day guarantee</p>
+          </article>
+
+          <article class="product-card reveal reveal-delay-2" style="--card-gradient: linear-gradient(135deg, #ef4444, #dc2626)">
+            <span class="product-card-icon" aria-hidden="true">&#128270;</span>
+            <h3>Tailwind Component Library</h3>
+            <p class="tagline">80+ accessible Tailwind CSS components: forms, tables, modals, navigation, cards, and data visualization.</p>
+            <div class="price-row">
+              <span class="price"><span class="currency">$</span>39</span>
+              <a href="preview-tailwind-component-library.html" class="btn btn-secondary btn-sm">Preview</a>
+              <a href="https://buy.stripe.com/bJe8wP8qP5KKgZQdSFgjH1n" class="btn btn-primary btn-sm">Buy Now</a>
+            </div>
+            <div class="crypto-row">
+              <button class="crypto-pay-btn" data-product-slug="tailwind-component-library" data-store-slug="frontend-developer" data-product-name="Tailwind Component Library" data-price-usd="39">&#8383; Pay with Crypto &mdash; Save 15%</button>
+            </div>
+            <p class="product-trust-line">&#128274; Secure checkout &middot; Instant download &middot; 30-day guarantee</p>
+          </article>
+
+          <article class="product-card reveal reveal-delay-3" style="--card-gradient: linear-gradient(135deg, #10b981, #059669)">
+            <span class="product-card-icon" aria-hidden="true">&#128214;</span>
+            <h3>TypeScript Utility Library</h3>
+            <p class="tagline">Type-safe utility functions, custom hooks, generic patterns, and advanced TypeScript techniques with full test coverage.</p>
+            <div class="price-row">
+              <span class="price"><span class="currency">$</span>29</span>
+              <a href="preview-typescript-utility-library.html" class="btn btn-secondary btn-sm">Preview</a>
+              <a href="https://buy.stripe.com/fZufZhbD1flkfVM7uhgjH1o" class="btn btn-primary btn-sm">Buy Now</a>
+            </div>
+            <div class="crypto-row">
+              <button class="crypto-pay-btn" data-product-slug="typescript-utility-library" data-store-slug="frontend-developer" data-product-name="TypeScript Utility Library" data-price-usd="29">&#8383; Pay with Crypto &mdash; Save 15%</button>
+            </div>
+            <p class="product-trust-line">&#128274; Secure checkout &middot; Instant download &middot; 30-day guarantee</p>
+          </article>
+
+          <article class="product-card reveal reveal-delay-0" style="--card-gradient: linear-gradient(135deg, #8b5cf6, #7c3aed)">
+            <span class="product-card-icon" aria-hidden="true">&#128274;</span>
+            <h3>State Management Patterns</h3>
+            <p class="tagline">Zustand, Jotai, and React Query patterns for complex state: optimistic updates, caching, and real-time sync.</p>
+            <div class="price-row">
+              <span class="price"><span class="currency">$</span>29</span>
+              <a href="preview-state-management-patterns.html" class="btn btn-secondary btn-sm">Preview</a>
+              <a href="https://buy.stripe.com/7sY00j6iHgpoaBscOBgjH1p" class="btn btn-primary btn-sm">Buy Now</a>
+            </div>
+            <div class="crypto-row">
+              <button class="crypto-pay-btn" data-product-slug="state-management-patterns" data-store-slug="frontend-developer" data-product-name="State Management Patterns" data-price-usd="29">&#8383; Pay with Crypto &mdash; Save 15%</button>
+            </div>
+            <p class="product-trust-line">&#128274; Secure checkout &middot; Instant download &middot; 30-day guarantee</p>
+          </article>
+
+          <article class="product-card reveal reveal-delay-1" style="--card-gradient: linear-gradient(135deg, #ec4899, #db2777)">
+            <span class="product-card-icon" aria-hidden="true">&#9889;</span>
+            <h3>Frontend Testing Toolkit</h3>
+            <p class="tagline">Vitest, Testing Library, Playwright, and Storybook integration for unit, integration, and E2E testing.</p>
+            <div class="price-row">
+              <span class="price"><span class="currency">$</span>29</span>
+              <a href="preview-frontend-testing-toolkit.html" class="btn btn-secondary btn-sm">Preview</a>
+              <a href="https://buy.stripe.com/aFa4gzayXddc9xo4i5gjH1q" class="btn btn-primary btn-sm">Buy Now</a>
+            </div>
+            <div class="crypto-row">
+              <button class="crypto-pay-btn" data-product-slug="frontend-testing-toolkit" data-store-slug="frontend-developer" data-product-name="Frontend Testing Toolkit" data-price-usd="29">&#8383; Pay with Crypto &mdash; Save 15%</button>
+            </div>
+            <p class="product-trust-line">&#128274; Secure checkout &middot; Instant download &middot; 30-day guarantee</p>
+          </article>
+
+          <article class="product-card reveal reveal-delay-2" style="--card-gradient: linear-gradient(135deg, #14b8a6, #0d9488)">
+            <span class="product-card-icon" aria-hidden="true">&#128640;</span>
+            <h3>Form Validation Library</h3>
+            <p class="tagline">React Hook Form + Zod validation patterns, multi-step forms, file uploads, and accessible error handling.</p>
+            <div class="price-row">
+              <span class="price"><span class="currency">$</span>19</span>
+              <a href="preview-form-validation-library.html" class="btn btn-secondary btn-sm">Preview</a>
+              <a href="https://buy.stripe.com/cNidR98qP3CC9xo15TgjH1r" class="btn btn-primary btn-sm">Buy Now</a>
+            </div>
+            <div class="crypto-row">
+              <button class="crypto-pay-btn" data-product-slug="form-validation-library" data-store-slug="frontend-developer" data-product-name="Form Validation Library" data-price-usd="19">&#8383; Pay with Crypto &mdash; Save 15%</button>
+            </div>
+            <p class="product-trust-line">&#128274; Secure checkout &middot; Instant download &middot; 30-day guarantee</p>
+          </article>
+
+          <article class="product-card reveal reveal-delay-3" style="--card-gradient: linear-gradient(135deg, #f59e0b, #d97706)">
+            <span class="product-card-icon" aria-hidden="true">&#128187;</span>
+            <h3>Animation & Effects Pack</h3>
+            <p class="tagline">Framer Motion animations, scroll effects, page transitions, loading states, and micro-interactions library.</p>
+            <div class="price-row">
+              <span class="price"><span class="currency">$</span>29</span>
+              <a href="preview-animation-effects-pack.html" class="btn btn-secondary btn-sm">Preview</a>
+              <a href="https://buy.stripe.com/6oUdR936v6OO4d429XgjH1s" class="btn btn-primary btn-sm">Buy Now</a>
+            </div>
+            <div class="crypto-row">
+              <button class="crypto-pay-btn" data-product-slug="animation-effects-pack" data-store-slug="frontend-developer" data-product-name="Animation &amp; Effects Pack" data-price-usd="29">&#8383; Pay with Crypto &mdash; Save 15%</button>
+            </div>
+            <p class="product-trust-line">&#128274; Secure checkout &middot; Instant download &middot; 30-day guarantee</p>
+          </article>
+
+          <article class="product-card reveal reveal-delay-0" style="--card-gradient: linear-gradient(135deg, #6366f1, #4f46e5)">
+            <span class="product-card-icon" aria-hidden="true">&#128161;</span>
+            <h3>Responsive Email Templates</h3>
+            <p class="tagline">30+ HTML email templates: transactional, marketing, newsletters. Compatible with all major email clients.</p>
+            <div class="price-row">
+              <span class="price"><span class="currency">$</span>29</span>
+              <a href="preview-responsive-email-templates.html" class="btn btn-secondary btn-sm">Preview</a>
+              <a href="https://buy.stripe.com/14AdR9fTh1uu7pg4i5gjH1t" class="btn btn-primary btn-sm">Buy Now</a>
+            </div>
+            <div class="crypto-row">
+              <button class="crypto-pay-btn" data-product-slug="responsive-email-templates" data-store-slug="frontend-developer" data-product-name="Responsive Email Templates" data-price-usd="29">&#8383; Pay with Crypto &mdash; Save 15%</button>
+            </div>
+            <p class="product-trust-line">&#128274; Secure checkout &middot; Instant download &middot; 30-day guarantee</p>
+          </article>
+
+          <article class="product-card reveal reveal-delay-1" style="--card-gradient: linear-gradient(135deg, #06b6d4, #0891b2)">
+            <span class="product-card-icon" aria-hidden="true">&#128295;</span>
+            <h3>Accessibility Audit Toolkit</h3>
+            <p class="tagline">WCAG 2.1 compliance checklist, axe-core configs, screen reader testing scripts, and ARIA pattern library.</p>
+            <div class="price-row">
+              <span class="price"><span class="currency">$</span>29</span>
+              <a href="preview-accessibility-audit-toolkit.html" class="btn btn-secondary btn-sm">Preview</a>
+              <a href="https://buy.stripe.com/eVqeVd36v6OOfVM29XgjH1u" class="btn btn-primary btn-sm">Buy Now</a>
+            </div>
+            <div class="crypto-row">
+              <button class="crypto-pay-btn" data-product-slug="accessibility-audit-toolkit" data-store-slug="frontend-developer" data-product-name="Accessibility Audit Toolkit" data-price-usd="29">&#8383; Pay with Crypto &mdash; Save 15%</button>
+            </div>
+            <p class="product-trust-line">&#128274; Secure checkout &middot; Instant download &middot; 30-day guarantee</p>
+          </article>
+
+          <article class="product-card reveal reveal-delay-2" style="--card-gradient: linear-gradient(135deg, #84cc16, #65a30d)">
+            <span class="product-card-icon" aria-hidden="true">&#128200;</span>
+            <h3>Frontend Performance Guide</h3>
+            <p class="tagline">Core Web Vitals optimization: code splitting, image optimization, caching strategies, and bundle analysis tools.</p>
+            <div class="price-row">
+              <span class="price"><span class="currency">$</span>29</span>
+              <a href="preview-performance-optimization-guide.html" class="btn btn-secondary btn-sm">Preview</a>
+              <a href="https://buy.stripe.com/8x24gz7mL5KKgZQ4i5gjH1v" class="btn btn-primary btn-sm">Buy Now</a>
+            </div>
+            <div class="crypto-row">
+              <button class="crypto-pay-btn" data-product-slug="performance-optimization-guide" data-store-slug="frontend-developer" data-product-name="Frontend Performance Guide" data-price-usd="29">&#8383; Pay with Crypto &mdash; Save 15%</button>
+            </div>
+            <p class="product-trust-line">&#128274; Secure checkout &middot; Instant download &middot; 30-day guarantee</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section bundle-section" id="bundle" aria-labelledby="bundle-heading">
+      <div class="container">
+        <div class="bundle-card">
+          <span class="section-label">Best Value</span>
+          <div style="display: inline-block; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">Launch Pricing — Limited Time</div>
+          <h2 id="bundle-heading">Frontend Developer Bundle</h2>
+          <p class="tagline">Everything you need. All 11 products, one price.</p>
+          <div class="bundle-pricing">
+            <span class="bundle-original-price">$369</span>
+            <span class="bundle-price">$129</span>
+            <span class="bundle-savings">Save $240 (65% off)</span>
+          </div>
+          <ul class="bundle-includes" aria-label="Bundle includes">
+            <li><span class="check" aria-hidden="true">&#10003;</span> React SaaS Template ($59)</li>
+            <li><span class="check" aria-hidden="true">&#10003;</span> Next.js Starter Kit ($49)</li>
+            <li><span class="check" aria-hidden="true">&#10003;</span> Tailwind Component Library ($39)</li>
+            <li><span class="check" aria-hidden="true">&#10003;</span> TypeScript Utility Library ($29)</li>
+            <li><span class="check" aria-hidden="true">&#10003;</span> State Management Patterns ($29)</li>
+            <li><span class="check" aria-hidden="true">&#10003;</span> Frontend Testing Toolkit ($29)</li>
+            <li><span class="check" aria-hidden="true">&#10003;</span> Form Validation Library ($19)</li>
+            <li><span class="check" aria-hidden="true">&#10003;</span> Animation & Effects Pack ($29)</li>
+            <li><span class="check" aria-hidden="true">&#10003;</span> Responsive Email Templates ($29)</li>
+            <li><span class="check" aria-hidden="true">&#10003;</span> Accessibility Audit Toolkit ($29)</li>
+            <li><span class="check" aria-hidden="true">&#10003;</span> Frontend Performance Guide ($29)</li>
+          </ul>
+          <div class="bundle-actions">
+            <a href="https://buy.stripe.com/6oUdR96iH3CC4d46qdgjH1w" class="btn btn-bundle">
+              Get the Bundle — $129
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <button class="crypto-pay-btn crypto-pay-btn-bundle" data-product-slug="frontend-complete-bundle" data-store-slug="frontend-developer" data-product-name="Frontend Developer Bundle" data-price-usd="129">&#8383; Pay with Crypto &mdash; Save 15%</button>
+          </div>
+          <p class="bundle-guarantee">&#128274; Secure Stripe checkout &middot; Instant download &middot; MIT licensed &middot; 30-day money-back guarantee</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features" aria-labelledby="features-heading">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Why Frontend Developer Pro</span>
+          <h2 id="features-heading">Built by Engineers, for Engineers</h2>
+          <p>Every product follows the same quality standards you'd expect from production code.</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card reveal">
+            <span class="feature-card-icon" aria-hidden="true">&#9881;</span>
+            <h3>Production-Ready</h3>
+            <p>Built from real production implementations. No toy examples or theoretical exercises.</p>
+          </div>
+          <div class="feature-card reveal reveal-delay-1">
+            <span class="feature-card-icon" aria-hidden="true">&#128230;</span>
+            <h3>Plug and Play</h3>
+            <p>Drop into your existing projects. Pre-configured for common environments with clear setup instructions.</p>
+          </div>
+          <div class="feature-card reveal reveal-delay-2">
+            <span class="feature-card-icon" aria-hidden="true">&#128214;</span>
+            <h3>Well Documented</h3>
+            <p>Comprehensive READMEs, inline comments, and architecture explanations. Understand the why, not just the how.</p>
+          </div>
+          <div class="feature-card reveal reveal-delay-3">
+            <span class="feature-card-icon" aria-hidden="true">&#128274;</span>
+            <h3>Best Practices</h3>
+            <p>Built-in security best practices, error handling, and industry-standard patterns.</p>
+          </div>
+          <div class="feature-card reveal reveal-delay-4">
+            <span class="feature-card-icon" aria-hidden="true">&#9889;</span>
+            <h3>Performance Optimized</h3>
+            <p>Benchmarked configurations and optimization patterns baked in from day one.</p>
+          </div>
+          <div class="feature-card reveal reveal-delay-5">
+            <span class="feature-card-icon" aria-hidden="true">&#128640;</span>
+            <h3>Tested &amp; Reliable</h3>
+            <p>Includes test suites, CI/CD templates, and quality assurance tooling out of the box.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section faq-section" id="faq" aria-labelledby="faq-heading">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">FAQ</span>
+          <h2 id="faq-heading">Frequently Asked Questions</h2>
+          <p>Everything you need to know before purchasing.</p>
+        </div>
+        <div class="faq-list" role="list">
+          <div class="faq-item" role="listitem">
+            <button class="faq-question" aria-expanded="false">
+              Can I use these in my company's projects?
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">Yes. The MIT license allows commercial use, modification, and distribution. You can use these in your company's projects, client work, and internal tooling.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" role="listitem">
+            <button class="faq-question" aria-expanded="false">
+              What's included in the bundle?
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">The Frontend Developer Bundle includes all 11 products at a 65% discount ($129). React SaaS Template, Next.js Starter Kit, Tailwind Component Library, TypeScript Utility Library, State Management Patterns, and more.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" role="listitem">
+            <button class="faq-question" aria-expanded="false">
+              What format are the products in?
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">Each product is a ZIP archive containing source code, configuration files, documentation, and a README with setup instructions. Products are delivered instantly after purchase.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" role="listitem">
+            <button class="faq-question" aria-expanded="false">
+              Is there a refund policy?
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">Yes. Every purchase comes with a 30-day refund guarantee. If a product doesn't work for your needs, email us and we'll refund your purchase — no questions asked.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" role="listitem">
+            <button class="faq-question" aria-expanded="false">
+              Do I get updates?
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">Yes. When products are updated, you'll receive access to the latest version. Major updates are announced via email.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cross-sell-section" aria-labelledby="cross-sell-heading">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">More Stores</span>
+          <h2 id="cross-sell-heading">You Might Also Like</h2>
+          <p>Explore our other professional toolkits and templates.</p>
+        </div>
+        <div class="cross-sell-grid">
+            <a href="https://inity13.github.io/api-developer-pro/" class="cross-sell-card" target="_blank" rel="noopener">
+              <span class="cross-sell-icon" aria-hidden="true">&#128279;</span>
+              <h3>API Developer Pro</h3>
+              <p>API design, documentation, and integration tools</p>
+              <span class="cross-sell-meta">7 products</span>
+            </a>
+            <a href="https://inity13.github.io/nocode-builder-pro/" class="cross-sell-card" target="_blank" rel="noopener">
+              <span class="cross-sell-icon" aria-hidden="true">&#9889;</span>
+              <h3>No-Code Builder Pro</h3>
+              <p>Templates, workflows, and automation recipes for no-code and low-code platforms</p>
+              <span class="cross-sell-meta">11 products</span>
+            </a>
+            <a href="https://inity13.github.io/interview-prep-pro/" class="cross-sell-card" target="_blank" rel="noopener">
+              <span class="cross-sell-icon" aria-hidden="true">&#127919;</span>
+              <h3>Interview Prep Pro</h3>
+              <p>Technical interview preparation materials, system design guides, and career tool</p>
+              <span class="cross-sell-meta">11 products</span>
+            </a>
+            <a href="https://inity13.github.io/cheatsheet-reference-pro/" class="cross-sell-card" target="_blank" rel="noopener">
+              <span class="cross-sell-icon" aria-hidden="true">&#128220;</span>
+              <h3>Cheatsheet Reference Pro</h3>
+              <p>Quick-reference cheatsheets and visual guides for developers and engineers</p>
+              <span class="cross-sell-meta">11 products</span>
+            </a>
+        </div>
+      </div>
+    </section>
+    <section class="section" aria-labelledby="cta-heading" style="text-align: center;">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="cta-heading">Ready to Ship Faster?</h2>
+          <p>Start building with production-ready code today.</p>
+        </div>
+        <div class="hero-actions" style="justify-content: center;">
+          <a href="https://buy.stripe.com/6oUdR96iH3CC4d46qdgjH1w" class="btn btn-bundle">
+            Get the Bundle — Save 65%
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="#products" class="btn btn-secondary btn-lg">Browse Products</a>
+        </div>
+        <div class="trust-indicators" style="margin-top: 2rem;">
+          <div class="trust-item">
+            <span class="trust-icon" aria-hidden="true">&#128274;</span>
+            <span>Secure Stripe checkout</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon" aria-hidden="true">&#8383;</span>
+            <span>Crypto accepted &mdash; Save 15%</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon" aria-hidden="true">&#9989;</span>
+            <span>30-day money-back guarantee</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon" aria-hidden="true">&#9889;</span>
+            <span>Instant download</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo" aria-label="Frontend Developer Pro home">
+            <span class="logo-icon" aria-hidden="true">&#127912;</span>
+            Frontend Developer Pro
+          </a>
+          <p>React, TypeScript, and modern frontend templates and components.</p>
+        </div>
+        <div class="footer-column">
+          <h4>Products</h4>
+          <ul>
+            <li><a href="#products">React SaaS Template</a></li>
+            <li><a href="#products">Next.js Starter Kit</a></li>
+            <li><a href="#products">Tailwind Component Library</a></li>
+            <li><a href="#products">TypeScript Utility Library</a></li>
+            <li><a href="#products">State Management Patterns</a></li>
+            <li><a href="#products">Frontend Testing Toolkit</a></li>
+            <li><a href="#bundle">Complete Bundle</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="mailto:megafolder122122@hotmail.com">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Payment &amp; Trust</h4>
+          <ul>
+            <li><a href="https://buy.stripe.com/6oUdR96iH3CC4d46qdgjH1w">Stripe (Card)</a></li>
+            <li>&#8383; Crypto (BTC, ETH, USDC)</li>
+            <li>&#128274; Secure checkout</li>
+            <li>&#9989; 30-day guarantee</li>
+            <li>&#9889; Instant download</li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="https://github.com/inity13" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg> GitHub</a></li>
+            <li><a href="https://x.com/DatanestDev" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> X / Twitter</a></li>
+            <li><a href="https://linkedin.com/in/jessemikkola" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Frontend Developer Pro. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="mailto:megafolder122122@hotmail.com">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="crypto-checkout.js"></script>
+<!-- email-capture-start -->
+<style>
+#ec-bar{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);border-top:1px solid #334155;padding:1rem 1.25rem;display:none;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap;font-family:system-ui,-apple-system,sans-serif;box-shadow:0 -4px 24px rgba(0,0,0,.4)}
+#ec-bar.show{display:flex}
+#ec-bar p{margin:0;color:#e2e8f0;font-size:.9rem;font-weight:500}
+#ec-bar p span{color:#22d3ee;font-weight:700}
+#ec-bar form{display:flex;gap:.5rem;flex-wrap:wrap}
+#ec-bar input[type=email]{padding:.5rem .75rem;border-radius:6px;border:1px solid #475569;background:#0f172a;color:#f8fafc;font-size:.875rem;min-width:220px;outline:none}
+#ec-bar input[type=email]:focus{border-color:#22d3ee}
+#ec-bar button{padding:.5rem 1rem;border:none;border-radius:6px;background:linear-gradient(135deg,#0891b2,#0e7490);color:#fff;font-size:.875rem;font-weight:600;cursor:pointer;white-space:nowrap}
+#ec-bar button:hover{opacity:.9}
+#ec-bar .ec-close{position:absolute;top:.5rem;right:.75rem;background:none;border:none;color:#94a3b8;font-size:1.25rem;cursor:pointer;padding:0;line-height:1}
+#ec-bar .ec-close:hover{color:#f8fafc}
+#ec-bar .ec-thanks{color:#4ade80;font-weight:600;font-size:.9rem}
+#ec-bar .ec-err{color:#f87171;font-size:.8rem;margin-top:.25rem}
+</style>
+<div id="ec-bar" role="dialog" aria-label="Email signup">
+  <button class="ec-close" aria-label="Close" onclick="document.getElementById('ec-bar').classList.remove('show');localStorage.setItem('datanest_email_captured','1')">&times;</button>
+  <p>Get free templates + <span>15% off</span> your first purchase &mdash; use code <span>COMMUNITY</span></p>
+  <form id="ec-form">
+    <input type="email" name="email" placeholder="you@example.com" required aria-label="Email address">
+    <button type="submit">Subscribe</button>
+  </form>
+</div>
+<script>
+(function(){
+  if(localStorage.getItem("datanest_email_captured"))return;
+  var bar=document.getElementById("ec-bar");
+  var shown=false;
+  function show(){if(!shown){shown=true;bar.classList.add("show")}}
+  setTimeout(show,10000);
+  var ticking=false;
+  window.addEventListener("scroll",function(){
+    if(!ticking){ticking=true;requestAnimationFrame(function(){
+      ticking=false;
+      if(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)>0.5)show();
+    })}
+  });
+  document.getElementById("ec-form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var email=e.target.email.value;
+    if(!email)return;
+    fetch("https://ferovwapilhcpqozqinn.supabase.co/rest/v1/email_subscribers",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Prefer":"return=minimal"},
+      body:JSON.stringify({email:email,store_name:"Frontend Developer Pro",source:"popup"})
+    }).then(function(r){
+      if(r.ok){
+        bar.innerHTML='<p class="ec-thanks">Thanks! Check your inbox — your discount code is <span>COMMUNITY</span>.</p>';
+        localStorage.setItem("datanest_email_captured","1");
+        setTimeout(function(){bar.classList.remove("show")},5000);
+      }else{
+        r.json().then(function(d){
+          var msg=(d.message||"").indexOf("duplicate")!==-1?"You\'re already subscribed!":"Something went wrong. Try again.";
+          var err=document.querySelector("#ec-bar .ec-err");
+          if(!err){err=document.createElement("div");err.className="ec-err";e.target.appendChild(err)}
+          err.textContent=msg;
+        }).catch(function(){});
+      }
+    }).catch(function(){});
+  });
+})();
+</script>
+<!-- email-capture-end -->
+<!-- analytics-start -->
+<script>
+(function(){
+  try{
+    fetch("https://ferovwapilhcpqozqinn.supabase.co/rest/v1/page_views",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Prefer":"return=minimal"},
+      body:JSON.stringify({store_name:"Frontend Developer Pro",page_path:location.pathname,referrer:document.referrer||null,user_agent:navigator.userAgent}),
+      keepalive:true
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+<!-- analytics-end -->
+</body>
+</html>

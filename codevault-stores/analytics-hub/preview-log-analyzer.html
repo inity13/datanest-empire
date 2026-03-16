@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Analyzer &mdash; Analytics Hub &mdash; CodeVault</title>
+    <meta name="description" content="Python log analysis tool: parse access logs, detect error patterns, analyze traffic, and spot anomalies. Turn raw logs into insights.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F4CA;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#00E5FF">
+    <script defer data-domain="analytics-hub.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Analytics Hub</a>
+        <h1 class="preview-page__title">Log Analyzer</h1>
+        <p class="preview-page__price">$4.99</p>
+        <p class="preview-page__desc">Python log analysis tool: parse access logs, detect error patterns, analyze traffic, and spot anomalies. Turn raw logs into insights. Runs on Python 3.10+ stdlib only &mdash; no pip installs needed.</p>
+
+        <ul class="preview-page__features">
+            <li>Parse Apache/Nginx Common Log Format and Combined Log Format</li>
+            <li>Traffic analysis: requests per hour, top endpoints, status code distribution</li>
+            <li>Error pattern detection: group and rank error types by frequency</li>
+            <li>Anomaly detection using statistical thresholds (z-score based)</li>
+            <li>Top IP addresses and user agents analysis</li>
+            <li>Response time percentiles (p50, p90, p99) when available</li>
+            <li>HTML report output with traffic charts</li>
+            <li>Filter by date range, status code, and endpoint pattern</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Analyze an access log
+python log_analyzer.py --input access.log
+
+# Filter for errors only
+python log_analyzer.py --input access.log --status 4xx,5xx
+
+# Generate HTML report
+python log_analyzer.py --input access.log --output report.html --top 20</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_log_analyzer"
+               data-product="log-analyzer">
+                Grab This &mdash; $4.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Log Analyzer"
+                    data-crypto-price="499">
+                Pay with Crypto ($3.99)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Looker LookML Templates | Digital Stores Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#0f1117;color:#e2e8f0;font-family:'Inter', 'SF Pro', system-ui, sans-serif;line-height:1.6}
+    a{color:#3b82f6;text-decoration:none} a:hover{text-decoration:underline}
+    .container{max-width:1000px;margin:0 auto;padding:24px 16px}
+    .btn{display:inline-block;padding:10px 24px;background:#3b82f6;color:#fff;
+          font-weight:600;border:none;border-radius:6px;cursor:pointer;font-size:14px}
+    .btn:hover{opacity:0.85;text-decoration:none}
+    .price{font-size:20px;font-weight:700;color:#3b82f6}
+    .muted{color:#94a3b8;font-size:13px}
+    .card{background:#1a1d27;border-radius:8px;padding:16px;border:1px solid #2a2d37}
+    .tag{display:inline-block;padding:2px 8px;background:#3b82f622;color:#3b82f6;
+         border-radius:4px;font-size:11px;font-weight:600}
+    code,.mono{font-family:'JetBrains Mono',monospace}
+    </style>
+<style>.crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}.crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}</style>
+</head>
+<body>
+<div class="container">
+
+<h1 style="font-size:18px;margin-bottom:4px">Looker LookML Templates</h1>
+<p class="muted" style="margin-bottom:16px">Production LookML models for common business domains: revenue, marketing, product usage, and customer analytics with derived tables.</p>
+<input id="filter" type="text" placeholder="Filter rows..."
+  style="width:100%;padding:10px 14px;margin-bottom:12px;background:#1a1d27;color:#e2e8f0;border:1px solid #2a2d37;border-radius:6px;font-size:14px">
+<div style="overflow-x:auto;margin-bottom:16px">
+<table id="dataTable" style="width:100%;border-collapse:collapse;background:#1a1d27;border-radius:8px;overflow:hidden">
+<thead><tr><th style="padding:10px 12px;text-align:left;border-bottom:2px solid #3b82f6;cursor:pointer;font-size:13px;color:#94a3b8" onclick="sortTable(0)">Name ▾</th><th style="padding:10px 12px;text-align:left;border-bottom:2px solid #3b82f6;cursor:pointer;font-size:13px;color:#94a3b8" onclick="sortTable(1)">Status ▾</th><th style="padding:10px 12px;text-align:left;border-bottom:2px solid #3b82f6;cursor:pointer;font-size:13px;color:#94a3b8" onclick="sortTable(2)">Value ▾</th><th style="padding:10px 12px;text-align:left;border-bottom:2px solid #3b82f6;cursor:pointer;font-size:13px;color:#94a3b8" onclick="sortTable(3)">Updated ▾</th></tr></thead>
+<tbody><tr class="data-row" data-search="looker-lookml-templates-0 pending">
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37">looker-item-1</td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37"><span style="color:#eab308">Pending</span></td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37">4972</td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37;color:#94a3b8">2026-03-10</td>
+</tr><tr class="data-row" data-search="looker-lookml-templates-1 pending">
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37">looker-item-2</td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37"><span style="color:#eab308">Pending</span></td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37">4972</td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37;color:#94a3b8">2026-03-11</td>
+</tr><tr class="data-row" data-search="looker-lookml-templates-2 pending">
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37">looker-item-3</td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37"><span style="color:#eab308">Pending</span></td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37">8122</td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37;color:#94a3b8">2026-03-12</td>
+</tr><tr class="data-row" data-search="looker-lookml-templates-3 active">
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37">looker-item-4</td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37"><span style="color:#22c55e">Active</span></td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37">8290</td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37;color:#94a3b8">2026-03-13</td>
+</tr><tr class="data-row" data-search="looker-lookml-templates-4 running">
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37">looker-item-5</td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37"><span style="color:#a855f7">Running</span></td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37">8206</td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37;color:#94a3b8">2026-03-14</td>
+</tr><tr class="data-row" data-search="looker-lookml-templates-5 pending">
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37">looker-item-6</td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37"><span style="color:#eab308">Pending</span></td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37">2662</td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37;color:#94a3b8">2026-03-15</td>
+</tr><tr class="data-row" data-search="looker-lookml-templates-6 idle">
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37">looker-item-7</td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37"><span style="color:#94a3b8">Idle</span></td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37">7828</td>
+<td style="padding:10px 12px;border-bottom:1px solid #2a2d37;color:#94a3b8">2026-03-16</td>
+</tr></tbody>
+</table>
+</div>
+<div style="display:flex;gap:12px;align-items:center">
+<span class="price">$39.00</span>
+<a href="https://buy.stripe.com/8x2bJ136v2yy39001PgjG45" class="btn">Buy Now</a>
+<button class="crypto-pay-btn" data-product-slug="looker-lookml-templates" data-store-slug="data-analyst" data-product-name="Looker LookML Templates" data-price-usd="39">Pay with Crypto (Save 15%)</button>
+</div>
+
+</div>
+<script>
+document.getElementById('filter').addEventListener('input',function(){
+  var q=this.value.toLowerCase();
+  document.querySelectorAll('.data-row').forEach(function(r){
+    r.style.display=r.dataset.search.includes(q)?'':'none';
+  });
+});
+function sortTable(col){
+  var tb=document.getElementById('dataTable').tBodies[0];
+  var rows=Array.from(tb.rows);
+  rows.sort(function(a,b){return a.cells[col].textContent.localeCompare(b.cells[col].textContent);});
+  rows.forEach(function(r){tb.appendChild(r);});
+}
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

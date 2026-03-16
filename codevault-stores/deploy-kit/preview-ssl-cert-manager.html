@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSL Cert Manager — Deploy Kit</title>
+    <meta name="description" content="Automated SSL certificate provisioning and renewal scripts using Let's Encrypt and certbot. Covers Nginx, Apache, and Docker setups with cron-based auto-renewal.">
+    <link rel="canonical" href="https://deploy-kit.codevault.dev/preview-ssl-cert-manager.html">
+    <meta property="og:type" content="product">
+    <meta property="og:title" content="SSL Cert Manager — Deploy Kit">
+    <meta property="og:description" content="Automated SSL certificate provisioning and renewal scripts using Let's Encrypt. Covers Nginx, Apache, and Docker setups.">
+    <meta property="og:url" content="https://deploy-kit.codevault.dev/preview-ssl-cert-manager.html">
+    <meta property="og:site_name" content="CodeVault">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SSL Cert Manager — Deploy Kit">
+    <meta name="twitter:description" content="Automated SSL certificate provisioning and renewal scripts using Let's Encrypt. Covers Nginx, Apache, and Docker setups.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚢</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#00BCD4">
+    <script defer data-domain="deploy-kit.codevault.dev" src="https://plausible.io/js/script.js"></script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "SSL Cert Manager",
+        "description": "Automated SSL certificate provisioning and renewal scripts using Let's Encrypt and certbot for Nginx, Apache, and Docker.",
+        "url": "https://deploy-kit.codevault.dev/preview-ssl-cert-manager.html",
+        "brand": { "@type": "Brand", "name": "CodeVault" },
+        "offers": { "@type": "Offer", "price": "4.99", "priceCurrency": "USD", "availability": "https://schema.org/InStock", "url": "https://buy.stripe.com/PLACEHOLDER_ssl-cert-manager" }
+    }
+    </script>
+</head>
+<body>
+    <nav class="cross-nav" aria-label="CodeVault stores">
+        <div class="cross-nav__inner">
+            <span class="cross-nav__brand">CodeVault</span>
+            <a href="../seo-toolkit/storefront/index.html" class="cross-nav__link">SEO Toolkit</a>
+            <a href="../email-arsenal/storefront/index.html" class="cross-nav__link">Email Arsenal</a>
+            <a href="../form-forge/storefront/index.html" class="cross-nav__link">Form Forge</a>
+            <a href="../api-launchpad/storefront/index.html" class="cross-nav__link">API Launchpad</a>
+            <a href="index.html" class="cross-nav__link cross-nav__link--active">Deploy Kit</a>
+            <a href="../auth-vault/storefront/index.html" class="cross-nav__link">Auth Vault</a>
+            <a href="../saas-starter/storefront/index.html" class="cross-nav__link">SaaS Starter</a>
+            <a href="../analytics-hub/storefront/index.html" class="cross-nav__link">Analytics Hub</a>
+            <a href="../payment-stack/storefront/index.html" class="cross-nav__link">Payment Stack</a>
+            <a href="../ai-toolkit/storefront/index.html" class="cross-nav__link">AI Toolkit</a>
+            <a href="../security-kit/storefront/index.html" class="cross-nav__link">Security Kit</a>
+            <a href="../landing-lab/storefront/index.html" class="cross-nav__link">Landing Lab</a>
+            <a href="../automation-hub/storefront/index.html" class="cross-nav__link">Automation Hub</a>
+        </div>
+    </nav>
+
+    <main class="preview-page">
+        <div class="container">
+            <a href="index.html#products" class="preview-back">&#9668; Back to all products</a>
+            <span class="preview-badge">DIGITAL DOWNLOAD</span>
+            <div class="preview-header">
+                <h1>&#128274; SSL Cert Manager</h1>
+                <span class="preview-price">$4.99</span>
+            </div>
+            <p class="preview-desc">Everything you need to set up and maintain free SSL/TLS certificates via Let's Encrypt on your servers. Includes initial provisioning scripts for single domains, wildcard domains (DNS-01 challenge), and multi-domain certs, plus a renewal daemon that runs via cron and automatically reloads your web server without downtime. Works with Nginx, Apache, and containerized setups where the web server lives inside Docker.</p>
+            <div class="whats-included">
+                <h2>What&rsquo;s Included</h2>
+                <ul>
+                    <li><span class="check-icon">&#10003;</span> ssl-provision.sh — initial certificate request using certbot with Nginx/Apache plugins</li>
+                    <li><span class="check-icon">&#10003;</span> ssl-wildcard.sh — wildcard certificate via DNS-01 challenge (Cloudflare, Route53, Namecheap)</li>
+                    <li><span class="check-icon">&#10003;</span> ssl-renew.sh — renewal script with pre/post hooks to reload web server gracefully</li>
+                    <li><span class="check-icon">&#10003;</span> Cron setup instructions and a systemd timer alternative</li>
+                    <li><span class="check-icon">&#10003;</span> Docker Compose pattern: separate certbot container with shared volume for certs</li>
+                    <li><span class="check-icon">&#10003;</span> Nginx SSL config snippet with modern TLS settings (A+ on SSL Labs)</li>
+                    <li><span class="check-icon">&#10003;</span> Certificate expiry monitoring script with Slack/email alerts</li>
+                    <li><span class="check-icon">&#10003;</span> README with step-by-step guide for first-time cert setup</li>
+                    <li><span class="check-icon">&#10003;</span> MIT License — use in commercial projects</li>
+                </ul>
+            </div>
+            <div class="preview-actions">
+                <a href="https://buy.stripe.com/PLACEHOLDER_ssl-cert-manager" class="preview-buy-btn">&#9889; Buy Now &mdash; $4.99</a>
+                <a href="index.html#products" class="preview-back-btn">&#9668; Back to Store</a>
+                <button class="btn btn--crypto" data-crypto-product="SSL Cert Manager" data-crypto-price="499">Pay with Crypto ($4.24)</button>
+            </div>
+            <div class="pay-badges">
+                <span class="pay-badge">Stripe</span>
+                <span class="pay-badge">Apple Pay</span>
+                <span class="pay-badge">Google Pay</span>
+                <span class="pay-badge">Crypto</span>
+            </div>
+            <p class="trust-line">&#128274; Secure checkout via Stripe &middot; Instant digital download &middot; Works on any Linux/macOS system</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__brand">CodeVault</p>
+            <p class="footer__tagline">Ship faster. Build smarter.</p>
+            <p class="footer__copy">&copy; 2026 CodeVault. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

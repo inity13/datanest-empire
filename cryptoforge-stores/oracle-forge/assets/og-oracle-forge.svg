@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0D0D1A"/>
+      <stop offset="100%" style="stop-color:#1A1A2E"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FF6B00"/>
+      <stop offset="100%" style="stop-color:#FFD700"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Grid pattern -->
+  <g stroke="#1A1A2E" stroke-width="0.5" opacity="0.5">
+    <line x1="0" y1="0" x2="0" y2="630"/>
+    <line x1="60" y1="0" x2="60" y2="630"/>
+    <line x1="120" y1="0" x2="120" y2="630"/>
+    <line x1="180" y1="0" x2="180" y2="630"/>
+    <line x1="240" y1="0" x2="240" y2="630"/>
+    <line x1="300" y1="0" x2="300" y2="630"/>
+    <line x1="360" y1="0" x2="360" y2="630"/>
+    <line x1="420" y1="0" x2="420" y2="630"/>
+    <line x1="480" y1="0" x2="480" y2="630"/>
+    <line x1="540" y1="0" x2="540" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="660" y1="0" x2="660" y2="630"/>
+    <line x1="720" y1="0" x2="720" y2="630"/>
+    <line x1="780" y1="0" x2="780" y2="630"/>
+    <line x1="840" y1="0" x2="840" y2="630"/>
+    <line x1="900" y1="0" x2="900" y2="630"/>
+    <line x1="960" y1="0" x2="960" y2="630"/>
+    <line x1="1020" y1="0" x2="1020" y2="630"/>
+    <line x1="1080" y1="0" x2="1080" y2="630"/>
+    <line x1="1140" y1="0" x2="1140" y2="630"/>
+    <line x1="1200" y1="0" x2="1200" y2="630"/>
+  </g>
+
+  <!-- Oracle crystal ball icon -->
+  <g transform="translate(520, 80)">
+    <!-- Outer glow ring -->
+    <circle cx="80" cy="100" r="70" fill="none" stroke="url(#accent)" stroke-width="2.5" opacity="0.6"/>
+    <!-- Inner crystal sphere -->
+    <circle cx="80" cy="100" r="50" fill="none" stroke="#FF6B00" stroke-width="2"/>
+    <!-- Core glow -->
+    <circle cx="80" cy="100" r="25" fill="none" stroke="#FFD700" stroke-width="1.5" opacity="0.8"/>
+    <!-- Data streams -->
+    <path d="M80 50 L80 30" stroke="#FFD700" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+    <path d="M110 60 L125 45" stroke="#FFD700" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+    <path d="M50 60 L35 45" stroke="#FFD700" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+    <path d="M120 100 L140 100" stroke="#FF6B00" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+    <path d="M40 100 L20 100" stroke="#FF6B00" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+    <!-- Inner data dots -->
+    <circle cx="80" cy="85" r="4" fill="#FFD700" opacity="0.8"/>
+    <circle cx="65" cy="105" r="3" fill="#FF6B00" opacity="0.6"/>
+    <circle cx="95" cy="110" r="3" fill="#FF6B00" opacity="0.6"/>
+    <!-- Base stand -->
+    <path d="M55 155 L105 155 L95 145 L65 145 Z" fill="none" stroke="url(#accent)" stroke-width="1.5"/>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="340" text-anchor="middle" fill="#E0E0E0" font-family="'JetBrains Mono', 'Fira Code', monospace" font-size="52" font-weight="700">ORACLE FORGE</text>
+
+  <!-- Subtitle -->
+  <text x="600" y="390" text-anchor="middle" fill="#FF6B00" font-family="'JetBrains Mono', 'Fira Code', monospace" font-size="20" font-weight="400">Oracle &amp; Data Provider Tools</text>
+
+  <!-- Tags -->
+  <text x="600" y="440" text-anchor="middle" fill="#888899" font-family="'Inter', 'Helvetica', sans-serif" font-size="16">10 Products &bull; Chainlink Compatible &bull; VRF V2.5 &bull; Solidity + TS + Python</text>
+
+  <!-- Brand bar -->
+  <rect x="0" y="610" width="1200" height="20" fill="url(#accent)"/>
+
+  <!-- CryptoForge logo text -->
+  <text x="600" y="500" text-anchor="middle" fill="#555566" font-family="'JetBrains Mono', monospace" font-size="14" letter-spacing="4">CRYPTOFORGE</text>
+
+  <!-- Decorative corners -->
+  <path d="M 20 20 L 20 60 M 20 20 L 60 20" stroke="#FF6B00" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M 1180 20 L 1180 60 M 1180 20 L 1140 20" stroke="#FF6B00" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M 20 600 L 20 560 M 20 600 L 60 600" stroke="#FF6B00" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M 1180 600 L 1180 560 M 1180 600 L 1140 600" stroke="#FF6B00" stroke-width="2" fill="none" opacity="0.5"/>
+</svg>

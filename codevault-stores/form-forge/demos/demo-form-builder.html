@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Builder Demo — Form Forge</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:960px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#7C4DFF20;color:#7C4DFF;border:1px solid #7C4DFF40;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .builder-layout{display:grid;grid-template-columns:220px 1fr 280px;gap:16px;align-items:start}
+  .panel{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:16px}
+  .panel-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#7C4DFF;margin-bottom:12px}
+  .field-type{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:13px;color:#94a3b8;transition:all .2s;border:1px solid transparent;user-select:none;margin-bottom:6px}
+  .field-type:hover{background:#1e293b;color:#e2e8f0;border-color:#2d3748}
+  .field-type .icon{font-size:16px;width:20px;text-align:center}
+  .form-canvas{min-height:400px;background:#0A0E1A;border-radius:10px;border:2px dashed #1e293b;padding:16px;transition:border-color .2s}
+  .form-canvas.drag-over{border-color:#7C4DFF}
+  .form-title-input{width:100%;background:transparent;border:none;border-bottom:2px solid #2d3748;padding:8px 0;color:#fff;font-size:20px;font-weight:700;outline:none;margin-bottom:20px;transition:border-color .2s}
+  .form-title-input:focus{border-color:#7C4DFF}
+  .form-field{background:#111827;border:1px solid #1e293b;border-radius:8px;padding:14px;margin-bottom:10px;position:relative;cursor:grab;transition:all .2s}
+  .form-field:hover{border-color:#7C4DFF60}
+  .form-field.selected{border-color:#7C4DFF;box-shadow:0 0 0 2px #7C4DFF20}
+  .form-field-label{font-size:13px;font-weight:600;color:#e2e8f0;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+  .form-field-required{color:#ef4444;margin-left:3px;font-size:12px}
+  .field-delete{background:none;border:none;color:#475569;cursor:pointer;font-size:14px;padding:2px 6px;border-radius:4px;transition:color .2s}
+  .field-delete:hover{color:#ef4444}
+  .field-preview{width:100%;background:#0A0E1A;border:1px solid #2d3748;border-radius:6px;padding:8px 12px;color:#64748b;font-size:13px;font-family:inherit}
+  .field-preview.check-radio{background:none;border:none;padding:0;display:flex;flex-direction:column;gap:6px}
+  .check-item{display:flex;align-items:center;gap:8px;font-size:13px;color:#94a3b8}
+  .check-item input{width:14px;height:14px;flex-shrink:0}
+  .empty-state{text-align:center;padding:60px 20px;color:#475569}
+  .empty-state .icon{font-size:40px;margin-bottom:12px}
+  .empty-state p{font-size:14px}
+  /* Properties panel */
+  .prop-row{margin-bottom:12px}
+  .prop-label{font-size:12px;color:#64748b;margin-bottom:5px}
+  .prop-input{width:100%;background:#0A0E1A;border:1px solid #2d3748;border-radius:6px;padding:8px 10px;color:#e2e8f0;font-size:13px;outline:none;font-family:inherit;transition:border-color .2s}
+  .prop-input:focus{border-color:#7C4DFF}
+  .toggle-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .toggle-label{font-size:13px;color:#94a3b8}
+  .toggle{width:38px;height:22px;background:#1e293b;border-radius:11px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+  .toggle.on{background:#7C4DFF}
+  .toggle::after{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .2s}
+  .toggle.on::after{transform:translateX(16px)}
+  .add-option-btn{background:none;border:1px dashed #2d3748;border-radius:6px;padding:7px;width:100%;color:#64748b;font-size:12px;cursor:pointer;transition:all .2s;margin-top:6px}
+  .add-option-btn:hover{border-color:#7C4DFF;color:#7C4DFF}
+  .btn-submit{background:#7C4DFF;color:#fff;border:none;border-radius:8px;padding:12px 24px;font-size:14px;font-weight:600;cursor:pointer;width:100%;margin-top:16px;transition:all .2s}
+  .btn-submit:hover{background:#6B3FEE}
+  .form-submit-preview{background:#7C4DFF;color:#fff;border:none;border-radius:8px;padding:12px 24px;font-size:14px;font-weight:600;cursor:default;width:100%;margin-top:16px;text-align:center}
+  .cta-bar{background:linear-gradient(135deg,#7C4DFF15,#7C4DFF05);border:1px solid #7C4DFF30;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#7C4DFF;color:#fff;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#6B3FEE;transform:translateY(-1px);box-shadow:0 8px 24px #7C4DFF40}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  @media(max-width:768px){.builder-layout{grid-template-columns:1fr}}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Form Builder</h1>
+    <p class="subtitle">Drag and drop fields to build forms visually — no code required</p>
+  </div>
+
+  <div class="builder-layout">
+    <!-- Field types palette -->
+    <div class="panel">
+      <div class="panel-title">Fields</div>
+      <div class="field-type" onclick="addField('text')"><span class="icon">Aa</span> Text Input</div>
+      <div class="field-type" onclick="addField('email')"><span class="icon">@</span> Email</div>
+      <div class="field-type" onclick="addField('number')"><span class="icon">#</span> Number</div>
+      <div class="field-type" onclick="addField('textarea')"><span class="icon">☰</span> Long Text</div>
+      <div class="field-type" onclick="addField('select')"><span class="icon">▾</span> Dropdown</div>
+      <div class="field-type" onclick="addField('checkbox')"><span class="icon">☑</span> Checkboxes</div>
+      <div class="field-type" onclick="addField('radio')"><span class="icon">◉</span> Radio Buttons</div>
+      <div class="field-type" onclick="addField('date')"><span class="icon">📅</span> Date</div>
+      <div class="field-type" onclick="addField('file')"><span class="icon">📎</span> File Upload</div>
+      <div class="field-type" onclick="addField('rating')"><span class="icon">★</span> Rating</div>
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid #1e293b">
+        <div class="panel-title">Actions</div>
+        <button onclick="clearForm()" style="width:100%;background:#1e293b;border:1px solid #2d3748;color:#94a3b8;padding:8px;border-radius:6px;cursor:pointer;font-size:13px;margin-bottom:6px">Clear All</button>
+        <button onclick="previewForm()" style="width:100%;background:#7C4DFF20;border:1px solid #7C4DFF40;color:#7C4DFF;padding:8px;border-radius:6px;cursor:pointer;font-size:13px">Preview Form</button>
+      </div>
+    </div>
+
+    <!-- Canvas -->
+    <div class="panel">
+      <div class="panel-title">Form Canvas</div>
+      <input class="form-title-input" id="formTitle" type="text" value="Contact Us" placeholder="Form title...">
+      <div class="form-canvas" id="canvas">
+        <div class="empty-state" id="emptyState">
+          <div class="icon">➕</div>
+          <p>Click a field type on the left to add it to your form</p>
+        </div>
+      </div>
+      <div id="submitPreview" style="display:none">
+        <div class="form-submit-preview">Submit Form</div>
+      </div>
+    </div>
+
+    <!-- Properties panel -->
+    <div class="panel" id="propsPanel">
+      <div class="panel-title">Properties</div>
+      <div id="propsContent" style="color:#64748b;font-size:13px;padding:8px 0">Click a field to edit its properties</div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <p>Full version includes: multi-page forms, conditional logic, real-time validation, webhook submissions, file storage, spam protection, analytics, and embed code generator.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/fZueVd4az8WWeRI4i5gjJ0Y">Buy Full Version — $49.00</a>
+    <button class="crypto-pay-btn" data-product-slug="form-builder" data-store-slug="form-forge" data-product-name="Form Builder" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows limited functionality. Buy the full tool for all features.</div>
+</div>
+<script>
+let fields = [];
+let selectedId = null;
+let nextId = 1;
+
+const DEFAULTS = {
+  text:     {label:'Full Name',      placeholder:'Enter your name',       required:true},
+  email:    {label:'Email Address',  placeholder:'you@example.com',       required:true},
+  number:   {label:'Phone Number',   placeholder:'Enter number',          required:false},
+  textarea: {label:'Message',        placeholder:'Write your message...', required:false},
+  select:   {label:'Country',        placeholder:'Select an option',      required:false, options:['United States','United Kingdom','Canada','Australia']},
+  checkbox: {label:'Interests',      required:false, options:['Marketing','Development','Design']},
+  radio:    {label:'How did you hear about us?', required:false, options:['Google','Friend','Social Media']},
+  date:     {label:'Preferred Date', placeholder:'',                      required:false},
+  file:     {label:'Attachment',     placeholder:'Choose file...',        required:false},
+  rating:   {label:'Rate your experience', placeholder:'',               required:false},
+};
+
+function addField(type) {
+  const id = nextId++;
+  const d = DEFAULTS[type];
+  fields.push({id, type, ...JSON.parse(JSON.stringify(d))});
+  render();
+  selectField(id);
+}
+
+function removeField(id) {
+  fields = fields.filter(f => f.id !== id);
+  if (selectedId === id) selectedId = null;
+  render();
+  renderProps();
+}
+
+function selectField(id) {
+  selectedId = id;
+  render();
+  renderProps();
+}
+
+function renderFieldPreview(f) {
+  if (f.type === 'textarea') return `<textarea class="field-preview" style="height:64px;resize:none" placeholder="${f.placeholder||''}" onclick="event.stopPropagation()" readonly></textarea>`;
+  if (f.type === 'select') return `<select class="field-preview" onclick="event.stopPropagation()"><option>${f.placeholder||'Select...'}</option>${(f.options||[]).map(o=>`<option>${o}</option>`).join('')}</select>`;
+  if (f.type === 'checkbox') return `<div class="field-preview check-radio">${(f.options||[]).map(o=>`<label class="check-item"><input type="checkbox" onclick="event.stopPropagation()"> ${o}</label>`).join('')}</div>`;
+  if (f.type === 'radio') return `<div class="field-preview check-radio">${(f.options||[]).map((o,i)=>`<label class="check-item"><input type="radio" name="r${f.id}" ${i===0?'checked':''} onclick="event.stopPropagation()"> ${o}</label>`).join('')}</div>`;
+  if (f.type === 'rating') return `<div style="display:flex;gap:6px;font-size:24px">${[1,2,3,4,5].map(i=>`<span style="color:#7C4DFF;cursor:pointer" onclick="event.stopPropagation()">★</span>`).join('')}</div>`;
+  if (f.type === 'file') return `<input type="file" class="field-preview" onclick="event.stopPropagation()" disabled style="color:#64748b">`;
+  const itype = {text:'text',email:'email',number:'number',date:'date'}[f.type]||'text';
+  return `<input type="${itype}" class="field-preview" placeholder="${f.placeholder||''}" onclick="event.stopPropagation()" readonly>`;
+}
+
+function render() {
+  const canvas = document.getElementById('canvas');
+  const empty = document.getElementById('emptyState');
+  const sub = document.getElementById('submitPreview');
+  if (fields.length === 0) {
+    empty.style.display = 'block';
+    sub.style.display = 'none';
+  } else {
+    empty.style.display = 'none';
+    sub.style.display = 'block';
+  }
+  // Remove old field elements
+  Array.from(canvas.querySelectorAll('.form-field')).forEach(el => el.remove());
+  fields.forEach(f => {
+    const div = document.createElement('div');
+    div.className = 'form-field' + (f.id === selectedId ? ' selected' : '');
+    div.dataset.id = f.id;
+    div.innerHTML = `
+      <div class="form-field-label">
+        <span>${f.label}${f.required?'<span class="form-field-required">*</span>':''}</span>
+        <button class="field-delete" onclick="event.stopPropagation();removeField(${f.id})">✕</button>
+      </div>
+      ${renderFieldPreview(f)}`;
+    div.addEventListener('click', () => selectField(f.id));
+    canvas.insertBefore(div, sub);
+  });
+}
+
+function renderProps() {
+  const pc = document.getElementById('propsContent');
+  if (!selectedId) { pc.innerHTML = '<p style="color:#64748b;font-size:13px">Click a field to edit properties</p>'; return; }
+  const f = fields.find(x => x.id === selectedId);
+  if (!f) return;
+  const hasOptions = ['select','checkbox','radio'].includes(f.type);
+  let optHtml = '';
+  if (hasOptions) {
+    optHtml = `<div class="prop-row"><div class="prop-label">Options</div>
+      ${(f.options||[]).map((o,i)=>`<input class="prop-input" style="margin-bottom:4px" value="${o}" oninput="updateOption(${f.id},${i},this.value)">`).join('')}
+      <button class="add-option-btn" onclick="addOption(${f.id})">+ Add Option</button>
+    </div>`;
+  }
+  pc.innerHTML = `
+    <div class="prop-row"><div class="prop-label">Label</div>
+      <input class="prop-input" value="${f.label}" oninput="updateProp(${f.id},'label',this.value)">
+    </div>
+    ${f.placeholder !== undefined ? `<div class="prop-row"><div class="prop-label">Placeholder</div>
+      <input class="prop-input" value="${f.placeholder}" oninput="updateProp(${f.id},'placeholder',this.value)">
+    </div>` : ''}
+    ${optHtml}
+    <div class="toggle-row">
+      <span class="toggle-label">Required</span>
+      <div class="toggle${f.required?' on':''}" onclick="toggleRequired(${f.id})"></div>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid #1e293b">
+      <div class="prop-label" style="color:#7C4DFF;margin-bottom:4px">Field Type: ${f.type}</div>
+      <button onclick="removeField(${f.id})" style="background:#ef444420;border:1px solid #ef444440;color:#ef4444;padding:8px;border-radius:6px;cursor:pointer;font-size:13px;width:100%">Delete Field</button>
+    </div>`;
+}
+
+function updateProp(id, key, val) {
+  const f = fields.find(x => x.id === id);
+  if (f) { f[key] = val; render(); }
+}
+function updateOption(id, i, val) {
+  const f = fields.find(x => x.id === id);
+  if (f && f.options) { f.options[i] = val; render(); }
+}
+function addOption(id) {
+  const f = fields.find(x => x.id === id);
+  if (f) { f.options = [...(f.options||[]), 'New Option']; render(); renderProps(); }
+}
+function toggleRequired(id) {
+  const f = fields.find(x => x.id === id);
+  if (f) { f.required = !f.required; render(); renderProps(); }
+}
+function clearForm() { fields = []; selectedId = null; render(); renderProps(); }
+function previewForm() { alert('Preview: "' + document.getElementById('formTitle').value + '" with ' + fields.length + ' field(s).\n\nFull version includes live preview in embedded iframe, mobile preview, and direct shareable link.'); }
+
+// Seed form
+addField('text');
+addField('email');
+addField('textarea');
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

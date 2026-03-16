@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data Pipeline Pro Demos | Digital Stores Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#0f1117;color:#e2e8f0;font-family:'Inter', 'SF Pro', system-ui, sans-serif;line-height:1.6}
+    a{color:#3b82f6;text-decoration:none} a:hover{text-decoration:underline}
+    .container{max-width:1000px;margin:0 auto;padding:24px 16px}
+    .btn{display:inline-block;padding:10px 24px;background:#3b82f6;color:#fff;
+          font-weight:600;border:none;border-radius:6px;cursor:pointer;font-size:14px}
+    .btn:hover{opacity:0.85;text-decoration:none}
+    .price{font-size:20px;font-weight:700;color:#3b82f6}
+    .muted{color:#94a3b8;font-size:13px}
+    .card{background:#1a1d27;border-radius:8px;padding:16px;border:1px solid #2a2d37}
+    .tag{display:inline-block;padding:2px 8px;background:#3b82f622;color:#3b82f6;
+         border-radius:4px;font-size:11px;font-weight:600}
+    code,.mono{font-family:'JetBrains Mono',monospace}
+    </style>
+</head>
+<body>
+<div class="container">
+
+<h1 style="font-size:20px;margin-bottom:4px">Data Pipeline Pro Demos</h1>
+<p class="muted" style="margin-bottom:20px">Production data pipeline templates, ETL frameworks, and orchestration tools &mdash; 11 interactive demos</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px">
+
+<a href="spark-etl-framework.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(244,180,190);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Spark ETL Framework</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Production PySpark ETL framework with schema validation, data quality checks, incremental processing, and medallion architecture.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$59.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="airflow-dag-templates.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(104,11,245);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Airflow DAG Templates</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">30+ production Airflow DAGs with error handling, retry logic, SLA monitoring, alerting, and dynamic task generation patterns.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$49.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="streaming-pipeline-kit.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(114,192,204);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Streaming Pipeline Kit</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Kafka consumer/producer templates, Spark Structured Streaming jobs, exactly-once processing patterns, and dead letter queues.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$49.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="data-quality-framework.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(76,68,187);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Data Quality Framework</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Great Expectations integration, custom validation rules, data profiling scripts, anomaly detection, and quality dashboards.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$49.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="delta-lake-patterns.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(31,227,117);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Delta Lake Patterns Library</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Delta Lake table design patterns, merge operations, time travel queries, vacuum strategies, and Z-ORDER optimization.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$49.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="databricks-workspace-toolkit.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(194,10,104);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Databricks Workspace Toolkit</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Workspace provisioning scripts, cluster policies, notebook templates, Unity Catalog setup, and job orchestration patterns.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$59.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="data-pipeline-testing.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(107,203,234);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Data Pipeline Testing Kit</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">PySpark unit testing framework, mock data generators, integration test patterns, data contract validation, and CI/CD templates.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$39.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="schema-evolution-toolkit.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(219,25,109);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Schema Evolution Toolkit</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Schema migration scripts, backward/forward compatibility checks, schema registry integration, and versioning strategies.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$39.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="data-observability-setup.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(160,237,68);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Data Observability Setup</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Pipeline monitoring dashboards, data freshness alerts, lineage tracking, cost monitoring, and incident response runbooks.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$49.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="cdc-replication-toolkit.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(211,179,64);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">CDC Replication Toolkit</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Change data capture patterns with Debezium, database replication scripts, event sourcing integration, and consistency checks.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$49.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="data-catalog-builder.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(232,158,46);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Data Catalog Builder</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Automated metadata extraction, data dictionary generation, lineage mapping, ownership assignment, and search interface.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$39.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+</div>
+<div style="margin-top:24px"><a href="../../../demos/index.html">&larr; All Stores</a></div>
+
+</div>
+<script></script>
+</body>
+</html>

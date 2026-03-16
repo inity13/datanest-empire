@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://saas-starter.codevault.dev/sitemap.xml

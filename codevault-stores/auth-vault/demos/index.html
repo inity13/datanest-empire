@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auth Vault Demos — Try Before You Buy | CodeVault</title>
+  <meta name="description" content="Interactive demos for all Auth Vault security tools. Try JWT auth, RBAC, password hashing, MFA, rate limiting, and more before purchasing.">
+  <style>
+    :root {
+      --bg: #0A0E1A;
+      --surface: #141824;
+      --surface2: #1E2436;
+      --border: #2A2E3E;
+      --cv-text: #EAEAFF;
+      --cv-muted: #8888AA;
+      --accent: #E91E63;
+      --accent-dim: rgba(233,30,99,0.15);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--cv-text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+    }
+
+    nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+    .nav-brand .logo { font-size: 1.4rem; }
+    .nav-brand .name { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+    .nav-back {
+      color: var(--cv-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--cv-text); }
+
+    .hero {
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 20px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      color: var(--cv-muted);
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.6;
+    }
+    .hero-cta {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 0.75rem 1.75rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: opacity 0.2s;
+    }
+    .hero-cta:hover { opacity: 0.85; }
+
+    .demos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+      padding: 2.5rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .demo-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .demo-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .card-header { display: flex; align-items: center; gap: 0.75rem; }
+    .card-icon { font-size: 1.8rem; }
+    .card-meta { flex: 1; }
+    .card-meta h3 { font-size: 1rem; font-weight: 700; color: var(--cv-text); }
+    .card-price {
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-top: 0.2rem;
+    }
+    .tier-badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .tier-starter { background: rgba(100,200,100,0.15); color: #6dc; }
+    .tier-pro     { background: rgba(233,30,99,0.15);   color: var(--accent); }
+    .tier-premium { background: rgba(255,150,50,0.15);  color: #fa6; }
+
+    .card-desc {
+      font-size: 0.875rem;
+      color: var(--cv-muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+    .card-actions {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+    .btn-demo {
+      flex: 1;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      padding: 0.6rem 0.75rem;
+      border-radius: 7px;
+      font-size: 0.85rem;
+      transition: opacity 0.2s;
+    }
+    .btn-demo:hover { opacity: 0.85; }
+    .btn-buy {
+      flex: 1;
+      background: var(--surface2);
+      color: var(--cv-text);
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      padding: 0.6rem 0.75rem;
+      border-radius: 7px;
+      font-size: 0.85rem;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s;
+    }
+    .btn-buy:hover { border-color: var(--accent); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      color: var(--cv-muted);
+      font-size: 0.85rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      nav { padding: 0.75rem 1rem; }
+      .hero { padding: 2rem 1rem 1.5rem; }
+      .demos-grid { padding: 1.5rem 1rem; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="https://auth-vault.codevault.dev/" class="nav-brand">
+    <span class="logo">🔐</span>
+    <span class="name">Auth Vault</span>
+  </a>
+  <a href="https://auth-vault.codevault.dev/" class="nav-back">← Back to Store</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">Interactive Demos</div>
+  <h1>Try <span>Auth Vault</span> Tools</h1>
+  <p>Hands-on security tool demos. Enter real data, see real output — no account required.</p>
+  <a href="https://auth-vault.codevault.dev/" class="hero-cta">View All Products →</a>
+</section>
+
+<div class="demos-grid">
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">🎫</span>
+      <div class="card-meta">
+        <h3>JWT Auth System</h3>
+        <div class="card-price">$29 <span class="tier-badge tier-pro">Pro</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Generate, sign, verify, and decode JWTs with configurable claims, expiry, and algorithm support (HS256/RS256).</p>
+    <div class="card-actions">
+      <a href="demo-jwt-auth-system.html" class="btn-demo">Try Demo</a>
+      <a href="https://auth-vault.codevault.dev/#jwt-auth-system" class="btn-buy">Buy $29</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">🛡️</span>
+      <div class="card-meta">
+        <h3>RBAC Manager</h3>
+        <div class="card-price">$39 <span class="tier-badge tier-pro">Pro</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Define roles, permissions, and resource policies. Check access with a single function call — production-ready RBAC engine.</p>
+    <div class="card-actions">
+      <a href="demo-rbac-manager.html" class="btn-demo">Try Demo</a>
+      <a href="https://auth-vault.codevault.dev/#rbac-manager" class="btn-buy">Buy $39</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">🔑</span>
+      <div class="card-meta">
+        <h3>Password Hasher</h3>
+        <div class="card-price">$19 <span class="tier-badge tier-starter">Starter</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Hash and verify passwords using bcrypt, Argon2, or PBKDF2. Compare algorithms and tune work factors interactively.</p>
+    <div class="card-actions">
+      <a href="demo-password-hasher.html" class="btn-demo">Try Demo</a>
+      <a href="https://auth-vault.codevault.dev/#password-hasher" class="btn-buy">Buy $19</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">📱</span>
+      <div class="card-meta">
+        <h3>MFA Toolkit</h3>
+        <div class="card-price">$34 <span class="tier-badge tier-pro">Pro</span></div>
+      </div>
+    </div>
+    <p class="card-desc">TOTP and HOTP two-factor auth with QR code provisioning, backup codes, and recovery flow — plug into any app.</p>
+    <div class="card-actions">
+      <a href="demo-mfa-toolkit.html" class="btn-demo">Try Demo</a>
+      <a href="https://auth-vault.codevault.dev/#mfa-toolkit" class="btn-buy">Buy $34</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">⏱️</span>
+      <div class="card-meta">
+        <h3>Rate Limiter</h3>
+        <div class="card-price">$24 <span class="tier-badge tier-starter">Starter</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Token bucket and sliding window rate limiting for APIs. Configurable per-user, per-IP, and per-endpoint limits.</p>
+    <div class="card-actions">
+      <a href="demo-rate-limiter.html" class="btn-demo">Try Demo</a>
+      <a href="https://auth-vault.codevault.dev/#rate-limiter" class="btn-buy">Buy $24</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">📏</span>
+      <div class="card-meta">
+        <h3>Password Policy Engine</h3>
+        <div class="card-price">$19 <span class="tier-badge tier-starter">Starter</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Enforce password complexity rules, check against breach databases, calculate entropy, and generate policy-compliant passwords.</p>
+    <div class="card-actions">
+      <a href="demo-password-policy-engine.html" class="btn-demo">Try Demo</a>
+      <a href="https://auth-vault.codevault.dev/#password-policy-engine" class="btn-buy">Buy $19</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">🔗</span>
+      <div class="card-meta">
+        <h3>OAuth2 Client</h3>
+        <div class="card-price">$44 <span class="tier-badge tier-premium">Premium</span></div>
+      </div>
+    </div>
+    <p class="card-desc">OAuth2 / OIDC client with PKCE support for Google, GitHub, and custom providers. Handles token refresh automatically.</p>
+    <div class="card-actions">
+      <a href="demo-oauth2-client.html" class="btn-demo">Try Demo</a>
+      <a href="https://auth-vault.codevault.dev/#oauth2-client" class="btn-buy">Buy $44</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">🍪</span>
+      <div class="card-meta">
+        <h3>Session Manager</h3>
+        <div class="card-price">$29 <span class="tier-badge tier-pro">Pro</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Secure session creation, validation, and revocation with Redis or DB backends. Device tracking and concurrent session limits.</p>
+    <div class="card-actions">
+      <a href="demo-session-manager.html" class="btn-demo">Try Demo</a>
+      <a href="https://auth-vault.codevault.dev/#session-manager" class="btn-buy">Buy $29</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">🗝️</span>
+      <div class="card-meta">
+        <h3>API Key Manager</h3>
+        <div class="card-price">$34 <span class="tier-badge tier-pro">Pro</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Issue, scope, rotate, and revoke API keys with prefix-based identification, usage tracking, and expiry management.</p>
+    <div class="card-actions">
+      <a href="demo-api-key-manager.html" class="btn-demo">Try Demo</a>
+      <a href="https://auth-vault.codevault.dev/#api-key-manager" class="btn-buy">Buy $34</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">📝</span>
+      <div class="card-meta">
+        <h3>Audit Logger</h3>
+        <div class="card-price">$29 <span class="tier-badge tier-pro">Pro</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Tamper-evident audit trail for security events. Structured JSON logs with actor, action, resource, and outcome fields.</p>
+    <div class="card-actions">
+      <a href="demo-audit-logger.html" class="btn-demo">Try Demo</a>
+      <a href="https://auth-vault.codevault.dev/#audit-logger" class="btn-buy">Buy $29</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>Auth Vault is part of <a href="https://codevault.dev/">CodeVault</a> — Professional Python Security Tools &nbsp;·&nbsp;
+  <a href="https://auth-vault.codevault.dev/">Back to Store</a></p>
+</footer>
+
+</body>
+</html>

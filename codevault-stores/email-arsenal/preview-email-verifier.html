@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verifier &mdash; Email Arsenal &mdash; CodeVault</title>
+    <meta name="description" content="Python script that verifies email addresses via SMTP handshake, MX record lookup, and syntax validation. Catch bad emails before they bounce.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F4E7;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#FF3366">
+    <script defer data-domain="email-arsenal.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Email Arsenal</a>
+        <h1 class="preview-page__title">Email Verifier</h1>
+        <p class="preview-page__price">$9.99</p>
+        <p class="preview-page__desc">Python script that verifies email addresses via SMTP handshake, MX record lookup, and syntax validation. Catch bad emails before they bounce. Runs on Python 3.10+ stdlib only &mdash; no pip installs needed.</p>
+
+        <ul class="preview-page__features">
+            <li>RFC 5322 email syntax validation with detailed error messages</li>
+            <li>MX record lookup and priority-based server selection</li>
+            <li>SMTP handshake verification (HELO, MAIL FROM, RCPT TO)</li>
+            <li>Disposable email domain detection (built-in blocklist)</li>
+            <li>Role-based address detection (info@, admin@, etc.)</li>
+            <li>Bulk verification with CSV/TXT input support</li>
+            <li>Configurable timeout and retry settings</li>
+            <li>JSON and CSV output formats</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Verify a single email
+python email_verifier.py --email user@example.com
+
+# Bulk verify from a file
+python email_verifier.py --file emails.txt --output results.json
+
+# With custom timeout
+python email_verifier.py --file emails.txt --timeout 10 --retries 2</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_email_verifier"
+               data-product="email-verifier">
+                Grab This &mdash; $9.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Email Verifier"
+                    data-crypto-price="999">
+                Pay with Crypto ($7.99)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

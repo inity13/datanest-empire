@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conditional Logic Engine Demo — Form Forge</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:940px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#7C4DFF20;color:#7C4DFF;border:1px solid #7C4DFF40;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .layout{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#7C4DFF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+  select,input[type=text]{background:#0A0E1A;border:1px solid #2d3748;border-radius:6px;padding:9px 12px;color:#e2e8f0;font-size:13px;outline:none;transition:border-color .2s;font-family:inherit}
+  select:focus,input:focus{border-color:#7C4DFF}
+  select option{background:#111827}
+  /* Rule builder */
+  .rule-block{background:#0A0E1A;border:1px solid #1e293b;border-radius:10px;padding:16px;margin-bottom:12px;position:relative}
+  .rule-block.active{border-color:#7C4DFF60}
+  .rule-header{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#7C4DFF;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+  .rule-delete{background:none;border:none;color:#475569;cursor:pointer;font-size:14px;padding:2px 6px;border-radius:4px}
+  .rule-delete:hover{color:#ef4444}
+  .condition-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
+  .condition-row select{flex:1;min-width:100px}
+  .condition-arrow{font-size:14px;color:#7C4DFF;flex-shrink:0}
+  .action-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .action-row select{flex:1;min-width:100px}
+  .add-rule-btn{background:#7C4DFF20;border:1px dashed #7C4DFF40;border-radius:8px;padding:10px;width:100%;color:#7C4DFF;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+  .add-rule-btn:hover{background:#7C4DFF30}
+  /* Form preview */
+  .form-preview{background:#fff;border-radius:10px;padding:24px;font-family:Arial,sans-serif}
+  .fp-title{font-size:18px;font-weight:700;color:#111;margin-bottom:20px}
+  .fp-field{margin-bottom:16px;transition:all .3s}
+  .fp-field.hidden{display:none}
+  .fp-label{font-size:13px;font-weight:600;color:#333;margin-bottom:6px;display:block}
+  .fp-input{width:100%;border:2px solid #e2e8f0;border-radius:6px;padding:10px;font-family:Arial;font-size:14px;color:#333;outline:none;transition:border-color .2s}
+  .fp-input:focus{border-color:#7C4DFF}
+  .fp-select{width:100%;border:2px solid #e2e8f0;border-radius:6px;padding:10px;font-family:Arial;font-size:14px;color:#333;outline:none;background:#fff;transition:border-color .2s}
+  .fp-select:focus{border-color:#7C4DFF}
+  .fp-radio{display:flex;flex-direction:column;gap:8px}
+  .fp-radio label{display:flex;align-items:center;gap:8px;font-size:14px;color:#333;cursor:pointer}
+  .fp-radio input{accent-color:#7C4DFF;width:16px;height:16px}
+  .fp-textarea{width:100%;border:2px solid #e2e8f0;border-radius:6px;padding:10px;font-family:Arial;font-size:14px;color:#333;resize:vertical;outline:none;transition:border-color .2s}
+  .fp-textarea:focus{border-color:#7C4DFF}
+  .fp-submit{background:#7C4DFF;color:#fff;border:none;border-radius:8px;padding:12px 28px;font-size:14px;font-weight:700;cursor:pointer;font-family:Arial}
+  /* Log */
+  .log-entry{background:#0A0E1A;border-left:3px solid #7C4DFF;border-radius:0 8px 8px 0;padding:8px 12px;margin-bottom:6px;font-size:12px;color:#94a3b8;line-height:1.5}
+  .log-trigger{color:#7C4DFF;font-weight:600}
+  .log-action{color:#00FF88}
+  .cta-bar{background:linear-gradient(135deg,#7C4DFF15,#7C4DFF05);border:1px solid #7C4DFF30;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#7C4DFF;color:#fff;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#6B3FEE;transform:translateY(-1px);box-shadow:0 8px 24px #7C4DFF40}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  @media(max-width:680px){.layout{grid-template-columns:1fr}}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Conditional Logic Engine</h1>
+    <p class="subtitle">Build IF/THEN rules that show, hide, and require fields dynamically</p>
+  </div>
+
+  <div class="layout">
+    <div>
+      <div class="card">
+        <div class="card-title">Conditional Rules</div>
+        <div id="rulesList"></div>
+        <button class="add-rule-btn" onclick="addRule()">+ Add Rule</button>
+      </div>
+      <div class="card">
+        <div class="card-title">Logic Trigger Log</div>
+        <div id="logList" style="max-height:200px;overflow-y:auto">
+          <p style="color:#64748b;font-size:13px">Interact with the form to see rules fire here.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Live Form Preview</div>
+      <div class="form-preview">
+        <div class="fp-title">Customer Onboarding</div>
+        <div class="fp-field" id="ff-name">
+          <label class="fp-label">Full Name *</label>
+          <input class="fp-input" type="text" placeholder="John Doe">
+        </div>
+        <div class="fp-field" id="ff-type">
+          <label class="fp-label">Account Type *</label>
+          <select class="fp-select" id="fv-type" onchange="evalRules()">
+            <option value="">Select...</option>
+            <option value="personal">Personal</option>
+            <option value="business">Business</option>
+            <option value="enterprise">Enterprise</option>
+          </select>
+        </div>
+        <div class="fp-field hidden" id="ff-company">
+          <label class="fp-label">Company Name *</label>
+          <input class="fp-input" type="text" placeholder="Acme Corp">
+        </div>
+        <div class="fp-field hidden" id="ff-employees">
+          <label class="fp-label">Number of Employees</label>
+          <select class="fp-select" id="fv-employees" onchange="evalRules()">
+            <option value="">Select...</option>
+            <option value="1-10">1–10</option>
+            <option value="11-50">11–50</option>
+            <option value="51-200">51–200</option>
+            <option value="200+">200+</option>
+          </select>
+        </div>
+        <div class="fp-field hidden" id="ff-sla">
+          <label class="fp-label">SLA Requirements</label>
+          <select class="fp-select">
+            <option>Standard (99.9% uptime)</option>
+            <option>Premium (99.99% uptime)</option>
+          </select>
+        </div>
+        <div class="fp-field" id="ff-hear">
+          <label class="fp-label">How did you hear about us?</label>
+          <div class="fp-radio" id="fv-hear">
+            <label><input type="radio" name="hear" value="search" onchange="evalRules()"> Search Engine</label>
+            <label><input type="radio" name="hear" value="referral" onchange="evalRules()"> Referral</label>
+            <label><input type="radio" name="hear" value="social" onchange="evalRules()"> Social Media</label>
+            <label><input type="radio" name="hear" value="event" onchange="evalRules()"> Conference/Event</label>
+          </div>
+        </div>
+        <div class="fp-field hidden" id="ff-referrer">
+          <label class="fp-label">Referrer's Name</label>
+          <input class="fp-input" type="text" placeholder="Who referred you?">
+        </div>
+        <div class="fp-field hidden" id="ff-eventname">
+          <label class="fp-label">Which Event?</label>
+          <input class="fp-input" type="text" placeholder="Event name">
+        </div>
+        <div class="fp-field" id="ff-notes">
+          <label class="fp-label">Additional Notes</label>
+          <textarea class="fp-textarea" rows="3" placeholder="Optional"></textarea>
+        </div>
+        <button class="fp-submit" onclick="this.textContent='✓ Submitted!'">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <p>Full version supports nested conditions (AND/OR), calculated fields, page skip logic, webhook triggers, and exports rules as JSON for your backend.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/5kQ7sL9uT2yy8tk9CpgjJ13">Buy Full Version — $59.00</a>
+    <button class="crypto-pay-btn" data-product-slug="conditional-logic-engine" data-store-slug="form-forge" data-product-name="Conditional Logic Engine" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows limited functionality. Buy the full tool for all features.</div>
+</div>
+<script>
+// Built-in rules that match the form
+const BUILTIN_RULES = [
+  {id:1, when:'Account Type', is:'equals', val:'business', then:'show', field:'Company Name'},
+  {id:2, when:'Account Type', is:'equals', val:'enterprise', then:'show', field:'Company Name'},
+  {id:3, when:'Account Type', is:'equals', val:'enterprise', then:'show', field:'Number of Employees'},
+  {id:4, when:'Number of Employees', is:'equals', val:'200+', then:'show', field:'SLA Requirements'},
+  {id:5, when:'How did you hear', is:'equals', val:'referral', then:'show', field:'Referrer\'s Name'},
+  {id:6, when:'How did you hear', is:'equals', val:'event', then:'show', field:'Which Event?'},
+];
+
+let customRules = [];
+let ruleId = 10;
+
+const FIELD_OPTIONS = ['Account Type','Number of Employees','How did you hear'];
+const ACTION_FIELDS = ['Company Name','Number of Employees','SLA Requirements','Referrer\'s Name','Which Event?'];
+const CONDITIONS = ['equals','not equals','is filled'];
+
+function addRule() {
+  customRules.push({id:ruleId++, when:FIELD_OPTIONS[0], is:CONDITIONS[0], val:'', then:'show', field:ACTION_FIELDS[0]});
+  renderRules();
+}
+
+function removeCustomRule(id) { customRules = customRules.filter(r=>r.id!==id); renderRules(); evalRules(); }
+
+function renderRules() {
+  const all = [...BUILTIN_RULES, ...customRules];
+  document.getElementById('rulesList').innerHTML = all.map(r => {
+    const isCustom = r.id >= 10;
+    return `<div class="rule-block${isCustom?'':' active'}">
+      <div class="rule-header">
+        ${isCustom ? 'Custom Rule' : 'Built-in Rule'}
+        ${isCustom ? `<button class="rule-delete" onclick="removeCustomRule(${r.id})">✕</button>` : ''}
+      </div>
+      <div class="condition-row">
+        <span style="font-size:12px;color:#64748b">IF</span>
+        ${isCustom ? `<select onchange="customRules.find(x=>x.id===${r.id}).when=this.value;evalRules()">${FIELD_OPTIONS.map(f=>`<option${r.when===f?' selected':''}>${f}</option>`).join('')}</select>
+          <select onchange="customRules.find(x=>x.id===${r.id}).is=this.value;evalRules()">${CONDITIONS.map(c=>`<option${r.is===c?' selected':''}>${c}</option>`).join('')}</select>
+          <input type="text" style="width:90px" value="${r.val}" placeholder="value" oninput="customRules.find(x=>x.id===${r.id}).val=this.value;evalRules()">`
+        : `<span style="color:#7C4DFF;font-size:13px">${r.when}</span><span style="font-size:13px;color:#94a3b8">${r.is}</span><span style="color:#fff;font-size:13px">"${r.val}"</span>`}
+      </div>
+      <div class="action-row">
+        <span style="font-size:12px;color:#64748b">THEN</span>
+        ${isCustom ? `<select onchange="customRules.find(x=>x.id===${r.id}).then=this.value;evalRules()">
+          <option value="show"${r.then==='show'?' selected':''}>Show</option>
+          <option value="hide"${r.then==='hide'?' selected':''}>Hide</option></select>
+          <select onchange="customRules.find(x=>x.id===${r.id}).field=this.value;evalRules()">${ACTION_FIELDS.map(f=>`<option${r.field===f?' selected':''}>${f}</option>`).join('')}</select>`
+        : `<span style="color:#00FF88;font-size:13px">${r.then.toUpperCase()}</span><span style="color:#fff;font-size:13px">${r.field}</span>`}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+const FIELD_MAP = {
+  'Company Name': 'ff-company',
+  'Number of Employees': 'ff-employees',
+  'SLA Requirements': 'ff-sla',
+  "Referrer's Name": 'ff-referrer',
+  'Which Event?': 'ff-eventname',
+};
+
+function getFieldValue(fieldName) {
+  if (fieldName === 'Account Type') return document.getElementById('fv-type').value;
+  if (fieldName === 'Number of Employees') return document.getElementById('fv-employees').value;
+  if (fieldName === 'How did you hear') { const r = document.querySelector('input[name=hear]:checked'); return r ? r.value : ''; }
+  return '';
+}
+
+function evalRule(r) {
+  const val = getFieldValue(r.when);
+  if (r.is === 'equals') return val === r.val;
+  if (r.is === 'not equals') return val !== r.val;
+  if (r.is === 'is filled') return val.length > 0;
+  return false;
+}
+
+function logAction(rule, triggered) {
+  const log = document.getElementById('logList');
+  if (log.querySelector('p')) log.innerHTML = '';
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  entry.innerHTML = `<span class="log-trigger">IF ${rule.when} ${rule.is} "${rule.val}"</span> → <span class="log-action">${rule.then.toUpperCase()} "${rule.field}"</span> <span style="color:${triggered?'#00FF88':'#ef4444'}">[${triggered?'FIRED':'skipped'}]</span>`;
+  log.insertBefore(entry, log.firstChild);
+  if (log.children.length > 10) log.removeChild(log.lastChild);
+}
+
+function evalRules() {
+  // Reset all conditional fields
+  Object.values(FIELD_MAP).forEach(id => document.getElementById(id).classList.add('hidden'));
+  const all = [...BUILTIN_RULES, ...customRules];
+  all.forEach(r => {
+    const triggered = evalRule(r);
+    logAction(r, triggered);
+    const fieldEl = FIELD_MAP[r.field];
+    if (!fieldEl) return;
+    if (triggered && r.then === 'show') document.getElementById(fieldEl).classList.remove('hidden');
+    if (triggered && r.then === 'hide') document.getElementById(fieldEl).classList.add('hidden');
+  });
+}
+
+renderRules();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

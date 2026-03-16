@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unsubscribe Handler Demo — Email Arsenal</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:820px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#FF336620;color:#FF3366;border:1px solid #FF336640;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#FF3366;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+  label{display:block;font-size:13px;color:#94a3b8;margin-bottom:6px;font-weight:500}
+  input,select,textarea{width:100%;background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:12px 14px;color:#e2e8f0;font-size:14px;outline:none;transition:border-color .2s;font-family:inherit}
+  input:focus,select:focus,textarea:focus{border-color:#FF3366}
+  select option{background:#111827}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .btn{display:block;padding:12px 24px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;text-align:center}
+  .btn-primary{background:#FF3366;color:#fff;width:100%;margin-top:12px}
+  .btn-primary:hover{background:#e02d5a}
+  .preview-frame{background:#fff;border-radius:10px;overflow:hidden;border:1px solid #e2e8f0}
+  .unsub-page{padding:48px 32px;text-align:center;font-family:Arial,sans-serif}
+  .unsub-logo{width:48px;height:48px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:24px}
+  .unsub-h1{font-size:24px;font-weight:700;color:#111;margin-bottom:8px}
+  .unsub-p{font-size:15px;color:#555;margin-bottom:24px}
+  .unsub-options{display:flex;flex-direction:column;gap:10px;max-width:320px;margin:0 auto 24px}
+  .unsub-option{display:flex;align-items:center;gap:10px;text-align:left;background:#f9f9f9;border:1px solid #e5e7eb;border-radius:8px;padding:12px 16px;cursor:pointer}
+  .unsub-option input[type=radio]{accent-color:#FF3366;width:16px;height:16px;flex-shrink:0}
+  .unsub-option-text{font-size:14px;color:#333}
+  .unsub-btn{background:#FF3366;color:#fff;border:none;border-radius:8px;padding:13px 32px;font-size:15px;font-weight:600;cursor:pointer}
+  .unsub-footer{font-size:12px;color:#999;margin-top:16px}
+  .tabs{display:flex;gap:8px;margin-bottom:20px}
+  .tab{padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid #2d3748;background:transparent;color:#94a3b8;transition:all .2s}
+  .tab.active{background:#FF336620;color:#FF3366;border-color:#FF336640}
+  .stats-row{display:flex;gap:12px;margin-bottom:16px}
+  .stat-box{flex:1;background:#0A0E1A;border-radius:8px;padding:16px;text-align:center;border:1px solid #1e293b}
+  .stat-num{font-size:26px;font-weight:700;color:#FF3366}
+  .stat-label{font-size:12px;color:#64748b;margin-top:4px}
+  .log-entry{background:#0A0E1A;border-radius:8px;padding:12px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;font-size:13px;border-left:3px solid #FF3366}
+  .log-email{color:#e2e8f0}
+  .log-reason{color:#94a3b8;font-size:12px}
+  .log-time{color:#475569;font-size:12px}
+  .code-block{background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:16px;font-family:'Courier New',monospace;font-size:12px;color:#00FF88;overflow-x:auto;line-height:1.6;margin-top:8px}
+  .cta-bar{background:linear-gradient(135deg,#FF336615,#FF336605);border:1px solid #FF336630;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#FF3366;color:#fff;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#e02d5a;transform:translateY(-1px);box-shadow:0 8px 24px #FF336640}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  @media(max-width:600px){.grid-2{grid-template-columns:1fr}.stats-row{flex-wrap:wrap}}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Unsubscribe Handler</h1>
+    <p class="subtitle">Build GDPR-compliant unsubscribe pages with preference management</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('builder')">Page Builder</button>
+    <button class="tab" onclick="showTab('log')">Unsubscribe Log</button>
+    <button class="tab" onclick="showTab('code')">Generated Code</button>
+  </div>
+
+  <!-- Builder Tab -->
+  <div id="tab-builder">
+    <div class="card">
+      <div class="card-title">Configure Your Unsubscribe Page</div>
+      <div class="grid-2">
+        <div>
+          <label>Brand Name</label>
+          <input type="text" id="brandName" value="Acme Newsletter" oninput="renderPreview()">
+        </div>
+        <div>
+          <label>Brand Color</label>
+          <input type="color" id="brandColor" value="#FF3366" oninput="renderPreview()" style="height:44px;padding:4px">
+        </div>
+      </div>
+      <div style="margin-top:14px">
+        <label>Heading Text</label>
+        <input type="text" id="headingText" value="Manage Your Email Preferences" oninput="renderPreview()">
+      </div>
+      <div style="margin-top:14px">
+        <label>Subtext</label>
+        <input type="text" id="subText" value="We're sorry to see you go. Choose an option below." oninput="renderPreview()">
+      </div>
+      <div style="margin-top:14px">
+        <label>Unsubscribe Options (one per line)</label>
+        <textarea id="optionsList" rows="4" oninput="renderPreview()">Too many emails
+Not relevant to me
+I never signed up
+Pause for 30 days instead</textarea>
+      </div>
+      <div style="margin-top:14px">
+        <label>Redirect after unsubscribe</label>
+        <select id="redirectMode" onchange="renderPreview()">
+          <option value="confirm">Show confirmation on same page</option>
+          <option value="page">Redirect to confirmation page</option>
+          <option value="survey">Show quick survey first</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Live Preview</div>
+      <div class="preview-frame">
+        <div id="unsubPreview" class="unsub-page"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Log Tab -->
+  <div id="tab-log" style="display:none">
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-num" id="statTotal">0</div><div class="stat-label">Total Unsubscribes</div></div>
+      <div class="stat-box"><div class="stat-num" id="statToday">0</div><div class="stat-label">Today</div></div>
+      <div class="stat-box"><div class="stat-num" id="statRate">—</div><div class="stat-label">Unsub Rate</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Simulated Unsubscribe Events</div>
+      <button class="btn btn-primary" style="margin-bottom:16px" onclick="simulateUnsub()">Simulate Unsubscribe Event</button>
+      <div id="logList"></div>
+    </div>
+  </div>
+
+  <!-- Code Tab -->
+  <div id="tab-code" style="display:none">
+    <div class="card">
+      <div class="card-title">Generated HTML (Unsubscribe Page)</div>
+      <div class="code-block" id="codeOutput">Click "Page Builder" tab and configure your page, then switch here to see the generated code.</div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <p>Full tool includes: one-click list sync with Mailchimp/Klaviyo/SendGrid, webhook delivery, suppression list management, bounce + complaint handling, and full audit trail for GDPR compliance.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/00w4gzcH5gpo390eWJgjJ0R">Buy Full Version — $39.00</a>
+    <button class="crypto-pay-btn" data-product-slug="bounce-handler" data-store-slug="email-arsenal" data-product-name="Bounce Handler" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows limited functionality. Buy the full tool for all features.</div>
+</div>
+<script>
+const reasons = ['Too many emails','Not relevant to me','I never signed up','Prefer another format','Privacy concerns','Pause requested'];
+const domains = ['gmail.com','yahoo.com','outlook.com','hotmail.com','icloud.com'];
+const names = ['alex','jordan','sam','taylor','morgan','casey','riley','dakota'];
+let logEntries = [];
+let simCount = 0;
+
+function showTab(t) {
+  ['builder','log','code'].forEach(id => {
+    document.getElementById('tab-'+id).style.display = id===t?'block':'none';
+  });
+  document.querySelectorAll('.tab').forEach((el,i) => {
+    el.classList.toggle('active', ['builder','log','code'][i]===t);
+  });
+  if (t==='code') generateCode();
+}
+
+function renderPreview() {
+  const brand = document.getElementById('brandName').value || 'Your Brand';
+  const color = document.getElementById('brandColor').value;
+  const heading = document.getElementById('headingText').value || 'Manage Preferences';
+  const sub = document.getElementById('subText').value || '';
+  const opts = document.getElementById('optionsList').value.split('\n').filter(o=>o.trim());
+  const redirect = document.getElementById('redirectMode').value;
+
+  let optHtml = opts.map((o,i) => `
+    <label class="unsub-option" style="cursor:pointer">
+      <input type="radio" name="reason" value="${i}" ${i===0?'checked':''}>
+      <span class="unsub-option-text">${o}</span>
+    </label>`).join('');
+
+  let redirectNote = '';
+  if (redirect==='survey') redirectNote = '<p style="font-size:12px;color:#999;margin-bottom:16px">You\'ll be shown a quick 1-question survey after</p>';
+  if (redirect==='page') redirectNote = '<p style="font-size:12px;color:#999;margin-bottom:16px">You\'ll be redirected to a confirmation page</p>';
+
+  document.getElementById('unsubPreview').innerHTML = `
+    <div class="unsub-logo" style="background:${color}20;color:${color}">✉️</div>
+    <div class="unsub-h1" style="color:#111">${heading}</div>
+    <p class="unsub-p">${sub}</p>
+    <div class="unsub-options">${optHtml}</div>
+    ${redirectNote}
+    <button class="unsub-btn" style="background:${color}" onclick="event.preventDefault();this.textContent='✓ Unsubscribed';this.style.background='#22c55e'">Unsubscribe</button>
+    <div class="unsub-footer">You're unsubscribing from <strong>${brand}</strong> · <a href="#" style="color:${color}">Privacy Policy</a></div>
+  `;
+}
+
+function simulateUnsub() {
+  simCount++;
+  const name = names[Math.floor(Math.random()*names.length)];
+  const domain = domains[Math.floor(Math.random()*domains.length)];
+  const email = `${name}${Math.floor(Math.random()*999)}@${domain}`;
+  const reason = reasons[Math.floor(Math.random()*reasons.length)];
+  const now = new Date();
+  const time = now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  logEntries.unshift({email, reason, time});
+  if (logEntries.length > 20) logEntries.pop();
+  renderLog();
+}
+
+function renderLog() {
+  document.getElementById('statTotal').textContent = simCount;
+  document.getElementById('statToday').textContent = simCount;
+  document.getElementById('statRate').textContent = (simCount * 0.3).toFixed(1) + '%';
+  document.getElementById('logList').innerHTML = logEntries.map(e => `
+    <div class="log-entry">
+      <div><div class="log-email">${e.email}</div><div class="log-reason">${e.reason}</div></div>
+      <div class="log-time">${e.time}</div>
+    </div>`).join('') || '<p style="color:#64748b;font-size:13px">No events yet. Click "Simulate" above.</p>';
+}
+
+function generateCode() {
+  const brand = document.getElementById('brandName').value || 'Your Brand';
+  const color = document.getElementById('brandColor').value;
+  const heading = document.getElementById('headingText').value;
+  const opts = document.getElementById('optionsList').value.split('\n').filter(o=>o.trim());
+  const optHtml = opts.map(o=>`        <option value="${o.toLowerCase().replace(/ /g,'-')}">${o}</option>`).join('\n');
+  document.getElementById('codeOutput').textContent =
+`<!-- Unsubscribe Handler — generated by Email Arsenal -->
+<form action="/unsubscribe" method="POST">
+  <input type="hidden" name="email" value="{{ subscriber_email }}">
+  <input type="hidden" name="list_id" value="{{ list_id }}">
+  <h1>${heading}</h1>
+  <label>Reason for unsubscribing:</label>
+  <select name="reason">
+${optHtml}
+  </select>
+  <button type="submit"
+    style="background:${color};color:#fff;padding:12px 32px;
+           border:none;border-radius:8px;font-size:15px;cursor:pointer">
+    Unsubscribe
+  </button>
+  <footer>${brand} · <a href="/privacy">Privacy Policy</a></footer>
+</form>`;
+}
+
+// Init
+renderPreview();
+renderLog();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

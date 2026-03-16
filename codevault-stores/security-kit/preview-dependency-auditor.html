@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dependency Auditor &mdash; Security Kit &mdash; CodeVault</title>
+    <meta name="description" content="Scan your Python project's dependencies for known CVEs, outdated packages, and license risks. Integrates with requirements.txt and pyproject.toml.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F6E1;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#D500F9">
+    <script defer data-domain="security-kit.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Security Kit</a>
+        <h1 class="preview-page__title">&#x1F4E6; Dependency Auditor</h1>
+        <p class="preview-page__price">$9.99</p>
+        <p class="preview-page__desc">Audit your Python dependencies for CVEs (via PyPI advisory database), version staleness, and license compatibility issues. Parses requirements.txt, pyproject.toml, and Pipfile. CI-friendly with exit codes and SARIF output.</p>
+
+        <ul class="preview-page__features">
+            <li>CVE lookup via PyPI JSON advisory feed (no API key needed)</li>
+            <li>Outdated version detection with latest-version comparison</li>
+            <li>License compatibility check against an allowlist</li>
+            <li>SARIF output for GitHub Security tab integration</li>
+            <li>requirements.txt, pyproject.toml, and Pipfile support</li>
+            <li>Transitive dependency scanning (resolves full dep tree)</li>
+            <li>CI mode: exit 1 on any CRITICAL or HIGH CVE</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Audit requirements.txt
+python audit_deps.py --file requirements.txt
+
+# Full audit with SARIF output
+python audit_deps.py --file pyproject.toml --output sarif --out report.sarif
+
+# CI mode — fail on HIGH+ CVEs
+python audit_deps.py --file requirements.txt --ci --min-severity HIGH</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="https://buy.stripe.com/PLACEHOLDER_dependency-auditor"
+               class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/PLACEHOLDER_dependency-auditor"
+               data-product="dependency-auditor">
+                Buy Now &mdash; $9.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Dependency Auditor"
+                    data-crypto-price="849">
+                Pay with Crypto ($8.49)
+            </button>
+        </div>
+
+        <hr style="border-color: var(--cv-border); margin: 32px 0;">
+        <h2 style="font-size: 1rem; margin-bottom: 16px; color: var(--cv-text-muted);">Related tools</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <a href="preview-compliance-checker.html" class="btn btn--secondary" style="font-size: 0.85rem;">Compliance Checker</a>
+            <a href="preview-vulnerability-scanner.html" class="btn btn--secondary" style="font-size: 0.85rem;">Vulnerability Scanner</a>
+            <a href="preview-security-report-generator.html" class="btn btn--secondary" style="font-size: 0.85rem;">Security Report Generator</a>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

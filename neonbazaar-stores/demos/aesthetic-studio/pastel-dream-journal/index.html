@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pastel Dream Journal — Interactive Viewer</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0a0a12;
+    color: #e0e0f0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+  }
+  h1 {
+    font-size: 1.6rem;
+    letter-spacing: 0.12em;
+    background: linear-gradient(90deg, #FFB5C5, #C5B5FF, #B5FFC5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.3rem;
+  }
+  .subtitle { font-size: 0.85rem; color: #5a5a7a; margin-bottom: 1.8rem; }
+
+  /* ── Journal book ── */
+  .journal-wrapper {
+    perspective: 1400px;
+    width: 460px;
+    height: 640px;
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  .page {
+    position: absolute;
+    inset: 0;
+    background: #FFF5F9;
+    border-radius: 8px;
+    box-shadow: 0 8px 40px rgba(255,181,197,0.12), 0 2px 12px rgba(0,0,0,0.5);
+    padding: 2rem 1.8rem;
+    color: #4A3F55;
+    font-size: 0.82rem;
+    overflow-y: auto;
+    backface-visibility: hidden;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+  }
+  .page.hidden-left  { transform: rotateY(20deg) translateX(-60px) scale(0.92); opacity: 0; pointer-events: none; }
+  .page.hidden-right { transform: rotateY(-20deg) translateX(60px) scale(0.92); opacity: 0; pointer-events: none; }
+  .page.active       { transform: rotateY(0) translateX(0) scale(1); opacity: 1; }
+
+  .page h2 {
+    text-align: center;
+    background: #FFB5C5;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  .page h3 { color: #FFB5C5; font-size: 0.85rem; margin: 0.8rem 0 0.3rem; }
+  .page .field-line {
+    border-bottom: 1px solid #C5B5FF;
+    min-height: 22px;
+    margin-bottom: 0.3rem;
+    line-height: 22px;
+    color: #8A7F99;
+    font-size: 0.78rem;
+  }
+  .page .field-line.filled { color: #4A3F55; }
+  .page .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.25rem;
+  }
+  .page .cb {
+    width: 14px; height: 14px;
+    border: 1.5px solid #C5B5FF;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #B5FFC5;
+    flex-shrink: 0;
+  }
+  .page .cb.checked::after { content: '\2713'; }
+  .page .doodle-box {
+    border: 1.5px dashed #FFDDE5;
+    border-radius: 10px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #C5B5FF;
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  .page .seal {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  .page .seal-circle {
+    display: inline-flex;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: #FFB5C5;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(255,181,197,0.4);
+  }
+
+  /* ── Navigation ── */
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  .nav button {
+    background: #16162a;
+    color: #FFB5C5;
+    border: 1px solid #2a2a3a;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.2s;
+  }
+  .nav button:hover { border-color: #FFB5C5; background: rgba(255,181,197,0.08); }
+  .nav button:disabled { opacity: 0.25; cursor: default; }
+  .nav .page-info {
+    font-size: 0.85rem;
+    color: #6a6a8a;
+    min-width: 130px;
+    text-align: center;
+  }
+  .page-title-bar {
+    font-size: 0.8rem;
+    color: #8a8aaa;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<h1>Pastel Dream Journal</h1>
+<p class="subtitle">Interactive Journal Viewer &middot; 12 page templates</p>
+<p class="page-title-bar" id="pageTitle"></p>
+
+<div class="journal-wrapper" id="journal"></div>
+
+<div class="nav">
+  <button id="prevBtn" aria-label="Previous page">&#8592;</button>
+  <span class="page-info" id="pageInfo">1 / 12</span>
+  <button id="nextBtn" aria-label="Next page">&#8594;</button>
+</div>
+
+<script>
+/* ── Page content data (with some sample entries filled in) ── */
+const pages = [
+  {
+    id: 'daily_planner', title: 'Daily Planner',
+    html: `<h2>Daily Planner</h2>
+      <h3>Date</h3><div class="field-line filled">March 12, 2026</div>
+      <h3>Schedule</h3>
+      <div class="field-line filled">8:00 AM — Morning walk &amp; coffee</div>
+      <div class="field-line filled">9:00 AM — Deep work session</div>
+      <div class="field-line filled">12:00 PM — Lunch with Mika</div>
+      <div class="field-line">2:00 PM — </div>
+      <div class="field-line">4:00 PM — </div>
+      <h3>To-Do</h3>
+      <div class="checkbox-row"><span class="cb checked"></span> Finish chapter 3 notes</div>
+      <div class="checkbox-row"><span class="cb checked"></span> Reply to emails</div>
+      <div class="checkbox-row"><span class="cb"></span> Grocery shopping</div>
+      <div class="checkbox-row"><span class="cb"></span> Water plants</div>
+      <h3>Notes</h3>
+      <div class="field-line filled">Remember to breathe. One thing at a time.</div>
+      <div class="field-line"></div>`
+  },
+  {
+    id: 'gratitude_log', title: 'Gratitude Log',
+    html: `<h2>Gratitude Log</h2>
+      <h3>I am grateful for...</h3>
+      <div class="field-line filled">1. The warm sunlight through my window this morning</div>
+      <div class="field-line filled">2. My friend who always checks in on me</div>
+      <div class="field-line filled">3. Fresh strawberries at the market</div>
+      <h3>Today's Affirmation</h3>
+      <div class="field-line filled">I am enough, exactly as I am right now.</div>
+      <div class="field-line"></div>
+      <div class="doodle-box">~ doodle space ~</div>`
+  },
+  {
+    id: 'habit_tracker', title: 'Habit Tracker',
+    html: `<h2>Habit Tracker</h2>
+      <h3>Month: March 2026</h3>
+      <div style="display:grid; grid-template-columns: 120px repeat(7, 1fr); gap:3px; font-size:0.7rem; margin-top:0.5rem;">
+        <div style="color:#FFB5C5; font-weight:600;">Habit</div>
+        <div style="text-align:center; color:#8A7F99;">1</div><div style="text-align:center; color:#8A7F99;">2</div><div style="text-align:center; color:#8A7F99;">3</div><div style="text-align:center; color:#8A7F99;">4</div><div style="text-align:center; color:#8A7F99;">5</div><div style="text-align:center; color:#8A7F99;">6</div><div style="text-align:center; color:#8A7F99;">7</div>
+        <div>Drink water</div><div class="cb checked" style="margin:auto;"></div><div class="cb checked" style="margin:auto;"></div><div class="cb checked" style="margin:auto;"></div><div class="cb" style="margin:auto;"></div><div class="cb" style="margin:auto;"></div><div class="cb" style="margin:auto;"></div><div class="cb" style="margin:auto;"></div>
+        <div>Read 20 min</div><div class="cb checked" style="margin:auto;"></div><div class="cb" style="margin:auto;"></div><div class="cb checked" style="margin:auto;"></div><div class="cb checked" style="margin:auto;"></div><div class="cb" style="margin:auto;"></div><div class="cb" style="margin:auto;"></div><div class="cb" style="margin:auto;"></div>
+        <div>Exercise</div><div class="cb checked" style="margin:auto;"></div><div class="cb checked" style="margin:auto;"></div><div class="cb" style="margin:auto;"></div><div class="cb" style="margin:auto;"></div><div class="cb" style="margin:auto;"></div><div class="cb" style="margin:auto;"></div><div class="cb" style="margin:auto;"></div>
+        <div>Journal</div><div class="cb checked" style="margin:auto;"></div><div class="cb checked" style="margin:auto;"></div><div class="cb checked" style="margin:auto;"></div><div class="cb checked" style="margin:auto;"></div><div class="cb" style="margin:auto;"></div><div class="cb" style="margin:auto;"></div><div class="cb" style="margin:auto;"></div>
+      </div>`
+  },
+  {
+    id: 'mood_chart', title: 'Mood Chart',
+    html: `<h2>Mood Chart</h2>
+      <h3>Month: March 2026</h3>
+      <div style="display:flex; gap:0.3rem; flex-wrap:wrap; margin:0.5rem 0;">
+        <span style="background:#FFB5C5; padding:2px 8px; border-radius:10px; font-size:0.7rem;">Amazing</span>
+        <span style="background:#FFD4B5; padding:2px 8px; border-radius:10px; font-size:0.7rem;">Happy</span>
+        <span style="background:#FFFAB5; padding:2px 8px; border-radius:10px; font-size:0.7rem;">Good</span>
+        <span style="background:#B5FFC5; padding:2px 8px; border-radius:10px; font-size:0.7rem;">Okay</span>
+        <span style="background:#B5E8FF; padding:2px 8px; border-radius:10px; font-size:0.7rem;">Meh</span>
+        <span style="background:#C5B5FF; padding:2px 8px; border-radius:10px; font-size:0.7rem;">Low</span>
+        <span style="background:#D4B5D4; padding:2px 8px; border-radius:10px; font-size:0.7rem;">Rough</span>
+      </div>
+      <div class="field-line filled">Day 1 &mdash; <span style="color:#FFB5C5;">&#9679;</span> Amazing — great start to the month!</div>
+      <div class="field-line filled">Day 2 &mdash; <span style="color:#FFFAB5;">&#9679;</span> Good — steady day</div>
+      <div class="field-line filled">Day 3 &mdash; <span style="color:#FFD4B5;">&#9679;</span> Happy — got good news</div>
+      <div class="field-line">Day 4 &mdash;</div>
+      <div class="field-line">Day 5 &mdash;</div>`
+  },
+  {
+    id: 'brain_dump', title: 'Brain Dump',
+    html: `<h2>Brain Dump</h2>
+      <div class="doodle-box" style="min-height:380px; flex-direction:column; gap:0.5rem; padding:1rem; align-items:flex-start; justify-content:flex-start; color:#4A3F55; font-size:0.8rem;">
+        <div>What if I started that pottery class?</div>
+        <div style="color:#C5B5FF;">Need to reorganize the bookshelf...</div>
+        <div>App idea: plant watering reminder with cute animations</div>
+        <div style="color:#FFB5C5;">Song stuck in my head all day</div>
+        <div>Remember to call grandma this weekend</div>
+      </div>`
+  },
+  {
+    id: 'goal_setter', title: 'Goal Setter',
+    html: `<h2>Goal Setter</h2>
+      <h3>My Goal</h3>
+      <div class="field-line filled">Read 24 books this year</div>
+      <h3>Deadline</h3>
+      <div class="field-line filled">December 31, 2026</div>
+      <h3>Action Steps</h3>
+      <div class="field-line filled">1. Read 20 minutes every morning</div>
+      <div class="field-line filled">2. Join a book club for accountability</div>
+      <div class="field-line filled">3. Keep a reading list in this journal</div>
+      <div class="field-line">4. </div>
+      <h3>Why This Matters To Me</h3>
+      <div class="field-line filled">Reading expands my perspective and brings me calm.</div>
+      <div class="field-line"></div>`
+  },
+  {
+    id: 'weekly_overview', title: 'Weekly Overview',
+    html: `<h2>Weekly Overview</h2>
+      <h3>Week of: March 9, 2026</h3>
+      <div style="display:grid; gap:4px; margin-top:0.5rem;">
+        <div style="background:#fff; border:1px solid #C5B5FF; border-radius:5px; padding:6px;"><strong style="color:#FFB5C5;">Monday</strong><div class="field-line filled" style="font-size:0.75rem;">Team meeting, dentist at 3pm</div></div>
+        <div style="background:#fff; border:1px solid #C5B5FF; border-radius:5px; padding:6px;"><strong style="color:#FFB5C5;">Tuesday</strong><div class="field-line" style="font-size:0.75rem;"></div></div>
+        <div style="background:#fff; border:1px solid #C5B5FF; border-radius:5px; padding:6px;"><strong style="color:#FFB5C5;">Wednesday</strong><div class="field-line filled" style="font-size:0.75rem;">Yoga class, dinner with Sari</div></div>
+        <div style="background:#fff; border:1px solid #C5B5FF; border-radius:5px; padding:6px;"><strong style="color:#FFB5C5;">Thursday</strong><div class="field-line" style="font-size:0.75rem;"></div></div>
+        <div style="background:#fff; border:1px solid #C5B5FF; border-radius:5px; padding:6px;"><strong style="color:#FFB5C5;">Friday</strong><div class="field-line" style="font-size:0.75rem;"></div></div>
+      </div>
+      <h3>Top Priorities</h3>
+      <div class="checkbox-row"><span class="cb checked"></span> Submit project proposal</div>
+      <div class="checkbox-row"><span class="cb"></span> Plan weekend trip</div>`
+  },
+  {
+    id: 'reading_list', title: 'Reading List',
+    html: `<h2>Reading List</h2>
+      <div style="font-size:0.75rem;">
+        <div style="display:grid; grid-template-columns: 30px 1fr 1fr 60px 70px; gap:4px; padding:4px 0; border-bottom:2px solid #FFB5C5; font-weight:600; color:#FFB5C5;">#<span></span><span>Title</span><span>Author</span><span>Rating</span><span>Status</span></div>
+        <div style="display:grid; grid-template-columns: 30px 1fr 1fr 60px 70px; gap:4px; padding:4px 0; border-bottom:1px solid #FFDDE5;">1<span></span><span>Klara and the Sun</span><span>Ishiguro</span><span>&#9733;&#9733;&#9733;&#9733;&#9733;</span><span style="color:#B5FFC5;">Done</span></div>
+        <div style="display:grid; grid-template-columns: 30px 1fr 1fr 60px 70px; gap:4px; padding:4px 0; border-bottom:1px solid #FFDDE5;">2<span></span><span>Project Hail Mary</span><span>Weir</span><span>&#9733;&#9733;&#9733;&#9733;</span><span style="color:#FFB5C5;">Reading</span></div>
+        <div style="display:grid; grid-template-columns: 30px 1fr 1fr 60px 70px; gap:4px; padding:4px 0; border-bottom:1px solid #FFDDE5;">3<span></span><span></span><span></span><span></span><span></span></div>
+      </div>`
+  },
+  {
+    id: 'self_care_checklist', title: 'Self-Care Checklist',
+    html: `<h2>Self-Care Checklist</h2>
+      <h3>Body</h3>
+      <div class="checkbox-row"><span class="cb checked"></span> Drank enough water</div>
+      <div class="checkbox-row"><span class="cb checked"></span> Ate nourishing meals</div>
+      <div class="checkbox-row"><span class="cb"></span> Moved my body</div>
+      <div class="checkbox-row"><span class="cb checked"></span> Got enough sleep</div>
+      <div class="checkbox-row"><span class="cb"></span> Took a walk outside</div>
+      <h3>Mind</h3>
+      <div class="checkbox-row"><span class="cb checked"></span> Read something inspiring</div>
+      <div class="checkbox-row"><span class="cb checked"></span> Journaled my thoughts</div>
+      <div class="checkbox-row"><span class="cb"></span> Practiced mindfulness</div>
+      <h3>Soul</h3>
+      <div class="checkbox-row"><span class="cb"></span> Connected with someone I love</div>
+      <div class="checkbox-row"><span class="cb checked"></span> Did something creative</div>
+      <h3>How Am I Feeling?</h3>
+      <div class="field-line filled">Calm and grounded today. Grateful for quiet mornings.</div>`
+  },
+  {
+    id: 'dream_log', title: 'Dream Log',
+    html: `<h2>Dream Log</h2>
+      <h3>Date</h3><div class="field-line filled">March 11, 2026</div>
+      <h3>Dream Description</h3>
+      <div class="field-line filled">I was in a library that kept growing — every time I turned a corner, new rooms appeared with books in languages I somehow understood.</div>
+      <div class="field-line filled">There was a cat sitting on a stack of books, watching me calmly.</div>
+      <h3>Dream Mood</h3><div class="field-line filled">Curious, wonderstruck</div>
+      <h3>Symbols &amp; Imagery</h3>
+      <div class="field-line filled">People: none &middot; Places: infinite library &middot; Objects: books, cat</div>
+      <h3>Recurring Themes</h3>
+      <div class="field-line filled">Expanding spaces, hidden knowledge</div>`
+  },
+  {
+    id: 'letter_to_future_me', title: 'Letter to Future Me',
+    html: `<h2>Letter to Future Me</h2>
+      <div class="field-line filled">Written on: March 12, 2026</div>
+      <div class="field-line">Open on: March 12, 2027</div>
+      <h3 style="margin-top:1rem;">Dear Future Me,</h3>
+      <div class="field-line filled">I hope you kept that promise to yourself. I hope the garden grew, and you found the courage to try the thing that scares you.</div>
+      <div class="field-line filled">Remember how strong you were this spring. You handled it all.</div>
+      <div class="field-line"></div>
+      <div class="field-line"></div>
+      <div style="text-align:right; color:#4A3F55; margin-top:1rem;">With love, Past Me</div>
+      <div class="seal"><div class="seal-circle">&hearts;</div></div>`
+  },
+  {
+    id: 'monthly_reflection', title: 'Monthly Reflection',
+    html: `<h2>Monthly Reflection</h2>
+      <h3>Month: February 2026</h3>
+      <h3>Highlights &amp; Wins</h3>
+      <div class="field-line filled">Launched the project on time. Made a new friend at the workshop.</div>
+      <div class="field-line"></div>
+      <h3>Lessons Learned</h3>
+      <div class="field-line filled">Saying no is a form of self-care. Progress > perfection.</div>
+      <div class="field-line"></div>
+      <h3>Goals for Next Month</h3>
+      <div class="field-line filled">1. Consistent morning routine</div>
+      <div class="field-line filled">2. Finish the online course</div>
+      <div class="field-line"></div>
+      <h3>Gratitude</h3>
+      <div class="field-line filled">Grateful for patience, good coffee, and the people who stayed.</div>`
+  }
+];
+
+/* ── Viewer logic ── */
+let current = 0;
+const journal = document.getElementById('journal');
+const info = document.getElementById('pageInfo');
+const titleBar = document.getElementById('pageTitle');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+function render() {
+  journal.innerHTML = '';
+  pages.forEach((p, i) => {
+    const div = document.createElement('div');
+    div.className = 'page ' + (i < current ? 'hidden-left' : i > current ? 'hidden-right' : 'active');
+    div.innerHTML = p.html;
+    journal.appendChild(div);
+  });
+  info.textContent = `${current + 1} / ${pages.length}`;
+  titleBar.textContent = pages[current].title;
+  prevBtn.disabled = current === 0;
+  nextBtn.disabled = current === pages.length - 1;
+}
+
+prevBtn.addEventListener('click', () => { if (current > 0) { current--; render(); } });
+nextBtn.addEventListener('click', () => { if (current < pages.length - 1) { current++; render(); } });
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') prevBtn.click();
+  if (e.key === 'ArrowRight') nextBtn.click();
+});
+
+render();
+</script>
+</body>
+</html>

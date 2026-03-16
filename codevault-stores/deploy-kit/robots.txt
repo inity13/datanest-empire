@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://deploy-kit.codevault.dev/sitemap.xml

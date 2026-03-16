@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cron Job Builder Demo — Automation Hub</title>
+<style>
+  :root { --brand: #18FFFF; --bg: #0A0E1A; --panel: #0d1321; --border: #1e2a3a; --text: #e2e8f0; --muted: #64748b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 820px; margin: 0 auto; }
+  h1 { color: var(--brand); font-size: 1.6rem; margin-bottom: 0.3rem; }
+  .subtitle { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem; }
+  .panel h2 { color: var(--brand); font-size: 1rem; margin-bottom: 1rem; }
+  label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 0.3rem; margin-top: 0.75rem; }
+  input, select { width: 100%; background: #0a1020; border: 1px solid var(--border); border-radius: 4px; color: var(--text); padding: 0.5rem 0.75rem; font-size: 0.9rem; }
+  input:focus, select:focus { outline: none; border-color: var(--brand); }
+  .row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn { background: var(--brand); color: #000; border: none; border-radius: 6px; padding: 0.6rem 1.4rem; font-weight: 700; cursor: pointer; font-size: 0.9rem; margin-top: 1rem; }
+  .btn:hover { opacity: 0.85; }
+  .cron-display { font-family: monospace; font-size: 1.6rem; font-weight: 700; color: var(--brand); background: #060d1a; border: 1px solid var(--border); border-radius: 8px; padding: 1rem; text-align: center; margin-bottom: 1rem; letter-spacing: 0.1em; }
+  .human-display { text-align: center; color: var(--text); font-size: 1rem; margin-bottom: 1rem; }
+  .next-runs { margin-top: 0.75rem; }
+  .next-run-row { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+  .next-run-row:last-child { border-bottom: none; }
+  .run-num { color: var(--muted); }
+  .run-time { color: var(--brand); font-family: monospace; }
+  .presets { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .preset { background: #0a1020; border: 1px solid var(--border); border-radius: 6px; padding: 0.3rem 0.75rem; cursor: pointer; font-size: 0.8rem; color: var(--muted); }
+  .preset:hover { border-color: var(--brand); color: var(--brand); }
+  .field-label { font-size: 0.72rem; color: var(--muted); text-align: center; margin-top: 0.25rem; }
+  .cta-bar { background: linear-gradient(135deg, #001a1a, #002a2a); border: 1px solid var(--brand); border-radius: 8px; padding: 1.25rem; margin-top: 1.5rem; text-align: center; }
+  .cta-bar h3 { color: var(--brand); margin-bottom: 0.4rem; }
+  .cta-bar p { color: var(--muted); font-size: 0.85rem; margin-bottom: 1rem; }
+  .buy-btn { display: inline-block; background: var(--brand); color: #000; text-decoration: none; padding: 0.75rem 2rem; border-radius: 6px; font-weight: 700; font-size: 1rem; }
+  .buy-btn:hover { opacity: 0.85; }
+  .footer-note { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 1rem; }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>⏱️ Cron Job Builder</h1>
+  <p class="subtitle">Build cron expressions visually, get human-readable output, and preview the next 5 run times.</p>
+
+  <div class="panel">
+    <h2>Quick Presets</h2>
+    <div class="presets">
+      <span class="preset" onclick="applyPreset('0 * * * *')">Every hour</span>
+      <span class="preset" onclick="applyPreset('0 0 * * *')">Daily midnight</span>
+      <span class="preset" onclick="applyPreset('0 9 * * 1-5')">Weekdays 9am</span>
+      <span class="preset" onclick="applyPreset('*/15 * * * *')">Every 15 min</span>
+      <span class="preset" onclick="applyPreset('0 0 * * 0')">Weekly Sunday</span>
+      <span class="preset" onclick="applyPreset('0 0 1 * *')">Monthly 1st</span>
+      <span class="preset" onclick="applyPreset('30 6 * * *')">Daily 6:30am</span>
+      <span class="preset" onclick="applyPreset('0 */6 * * *')">Every 6 hours</span>
+    </div>
+
+    <h2>Custom Expression Builder</h2>
+    <div class="row">
+      <div>
+        <input id="fMin" type="text" value="0" oninput="buildCron()" />
+        <div class="field-label">Minute</div>
+      </div>
+      <div>
+        <input id="fHour" type="text" value="9" oninput="buildCron()" />
+        <div class="field-label">Hour</div>
+      </div>
+      <div>
+        <input id="fDay" type="text" value="*" oninput="buildCron()" />
+        <div class="field-label">Day of Month</div>
+      </div>
+      <div>
+        <input id="fMonth" type="text" value="*" oninput="buildCron()" />
+        <div class="field-label">Month</div>
+      </div>
+      <div>
+        <input id="fWeekday" type="text" value="1-5" oninput="buildCron()" />
+        <div class="field-label">Day of Week</div>
+      </div>
+    </div>
+
+    <div class="row-2" style="margin-top:0.75rem">
+      <div>
+        <label>Timezone</label>
+        <select id="tz">
+          <option>UTC</option>
+          <option>America/New_York</option>
+          <option>America/Los_Angeles</option>
+          <option>Europe/London</option>
+          <option>Europe/Helsinki</option>
+          <option>Asia/Tokyo</option>
+        </select>
+      </div>
+      <div>
+        <label>Command (for display)</label>
+        <input id="command" type="text" value="/usr/bin/python3 /opt/scripts/backup.py" />
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Result</h2>
+    <div class="cron-display" id="cronDisplay">0 9 * * 1-5</div>
+    <div class="human-display" id="humanDisplay">At 09:00, Monday through Friday</div>
+    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem">crontab entry:</div>
+    <div style="font-family:monospace;font-size:0.85rem;background:#060d1a;padding:0.6rem;border-radius:4px;color:#94a3b8" id="crontabLine"></div>
+
+    <div class="next-runs" id="nextRuns"></div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Get the Full Cron Job Builder — $19</h3>
+    <p>Python scheduler with subprocess execution, retry logic, logging, Slack alerts, and crontab deploy automation.</p>
+    <a class="buy-btn" href="https://buy.stripe.com/cNi7sLayX3CC7pgcOBgjJ0v">Buy Full Version — $19</a>
+    <button class="crypto-pay-btn" data-product-slug="cron-job-manager" data-store-slug="automation-hub" data-product-name="Cron Job Manager" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo generates cron expressions and calculates next run times. Full version includes a complete Python scheduling framework with monitoring.</p>
+</div>
+<script>
+  function applyPreset(expr) {
+    const parts = expr.split(' ');
+    document.getElementById('fMin').value = parts[0];
+    document.getElementById('fHour').value = parts[1];
+    document.getElementById('fDay').value = parts[2];
+    document.getElementById('fMonth').value = parts[3];
+    document.getElementById('fWeekday').value = parts[4];
+    buildCron();
+  }
+
+  function buildCron() {
+    const min = document.getElementById('fMin').value.trim() || '*';
+    const hour = document.getElementById('fHour').value.trim() || '*';
+    const day = document.getElementById('fDay').value.trim() || '*';
+    const month = document.getElementById('fMonth').value.trim() || '*';
+    const wd = document.getElementById('fWeekday').value.trim() || '*';
+    const cmd = document.getElementById('command').value || 'your-command';
+    const tz = document.getElementById('tz').value;
+
+    const expr = `${min} ${hour} ${day} ${month} ${wd}`;
+    document.getElementById('cronDisplay').textContent = expr;
+    document.getElementById('humanDisplay').textContent = humanize(min, hour, day, month, wd);
+    document.getElementById('crontabLine').textContent = `# ${tz}\n${expr}    ${cmd}`;
+    renderNextRuns(min, hour, day, month, wd);
+  }
+
+  function humanize(min, hour, day, month, wd) {
+    let parts = [];
+    // Minute
+    if (min === '*') parts.push('every minute');
+    else if (min.startsWith('*/')) parts.push(`every ${min.slice(2)} minutes`);
+    else parts.push(`at minute ${min}`);
+    // Hour
+    if (hour === '*') {}
+    else if (hour.startsWith('*/')) parts.push(`every ${hour.slice(2)} hours`);
+    else parts.push(`at ${String(hour).padStart(2,'0')}:${String(min).padStart(2,'0').replace('*','00')}`);
+    // Day of week
+    const days = {0:'Sunday',1:'Monday',2:'Tuesday',3:'Wednesday',4:'Thursday',5:'Friday',6:'Saturday'};
+    if (wd !== '*' && wd !== '0-6') {
+      if (wd === '1-5') parts.push('Monday through Friday');
+      else if (wd === '0,6') parts.push('weekends');
+      else parts.push(`on ${wd}`);
+    }
+    // Day of month
+    if (day !== '*') parts.push(`on day ${day} of the month`);
+    // Month
+    const months = {1:'January',2:'February',3:'March',4:'April',5:'May',6:'June',7:'July',8:'August',9:'September',10:'October',11:'November',12:'December'};
+    if (month !== '*') parts.push(`in ${months[+month] || month}`);
+
+    // Compose
+    if (min === '0' && hour !== '*') return `At ${String(hour).padStart(2,'0')}:00${wd!=='*'?', '+parts.filter(p=>p.includes('day')||p.includes('Mon')||p.includes('week')).join(', '):''}`;
+    return parts.join(', ');
+  }
+
+  function renderNextRuns(min, hour, day, month, wd) {
+    const now = new Date();
+    const runs = [];
+    // Simple simulation: advance time until we find 5 matching times
+    let cur = new Date(now.getTime() + 60000);
+    let attempts = 0;
+    while (runs.length < 5 && attempts < 10000) {
+      if (matchesCron(cur, min, hour, day, month, wd)) {
+        runs.push(new Date(cur));
+      }
+      cur = new Date(cur.getTime() + 60000);
+      attempts++;
+    }
+
+    document.getElementById('nextRuns').innerHTML = '<div style="font-size:0.85rem;color:var(--muted);margin-bottom:0.5rem">Next 5 Runs</div>' +
+      runs.map((r, i) => `<div class="next-run-row"><span class="run-num">Run ${i+1}</span><span class="run-time">${r.toISOString().replace('T',' ').slice(0,16)} UTC</span></div>`).join('');
+  }
+
+  function matchesCron(date, min, hour, day, month, wd) {
+    return matchField(date.getUTCMinutes(), min) &&
+           matchField(date.getUTCHours(), hour) &&
+           matchField(date.getUTCDate(), day) &&
+           matchField(date.getUTCMonth()+1, month) &&
+           matchField(date.getUTCDay(), wd);
+  }
+
+  function matchField(val, expr) {
+    if (expr === '*') return true;
+    if (expr.startsWith('*/')) return val % parseInt(expr.slice(2)) === 0;
+    if (expr.includes('-')) {
+      const [a,b] = expr.split('-').map(Number);
+      return val >= a && val <= b;
+    }
+    if (expr.includes(',')) return expr.split(',').map(Number).includes(val);
+    return parseInt(expr) === val;
+  }
+
+  buildCron();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

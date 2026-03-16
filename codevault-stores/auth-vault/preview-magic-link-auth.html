@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic Link Auth &mdash; Auth Vault &mdash; CodeVault</title>
+    <meta name="description" content="Python passwordless authentication via magic links with secure token generation, email templates, rate limiting, and a complete HTTP login flow. Zero dependencies.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F510;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#E91E63">
+    <script defer data-domain="auth-vault.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Auth Vault</a>
+        <h1 class="preview-page__title">Magic Link Auth</h1>
+        <p class="preview-page__price">$4.99</p>
+        <p class="preview-page__desc">Passwordless authentication via magic links. Generates cryptographically secure tokens, embeds them in customizable email templates, enforces single-use and expiration policies, and includes rate limiting. Complete HTTP server for the login flow. Runs on Python 3.10+ stdlib only.</p>
+
+        <ul class="preview-page__features">
+            <li>Cryptographically secure token generation (URL-safe)</li>
+            <li>Single-use tokens with configurable expiration (default: 15 min)</li>
+            <li>Rate limiting: max N requests per email per time window</li>
+            <li>HTML email templates with customizable branding</li>
+            <li>Token verification with automatic cleanup of expired tokens</li>
+            <li>Complete HTTP login flow with redirect after verification</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Start the magic link auth server
+python main.py serve --port 8080 --base-url http://localhost:8080
+
+# Send a magic link to an email
+python main.py send --email user@example.com
+
+# Verify a magic link token
+python main.py verify --token abc123def456</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_magic_link_auth"
+               data-product="magic-link-auth">
+                Grab This &mdash; $4.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Magic Link Auth"
+                    data-crypto-price="424">
+                Pay with Crypto ($4.24)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

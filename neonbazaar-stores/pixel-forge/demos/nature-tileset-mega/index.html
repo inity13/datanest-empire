@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nature Tileset — Scene Demo</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{background:#0a1a0a;color:#e0e8e0;font-family:'Courier New',monospace;display:flex;flex-direction:column;align-items:center;padding:16px;}
+        canvas{display:block;image-rendering:pixelated;border:1px solid #2a3a2a;}
+        #info{margin-top:8px;color:#6a8a5a;font-size:11px;}
+    .crypto-pay-btn{background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem}
+.crypto-pay-btn:hover{opacity:0.9}
+</style>
+</head>
+<body>
+    <canvas id="game" width="480" height="360"></canvas>
+    <div id="info">Arrow keys to scroll the map. A peaceful nature scene built with the tileset.</div>
+<script>
+const canvas=document.getElementById('game');
+const ctx=canvas.getContext('2d');
+const W=480,H=360;
+const TS=24; // tile display size
+const P={_:null,g:'#7ec850',G:'#5da83a',d:'#3d7a24',w:'#5bc0eb',W:'#3a9fd5',D:'#2480b0',p:'#c9a96e',P:'#a0824a',q:'#7a6030',s:'#e8d5a0',S:'#c8b580',n:'#f0f0ff',N:'#d0d8e8',t:'#6b4423',T:'#4a2e15',l:'#4cb868',L:'#2d8a4e',k:'#1a6634',o:'#a0a0a0',O:'#808080',x:'#6a6a6a',r:'#e74c3c',b:'#3498db',y:'#f1c40f',m:'#8a7a6a',M:'#6a5a4a',h:'#4a3a2a',e:'#e0e8f0',u:'#8b6914',U:'#5c4a1e'};
+
+// Tile pixel data (16x16 each)
+const TD={
+g1:['gGgGggGgggGgggGg','GgGggGgGgGggGgGg','gGggGgGgggGgGggG','GgGgGgggGgGgggGg','ggGgggGgGgggGgGg','gGggGgGgggGgGggg','GgGgggggGgGgggGg','ggGgGgGgggGgGgGg','gGgGggGgGgggGggg','GggGgGgggGgGggGg','gGgggGgGgGggGgGg','GgGgGgggGgGgggGg','ggGgggGgggGgGggg','gGggGgGgGgggGgGg','GgGgggggGgGgggGg','gGgGgGgGggGgGgGg'],
+g2:['GGdGGGgGGdGGGgGG','GgGGdGGGGGdGGGgG','GGGgGGdGGgGGdGGG','dGGGGgGGGGGgGGGd','GGdGGGGdGGGGGgGG','GgGGGgGGGdGGGGGG','GGGdGGGgGGGGdGGg','GGGGGdGGGGgGGGGG','dGGgGGGGdGGGGGdG','GGGGGGgGGGGdGGGG','GGdGGGGGGgGGGGgG','GgGGGdGGGGGGdGGG','GGGgGGGGdGGGGGGd','GGGGGGgGGGGgGGGG','dGGdGGGGGdGGGGgG','GGGGGgGGGGGGdGGG'],
+g3:['ddGddGddGddGddGd','dGddGddGddGddGdd','GddGddGddGddGddG','ddGdddGddGdddGdd','dGddGddGddGddGdd','GddGddGdddGddGdd','ddGddGddGddGddGd','dGddGdddGddGdddG','GddGddGddGddGddG','ddGdddGddGdddGdd','dGddGddGddGddGdd','GddGddGdddGddGdd','ddGddGddGddGddGd','dGddGdddGddGdddG','GddGddGddGddGddG','ddGddGddGddGddGd'],
+w0:['WWwWWWwWWWwWWWwW','WwWWwWWwWWwWWwWW','wWWwWWwWWwWWwWWw','WWwWWDWWwWWDWWwW','WwWWwWWwWWwWWwWW','wWWwWWwWWDWWwWWw','WWDWWwWWwWWwWWDW','WwWWwWWwWWwWWwWW','wWWwWWDWWwWWDWWw','WWwWWwWWwWWwWWwW','WwWWDWWwWWDWWwWW','wWWwWWwWWwWWwWWw','WWwWWwWWDWWwWWwW','WDWWwWWwWWwWWDWW','wWWwWWwWWwWWwWWw','WWwWWDWWwWWDWWwW'],
+w1:['wWWwWWwWWwWWwWWw','WWwWWwWWDWWwWWwW','WwWWDWWwWWDWWwWW','wWWwWWwWWwWWwWWw','WWwWWwWWDWWwWWwW','WDWWwWWwWWwWWDWW','wWWwWWwWWwWWwWWw','WWwWWDWWwWWDWWwW','WwWWwWWwWWwWWwWW','wWWwWWwWWDWWwWWw','WWDWWwWWwWWwWWDW','WwWWwWWwWWwWWwWW','wWWwWWDWWwWWDWWw','WWwWWwWWwWWwWWwW','WwWWDWWwWWDWWwWW','wWWwWWwWWwWWwWWw'],
+w2:['WwWWwWWwWWwWWwWW','wWWwWWDWWwWWDWWw','WWwWWwWWwWWwWWwW','WwWWDWWwWWDWWwWW','wWWwWWwWWwWWwWWw','WWwWWwWWDWWwWWwW','WDWWwWWwWWwWWDWW','wWWwWWwWWwWWwWWw','WWwWWDWWwWWDWWwW','WwWWwWWwWWwWWwWW','wWWwWWwWWDWWwWWw','WWDWWwWWwWWwWWDW','WwWWwWWwWWwWWwWW','wWWwWWDWWwWWDWWw','WWwWWwWWwWWwWWwW','WwWWDWWwWWDWWwWW'],
+d1:['PPpPPqPPpPPqPPpP','PpPPpPPpPPpPPpPP','pPPpPPqPPpPPqPPp','PPqPPpPPpPPpPPqP','PpPPpPPqPPqPPpPP','pPPqPPpPPpPPpPPq','PPpPPpPPqPPpPPpP','PpPPqPPpPPpPPqPP','qPPpPPpPPqPPpPPp','PPpPPqPPpPPpPPpP','PpPPpPPpPPqPPpPP','pPPqPPqPPpPPpPPq','PPpPPpPPpPPqPPpP','PqPPpPPqPPpPPpPP','pPPpPPpPPpPPqPPp','PPqPPqPPpPPpPPqP'],
+tt:['GGGGGGttttGGGGGG','GGGGGGtTttGGGGGG','GGGGGGtTTtGGGGGG','GGGGGGttTtGGGGGG','GGGGGGtTttGGGGGG','GGGGGGtTTtGGGGGG','GGGGGGttTtGGGGGG','GGGGGGtTttGGGGGG','GGGGGGtTTtGGGGGG','GGGGGGttTtGGGGGG','GGGGGGtTttGGGGGG','GGGGGGtTTtGGGGGG','GGGGGttTTttGGGGG','GGGGttTTTTttGGGG','GGGdtTTTTTTtdGGG','GGddTTTTTTTTddGG'],
+tc:['____LLLLllll____','___LLLkLlllll___','__LLLkLLllllll__','_LLkLLLLlllllll_','LLLLkLLLllllllll','LkLLLLkLlllllllL','LLLkLLLLlllllkLL','LLLLkLLLllllLLLL','LLLLLkLLlllLkLLL','LLkLLLLLllLLLLLL','LLLLkLLLlLLLkLLL','LLLLLkLLLLLLLLLL','_LLLLLkLLLLkLLL_','__LLLLLLLLkLLL__','___LLLLLLLLLL___','____LLLLLLLL____'],
+pt:['GGGGGGGkkGGGGGGG','GGGGGGkLLkGGGGGG','GGGGGkLLLLkGGGGG','GGGGkLLkLLLkGGGG','GGGkLLLkLLLLkGGG','GGkLLLLLkLLLLkGG','GGGGkLLLLkLLkGGG','GGGkLLkLLLLLLkGG','GGkLLLLkLLLLLLkG','GkLLLLLLkLLLLLLk','GGGkLLLLLkLLLkGG','GGkLLLkLLLLLLLkG','GkLLLLLkLLLLLLLk','kLLLLLLLkLLLLLLk','GGGGGGGttGGGGGGG','GGGGGGGttGGGGGGG'],
+bu:['GGGGGGGGGGGGGGGG','GGGGGGllllGGGGGG','GGGGGlLLLLlGGGGG','GGGGlLLkLLLlGGGG','GGGlLLkLLLLLlGGG','GGlLLLLkLLkLLlGG','GGlLkLLLLLLkLlGG','GGlLLLkLLkLLLlGG','GGGlLLLLLLLLlGGG','GGGGlLkLLkLlGGGG','GGGGGlLLLLlGGGGG','GGGGGGllllGGGGGG','GGGGGGGGGGGGGGGG','GGGGGGGGGGGGGGGG','GGGGGGGGGGGGGGGG','GGGGGGGGGGGGGGGG'],
+fr:['gGgGggGgggGgggGg','GgrGgGgGgGggrGgG','gGrgGgrGgGgrGggG','GgGgGgggGgGgggGg','ggGggrGgGgggGgGg','gGggGgrgggGgrGgg','GgGgggggGgGgrgGg','ggGgGgGgggGgGgGg','gGgGggrGgGggGggg','GggGgGrggGgGggGg','gGgggGgGgGgrGgGg','GgrGgGgggGgGgggG','ggGggrGgggGgrggg','gGggGgGgGgggGgGg','GgrgggggGgrgggGg','gGgGgGgGggGgGgGg'],
+mb:['MMMmMMMmMMMmMMMM','MMmMMmMMmMMmMMMm','MmhMMmhMMmhMMmhM','mhMMMmhMMmhMMMmh','hMMMMmhMmhMMMMmh','MMMMMmhMhMMMMMmh','mMMMMmhhhMMMMMmh','hMMMmhhhhMMMMMhh','hhMMmhhhhMMMMmhh','hhMmhhhhhMMMmhhh','hhmhhhhhhMMmhhhh','hhhhhhhhhMmhhhhh','hhhhhhhhhmhhhhhh','hhhhhhhhhhhhhhhh','hhhhhhhhhhhhhhhh','hhhhhhhhhhhhhhhh'],
+mp:['________________','_______ee_______','______eMMe______','_____eMMmMe_____','____eMMmMmMe____','___eMmMmMmMMe___','__eMmMmhMmMmMe__','_eMmMmhMhMmMmMe_','eMmMmhMmhMmMmMMe','MmMmhMmMhMmMmMMM','mMmhMmMmhMmMmMMm','MmhMmMmMhMmMmMmM','mhMmMmMmhMmMmhMm','hMmMmMmMhMmMmhMh','MmMmMmMmhMmMmhMM','mMmMmMmMhMmMmhMm'],
+br:['uUuUuUuUuUuUuUuU','UuUuUuUuUuUuUuUu','uuuuuuuuuuuuuuuu','UUUUUUUUUUUUUUUU','uUuUuUuUuUuUuUuU','UuUuUuUuUuUuUuUu','uUuUuUuUuUuUuUuU','UuUuUuUuUuUuUuUu','uUuUuUuUuUuUuUuU','UuUuUuUuUuUuUuUu','uUuUuUuUuUuUuUuU','UuUuUuUuUuUuUuUu','uuuuuuuuuuuuuuuu','UUUUUUUUUUUUUUUU','uUuUuUuUuUuUuUuU','UuUuUuUuUuUuUuUu'],
+};
+
+// Nature scene tilemap (20×15) — keys reference TD tile data
+// g1=grass1, g2=grass2, g3=dark grass, w0/w1/w2=water frames, d1=dirt, tt=trunk, tc=canopy, pt=pine, bu=bush, fr=flowers, mb=mountain base, mp=mountain peak, br=bridge
+const MAP=[
+['mp','mp','g2','g2','g1','g1','g1','g2','g1','g1','g1','g2','g1','g1','g1','g2','g2','g1','g1','g1'],
+['mb','mb','g2','g1','g1','g2','g1','g1','g1','g1','g2','g1','g1','g1','g1','g1','g2','g1','g1','g2'],
+['g3','g3','g2','g1','tc','g1','g1','g1','tc','g1','g1','g1','tc','g1','g1','g1','g1','g1','tc','g1'],
+['g2','g3','g1','g1','tt','g1','bu','g1','tt','g1','g1','g1','tt','g1','g1','bu','g1','g1','tt','g1'],
+['g1','g2','g1','fr','g1','g1','g1','g1','g1','g1','d1','d1','d1','g1','g1','g1','g1','fr','g1','g1'],
+['g1','g1','g1','g1','g1','bu','g1','g1','g1','d1','d1','g1','d1','d1','g1','g1','g1','g1','g1','g1'],
+['g1','g1','g1','g1','g1','g1','g1','g1','d1','d1','g1','g1','g1','d1','d1','g1','g1','g1','g1','g1'],
+['w0','w0','w0','w0','w0','w0','br','w0','w0','w0','w0','w0','w0','w0','w0','w0','w0','br','w0','w0'],
+['w0','w0','w0','w0','w0','w0','br','w0','w0','w0','w0','w0','w0','w0','w0','w0','w0','br','w0','w0'],
+['g1','g1','g1','g1','g1','g1','d1','g1','g1','fr','g1','g1','g1','g1','g1','g1','d1','g1','g1','g1'],
+['g1','g2','g1','g1','g1','g1','d1','d1','g1','g1','g1','g1','pt','g1','g1','d1','d1','g1','g1','g1'],
+['g2','g1','g1','pt','g1','g1','g1','d1','d1','d1','d1','d1','g1','g1','d1','d1','g1','g1','pt','g1'],
+['g1','g1','g1','g1','g1','bu','g1','g1','g1','g1','g1','d1','d1','d1','d1','g1','g1','bu','g1','g1'],
+['g1','g2','g1','g1','g1','g1','g1','fr','g1','g1','g1','g1','g1','g1','g1','g1','g1','g1','g1','g2'],
+['g2','g1','g2','g1','g1','g2','g1','g1','g2','g1','g1','g2','g1','g1','g2','g1','g1','g2','g1','g1'],
+];
+
+const WATER_FRAMES=['w0','w1','w2'];
+let camX=0, camY=0, time=0;
+
+function drawTile(tileKey, sx, sy, s) {
+    const data = TD[tileKey];
+    if (!data) return;
+    for (let py=0; py<data.length; py++) {
+        for (let px=0; px<data[py].length; px++) {
+            const c = P[data[py][px]];
+            if (!c) continue;
+            ctx.fillStyle = c;
+            const pixScale = s / 16;
+            ctx.fillRect(sx + px*pixScale, sy + py*pixScale, Math.ceil(pixScale), Math.ceil(pixScale));
+        }
+    }
+}
+
+function render() {
+    time++;
+    ctx.fillStyle = '#0a1a0a';
+    ctx.fillRect(0, 0, W, H);
+
+    const waterFrame = WATER_FRAMES[Math.floor(time / 25) % 3];
+
+    const cols = Math.ceil(W / TS) + 1;
+    const rows = Math.ceil(H / TS) + 1;
+    const startCol = Math.floor(camX / TS);
+    const startRow = Math.floor(camY / TS);
+    const offX = -(camX % TS);
+    const offY = -(camY % TS);
+
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            const mapR = startRow + r;
+            const mapC = startCol + c;
+            if (mapR < 0 || mapR >= MAP.length || mapC < 0 || mapC >= MAP[0].length) continue;
+            let key = MAP[mapR][mapC];
+            // Animate water tiles
+            if (key === 'w0' || key === 'w1' || key === 'w2') key = waterFrame;
+            drawTile(key, offX + c * TS, offY + r * TS, TS);
+        }
+    }
+
+    // Mini coordinate display
+    ctx.fillStyle = 'rgba(0,0,0,0.6)';
+    ctx.fillRect(0, 0, 120, 20);
+    ctx.fillStyle = '#7ec850';
+    ctx.font = '10px monospace';
+    ctx.fillText(`Scroll: ${Math.floor(camX)},${Math.floor(camY)}`, 4, 14);
+
+    requestAnimationFrame(render);
+}
+
+const keys = {};
+document.addEventListener('keydown', e => { keys[e.key] = true; e.preventDefault(); });
+document.addEventListener('keyup', e => keys[e.key] = false);
+
+function updateCamera() {
+    const spd = 3;
+    if (keys['ArrowLeft']) camX = Math.max(0, camX - spd);
+    if (keys['ArrowRight']) camX = Math.min(MAP[0].length * TS - W, camX + spd);
+    if (keys['ArrowUp']) camY = Math.max(0, camY - spd);
+    if (keys['ArrowDown']) camY = Math.min(MAP.length * TS - H, camY + spd);
+    requestAnimationFrame(updateCamera);
+}
+
+updateCamera();
+render();
+</script>
+
+<!-- payment-cta-start -->
+<div class="purchase-cta" style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,transparent,#0a0a12 20%);padding:20px;text-align:center;z-index:1000">
+  <div style="max-width:600px;margin:0 auto;background:#12122a;border:1px solid #1a1a3a;border-radius:12px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div><strong style="color:#fff;font-size:1rem">Nature Tileset Mega Pack</strong><br><span style="color:#8888aa;font-size:.85rem">$7.00</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a href="https://buy.stripe.com/9B69AT22r5KK10S5m9gjG2o" class="cta-buy-btn" style="display:inline-block;background:#FF2D9B;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem">Buy Now</a>
+      <button class="crypto-pay-btn" data-product-slug="nature-tileset-mega" data-store-slug="pixel-forge" data-product-name="Nature Tileset Mega Pack" data-price-usd="7.00">Crypto (15% off)</button>
+    </div>
+  </div>
+</div>
+<script src="../../crypto-checkout.js"></script>
+<!-- payment-cta-end -->
+
+</body>
+</html>

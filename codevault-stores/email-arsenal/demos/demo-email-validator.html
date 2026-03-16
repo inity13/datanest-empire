@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Validator Demo — Email Arsenal</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:820px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#FF336620;color:#FF3366;border:1px solid #FF336640;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#FF3366;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+  label{display:block;font-size:13px;color:#94a3b8;margin-bottom:6px;font-weight:500}
+  textarea,input{width:100%;background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:10px 14px;color:#e2e8f0;font-size:14px;outline:none;transition:border-color .2s;font-family:inherit}
+  textarea:focus,input:focus{border-color:#FF3366}
+  textarea{resize:vertical;min-height:140px}
+  .btn{display:flex;justify-content:center;align-items:center;gap:8px;padding:12px 24px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;width:100%;margin-top:12px}
+  .btn-primary{background:#FF3366;color:#fff}
+  .btn-primary:hover{background:#e02d5a}
+  .stats-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+  .stat{background:#0A0E1A;border:1px solid #1e293b;border-radius:8px;padding:10px 16px;flex:1;min-width:90px;text-align:center}
+  .stat-val{font-size:20px;font-weight:700}
+  .stat-label{font-size:11px;color:#64748b;margin-top:2px}
+  .ok{color:#00FF88}.warn{color:#f59e0b}.bad{color:#ef4444}.info{color:#FF3366}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;color:#64748b;font-weight:600;padding:8px 12px;border-bottom:1px solid #1e293b;font-size:11px;text-transform:uppercase}
+  td{padding:9px 12px;border-bottom:1px solid #0f172a;vertical-align:middle}
+  tr:hover td{background:#0f172a}
+  .tag{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600}
+  .tag-valid{background:#00FF8820;color:#00FF88}
+  .tag-invalid{background:#ef444420;color:#ef4444}
+  .tag-risky{background:#f59e0b20;color:#f59e0b}
+  .tag-disposable{background:#8b5cf620;color:#8b5cf6}
+  .cta-bar{background:linear-gradient(135deg,#FF336615,#FF336605);border:1px solid #FF336630;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#FF3366;color:#fff;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#e02d5a;transform:translateY(-1px);box-shadow:0 8px 24px #FF336640}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Email Validator</h1>
+    <p class="subtitle">Validate email addresses in bulk — detect invalid, disposable &amp; risky emails</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Input Emails</div>
+    <label>Paste emails (one per line or comma-separated)</label>
+    <textarea id="emailInput">user@example.com
+invalid-email
+test@gmail.com
+jane.doe@company.co.uk
+user@tempmail.org
+admin@
+duplicate@test.com
+hello@yahoo.com
+user@nonexistent-domain-xyz123.com
+duplicate@test.com
+john+tag@gmail.com
+@missing-local.com
+support@shopify.com</textarea>
+    <button class="btn btn-primary" onclick="validate()">✉️ Validate All Emails</button>
+  </div>
+
+  <div id="results" style="display:none">
+    <div class="card">
+      <div class="card-title">Validation Summary</div>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-val" id="sTotal" style="color:#FF3366">0</div><div class="stat-label">Total</div></div>
+        <div class="stat"><div class="stat-val ok" id="sValid">0</div><div class="stat-label">Valid</div></div>
+        <div class="stat"><div class="stat-val bad" id="sInvalid">0</div><div class="stat-label">Invalid</div></div>
+        <div class="stat"><div class="stat-val warn" id="sRisky">0</div><div class="stat-label">Risky</div></div>
+        <div class="stat"><div class="stat-val" style="color:#8b5cf6" id="sDup">0</div><div class="stat-label">Duplicates</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Results</div>
+      <table>
+        <thead><tr><th>#</th><th>Email</th><th>Status</th><th>Issue</th></tr></thead>
+        <tbody id="resultTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <p>The full tool does real DNS/MX record lookups, checks SMTP deliverability, integrates with Mailchimp/Klaviyo, and processes 100k+ emails in batch with export to CSV.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/5kQ14ndL98WWdNE6qdgjJ0M">Buy Full Version — $24.00</a>
+    <button class="crypto-pay-btn" data-product-slug="email-verifier" data-store-slug="email-arsenal" data-product-name="Email Verifier" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows client-side validation only. Buy the full tool for DNS/SMTP checks.</div>
+</div>
+<script>
+const DISPOSABLE = ['tempmail.org','mailinator.com','guerrillamail.com','throwaway.email','trashmail.com','yopmail.com'];
+const KNOWN_GOOD = ['gmail.com','yahoo.com','outlook.com','hotmail.com','icloud.com','shopify.com','microsoft.com','apple.com'];
+
+function checkEmail(email) {
+  email = email.trim();
+  if (!email) return null;
+  const issues = [];
+  const parts = email.split('@');
+  if (parts.length !== 2) return {email, status:'invalid', issue:'Missing or multiple @ symbols'};
+  const [local, domain] = parts;
+  if (!local) return {email, status:'invalid', issue:'Missing local part (before @)'};
+  if (!domain || !domain.includes('.')) return {email, status:'invalid', issue:'Invalid domain'};
+  const domainPart = domain.toLowerCase();
+  if (!/^[a-zA-Z0-9._%+\-]+$/.test(local)) return {email, status:'invalid', issue:'Invalid characters in local part'};
+  if (local.length > 64) return {email, status:'invalid', issue:'Local part too long (max 64 chars)'};
+  if (DISPOSABLE.includes(domainPart)) return {email, status:'risky', issue:'Disposable email provider'};
+  if (domain.length > 255) return {email, status:'invalid', issue:'Domain too long'};
+  if (local.startsWith('.') || local.endsWith('.')) return {email, status:'invalid', issue:'Local part cannot start/end with dot'};
+  if (domainPart.includes('nonexistent') || domainPart.match(/[a-z]{10,}\d{3,}/)) return {email, status:'risky', issue:'Possibly non-existent domain'};
+  if (local.includes('+')) issues.push('Tagged address (plus addressing)');
+  return {email, status:'valid', issue: issues[0] || 'Passes all checks'};
+}
+
+function validate() {
+  const raw = document.getElementById('emailInput').value;
+  const lines = raw.split(/[\n,]/).map(e=>e.trim()).filter(Boolean);
+  document.getElementById('results').style.display='block';
+
+  const seen = new Set(), dups = new Set();
+  lines.forEach(e => { const k=e.toLowerCase(); if(seen.has(k))dups.add(k); else seen.add(k); });
+
+  const results = lines.map((e,i) => {
+    const r = checkEmail(e) || {email:e, status:'invalid', issue:'Empty'};
+    if (dups.has(e.toLowerCase())) return {...r, status:'risky', issue:'Duplicate entry', dup:true};
+    return r;
+  });
+
+  const valid = results.filter(r=>r.status==='valid').length;
+  const invalid = results.filter(r=>r.status==='invalid').length;
+  const risky = results.filter(r=>r.status==='risky').length;
+
+  document.getElementById('sTotal').textContent = results.length;
+  document.getElementById('sValid').textContent = valid;
+  document.getElementById('sInvalid').textContent = invalid;
+  document.getElementById('sRisky').textContent = risky;
+  document.getElementById('sDup').textContent = dups.size;
+
+  document.getElementById('resultTable').innerHTML = results.map((r,i)=>{
+    const cls = r.status==='valid'?'tag-valid':r.status==='invalid'?'tag-invalid':r.dup?'tag-disposable':'tag-risky';
+    return `<tr>
+      <td style="color:#475569">${i+1}</td>
+      <td style="font-family:monospace;font-size:12px">${r.email}</td>
+      <td><span class="tag ${cls}">${r.dup?'duplicate':r.status}</span></td>
+      <td style="color:#64748b;font-size:12px">${r.issue}</td>
+    </tr>`;
+  }).join('');
+}
+validate();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

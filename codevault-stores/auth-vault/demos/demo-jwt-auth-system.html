@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JWT Auth System — Interactive Demo | Auth Vault</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#E91E63;--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;--red:#FF4B6E;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;} .badge{background:var(--accent);color:#fff;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1000px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;border-bottom:1px solid var(--border);padding-bottom:.75rem;}
+  .tab{padding:.45rem 1rem;border-radius:8px;font-size:.88rem;cursor:pointer;color:var(--muted);border:1px solid transparent;}
+  .tab.active{background:rgba(233,30,99,.12);border-color:var(--accent);color:var(--accent);}
+  .tab-pane{display:none;} .tab-pane.active{display:block;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+  @media(max-width:700px){.grid2{grid-template-columns:1fr;}}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+  input,select,textarea{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.55rem .8rem;border-radius:8px;font-size:.88rem;margin-bottom:.85rem;font-family:inherit;}
+  textarea{font-family:'Courier New',monospace;resize:vertical;min-height:80px;}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);}
+  .btn{display:block;width:100%;padding:.7rem;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;}
+  .btn:hover{opacity:.85;}
+  .jwt-display{background:var(--surface2);border-radius:10px;padding:1rem;font-family:'Courier New',monospace;font-size:.72rem;word-break:break-all;line-height:1.6;}
+  .jwt-header{color:#cba6f7;} .jwt-payload{color:#a6e3a1;} .jwt-sig{color:var(--accent);}
+  .decoded-section{margin-top:1rem;}
+  .section-title{font-size:.75rem;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;}
+  pre{background:var(--surface2);border-radius:8px;padding:.85rem;font-family:'Courier New',monospace;font-size:.78rem;line-height:1.6;overflow-x:auto;color:#cdd6f4;}
+  .validity{display:flex;align-items:center;gap:.5rem;padding:.5rem .85rem;border-radius:8px;font-size:.85rem;margin-bottom:.75rem;}
+  .valid-ok{background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.25);color:var(--green);}
+  .valid-fail{background:rgba(255,75,110,.08);border:1px solid rgba(255,75,110,.25);color:var(--red);}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a1025);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#fff;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">🔑</span>
+  <h1>JWT Auth System</h1>
+  <span>Interactive Demo</span>
+  <span class="badge">Auth Vault</span>
+</header>
+<div class="container">
+  <h2>JWT Token Generator & Decoder</h2>
+  <p class="subtitle">Generate signed JWT tokens and decode/validate them — see exactly what's inside.</p>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('generate')">Generate Token</div>
+    <div class="tab" onclick="switchTab('decode')">Decode Token</div>
+  </div>
+
+  <div id="pane-generate" class="tab-pane active">
+    <div class="grid2">
+      <div class="panel">
+        <label>Subject (user ID)</label>
+        <input type="text" id="sub" value="user_8472">
+        <label>User Roles</label>
+        <input type="text" id="roles" value="admin,user">
+        <label>Algorithm</label>
+        <select id="algo">
+          <option value="HS256">HS256 (HMAC-SHA256)</option>
+          <option value="HS384">HS384 (HMAC-SHA384)</option>
+          <option value="HS512">HS512 (HMAC-SHA512)</option>
+        </select>
+        <label>Expiry</label>
+        <select id="expiry">
+          <option value="900">15 minutes</option>
+          <option value="3600" selected>1 hour</option>
+          <option value="86400">24 hours</option>
+          <option value="604800">7 days</option>
+        </select>
+        <label>Secret Key</label>
+        <input type="text" id="secret" value="my-super-secret-key-change-in-prod">
+        <label>Custom Claims (JSON)</label>
+        <textarea id="claims">{"email": "user@example.com", "plan": "pro"}</textarea>
+        <button class="btn" onclick="generateJWT()">⚡ Generate JWT</button>
+      </div>
+      <div>
+        <div class="panel">
+          <label>Generated Token</label>
+          <div class="jwt-display" id="jwtOut">Click "Generate JWT" →</div>
+          <div id="jwtValid" style="margin-top:.75rem"></div>
+        </div>
+        <div class="panel" style="margin-top:1rem">
+          <label>Decoded Payload</label>
+          <pre id="decoded">{}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="pane-decode" class="tab-pane">
+    <div class="grid2">
+      <div class="panel">
+        <label>Paste JWT Token</label>
+        <textarea id="decodeInput" rows="5" placeholder="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOi4uLn0.abc123..."></textarea>
+        <label>Secret Key (for verification)</label>
+        <input type="text" id="decodeSecret" value="my-super-secret-key-change-in-prod">
+        <button class="btn" onclick="decodeJWT()">🔍 Decode & Verify</button>
+      </div>
+      <div class="panel">
+        <label>Decoded Header</label>
+        <pre id="decHeader">{}</pre>
+        <label style="margin-top:.75rem">Decoded Payload</label>
+        <pre id="decPayload">{}</pre>
+        <div id="decValid" style="margin-top:.75rem"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h3>🔑 Full JWT Auth System — Production Python</h3>
+    <p>Full version includes RS256 asymmetric signing, token refresh flow, blacklisting, Redis session store, and FastAPI/Django middleware.</p>
+    <a href="https://buy.stripe.com/14A8wPePd5KK4d4bKxgjJ0d" class="cta-btn">Buy Full Version — $19.99</a>
+    <button class="crypto-pay-btn" data-product-slug="jwt-auth-system" data-store-slug="auth-vault" data-product-name="jwt-auth-system" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo simulates JWT operations in JS. Buy the full Python tool for production use.</footer>
+<script>
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['generate','decode'][i]===name));
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('pane-'+name).classList.add('active');
+}
+
+// Simple base64url encode/decode (no real crypto — demo only)
+function b64url(str){return btoa(str).replace(/\+/g,'-').replace(/\//g,'_').replace(/=/g,'');}
+function b64urlDec(str){str=str.replace(/-/g,'+').replace(/_/g,'/');while(str.length%4)str+='=';return atob(str);}
+
+function fakeHmac(payload, secret){
+  // Not real HMAC — purely visual demo
+  let hash=0;
+  const s=payload+secret;
+  for(let i=0;i<s.length;i++){hash=((hash<<5)-hash+s.charCodeAt(i))|0;}
+  return Math.abs(hash).toString(36)+Math.abs(hash>>4).toString(36)+Math.abs(hash*17).toString(36);
+}
+
+function generateJWT(){
+  const sub=document.getElementById('sub').value;
+  const roles=document.getElementById('roles').value.split(',').map(r=>r.trim());
+  const algo=document.getElementById('algo').value;
+  const exp=parseInt(document.getElementById('expiry').value);
+  const secret=document.getElementById('secret').value;
+  let custom={};
+  try{custom=JSON.parse(document.getElementById('claims').value);}catch(e){}
+
+  const now=Math.floor(Date.now()/1000);
+  const header={alg:algo,typ:'JWT'};
+  const payload={sub,iat:now,exp:now+exp,nbf:now,jti:'jti_'+Math.random().toString(36).slice(2),...custom,roles};
+
+  const h=b64url(JSON.stringify(header));
+  const p=b64url(JSON.stringify(payload));
+  const sig=b64url(fakeHmac(h+'.'+p,secret));
+  const token=`${h}.${p}.${sig}`;
+
+  document.getElementById('jwtOut').innerHTML=`<span class="jwt-header">${h}</span>.<span class="jwt-payload">${p}</span>.<span class="jwt-sig">${sig}</span>`;
+  document.getElementById('jwtValid').innerHTML=`<div class="validity valid-ok">✅ Token generated — expires in ${exp/3600<1?exp/60+' minutes':(exp/3600)+' hours'}</div>`;
+  document.getElementById('decoded').textContent=JSON.stringify(payload,null,2);
+
+  // Pre-fill decoder
+  document.getElementById('decodeInput').value=token;
+}
+
+function decodeJWT(){
+  const token=document.getElementById('decodeInput').value.trim();
+  const secret=document.getElementById('decodeSecret').value;
+  const parts=token.split('.');
+  if(parts.length!==3){
+    document.getElementById('decValid').innerHTML='<div class="validity valid-fail">❌ Invalid token format — expected 3 parts</div>';
+    return;
+  }
+  try{
+    const header=JSON.parse(b64urlDec(parts[0]));
+    const payload=JSON.parse(b64urlDec(parts[1]));
+    const expectedSig=b64url(fakeHmac(parts[0]+'.'+parts[1],secret));
+    const sigValid=expectedSig===parts[2];
+    const now=Math.floor(Date.now()/1000);
+    const expired=payload.exp&&payload.exp<now;
+
+    document.getElementById('decHeader').textContent=JSON.stringify(header,null,2);
+    document.getElementById('decPayload').textContent=JSON.stringify(payload,null,2);
+
+    if(!sigValid){
+      document.getElementById('decValid').innerHTML='<div class="validity valid-fail">❌ Signature invalid — wrong secret or tampered token</div>';
+    } else if(expired){
+      document.getElementById('decValid').innerHTML='<div class="validity valid-fail">⚠️ Signature valid but token EXPIRED</div>';
+    } else {
+      document.getElementById('decValid').innerHTML='<div class="validity valid-ok">✅ Signature valid — token is authentic and active</div>';
+    }
+  }catch(e){
+    document.getElementById('decValid').innerHTML='<div class="validity valid-fail">❌ Could not decode token: '+e.message+'</div>';
+  }
+}
+
+generateJWT();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification System &mdash; SaaS Starter &mdash; CodeVault</title>
+    <meta name="description" content="Python notification engine: email, webhook, in-app, and SMS, with templates and scheduling. Never miss a critical alert.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F680;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#FFD600">
+    <script defer data-domain="saas-starter.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to SaaS Starter</a>
+        <h1 class="preview-page__title">Notification System</h1>
+        <p class="preview-page__price">$4.99</p>
+        <p class="preview-page__desc">Python notification engine: email, webhook, in-app, and SMS, with templates and scheduling. Never miss a critical alert. Runs on Python 3.10+ stdlib only.</p>
+
+        <ul class="preview-page__features">
+            <li>Multi-channel delivery: email (SMTP), webhook, in-app, SMS stub</li>
+            <li>Template engine with variable interpolation</li>
+            <li>Scheduling with cron-like expressions and one-time delays</li>
+            <li>Per-user notification preferences and opt-outs</li>
+            <li>Delivery tracking with retry on failure</li>
+            <li>Batch notifications for bulk sends</li>
+            <li>Priority levels: low, normal, high, critical</li>
+            <li>Notification history with read/unread tracking</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Run notification demo
+python src/main.py --demo
+
+# Send a notification
+python src/main.py --send --channel email --to user@example.com --template welcome
+
+# List pending notifications
+python src/main.py --pending --format table</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_notification_system"
+               data-product="notification-system">
+                Grab This &mdash; $4.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Notification System"
+                    data-crypto-price="499">
+                Pay with Crypto ($3.99)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

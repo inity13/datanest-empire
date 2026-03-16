@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index Lab — Tokenized Index & Portfolio Tools | CryptoForge</title>
+    <meta name="description" content="Production-ready smart contracts, dashboards, and tooling for building tokenized index portfolios. Create, rebalance, and manage on-chain indexes.">
+    <meta property="og:title" content="Index Lab — Tokenized Index & Portfolio Tools">
+    <meta property="og:description" content="8 production-ready products for building tokenized index portfolios on Ethereum.">
+    <meta property="og:image" content="assets/og-index-lab.svg">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- Navigation                                                  -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <nav class="nav" id="nav">
+        <div class="nav__container">
+            <a href="#" class="nav__logo">
+                <span class="nav__logo-icon">&#x26A1;</span>
+                <span class="nav__logo-text">CryptoForge</span>
+            </a>
+            <div class="nav__links" id="nav-links">
+                <a href="#products" class="nav__link">Products</a>
+                <a href="#bundles" class="nav__link">Bundles</a>
+                <a href="#features" class="nav__link">Features</a>
+                <a href="#free-tools" class="nav__link">Free Tools</a>
+                <a href="#faq" class="nav__link">FAQ</a>
+            </div>
+            <div class="nav__actions">
+                <a href="#bundles" class="btn btn--primary btn--sm">Get the Bundle</a>
+                <button class="nav__mobile-toggle" id="mobile-toggle" aria-label="Toggle menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- Hero Section                                                -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <section class="hero" id="hero">
+        <div class="hero__container">
+            <div class="hero__badge">CryptoForge Store #9</div>
+            <h1 class="hero__title">
+                Build Tokenized <span class="hero__highlight">Index Portfolios</span>
+            </h1>
+            <p class="hero__subtitle">
+                Production-ready smart contracts, React dashboards, and Python tooling
+                for creating, rebalancing, and managing on-chain index tokens.
+            </p>
+            <div class="hero__stats">
+                <div class="hero__stat">
+                    <span class="hero__stat-value">8</span>
+                    <span class="hero__stat-label">Products</span>
+                </div>
+                <div class="hero__stat">
+                    <span class="hero__stat-value">4</span>
+                    <span class="hero__stat-label">Solidity Contracts</span>
+                </div>
+                <div class="hero__stat">
+                    <span class="hero__stat-value">2</span>
+                    <span class="hero__stat-label">React Dashboards</span>
+                </div>
+                <div class="hero__stat">
+                    <span class="hero__stat-value">2</span>
+                    <span class="hero__stat-label">Python Tools</span>
+                </div>
+            </div>
+            <div class="hero__cta">
+                <a href="#bundles" class="btn btn--primary btn--lg">View Bundles</a>
+                <a href="#products" class="btn btn--ghost btn--lg">Browse Products</a>
+            </div>
+        </div>
+        <div class="hero__grid-bg"></div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- Products Grid                                               -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <section class="products" id="products">
+        <div class="section__container">
+            <h2 class="section__title">Products</h2>
+            <p class="section__subtitle">Each product ships with full source code, tests, documentation, and examples.</p>
+
+            <div class="products__grid">
+                <!-- Product 1: index-factory -->
+                <div class="product-card" data-product="index-factory">
+                    <div class="product-card__tag">Solidity</div>
+                    <h3 class="product-card__title">index-factory</h3>
+                    <p class="product-card__desc">
+                        Create and deploy ERC-20 tokenized indexes with configurable components,
+                        weights, and streaming fees. Set Protocol-compatible architecture.
+                    </p>
+                    <ul class="product-card__features">
+                        <li>ERC-20 index token with component tracking</li>
+                        <li>Factory pattern for multi-index deployment</li>
+                        <li>Manager module with role-based access</li>
+                        <li>OpenZeppelin v5, NatSpec, Foundry tests</li>
+                    </ul>
+                    <div class="product-card__footer">
+                        <span class="product-card__price">$19.99</span>
+                        <a href="#" class="btn btn--primary btn--sm" data-stripe="index-factory">Buy Now</a>
+                    </div>
+                </div>
+
+                <!-- Product 2: rebalance-engine -->
+                <div class="product-card" data-product="rebalance-engine">
+                    <div class="product-card__tag">Solidity + TypeScript</div>
+                    <h3 class="product-card__title">rebalance-engine</h3>
+                    <p class="product-card__desc">
+                        Automated rebalancing with configurable drift triggers, DEX integration,
+                        and a TypeScript keeper for off-chain monitoring.
+                    </p>
+                    <ul class="product-card__features">
+                        <li>On-chain drift calculator with bounds</li>
+                        <li>DEX adapter interface for swaps</li>
+                        <li>TypeScript keeper with drift monitoring</li>
+                        <li>Configurable rebalance triggers</li>
+                    </ul>
+                    <div class="product-card__footer">
+                        <span class="product-card__price">$14.99</span>
+                        <a href="#" class="btn btn--primary btn--sm" data-stripe="rebalance-engine">Buy Now</a>
+                    </div>
+                </div>
+
+                <!-- Product 3: streaming-fee-module -->
+                <div class="product-card" data-product="streaming-fee-module">
+                    <div class="product-card__tag">Solidity</div>
+                    <h3 class="product-card__title">streaming-fee-module</h3>
+                    <p class="product-card__desc">
+                        AUM fee implementation using the inflation-to-recipient pattern.
+                        Index Coop-style fee accrual with configurable rates.
+                    </p>
+                    <ul class="product-card__features">
+                        <li>Inflation-to-recipient fee model</li>
+                        <li>Configurable annual fee rate (bps)</li>
+                        <li>Time-weighted accrual tracking</li>
+                        <li>CEI pattern, ReentrancyGuard</li>
+                    </ul>
+                    <div class="product-card__footer">
+                        <span class="product-card__price">$9.99</span>
+                        <a href="#" class="btn btn--primary btn--sm" data-stripe="streaming-fee-module">Buy Now</a>
+                    </div>
+                </div>
+
+                <!-- Product 4: index-dashboard -->
+                <div class="product-card" data-product="index-dashboard">
+                    <div class="product-card__tag">React / TypeScript</div>
+                    <h3 class="product-card__title">index-dashboard</h3>
+                    <p class="product-card__desc">
+                        Real-time dashboard for monitoring portfolio composition, NAV tracking,
+                        fee accrual, component drift, and holder analytics.
+                    </p>
+                    <ul class="product-card__features">
+                        <li>NAV chart with Recharts</li>
+                        <li>Composition pie + drift monitor</li>
+                        <li>Fee accrual tracker</li>
+                        <li>wagmi v2 + viem multicall reads</li>
+                    </ul>
+                    <div class="product-card__footer">
+                        <span class="product-card__price">$12.99</span>
+                        <a href="#" class="btn btn--primary btn--sm" data-stripe="index-dashboard">Buy Now</a>
+                    </div>
+                </div>
+
+                <!-- Product 5: basket-creator -->
+                <div class="product-card" data-product="basket-creator">
+                    <div class="product-card__tag">React / TypeScript</div>
+                    <h3 class="product-card__title">basket-creator</h3>
+                    <p class="product-card__desc">
+                        Visual UI for constructing token baskets with weight sliders
+                        and historical backtesting with performance charts.
+                    </p>
+                    <ul class="product-card__features">
+                        <li>Drag-and-drop token selection</li>
+                        <li>Weight sliders with constraint validation</li>
+                        <li>Historical backtesting engine</li>
+                        <li>Performance metrics panel</li>
+                    </ul>
+                    <div class="product-card__footer">
+                        <span class="product-card__price">$9.99</span>
+                        <a href="#" class="btn btn--primary btn--sm" data-stripe="basket-creator">Buy Now</a>
+                    </div>
+                </div>
+
+                <!-- Product 6: issuance-module -->
+                <div class="product-card" data-product="issuance-module">
+                    <div class="product-card__tag">Solidity</div>
+                    <h3 class="product-card__title">issuance-module</h3>
+                    <p class="product-card__desc">
+                        Smart contracts for minting and burning index tokens with
+                        settlement. Supports basic (component delivery) and NAV modes.
+                    </p>
+                    <ul class="product-card__features">
+                        <li>Basic issuance (deliver components)</li>
+                        <li>NAV issuance (single-asset + swap)</li>
+                        <li>Settlement library with slippage protection</li>
+                        <li>Invariant test suite</li>
+                    </ul>
+                    <div class="product-card__footer">
+                        <span class="product-card__price">$14.99</span>
+                        <a href="#" class="btn btn--primary btn--sm" data-stripe="issuance-module">Buy Now</a>
+                    </div>
+                </div>
+
+                <!-- Product 7: portfolio-analytics -->
+                <div class="product-card" data-product="portfolio-analytics">
+                    <div class="product-card__tag">Python</div>
+                    <h3 class="product-card__title">portfolio-analytics</h3>
+                    <p class="product-card__desc">
+                        Performance attribution, Sharpe ratio, drawdown analysis,
+                        and report generation for tokenized index portfolios.
+                    </p>
+                    <ul class="product-card__features">
+                        <li>Sharpe, Sortino, Calmar, VaR metrics</li>
+                        <li>Brinson-Fachler attribution decomposition</li>
+                        <li>HTML, JSON, CSV report generation</li>
+                        <li>Mock + live data fetching</li>
+                    </ul>
+                    <div class="product-card__footer">
+                        <span class="product-card__price">$9.99</span>
+                        <a href="#" class="btn btn--primary btn--sm" data-stripe="portfolio-analytics">Buy Now</a>
+                    </div>
+                </div>
+
+                <!-- Product 8: compliance-checker -->
+                <div class="product-card" data-product="compliance-checker">
+                    <div class="product-card__tag">Python</div>
+                    <h3 class="product-card__title">compliance-checker</h3>
+                    <p class="product-card__desc">
+                        Regulatory checklist tool covering EU MiCA and US SEC requirements
+                        for tokenized portfolio products. Scoring and report generation.
+                    </p>
+                    <ul class="product-card__features">
+                        <li>15 rules across 2 jurisdictions</li>
+                        <li>Weighted severity scoring (0-100)</li>
+                        <li>HTML + JSON + Markdown reports</li>
+                        <li>Extensible rule architecture</li>
+                    </ul>
+                    <div class="product-card__footer">
+                        <span class="product-card__price">$12.99</span>
+                        <a href="#" class="btn btn--primary btn--sm" data-stripe="compliance-checker">Buy Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- Bundles                                                     -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <section class="bundles" id="bundles">
+        <div class="section__container">
+            <h2 class="section__title">Bundles</h2>
+            <p class="section__subtitle">Save big with curated product bundles.</p>
+
+            <div class="bundles__grid">
+                <!-- Starter Bundle -->
+                <div class="bundle-card">
+                    <div class="bundle-card__header">
+                        <h3 class="bundle-card__title">Starter Bundle</h3>
+                        <div class="bundle-card__pricing">
+                            <span class="bundle-card__price">$19.99</span>
+                            <span class="bundle-card__original">$42.97</span>
+                            <span class="bundle-card__save">Save 53%</span>
+                        </div>
+                    </div>
+                    <p class="bundle-card__desc">
+                        Everything you need to launch your first tokenized index.
+                    </p>
+                    <ul class="bundle-card__products">
+                        <li><span class="bundle-card__check">&#10003;</span> index-factory <span class="bundle-card__val">$19.99</span></li>
+                        <li><span class="bundle-card__check">&#10003;</span> streaming-fee-module <span class="bundle-card__val">$9.99</span></li>
+                        <li><span class="bundle-card__check">&#10003;</span> index-dashboard <span class="bundle-card__val">$12.99</span></li>
+                    </ul>
+                    <a href="#" class="btn btn--primary btn--full" data-stripe="starter-bundle">Get Starter Bundle</a>
+                </div>
+
+                <!-- Pro Bundle -->
+                <div class="bundle-card bundle-card--featured">
+                    <div class="bundle-card__badge">Best Value</div>
+                    <div class="bundle-card__header">
+                        <h3 class="bundle-card__title">Pro Bundle</h3>
+                        <div class="bundle-card__pricing">
+                            <span class="bundle-card__price">$44.99</span>
+                            <span class="bundle-card__original">$105.92</span>
+                            <span class="bundle-card__save">Save 57%</span>
+                        </div>
+                    </div>
+                    <p class="bundle-card__desc">
+                        The complete tokenized index toolkit. All 8 products.
+                    </p>
+                    <ul class="bundle-card__products">
+                        <li><span class="bundle-card__check">&#10003;</span> index-factory <span class="bundle-card__val">$19.99</span></li>
+                        <li><span class="bundle-card__check">&#10003;</span> rebalance-engine <span class="bundle-card__val">$14.99</span></li>
+                        <li><span class="bundle-card__check">&#10003;</span> streaming-fee-module <span class="bundle-card__val">$9.99</span></li>
+                        <li><span class="bundle-card__check">&#10003;</span> index-dashboard <span class="bundle-card__val">$12.99</span></li>
+                        <li><span class="bundle-card__check">&#10003;</span> basket-creator <span class="bundle-card__val">$9.99</span></li>
+                        <li><span class="bundle-card__check">&#10003;</span> issuance-module <span class="bundle-card__val">$14.99</span></li>
+                        <li><span class="bundle-card__check">&#10003;</span> portfolio-analytics <span class="bundle-card__val">$9.99</span></li>
+                        <li><span class="bundle-card__check">&#10003;</span> compliance-checker <span class="bundle-card__val">$12.99</span></li>
+                    </ul>
+                    <a href="#" class="btn btn--primary btn--full" data-stripe="pro-bundle">Get Pro Bundle</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- Features                                                    -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <section class="features" id="features">
+        <div class="section__container">
+            <h2 class="section__title">Why Index Lab?</h2>
+
+            <div class="features__grid">
+                <div class="feature-card">
+                    <div class="feature-card__icon">&#x1F3D7;</div>
+                    <h3 class="feature-card__title">Production Architecture</h3>
+                    <p class="feature-card__desc">
+                        Set Protocol-compatible contracts with CEI pattern, ReentrancyGuard,
+                        Ownable2Step, and comprehensive NatSpec documentation.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card__icon">&#x1F9EA;</div>
+                    <h3 class="feature-card__title">Battle-Tested Patterns</h3>
+                    <p class="feature-card__desc">
+                        Every contract includes Foundry test suites with unit tests,
+                        fuzz tests, and invariant tests. Gas benchmarks included.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card__icon">&#x1F4CA;</div>
+                    <h3 class="feature-card__title">Full-Stack Toolkit</h3>
+                    <p class="feature-card__desc">
+                        Solidity contracts + React dashboards + Python analytics.
+                        Everything from on-chain to off-chain in one toolkit.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card__icon">&#x2696;</div>
+                    <h3 class="feature-card__title">Compliance-Ready</h3>
+                    <p class="feature-card__desc">
+                        Built-in regulatory checklist tool covers EU MiCA and US SEC
+                        requirements with automated scoring and reporting.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card__icon">&#x1F504;</div>
+                    <h3 class="feature-card__title">Automated Rebalancing</h3>
+                    <p class="feature-card__desc">
+                        Drift-based rebalancing with configurable triggers, DEX routing,
+                        and a TypeScript keeper for continuous monitoring.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card__icon">&#x1F4B0;</div>
+                    <h3 class="feature-card__title">Fee Infrastructure</h3>
+                    <p class="feature-card__desc">
+                        Index Coop-style streaming fees with inflation-to-recipient pattern.
+                        Revenue from day one with transparent fee accrual.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- Free Tools                                                  -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <section class="free-tools" id="free-tools">
+        <div class="section__container">
+            <h2 class="section__title">Free Tools</h2>
+            <p class="section__subtitle">Try these free resources before buying.</p>
+
+            <div class="free-tools__grid">
+                <div class="free-tool-card">
+                    <h3 class="free-tool-card__title">Index Weight Calculator</h3>
+                    <p class="free-tool-card__desc">
+                        Calculate optimal component weights for your index based on
+                        market cap, equal weight, or custom allocation strategies.
+                    </p>
+                    <a href="#" class="btn btn--ghost btn--sm">Coming Soon</a>
+                </div>
+                <div class="free-tool-card">
+                    <h3 class="free-tool-card__title">Fee Revenue Estimator</h3>
+                    <p class="free-tool-card__desc">
+                        Estimate streaming fee revenue based on AUM projections,
+                        fee rate, and growth assumptions.
+                    </p>
+                    <a href="#" class="btn btn--ghost btn--sm">Coming Soon</a>
+                </div>
+                <div class="free-tool-card">
+                    <h3 class="free-tool-card__title">Regulatory Quickcheck</h3>
+                    <p class="free-tool-card__desc">
+                        A simplified 5-question compliance check for tokenized index
+                        products. Full version available in the compliance-checker product.
+                    </p>
+                    <a href="#" class="btn btn--ghost btn--sm">Coming Soon</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- Lead Magnets / Newsletter                                   -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <section class="section section-alt" id="newsletter">
+        <div class="section__container">
+            <h2 class="section__title">Free Guides</h2>
+            <p class="section__subtitle">Get started with free guides and cheat sheets.</p>
+            <div class="lead-magnet-grid">
+                <div class="lead-magnet-card">
+                    <h3 class="lead-magnet-card__title">Index Fund Construction Guide</h3>
+                    <p class="lead-magnet-card__desc">Step-by-step guide to building tokenized index funds on Ethereum: component selection, weighting strategies, rebalancing frequency, and fee modeling for on-chain portfolios.</p>
+                    <form class="lead-magnet-card__form" data-magnet="index-fund-construction">
+                        <input type="email" class="lead-magnet-card__input" placeholder="you@example.com" required>
+                        <button type="submit" class="btn btn--primary btn--sm">Get Free Guide</button>
+                    </form>
+                </div>
+                <div class="lead-magnet-card">
+                    <h3 class="lead-magnet-card__title">DeFi Portfolio Management Cheatsheet</h3>
+                    <p class="lead-magnet-card__desc">One-page reference covering portfolio metrics (Sharpe, Sortino, VaR), drift-based rebalancing triggers, streaming fee math, and compliance considerations for tokenized portfolios.</p>
+                    <form class="lead-magnet-card__form" data-magnet="defi-portfolio-cheatsheet">
+                        <input type="email" class="lead-magnet-card__input" placeholder="you@example.com" required>
+                        <button type="submit" class="btn btn--primary btn--sm">Get Free Cheatsheet</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- FAQ                                                         -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <section class="faq" id="faq">
+        <div class="section__container">
+            <h2 class="section__title">FAQ</h2>
+
+            <div class="faq__list">
+                <details class="faq__item">
+                    <summary class="faq__question">What Solidity version do the contracts use?</summary>
+                    <p class="faq__answer">All contracts use <code>pragma solidity ^0.8.24</code> with OpenZeppelin v5 dependencies. They follow the CEI pattern and include ReentrancyGuard.</p>
+                </details>
+                <details class="faq__item">
+                    <summary class="faq__question">Are the contracts audited?</summary>
+                    <p class="faq__answer">The contracts include comprehensive Foundry test suites (unit, fuzz, and invariant tests) and follow security best practices. However, they have not been formally audited by a third-party firm. We recommend getting an audit before mainnet deployment.</p>
+                </details>
+                <details class="faq__item">
+                    <summary class="faq__question">What frameworks do the dashboards use?</summary>
+                    <p class="faq__answer">Both dashboards use React 18, TypeScript, Vite 5, Tailwind CSS 3.4, wagmi v2, viem v2, and Recharts. They connect to any EVM chain via wagmi's multicall reads.</p>
+                </details>
+                <details class="faq__item">
+                    <summary class="faq__question">Can I use these in my commercial project?</summary>
+                    <p class="faq__answer">Yes. All products are MIT licensed. You can use, modify, and distribute them in commercial projects without restriction.</p>
+                </details>
+                <details class="faq__item">
+                    <summary class="faq__question">What Python version is required?</summary>
+                    <p class="faq__answer">Python 3.9+ is required. The analytics and compliance tools use only standard library + PyYAML, with optional dependencies for live data fetching.</p>
+                </details>
+                <details class="faq__item">
+                    <summary class="faq__question">Do you accept crypto payments?</summary>
+                    <p class="faq__answer">Yes! We accept ETH and BTC alongside card payments via Stripe. Select your preferred payment method at checkout.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- Cross-sell                                                  -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <section class="cross-sell" id="cross-sell">
+        <div class="section__container">
+            <h2 class="section__title">More from CryptoForge</h2>
+            <p class="section__subtitle">Explore our other DeFi toolkits.</p>
+
+            <div class="cross-sell__grid">
+                <a href="../vault-forge/storefront/" class="cross-sell-card">
+                    <span class="cross-sell-card__badge">Store #1</span>
+                    <h3 class="cross-sell-card__title">Vault Forge</h3>
+                    <p class="cross-sell-card__desc">ERC-4626 yield vault toolkit</p>
+                </a>
+                <a href="../defi-router/storefront/" class="cross-sell-card">
+                    <span class="cross-sell-card__badge">Store #4</span>
+                    <h3 class="cross-sell-card__title">DeFi Router</h3>
+                    <p class="cross-sell-card__desc">Swap routing & aggregation</p>
+                </a>
+                <a href="../staking-kit/storefront/" class="cross-sell-card">
+                    <span class="cross-sell-card__badge">Store #3</span>
+                    <h3 class="cross-sell-card__title">Staking Kit</h3>
+                    <p class="cross-sell-card__desc">Staking & liquid staking tools</p>
+                </a>
+                <a href="../oracle-forge/storefront/" class="cross-sell-card">
+                    <span class="cross-sell-card__badge">Store #6</span>
+                    <h3 class="cross-sell-card__title">Oracle Forge</h3>
+                    <p class="cross-sell-card__desc">Oracle & data provider tools</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- Footer                                                      -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__brand">
+                <span class="footer__logo">&#x26A1; CryptoForge</span>
+                <p class="footer__tagline">DeFi developer tools, built for builders.</p>
+            </div>
+            <div class="footer__links">
+                <div class="footer__col">
+                    <h4 class="footer__col-title">Products</h4>
+                    <a href="#products">All Products</a>
+                    <a href="#bundles">Bundles</a>
+                    <a href="#free-tools">Free Tools</a>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__col-title">Resources</h4>
+                    <a href="#">Documentation</a>
+                    <a href="#">GitHub</a>
+                    <a href="#">Blog</a>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__col-title">Legal</h4>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">License (MIT)</a>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2025 CryptoForge. All rights reserved.</p>
+                <p>Payments powered by Stripe. Crypto payments accepted.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Analytics (Plausible) -->
+    <script defer data-domain="cryptoforge.io" src="https://plausible.io/js/script.js"></script>
+    <script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

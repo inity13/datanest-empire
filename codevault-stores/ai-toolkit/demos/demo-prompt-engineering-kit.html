@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt Engineering Kit — Demo | AI Toolkit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#FF1744}.header .back{color:#FF1744;text-decoration:none;font-size:.85rem}
+  .container{max-width:920px;margin:0 auto;padding:28px 20px}
+  h2{font-size:1.5rem;margin-bottom:6px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .layout{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+  @media(max-width:650px){.layout{grid-template-columns:1fr}}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#FF1744;margin-bottom:14px}
+  label{display:block;font-size:.8rem;color:#8899aa;margin-bottom:4px}
+  input,select,textarea{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:8px 10px;font-size:.88rem;margin-bottom:10px;outline:none;transition:border-color .2s;font-family:'Courier New',monospace}
+  textarea{font-family:inherit}
+  input:focus,select:focus,textarea:focus{border-color:#FF1744}
+  .btn{padding:10px 16px;border:none;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer;background:#FF1744;color:#fff;transition:all .2s;margin-right:6px;margin-bottom:8px}
+  .btn:hover{background:#ff4060}
+  .btn-sec{background:#1e2a3a;color:#FF1744}
+  .btn-sec:hover{background:#253545}
+  .var-list{margin-bottom:10px}
+  .var-row{display:flex;gap:8px;align-items:center;margin-bottom:6px}
+  .var-row input{margin-bottom:0;flex:1}
+  .var-row .var-name{color:#FF1744;font-family:'Courier New',monospace;background:#060a12;border:1px solid #1e2a3a;padding:6px 8px;border-radius:5px;font-size:.82rem;white-space:nowrap}
+  .del{background:none;border:none;color:#ff4444;cursor:pointer;font-size:1rem;padding:4px}
+  .output-box{background:#060a12;border:1px solid #1e2a3a;border-radius:8px;padding:14px;font-size:.85rem;line-height:1.6;min-height:120px;white-space:pre-wrap;word-break:break-word}
+  .highlight{background:rgba(255,23,68,.2);color:#FF1744;border-radius:3px;padding:1px 3px}
+  .template-select{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+  .tmpl-btn{padding:8px 10px;border:1px solid #1e2a3a;border-radius:6px;background:none;color:#8899aa;cursor:pointer;font-size:.78rem;text-align:left;transition:all .2s}
+  .tmpl-btn:hover,.tmpl-btn.active{border-color:#FF1744;color:#FF1744;background:rgba(255,23,68,.05)}
+  .token-count{font-size:.75rem;color:#8899aa;margin-top:8px}
+  .token-count span{color:#FF1744}
+  .cta-bar{background:linear-gradient(135deg,#0d1321,#111827);border:1px solid #FF1744;border-radius:12px;padding:20px;text-align:center;margin-top:18px}
+  .cta-bar p{color:#8899aa;font-size:.85rem;margin-bottom:12px;margin-top:6px}
+  .cta-btn{display:inline-block;background:#FF1744;color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s}
+  .cta-btn:hover{background:#ff4060;transform:translateY(-2px)}
+  .footer-note{text-align:center;color:#445566;font-size:.77rem;margin-top:16px;padding-top:12px;border-top:1px solid #1e2a3a}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🤖 AI Toolkit — Prompt Engineering Kit Demo</h1>
+  <a class="back" href="../index.html">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>Prompt Template Builder</h2>
+  <p class="subtitle">Build reusable prompt templates with variables. Fill in values and preview the final prompt instantly.</p>
+  <div class="layout">
+    <div class="panel">
+      <h3>📝 Template Editor</h3>
+      <p style="font-size:.78rem;color:#8899aa;margin-bottom:8px">Use <code style="color:#FF1744">{{variable_name}}</code> syntax for dynamic variables.</p>
+      <div class="template-select">
+        <button class="tmpl-btn active" onclick="loadTemplate('chat',this)">Chat assistant</button>
+        <button class="tmpl-btn" onclick="loadTemplate('rag',this)">RAG Q&A</button>
+        <button class="tmpl-btn" onclick="loadTemplate('code',this)">Code review</button>
+        <button class="tmpl-btn" onclick="loadTemplate('classify',this)">Classifier</button>
+      </div>
+      <label>System Prompt Template</label>
+      <textarea id="systemTpl" rows="4" oninput="extractVars();render()">You are a helpful {{role}} assistant specializing in {{domain}}. Always respond in {{language}}.</textarea>
+      <label>User Message Template</label>
+      <textarea id="userTpl" rows="5" oninput="extractVars();render()">{{user_question}}
+
+Please provide a {{response_style}} answer.</textarea>
+      <button class="btn" onclick="extractVars();render()">▶ Parse Variables</button>
+      <button class="btn btn-sec" onclick="copyPrompt()">📋 Copy Prompt</button>
+    </div>
+    <div class="panel">
+      <h3>🔧 Variable Values</h3>
+      <div id="varList" class="var-list"></div>
+      <h3 style="margin-top:16px">👁 Rendered Prompt</h3>
+      <div class="output-box" id="rendered">Parsing template...</div>
+      <div class="token-count">Estimated tokens: <span id="tokenCount">—</span> · Cost @ GPT-4o: <span id="costEst">—</span></div>
+    </div>
+  </div>
+  <div class="cta-bar">
+    <h3>Get the Full Prompt Engineering Kit</h3>
+    <p>Python library: 50+ optimized templates, few-shot example builders, chain-of-thought scaffolds, and version control for prompts.</p>
+    <a class="cta-btn" href="https://buy.stripe.com/7sY3cvfTha10dNE6qdgjI3N">Buy Full Version — $44.00</a>
+    <button class="crypto-pay-btn" data-product-slug="prompt-engineering-kit" data-store-slug="ai-toolkit" data-product-name="Prompt Engineering Kit" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+const TEMPLATES = {
+  chat: {
+    sys: 'You are a helpful {{role}} assistant specializing in {{domain}}. Always respond in {{language}}.',
+    user: '{{user_question}}\n\nPlease provide a {{response_style}} answer.',
+    defaults: {role:'customer support',domain:'e-commerce',language:'English',user_question:'How do I track my order?',response_style:'concise and friendly'}
+  },
+  rag: {
+    sys: 'You are a {{role}}. Use ONLY the provided context to answer questions. If the answer is not in the context, say "I don\'t know".',
+    user: 'Context:\n"""\n{{context}}\n"""\n\nQuestion: {{question}}\n\nAnswer format: {{format}}',
+    defaults: {role:'helpful assistant',context:'Our return policy allows returns within 30 days of purchase...',question:'What is the return policy?',format:'2-3 sentences'}
+  },
+  code: {
+    sys: 'You are an expert {{language}} developer with {{years}} years of experience. Focus on {{focus_area}}.',
+    user: 'Review the following code:\n\n```{{language}}\n{{code}}\n```\n\nProvide {{detail_level}} feedback.',
+    defaults: {language:'Python',years:'10',focus_area:'performance and security',code:'def process(data):\n    result = []\n    for item in data:\n        result.append(item * 2)\n    return result',detail_level:'detailed'}
+  },
+  classify: {
+    sys: 'Classify the input into exactly one of these categories: {{categories}}. Output ONLY the category name.',
+    user: 'Input: {{input_text}}\n\nCategory:',
+    defaults: {categories:'positive, negative, neutral',input_text:'The product works great but shipping was slow.'}
+  }
+};
+
+let vars = {};
+
+function loadTemplate(name, btn) {
+  document.querySelectorAll('.tmpl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const t = TEMPLATES[name];
+  document.getElementById('systemTpl').value = t.sys;
+  document.getElementById('userTpl').value = t.user;
+  vars = {...t.defaults};
+  extractVars();
+  render();
+}
+
+function extractVars() {
+  const sys = document.getElementById('systemTpl').value;
+  const user = document.getElementById('userTpl').value;
+  const all = sys + user;
+  const found = [...new Set([...all.matchAll(/\{\{(\w+)\}\}/g)].map(m=>m[1]))];
+  const newVars = {};
+  found.forEach(v => newVars[v] = vars[v] || '');
+  vars = newVars;
+  
+  document.getElementById('varList').innerHTML = found.length ? found.map(v=>`
+    <div class="var-row">
+      <div class="var-name">{{${v}}}</div>
+      <input value="${vars[v]||''}" placeholder="Enter value..." oninput="vars['${v}']=this.value;render()">
+    </div>`).join('') : '<div style="color:#445566;font-size:.82rem">No variables found in template</div>';
+  render();
+}
+
+function render() {
+  const sys = document.getElementById('systemTpl').value;
+  const user = document.getElementById('userTpl').value;
+  let rendered = `[SYSTEM]\n${sys}\n\n[USER]\n${user}`;
+  Object.entries(vars).forEach(([k,v]) => {
+    rendered = rendered.replaceAll(`{{${k}}}`, v || `{{${k}}}`);
+  });
+  const hasUnfilled = rendered.includes('{{');
+  const el = document.getElementById('rendered');
+  el.textContent = rendered;
+  const tokens = Math.ceil(rendered.length / 4);
+  document.getElementById('tokenCount').textContent = tokens.toLocaleString();
+  document.getElementById('costEst').textContent = `$${(tokens/1e6*5).toFixed(5)}`;
+}
+
+function copyPrompt() {
+  const txt = document.getElementById('rendered').textContent;
+  navigator.clipboard && navigator.clipboard.writeText(txt);
+  const btn = event.target; btn.textContent = '✓ Copied!';
+  setTimeout(()=>btn.textContent='📋 Copy Prompt',1500);
+}
+
+extractVars();
+render();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

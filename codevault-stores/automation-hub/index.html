@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automation Hub — Ship faster. Build smarter. | CodeVault</title>
+    <meta name="description" content="Python automation tools for developers: web scrapers, job schedulers, ETL pipelines, workflow engines, and more. Zero dependencies. Instant download.">
+    <meta name="keywords" content="python automation, web scraper, job scheduler, etl pipeline, workflow engine, cron manager, file watcher, api poller, python stdlib, automation tools">
+    <link rel="canonical" href="https://automation-hub.codevault.dev/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Automation Hub — Ship faster. Build smarter.">
+    <meta property="og:description" content="Python automation tools for developers: web scrapers, job schedulers, ETL pipelines, workflow engines, and more. Zero dependencies. Instant download.">
+    <meta property="og:site_name" content="CodeVault">
+    <meta property="og:url" content="https://automation-hub.codevault.dev/">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Automation Hub — Ship faster. Build smarter.">
+    <meta name="twitter:description" content="Python automation tools for developers: web scrapers, job schedulers, ETL pipelines, workflow engines, and more. Zero dependencies. Instant download.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#18FFFF">
+
+    <!-- Plausible Analytics -->
+    <script defer data-domain="automation-hub.codevault.dev" src="https://plausible.io/js/script.js"></script>
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Store",
+        "name": "Automation Hub",
+        "description": "Python automation tools for developers. Web scrapers, schedulers, ETL pipelines, workflow engines, and more.",
+        "url": "https://automation-hub.codevault.dev/",
+        "offers": {
+            "@type": "AggregateOffer",
+            "lowPrice": "4.99",
+            "highPrice": "39.99",
+            "priceCurrency": "USD",
+            "offerCount": "12"
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- Cross-Store Navigation -->
+    <nav class="cross-nav" aria-label="CodeVault stores">
+        <div class="cross-nav__inner">
+            <span class="cross-nav__brand">CodeVault</span>
+            <a href="../seo-toolkit/storefront/index.html" class="cross-nav__link">SEO Toolkit</a>
+            <a href="../email-arsenal/storefront/index.html" class="cross-nav__link">Email Arsenal</a>
+            <a href="../form-forge/storefront/index.html" class="cross-nav__link">Form Forge</a>
+            <a href="../api-launchpad/storefront/index.html" class="cross-nav__link">API Launchpad</a>
+            <a href="../deploy-kit/storefront/index.html" class="cross-nav__link">Deploy Kit</a>
+            <a href="../auth-vault/storefront/index.html" class="cross-nav__link">Auth Vault</a>
+            <a href="../saas-starter/storefront/index.html" class="cross-nav__link">SaaS Starter</a>
+            <a href="../analytics-hub/storefront/index.html" class="cross-nav__link">Analytics Hub</a>
+            <a href="../payment-stack/storefront/index.html" class="cross-nav__link">Payment Stack</a>
+            <a href="../ai-toolkit/storefront/index.html" class="cross-nav__link">AI Toolkit</a>
+            <a href="../security-kit/storefront/index.html" class="cross-nav__link">Security Kit</a>
+            <a href="../landing-lab/storefront/index.html" class="cross-nav__link">Landing Lab</a>
+            <a href="#" class="cross-nav__link cross-nav__link--active">Automation Hub</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="top">
+        <div class="container">
+            <p class="hero__tagline">Ship faster. Build smarter.</p>
+            <h1 class="hero__title glitch" data-text="Automation Hub">Automation Hub</h1>
+            <p class="hero__subtitle">Automate everything. Forget nothing. Python stdlib tools that do the heavy lifting.</p>
+            <div class="hero__cta-row">
+                <a href="#products" class="btn btn--primary">Browse Tools</a>
+                <a href="#faq" class="btn btn--secondary">How it works</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Products Section -->
+    <section class="section" id="products">
+        <div class="container">
+            <h2 class="section__heading">What&rsquo;s in the Hub</h2>
+            <p class="section__subheading">10 automation tools + 2 bundles. No filler, no fluff.</p>
+
+            <div class="filter-bar">
+                <span class="filter-bar__label">Filter:</span>
+                <button class="filter-tag active" data-filter="all">All</button>
+                <button class="filter-tag" data-filter="bundle">bundle</button>
+                <button class="filter-tag" data-filter="scraping">scraping</button>
+                <button class="filter-tag" data-filter="workflow">workflow</button>
+                <button class="filter-tag" data-filter="etl">etl</button>
+                <button class="filter-tag" data-filter="scheduler">scheduler</button>
+                <button class="filter-tag" data-filter="monitoring">monitoring</button>
+                <button class="filter-tag" data-filter="events">events</button>
+                <select class="sort-select" aria-label="Sort products">
+                    <option value="default">Sort: Featured</option>
+                    <option value="price-asc">Price: Low &rarr; High</option>
+                    <option value="price-desc">Price: High &rarr; Low</option>
+                </select>
+            </div>
+
+            <div class="product-grid" id="product-grid">
+
+                <!-- Bundle: Automation Hub Starter Bundle -->
+                <article class="product-card product-card--bundle fade-in"
+                         data-tags="bundle,starter"
+                         data-price="1999"
+                         data-slug="automation-hub-starter-bundle">
+                    <div class="product-card__inner">
+                        <div>
+                            <span class="bundle-badge">&#128994; STARTER BUNDLE</span>
+                            <h3 class="product-card__name" style="margin-top:12px">Automation Hub Starter Bundle</h3>
+                            <p class="product-card__desc">The essential automation toolkit &mdash; Web Scraper, Job Scheduler, Cron Job Manager, and File Watcher in one bundle. Save 33%.</p>
+                            <div class="product-card__tags">
+                                <span class="product-card__tag">bundle</span>
+                                <span class="product-card__tag">starter</span>
+                            </div>
+                            <ul class="product-card__bundle-list">
+                                <li>Web Scraper</li>
+                                <li>Job Scheduler</li>
+                                <li>Cron Job Manager</li>
+                                <li>File Watcher</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="product-card__price" style="font-size:1.6rem;margin-bottom:8px">$19.99</p>
+                            <p style="font-size:0.82rem;color:var(--cv-text-dim);margin-bottom:16px">Save 33% vs. $29.96 individually</p>
+                            <div class="product-card__actions">
+                                <a href="https://buy.stripe.com/PLACEHOLDER_automation-hub-starter-bundle"
+                                   class="btn btn--primary btn--card"
+                                   data-product="automation-hub-starter-bundle">
+                                    Grab This Bundle
+                                </a>
+                                <button class="btn btn--crypto btn--card"
+                                        data-crypto-product="Automation Hub Starter Bundle"
+                                        data-crypto-price="1999">
+                                    Pay with Crypto ($15.99)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Bundle: Automation Hub Pro Bundle -->
+                <article class="product-card product-card--bundle fade-in"
+                         data-tags="bundle,pro"
+                         data-price="3999"
+                         data-slug="automation-hub-pro-bundle">
+                    <div class="product-card__inner">
+                        <div>
+                            <span class="bundle-badge">&#128142; PRO BUNDLE</span>
+                            <h3 class="product-card__name" style="margin-top:12px">Automation Hub Pro Bundle</h3>
+                            <p class="product-card__desc">Every tool in the Automation Hub &mdash; all 10 products at a massive discount. The complete automation infrastructure toolkit. Save 46%.</p>
+                            <div class="product-card__tags">
+                                <span class="product-card__tag">bundle</span>
+                                <span class="product-card__tag">pro</span>
+                            </div>
+                            <ul class="product-card__bundle-list">
+                                <li>Web Scraper + Job Scheduler + Workflow Engine</li>
+                                <li>Webhook Router + ETL Pipeline + Data Sync Tool</li>
+                                <li>Notification Dispatcher + Cron Job Manager</li>
+                                <li>File Watcher + API Poller</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="product-card__price" style="font-size:1.6rem;margin-bottom:8px">$39.99</p>
+                            <p style="font-size:0.82rem;color:var(--cv-text-dim);margin-bottom:16px">Save 46% vs. $74.90 individually</p>
+                            <div class="product-card__actions">
+                                <a href="https://buy.stripe.com/PLACEHOLDER_automation-hub-pro-bundle"
+                                   class="btn btn--primary btn--card"
+                                   data-product="automation-hub-pro-bundle">
+                                    Grab This Bundle
+                                </a>
+                                <button class="btn btn--crypto btn--card"
+                                        data-crypto-product="Automation Hub Pro Bundle"
+                                        data-crypto-price="3999">
+                                    Pay with Crypto ($31.99)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product: Web Scraper -->
+                <article class="product-card fade-in"
+                         data-tags="scraping,http,extraction"
+                         data-price="999"
+                         data-slug="web-scraper">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">&#129716;</div>
+                            <h3 class="product-card__name">Web Scraper</h3>
+                        </div>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">CSS selector and XPath extraction, pagination handling, rate limiting, proxy rotation, and multi-format data export. Pure stdlib.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">scraping</span>
+                        <span class="product-card__tag">http</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_web-scraper"
+                           class="btn btn--primary btn--card"
+                           data-product="web-scraper">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Web Scraper"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                        <a href="preview-web-scraper.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Job Scheduler -->
+                <article class="product-card fade-in"
+                         data-tags="scheduler,cron,jobs"
+                         data-price="499"
+                         data-slug="job-scheduler">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">&#9201;</div>
+                            <h3 class="product-card__name">Job Scheduler</h3>
+                        </div>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Cron-like scheduling with retry logic, dependency chains, structured logging, and health monitoring. Drop-in Python stdlib solution.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">scheduler</span>
+                        <span class="product-card__tag">cron</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_job-scheduler"
+                           class="btn btn--primary btn--card"
+                           data-product="job-scheduler">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Job Scheduler"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                        <a href="preview-job-scheduler.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Workflow Engine -->
+                <article class="product-card fade-in"
+                         data-tags="workflow,dag,orchestration"
+                         data-price="999"
+                         data-slug="workflow-engine">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">&#9881;</div>
+                            <h3 class="product-card__name">Workflow Engine</h3>
+                        </div>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">DAG-based task execution with conditional branching, parallel tasks, state persistence, and retry policies. No Airflow required.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">workflow</span>
+                        <span class="product-card__tag">dag</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_workflow-engine"
+                           class="btn btn--primary btn--card"
+                           data-product="workflow-engine">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Workflow Engine"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                        <a href="preview-workflow-engine.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Webhook Router -->
+                <article class="product-card fade-in"
+                         data-tags="webhook,routing,events"
+                         data-price="499"
+                         data-slug="webhook-router">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">&#128251;</div>
+                            <h3 class="product-card__name">Webhook Router</h3>
+                        </div>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">URL routing, payload validation, event filtering, and retry with exponential backoff. Handles Stripe, GitHub, and any generic HMAC source.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">webhook</span>
+                        <span class="product-card__tag">routing</span>
+                        <span class="product-card__tag">events</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_webhook-router"
+                           class="btn btn--primary btn--card"
+                           data-product="webhook-router">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Webhook Router"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                        <a href="preview-webhook-router.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: ETL Pipeline -->
+                <article class="product-card fade-in"
+                         data-tags="etl,pipeline,transform"
+                         data-price="999"
+                         data-slug="etl-pipeline">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">&#128295;</div>
+                            <h3 class="product-card__name">ETL Pipeline</h3>
+                        </div>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Extract from APIs, files, and databases. Transform with a plugin system. Load to multiple target formats. Enterprise ETL without the enterprise price.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">etl</span>
+                        <span class="product-card__tag">pipeline</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_etl-pipeline"
+                           class="btn btn--primary btn--card"
+                           data-product="etl-pipeline">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="ETL Pipeline"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                        <a href="preview-etl-pipeline.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Data Sync Tool -->
+                <article class="product-card fade-in"
+                         data-tags="sync,data,replication"
+                         data-price="499"
+                         data-slug="data-sync-tool">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">&#128257;</div>
+                            <h3 class="product-card__name">Data Sync Tool</h3>
+                        </div>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Bidirectional sync, conflict resolution, delta detection, and audit logging for JSON and CSV sources. Keep your data consistent across systems.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">sync</span>
+                        <span class="product-card__tag">data</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_data-sync-tool"
+                           class="btn btn--primary btn--card"
+                           data-product="data-sync-tool">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Data Sync Tool"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                        <a href="preview-data-sync-tool.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Notification Dispatcher -->
+                <article class="product-card fade-in"
+                         data-tags="notifications,email,dispatch"
+                         data-price="499"
+                         data-slug="notification-dispatcher">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">&#128276;</div>
+                            <h3 class="product-card__name">Notification Dispatcher</h3>
+                        </div>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Multi-channel dispatch to email, Slack, webhook, and SMS endpoints with templates and scheduling. Send the right alert at the right time.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">notifications</span>
+                        <span class="product-card__tag">email</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_notification-dispatcher"
+                           class="btn btn--primary btn--card"
+                           data-product="notification-dispatcher">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Notification Dispatcher"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                        <a href="preview-notification-dispatcher.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Cron Job Manager -->
+                <article class="product-card fade-in"
+                         data-tags="scheduler,cron,jobs"
+                         data-price="499"
+                         data-slug="cron-job-manager">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">&#128197;</div>
+                            <h3 class="product-card__name">Cron Job Manager</h3>
+                        </div>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Human-readable schedule builder, execution logger, failure alerts, and dependency tracking between jobs. Crontab made manageable.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">cron</span>
+                        <span class="product-card__tag">schedule</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_cron-job-manager"
+                           class="btn btn--primary btn--card"
+                           data-product="cron-job-manager">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Cron Job Manager"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                        <a href="preview-cron-job-manager.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: File Watcher -->
+                <article class="product-card fade-in"
+                         data-tags="filesystem,watcher,events"
+                         data-price="499"
+                         data-slug="file-watcher">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">&#128065;</div>
+                            <h3 class="product-card__name">File Watcher</h3>
+                        </div>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Directory monitoring, file change events, glob pattern matching, and configurable action triggers. React to filesystem changes instantly.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">filesystem</span>
+                        <span class="product-card__tag">events</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_file-watcher"
+                           class="btn btn--primary btn--card"
+                           data-product="file-watcher">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="File Watcher"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                        <a href="preview-file-watcher.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+                <!-- Product: API Poller -->
+                <article class="product-card fade-in"
+                         data-tags="api,polling,monitoring"
+                         data-price="499"
+                         data-slug="api-poller">
+                    <div class="product-card__header">
+                        <div>
+                            <div class="product-card__icon">&#128268;</div>
+                            <h3 class="product-card__name">API Poller</h3>
+                        </div>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Scheduled endpoint checks, change detection, alerting on diffs, and automatic data archiving to JSON. Never miss an API update again.</p>
+                    <div class="product-card__tags">
+                        <span class="product-card__tag">api</span>
+                        <span class="product-card__tag">monitoring</span>
+                        <span class="product-card__tag">stdlib</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_api-poller"
+                           class="btn btn--primary btn--card"
+                           data-product="api-poller">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="API Poller"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                        <a href="preview-api-poller.html" class="product-card__preview-link">Preview &rsaquo;</a>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Signals -->
+    <section class="trust-section" id="trust">
+        <div class="container">
+            <h2 class="section__heading">Built for automation engineers</h2>
+            <p class="section__subheading">Production-ready from day one. No surprises.</p>
+            <div class="trust-grid">
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#9889;</div>
+                    <p class="trust-card__text">
+                        <strong>Zero Dependencies</strong>
+                        Every tool runs on Python 3.10+ stdlib only. No pip install, no venv, no dependency hell.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128187;</div>
+                    <p class="trust-card__text">
+                        <strong>Any OS with Python</strong>
+                        Works on Linux, macOS, and Windows. If Python 3.10+ runs on it, these tools run on it.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128274;</div>
+                    <p class="trust-card__text">
+                        <strong>MIT Licensed &mdash; use anywhere</strong>
+                        Personal projects, client work, SaaS products. Full commercial use. No strings attached.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#9889;</div>
+                    <p class="trust-card__text">
+                        <strong>Instant Download</strong>
+                        Payment confirmed &rarr; download link in seconds. Unzip, read the README, run the script.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- License Tiers -->
+    <section class="tier-section" id="tiers">
+        <div class="container">
+            <h2 class="section__heading">License tiers</h2>
+            <p class="section__subheading">Every purchase is MIT-licensed. Pick what fits.</p>
+            <div class="tier-grid">
+                <div class="tier-card fade-in">
+                    <h3 class="tier-card__name">Personal</h3>
+                    <p class="tier-card__desc">For solo devs and side projects</p>
+                    <ul class="tier-card__features">
+                        <li>Single developer use</li>
+                        <li>Unlimited personal projects</li>
+                        <li>12 months of updates</li>
+                        <li>Community support</li>
+                    </ul>
+                    <a href="#products" class="btn btn--secondary btn--sm">Browse tools</a>
+                </div>
+                <div class="tier-card tier-card--featured fade-in">
+                    <h3 class="tier-card__name">Team</h3>
+                    <p class="tier-card__desc">For small teams and startups (up to 5 devs)</p>
+                    <ul class="tier-card__features">
+                        <li>Up to 5 developers</li>
+                        <li>Unlimited commercial projects</li>
+                        <li>12 months of updates</li>
+                        <li>Email support (48h response)</li>
+                    </ul>
+                    <a href="#products" class="btn btn--primary btn--sm">Grab the Pro Bundle</a>
+                </div>
+                <div class="tier-card fade-in">
+                    <h3 class="tier-card__name">Enterprise</h3>
+                    <p class="tier-card__desc">For larger teams (unlimited devs)</p>
+                    <ul class="tier-card__features">
+                        <li>Unlimited developers</li>
+                        <li>Unlimited commercial projects</li>
+                        <li>24 months of updates</li>
+                        <li>Priority email support (24h)</li>
+                    </ul>
+                    <a href="mailto:support@codevault.dev" class="btn btn--secondary btn--sm">Contact us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter-section" id="newsletter">
+        <div class="container">
+            <div class="newsletter-box fade-in">
+                <h2 class="newsletter-box__title">Get new automation tools first</h2>
+                <p class="newsletter-box__desc">Subscriber-only drops and early-bird pricing. No spam, ever.</p>
+                <!-- ConvertKit Form ID: PLACEHOLDER -->
+                <form class="newsletter-form"
+                      action="https://app.convertkit.com/forms/PLACEHOLDER/subscriptions"
+                      method="post"
+                      onsubmit="event.preventDefault(); alert('Newsletter coming soon!');">
+                    <input type="email" class="newsletter-form__input"
+                           name="email_address"
+                           placeholder="you@example.com"
+                           required
+                           aria-label="Email address">
+                    <button type="submit" class="newsletter-form__btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Companion App -->
+    <section class="app-section" id="app">
+        <div class="container">
+            <div class="app-promo fade-in">
+                <div class="app-promo__content">
+                    <span class="app-promo__badge">ANDROID APP</span>
+                    <h2 class="app-promo__title">Automation Hub Mobile</h2>
+                    <p class="app-promo__desc">Take your automation toolkit on the go. Dashboard, community templates, daily challenges, and streak rewards &mdash; all in a dark-themed Material&nbsp;3 interface.</p>
+                    <ul class="app-promo__features">
+                        <li>Workflow status dashboard with execution logs</li>
+                        <li>Visual workflow builder with triggers and actions</li>
+                        <li>Community sharing &amp; daily challenges</li>
+                        <li>Premium tools via in-app purchase ($0.99&ndash;$4.99)</li>
+                    </ul>
+                    <div class="app-promo__actions">
+                        <a href="https://play.google.com/store/apps/details?id=com.codevault.automationhub" class="btn btn--primary">Get on Google Play</a>
+                        <a href="https://github.com/codevault/automation-hub-android" class="btn btn--secondary">View Source</a>
+                    </div>
+                </div>
+                <div class="app-promo__visual">
+                    <div class="app-mockup" style="--app-color: #18FFFF">
+                        <div class="app-mockup__screen">
+                            <div class="app-mockup__header">Automation Hub</div>
+                            <div class="app-mockup__tabs">
+                                <span class="app-mockup__tab app-mockup__tab--active">Dashboard</span>
+                                <span class="app-mockup__tab">Workflows</span>
+                                <span class="app-mockup__tab">Community</span>
+                                <span class="app-mockup__tab">Store</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section__heading">Got questions?</h2>
+            <p class="section__subheading">We got answers.</p>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Do these tools require any pip packages?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Nope. Every tool runs on Python 3.10+ stdlib only. No virtual environments, no requirements.txt, no dependency hell.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I use these in my SaaS product?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Absolutely. MIT license &mdash; use them in personal projects, client work, SaaS products, whatever. Just don't resell the tools as-is.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do I get my download?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Instant download after payment. Unzip, read the README, run the script. You'll also receive a backup link via email.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What Python version do I need?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Python 3.10 or newer. We use modern syntax like match statements, type hints, and the walrus operator where it makes sense.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What&rsquo;s the difference between bundles and individual tools?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Bundles give you multiple tools at a discount. The Starter Bundle covers the essentials (Web Scraper, Job Scheduler, Cron Job Manager, File Watcher), the Pro Bundle gets you all 10.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I get a refund?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">If a tool doesn't work as described, absolutely. Email support@codevault.dev and we'll sort it out. No hassle.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__brand">CodeVault</p>
+            <p class="footer__tagline">Ship faster. Build smarter.</p>
+            <nav class="footer__links" aria-label="Other stores">
+                <a href="../seo-toolkit/storefront/index.html" class="footer__link">SEO Toolkit</a>
+                <a href="../email-arsenal/storefront/index.html" class="footer__link">Email Arsenal</a>
+                <a href="../form-forge/storefront/index.html" class="footer__link">Form Forge</a>
+                <a href="../api-launchpad/storefront/index.html" class="footer__link">API Launchpad</a>
+                <a href="../deploy-kit/storefront/index.html" class="footer__link">Deploy Kit</a>
+                <a href="../auth-vault/storefront/index.html" class="footer__link">Auth Vault</a>
+                <a href="../saas-starter/storefront/index.html" class="footer__link">SaaS Starter</a>
+                <a href="../analytics-hub/storefront/index.html" class="footer__link">Analytics Hub</a>
+                <a href="../payment-stack/storefront/index.html" class="footer__link">Payment Stack</a>
+                <a href="../ai-toolkit/storefront/index.html" class="footer__link">AI Toolkit</a>
+                <a href="../security-kit/storefront/index.html" class="footer__link">Security Kit</a>
+                <a href="../landing-lab/storefront/index.html" class="footer__link">Landing Lab</a>
+            </nav>
+            <p class="footer__copy">&copy; 2026 CodeVault. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

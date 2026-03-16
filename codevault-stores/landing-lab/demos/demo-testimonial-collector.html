@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testimonial Collector Demo — Landing Lab</title>
+<style>
+  :root { --brand: #FFAB00; --bg: #0A0E1A; --panel: #0d1321; --border: #1e2a3a; --text: #e2e8f0; --muted: #64748b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 820px; margin: 0 auto; }
+  h1 { color: var(--brand); font-size: 1.6rem; margin-bottom: 0.3rem; }
+  .subtitle { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem; }
+  .panel h2 { color: var(--brand); font-size: 1rem; margin-bottom: 1rem; }
+  label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 0.3rem; margin-top: 0.75rem; }
+  input, select, textarea { width: 100%; background: #0a1020; border: 1px solid var(--border); border-radius: 4px; color: var(--text); padding: 0.5rem 0.75rem; font-size: 0.9rem; }
+  textarea { resize: vertical; min-height: 80px; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--brand); }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn { background: var(--brand); color: #000; border: none; border-radius: 6px; padding: 0.6rem 1.4rem; font-weight: 700; cursor: pointer; font-size: 0.9rem; margin-top: 1rem; }
+  .btn:hover { opacity: 0.85; }
+  /* Testimonial card preview */
+  .t-card { background: #fff; border-radius: 10px; padding: 1.25rem; max-width: 340px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); }
+  .t-stars { color: #f59e0b; font-size: 1rem; margin-bottom: 0.5rem; }
+  .t-quote { color: #1e293b; font-size: 0.9rem; line-height: 1.5; margin-bottom: 1rem; }
+  .t-author { display: flex; align-items: center; gap: 0.75rem; }
+  .t-avatar { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; flex-shrink: 0; }
+  .t-name { font-size: 0.85rem; font-weight: 700; color: #1e293b; }
+  .t-role { font-size: 0.75rem; color: #64748b; }
+  .preview-bg { background: #f1f5f9; border-radius: 8px; padding: 2rem; display: flex; justify-content: center; margin-top: 1rem; }
+  /* Email template preview */
+  .email-preview { background: #fff; border-radius: 8px; max-width: 500px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+  .email-header { padding: 1.25rem 1.5rem; color: #fff; }
+  .email-body { padding: 1.5rem; color: #1e293b; font-size: 0.9rem; line-height: 1.6; }
+  .email-cta { display: inline-block; padding: 0.7rem 1.5rem; border-radius: 6px; color: #fff; text-decoration: none; font-weight: 700; margin: 1rem 0; }
+  .email-footer { padding: 0.75rem 1.5rem; background: #f8fafc; font-size: 0.75rem; color: #94a3b8; }
+  .tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+  .tab { background: #0a1020; border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.9rem; cursor: pointer; font-size: 0.85rem; color: var(--muted); }
+  .tab.active { border-color: var(--brand); color: var(--brand); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .cta-bar { background: linear-gradient(135deg, #1a1200, #2a1e00); border: 1px solid var(--brand); border-radius: 8px; padding: 1.25rem; margin-top: 1.5rem; text-align: center; }
+  .cta-bar h3 { color: var(--brand); margin-bottom: 0.4rem; }
+  .cta-bar p { color: var(--muted); font-size: 0.85rem; margin-bottom: 1rem; }
+  .buy-btn { display: inline-block; background: var(--brand); color: #000; text-decoration: none; padding: 0.75rem 2rem; border-radius: 6px; font-weight: 700; font-size: 1rem; }
+  .buy-btn:hover { opacity: 0.85; }
+  .footer-note { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 1rem; }
+  @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>⭐ Testimonial Collector</h1>
+  <p class="subtitle">Build testimonial collection emails and preview how they appear on your landing page.</p>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('widget')">Widget Preview</div>
+    <div class="tab" onclick="switchTab('email')">Collection Email</div>
+  </div>
+
+  <div class="tab-panel active" id="tab-widget">
+    <div class="panel">
+      <h2>Testimonial Details</h2>
+      <div class="row">
+        <div>
+          <label>Customer Name</label>
+          <input id="tName" type="text" value="Sarah Chen" oninput="updateWidget()" />
+          <label>Role / Company</label>
+          <input id="tRole" type="text" value="Founder, GrowthLab" oninput="updateWidget()" />
+        </div>
+        <div>
+          <label>Star Rating</label>
+          <select id="tStars" onchange="updateWidget()">
+            <option value="5">5 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="3">3 Stars</option>
+          </select>
+          <label>Accent Color</label>
+          <input id="tColor" type="text" value="#FFAB00" oninput="updateWidget()" />
+        </div>
+      </div>
+      <label>Testimonial Text</label>
+      <textarea id="tText" oninput="updateWidget()">Landing Lab cut our page build time in half. We went from 2 weeks to 3 days for a full conversion-optimized launch page. Incredible ROI.</textarea>
+    </div>
+    <div class="panel">
+      <h2>Widget Preview</h2>
+      <div class="preview-bg" id="widgetPreviewArea"></div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-email">
+    <div class="panel">
+      <h2>Email Configuration</h2>
+      <div class="row">
+        <div>
+          <label>Product Name</label>
+          <input id="eProduct" type="text" value="Landing Lab" oninput="updateEmail()" />
+          <label>Your Name / Brand</label>
+          <input id="eBrand" type="text" value="The Landing Lab Team" oninput="updateEmail()" />
+        </div>
+        <div>
+          <label>Collection Form URL</label>
+          <input id="eUrl" type="text" value="https://your-form-url.com" oninput="updateEmail()" />
+          <label>Incentive (optional)</label>
+          <input id="eIncentive" type="text" value="$10 store credit" oninput="updateEmail()" />
+        </div>
+      </div>
+      <button class="btn" onclick="updateEmail()">Preview Email</button>
+    </div>
+    <div class="panel">
+      <h2>Email Preview</h2>
+      <div style="margin-top:0.5rem" id="emailPreviewArea"></div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Get the Full Testimonial Collector — $19</h3>
+    <p>Automated email sequences, video testimonial support, approval workflow, and 1-click import to your page.</p>
+    <a class="buy-btn" href="https://buy.stripe.com/9B6fZh9uTc9839001PgjJ1f">Buy Full Version — $19</a>
+    <button class="crypto-pay-btn" data-product-slug="testimonial-collector" data-store-slug="landing-lab" data-product-name="Testimonial Collector" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo generates static previews. Full version includes automated follow-up emails and a managed testimonial dashboard.</p>
+</div>
+<script>
+  function switchTab(t) {
+    document.querySelectorAll('.tab').forEach((el,i) => el.classList.toggle('active', ['widget','email'][i]===t));
+    document.querySelectorAll('.tab-panel').forEach((el,i) => el.classList.toggle('active', ['tab-widget','tab-email'][i]==='tab-'+t));
+    if (t === 'email') updateEmail();
+  }
+
+  function updateWidget() {
+    const name = document.getElementById('tName').value || 'Customer';
+    const role = document.getElementById('tRole').value || '';
+    const stars = +document.getElementById('tStars').value || 5;
+    const color = document.getElementById('tColor').value || '#FFAB00';
+    const text = document.getElementById('tText').value || 'Great product!';
+    const initial = name.charAt(0).toUpperCase();
+    const starStr = '★'.repeat(stars) + '☆'.repeat(5-stars);
+
+    document.getElementById('widgetPreviewArea').innerHTML = `
+      <div class="t-card">
+        <div class="t-stars" style="color:${color}">${starStr}</div>
+        <div class="t-quote">"${text}"</div>
+        <div class="t-author">
+          <div class="t-avatar" style="background:${color}22;color:${color}">${initial}</div>
+          <div>
+            <div class="t-name">${name}</div>
+            <div class="t-role">${role}</div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function updateEmail() {
+    const product = document.getElementById('eProduct').value || 'our product';
+    const brand = document.getElementById('eBrand').value || 'The Team';
+    const url = document.getElementById('eUrl').value || '#';
+    const incentive = document.getElementById('eIncentive').value;
+    const color = document.getElementById('tColor').value || '#FFAB00';
+
+    document.getElementById('emailPreviewArea').innerHTML = `
+      <div class="email-preview">
+        <div class="email-header" style="background:${color}">
+          <strong>Share Your ${product} Experience</strong>
+        </div>
+        <div class="email-body">
+          <p>Hi [Customer Name],</p>
+          <p style="margin-top:0.75rem">Thank you for using <strong>${product}</strong>! We'd love to hear about your experience.</p>
+          <p style="margin-top:0.75rem">Would you take 2 minutes to leave a short testimonial?${incentive ? ` As a thank-you, we'll give you <strong>${incentive}</strong>.` : ''}</p>
+          <a href="${url}" class="email-cta" style="background:${color};color:#000">Leave a Testimonial →</a>
+          <p style="color:#64748b;font-size:0.85rem">It only takes 2 minutes and helps other customers make confident decisions.</p>
+        </div>
+        <div class="email-footer">
+          Sent by ${brand} &middot; <a href="#" style="color:#94a3b8">Unsubscribe</a>
+        </div>
+      </div>`;
+  }
+
+  updateWidget();
+  updateEmail();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

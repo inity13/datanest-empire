@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PixelDrop Demos | Pixel Empire Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#0a0a0f; color:#e0e0e0; font-family:'Inter', system-ui, sans-serif; line-height:1.6; }
+    h1,h2,h3 { font-family:'Press Start 2P', 'Inter', system-ui, sans-serif; letter-spacing:1px; }
+    a { color:#ff6b9d; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .container { max-width:960px; margin:0 auto; padding:24px 16px; }
+    .btn { display:inline-block; padding:12px 28px; background:#ff6b9d; color:#000;
+            font-weight:700; border:none; border-radius:6px; cursor:pointer; font-size:14px; }
+    .btn:hover { opacity:0.85; text-decoration:none; }
+    .price { font-size:22px; font-weight:700; color:#ff6b9d; }
+    .muted { color:#888; font-size:13px; }
+    .card { background:#14141f; border-radius:10px; padding:16px; }
+    canvas { display:block; border-radius:8px; image-rendering:pixelated; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+<h1 style="font-size:18px;margin-bottom:4px;color:#ff6b9d">PixelDrop Demos</h1>
+<p class="muted" style="margin-bottom:16px">Beautiful pixel art packs for your projects & vibes &mdash; 14 products</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px">
+
+<a href="retro-character-sprites.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(112,249,234);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Retro Character Sprites Pack</h3>
+  <span class="muted">$4.99</span>
+  <div style="margin-top:6px;color:#ff6b9d;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="pixel-landscape-backgrounds.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(7,97,30);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Pixel Landscape Backgrounds</h3>
+  <span class="muted">$3.99</span>
+  <div style="margin-top:6px;color:#ff6b9d;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="kawaii-pixel-sticker-sheet.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(32,181,167);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Kawaii Pixel Sticker Sheet</h3>
+  <span class="muted">$1.99</span>
+  <div style="margin-top:6px;color:#ff6b9d;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="neon-city-pixel-pack.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(73,204,163);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Neon City Pixel Pack</h3>
+  <span class="muted">$5.99</span>
+  <div style="margin-top:6px;color:#ff6b9d;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="pixel-weapon-collection.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(254,227,19);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Pixel Weapon Collection</h3>
+  <span class="muted">$3.99</span>
+  <div style="margin-top:6px;color:#ff6b9d;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="pixel-food-icons.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(230,162,11);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Pixel Food Icons</h3>
+  <span class="muted">$1.99</span>
+  <div style="margin-top:6px;color:#ff6b9d;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="fantasy-tileset-mega.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(5,10,197);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Fantasy Tileset Mega Pack</h3>
+  <span class="muted">$7.99</span>
+  <div style="margin-top:6px;color:#ff6b9d;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="pixel-pet-collection.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(246,33,16);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Pixel Pet Collection</h3>
+  <span class="muted">$2.99</span>
+  <div style="margin-top:6px;color:#ff6b9d;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="pixel-ui-kit.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(112,72,167);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Pixel UI Kit</h3>
+  <span class="muted">$4.99</span>
+  <div style="margin-top:6px;color:#ff6b9d;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="seasonal-pixel-pack.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(92,47,153);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Seasonal Pixel Art Pack</h3>
+  <span class="muted">$3.99</span>
+  <div style="margin-top:6px;color:#ff6b9d;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="pixel-emoji-pack.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(254,238,57);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Pixel Emoji Pack</h3>
+  <span class="muted">$2.99</span>
+  <div style="margin-top:6px;color:#ff6b9d;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="space-pixel-collection.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(228,213,43);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Space Pixel Collection</h3>
+  <span class="muted">$4.99</span>
+  <div style="margin-top:6px;color:#ff6b9d;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="pixel-effect-animations.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(32,233,218);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Pixel Effect Animations</h3>
+  <span class="muted">$3.99</span>
+  <div style="margin-top:6px;color:#ff6b9d;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="mini-pixel-portrait-maker.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(148,185,201);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Mini Pixel Portrait Maker</h3>
+  <span class="muted">$5.99</span>
+  <div style="margin-top:6px;color:#ff6b9d;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+</div>
+<div style="margin-top:24px"><a href="../../../demos/index.html" style="color:#ff6b9d">&larr; All Stores</a></div>
+
+</div>
+<script></script>
+</body>
+</html>

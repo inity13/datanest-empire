@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Frontend Developer Pro Demos | Digital Stores Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#0f1117;color:#e2e8f0;font-family:'Inter', 'SF Pro', system-ui, sans-serif;line-height:1.6}
+    a{color:#3b82f6;text-decoration:none} a:hover{text-decoration:underline}
+    .container{max-width:1000px;margin:0 auto;padding:24px 16px}
+    .btn{display:inline-block;padding:10px 24px;background:#3b82f6;color:#fff;
+          font-weight:600;border:none;border-radius:6px;cursor:pointer;font-size:14px}
+    .btn:hover{opacity:0.85;text-decoration:none}
+    .price{font-size:20px;font-weight:700;color:#3b82f6}
+    .muted{color:#94a3b8;font-size:13px}
+    .card{background:#1a1d27;border-radius:8px;padding:16px;border:1px solid #2a2d37}
+    .tag{display:inline-block;padding:2px 8px;background:#3b82f622;color:#3b82f6;
+         border-radius:4px;font-size:11px;font-weight:600}
+    code,.mono{font-family:'JetBrains Mono',monospace}
+    </style>
+</head>
+<body>
+<div class="container">
+
+<h1 style="font-size:20px;margin-bottom:4px">Frontend Developer Pro Demos</h1>
+<p class="muted" style="margin-bottom:20px">React, TypeScript, and modern frontend templates and components &mdash; 11 interactive demos</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px">
+
+<a href="react-saas-template.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(176,66,228);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">React SaaS Template</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Production React SaaS starter with TypeScript, authentication, billing, dashboard, and component library.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$59.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="nextjs-starter-kit.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(72,68,173);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Next.js Starter Kit</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Next.js 14+ App Router template with SSR, ISR, API routes, Prisma ORM, and Vercel deployment configs.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$49.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="tailwind-component-library.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(98,29,36);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Tailwind Component Library</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">80+ accessible Tailwind CSS components: forms, tables, modals, navigation, cards, and data visualization.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$39.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="typescript-utility-library.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(231,127,23);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">TypeScript Utility Library</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Type-safe utility functions, custom hooks, generic patterns, and advanced TypeScript techniques with full test coverage.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$29.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="state-management-patterns.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(226,14,211);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">State Management Patterns</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Zustand, Jotai, and React Query patterns for complex state: optimistic updates, caching, and real-time sync.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$29.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="frontend-testing-toolkit.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(216,0,119);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Frontend Testing Toolkit</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Vitest, Testing Library, Playwright, and Storybook integration for unit, integration, and E2E testing.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$29.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="form-validation-library.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(167,52,78);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Form Validation Library</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">React Hook Form + Zod validation patterns, multi-step forms, file uploads, and accessible error handling.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$19.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="animation-effects-pack.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(123,208,20);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Animation & Effects Pack</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Framer Motion animations, scroll effects, page transitions, loading states, and micro-interactions library.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$29.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="responsive-email-templates.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(68,195,124);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Responsive Email Templates</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">30+ HTML email templates: transactional, marketing, newsletters. Compatible with all major email clients.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$29.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="accessibility-audit-toolkit.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(101,143,49);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Accessibility Audit Toolkit</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">WCAG 2.1 compliance checklist, axe-core configs, screen reader testing scripts, and ARIA pattern library.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$29.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+<a href="performance-optimization-guide.html" class="card" style="display:block;text-decoration:none;color:#e2e8f0">
+  <div style="width:100%;height:60px;background:rgb(239,193,91);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:13px;margin-bottom:4px">Frontend Performance Guide</h3>
+  <p class="muted" style="font-size:11px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Core Web Vitals optimization: code splitting, image optimization, caching strategies, and bundle analysis tools.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;color:#3b82f6">$29.00</span>
+    <span style="color:#3b82f6;font-size:12px;font-weight:600">View Demo &rarr;</span>
+  </div>
+</a>
+</div>
+<div style="margin-top:24px"><a href="../../../demos/index.html">&larr; All Stores</a></div>
+
+</div>
+<script></script>
+</body>
+</html>

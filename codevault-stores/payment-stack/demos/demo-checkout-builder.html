@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout Builder — Demo | Payment Stack</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#76FF03}.header .back{color:#76FF03;text-decoration:none;font-size:.85rem}
+  .container{max-width:960px;margin:0 auto;padding:28px 20px}
+  h2{font-size:1.5rem;margin-bottom:6px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .layout{display:grid;grid-template-columns:280px 1fr;gap:18px}
+  @media(max-width:700px){.layout{grid-template-columns:1fr}}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:18px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#76FF03;margin-bottom:12px}
+  label{display:block;font-size:.8rem;color:#8899aa;margin-bottom:4px}
+  input,select{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:8px 10px;font-size:.85rem;margin-bottom:10px;outline:none;transition:border-color .2s}
+  input:focus,select:focus{border-color:#76FF03}
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .toggle-label{font-size:.82rem;color:#8899aa}
+  .toggle{position:relative;width:36px;height:20px}
+  .toggle input{opacity:0;width:0;height:0}
+  .toggle-slider{position:absolute;inset:0;background:#1e2a3a;border-radius:20px;cursor:pointer;transition:.2s}
+  .toggle-slider::before{content:'';position:absolute;width:14px;height:14px;left:3px;bottom:3px;background:#8899aa;border-radius:50%;transition:.2s}
+  .toggle input:checked+.toggle-slider{background:#76FF03}
+  .toggle input:checked+.toggle-slider::before{transform:translateX(16px);background:#0A0E1A}
+  .btn{width:100%;padding:10px;border:none;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer;background:#76FF03;color:#0A0E1A;transition:all .2s;margin-bottom:8px}
+  .btn:hover{background:#8fff1a}
+  /* Checkout preview */
+  .checkout-preview{background:#f9f9f9;border-radius:10px;overflow:hidden;font-family:-apple-system,sans-serif;color:#333;font-size:.85rem}
+  .co-steps{background:#fff;border-bottom:1px solid #e5e5e5;display:flex;padding:12px 16px;gap:0}
+  .co-step{flex:1;text-align:center;font-size:.72rem;color:#999;padding-bottom:8px;border-bottom:2px solid transparent;cursor:pointer;transition:all .2s}
+  .co-step.active{color:#333;border-color:#000;font-weight:600}
+  .co-step.done{color:#76FF03;border-color:#76FF03}
+  .co-body{padding:20px}
+  .co-title{font-size:1.1rem;font-weight:700;margin-bottom:16px;color:#111}
+  .co-field{margin-bottom:12px}
+  .co-field label{font-size:.75rem;color:#666;display:block;margin-bottom:4px}
+  .co-field input{width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:6px;font-size:.88rem;background:#fff;color:#333;outline:none}
+  .co-field input:focus{border-color:#000}
+  .co-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .co-order{background:#f5f5f5;border-radius:8px;padding:12px;margin-bottom:14px}
+  .co-order-title{font-size:.72rem;text-transform:uppercase;color:#999;margin-bottom:8px}
+  .co-order-item{display:flex;justify-content:space-between;margin-bottom:6px;font-size:.82rem}
+  .co-order-total{display:flex;justify-content:space-between;font-weight:700;border-top:1px solid #ddd;padding-top:8px;margin-top:6px}
+  .co-btn{width:100%;padding:12px;border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;color:#fff;transition:all .2s}
+  .co-trust{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;font-size:.7rem;color:#999}
+  .co-footer{background:#f0f0f0;padding:10px 16px;text-align:center;font-size:.68rem;color:#aaa}
+  .step-nav{display:flex;gap:6px;margin-top:12px}
+  .step-btn{flex:1;padding:8px;border:1px solid #1e2a3a;border-radius:6px;background:none;color:#8899aa;cursor:pointer;font-size:.78rem;transition:all .2s}
+  .step-btn:hover{border-color:#76FF03;color:#76FF03}
+  .cta-bar{background:linear-gradient(135deg,#0d1321,#111827);border:1px solid #76FF03;border-radius:12px;padding:20px;text-align:center;margin-top:18px}
+  .cta-bar p{color:#8899aa;font-size:.85rem;margin-bottom:12px;margin-top:6px}
+  .cta-btn{display:inline-block;background:#76FF03;color:#0A0E1A;padding:12px 26px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s}
+  .cta-btn:hover{background:#8fff1a;transform:translateY(-2px)}
+  .footer-note{text-align:center;color:#445566;font-size:.77rem;margin-top:16px;padding-top:12px;border-top:1px solid #1e2a3a}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>⚡ Payment Stack — Checkout Builder Demo</h1>
+  <a class="back" href="../index.html">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>Multi-Step Checkout Builder</h2>
+  <p class="subtitle">Customize and preview a multi-step checkout flow. Toggle features and see the live result.</p>
+  <div class="layout">
+    <div>
+      <div class="panel" style="margin-bottom:12px">
+        <h3>🎨 Style</h3>
+        <label>Button Color</label>
+        <input id="btnColor" type="color" value="#000000" oninput="render()" style="height:34px;cursor:pointer">
+        <label>Product Name</label>
+        <input id="prodName" value="Pro Bundle" oninput="render()">
+        <label>Price ($)</label>
+        <input id="price" type="number" value="49" oninput="render()">
+      </div>
+      <div class="panel" style="margin-bottom:12px">
+        <h3>⚙ Features</h3>
+        <div class="toggle-row"><span class="toggle-label">Order summary sidebar</span><label class="toggle"><input type="checkbox" id="tOrder" checked onchange="render()"><span class="toggle-slider"></span></label></div>
+        <div class="toggle-row"><span class="toggle-label">Address autofill</span><label class="toggle"><input type="checkbox" id="tAddr" checked onchange="render()"><span class="toggle-slider"></span></label></div>
+        <div class="toggle-row"><span class="toggle-label">Coupon code field</span><label class="toggle"><input type="checkbox" id="tCoupon" onchange="render()"><span class="toggle-slider"></span></label></div>
+        <div class="toggle-row"><span class="toggle-label">Trust badges</span><label class="toggle"><input type="checkbox" id="tTrust" checked onchange="render()"><span class="toggle-slider"></span></label></div>
+        <div class="toggle-row"><span class="toggle-label">Guest checkout</span><label class="toggle"><input type="checkbox" id="tGuest" checked onchange="render()"><span class="toggle-slider"></span></label></div>
+        <div class="toggle-row"><span class="toggle-label">Upsell offer</span><label class="toggle"><input type="checkbox" id="tUpsell" onchange="render()"><span class="toggle-slider"></span></label></div>
+      </div>
+      <div class="panel">
+        <h3>📋 Steps</h3>
+        <select id="numSteps" onchange="render()">
+          <option value="2">2 steps (Contact + Payment)</option>
+          <option value="3" selected>3 steps (Contact + Shipping + Payment)</option>
+          <option value="4">4 steps (+ Confirmation)</option>
+        </select>
+        <div class="step-nav">
+          <button class="step-btn" onclick="prevStep()">← Prev Step</button>
+          <button class="step-btn" onclick="nextStep()">Next Step →</button>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>👁 Checkout Preview — <span id="stepLabel">Step 1</span></h3>
+      <div id="checkoutPreview"></div>
+    </div>
+  </div>
+  <div class="cta-bar">
+    <h3>Get the Full Checkout Builder</h3>
+    <p>Python + React/HTML templates: conversion-optimized checkout flows, A/B testing, abandoned cart recovery, and analytics.</p>
+    <a class="cta-btn" href="https://buy.stripe.com/cNibJ1cH5ddc24W15TgjJ1u">Buy Full Version — $54.00</a>
+    <button class="crypto-pay-btn" data-product-slug="checkout-builder" data-store-slug="payment-stack" data-product-name="Checkout Builder" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+let currentStep = 0;
+
+function g(id){return document.getElementById(id)}
+function gb(id){return g(id).checked}
+
+function getSteps(){
+  const n = parseInt(g('numSteps').value);
+  const steps = ['Contact','Payment'];
+  if(n>=3) steps.splice(1,0,'Shipping');
+  if(n>=4) steps.push('Confirm');
+  return steps;
+}
+
+function prevStep(){currentStep=Math.max(0,currentStep-1);render();}
+function nextStep(){const s=getSteps();currentStep=Math.min(s.length-1,currentStep+1);render();}
+
+function render(){
+  const steps=getSteps();
+  if(currentStep>=steps.length)currentStep=steps.length-1;
+  g('stepLabel').textContent=`Step ${currentStep+1} of ${steps.length}`;
+  const color=g('btnColor').value;
+  const price=parseFloat(g('price').value)||49;
+  const prod=g('prodName').value||'Product';
+
+  const stepsHtml=steps.map((s,i)=>`<div class="co-step ${i<currentStep?'done':i===currentStep?'active':''}">${i<currentStep?'✓ '+s:s}</div>`).join('');
+
+  let bodyHtml='';
+  const step=steps[currentStep];
+  if(step==='Contact'){
+    bodyHtml=`<div class="co-title">Contact Information</div>
+      ${gb('tGuest')?'<div style="text-align:right;font-size:.75rem;color:#999;margin-bottom:12px">Already have an account? <a href="#" style="color:#333">Sign in</a></div>':''}
+      <div class="co-field"><label>Email address</label><input placeholder="you@example.com"></div>
+      <div class="co-row"><div class="co-field"><label>First name</label><input placeholder="Jane"></div><div class="co-field"><label>Last name</label><input placeholder="Smith"></div></div>
+      ${gb('tCoupon')?'<div class="co-field"><label>Coupon code</label><input placeholder="SAVE20"></div>':''}`;
+  } else if(step==='Shipping'){
+    bodyHtml=`<div class="co-title">Shipping Address</div>
+      <div class="co-field"><label>Address</label><input placeholder="${gb('tAddr')?'Start typing for autocomplete...':'123 Main St'}"></div>
+      <div class="co-row"><div class="co-field"><label>City</label><input placeholder="New York"></div><div class="co-field"><label>ZIP</label><input placeholder="10001"></div></div>
+      <div class="co-field"><label>Country</label><input placeholder="United States"></div>`;
+  } else if(step==='Payment'){
+    bodyHtml=`<div class="co-title">Payment</div>
+      ${gb('tUpsell')?`<div style="background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:10px;margin-bottom:12px;font-size:.78rem;color:#92400e">🎁 <b>Special offer:</b> Add the Advanced Bundle for just $+19 → <a href="#" style="color:#92400e">Add to order</a></div>`:''}
+      <div class="co-field"><label>Card number</label><input placeholder="4242 4242 4242 4242"></div>
+      <div class="co-row"><div class="co-field"><label>Expiry</label><input placeholder="MM/YY"></div><div class="co-field"><label>CVC</label><input placeholder="123"></div></div>`;
+  } else {
+    bodyHtml=`<div class="co-title" style="color:green">✓ Order Confirmed!</div><div style="color:#666;font-size:.85rem">Thank you! Check your email for your receipt.</div>`;
+  }
+
+  const orderHtml=gb('tOrder')?`<div class="co-order">
+    <div class="co-order-title">Order Summary</div>
+    <div class="co-order-item"><span>${prod}</span><span>$${price.toFixed(2)}</span></div>
+    <div class="co-order-item"><span>Tax</span><span>$${(price*.1).toFixed(2)}</span></div>
+    <div class="co-order-total"><span>Total</span><span>$${(price*1.1).toFixed(2)}</span></div>
+  </div>`:'';
+
+  const trustHtml=gb('tTrust')?`<div class="co-trust">🔒 SSL Secure &nbsp;|&nbsp; ⚡ Stripe &nbsp;|&nbsp; ✓ 30-Day Guarantee</div>`:'';
+
+  g('checkoutPreview').innerHTML=`<div class="checkout-preview">
+    <div class="co-steps">${stepsHtml}</div>
+    <div class="co-body">
+      ${orderHtml}
+      ${bodyHtml}
+      <button class="co-btn" style="background:${color};margin-top:14px">${currentStep===steps.length-1?'Place Order →':'Continue →'}</button>
+      ${trustHtml}
+    </div>
+    <div class="co-footer">Powered by Checkout Builder · Secured by Stripe</div>
+  </div>`;
+}
+render();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

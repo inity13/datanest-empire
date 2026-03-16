@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spam Prevention Demo — Form Forge</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:840px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#7C4DFF20;color:#7C4DFF;border:1px solid #7C4DFF40;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .layout{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#7C4DFF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+  label{display:block;font-size:13px;color:#94a3b8;margin-bottom:5px;font-weight:500;margin-top:12px}
+  label:first-child{margin-top:0}
+  input,textarea,select{width:100%;background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:10px 14px;color:#e2e8f0;font-size:14px;outline:none;transition:border-color .2s;font-family:inherit}
+  input:focus,textarea:focus,select:focus{border-color:#7C4DFF}
+  select option{background:#111827}
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid #1e293b}
+  .toggle-row:last-child{border-bottom:none}
+  .toggle-label{font-size:13px;color:#94a3b8}
+  .toggle{width:38px;height:22px;background:#1e293b;border-radius:11px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+  .toggle.on{background:#7C4DFF}
+  .toggle::after{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .2s}
+  .toggle.on::after{transform:translateX(16px)}
+  .btn-test{background:#7C4DFF;color:#fff;border:none;border-radius:8px;padding:12px;width:100%;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;margin-top:14px}
+  .btn-test:hover{background:#6B3FEE}
+  .score-display{display:flex;align-items:center;gap:16px;padding:18px;background:#0A0E1A;border-radius:10px;margin-bottom:16px}
+  .score-ring{position:relative;width:70px;height:70px;flex-shrink:0}
+  .score-ring svg{transform:rotate(-90deg)}
+  .score-ring-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:20px;font-weight:700}
+  .score-info{flex:1}
+  .score-verdict{font-size:18px;font-weight:700;margin-bottom:3px}
+  .score-sub{font-size:12px;color:#94a3b8}
+  .check-row{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;border-radius:6px;margin-bottom:6px;font-size:13px}
+  .c-pass{background:#00FF8810;color:#00FF88}
+  .c-warn{background:#f59e0b10;color:#f59e0b}
+  .c-fail{background:#ef444410;color:#ef4444}
+  .c-info{background:#1e293b;color:#94a3b8}
+  .check-label{flex:1}
+  .check-score{font-size:12px;font-weight:700;margin-left:8px}
+  /* Honeypot demo */
+  .honeypot-demo{background:#0A0E1A;border-radius:8px;padding:16px;font-family:Arial,sans-serif}
+  .hp-field{margin-bottom:12px}
+  .hp-label{font-size:13px;font-weight:600;color:#e2e8f0;margin-bottom:5px;display:block}
+  .hp-input{width:100%;border:1px solid #2d3748;border-radius:6px;padding:9px;background:#111827;color:#e2e8f0;font-size:13px;outline:none}
+  .hp-hidden{display:none}
+  .hp-note{font-size:11px;color:#475569;margin-top:6px}
+  .cta-bar{background:linear-gradient(135deg,#7C4DFF15,#7C4DFF05);border:1px solid #7C4DFF30;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#7C4DFF;color:#fff;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#6B3FEE;transform:translateY(-1px);box-shadow:0 8px 24px #7C4DFF40}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  @media(max-width:640px){.layout{grid-template-columns:1fr}}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Spam Prevention</h1>
+    <p class="subtitle">Multi-layer spam detection: honeypots, rate limiting, content analysis</p>
+  </div>
+
+  <div class="layout">
+    <div>
+      <div class="card">
+        <div class="card-title">Spam Filters to Apply</div>
+        <div class="toggle-row">
+          <span class="toggle-label">Honeypot field</span>
+          <div class="toggle on" id="t-honey" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">URL link detection</span>
+          <div class="toggle on" id="t-urls" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Keyword blocklist</span>
+          <div class="toggle on" id="t-keywords" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Submit speed check</span>
+          <div class="toggle on" id="t-speed" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">All-caps detection</span>
+          <div class="toggle on" id="t-caps" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Repeated characters</span>
+          <div class="toggle" id="t-repeat" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div style="margin-top:16px">
+          <label>Blocked keywords (comma-separated)</label>
+          <input type="text" id="blockedWords" value="casino, viagra, click here, earn money, free money, crypto offer">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Test Submission</div>
+        <label>Name</label>
+        <input type="text" id="testName" value="John Smith">
+        <label>Email</label>
+        <input type="text" id="testEmail" value="john@example.com">
+        <label>Message (try typing spam)</label>
+        <textarea id="testMessage" rows="4">Click here to earn FREE MONEY! Visit casino-bonus.net for guaranteed winnings!!!</textarea>
+        <label>Simulated submission time (seconds)</label>
+        <input type="number" id="submitTime" value="3" min="0">
+        <button class="btn-test" onclick="runCheck()">Analyze for Spam</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="card-title">Analysis Results</div>
+        <div id="scoreBlock" style="color:#64748b;font-size:13px">Fill in the test submission and click Analyze.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Honeypot Field Demo</div>
+        <p style="font-size:13px;color:#94a3b8;margin-bottom:14px">This form has a hidden field. Bots fill it; humans don't see it.</p>
+        <div class="honeypot-demo">
+          <div class="hp-field">
+            <label class="hp-label">Your Name</label>
+            <input class="hp-input" type="text" placeholder="John Doe">
+          </div>
+          <!-- Honeypot: hidden from humans -->
+          <div class="hp-field hp-hidden">
+            <label class="hp-label">Leave blank</label>
+            <input class="hp-input" type="text" id="honeypotField" tabindex="-1" autocomplete="off">
+          </div>
+          <div class="hp-field">
+            <label class="hp-label">Email</label>
+            <input class="hp-input" type="email" placeholder="you@example.com">
+          </div>
+          <button onclick="checkHoneypot()" style="background:#7C4DFF;color:#fff;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;width:100%;margin-top:4px">Check Honeypot Status</button>
+          <div id="hpResult" class="hp-note" style="margin-top:8px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <p>Full version: IP-based rate limiting, reCAPTCHA v3 integration, device fingerprinting, ML-based spam scoring, and automatic blocklist management.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/00w3cv0Yn5KKfVM4i5gjJ15">Buy Full Version — $39.00</a>
+    <button class="crypto-pay-btn" data-product-slug="spam-prevention" data-store-slug="form-forge" data-product-name="Spam Prevention" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows limited functionality. Buy the full tool for all features.</div>
+</div>
+<script>
+const SPAM_KEYWORDS = ['casino','viagra','click here','earn money','free money','crypto offer','guaranteed','bitcoin','make money fast','porn','xxx','enlargement','weight loss pill'];
+
+function on(id) { return document.getElementById(id).classList.contains('on'); }
+
+function runCheck() {
+  const name = document.getElementById('testName').value;
+  const email = document.getElementById('testEmail').value;
+  const msg = document.getElementById('testMessage').value;
+  const time = +document.getElementById('submitTime').value;
+  const customBlocked = document.getElementById('blockedWords').value.split(',').map(w=>w.trim().toLowerCase()).filter(Boolean);
+  const allBlocked = [...new Set([...SPAM_KEYWORDS, ...customBlocked])];
+
+  let score = 100;
+  const checks = [];
+
+  // Honeypot
+  if (on('t-honey')) {
+    const hp = document.getElementById('honeypotField').value;
+    if (hp.trim()) { score -= 80; checks.push({c:'fail',l:'Honeypot field was filled',s:'-80'}); }
+    else checks.push({c:'pass',l:'Honeypot field is empty (good)',s:'0'});
+  }
+
+  // URL detection
+  if (on('t-urls')) {
+    const urlRx = /https?:\/\/|www\.\S+|\S+\.(com|net|org|io)\b/i;
+    const urlCount = (msg.match(urlRx)||[]).length;
+    if (urlCount > 0) { score -= 30 * Math.min(urlCount,3); checks.push({c:'fail',l:`Contains ${urlCount} URL(s)`,s:`-${30*Math.min(urlCount,3)}`}); }
+    else checks.push({c:'pass',l:'No URLs detected',s:'0'});
+  }
+
+  // Keywords
+  if (on('t-keywords')) {
+    const lower = msg.toLowerCase();
+    const found = allBlocked.filter(w=>lower.includes(w));
+    if (found.length) { score -= found.length * 20; checks.push({c:'fail',l:`Blocked keywords: "${found.slice(0,3).join('", "')}"`,s:`-${found.length*20}`}); }
+    else checks.push({c:'pass',l:'No blocked keywords found',s:'0'});
+  }
+
+  // Speed
+  if (on('t-speed')) {
+    if (time < 3) { score -= 40; checks.push({c:'fail',l:`Submitted in ${time}s — too fast (bot likely)`,s:'-40'}); }
+    else if (time < 8) checks.push({c:'warn',l:`Submitted in ${time}s — slightly fast`,s:'-5'});
+    else checks.push({c:'pass',l:`Submitted in ${time}s — normal timing`,s:'0'});
+  }
+
+  // Caps
+  if (on('t-caps')) {
+    const upper = msg.replace(/[^A-Za-z]/g,'');
+    const capsRatio = upper.length > 0 ? upper.split('').filter(c=>c===c.toUpperCase()).length / upper.length : 0;
+    if (capsRatio > 0.6 && upper.length > 10) { score -= 25; checks.push({c:'fail',l:`${Math.round(capsRatio*100)}% UPPERCASE — suspicious`,s:'-25'}); }
+    else checks.push({c:'pass',l:`Caps ratio: ${Math.round(capsRatio*100)}% — normal`,s:'0'});
+  }
+
+  // Repeated chars
+  if (on('t-repeat')) {
+    if (/(.)\1{4,}/.test(msg)) { score -= 15; checks.push({c:'warn',l:'Excessive repeated characters',s:'-15'}); }
+    else checks.push({c:'pass',l:'No excessive character repetition',s:'0'});
+  }
+
+  score = Math.max(0, Math.min(100, score));
+  const spamScore = 100 - score;
+  const color = spamScore >= 60 ? '#ef4444' : spamScore >= 30 ? '#f59e0b' : '#00FF88';
+  const verdict = spamScore >= 60 ? 'SPAM — Blocked' : spamScore >= 30 ? 'Suspicious' : 'Likely Legitimate';
+  const offset = 188 - (188 * spamScore / 100);
+
+  document.getElementById('scoreBlock').innerHTML = `
+    <div class="score-display">
+      <div class="score-ring">
+        <svg width="70" height="70" viewBox="0 0 70 70">
+          <circle cx="35" cy="35" r="30" fill="none" stroke="#1e293b" stroke-width="7"/>
+          <circle cx="35" cy="35" r="30" fill="none" stroke="${color}" stroke-width="7" stroke-dasharray="188" stroke-dashoffset="${offset}" stroke-linecap="round"/>
+        </svg>
+        <div class="score-ring-text" style="color:${color}">${spamScore}</div>
+      </div>
+      <div class="score-info">
+        <div class="score-verdict" style="color:${color}">${verdict}</div>
+        <div class="score-sub">Spam score: ${spamScore}/100${spamScore>=60?' — submission blocked':''}</div>
+      </div>
+    </div>
+    ${checks.map(c=>`<div class="check-row c-${c.c}"><span class="check-label">${c.l}</span><span class="check-score">${c.s!=='0'?c.s:''}</span></div>`).join('')}`;
+}
+
+function checkHoneypot() {
+  const val = document.getElementById('honeypotField').value;
+  const r = document.getElementById('hpResult');
+  if (val.trim()) {
+    r.style.color = '#ef4444';
+    r.textContent = '🚨 BOT DETECTED — honeypot field was filled in. Submission would be rejected.';
+  } else {
+    r.style.color = '#00FF88';
+    r.textContent = '✓ Human detected — honeypot field is empty. Submission allowed.';
+  }
+}
+
+// Auto-run
+setTimeout(runCheck, 200);
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

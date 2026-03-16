@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Validator Demo — Form Forge</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:840px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#7C4DFF20;color:#7C4DFF;border:1px solid #7C4DFF40;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#7C4DFF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+  .layout{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .rule-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  select,input{background:#0A0E1A;border:1px solid #2d3748;border-radius:6px;padding:9px 12px;color:#e2e8f0;font-size:13px;outline:none;transition:border-color .2s;font-family:inherit}
+  select:focus,input:focus{border-color:#7C4DFF}
+  select option{background:#111827}
+  .rule-select{width:100%}
+  .rule-value{flex:1}
+  .rule-delete{background:none;border:none;color:#475569;cursor:pointer;padding:6px;font-size:16px;transition:color .2s;flex-shrink:0}
+  .rule-delete:hover{color:#ef4444}
+  .add-rule-btn{background:#7C4DFF20;border:1px dashed #7C4DFF40;border-radius:8px;padding:9px;width:100%;color:#7C4DFF;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+  .add-rule-btn:hover{background:#7C4DFF30}
+  /* Test area */
+  .test-field{margin-bottom:16px}
+  .test-label{font-size:13px;color:#94a3b8;margin-bottom:6px;font-weight:500}
+  .test-input{width:100%;background:#0A0E1A;border:2px solid #2d3748;border-radius:8px;padding:12px;color:#e2e8f0;font-size:14px;outline:none;font-family:inherit;transition:border-color .2s}
+  .test-input.valid{border-color:#00FF88}
+  .test-input.invalid{border-color:#ef4444}
+  .validation-msg{font-size:12px;margin-top:6px;display:flex;align-items:center;gap:6px;min-height:18px}
+  .valid-msg{color:#00FF88}
+  .invalid-msg{color:#ef4444}
+  .test-btn{background:#7C4DFF;color:#fff;border:none;border-radius:8px;padding:12px;width:100%;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;margin-top:4px}
+  .test-btn:hover{background:#6B3FEE}
+  /* Results */
+  .result-row{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:8px;margin-bottom:8px;font-size:13px}
+  .r-pass{background:#00FF8810;border-left:3px solid #00FF88}
+  .r-fail{background:#ef444410;border-left:3px solid #ef4444}
+  .r-rule{color:#e2e8f0}
+  .r-status{font-weight:700}
+  .pass-txt{color:#00FF88}
+  .fail-txt{color:#ef4444}
+  /* Presets */
+  .preset-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+  .preset-chip{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #2d3748;background:#0A0E1A;color:#94a3b8;transition:all .2s}
+  .preset-chip:hover{background:#7C4DFF20;color:#7C4DFF;border-color:#7C4DFF40}
+  .cta-bar{background:linear-gradient(135deg,#7C4DFF15,#7C4DFF05);border:1px solid #7C4DFF30;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#7C4DFF;color:#fff;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#6B3FEE;transform:translateY(-1px);box-shadow:0 8px 24px #7C4DFF40}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  @media(max-width:640px){.layout{grid-template-columns:1fr}}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Data Validator</h1>
+    <p class="subtitle">Define validation rules and test field inputs in real time</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Quick Presets</div>
+    <div class="preset-chips">
+      <div class="preset-chip" onclick="loadPreset('email')">Email Field</div>
+      <div class="preset-chip" onclick="loadPreset('phone')">Phone Number</div>
+      <div class="preset-chip" onclick="loadPreset('password')">Password</div>
+      <div class="preset-chip" onclick="loadPreset('url')">URL</div>
+      <div class="preset-chip" onclick="loadPreset('zipcode')">ZIP Code</div>
+      <div class="preset-chip" onclick="loadPreset('name')">Full Name</div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div>
+      <div class="card">
+        <div class="card-title">Validation Rules</div>
+        <div id="rulesList"></div>
+        <button class="add-rule-btn" onclick="addRule()">+ Add Rule</button>
+      </div>
+      <div class="card">
+        <div class="card-title">Test Input</div>
+        <div class="test-field">
+          <div class="test-label">Field Label</div>
+          <input type="text" id="fieldLabel" value="Email Address" style="width:100%;margin-bottom:12px">
+          <div class="test-label">Test Value</div>
+          <input type="text" id="testInput" class="test-input" placeholder="Type something to validate..." oninput="validateLive()">
+          <div class="validation-msg" id="liveMsg"></div>
+        </div>
+        <button class="test-btn" onclick="validateFull()">Run Full Validation</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="card-title">Validation Results</div>
+        <div id="resultsArea" style="color:#64748b;font-size:13px">Add rules and test a value to see results here.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <p>Full version includes server-side validation, custom regex rules, cross-field validation, async checks (email existence, domain lookup), and JSON schema export.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/5kQaEX7mL6OOeRI7uhgjJ10">Buy Full Version — $39.00</a>
+    <button class="crypto-pay-btn" data-product-slug="data-validator" data-store-slug="form-forge" data-product-name="Data Validator" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows limited functionality. Buy the full tool for all features.</div>
+</div>
+<script>
+let rules = [];
+let ruleId = 0;
+
+const RULE_TYPES = [
+  {v:'required',    l:'Required'},
+  {v:'minlen',      l:'Min Length'},
+  {v:'maxlen',      l:'Max Length'},
+  {v:'email',       l:'Valid Email'},
+  {v:'url',         l:'Valid URL'},
+  {v:'numeric',     l:'Numbers Only'},
+  {v:'alpha',       l:'Letters Only'},
+  {v:'alphanumeric',l:'Alphanumeric'},
+  {v:'pattern',     l:'Regex Pattern'},
+  {v:'minval',      l:'Min Value'},
+  {v:'maxval',      l:'Max Value'},
+];
+
+const NEEDS_VALUE = ['minlen','maxlen','pattern','minval','maxval'];
+
+const PRESETS = {
+  email:    [{t:'required'},{t:'email'},{t:'maxlen',v:'254'}],
+  phone:    [{t:'required'},{t:'pattern',v:'^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$'},{t:'minlen',v:'7'}],
+  password: [{t:'required'},{t:'minlen',v:'8'},{t:'maxlen',v:'128'},{t:'pattern',v:'(?=.*[A-Z])(?=.*[0-9])'}],
+  url:      [{t:'required'},{t:'url'}],
+  zipcode:  [{t:'required'},{t:'pattern',v:'^[0-9]{5}(-[0-9]{4})?$'}],
+  name:     [{t:'required'},{t:'minlen',v:'2'},{t:'maxlen',v:'100'},{t:'alpha'}],
+};
+
+function loadPreset(key) {
+  rules = PRESETS[key].map(r => ({id:ruleId++, type:r.t, value:r.v||''}));
+  const labels = {email:'Email Address',phone:'Phone Number',password:'Password',url:'Website URL',zipcode:'ZIP Code',name:'Full Name'};
+  document.getElementById('fieldLabel').value = labels[key];
+  renderRules();
+  validateLive();
+}
+
+function addRule() {
+  rules.push({id:ruleId++, type:'required', value:''});
+  renderRules();
+}
+
+function removeRule(id) { rules = rules.filter(r=>r.id!==id); renderRules(); validateLive(); }
+function updateRuleType(id, v) { const r=rules.find(x=>x.id===id); if(r){r.type=v;} renderRules(); validateLive(); }
+function updateRuleValue(id, v) { const r=rules.find(x=>x.id===id); if(r) r.value=v; validateLive(); }
+
+function renderRules() {
+  document.getElementById('rulesList').innerHTML = rules.length ? rules.map(r => `
+    <div class="rule-row">
+      <select class="rule-select" onchange="updateRuleType(${r.id},this.value)">
+        ${RULE_TYPES.map(t=>`<option value="${t.v}"${r.type===t.v?' selected':''}>${t.l}</option>`).join('')}
+      </select>
+      ${NEEDS_VALUE.includes(r.type) ? `<input class="rule-value" type="text" placeholder="value" value="${r.value}" oninput="updateRuleValue(${r.id},this.value)">` : ''}
+      <button class="rule-delete" onclick="removeRule(${r.id})">✕</button>
+    </div>`).join('') : '<p style="color:#64748b;font-size:13px;margin-bottom:12px">No rules yet. Add one or pick a preset.</p>';
+}
+
+function checkRule(r, val) {
+  switch(r.type) {
+    case 'required':    return {ok:val.trim().length>0, msg:'Field is required'};
+    case 'minlen':      return {ok:val.length>=+r.value, msg:`Minimum ${r.value} characters`};
+    case 'maxlen':      return {ok:val.length<=+r.value, msg:`Maximum ${r.value} characters`};
+    case 'email':       return {ok:/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val), msg:'Must be a valid email address'};
+    case 'url':         return {ok:/^https?:\/\/.+\..+/.test(val), msg:'Must be a valid URL (starting with http/https)'};
+    case 'numeric':     return {ok:/^\d+$/.test(val), msg:'Must contain numbers only'};
+    case 'alpha':       return {ok:/^[a-zA-Z\s]+$/.test(val), msg:'Must contain letters only'};
+    case 'alphanumeric':return {ok:/^[a-zA-Z0-9\s]+$/.test(val), msg:'Must be alphanumeric'};
+    case 'pattern':     try{ return {ok:new RegExp(r.value).test(val), msg:`Must match pattern: ${r.value}`}; }catch(e){return {ok:false,msg:'Invalid regex pattern'};}
+    case 'minval':      return {ok:+val>=+r.value, msg:`Minimum value is ${r.value}`};
+    case 'maxval':      return {ok:+val<=+r.value, msg:`Maximum value is ${r.value}`};
+    default:            return {ok:true, msg:''};
+  }
+}
+
+function validateLive() {
+  const val = document.getElementById('testInput').value;
+  const input = document.getElementById('testInput');
+  const msg = document.getElementById('liveMsg');
+  if (!rules.length || !val) { input.className='test-input'; msg.innerHTML=''; return; }
+  const firstFail = rules.map(r=>checkRule(r,val)).find(r=>!r.ok);
+  if (firstFail) {
+    input.className='test-input invalid';
+    msg.innerHTML=`<span class="invalid-msg">✗ ${firstFail.msg}</span>`;
+  } else {
+    input.className='test-input valid';
+    msg.innerHTML=`<span class="valid-msg">✓ All rules pass</span>`;
+  }
+}
+
+function validateFull() {
+  const val = document.getElementById('testInput').value;
+  if (!rules.length) { document.getElementById('resultsArea').innerHTML='<p style="color:#64748b;font-size:13px">Add rules first.</p>'; return; }
+  const results = rules.map(r => {
+    const label = RULE_TYPES.find(t=>t.v===r.type)?.l || r.type;
+    const {ok, msg} = checkRule(r, val);
+    return {ok, label: label+(r.value?` (${r.value})`:''), msg};
+  });
+  const passCount = results.filter(r=>r.ok).length;
+  document.getElementById('resultsArea').innerHTML =
+    `<p style="font-size:13px;color:#94a3b8;margin-bottom:12px">${passCount}/${results.length} rules passed for: "<strong style="color:#fff">${val||'(empty)'}</strong>"</p>` +
+    results.map(r=>`
+      <div class="result-row ${r.ok?'r-pass':'r-fail'}">
+        <span class="r-rule">${r.label}</span>
+        <span class="r-status ${r.ok?'pass-txt':'fail-txt'}">${r.ok?'✓ PASS':'✗ FAIL'}</span>
+      </div>`).join('');
+}
+
+loadPreset('email');
+document.getElementById('testInput').value = 'test@example.com';
+validateLive();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

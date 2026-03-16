@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent Framework — Demo | AI Toolkit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#FF1744}.header .back{color:#FF1744;text-decoration:none;font-size:.85rem}
+  .container{max-width:900px;margin:0 auto;padding:28px 20px}
+  h2{font-size:1.5rem;margin-bottom:6px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .grid2{display:grid;grid-template-columns:300px 1fr;gap:18px}
+  @media(max-width:650px){.grid2{grid-template-columns:1fr}}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#FF1744;margin-bottom:14px}
+  label{display:block;font-size:.8rem;color:#8899aa;margin-bottom:4px}
+  input,select{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:8px 10px;font-size:.88rem;margin-bottom:10px;outline:none;transition:border-color .2s}
+  input:focus,select:focus{border-color:#FF1744}
+  .btn{width:100%;padding:11px;border:none;border-radius:8px;font-size:.92rem;font-weight:600;cursor:pointer;background:#FF1744;color:#fff;transition:all .2s}
+  .btn:hover{background:#ff4060}
+  .tool-list{margin-bottom:12px}
+  .tool-item{display:flex;align-items:center;gap:8px;padding:7px;border:1px solid #1e2a3a;border-radius:6px;margin-bottom:6px;cursor:pointer;transition:all .2s;font-size:.82rem;color:#8899aa}
+  .tool-item.enabled{border-color:#FF1744;color:#fff;background:rgba(255,23,68,.05)}
+  .tool-icon{font-size:1rem;width:20px;text-align:center}
+  /* Execution trace */
+  .trace{max-height:380px;overflow-y:auto}
+  .trace-step{padding:10px;border-left:3px solid #1e2a3a;margin-bottom:8px;border-radius:0 6px 6px 0;background:#060a12;transition:all .3s}
+  .trace-step.thought{border-color:#ffab00}
+  .trace-step.tool-call{border-color:#00b0ff}
+  .trace-step.observation{border-color:#76FF03}
+  .trace-step.final{border-color:#FF1744;background:rgba(255,23,68,.05)}
+  .trace-header{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+  .trace-badge{font-size:.67rem;font-weight:700;padding:2px 6px;border-radius:3px;text-transform:uppercase}
+  .b-thought{background:rgba(255,171,0,.15);color:#ffab00}
+  .b-tool{background:rgba(0,176,255,.15);color:#00b0ff}
+  .b-obs{background:rgba(118,255,3,.15);color:#76FF03}
+  .b-final{background:rgba(255,23,68,.15);color:#FF1744}
+  .trace-content{font-size:.82rem;color:#ccc;line-height:1.5;font-family:'Courier New',monospace}
+  .iter-count{font-size:.75rem;color:#8899aa;text-align:center;margin-top:8px}
+  .cta-bar{background:linear-gradient(135deg,#0d1321,#111827);border:1px solid #FF1744;border-radius:12px;padding:20px;text-align:center;margin-top:18px}
+  .cta-bar p{color:#8899aa;font-size:.85rem;margin-bottom:12px;margin-top:6px}
+  .cta-btn{display:inline-block;background:#FF1744;color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s}
+  .cta-btn:hover{background:#ff4060;transform:translateY(-2px)}
+  .footer-note{text-align:center;color:#445566;font-size:.77rem;margin-top:16px;padding-top:12px;border-top:1px solid #1e2a3a}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🤖 AI Toolkit — AI Agent Framework Demo</h1>
+  <a class="back" href="../index.html">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>Agent Execution Visualizer</h2>
+  <p class="subtitle">Watch an AI agent reason, select tools, and execute multi-step tasks — the ReAct pattern in action.</p>
+  <div class="grid2" style="margin-bottom:18px">
+    <div class="panel">
+      <h3>🤖 Agent Config</h3>
+      <label>Task for the Agent</label>
+      <select id="task">
+        <option value="weather">Get weather and suggest clothing</option>
+        <option value="research">Research a company and summarize</option>
+        <option value="calculate">Calculate compound interest for investment</option>
+        <option value="email">Draft and send a follow-up email</option>
+      </select>
+      <label>Max Iterations</label>
+      <select id="maxIter">
+        <option value="3">3 steps</option>
+        <option value="5" selected>5 steps</option>
+        <option value="8">8 steps</option>
+      </select>
+      <h3 style="margin-top:4px">🔧 Available Tools</h3>
+      <div class="tool-list" id="toolList"></div>
+      <button class="btn" onclick="runAgent()">▶ Run Agent</button>
+    </div>
+    <div class="panel">
+      <h3>⚡ Execution Trace</h3>
+      <div class="trace" id="trace"><div style="color:#445566;padding:20px;text-align:center">Configure and run the agent to see execution trace</div></div>
+      <div class="iter-count" id="iterCount"></div>
+    </div>
+  </div>
+  <div class="cta-bar">
+    <h3>Get the Full AI Agent Framework</h3>
+    <p>Python framework: LangGraph/AutoGen integration, tool use patterns, memory persistence, parallel tool calls, and human-in-the-loop.</p>
+    <a class="cta-btn" href="https://buy.stripe.com/dRmcN5bD15KK8tk9CpgjI3P">Buy Full Version — $64.00</a>
+    <button class="crypto-pay-btn" data-product-slug="ai-agent-framework" data-store-slug="ai-toolkit" data-product-name="AI Agent Framework" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+const TOOLS = [
+  {id:'search',icon:'🔍',name:'web_search',desc:'Search the web'},
+  {id:'calc',icon:'🧮',name:'calculator',desc:'Run calculations'},
+  {id:'email',icon:'✉',name:'send_email',desc:'Send emails'},
+  {id:'code',icon:'💻',name:'run_code',desc:'Execute Python'},
+  {id:'fetch',icon:'🌐',name:'fetch_url',desc:'Fetch web pages'},
+  {id:'file',icon:'📁',name:'read_file',desc:'Read files'},
+];
+let enabledTools = new Set(['search','calc','email']);
+
+function renderTools(){
+  document.getElementById('toolList').innerHTML=TOOLS.map(t=>`
+    <div class="tool-item ${enabledTools.has(t.id)?'enabled':''}" onclick="toggleTool('${t.id}',this)">
+      <span class="tool-icon">${t.icon}</span>
+      <span>${t.name}</span>
+      <span style="margin-left:auto;font-size:.68rem">${enabledTools.has(t.id)?'✓ ON':'OFF'}</span>
+    </div>`).join('');
+}
+
+function toggleTool(id,el){
+  if(enabledTools.has(id))enabledTools.delete(id);else enabledTools.add(id);
+  renderTools();
+}
+
+const PLANS = {
+  weather:[
+    {type:'thought',content:'I need to get the current weather. I\'ll use web_search to find it.'},
+    {type:'tool',tool:'web_search',args:{query:'current weather New York City today'}},
+    {type:'observation',content:'Weather: 72°F, partly cloudy, 40% chance of rain in the afternoon.'},
+    {type:'thought',content:'Got weather data. Now I\'ll analyze it to suggest appropriate clothing.'},
+    {type:'final',content:'It\'s 72°F and partly cloudy with possible afternoon rain. I recommend: light layers (jeans + t-shirt + light jacket), comfortable walking shoes, and bring an umbrella just in case.'},
+  ],
+  research:[
+    {type:'thought',content:'I need to research the company. Let me search for recent news and financials.'},
+    {type:'tool',tool:'web_search',args:{query:'OpenAI company overview recent news 2024'}},
+    {type:'observation',content:'Found: OpenAI is an AI research company founded 2015, revenue $2B+ (2024), 770 employees, products: ChatGPT, GPT-4, API platform.'},
+    {type:'thought',content:'Got basic info. Let me fetch their official website for more details.'},
+    {type:'tool',tool:'fetch_url',args:{url:'https://openai.com/about'}},
+    {type:'observation',content:'Mission: ensure artificial general intelligence benefits all of humanity. Products: ChatGPT, DALL-E, Whisper, Sora.'},
+    {type:'final',content:'Summary: OpenAI is a leading AI company (founded 2015) building frontier AI systems. Key products: ChatGPT (200M+ users), GPT-4 API, DALL-E. Revenue ~$2B. Mission: safe & beneficial AGI.'},
+  ],
+  calculate:[
+    {type:'thought',content:'I need to calculate compound interest. P=$10,000, 7% annual rate, 10 years, monthly compounding.'},
+    {type:'tool',tool:'calculator',args:{expression:'10000 * (1 + 0.07/12) ** (12*10)'}},
+    {type:'observation',content:'Result: $20,097.32'},
+    {type:'thought',content:'The calculation is done. Let me also compute the total interest earned.'},
+    {type:'tool',tool:'calculator',args:{expression:'20097.32 - 10000'}},
+    {type:'observation',content:'Interest earned: $10,097.32'},
+    {type:'final',content:'Investment result: $10,000 at 7% APR compounded monthly for 10 years grows to $20,097.32. Total interest earned: $10,097.32 (100.97% return). Monthly payment equivalent: $116.22.'},
+  ],
+  email:[
+    {type:'thought',content:'I need to draft a follow-up email. Let me first check the context of the previous meeting.'},
+    {type:'tool',tool:'read_file',args:{path:'meeting_notes.txt'}},
+    {type:'observation',content:'Meeting: Discussed Q4 partnership proposal. Action item: send follow-up with pricing by Friday.'},
+    {type:'thought',content:'Got context. Now I\'ll draft the email with the correct tone and required information.'},
+    {type:'tool',tool:'run_code',args:{code:'generate_email_draft(to="client@company.com", subject="Q4 Partnership Proposal Follow-up")'}},
+    {type:'observation',content:'Draft generated: "Dear [Name], Following up on our Q4 discussion..."'},
+    {type:'tool',tool:'send_email',args:{to:'client@company.com',subject:'Q4 Partnership Follow-up',body:'[drafted content]'}},
+    {type:'final',content:'✓ Email sent successfully to client@company.com. Subject: Q4 Partnership Follow-up. Delivery confirmed. Reference ID: MSG-2024-7821.'},
+  ]
+};
+
+const delay = ms => new Promise(r => setTimeout(r, ms));
+let running = false;
+
+async function runAgent(){
+  if(running)return;
+  running=true;
+  const task=document.getElementById('task').value;
+  const maxIter=parseInt(document.getElementById('maxIter').value);
+  const plan=PLANS[task];
+  const trace=document.getElementById('trace');
+  trace.innerHTML='';
+  document.getElementById('iterCount').textContent='';
+
+  let iter=0;
+  for(const step of plan.slice(0,maxIter+2)){
+    iter++;
+    await delay(500);
+    const div=document.createElement('div');
+    div.className=`trace-step ${step.type==='tool'?'tool-call':step.type==='observation'?'observation':step.type==='final'?'final':'thought'}`;
+    let badge='',content='';
+    if(step.type==='thought'){badge='<span class="trace-badge b-thought">💭 Thought</span>';content=step.content;}
+    else if(step.type==='tool'){
+      const t=TOOLS.find(x=>x.name===step.tool)||{icon:'🔧'};
+      badge=`<span class="trace-badge b-tool">🔧 Tool: ${step.tool}</span>`;
+      content=`Input: ${JSON.stringify(step.args)}`;
+    }
+    else if(step.type==='observation'){badge='<span class="trace-badge b-obs">👁 Observation</span>';content=step.content;}
+    else{badge='<span class="trace-badge b-final">✅ Final Answer</span>';content=step.content;}
+    div.innerHTML=`<div class="trace-header">${badge}</div><div class="trace-content">${content}</div>`;
+    trace.appendChild(div);
+    trace.scrollTop=trace.scrollHeight;
+  }
+  document.getElementById('iterCount').textContent=`Completed in ${iter} steps`;
+  running=false;
+}
+renderTools();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

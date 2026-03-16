@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A/B Test Framework &mdash; Analytics Hub &mdash; CodeVault</title>
+    <meta name="description" content="Python A/B testing framework: experiment setup, statistical significance, chi-squared and z-test analysis. Know when a winner is real, not noise.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F4CA;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#00E5FF">
+    <script defer data-domain="analytics-hub.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Analytics Hub</a>
+        <h1 class="preview-page__title">A/B Test Framework</h1>
+        <p class="preview-page__price">$9.99</p>
+        <p class="preview-page__desc">Python A/B testing framework: experiment setup, statistical significance, chi-squared and z-test analysis. Know when a winner is real, not noise. Runs on Python 3.10+ stdlib only &mdash; no pip installs needed.</p>
+
+        <ul class="preview-page__features">
+            <li>Define experiments with control and variant groups</li>
+            <li>Chi-squared test for categorical outcomes (click/no-click)</li>
+            <li>Z-test for proportion comparison with confidence intervals</li>
+            <li>Configurable significance level (default p &lt; 0.05)</li>
+            <li>Sample size calculator for experiment planning</li>
+            <li>Multi-variant support (A/B/C/n testing)</li>
+            <li>HTML report with test results and recommendations</li>
+            <li>JSON experiment definition for reproducible tests</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Analyze an A/B test from experiment data
+python ab_test_framework.py --input experiment.json
+
+# Run with custom significance level
+python ab_test_framework.py --input experiment.json --alpha 0.01
+
+# Calculate required sample size
+python ab_test_framework.py sample-size --baseline 0.12 --mde 0.02 --alpha 0.05</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_ab_test_framework"
+               data-product="ab-test-framework">
+                Grab This &mdash; $9.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="A/B Test Framework"
+                    data-crypto-price="999">
+                Pay with Crypto ($7.99)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security Headers Checker — Demo | Security Kit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#D500F9}.header .back{color:#D500F9;text-decoration:none;font-size:.85rem}
+  .container{max-width:860px;margin:0 auto;padding:32px 20px}
+  h2{font-size:1.5rem;margin-bottom:8px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px;margin-bottom:20px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#D500F9;margin-bottom:14px}
+  .samples{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .sample-btn{background:#0A0E1A;border:1px solid #1e2a3a;color:#8899aa;padding:5px 12px;border-radius:6px;font-size:.78rem;cursor:pointer;transition:all .2s}
+  .sample-btn:hover{border-color:#D500F9;color:#fff}
+  input{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:10px 12px;font-size:.9rem;outline:none;transition:border-color .2s}
+  input:focus{border-color:#D500F9}
+  .btn{padding:10px 22px;border:none;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer;background:#D500F9;color:#fff;margin-top:10px;transition:all .2s}
+  .btn:hover{background:#e040fb}
+  .score-wrap{display:flex;align-items:center;gap:20px;margin-bottom:20px}
+  .score-circle{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;border:4px solid #D500F9;font-size:1.5rem;font-weight:700;flex-shrink:0}
+  .score-label{color:#8899aa;font-size:.85rem}
+  .score-grade{font-size:.9rem;font-weight:600}
+  .header-row{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid #1e2a3a}
+  .header-row:last-child{border-bottom:none}
+  .status-dot{width:10px;height:10px;border-radius:50%;margin-top:4px;flex-shrink:0}
+  .present{background:#76FF03}.missing{background:#ef5350}
+  .header-info{flex:1}
+  .header-name{font-size:.85rem;font-weight:600;font-family:monospace;margin-bottom:4px}
+  .header-current{font-size:.75rem;color:#D500F9;font-family:monospace;margin-bottom:4px;word-break:break-all}
+  .header-rec{font-size:.75rem;color:#8899aa}
+  .risk{font-size:.72rem;margin-top:4px;color:#ff7043}
+  .status-badge{font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0}
+  .present-badge{background:rgba(118,255,3,.15);color:#76FF03}
+  .missing-badge{background:rgba(229,57,53,.15);color:#ef5350}
+  .cta-bar{text-align:center;padding:24px;background:#0d1321;border-radius:12px;border:1px solid #1e2a3a}
+  .cta-bar p{color:#8899aa;font-size:.88rem;margin-bottom:14px}
+  .btn-buy{display:inline-block;background:#D500F9;color:#fff;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none}
+  .note{text-align:center;font-size:.75rem;color:#4a5568;margin-top:14px}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📋 Security Headers Checker — Demo</h1>
+  <a href="../index.html" class="back">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>Security Headers Checker</h2>
+  <p class="subtitle">Simulate checking a site's HTTP security headers and get a scored report with remediation guidance.</p>
+  <div class="panel">
+    <h3>Target URL</h3>
+    <div class="samples">
+      <button class="sample-btn" onclick="checkSite('good')">Well-configured site</button>
+      <button class="sample-btn" onclick="checkSite('medium')">Partially configured</button>
+      <button class="sample-btn" onclick="checkSite('poor')">Poorly configured site</button>
+    </div>
+    <input type="text" id="urlInput" placeholder="https://example.com" value="https://example.com">
+    <button class="btn" onclick="checkSite('random')">Check Headers</button>
+  </div>
+  <div id="results" style="display:none">
+    <div class="panel">
+      <h3>Security Score</h3>
+      <div class="score-wrap">
+        <div class="score-circle" id="scoreCircle"><span id="scoreNum">—</span></div>
+        <div><div class="score-grade" id="scoreGrade"></div><div class="score-label" id="scoreDesc"></div></div>
+      </div>
+      <div id="headersList"></div>
+    </div>
+  </div>
+  <div class="cta-bar">
+    <p>Full version: live HTTP scanning, scheduled monitoring, email alerts on regressions, team dashboard, CSV export.</p>
+    <a href="https://buy.stripe.com/4gMdR96iHddccJA9CpgjJ1M" class="btn-buy">Buy Full Version — $19</a>
+    <button class="crypto-pay-btn" data-product-slug="security-headers-checker" data-store-slug="security-kit" data-product-name="security-headers-checker" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+const HEADERS = [
+  { name: 'Strict-Transport-Security', weight: 15,
+    good: 'max-age=31536000; includeSubDomains; preload',
+    rec: 'max-age=31536000; includeSubDomains; preload',
+    risk: 'Without HSTS, users can be redirected to HTTP via downgrade attacks.' },
+  { name: 'Content-Security-Policy', weight: 20,
+    good: "default-src 'self'; script-src 'self'; object-src 'none'",
+    rec: "default-src 'self'; script-src 'self' 'nonce-...'; object-src 'none'",
+    risk: 'Missing CSP allows XSS attacks to execute arbitrary scripts.' },
+  { name: 'X-Frame-Options', weight: 10,
+    good: 'DENY',
+    rec: 'DENY or SAMEORIGIN',
+    risk: 'Without this, your pages can be embedded in iframes for clickjacking.' },
+  { name: 'X-Content-Type-Options', weight: 10,
+    good: 'nosniff',
+    rec: 'nosniff',
+    risk: 'Browsers may MIME-sniff responses and execute non-script content as scripts.' },
+  { name: 'Referrer-Policy', weight: 10,
+    good: 'strict-origin-when-cross-origin',
+    rec: 'strict-origin-when-cross-origin',
+    risk: 'Leaks URL data to third-party sites via the Referer header.' },
+  { name: 'Permissions-Policy', weight: 10,
+    good: 'camera=(), microphone=(), geolocation=()',
+    rec: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+    risk: 'Without this, embedded content can access sensitive browser APIs.' },
+  { name: 'X-XSS-Protection', weight: 5,
+    good: '1; mode=block',
+    rec: '1; mode=block (or use CSP instead)',
+    risk: 'Legacy header; modern sites should rely on CSP.' },
+  { name: 'Cross-Origin-Embedder-Policy', weight: 20,
+    good: 'require-corp',
+    rec: 'require-corp',
+    risk: 'Required for SharedArrayBuffer and high-resolution timers; protects against Spectre.' }
+];
+
+const PROFILES = {
+  good: [true,true,true,true,true,true,true,true],
+  medium: [true,false,true,true,false,false,true,false],
+  poor: [false,false,false,true,false,false,false,false],
+  random: null
+};
+
+function checkSite(profile) {
+  const present = profile === 'random'
+    ? HEADERS.map(() => Math.random() > 0.4)
+    : PROFILES[profile];
+  const score = HEADERS.reduce((sum,h,i) => sum + (present[i] ? h.weight : 0), 0);
+  let grade, gColor;
+  if (score >= 85) { grade = 'A+'; gColor = '#76FF03'; }
+  else if (score >= 70) { grade = 'B'; gColor = '#FFAB00'; }
+  else if (score >= 50) { grade = 'C'; gColor = '#ff7043'; }
+  else { grade = 'F'; gColor = '#ef5350'; }
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('scoreNum').textContent = score;
+  document.getElementById('scoreCircle').style.borderColor = gColor;
+  document.getElementById('scoreGrade').textContent = `Grade: ${grade}`;
+  document.getElementById('scoreGrade').style.color = gColor;
+  document.getElementById('scoreDesc').textContent = score >= 85 ? 'Excellent security posture' : score >= 70 ? 'Good, but some gaps remain' : score >= 50 ? 'Several important headers missing' : 'Critical security headers missing';
+  document.getElementById('headersList').innerHTML = HEADERS.map((h,i) =>
+    `<div class="header-row">
+      <div class="status-dot ${present[i]?'present':'missing'}"></div>
+      <div class="header-info">
+        <div class="header-name">${h.name}</div>
+        ${present[i] ? `<div class="header-current">${h.good}</div>` : `<div class="header-rec">Recommended: ${h.rec}</div><div class="risk">⚠️ ${h.risk}</div>`}
+      </div>
+      <span class="status-badge ${present[i]?'present-badge':'missing-badge'}">${present[i]?'PRESENT':'MISSING'}</span>
+    </div>`).join('');
+}
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

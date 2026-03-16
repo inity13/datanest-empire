@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SERP Analyzer Demo — SEO Toolkit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:820px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#00FF8820;color:#00FF88;border:1px solid #00FF8840;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#00FF88;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+  label{display:block;font-size:13px;color:#94a3b8;margin-bottom:6px;font-weight:500}
+  input,textarea{width:100%;background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:10px 14px;color:#e2e8f0;font-size:14px;outline:none;transition:border-color .2s}
+  input:focus,textarea:focus{border-color:#00FF88}
+  textarea{resize:vertical;min-height:100px;font-family:inherit}
+  .form-group{margin-bottom:14px}
+  .btn-analyze{background:#00FF88;color:#0A0E1A;font-size:15px;font-weight:700;padding:12px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s;width:100%}
+  .btn-analyze:hover{background:#00e67a;transform:translateY(-1px)}
+  .metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+  @media(max-width:560px){.metrics-grid{grid-template-columns:1fr 1fr}}
+  .metric{background:#0A0E1A;border:1px solid #1e293b;border-radius:10px;padding:14px;text-align:center}
+  .metric-val{font-size:26px;font-weight:700;margin-bottom:4px}
+  .metric-label{font-size:11px;color:#64748b}
+  .metric-status{font-size:11px;font-weight:600;margin-top:4px}
+  .good{color:#00FF88}.warn{color:#f59e0b}.bad{color:#ef4444}
+  .score-bar{background:#1e293b;border-radius:8px;height:10px;overflow:hidden;margin:4px 0}
+  .score-fill{height:100%;border-radius:8px;transition:width .5s}
+  .issue-list{display:flex;flex-direction:column;gap:8px}
+  .issue{display:flex;gap:10px;align-items:flex-start;padding:10px 14px;border-radius:8px;font-size:13px}
+  .issue-good{background:#00FF8810;border:1px solid #00FF8830}
+  .issue-warn{background:#f59e0b10;border:1px solid #f59e0b30}
+  .issue-bad{background:#ef444410;border:1px solid #ef444430}
+  .serp-preview{background:#fff;border-radius:8px;padding:16px;margin-bottom:10px}
+  .serp-title{color:#1a0dab;font-size:18px;cursor:pointer;font-family:arial,sans-serif}
+  .serp-url{color:#006621;font-size:13px;font-family:arial,sans-serif;margin:2px 0}
+  .serp-desc{color:#545454;font-size:14px;font-family:arial,sans-serif;line-height:1.5}
+  .hidden{display:none}
+  .cta-bar{background:linear-gradient(135deg,#00FF8815,#00FF8805);border:1px solid #00FF8830;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#00FF88;color:#0A0E1A;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#00e67a;transform:translateY(-1px);box-shadow:0 8px 24px #00FF8840}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>SERP Analyzer</h1>
+    <p class="subtitle">Analyze your page's SEO metadata and SERP appearance in real-time</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Page Data Input</div>
+    <div class="form-group">
+      <label>Page Title</label>
+      <input type="text" id="title" placeholder="The Best Python Tools for Developers in 2024" oninput="autoAnalyze()">
+    </div>
+    <div class="form-group">
+      <label>Meta Description</label>
+      <textarea id="desc" placeholder="Discover the top Python tools and libraries that help developers write better, faster code. From testing frameworks to data analysis..." oninput="autoAnalyze()"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Page Content (paste some text)</label>
+      <textarea id="content" placeholder="Paste your page content here to analyze keyword density..." style="min-height:80px" oninput="autoAnalyze()"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Target Keyword</label>
+      <input type="text" id="keyword" placeholder="python tools" oninput="autoAnalyze()">
+    </div>
+    <button class="btn-analyze" onclick="analyze()">🔍 Analyze SERP Signals</button>
+  </div>
+
+  <div id="results" class="hidden">
+    <div class="card">
+      <div class="card-title">Google SERP Preview</div>
+      <div class="serp-preview">
+        <div class="serp-title" id="serpTitle"></div>
+        <div class="serp-url" id="serpUrl">https://example.com/your-page</div>
+        <div class="serp-desc" id="serpDesc"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">SEO Metrics</div>
+      <div class="metrics-grid">
+        <div class="metric">
+          <div class="metric-val" id="mTitleLen">—</div>
+          <div class="metric-label">Title Length</div>
+          <div class="metric-status" id="mTitleStatus"></div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="mDescLen">—</div>
+          <div class="metric-label">Desc Length</div>
+          <div class="metric-status" id="mDescStatus"></div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="mKwDensity">—</div>
+          <div class="metric-label">KW Density</div>
+          <div class="metric-status" id="mKwStatus"></div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="mWords">—</div>
+          <div class="metric-label">Word Count</div>
+          <div class="metric-status" id="mWordsStatus"></div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="mScore">—</div>
+          <div class="metric-label">SEO Score</div>
+          <div class="metric-status" id="mScoreLabel"></div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="mKwInTitle">—</div>
+          <div class="metric-label">KW in Title</div>
+          <div class="metric-status" id="mKwTitleStatus"></div>
+        </div>
+      </div>
+      <div class="score-bar"><div class="score-fill" id="scoreFill" style="width:0%;background:#00FF88"></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Issues &amp; Recommendations</div>
+      <div class="issue-list" id="issues"></div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <p>The full tool crawls your entire site, tracks ranking changes over time, analyzes competitors, and generates PDF reports with actionable fixes.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/6oU8wPePdddcgZQbKxgjJ1Z">Buy Full Version — $29.00</a>
+    <button class="crypto-pay-btn" data-product-slug="serp-analyzer" data-store-slug="seo-toolkit" data-product-name="SERP Analyzer" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows limited functionality. Buy the full tool for all features.</div>
+</div>
+<script>
+let debounce;
+function autoAnalyze() { clearTimeout(debounce); debounce = setTimeout(analyze, 400); }
+
+function analyze() {
+  const title = document.getElementById('title').value;
+  const desc = document.getElementById('desc').value;
+  const content = document.getElementById('content').value;
+  const keyword = document.getElementById('keyword').value.toLowerCase().trim();
+  if (!title && !desc) return;
+
+  document.getElementById('results').classList.remove('hidden');
+  document.getElementById('serpTitle').textContent = title || '—';
+  document.getElementById('serpDesc').textContent = desc.slice(0,165) || '—';
+
+  const tLen = title.length, dLen = desc.length;
+  const words = content.trim() ? content.trim().split(/\s+/) : [];
+  const wordCount = words.length;
+  let kwCount = 0;
+  if (keyword && content) {
+    const re = new RegExp(keyword,'gi');
+    kwCount = (content.match(re)||[]).length;
+  }
+  const kwDensity = wordCount > 0 ? ((kwCount / wordCount)*100).toFixed(1) : 0;
+  const kwInTitle = keyword && title.toLowerCase().includes(keyword);
+  const kwInDesc = keyword && desc.toLowerCase().includes(keyword);
+
+  let score = 0;
+  if (tLen >= 30 && tLen <= 60) score += 25; else if (tLen > 0) score += 10;
+  if (dLen >= 120 && dLen <= 160) score += 25; else if (dLen > 0) score += 10;
+  if (kwInTitle) score += 20;
+  if (kwInDesc) score += 15;
+  if (kwDensity >= 0.5 && kwDensity <= 2.5) score += 15;
+
+  const tStatus = tLen < 30 ? ['bad','Too short'] : tLen > 60 ? ['warn','Too long'] : ['good','Optimal'];
+  const dStatus = dLen < 120 ? ['bad','Too short'] : dLen > 160 ? ['warn','Too long'] : ['good','Optimal'];
+  const kwStatus = kwDensity < 0.5 ? ['warn','Low'] : kwDensity > 3 ? ['bad','Stuffing'] : ['good','Good'];
+  const wStatus = wordCount < 300 ? ['warn','Thin'] : wordCount < 600 ? ['good','OK'] : ['good','Great'];
+  const sLabel = score >= 80 ? ['good','Excellent'] : score >= 60 ? ['warn','Needs Work'] : ['bad','Poor'];
+
+  set('mTitleLen', tLen, 'mTitleStatus', tStatus);
+  set('mDescLen', dLen, 'mDescStatus', dStatus);
+  set('mKwDensity', kwDensity+'%', 'mKwStatus', kwStatus);
+  set('mWords', wordCount, 'mWordsStatus', wStatus);
+  set('mScore', score, 'mScoreLabel', sLabel);
+  document.getElementById('mKwInTitle').textContent = kwInTitle ? '✓ Yes' : '✗ No';
+  document.getElementById('mKwInTitle').className = 'metric-val ' + (kwInTitle?'good':'bad');
+  document.getElementById('mKwTitleStatus').textContent = kwInTitle ? 'Found' : keyword?'Missing':'No KW';
+  document.getElementById('scoreFill').style.width = score+'%';
+  document.getElementById('scoreFill').style.background = score>=80?'#00FF88':score>=60?'#f59e0b':'#ef4444';
+
+  const issues = [];
+  if (tLen === 0) issues.push(['bad','❌ Title is missing — required for SEO']);
+  else if (tLen < 30) issues.push(['bad',`❌ Title too short (${tLen} chars) — aim for 30–60`]);
+  else if (tLen > 60) issues.push(['warn',`⚠️ Title too long (${tLen} chars) — may be truncated in SERP`]);
+  else issues.push(['good',`✅ Title length is optimal (${tLen} chars)`]);
+
+  if (dLen === 0) issues.push(['bad','❌ Meta description missing — hurts CTR']);
+  else if (dLen < 120) issues.push(['bad',`❌ Description too short (${dLen} chars) — aim for 120–160`]);
+  else if (dLen > 160) issues.push(['warn',`⚠️ Description too long (${dLen} chars) — may be cut off`]);
+  else issues.push(['good',`✅ Description length is optimal (${dLen} chars)`]);
+
+  if (keyword) {
+    if (!kwInTitle) issues.push(['bad','❌ Target keyword missing from title']);
+    else issues.push(['good','✅ Target keyword found in title']);
+    if (!kwInDesc) issues.push(['warn','⚠️ Target keyword not in meta description']);
+  }
+  if (wordCount > 0 && wordCount < 300) issues.push(['warn','⚠️ Content too thin — aim for 600+ words']);
+
+  document.getElementById('issues').innerHTML = issues.map(([type,msg]) =>
+    `<div class="issue issue-${type}"><span>${msg}</span></div>`
+  ).join('');
+}
+
+function set(valId, val, statusId, status) {
+  document.getElementById(valId).textContent = val;
+  document.getElementById(valId).className = 'metric-val ' + status[0];
+  document.getElementById(statusId).textContent = status[1];
+  document.getElementById(statusId).className = 'metric-status ' + status[0];
+}
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

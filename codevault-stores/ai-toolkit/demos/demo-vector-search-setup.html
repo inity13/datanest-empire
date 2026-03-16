@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vector Search Setup — Demo | AI Toolkit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#FF1744}.header .back{color:#FF1744;text-decoration:none;font-size:.85rem}
+  .container{max-width:880px;margin:0 auto;padding:28px 20px}
+  h2{font-size:1.5rem;margin-bottom:6px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+  @media(max-width:600px){.grid2{grid-template-columns:1fr}}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#FF1744;margin-bottom:14px}
+  label{display:block;font-size:.8rem;color:#8899aa;margin-bottom:4px}
+  input,select,textarea{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:8px 10px;font-size:.88rem;margin-bottom:10px;outline:none;transition:border-color .2s;font-family:inherit}
+  input:focus,select:focus,textarea:focus{border-color:#FF1744}
+  .btn{padding:10px 16px;border:none;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer;background:#FF1744;color:#fff;transition:all .2s;margin-right:6px}
+  .btn:hover{background:#ff4060}
+  .btn-sec{background:#1e2a3a;color:#FF1744}.btn-sec:hover{background:#253545}
+  .doc-list{max-height:220px;overflow-y:auto}
+  .doc-item{display:flex;align-items:flex-start;gap:8px;padding:8px;border-bottom:1px solid #111827;font-size:.8rem;transition:background .2s}
+  .doc-item:hover{background:#060a12}
+  .doc-item.match{background:rgba(255,23,68,.08);border-left:3px solid #FF1744}
+  .doc-idx{color:#FF1744;font-weight:600;width:24px;flex-shrink:0;font-family:'Courier New',monospace}
+  .doc-text{flex:1;color:#ccc;line-height:1.4}
+  .doc-score{color:#FF1744;font-size:.72rem;font-weight:600;white-space:nowrap}
+  .search-row{display:flex;gap:8px;margin-bottom:12px}
+  .search-row input{margin-bottom:0;flex:1}
+  .db-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+  .stat{background:#060a12;border:1px solid #1e2a3a;border-radius:6px;padding:10px;text-align:center}
+  .stat-val{font-size:1.2rem;font-weight:700;color:#FF1744}
+  .stat-label{font-size:.68rem;color:#8899aa;margin-top:2px}
+  .add-input{display:flex;gap:8px;margin-bottom:10px}
+  .add-input input{margin-bottom:0;flex:1}
+  .cta-bar{background:linear-gradient(135deg,#0d1321,#111827);border:1px solid #FF1744;border-radius:12px;padding:20px;text-align:center;margin-top:18px}
+  .cta-bar p{color:#8899aa;font-size:.85rem;margin-bottom:12px;margin-top:6px}
+  .cta-btn{display:inline-block;background:#FF1744;color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s}
+  .cta-btn:hover{background:#ff4060;transform:translateY(-2px)}
+  .footer-note{text-align:center;color:#445566;font-size:.77rem;margin-top:16px;padding-top:12px;border-top:1px solid #1e2a3a}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🤖 AI Toolkit — Vector Search Setup Demo</h1>
+  <a class="back" href="../index.html">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>Vector Search Demo</h2>
+  <p class="subtitle">Add documents to a simulated vector database, then search by semantic similarity.</p>
+  <div class="grid2">
+    <div class="panel">
+      <h3>📚 Document Store</h3>
+      <div class="db-stats">
+        <div class="stat"><div class="stat-val" id="statDocs">0</div><div class="stat-label">Documents</div></div>
+        <div class="stat"><div class="stat-val" id="statDims">1536</div><div class="stat-label">Dimensions</div></div>
+        <div class="stat"><div class="stat-val" id="statIdx">HNSW</div><div class="stat-label">Index Type</div></div>
+      </div>
+      <label>Add Document</label>
+      <div class="add-input">
+        <input id="newDoc" placeholder="Type a document to add..." onkeydown="if(event.key==='Enter')addDoc()">
+        <button class="btn" onclick="addDoc()" style="margin-right:0">Add</button>
+      </div>
+      <button class="btn btn-sec" onclick="addSample()" style="width:100%;margin-bottom:10px">+ Load Sample Documents</button>
+      <div class="doc-list" id="docList"><div style="color:#445566;padding:20px;text-align:center">No documents yet</div></div>
+    </div>
+    <div class="panel">
+      <h3>🔍 Semantic Search</h3>
+      <label>Search Query</label>
+      <div class="search-row">
+        <input id="query" placeholder="e.g. how to cancel subscription" onkeydown="if(event.key==='Enter')search()">
+        <button class="btn" onclick="search()" style="margin-right:0">Search</button>
+      </div>
+      <label>Top K Results</label>
+      <select id="topK">
+        <option value="3">Top 3</option>
+        <option value="5" selected>Top 5</option>
+        <option value="10">Top 10</option>
+      </select>
+      <div id="results"><div style="color:#445566;padding:20px;text-align:center">Add documents and search to see results</div></div>
+    </div>
+  </div>
+  <div class="cta-bar">
+    <h3>Get the Full Vector Search Setup</h3>
+    <p>Python toolkit: Pinecone, Weaviate, Chroma, and pgvector integrations with batch upsert, metadata filtering, and ANN benchmarks.</p>
+    <a class="cta-btn" href="https://buy.stripe.com/6oU3cv8qP0qqgZQg0NgjI3O">Buy Full Version — $49.00</a>
+    <button class="crypto-pay-btn" data-product-slug="vector-search-setup" data-store-slug="ai-toolkit" data-product-name="Vector Search Setup" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+let docs = [];
+
+const SAMPLES = [
+  'How to reset your password and recover account access',
+  'Our refund policy allows returns within 30 days of purchase',
+  'Getting started with the Python SDK installation guide',
+  'How to cancel your subscription at any time',
+  'Webhook integration guide for payment notifications',
+  'Best practices for API key security and rotation',
+  'Setting up two-factor authentication on your account',
+  'How to download your purchased files after checkout',
+  'Billing and invoice management for enterprise customers',
+  'Connecting to PostgreSQL database with SQLAlchemy',
+];
+
+function tokenize(s){return s.toLowerCase().replace(/[^a-z0-9\s]/g,'').split(/\s+/).filter(w=>w.length>2);}
+
+function similarity(query, doc){
+  const qw=new Set(tokenize(query));
+  const dw=new Set(tokenize(doc));
+  const inter=[...qw].filter(w=>dw.has(w)).length;
+  const union=new Set([...qw,...dw]).size;
+  return union>0?(inter/union*0.7 + Math.random()*0.1):0;
+}
+
+function updateStats(){document.getElementById('statDocs').textContent=docs.length;}
+
+function renderDocs(highlights=[]){
+  const list=document.getElementById('docList');
+  if(!docs.length){list.innerHTML='<div style="color:#445566;padding:20px;text-align:center">No documents yet</div>';return;}
+  list.innerHTML=docs.map((d,i)=>{
+    const h=highlights.find(h=>h.idx===i);
+    return `<div class="doc-item ${h?'match':''}">
+      <span class="doc-idx">#${i}</span>
+      <span class="doc-text">${d}</span>
+      ${h?`<span class="doc-score">${h.score.toFixed(2)}</span>`:''}
+    </div>`;
+  }).join('');
+}
+
+function addDoc(){
+  const inp=document.getElementById('newDoc');
+  const text=inp.value.trim();
+  if(!text)return;
+  docs.push(text);inp.value='';
+  updateStats();renderDocs();
+}
+
+function addSample(){
+  docs=[...SAMPLES];
+  updateStats();renderDocs();
+}
+
+function search(){
+  const q=document.getElementById('query').value.trim();
+  const k=parseInt(document.getElementById('topK').value);
+  if(!q||!docs.length){document.getElementById('results').innerHTML='<div style="color:#ff4444;padding:10px">Add documents first!</div>';return;}
+
+  const scored=docs.map((d,i)=>({idx:i,doc:d,score:similarity(q,d)}))
+    .sort((a,b)=>b.score-a.score).slice(0,k);
+
+  renderDocs(scored);
+  document.getElementById('results').innerHTML=scored.map((r,rank)=>`
+    <div style="background:#060a12;border:1px solid ${rank===0?'#FF1744':'#1e2a3a'};border-radius:6px;padding:10px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="font-size:.72rem;color:#8899aa">Rank #${rank+1} · Doc #${r.idx}</span>
+        <span style="font-size:.78rem;color:#FF1744;font-weight:600">Score: ${r.score.toFixed(3)}</span>
+      </div>
+      <div style="font-size:.85rem;color:#ccc">${r.doc}</div>
+    </div>`).join('');
+}
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

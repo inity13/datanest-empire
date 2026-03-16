@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SpriteVault Demos | Pixel Empire Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#0a0a0f; color:#e0e0e0; font-family:'Inter', system-ui, sans-serif; line-height:1.6; }
+    h1,h2,h3 { font-family:'Press Start 2P', 'Inter', system-ui, sans-serif; letter-spacing:1px; }
+    a { color:#ef4444; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .container { max-width:960px; margin:0 auto; padding:24px 16px; }
+    .btn { display:inline-block; padding:12px 28px; background:#ef4444; color:#000;
+            font-weight:700; border:none; border-radius:6px; cursor:pointer; font-size:14px; }
+    .btn:hover { opacity:0.85; text-decoration:none; }
+    .price { font-size:22px; font-weight:700; color:#ef4444; }
+    .muted { color:#888; font-size:13px; }
+    .card { background:#14141f; border-radius:10px; padding:16px; }
+    canvas { display:block; border-radius:8px; image-rendering:pixelated; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+<h1 style="font-size:18px;margin-bottom:4px;color:#ef4444">SpriteVault Demos</h1>
+<p class="muted" style="margin-bottom:16px">Game-ready assets for indie developers &mdash; 11 products</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px">
+
+<a href="platformer-complete-kit.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(14,225,130);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Platformer Complete Kit</h3>
+  <span class="muted">$7.99</span>
+  <div style="margin-top:6px;color:#ef4444;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="rpg-character-pack.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(217,253,230);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">RPG Character Pack</h3>
+  <span class="muted">$5.99</span>
+  <div style="margin-top:6px;color:#ef4444;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="top-down-tileset.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(48,32,65);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Top-Down RPG Tileset</h3>
+  <span class="muted">$5.99</span>
+  <div style="margin-top:6px;color:#ef4444;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="pixel-gui-framework.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(4,72,37);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Pixel GUI Framework</h3>
+  <span class="muted">$4.99</span>
+  <div style="margin-top:6px;color:#ef4444;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="enemy-sprite-collection.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(164,24,66);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Enemy Sprite Collection</h3>
+  <span class="muted">$4.99</span>
+  <div style="margin-top:6px;color:#ef4444;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="particle-effect-pack.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(158,253,192);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Particle Effect Pack</h3>
+  <span class="muted">$3.99</span>
+  <div style="margin-top:6px;color:#ef4444;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="game-music-loops.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(0,175,181);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Chiptune Game Music Loops</h3>
+  <span class="muted">$6.99</span>
+  <div style="margin-top:6px;color:#ef4444;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="item-icon-mega-pack.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(113,123,1);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Item Icon Mega Pack</h3>
+  <span class="muted">$3.99</span>
+  <div style="margin-top:6px;color:#ef4444;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="background-parallax-set.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(144,125,195);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Parallax Background Set</h3>
+  <span class="muted">$3.99</span>
+  <div style="margin-top:6px;color:#ef4444;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="game-jam-starter-kit.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(73,150,129);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Game Jam Starter Kit</h3>
+  <span class="muted">$4.99</span>
+  <div style="margin-top:6px;color:#ef4444;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+<a href="visual-novel-ui-kit.html" class="card" style="display:block;text-decoration:none;color:#e0e0e0">
+  <div style="width:100%;height:80px;background:rgb(200,112,121);border-radius:6px;margin-bottom:8px"></div>
+  <h3 style="font-size:10px;margin-bottom:4px">Visual Novel UI Kit</h3>
+  <span class="muted">$4.99</span>
+  <div style="margin-top:6px;color:#ef4444;font-size:12px;font-weight:600">Try Demo &rarr;</div>
+</a>
+</div>
+<div style="margin-top:24px"><a href="../../../demos/index.html" style="color:#ef4444">&larr; All Stores</a></div>
+
+</div>
+<script></script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Sequence Planner Demo — Email Arsenal</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:820px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#FF336620;color:#FF3366;border:1px solid #FF336640;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#FF3366;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+  label{display:block;font-size:13px;color:#94a3b8;margin-bottom:6px;font-weight:500}
+  input,select,textarea{width:100%;background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:9px 13px;color:#e2e8f0;font-size:13px;outline:none;transition:border-color .2s;font-family:inherit}
+  input:focus,select:focus,textarea:focus{border-color:#FF3366}
+  .email-row{background:#0A0E1A;border:1px solid #1e293b;border-radius:10px;padding:16px;margin-bottom:10px;position:relative}
+  .email-header{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+  .day-badge{background:#FF336630;color:#FF3366;border:1px solid #FF336650;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;white-space:nowrap}
+  .email-row input.title-input{font-weight:600;font-size:14px;background:transparent;border:none;padding:0;color:#e2e8f0;width:100%;flex:1}
+  .email-row input.title-input:focus{border:none;box-shadow:none}
+  .email-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+  .meta-item{font-size:12px;color:#64748b}
+  .meta-val{color:#94a3b8}
+  .btn-del-email{position:absolute;top:12px;right:12px;background:none;border:none;color:#ef4444;cursor:pointer;font-size:16px;opacity:.5}
+  .btn-del-email:hover{opacity:1}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+  .btn-primary{background:#FF3366;color:#fff}
+  .btn-primary:hover{background:#e02d5a}
+  .btn-add{background:#1e293b;color:#FF3366;border:1px solid #FF336640}
+  .btn-add:hover{background:#2d3748}
+  .timeline{position:relative;padding-left:30px}
+  .timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,#FF3366,#FF336640)}
+  .tl-item{position:relative;margin-bottom:16px}
+  .tl-dot{position:absolute;left:-26px;top:14px;width:12px;height:12px;background:#FF3366;border-radius:50%;border:2px solid #0A0E1A}
+  .tl-card{background:#111827;border:1px solid #1e293b;border-radius:8px;padding:14px}
+  .tl-day{font-size:11px;color:#FF3366;font-weight:700;margin-bottom:4px}
+  .tl-subject{font-size:14px;font-weight:600;color:#e2e8f0;margin-bottom:4px}
+  .tl-meta{font-size:12px;color:#64748b}
+  .stats-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+  .stat{background:#0A0E1A;border:1px solid #1e293b;border-radius:8px;padding:10px 16px;flex:1;min-width:80px;text-align:center}
+  .stat-val{font-size:20px;font-weight:700;color:#FF3366}
+  .stat-label{font-size:11px;color:#64748b;margin-top:2px}
+  .cta-bar{background:linear-gradient(135deg,#FF336615,#FF336605);border:1px solid #FF336630;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#FF3366;color:#fff;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#e02d5a;transform:translateY(-1px);box-shadow:0 8px 24px #FF336640}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Email Sequence Planner</h1>
+    <p class="subtitle">Plan your drip campaign with automated timing &amp; visualize the full sequence</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Sequence Settings</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+      <div><label>Sequence Name</label><input type="text" id="seqName" value="Welcome Series" oninput="renderTimeline()"></div>
+      <div><label>Trigger Event</label>
+        <select id="trigger" onchange="renderTimeline()">
+          <option>User signup</option>
+          <option>Purchase completed</option>
+          <option>Trial started</option>
+          <option>Lead magnet downloaded</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Emails in Sequence</div>
+    <div id="emailList"></div>
+    <div class="btn-row" style="margin-top:12px">
+      <button class="btn btn-add" onclick="addEmail()">+ Add Email</button>
+      <button class="btn btn-primary" onclick="renderTimeline()">📅 Generate Timeline</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Sequence Timeline</div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-val" id="sTotalEmails">0</div><div class="stat-label">Total Emails</div></div>
+      <div class="stat"><div class="stat-val" id="sTotalDays">0</div><div class="stat-label">Duration (days)</div></div>
+      <div class="stat"><div class="stat-val" id="sAvgGap">0</div><div class="stat-label">Avg Gap (days)</div></div>
+    </div>
+    <div class="timeline" id="timeline"></div>
+  </div>
+
+  <div class="cta-bar">
+    <p>The full tool connects directly to Mailchimp, ConvertKit &amp; ActiveCampaign, auto-schedules sends based on engagement, includes A/B testing, and generates sequence performance reports.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/5kQ14ndL98WWdNE6qdgjJ0M">Buy Full Version — $29.00</a>
+    <button class="crypto-pay-btn" data-product-slug="email-verifier" data-store-slug="email-arsenal" data-product-name="Email Verifier" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows planning only. Buy the full tool for ESP integration.</div>
+</div>
+<script>
+const emails = [
+  {delay:0, subject:'Welcome to {{company}} — Here\'s how to get started', goal:'Onboarding', type:'Transactional'},
+  {delay:1, subject:'Your quick-start guide is inside 🚀', goal:'Activation', type:'Educational'},
+  {delay:3, subject:'3 things most people miss when getting started', goal:'Engagement', type:'Educational'},
+  {delay:7, subject:'How {{name}} got results in 7 days', goal:'Social Proof', type:'Story'},
+  {delay:10, subject:'Special offer — just for you 🎁', goal:'Conversion', type:'Promotional'},
+  {delay:14, subject:'Are you getting value? Let us know', goal:'Retention', type:'Check-in'},
+];
+
+function renderEmails() {
+  document.getElementById('emailList').innerHTML = emails.map((e,i)=>`
+    <div class="email-row">
+      <button class="btn-del-email" onclick="removeEmail(${i})">✕</button>
+      <div class="email-header">
+        <span class="day-badge">Day ${e.delay}</span>
+        <input class="title-input" type="text" value="${e.subject}" oninput="emails[${i}].subject=this.value;renderTimeline()">
+      </div>
+      <div class="email-meta">
+        <div class="meta-item">Goal: <span class="meta-val">${e.goal}</span></div>
+        <div class="meta-item">Type: <span class="meta-val">${e.type}</span></div>
+        <div class="meta-item" style="grid-column:span 2">
+          Delay: <input type="number" style="width:60px;display:inline;padding:3px 6px;font-size:12px" value="${e.delay}" min="0" max="365" oninput="emails[${i}].delay=parseInt(this.value)||0;renderTimeline()"> days after trigger
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function addEmail() {
+  const lastDelay = emails.length ? emails[emails.length-1].delay : 0;
+  emails.push({delay:lastDelay+3, subject:'Email '+(emails.length+1)+' subject line', goal:'Engagement', type:'Educational'});
+  renderEmails(); renderTimeline();
+}
+
+function removeEmail(i) {
+  emails.splice(i,1);
+  renderEmails(); renderTimeline();
+}
+
+function renderTimeline() {
+  const sorted = [...emails].sort((a,b)=>a.delay-b.delay);
+  const name = document.getElementById('seqName').value;
+  const trigger = document.getElementById('trigger').value;
+  const totalDays = sorted.length ? sorted[sorted.length-1].delay : 0;
+  const avgGap = sorted.length>1 ? (totalDays/(sorted.length-1)).toFixed(1) : 0;
+
+  document.getElementById('sTotalEmails').textContent = emails.length;
+  document.getElementById('sTotalDays').textContent = totalDays;
+  document.getElementById('sAvgGap').textContent = avgGap;
+
+  document.getElementById('timeline').innerHTML = `
+    <div class="tl-item">
+      <div class="tl-dot" style="background:#64748b"></div>
+      <div class="tl-card" style="border-color:#64748b30">
+        <div class="tl-day" style="color:#64748b">TRIGGER</div>
+        <div class="tl-subject">${trigger}</div>
+        <div class="tl-meta">Sequence: ${name}</div>
+      </div>
+    </div>` +
+  sorted.map(e=>`
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-day">DAY ${e.delay}</div>
+        <div class="tl-subject">${e.subject}</div>
+        <div class="tl-meta">${e.goal} · ${e.type}</div>
+      </div>
+    </div>`).join('');
+}
+
+renderEmails();
+renderTimeline();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

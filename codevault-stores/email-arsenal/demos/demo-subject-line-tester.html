@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subject Line Tester Demo — Email Arsenal</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:820px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#FF336620;color:#FF3366;border:1px solid #FF336640;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#FF3366;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+  label{display:block;font-size:13px;color:#94a3b8;margin-bottom:6px;font-weight:500}
+  input{width:100%;background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:12px 14px;color:#e2e8f0;font-size:15px;outline:none;transition:border-color .2s}
+  input:focus{border-color:#FF3366}
+  .btn{display:flex;justify-content:center;align-items:center;gap:8px;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+  .btn-primary{background:#FF3366;color:#fff;margin-top:12px;width:100%}
+  .btn-primary:hover{background:#e02d5a}
+  .btn-add{background:#1e293b;color:#FF3366;border:1px solid #FF336640;padding:9px 16px;margin-top:8px;font-size:13px;width:auto}
+  .score-display{display:flex;align-items:center;gap:20px;padding:20px;background:#0A0E1A;border-radius:10px;margin-bottom:16px}
+  .score-ring{position:relative;width:80px;height:80px;flex-shrink:0}
+  .score-ring svg{transform:rotate(-90deg)}
+  .score-ring-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:22px;font-weight:700}
+  .score-details{flex:1}
+  .score-label{font-size:18px;font-weight:700;margin-bottom:4px}
+  .score-est{font-size:13px;color:#94a3b8}
+  .factors{display:flex;flex-direction:column;gap:6px}
+  .factor{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:8px 12px;border-radius:6px}
+  .f-good{background:#00FF8810;color:#00FF88}
+  .f-warn{background:#f59e0b10;color:#f59e0b}
+  .f-bad{background:#ef444410;color:#ef4444}
+  .f-neutral{background:#1e293b;color:#94a3b8}
+  .subject-list{display:flex;flex-direction:column;gap:10px}
+  .subject-row{background:#0A0E1A;border:1px solid #1e293b;border-radius:8px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .subject-text{flex:1;font-size:14px}
+  .score-badge{font-size:13px;font-weight:700;padding:4px 12px;border-radius:20px}
+  .preview-box{background:#fff;border-radius:8px;padding:14px;margin-bottom:10px}
+  .preview-sender{font-size:13px;color:#333;font-family:arial}
+  .preview-subject{font-size:15px;color:#111;font-family:arial;font-weight:600;margin:3px 0}
+  .preview-preview{font-size:13px;color:#777;font-family:arial}
+  .char-count{font-size:11px;text-align:right;margin-top:4px;color:#64748b}
+  .cta-bar{background:linear-gradient(135deg,#FF336615,#FF336605);border:1px solid #FF336630;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#FF3366;color:#fff;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#e02d5a;transform:translateY(-1px);box-shadow:0 8px 24px #FF336640}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Subject Line Tester</h1>
+    <p class="subtitle">Score your email subject lines for open rate potential before you send</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Test Your Subject Line</div>
+    <label>Subject Line</label>
+    <input type="text" id="subjectInput" placeholder="Enter your email subject line..." oninput="liveScore()" maxlength="100">
+    <div class="char-count" id="charCount">0 characters</div>
+    <div style="margin-top:12px">
+      <label>Preview Text (optional)</label>
+      <input type="text" id="previewInput" placeholder="Preview text shown after subject..." oninput="updatePreview()">
+    </div>
+  </div>
+
+  <div id="scoreCard" class="card">
+    <div class="card-title">Gmail Inbox Preview</div>
+    <div class="preview-box">
+      <div class="preview-sender">📧 Your Company &lt;hello@yourco.com&gt;</div>
+      <div class="preview-subject" id="previewSubject">Your subject line here</div>
+      <div class="preview-preview" id="previewText">Preview text will appear here...</div>
+    </div>
+    <div class="card-title">Score Analysis</div>
+    <div class="score-display">
+      <div class="score-ring">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <circle cx="40" cy="40" r="32" fill="none" stroke="#1e293b" stroke-width="8"/>
+          <circle id="scoreArc" cx="40" cy="40" r="32" fill="none" stroke="#FF3366" stroke-width="8" stroke-dasharray="201" stroke-dashoffset="201" stroke-linecap="round"/>
+        </svg>
+        <div class="score-ring-text" id="scoreNum" style="color:#FF3366">—</div>
+      </div>
+      <div class="score-details">
+        <div class="score-label" id="scoreLabel">Enter a subject line above</div>
+        <div class="score-est" id="scoreEst">Predicted open rate: —</div>
+      </div>
+    </div>
+    <div class="card-title">Factors</div>
+    <div class="factors" id="factors">
+      <div class="factor f-neutral">Waiting for input...</div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <p>The full tool tests against 200,000+ subject line data points, compares against your past campaigns, A/B tests automatically, and includes an AI rewriter for instant improvements.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/eVqeVd7mL3CCfVM6qdgjJ0U">Buy Full Version — $29.00</a>
+    <button class="crypto-pay-btn" data-product-slug="subject-line-tester" data-store-slug="email-arsenal" data-product-name="Subject Line Tester" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows algorithmic scoring. Buy the full tool for ML-powered analysis.</div>
+</div>
+<script>
+const SPAM_WORDS = ['free','win','winner','prize','click here','guaranteed','no risk','100%','earn money','make money','cash','urgent','act now','limited time','buy now','order now','sale','discount','offer'];
+const POWER_WORDS = ['secret','proven','exclusive','instant','you','new','discover','save','easy','results','boost','increase','grow','improve','unlock','reveal','simple'];
+const QUESTION_TRIGGERS = ['?','how','what','why','which','when'];
+
+let debounce;
+function liveScore() {
+  clearTimeout(debounce);
+  debounce = setTimeout(score, 200);
+  const v = document.getElementById('subjectInput').value;
+  document.getElementById('charCount').textContent = v.length + ' characters';
+  updatePreview();
+}
+
+function updatePreview() {
+  const s = document.getElementById('subjectInput').value || 'Your subject line here';
+  const p = document.getElementById('previewInput').value || 'Preview text will appear here...';
+  document.getElementById('previewSubject').textContent = s;
+  document.getElementById('previewText').textContent = p;
+}
+
+function score() {
+  const s = document.getElementById('subjectInput').value.trim();
+  if (!s) return;
+  const lower = s.toLowerCase();
+  const words = lower.split(/\s+/);
+  let pts = 50;
+  const factors = [];
+
+  // Length
+  const len = s.length;
+  if (len >= 30 && len <= 50) { pts += 15; factors.push({c:'good', t:'✓ Optimal length (30–50 chars)', r:'+15 pts'}); }
+  else if (len < 20) { pts -= 10; factors.push({c:'bad', t:'✗ Too short — aim for 30–50 chars', r:'-10 pts'}); }
+  else if (len > 60) { pts -= 8; factors.push({c:'warn', t:'⚠️ Might get cut off on mobile', r:'-8 pts'}); }
+  else factors.push({c:'neutral', t:`Length: ${len} chars (good range: 30–50)`, r:'0 pts'});
+
+  // Spam words
+  const spamFound = SPAM_WORDS.filter(w=>lower.includes(w));
+  if (spamFound.length > 0) { pts -= spamFound.length * 12; factors.push({c:'bad', t:`✗ Spam trigger words: "${spamFound[0]}"`, r:`-${spamFound.length*12} pts`}); }
+
+  // Power words
+  const powerFound = POWER_WORDS.filter(w=>lower.includes(w));
+  if (powerFound.length > 0) { pts += Math.min(powerFound.length * 8, 20); factors.push({c:'good', t:`✓ Power words: "${powerFound[0]}"`, r:'+' + Math.min(powerFound.length*8,20) + ' pts'}); }
+
+  // Question
+  const isQuestion = QUESTION_TRIGGERS.some(q=>lower.includes(q)) || s.includes('?');
+  if (isQuestion) { pts += 8; factors.push({c:'good', t:'✓ Question format boosts curiosity', r:'+8 pts'}); }
+
+  // Numbers
+  if (/\d+/.test(s)) { pts += 10; factors.push({c:'good', t:'✓ Numbers increase specificity', r:'+10 pts'}); }
+
+  // Emoji
+  const emojiCount = (s.match(/[\u{1F300}-\u{1F9FF}]/gu)||[]).length;
+  if (emojiCount === 1) { pts += 6; factors.push({c:'good', t:'✓ Emoji adds personality', r:'+6 pts'}); }
+  else if (emojiCount > 2) { pts -= 5; factors.push({c:'warn', t:'⚠️ Too many emojis', r:'-5 pts'}); }
+
+  // ALL CAPS
+  if (s !== s.toLowerCase() && s === s.toUpperCase()) { pts -= 15; factors.push({c:'bad', t:'✗ ALL CAPS looks like spam', r:'-15 pts'}); }
+
+  // Personalization
+  if (lower.includes('you') || lower.includes("your")) { pts += 10; factors.push({c:'good', t:'✓ Personalized language ("you"/"your")', r:'+10 pts'}); }
+
+  pts = Math.max(10, Math.min(100, pts));
+  const color = pts>=75?'#00FF88':pts>=55?'#f59e0b':'#ef4444';
+  const label = pts>=75?'High Impact! 🔥':pts>=55?'Average':'Needs Work';
+  const est = pts>=75?'25–40%':pts>=55?'18–25%':'10–18%';
+  const offset = 201 - (201 * pts / 100);
+
+  document.getElementById('scoreNum').textContent = pts;
+  document.getElementById('scoreNum').style.color = color;
+  document.getElementById('scoreArc').style.stroke = color;
+  document.getElementById('scoreArc').style.strokeDashoffset = offset;
+  document.getElementById('scoreLabel').textContent = label;
+  document.getElementById('scoreEst').textContent = `Predicted open rate: ${est}`;
+  document.getElementById('factors').innerHTML = factors.map(f=>
+    `<div class="factor f-${f.c}"><span>${f.t}</span><span style="font-size:12px;font-weight:700">${f.r}</span></div>`
+  ).join('');
+}
+
+document.getElementById('subjectInput').value = '🚀 5 proven ways to boost your open rates';
+liveScore();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

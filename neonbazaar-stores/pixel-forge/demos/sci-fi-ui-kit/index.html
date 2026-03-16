@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sci-Fi UI Kit — Interactive Demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #050a18;
+            color: #e0e8ff;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+        }
+        canvas { display: block; margin: 0 auto; }
+        #info {
+            position: fixed;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #6080a0;
+            font-size: 12px;
+            text-align: center;
+        }
+    .crypto-pay-btn{background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem}
+.crypto-pay-btn:hover{opacity:0.9}
+</style>
+</head>
+<body>
+    <canvas id="game"></canvas>
+    <div id="info">Click inventory slots • Hover buttons • Watch animated bars</div>
+<script>
+// ─── Sci-Fi UI Demo ─────────────────────────────────────────────────────
+// Renders a complete game HUD mockup with interactive elements.
+// Health/energy bars animate, inventory slots are clickable, buttons respond to hover.
+
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const W = 640, H = 480;
+canvas.width = W;
+canvas.height = H;
+canvas.style.width = W + 'px';
+canvas.style.height = H + 'px';
+canvas.style.imageRendering = 'pixelated';
+
+// ─── Colors ─────────────────────────────────────────────────────────────
+const C = {
+    bg:         '#050a18',
+    panelDark:  '#0a1628',
+    panelMid:   '#162040',
+    panelLight: '#203060',
+    border:     '#30a0ff',
+    glow:       '#60c0ff',
+    health:     '#ff3030',
+    healthHi:   '#ff6060',
+    energy:     '#30ffcc',
+    energyHi:   '#60ffd8',
+    button:     '#304080',
+    buttonHov:  '#405090',
+    text:       '#e0e8ff',
+    textDim:    '#6080a0',
+    warning:    '#ffaa00',
+    success:    '#30ff60',
+    gold:       '#f1c40f',
+    error:      '#ff3030',
+};
+
+// ─── State ──────────────────────────────────────────────────────────────
+let health = 0.75;
+let energy = 0.9;
+let healthTarget = 0.75;
+let energyTarget = 0.9;
+let selectedSlot = 0;
+let hoveredButton = -1;
+let mouseX = 0, mouseY = 0;
+let time = 0;
+
+// Inventory items (name, color)
+const items = [
+    { name: 'Plasma Rifle', color: '#30a0ff' },
+    { name: 'Shield Cell', color: '#30ffcc' },
+    { name: 'Med Kit', color: '#ff3030' },
+    null, null, null, null, null,
+];
+
+const buttons = [
+    { label: 'SCAN', x: 460, y: 400, w: 72, h: 24 },
+    { label: 'MAP', x: 540, y: 400, w: 72, h: 24 },
+    { label: 'COMM', x: 460, y: 432, w: 72, h: 24 },
+    { label: 'MENU', x: 540, y: 432, w: 72, h: 24 },
+];
+
+// ─── Drawing Helpers ────────────────────────────────────────────────────
+function drawPanel(x, y, w, h, title) {
+    // Border
+    ctx.fillStyle = C.border;
+    ctx.fillRect(x, y, w, h);
+    // Inner
+    ctx.fillStyle = C.panelDark;
+    ctx.fillRect(x + 2, y + 2, w - 4, h - 4);
+    // Title bar
+    if (title) {
+        ctx.fillStyle = C.panelMid;
+        ctx.fillRect(x + 2, y + 2, w - 4, 16);
+        ctx.fillStyle = C.glow;
+        ctx.font = '10px monospace';
+        ctx.fillText(title, x + 8, y + 13);
+        // Close button decoration
+        ctx.fillStyle = C.error;
+        ctx.fillRect(x + w - 14, y + 5, 8, 8);
+    }
+}
+
+function drawBar(x, y, w, h, value, maxColor, hiColor, label) {
+    // Background
+    ctx.fillStyle = C.panelDark;
+    ctx.fillRect(x, y, w, h);
+    // Border
+    ctx.strokeStyle = C.border;
+    ctx.lineWidth = 1;
+    ctx.strokeRect(x, y, w, h);
+    // Fill
+    const fillW = Math.floor(w * Math.max(0, Math.min(1, value)));
+    if (fillW > 0) {
+        ctx.fillStyle = maxColor;
+        ctx.fillRect(x + 1, y + 1, fillW - 2, h - 2);
+        // Highlight top pixel row
+        ctx.fillStyle = hiColor;
+        ctx.fillRect(x + 1, y + 1, fillW - 2, 2);
+    }
+    // Label
+    if (label) {
+        ctx.fillStyle = C.text;
+        ctx.font = '10px monospace';
+        ctx.fillText(label, x + 4, y + h - 3);
+    }
+    // Percentage
+    ctx.fillStyle = C.text;
+    ctx.font = '10px monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText(Math.floor(value * 100) + '%', x + w - 4, y + h - 3);
+    ctx.textAlign = 'left';
+}
+
+function drawInventorySlot(x, y, size, index) {
+    const isSelected = index === selectedSlot;
+    const borderColor = isSelected ? C.glow : C.border;
+    const bgColor = isSelected ? C.panelLight : C.panelMid;
+
+    ctx.fillStyle = borderColor;
+    ctx.fillRect(x, y, size, size);
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(x + 2, y + 2, size - 4, size - 4);
+
+    const item = items[index];
+    if (item) {
+        // Draw a simple icon (colored diamond)
+        const cx = x + size / 2;
+        const cy = y + size / 2;
+        const s = size * 0.3;
+        ctx.fillStyle = item.color;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - s);
+        ctx.lineTo(cx + s, cy);
+        ctx.lineTo(cx, cy + s);
+        ctx.lineTo(cx - s, cy);
+        ctx.closePath();
+        ctx.fill();
+    }
+}
+
+function drawButton(btn, index) {
+    const isHovered = index === hoveredButton;
+    const borderColor = isHovered ? C.glow : C.border;
+    const bgColor = isHovered ? C.buttonHov : C.button;
+
+    ctx.fillStyle = borderColor;
+    ctx.fillRect(btn.x, btn.y, btn.w, btn.h);
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(btn.x + 2, btn.y + 2, btn.w - 4, btn.h - 4);
+
+    ctx.fillStyle = isHovered ? C.text : C.textDim;
+    ctx.font = '11px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(btn.label, btn.x + btn.w / 2, btn.y + btn.h / 2 + 4);
+    ctx.textAlign = 'left';
+}
+
+function drawMinimap(x, y, size) {
+    // Circular-ish border
+    ctx.fillStyle = C.border;
+    ctx.beginPath();
+    ctx.arc(x + size / 2, y + size / 2, size / 2, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = C.panelDark;
+    ctx.beginPath();
+    ctx.arc(x + size / 2, y + size / 2, size / 2 - 3, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Fake map dots
+    ctx.fillStyle = C.success;
+    ctx.fillRect(x + size / 2 - 2, y + size / 2 - 2, 4, 4); // player
+    ctx.fillStyle = C.error;
+    ctx.fillRect(x + size / 2 + 15, y + size / 2 - 10, 3, 3);
+    ctx.fillRect(x + size / 2 - 20, y + size / 2 + 8, 3, 3);
+    ctx.fillStyle = C.gold;
+    ctx.fillRect(x + size / 2 + 5, y + size / 2 + 18, 3, 3);
+
+    // Scanning line
+    const angle = time * 0.02;
+    ctx.strokeStyle = C.glow + '40';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x + size / 2, y + size / 2);
+    ctx.lineTo(
+        x + size / 2 + Math.cos(angle) * (size / 2 - 4),
+        y + size / 2 + Math.sin(angle) * (size / 2 - 4)
+    );
+    ctx.stroke();
+}
+
+function drawNotifications(x, y) {
+    const notifications = [
+        { text: '! Shield low', color: C.warning },
+        { text: '✓ Target acquired', color: C.success },
+    ];
+    for (let i = 0; i < notifications.length; i++) {
+        const n = notifications[i];
+        const ny = y + i * 20;
+        ctx.fillStyle = C.panelDark + 'cc';
+        ctx.fillRect(x, ny, 160, 16);
+        ctx.fillStyle = n.color;
+        ctx.font = '10px monospace';
+        ctx.fillText(n.text, x + 4, ny + 12);
+    }
+}
+
+function drawTooltip() {
+    if (selectedSlot >= 0 && items[selectedSlot]) {
+        const item = items[selectedSlot];
+        const tx = 28, ty = 340;
+        drawPanel(tx, ty, 180, 60, item.name);
+        ctx.fillStyle = C.textDim;
+        ctx.font = '10px monospace';
+        ctx.fillText('Standard issue equipment.', tx + 8, ty + 34);
+        ctx.fillText('Slot: ' + (selectedSlot + 1) + '/8', tx + 8, ty + 48);
+    }
+}
+
+function drawCredits(x, y) {
+    ctx.fillStyle = C.panelDark;
+    ctx.fillRect(x, y, 100, 20);
+    ctx.strokeStyle = C.border;
+    ctx.strokeRect(x, y, 100, 20);
+    ctx.fillStyle = C.gold;
+    ctx.font = '11px monospace';
+    ctx.fillText('◆ 12,450 CR', x + 6, y + 14);
+}
+
+// ─── Main Render Loop ───────────────────────────────────────────────────
+function render() {
+    time++;
+
+    // Animate bars
+    health += (healthTarget - health) * 0.02;
+    energy += (energyTarget - energy) * 0.02;
+
+    // Periodic health drain/regen for demo
+    if (time % 180 === 0) healthTarget = 0.2 + Math.random() * 0.7;
+    if (time % 120 === 0) energyTarget = 0.3 + Math.random() * 0.6;
+
+    // Clear
+    ctx.fillStyle = C.bg;
+    ctx.fillRect(0, 0, W, H);
+
+    // "Game world" background — faint grid
+    ctx.strokeStyle = '#0a1628';
+    ctx.lineWidth = 1;
+    for (let gx = 0; gx < W; gx += 32) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke();
+    }
+    for (let gy = 0; gy < H; gy += 32) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke();
+    }
+
+    // ─── HUD Elements ───────────────────────────────────────────────────
+
+    // Top-left: Player info panel
+    drawPanel(12, 12, 220, 70, 'PILOT STATUS');
+    drawBar(24, 36, 196, 14, health, C.health, C.healthHi, 'HP');
+    drawBar(24, 56, 196, 14, energy, C.energy, C.energyHi, 'EN');
+
+    // Top-right: Minimap
+    drawMinimap(W - 90, 12, 76);
+
+    // Top-right: Credits
+    drawCredits(W - 200, 16);
+
+    // Bottom-left: Inventory
+    drawPanel(12, H - 170, 240, 160, 'INVENTORY');
+    const slotSize = 40;
+    const slotPad = 6;
+    for (let i = 0; i < 8; i++) {
+        const col = i % 4;
+        const row = Math.floor(i / 4);
+        const sx = 24 + col * (slotSize + slotPad);
+        const sy = H - 145 + row * (slotSize + slotPad);
+        drawInventorySlot(sx, sy, slotSize, i);
+    }
+
+    // Tooltip for selected item
+    drawTooltip();
+
+    // Bottom-right: Action buttons
+    drawPanel(448, 388, 176, 80, 'ACTIONS');
+    buttons.forEach((btn, i) => drawButton(btn, i));
+
+    // Right side: Notifications
+    drawNotifications(W - 200, 100);
+
+    // Dialog box example (center)
+    if (Math.sin(time * 0.005) > 0.7) {
+        const dx = W / 2 - 120, dy = H / 2 - 60;
+        drawPanel(dx, dy, 240, 120, 'INCOMING TRANSMISSION');
+        ctx.fillStyle = C.text;
+        ctx.font = '11px monospace';
+        ctx.fillText('Commander, we have detected', dx + 12, dy + 36);
+        ctx.fillText('hostile signatures in sector 7.', dx + 12, dy + 50);
+        ctx.fillStyle = C.textDim;
+        ctx.fillText('Press ENTER to acknowledge.', dx + 12, dy + 70);
+
+        // Acknowledge button
+        const abx = dx + 80, aby = dy + 85;
+        drawButton({ label: 'ROGER', x: abx, y: aby, w: 80, h: 22 }, -2);
+    }
+
+    // Scan line effect across entire screen
+    const scanY = (time * 2) % H;
+    ctx.fillStyle = '#30a0ff08';
+    ctx.fillRect(0, scanY, W, 2);
+
+    requestAnimationFrame(render);
+}
+
+// ─── Input ──────────────────────────────────────────────────────────────
+canvas.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+
+    // Check button hover
+    hoveredButton = -1;
+    buttons.forEach((btn, i) => {
+        if (mouseX >= btn.x && mouseX <= btn.x + btn.w &&
+            mouseY >= btn.y && mouseY <= btn.y + btn.h) {
+            hoveredButton = i;
+        }
+    });
+});
+
+canvas.addEventListener('click', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+
+    // Check inventory slot clicks
+    const slotSize = 40, slotPad = 6;
+    for (let i = 0; i < 8; i++) {
+        const col = i % 4;
+        const row = Math.floor(i / 4);
+        const sx = 24 + col * (slotSize + slotPad);
+        const sy = H - 145 + row * (slotSize + slotPad);
+        if (cx >= sx && cx <= sx + slotSize && cy >= sy && cy <= sy + slotSize) {
+            selectedSlot = i;
+        }
+    }
+
+    // Button clicks - trigger bar changes for demo
+    if (hoveredButton === 0) { // SCAN
+        energyTarget = Math.max(0, energyTarget - 0.15);
+    } else if (hoveredButton === 1) { // MAP
+        // visual only
+    } else if (hoveredButton === 2) { // COMM
+        healthTarget = Math.min(1, healthTarget + 0.2); // Med heal
+    }
+});
+
+render();
+</script>
+
+<!-- payment-cta-start -->
+<div class="purchase-cta" style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,transparent,#0a0a12 20%);padding:20px;text-align:center;z-index:1000">
+  <div style="max-width:600px;margin:0 auto;background:#12122a;border:1px solid #1a1a3a;border-radius:12px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div><strong style="color:#fff;font-size:1rem">Sci-Fi UI Kit</strong><br><span style="color:#8888aa;font-size:.85rem">$5.00</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a href="https://buy.stripe.com/00w6oH6iH4GG9xobKxgjG2s" class="cta-buy-btn" style="display:inline-block;background:#FF2D9B;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem">Buy Now</a>
+      <button class="crypto-pay-btn" data-product-slug="sci-fi-ui-kit" data-store-slug="pixel-forge" data-product-name="Sci-Fi UI Kit" data-price-usd="5.00">Crypto (15% off)</button>
+    </div>
+  </div>
+</div>
+<script src="../../crypto-checkout.js"></script>
+<!-- payment-cta-end -->
+
+</body>
+</html>

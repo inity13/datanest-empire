@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rollup Kit — L2 & Rollup Infrastructure Tools | CryptoForge</title>
+<meta name="description" content="Sequencer dashboards, OP Stack deployers, blob cost analyzers, bridge templates, and batch optimizers. Ship rollups faster.">
+<meta property="og:title" content="Rollup Kit — L2 & Rollup Infrastructure Tools | CryptoForge">
+<meta property="og:description" content="Sequencer dashboards, OP Stack deployers, blob cost analyzers, bridge templates, and batch optimizers. Ship rollups faster.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rollupkit.cryptoforge.dev">
+<meta property="og:image" content="assets/og-rollup-kit.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script defer data-domain="rollupkit.cryptoforge.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                         NAVIGATION                            -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <span class="logo-icon">&#x26D3;</span>
+      <span class="logo-text">ROLLUP<span class="logo-accent">KIT</span></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#products">Products</a>
+      <a href="#bundles">Bundles</a>
+      <a href="#features">Features</a>
+      <a href="#free">Free Tools</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://cryptoforge.dev" class="nav-cta">All Stores &rarr;</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                            HERO                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">CryptoForge Store #8</div>
+    <h1 class="hero-title">
+      <span class="gradient-text">Rollup Kit</span>
+    </h1>
+    <p class="hero-subtitle">
+      L2 & rollup infrastructure tools for builders and operators.<br>
+      Deploy, monitor, optimize, and scale rollups.
+    </p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-value">8</span>
+        <span class="stat-label">Products</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">100+</span>
+        <span class="stat-label">Files</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">4+</span>
+        <span class="stat-label">Chains</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">Blob</span>
+        <span class="stat-label">Ready</span>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a href="#bundles" class="btn btn-primary btn-lg">Get the Pro Bundle — $49.99</a>
+      <a href="#products" class="btn btn-ghost btn-lg">Browse Products</a>
+    </div>
+    <div class="hero-trust">
+      <span>Solidity ^0.8.24</span>
+      <span class="trust-sep">&bull;</span>
+      <span>OpenZeppelin v5</span>
+      <span class="trust-sep">&bull;</span>
+      <span>Foundry Tests</span>
+      <span class="trust-sep">&bull;</span>
+      <span>EIP-4844 Ready</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          BUNDLES                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="bundles">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Save with Bundles</span></h2>
+    <p class="section-desc">Get multiple products at a fraction of the individual price.</p>
+
+    <div class="bundle-grid">
+      <!-- Starter Bundle -->
+      <div class="bundle-card">
+        <div class="bundle-badge">SAVE 48%</div>
+        <h3 class="bundle-name">Starter Bundle</h3>
+        <p class="bundle-desc">Essential rollup monitoring and analysis tools. Dashboard, DA cost analyzer, L1 cost tracker, and economics simulator.</p>
+        <div class="bundle-pricing">
+          <span class="bundle-original">$47.96</span>
+          <span class="bundle-price">$24.99</span>
+        </div>
+        <ul class="bundle-includes">
+          <li>Sequencer Dashboard <span class="include-price">$14.99</span></li>
+          <li>DA Cost Analyzer <span class="include-price">$12.99</span></li>
+          <li>L1 Cost Tracker <span class="include-price">$9.99</span></li>
+          <li>Rollup Economics Sim <span class="include-price">$9.99</span></li>
+        </ul>
+        <a href="#" class="btn btn-secondary btn-full" data-product="starter-bundle">Buy Starter — $24.99</a>
+      </div>
+
+      <!-- Pro Bundle -->
+      <div class="bundle-card bundle-featured">
+        <div class="bundle-badge bundle-badge-gold">BEST VALUE — SAVE 53%</div>
+        <h3 class="bundle-name">Pro Bundle</h3>
+        <p class="bundle-desc">The complete rollup toolkit. All 8 products — dashboards, deployer, analyzers, bridge, simulator, and optimizer.</p>
+        <div class="bundle-pricing">
+          <span class="bundle-original">$105.92</span>
+          <span class="bundle-price">$49.99</span>
+        </div>
+        <ul class="bundle-includes">
+          <li>All 8 Rollup Products</li>
+          <li>All future updates included</li>
+          <li>Priority support (30 days)</li>
+        </ul>
+        <a href="#" class="btn btn-primary btn-full" data-product="pro-bundle">Buy Pro Bundle — $49.99</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                         PRODUCTS                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="products">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Product Catalog</span></h2>
+    <p class="section-desc">8 infrastructure tools for building, deploying, and operating L2 rollups.</p>
+
+    <!-- Filter tabs -->
+    <div class="filter-tabs">
+      <button class="filter-btn active" data-filter="all">All (8)</button>
+      <button class="filter-btn" data-filter="frontend">Frontend (2)</button>
+      <button class="filter-btn" data-filter="tooling">Tooling (3)</button>
+      <button class="filter-btn" data-filter="monitoring">Monitoring (1)</button>
+      <button class="filter-btn" data-filter="contracts">Contracts (1)</button>
+      <button class="filter-btn" data-filter="hybrid">Hybrid (1)</button>
+    </div>
+
+    <div class="product-grid">
+      <!-- Product 1: Sequencer Dashboard -->
+      <div class="product-card" data-category="frontend">
+        <div class="product-number">#1</div>
+        <div class="product-tag tag-frontend">Frontend</div>
+        <h3 class="product-name">Sequencer Dashboard</h3>
+        <p class="product-desc">Real-time sequencer health monitoring with throughput charts, cost panels, alerts, and configuration management.</p>
+        <div class="product-tech">
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Vite</span>
+          <span class="tech-tag">Tailwind</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$14.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="sequencer-dashboard">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 2: OP Stack Deployer -->
+      <div class="product-card" data-category="tooling">
+        <div class="product-number">#2</div>
+        <div class="product-tag tag-tooling">Tooling</div>
+        <h3 class="product-name">OP Stack Deployer</h3>
+        <p class="product-desc">Deploy OP Stack rollups from CLI. Genesis generation, L1 contract deployment, Docker orchestration, and health checks.</p>
+        <div class="product-tech">
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Commander</span>
+          <span class="tech-tag">Docker</span>
+          <span class="tech-tag">ethers.js</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$19.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="op-stack-deployer">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 3: DA Cost Analyzer -->
+      <div class="product-card" data-category="tooling">
+        <div class="product-number">#3</div>
+        <div class="product-tag tag-tooling">Tooling</div>
+        <h3 class="product-name">DA Cost Analyzer</h3>
+        <p class="product-desc">Compare blob vs calldata posting costs with EIP-4844 analysis. Compression benchmarks, cost projections, and DA strategy recommendations.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">Click</span>
+          <span class="tech-tag">numpy</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$12.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="da-cost-analyzer">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 4: Inclusion Monitor -->
+      <div class="product-card" data-category="monitoring">
+        <div class="product-number">#4</div>
+        <div class="product-tag tag-monitoring">Monitoring</div>
+        <h3 class="product-name">Inclusion Monitor</h3>
+        <p class="product-desc">Track L2 transaction inclusion on L1. Censorship detection, inclusion time analysis, provider comparison, and alert system.</p>
+        <div class="product-tech">
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">ethers.js</span>
+          <span class="tech-tag">Node.js</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="inclusion-monitor">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 5: L1 Cost Tracker -->
+      <div class="product-card" data-category="frontend">
+        <div class="product-number">#5</div>
+        <div class="product-tag tag-frontend">Frontend</div>
+        <h3 class="product-name">L1 Cost Tracker</h3>
+        <p class="product-desc">Visualize L1 batch posting costs over time. Gas metrics, cost projections, recent batch breakdown, and historical charts.</p>
+        <div class="product-tech">
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Recharts</span>
+          <span class="tech-tag">Tailwind</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="l1-cost-tracker">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 6: Bridge Template -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#6</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">Bridge Template</h3>
+        <p class="product-desc">Production Solidity L1/L2 bridge. Rate limiting, pausability, deposit registry, bridged token, and comprehensive Foundry tests.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">OpenZeppelin v5</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$14.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="bridge-template">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 7: Rollup Economics Sim -->
+      <div class="product-card" data-category="tooling">
+        <div class="product-number">#7</div>
+        <div class="product-tag tag-tooling">Tooling</div>
+        <h3 class="product-name">Rollup Economics Sim</h3>
+        <p class="product-desc">Simulate rollup fee markets, sequencer revenue, and profitability. Configure parameters, run scenarios, and visualize results.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">matplotlib</span>
+          <span class="tech-tag">numpy</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="rollup-economics-sim">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 8: Batch Optimizer -->
+      <div class="product-card" data-category="hybrid">
+        <div class="product-number">#8</div>
+        <div class="product-tag tag-hybrid">Hybrid</div>
+        <h3 class="product-name">Batch Optimizer</h3>
+        <p class="product-desc">Minimize L1 batch posting costs with smart timing, compression analysis, and EIP-4844 blob strategy. Python engine + TypeScript monitor.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">ethers.js</span>
+          <span class="tech-tag">zlib</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$12.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="batch-optimizer">Buy Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                        FEATURES                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="features">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Why Rollup Kit?</span></h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F4E6;</div>
+        <h3>EIP-4844 Ready</h3>
+        <p>Blob cost analysis, DA optimization, and batch posting strategies built for the post-Dencun world. Compare calldata vs blobs and always pick the cheapest path.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x2699;</div>
+        <h3>Production-Ready</h3>
+        <p>Not hackathon code. Foundry tests, deploy scripts, monitoring dashboards, and security notes. Every product is built for mainnet operation.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x26D3;</div>
+        <h3>Multi-Chain</h3>
+        <p>Deploy to Ethereum, OP Stack, Arbitrum, and Base. Same tools work on any EVM-compatible L2. Chain configs included out of the box.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F4CA;</div>
+        <h3>Full Stack</h3>
+        <p>Solidity contracts + React dashboards + Python analyzers + TypeScript CLIs. Everything from bridge contracts to batch optimizer in one kit.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F50D;</div>
+        <h3>Operator-Grade</h3>
+        <p>Built for rollup operators. Sequencer health monitoring, transaction inclusion tracking, L1 cost analysis, and batch posting optimization at your fingertips.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F680;</div>
+        <h3>Ship Fast</h3>
+        <p>From zero to deployed rollup in hours. OP Stack deployer handles genesis, contracts, and Docker. Dashboard starts monitoring immediately.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                       FREE TOOLS                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="free">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Free Resources</span></h2>
+    <div class="lead-magnet-grid">
+      <div class="lead-magnet-card">
+        <div class="lm-icon">&#x1F4CB;</div>
+        <h3>Rollup Launch Checklist</h3>
+        <p>30-point checklist for launching a production rollup. Covers infra, security, monitoring, and economics.</p>
+        <form class="lm-form" data-magnet="rollup-launch-checklist">
+          <input type="email" placeholder="your@email.com" class="lm-input" required>
+          <button type="submit" class="btn btn-primary">Download Free</button>
+        </form>
+      </div>
+      <div class="lead-magnet-card">
+        <div class="lm-icon">&#x26A1;</div>
+        <h3>EIP-4844 Blob Cost Guide</h3>
+        <p>Deep dive into blob gas pricing, compression strategies, and batch posting optimization for post-Dencun rollups.</p>
+        <form class="lm-form" data-magnet="blob-cost-guide">
+          <input type="email" placeholder="your@email.com" class="lm-input" required>
+          <button type="submit" class="btn btn-primary">Download Free</button>
+        </form>
+      </div>
+      <div class="lead-magnet-card">
+        <div class="lm-icon">&#x1F4B0;</div>
+        <h3>Rollup Profitability Sheet</h3>
+        <p>Interactive spreadsheet for modeling rollup economics — L1 costs, L2 revenue, break-even analysis.</p>
+        <form class="lm-form" data-magnet="rollup-profitability-sheet">
+          <input type="email" placeholder="your@email.com" class="lm-input" required>
+          <button type="submit" class="btn btn-primary">Download Free</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          FAQ                                  -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="faq">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">FAQ</span></h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h3 class="faq-question">What rollup types are supported?</h3>
+        <p class="faq-answer">The toolkit supports OP Stack (Optimism, Base), Arbitrum Orbit, and any EVM-compatible L2. The OP Stack Deployer handles full rollup setup, while monitoring and analysis tools work with any rollup architecture.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Does it support EIP-4844 blobs?</h3>
+        <p class="faq-answer">Yes — the DA Cost Analyzer and Batch Optimizer both support blob analysis. Compare calldata vs blob posting costs, optimize compression, and pick the cheapest DA strategy for your rollup.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Do I need my own L1?</h3>
+        <p class="faq-answer">No — all tools deploy to Ethereum mainnet or testnets as the settlement layer. You don't need your own L1. The OP Stack Deployer creates a rollup that settles to existing Ethereum infrastructure.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Are the contracts audited?</h3>
+        <p class="faq-answer">Every contract includes comprehensive Foundry test suites (unit, fuzz, and invariant tests) and detailed security notes. We recommend a professional audit before mainnet deployment.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What license are the products under?</h3>
+        <p class="faq-answer">All products are MIT licensed. You can use, modify, and distribute them in commercial projects without restriction.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What support is included?</h3>
+        <p class="faq-answer">The Pro Bundle includes 30 days of priority support. Individual product purchases are supported through our community channels. All products include documentation and examples.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                       CROSS-SELL                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">More from CryptoForge</span></h2>
+    <p class="section-desc">Rollup Kit is one of 10 CryptoForge stores. Build your entire DeFi stack.</p>
+    <div class="cross-sell-grid">
+      <a href="#" class="cross-sell-card">
+        <h3>Vault Forge</h3>
+        <p>ERC-4626 yield vault toolkit. Deploy yield vaults on your L2 for native DeFi yield.</p>
+        <span class="cross-sell-link">Browse Store &rarr;</span>
+      </a>
+      <a href="#" class="cross-sell-card">
+        <h3>MEV Shield</h3>
+        <p>MEV protection & orderflow tools. Protect rollup users from MEV with sequencer-level shielding.</p>
+        <span class="cross-sell-link">Browse Store &rarr;</span>
+      </a>
+      <a href="#" class="cross-sell-card">
+        <h3>DeFi Router</h3>
+        <p>Routing & swap aggregation tools. Build DEX routing on your rollup with fee monetization.</p>
+        <span class="cross-sell-link">Browse Store &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          FOOTER                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo-icon">&#x2692;</span>
+        <span class="logo-text">CRYPTO<span class="logo-accent">FORGE</span></span>
+        <p class="footer-tagline">Forge the future of DeFi.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Stores</h4>
+        <a href="#">Rollup Kit</a>
+        <a href="#">Vault Forge</a>
+        <a href="#">MEV Shield</a>
+        <a href="#">Staking Kit</a>
+        <a href="#">DeFi Router</a>
+      </div>
+      <div class="footer-links">
+        <h4>Resources</h4>
+        <a href="#">Documentation</a>
+        <a href="#">Launch Checklist</a>
+        <a href="#">Blob Cost Guide</a>
+        <a href="#">Blog</a>
+      </div>
+      <div class="footer-links">
+        <h4>Payment</h4>
+        <p class="footer-note">We accept Stripe (credit/debit) and crypto payments (ETH, BTC).</p>
+        <p class="footer-note">All products include MIT license.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 CryptoForge. All rights reserved. Part of the DATANEST empire.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

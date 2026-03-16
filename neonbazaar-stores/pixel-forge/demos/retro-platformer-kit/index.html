@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Platformer Level Demo — Pixel Forge</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#0a0a12;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:'Courier New',monospace;color:#ccc}
+  h1{color:#d03030;margin-bottom:.5rem}
+  .info{color:#6a6a7a;margin-bottom:1rem;font-size:.85rem}
+  canvas{border:2px solid #2a2a3a;image-rendering:pixelated;image-rendering:crisp-edges;cursor:crosshair}
+  .controls{margin-top:1rem;display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center}
+  .ctrl-btn{background:#1a1a2e;color:#d03030;border:1px solid #2a2a3a;padding:6px 14px;border-radius:4px;cursor:pointer;font-family:inherit;font-size:.8rem}
+  .ctrl-btn.active{border-color:#d03030;color:#f0c020}
+  .ctrl-btn:hover{background:#2a2a3a}
+.crypto-pay-btn{background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem}
+.crypto-pay-btn:hover{opacity:0.9}
+</style>
+</head>
+<body>
+<h1>Retro Platformer Demo</h1>
+<p class="info">Interactive platformer level — Click to place/remove blocks. Animated sprites!</p>
+<canvas id="demo" width="640" height="480"></canvas>
+<div class="controls" id="controls"></div>
+
+<script>
+// ─── Palette ────────────────────────────────────────────────────────
+const P={
+  '_':null,'O':'#181020','R':'#d03030','A':'#f0a040','r':'#c02020',
+  'B':'#4060d0','G':'#f0c020','g':'#30b050','K':'#a05020','k':'#c07040',
+  'L':'#40a030','T':'#704020','W':'#f0f0f0','S':'#6888ff','s':'#3050c0',
+  'D':'#886830','d':'#c8b060','0':null
+};
+
+// ─── Tile Data (16x16) ─────────────────────────────────────────────
+const TD={
+gt:["__LL_LLLL_LL_LLL","_LLLLLLLLLLLLLL_","OLLLLLLLLLLLLLLO","ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO"],
+gm:["ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDDDDDdDDDDDDO","ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDdDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDDDDDDDDdDDDO","ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDdDDDDDDDDDDO","ODDDDDDDDDDDDDO","ODDDDDDDDDDDDDO"],
+bb:["OOOOOOOOOOOOOOOO","OKKKKKkOKKKKKKk","OKKKKKkOKKKKKKk","OOOOOOOOOOOOOOOO","KKkOKKKKKKkOKKK","KKkOKKKKKKkOKKK","OOOOOOOOOOOOOOOO","OKKKKKkOKKKKKKk","OKKKKKkOKKKKKKk","OOOOOOOOOOOOOOOO","KKkOKKKKKKkOKKK","KKkOKKKKKKkOKKK","OOOOOOOOOOOOOOOO","OKKKKKkOKKKKKKk","OKKKKKkOKKKKKKk","OOOOOOOOOOOOOOOO"],
+qb:["OOOOOOOOOOOOOOOO","OGGGGGGGGGGGGGO","OGGGGGGGGGGGGGOO","OGGGGOOOOGGGGGk","OGGGOGGGGOGGGGk","OGGGGGGGGOGGGGk","OGGGGGGGOGGGGGk","OGGGGGGOGGGGGGk","OGGGGGOGGGGGGGk","OGGGGGGGGGGGGGk","OGGGGGOGGGGGGGk","OGGGGGGGGGGGGGk","OGGGGGGGGGGGGGk","OkkkkkkkkkkkkkOO","OOOOOOOOOOOOOOOO","________________"],
+cl:["________________","________________","________________","________________","________________","________________","______OOOOO_____","____OOWWWWWO____","___OWWWWWWWWO___","__OWWWWWWWWWWO__","__OWWWWWWWWWWOO_","___OOOOOOOOOOO__","________________","________________","________________","________________"],
+cm:["________________","________________","________________","________________","________________","____OOOO________","___OWWWWO_______","__OWWWWWWO______","_OWWWWWWWWO_____","OWWWWWWWWWWO____","OWWWWWWWWWWWO___","_OOOOOOOOOOOO___","________________","________________","________________","________________"],
+cr:["________________","________________","________________","________________","________________","________________","________________","_OOOOO__________","OWWWWWOO________","OWWWWWWWO_______","OWWWWWWWWO______","_OOOOOOOOO______","________________","________________","________________","________________"],
+bu:["________________","________________","________________","________________","________________","________________","________________","________________","____OOOOOOO_____","___OLLLLLLLLO___","__OLLLWLLLLLLLO_","__OLLLLLLLLLLLLO","_OLLLLWLLLLLLLLO","_OLLLLLLLLLLLLO_","__OOOOOOOOOOO___","________________"],
+sk:["________________","________________","________________","________________","________________","________________","________________","________________","________________","______O___O_____","_O___OdO_OdO__O_","OdO_OdddOdddOOdO","OddOOdddOdddOddO","OdddOdddOdddOddO","OddddddddddddddO","OOOOOOOOOOOOOOOO"],
+fl:["________________","________________","________________","________________","________________","________________","________________","________________","________________","________________","____Or_rO_______","___OrGrGrO______","____OrrrO_______","_____OLO________","____OLLO________","____OLO_________"],
+tr:["____OOOOO_______","___OLLLLLLO_____","__OLLLWLLLLLO___","__OLLLLLLLLLO___","_OLLLLLLLLLLLLO_","_OLLLWLLLLLLLO__","_OLLLLLLLLLLLLO_","__OLLLLLLLLLO___","___OOLLLLOO_____","______OTO_______","______OTO_______","______OTO_______","______OTO_______","______OTO_______","_____OOTTO______","_____OOOOO______"]
+};
+
+// ─── Sprite Data (for animation) ────────────────────────────────────
+const SPRITES={
+player_idle:[
+["________________________________","________________________________","________________________________","________________________________","___________OOOOOO_______________","__________ORRRRRRO______________","__________ORRRRRRO______________","__________ORRRRRRRO_____________","___________OOOOOO_______________","__________OAAAAAO______________","_________OOAAAAOO______________","_________OAAOAOAAO_____________","________ORRRRRRRRRO_____________","________ORRRRRRRRRO_____________","________ORRRRRRRRRO_____________","________ORRRRRRRRRO_____________","________ORRRRRRRRRO_____________","_________ORRRRRRRO______________","_________ORRRRRRRO______________","__________ORRRRO________________","__________OAAAAO________________","_________OAAAAAO________________","_________OAO__OAO_______________","________OAO____OAO______________","________OAO____OAO______________","________OOO____OOO______________","________OKKO___OKKO_____________","________OKKO___OKKO_____________","________OOOO___OOOO_____________","________________________________","________________________________","________________________________"],
+["________________________________","________________________________","________________________________","________________________________","________________________________","___________OOOOOO_______________","__________ORRRRRRO______________","__________ORRRRRRO______________","__________ORRRRRRRO_____________","___________OOOOOO_______________","__________OAAAAAO______________","_________OOAAAAOO______________","_________OAAOAOAAO_____________","________ORRRRRRRRRO_____________","________ORRRRRRRRRO_____________","________ORRRRRRRRRO_____________","________ORRRRRRRRRO_____________","________ORRRRRRRRRO_____________","_________ORRRRRRRO______________","_________ORRRRRRRO______________","__________ORRRRO________________","__________OAAAAO________________","_________OAAAAAO________________","_________OAO__OAO_______________","________OAO____OAO______________","________OAO____OAO______________","________OOO____OOO______________","________OKKO___OKKO_____________","________OKKO___OKKO_____________","________OOOO___OOOO_____________","________________________________","________________________________"]
+],
+coin:[
+["________________","________________","________________","_____OOOOOO_____","____OGGGGGGO____","___OGGGGGGGO____","___OGGGOOGGO____","___OGGGOGGGO____","___OGGGGGGO_____","___OGGGOGGGO____","___OGGGOOGGO____","___OGGGGGGGO____","____OGGGGGGO____","_____OOOOOO_____","________________","________________"],
+["________________","________________","________________","______OOOO______","_____OGGGGO_____","_____OGGGO______","_____OGOOO______","_____OGOGGO_____","_____OGGGO______","_____OGOGGO_____","_____OGOOO______","_____OGGGO______","_____OGGGGO_____","______OOOO______","________________","________________"],
+["________________","________________","________________","_______OO_______","______OGGO______","______OGGO______","______OGGO______","______OGGO______","______OGGO______","______OGGO______","______OGGO______","______OGGO______","______OGGO______","_______OO_______","________________","________________"],
+["________________","________________","________________","______OOOO______","_____OGGGGO_____","______OGGO______","______OOOGO_____","_____OGGOGO_____","______OGGO______","_____OGGOGO_____","______OOOGO_____","______OGGO______","_____OGGGGO_____","______OOOO______","________________","________________"]
+],
+slime:[
+["________________","________________","________________","________________","________________","____OOOOOOOO____","___Ogggggggg0___","___OgWOggWOgO___","___OggggggggO___","___OggggggggO___","___OggOOOOggO___","___OggggggggO___","___OggggggggO___","____OOOOOOOO____","________________","________________"],
+["________________","________________","________________","________________","________________","________________","________________","___OOOOOOOOOO___","__OggggggggggO__","__OgWOggggWOgO__","__OggggggggggO__","__OgggOOOOgggO__","__OggggggggggO__","__OOOOOOOOOOOO__","________________","________________"]
+],
+bat:[
+["________________","__O__________O__","_OBO________OBO_","_OBBO______OBBO_","_OBBBO____OBBBO_","_OBBBOOOOOOBBBO_","__OBBBBrrBBBBO__","__OBBBrWWrBBBO__","___OBBBrrBBBO___","____OBBBBBO_____","_____OBBBO______","______OOO_______","________________","________________","________________","________________"],
+["________________","________________","________________","__OO________OO__","_OBBO______OBBO_","_OBBBOOOOOOBBO__","__OBBBBrrBBBBO__","__OBBBrWWrBBBO__","___OBBBrrBBBO___","____OBBBBBO_____","_____OBBBO______","______OOO_______","________________","________________","________________","________________"],
+["________________","________________","________________","________________","________________","__OOOOOOOOOOOO__","__OBBBBrrBBBBO__","__OBBBrWWrBBBO__","_OOBBBRRBBBOOO__","_OBBOBBBBBOBBOO_","__OBO_OBBBO_OBO_","___O___OOO___O__","________________","________________","________________","________________"],
+["________________","________________","________________","________________","________________","__OOOOOOOOOOOO__","__OBBBBrrBBBBO__","__OBBBrWWrBBBO__","__OOBBBrrBBBOO__","__OBOBBBBBOBOBO_","___OBBO_OBBOO___","___OBBO__OBBO___","____OO____OO____","________________","________________","________________"]
+]
+};
+
+const canvas=document.getElementById('demo');
+const ctx=canvas.getContext('2d');
+const SC=2; // scale: 2px per pixel
+
+// ─── Level Map (20x15 grid of 16x16 tiles) ──────────────────────────
+// Keys: gt=grass_top, gm=grass_mid, bb=brick, qb=question, cl/cm/cr=cloud,
+// bu=bush, sk=spike, fl=flower, tr=tree, __=empty (sky)
+const MAP=[
+['__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__'],
+['__','__','__','__','cl','cm','cr','__','__','__','__','__','__','cl','cm','cm','cr','__','__','__'],
+['__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__'],
+['__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__'],
+['__','__','__','__','__','__','__','__','__','qb','__','qb','__','__','__','__','__','__','__','__'],
+['__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__'],
+['__','__','__','__','__','__','bb','bb','bb','bb','bb','bb','bb','bb','__','__','__','__','__','__'],
+['__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__'],
+['__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__'],
+['__','__','bb','bb','__','__','__','__','__','__','__','__','__','__','__','__','bb','bb','__','__'],
+['__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__','__'],
+['gt','gt','gt','gt','gt','__','__','gt','gt','gt','gt','gt','gt','__','__','gt','gt','gt','gt','gt'],
+['gm','gm','gm','gm','gm','__','__','gm','gm','gm','gm','gm','gm','__','__','gm','gm','gm','gm','gm'],
+['gm','gm','gm','gm','gm','__','sk','gm','gm','gm','gm','gm','gm','sk','__','gm','gm','gm','gm','gm'],
+['gm','gm','gm','gm','gm','__','gm','gm','gm','gm','gm','gm','gm','gm','__','gm','gm','gm','gm','gm']
+];
+
+// Decoration layer (placed on top of ground tiles)
+const DECO=[
+{type:'bu',x:2,y:10},{type:'bu',x:15,y:10},{type:'fl',x:8,y:10},{type:'fl',x:10,y:10},
+{type:'tr',x:0,y:10},{type:'tr',x:18,y:10}
+];
+
+// ─── Animated entities ──────────────────────────────────────────────
+const entities=[
+  {type:'player_idle',x:3,y:9,size:32,frame:0,ms:500,timer:0},
+  {type:'coin',x:9,y:3,size:16,frame:0,ms:100,timer:0},
+  {type:'coin',x:11,y:3,size:16,frame:0,ms:100,timer:0},
+  {type:'coin',x:10,y:7,size:16,frame:0,ms:100,timer:0},
+  {type:'slime',x:8,y:10,size:16,frame:0,ms:300,timer:0},
+  {type:'slime',x:12,y:10,size:16,frame:0,ms:300,timer:0},
+  {type:'bat',x:5,y:2,size:16,frame:0,ms:100,timer:0},
+  {type:'bat',x:14,y:3,size:16,frame:0,ms:100,timer:0}
+];
+
+// ─── Drawing ────────────────────────────────────────────────────────
+function drawTile16(data,tx,ty){
+  for(let y=0;y<16;y++){
+    for(let x=0;x<16;x++){
+      const c=data[y][x];
+      const color=P[c];
+      if(!color)continue;
+      ctx.fillStyle=color;
+      ctx.fillRect(tx+x*SC,ty+y*SC,SC,SC);
+    }
+  }
+}
+
+function drawSprite(data,px,py,size){
+  for(let y=0;y<size;y++){
+    for(let x=0;x<size;x++){
+      const c=data[y]?data[y][x]:undefined;
+      if(!c)continue;
+      const color=P[c];
+      if(!color)continue;
+      ctx.fillStyle=color;
+      ctx.fillRect(px+x*SC,py+y*SC,SC,SC);
+    }
+  }
+}
+
+// ─── Parallax background ────────────────────────────────────────────
+let bgOffset=0;
+const stars=[];
+for(let i=0;i<60;i++){
+  stars.push({x:Math.random()*640,y:Math.random()*480,s:Math.random()*1.5+0.5,b:Math.random()});
+}
+
+// ─── Click to place/remove blocks ───────────────────────────────────
+let placeTile='bb';
+canvas.addEventListener('click',e=>{
+  const rect=canvas.getBoundingClientRect();
+  const mx=e.clientX-rect.left;
+  const my=e.clientY-rect.top;
+  const col=Math.floor(mx/(16*SC));
+  const row=Math.floor(my/(16*SC));
+  if(row>=0&&row<15&&col>=0&&col<20){
+    if(MAP[row][col]==='__'){
+      MAP[row][col]=placeTile;
+    }else{
+      MAP[row][col]='__';
+    }
+  }
+});
+
+// ─── Controls ───────────────────────────────────────────────────────
+const tiles=['bb','gt','qb'];
+const tileNames={bb:'Brick',gt:'Grass',qb:'? Block'};
+const cDiv=document.getElementById('controls');
+tiles.forEach(t=>{
+  const btn=document.createElement('button');
+  btn.className='ctrl-btn'+(t===placeTile?' active':'');
+  btn.textContent=tileNames[t]||t;
+  btn.onclick=()=>{
+    placeTile=t;
+    cDiv.querySelectorAll('.ctrl-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  };
+  cDiv.appendChild(btn);
+});
+
+// ─── Render Loop ────────────────────────────────────────────────────
+let lastTime=0;
+function render(time){
+  const dt=time-lastTime;
+  lastTime=time;
+  bgOffset+=0.2;
+
+  // Sky gradient
+  const grad=ctx.createLinearGradient(0,0,0,480);
+  grad.addColorStop(0,'#3050c0');
+  grad.addColorStop(1,'#6888ff');
+  ctx.fillStyle=grad;
+  ctx.fillRect(0,0,640,480);
+
+  // Stars
+  stars.forEach(s=>{
+    s.b+=0.008;
+    const brightness=Math.sin(s.b)*0.3+0.7;
+    ctx.globalAlpha=brightness;
+    ctx.fillStyle='#f0f0f0';
+    ctx.fillRect(((s.x+bgOffset*0.3)%640),s.y,s.s,s.s);
+  });
+  ctx.globalAlpha=1;
+
+  // Draw tile map
+  for(let row=0;row<MAP.length;row++){
+    for(let col=0;col<MAP[row].length;col++){
+      const key=MAP[row][col];
+      if(key==='__')continue;
+      const tileData=TD[key];
+      if(tileData)drawTile16(tileData,col*16*SC,row*16*SC);
+    }
+  }
+
+  // Draw decorations
+  DECO.forEach(d=>{
+    const tileData=TD[d.type];
+    if(tileData)drawTile16(tileData,d.x*16*SC,d.y*16*SC);
+  });
+
+  // Animate and draw entities
+  entities.forEach(ent=>{
+    ent.timer+=dt;
+    const frames=SPRITES[ent.type];
+    if(!frames)return;
+    if(ent.timer>=ent.ms){
+      ent.timer-=ent.ms;
+      ent.frame=(ent.frame+1)%frames.length;
+    }
+    const frameData=frames[ent.frame];
+    if(ent.size===32){
+      drawSprite(frameData,ent.x*16*SC-8*SC,ent.y*16*SC-16*SC,32);
+    }else{
+      drawSprite(frameData,ent.x*16*SC,ent.y*16*SC,16);
+    }
+  });
+
+  requestAnimationFrame(render);
+}
+
+requestAnimationFrame(render);
+</script>
+
+<!-- payment-cta-start -->
+<div class="purchase-cta" style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,transparent,#0a0a12 20%);padding:20px;text-align:center;z-index:1000">
+  <div style="max-width:600px;margin:0 auto;background:#12122a;border:1px solid #1a1a3a;border-radius:12px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div><strong style="color:#fff;font-size:1rem">Retro Platformer Kit</strong><br><span style="color:#8888aa;font-size:.85rem">$5.00</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a href="https://buy.stripe.com/fZuaEXdL9a1010S4i5gjG2r" class="cta-buy-btn" style="display:inline-block;background:#FF2D9B;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem">Buy Now</a>
+      <button class="crypto-pay-btn" data-product-slug="retro-platformer-kit" data-store-slug="pixel-forge" data-product-name="Retro Platformer Kit" data-price-usd="5.00">Crypto (15% off)</button>
+    </div>
+  </div>
+</div>
+<script src="../../crypto-checkout.js"></script>
+<!-- payment-cta-end -->
+
+</body>
+</html>

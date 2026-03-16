@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keybind Planner — Interactive Keyboard Layout Tool</title>
+<style>
+  /* === RESET & BASE === */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0a0a12;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', 'Inter', -apple-system, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px;
+  }
+
+  /* === HEADER === */
+  .header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(0, 255, 170, 0.4);
+  }
+  .header h1 span { color: #00ffaa; }
+  .header p {
+    color: #888;
+    font-size: 0.85rem;
+    margin-top: 6px;
+  }
+
+  /* === TOOLBAR === */
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .toolbar button, .toolbar select, .toolbar label {
+    background: #16162a;
+    color: #ccc;
+    border: 1px solid #2a2a4a;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .toolbar button:hover { background: #1e1e3a; border-color: #00ffaa; color: #00ffaa; }
+  .toolbar select { appearance: auto; }
+  .toolbar .file-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .toolbar .file-label input[type="file"] { display: none; }
+
+  /* === CATEGORY PICKER === */
+  .category-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .cat-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .cat-btn.active { transform: scale(1.08); box-shadow: 0 0 12px rgba(255,255,255,0.15); }
+  .cat-btn[data-cat="movement"]      { background: #0d3b5e; color: #3ea8ff; border-color: #3ea8ff33; }
+  .cat-btn[data-cat="movement"].active { border-color: #3ea8ff; }
+  .cat-btn[data-cat="combat"]        { background: #4a1525; color: #ff4466; border-color: #ff446633; }
+  .cat-btn[data-cat="combat"].active   { border-color: #ff4466; }
+  .cat-btn[data-cat="abilities"]     { background: #0d4a2a; color: #22dd88; border-color: #22dd8833; }
+  .cat-btn[data-cat="abilities"].active { border-color: #22dd88; }
+  .cat-btn[data-cat="weapons"]       { background: #4a3a0d; color: #ffcc22; border-color: #ffcc2233; }
+  .cat-btn[data-cat="weapons"].active   { border-color: #ffcc22; }
+  .cat-btn[data-cat="utility"]       { background: #3a1a4a; color: #cc66ff; border-color: #cc66ff33; }
+  .cat-btn[data-cat="utility"].active   { border-color: #cc66ff; }
+  .cat-btn[data-cat="communication"] { background: #3a3a0d; color: #aaaa44; border-color: #aaaa4433; }
+  .cat-btn[data-cat="communication"].active { border-color: #aaaa44; }
+  .cat-btn[data-cat="eraser"]        { background: #2a1a1a; color: #ff6666; border-color: #ff666633; }
+  .cat-btn[data-cat="eraser"].active    { border-color: #ff6666; }
+
+  /* === KEYBOARD === */
+  .keyboard {
+    background: #111122;
+    border: 1px solid #2a2a4a;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.5);
+    max-width: 920px;
+    width: 100%;
+  }
+  .kb-row {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+  .key {
+    position: relative;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid #333355;
+    background: #1a1a30;
+    transition: all 0.12s;
+    user-select: none;
+    overflow: hidden;
+  }
+  .key:hover { border-color: #00ffaa; box-shadow: 0 0 8px rgba(0,255,170,0.3); z-index: 2; }
+  .key .key-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #aaa;
+    line-height: 1;
+  }
+  .key .key-action {
+    font-size: 0.55rem;
+    color: #fff;
+    line-height: 1;
+    margin-top: 3px;
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 2px;
+  }
+  .key.gap { visibility: hidden; cursor: default; border: none; background: none; }
+
+  /* Category colors on keys */
+  .key.cat-movement      { background: #0d3b5e; border-color: #3ea8ff55; }
+  .key.cat-movement .key-label { color: #3ea8ff; }
+  .key.cat-combat        { background: #4a1525; border-color: #ff446655; }
+  .key.cat-combat .key-label { color: #ff4466; }
+  .key.cat-abilities     { background: #0d4a2a; border-color: #22dd8855; }
+  .key.cat-abilities .key-label { color: #22dd88; }
+  .key.cat-weapons       { background: #4a3a0d; border-color: #ffcc2255; }
+  .key.cat-weapons .key-label { color: #ffcc22; }
+  .key.cat-utility       { background: #3a1a4a; border-color: #cc66ff55; }
+  .key.cat-utility .key-label { color: #cc66ff; }
+  .key.cat-communication { background: #3a3a0d; border-color: #aaaa4455; }
+  .key.cat-communication .key-label { color: #aaaa44; }
+
+  /* === ACTION INPUT MODAL === */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: #14142a;
+    border: 1px solid #3a3a5a;
+    border-radius: 12px;
+    padding: 24px;
+    width: 340px;
+    text-align: center;
+  }
+  .modal h3 { color: #00ffaa; margin-bottom: 12px; font-size: 1rem; }
+  .modal input {
+    width: 100%;
+    padding: 10px;
+    background: #0a0a18;
+    border: 1px solid #3a3a5a;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 0.9rem;
+    outline: none;
+    margin-bottom: 14px;
+  }
+  .modal input:focus { border-color: #00ffaa; }
+  .modal .modal-btns { display: flex; gap: 8px; justify-content: center; }
+  .modal .modal-btns button {
+    padding: 8px 20px;
+    border-radius: 6px;
+    border: 1px solid #3a3a5a;
+    background: #1a1a30;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 0.82rem;
+    transition: all 0.12s;
+  }
+  .modal .modal-btns button.primary { background: #00ffaa22; border-color: #00ffaa55; color: #00ffaa; }
+  .modal .modal-btns button:hover { border-color: #00ffaa; }
+
+  /* === LEGEND === */
+  .legend {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+    font-size: 0.75rem;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+  }
+
+  /* === STATUS BAR === */
+  .status-bar {
+    margin-top: 14px;
+    font-size: 0.75rem;
+    color: #555;
+    text-align: center;
+  }
+  .status-bar .highlight { color: #00ffaa; }
+
+  /* === FOOTER === */
+  .footer {
+    margin-top: 32px;
+    text-align: center;
+    font-size: 0.7rem;
+    color: #444;
+  }
+  .footer a { color: #00ffaa; text-decoration: none; }
+.crypto-pay-btn{background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem}
+.crypto-pay-btn:hover{opacity:0.9}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span>Keybind</span> Planner</h1>
+  <p>Click a category, then click keys to assign actions. Export your layout as JSON.</p>
+</div>
+
+<!-- Toolbar -->
+<div class="toolbar">
+  <select id="gamePreset">
+    <option value="">Load Preset...</option>
+    <option value="valorant">Valorant</option>
+    <option value="apex">Apex Legends</option>
+    <option value="fortnite">Fortnite</option>
+  </select>
+  <label class="file-label">
+    Import JSON
+    <input type="file" id="importFile" accept=".json">
+  </label>
+  <button id="exportBtn">Export JSON</button>
+  <button id="clearBtn">Clear All</button>
+</div>
+
+<!-- Category selector -->
+<div class="category-bar" id="categoryBar">
+  <button class="cat-btn active" data-cat="movement">Movement</button>
+  <button class="cat-btn" data-cat="combat">Combat</button>
+  <button class="cat-btn" data-cat="abilities">Abilities</button>
+  <button class="cat-btn" data-cat="weapons">Weapons</button>
+  <button class="cat-btn" data-cat="utility">Utility</button>
+  <button class="cat-btn" data-cat="communication">Comms</button>
+  <button class="cat-btn" data-cat="eraser">Eraser</button>
+</div>
+
+<!-- Keyboard -->
+<div class="keyboard" id="keyboard"></div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:#3ea8ff"></div> Movement</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#ff4466"></div> Combat</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#22dd88"></div> Abilities</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#ffcc22"></div> Weapons</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#cc66ff"></div> Utility</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#aaaa44"></div> Comms</div>
+</div>
+
+<!-- Status -->
+<div class="status-bar" id="statusBar">
+  <span class="highlight">0</span> keys assigned
+</div>
+
+<!-- Action input modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3 id="modalTitle">Assign Action</h3>
+    <input type="text" id="actionInput" placeholder="e.g. Jump, Reload, Ability 1..." autocomplete="off">
+    <div class="modal-btns">
+      <button id="modalCancel">Cancel</button>
+      <button id="modalConfirm" class="primary">Assign</button>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Game Vault &mdash; Neon Bazaar &mdash; <a href="#">keybind planner v1.0</a>
+</div>
+
+<script>
+// =============================================================================
+// DATA
+// =============================================================================
+
+const KEYBOARD_ROWS = [
+  // Function row
+  [
+    {id:"esc",label:"ESC",w:1}, {id:"_g1",label:"",w:0.5,gap:true},
+    {id:"f1",label:"F1",w:1},{id:"f2",label:"F2",w:1},{id:"f3",label:"F3",w:1},{id:"f4",label:"F4",w:1},
+    {id:"_g2",label:"",w:0.3,gap:true},
+    {id:"f5",label:"F5",w:1},{id:"f6",label:"F6",w:1},{id:"f7",label:"F7",w:1},{id:"f8",label:"F8",w:1},
+    {id:"_g3",label:"",w:0.3,gap:true},
+    {id:"f9",label:"F9",w:1},{id:"f10",label:"F10",w:1},{id:"f11",label:"F11",w:1},{id:"f12",label:"F12",w:1}
+  ],
+  // Number row
+  [
+    {id:"backtick",label:"`",w:1},
+    {id:"1",label:"1",w:1},{id:"2",label:"2",w:1},{id:"3",label:"3",w:1},{id:"4",label:"4",w:1},
+    {id:"5",label:"5",w:1},{id:"6",label:"6",w:1},{id:"7",label:"7",w:1},{id:"8",label:"8",w:1},
+    {id:"9",label:"9",w:1},{id:"0",label:"0",w:1},
+    {id:"minus",label:"-",w:1},{id:"equals",label:"=",w:1},
+    {id:"backspace",label:"BKSP",w:2}
+  ],
+  // QWERTY row
+  [
+    {id:"tab",label:"TAB",w:1.5},
+    {id:"q",label:"Q",w:1},{id:"w",label:"W",w:1},{id:"e",label:"E",w:1},{id:"r",label:"R",w:1},
+    {id:"t",label:"T",w:1},{id:"y",label:"Y",w:1},{id:"u",label:"U",w:1},{id:"i",label:"I",w:1},
+    {id:"o",label:"O",w:1},{id:"p",label:"P",w:1},
+    {id:"lbracket",label:"[",w:1},{id:"rbracket",label:"]",w:1},
+    {id:"backslash",label:"\\",w:1.5}
+  ],
+  // Home row
+  [
+    {id:"capslock",label:"CAPS",w:1.75},
+    {id:"a",label:"A",w:1},{id:"s",label:"S",w:1},{id:"d",label:"D",w:1},{id:"f",label:"F",w:1},
+    {id:"g",label:"G",w:1},{id:"h",label:"H",w:1},{id:"j",label:"J",w:1},{id:"k",label:"K",w:1},
+    {id:"l",label:"L",w:1},{id:"semicolon",label:";",w:1},{id:"quote",label:"'",w:1},
+    {id:"enter",label:"ENTER",w:2.25}
+  ],
+  // Shift row
+  [
+    {id:"lshift",label:"SHIFT",w:2.25},
+    {id:"z",label:"Z",w:1},{id:"x",label:"X",w:1},{id:"c",label:"C",w:1},{id:"v",label:"V",w:1},
+    {id:"b",label:"B",w:1},{id:"n",label:"N",w:1},{id:"m",label:"M",w:1},
+    {id:"comma",label:",",w:1},{id:"period",label:".",w:1},{id:"slash",label:"/",w:1},
+    {id:"rshift",label:"SHIFT",w:2.75}
+  ],
+  // Bottom row
+  [
+    {id:"lctrl",label:"CTRL",w:1.5},
+    {id:"lwin",label:"WIN",w:1.25},
+    {id:"lalt",label:"ALT",w:1.25},
+    {id:"space",label:"SPACE",w:6.25},
+    {id:"ralt",label:"ALT",w:1.25},
+    {id:"rwin",label:"WIN",w:1.25},
+    {id:"menu",label:"MENU",w:1.25},
+    {id:"rctrl",label:"CTRL",w:1.5}
+  ]
+];
+
+// Built-in presets (match default_layouts/*.json)
+const PRESETS = {
+  valorant: {
+    esc:{action:"Menu",category:"utility"},
+    "1":{action:"Weapon 1",category:"weapons"},"2":{action:"Weapon 2",category:"weapons"},
+    "3":{action:"Melee",category:"weapons"},"4":{action:"Spike",category:"utility"},
+    "5":{action:"Weapon 5",category:"weapons"},
+    tab:{action:"Scoreboard",category:"utility"},
+    q:{action:"Ability 1",category:"abilities"},w:{action:"Forward",category:"movement"},
+    e:{action:"Ability 2",category:"abilities"},r:{action:"Reload",category:"combat"},
+    t:{action:"Spray",category:"communication"},
+    a:{action:"Left",category:"movement"},s:{action:"Back",category:"movement"},
+    d:{action:"Right",category:"movement"},f:{action:"Use Object",category:"utility"},
+    g:{action:"Drop",category:"utility"},
+    lshift:{action:"Walk",category:"movement"},z:{action:"Radio Cmd",category:"communication"},
+    x:{action:"Ultimate",category:"abilities"},c:{action:"Ability 3",category:"abilities"},
+    v:{action:"Push to Talk",category:"communication"},b:{action:"Buy Menu",category:"utility"},
+    m:{action:"Map",category:"utility"},
+    lctrl:{action:"Crouch",category:"movement"},space:{action:"Jump",category:"movement"}
+  },
+  apex: {
+    esc:{action:"Menu",category:"utility"},
+    "1":{action:"Weapon 1",category:"weapons"},"2":{action:"Weapon 2",category:"weapons"},
+    "3":{action:"Holster",category:"weapons"},
+    tab:{action:"Map",category:"utility"},
+    q:{action:"Tactical",category:"abilities"},w:{action:"Forward",category:"movement"},
+    e:{action:"Interact",category:"utility"},r:{action:"Reload",category:"combat"},
+    t:{action:"Health",category:"utility"},
+    a:{action:"Left",category:"movement"},s:{action:"Back",category:"movement"},
+    d:{action:"Right",category:"movement"},f:{action:"Melee",category:"combat"},
+    g:{action:"Grenade",category:"combat"},h:{action:"Ping",category:"communication"},
+    lshift:{action:"Sprint",category:"movement"},z:{action:"Ultimate",category:"abilities"},
+    x:{action:"Equip",category:"utility"},c:{action:"Crouch",category:"movement"},
+    v:{action:"Push to Talk",category:"communication"},b:{action:"Emote",category:"communication"},
+    lctrl:{action:"Slide",category:"movement"},space:{action:"Jump",category:"movement"}
+  },
+  fortnite: {
+    esc:{action:"Menu",category:"utility"},
+    "1":{action:"Slot 1",category:"weapons"},"2":{action:"Slot 2",category:"weapons"},
+    "3":{action:"Slot 3",category:"weapons"},"4":{action:"Slot 4",category:"weapons"},
+    "5":{action:"Slot 5",category:"weapons"},
+    tab:{action:"Map",category:"utility"},
+    q:{action:"Wall",category:"abilities"},w:{action:"Forward",category:"movement"},
+    e:{action:"Use",category:"utility"},r:{action:"Reload",category:"combat"},
+    t:{action:"Trap",category:"abilities"},
+    a:{action:"Left",category:"movement"},s:{action:"Back",category:"movement"},
+    d:{action:"Right",category:"movement"},f:{action:"Floor",category:"abilities"},
+    g:{action:"Edit",category:"utility"},
+    lshift:{action:"Sprint",category:"movement"},z:{action:"Ramp",category:"abilities"},
+    x:{action:"Roof",category:"abilities"},c:{action:"Crouch",category:"movement"},
+    v:{action:"Push to Talk",category:"communication"},b:{action:"Emote",category:"communication"},
+    lctrl:{action:"Crouch",category:"movement"},space:{action:"Jump",category:"movement"}
+  }
+};
+
+// =============================================================================
+// STATE
+// =============================================================================
+
+let bindings = {};       // { keyId: { action: string, category: string } }
+let activeCategory = "movement";
+let modalTarget = null;  // key id being edited
+
+// =============================================================================
+// DOM REFS
+// =============================================================================
+
+const kbEl = document.getElementById("keyboard");
+const categoryBar = document.getElementById("categoryBar");
+const statusBar = document.getElementById("statusBar");
+const modalOverlay = document.getElementById("modalOverlay");
+const actionInput = document.getElementById("actionInput");
+const modalTitle = document.getElementById("modalTitle");
+const gamePreset = document.getElementById("gamePreset");
+
+// =============================================================================
+// RENDER KEYBOARD
+// =============================================================================
+
+function buildKeyboard() {
+  kbEl.innerHTML = "";
+  const unit = 48; // px per 1u key
+  const gap = 4;
+
+  KEYBOARD_ROWS.forEach(row => {
+    const rowEl = document.createElement("div");
+    rowEl.className = "kb-row";
+
+    row.forEach(k => {
+      const el = document.createElement("div");
+      const w = Math.round(k.w * unit + (k.w - 1) * gap);
+      el.style.width = w + "px";
+      el.style.flexShrink = "0";
+
+      if (k.gap) {
+        el.className = "key gap";
+      } else {
+        el.className = "key";
+        el.dataset.id = k.id;
+
+        const labelEl = document.createElement("div");
+        labelEl.className = "key-label";
+        labelEl.textContent = k.label;
+        el.appendChild(labelEl);
+
+        const actionEl = document.createElement("div");
+        actionEl.className = "key-action";
+        el.appendChild(actionEl);
+
+        el.addEventListener("click", () => onKeyClick(k.id, k.label));
+      }
+
+      rowEl.appendChild(el);
+    });
+
+    kbEl.appendChild(rowEl);
+  });
+
+  refreshKeys();
+}
+
+function refreshKeys() {
+  document.querySelectorAll(".key[data-id]").forEach(el => {
+    const id = el.dataset.id;
+    const b = bindings[id];
+
+    // Remove old category classes
+    el.className = el.className.replace(/\bcat-\S+/g, "").trim();
+    if (!el.classList.contains("key")) el.classList.add("key");
+
+    const actionEl = el.querySelector(".key-action");
+
+    if (b && b.action) {
+      el.classList.add("cat-" + b.category);
+      actionEl.textContent = b.action;
+    } else {
+      actionEl.textContent = "";
+    }
+  });
+
+  // Update status
+  const count = Object.values(bindings).filter(b => b && b.action).length;
+  statusBar.innerHTML = `<span class="highlight">${count}</span> key${count !== 1 ? "s" : ""} assigned`;
+}
+
+// =============================================================================
+// KEY CLICK
+// =============================================================================
+
+function onKeyClick(keyId, keyLabel) {
+  if (activeCategory === "eraser") {
+    delete bindings[keyId];
+    refreshKeys();
+    return;
+  }
+
+  modalTarget = keyId;
+  modalTitle.textContent = `Assign to [${keyLabel}]`;
+  actionInput.value = bindings[keyId] ? bindings[keyId].action : "";
+  modalOverlay.classList.add("active");
+  actionInput.focus();
+  actionInput.select();
+}
+
+// =============================================================================
+// MODAL
+// =============================================================================
+
+document.getElementById("modalConfirm").addEventListener("click", confirmModal);
+document.getElementById("modalCancel").addEventListener("click", closeModal);
+actionInput.addEventListener("keydown", e => {
+  if (e.key === "Enter") confirmModal();
+  if (e.key === "Escape") closeModal();
+});
+modalOverlay.addEventListener("click", e => {
+  if (e.target === modalOverlay) closeModal();
+});
+
+function confirmModal() {
+  const action = actionInput.value.trim();
+  if (action && modalTarget) {
+    bindings[modalTarget] = { action, category: activeCategory };
+  } else if (!action && modalTarget) {
+    delete bindings[modalTarget];
+  }
+  closeModal();
+  refreshKeys();
+}
+
+function closeModal() {
+  modalOverlay.classList.remove("active");
+  modalTarget = null;
+}
+
+// =============================================================================
+// CATEGORY BAR
+// =============================================================================
+
+categoryBar.addEventListener("click", e => {
+  const btn = e.target.closest(".cat-btn");
+  if (!btn) return;
+  categoryBar.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  activeCategory = btn.dataset.cat;
+});
+
+// =============================================================================
+// PRESETS
+// =============================================================================
+
+gamePreset.addEventListener("change", () => {
+  const preset = PRESETS[gamePreset.value];
+  if (!preset) return;
+  bindings = JSON.parse(JSON.stringify(preset));
+  refreshKeys();
+  gamePreset.value = "";
+});
+
+// =============================================================================
+// IMPORT / EXPORT
+// =============================================================================
+
+document.getElementById("exportBtn").addEventListener("click", () => {
+  const data = {
+    meta: {
+      name: "Custom Layout",
+      description: "Exported from Keybind Planner",
+      exported: new Date().toISOString()
+    },
+    bindings: bindings
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "keybind_layout.json";
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById("importFile").addEventListener("change", e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+      if (data.bindings) {
+        bindings = data.bindings;
+      } else {
+        // Assume flat format
+        bindings = data;
+      }
+      refreshKeys();
+    } catch (err) {
+      alert("Invalid JSON file: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = "";
+});
+
+// =============================================================================
+// CLEAR
+// =============================================================================
+
+document.getElementById("clearBtn").addEventListener("click", () => {
+  if (Object.keys(bindings).length === 0) return;
+  if (confirm("Clear all keybinds?")) {
+    bindings = {};
+    refreshKeys();
+  }
+});
+
+// =============================================================================
+// INIT
+// =============================================================================
+
+buildKeyboard();
+</script>
+
+<!-- payment-cta-start -->
+<div class="purchase-cta" style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,transparent,#0a0a12 20%);padding:20px;text-align:center;z-index:1000">
+  <div style="max-width:600px;margin:0 auto;background:#12122a;border:1px solid #1a1a3a;border-radius:12px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div><strong style="color:#fff;font-size:1rem">Gaming Keybind Planner</strong><br><span style="color:#8888aa;font-size:.85rem">$1.00</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a href="https://buy.stripe.com/14AeVddL90qqbFw8ylgjG22" class="cta-buy-btn" style="display:inline-block;background:#FF2D9B;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem">Buy Now</a>
+      <button class="crypto-pay-btn" data-product-slug="gaming-keybind-planner" data-store-slug="game-vault" data-product-name="Gaming Keybind Planner" data-price-usd="1.00">Crypto (15% off)</button>
+    </div>
+  </div>
+</div>
+<script src="../../crypto-checkout.js"></script>
+<!-- payment-cta-end -->
+
+</body>
+</html>

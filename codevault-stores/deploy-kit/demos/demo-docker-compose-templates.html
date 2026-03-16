@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docker Compose Templates — Interactive Demo | Deploy Kit</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#00BCD4;--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;--red:#FF4B6E;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;}header span{color:var(--muted);font-size:.85rem;}
+  .badge{background:var(--accent);color:#000;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1000px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+  @media(max-width:700px){.grid{grid-template-columns:1fr;}}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;}
+  select,input{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.6rem .8rem;border-radius:8px;font-size:.9rem;margin-bottom:1rem;}
+  select:focus,input:focus{outline:none;border-color:var(--accent);}
+  .checkbox-group{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1rem;}
+  .checkbox-group label{display:flex;align-items:center;gap:.5rem;font-size:.9rem;color:var(--text);text-transform:none;letter-spacing:0;margin:0;cursor:pointer;}
+  .checkbox-group input[type=checkbox]{width:auto;margin:0;}
+  .btn{display:block;width:100%;padding:.75rem;background:var(--accent);color:#000;border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;transition:opacity .2s;}
+  .btn:hover{opacity:.85;}
+  .output-panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  .output-header{background:var(--surface2);padding:.75rem 1.25rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);}
+  .output-header span{font-size:.8rem;font-family:'JetBrains Mono',monospace;color:var(--muted);}
+  .copy-btn{background:transparent;border:1px solid var(--border);color:var(--accent);padding:.3rem .7rem;border-radius:6px;font-size:.75rem;cursor:pointer;}
+  .copy-btn:hover{background:var(--accent);color:#000;}
+  pre{padding:1.25rem;font-family:'JetBrains Mono',monospace;font-size:.8rem;line-height:1.6;overflow-x:auto;color:#cdd6f4;max-height:480px;overflow-y:auto;}
+  .k-service{color:#cba6f7;} .k-key{color:#89dceb;} .k-val{color:#a6e3a1;} .k-comment{color:#6c7086;font-style:italic;}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a2040);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box h3{font-size:1.1rem;margin-bottom:.4rem;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#000;font-weight:700;padding:.75rem 2rem;border-radius:8px;text-decoration:none;font-size:.95rem;}
+  .cta-btn:hover{opacity:.85;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .stack-icons{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem;}
+  .stack-tag{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.25rem .6rem;font-size:.75rem;cursor:pointer;transition:all .2s;}
+  .stack-tag.active{border-color:var(--accent);color:var(--accent);background:rgba(0,188,212,.1);}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">🐳</span>
+  <h1>Docker Compose Templates</h1>
+  <span>Interactive Demo</span>
+  <span class="badge">Deploy Kit</span>
+</header>
+<div class="container">
+  <h2>Generate Your docker-compose.yml</h2>
+  <p class="subtitle">Select your stack and services — preview a production-ready compose file instantly.</p>
+  <div class="grid">
+    <div class="panel">
+      <label>Application Stack</label>
+      <div class="stack-icons" id="stackPicker">
+        <span class="stack-tag active" data-val="fastapi">FastAPI + Postgres</span>
+        <span class="stack-tag" data-val="django">Django + Redis</span>
+        <span class="stack-tag" data-val="nextjs">Next.js + MongoDB</span>
+        <span class="stack-tag" data-val="flask">Flask + MySQL</span>
+        <span class="stack-tag" data-val="node">Node.js + Postgres</span>
+      </div>
+      <label>Project Name</label>
+      <input type="text" id="projectName" value="my-app" placeholder="my-app">
+      <label>Extra Services</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" id="nginx" checked> Nginx reverse proxy</label>
+        <label><input type="checkbox" id="redis"> Redis cache</label>
+        <label><input type="checkbox" id="celery"> Celery worker</label>
+        <label><input type="checkbox" id="adminer"> Adminer (DB GUI)</label>
+        <label><input type="checkbox" id="prometheus"> Prometheus monitoring</label>
+      </div>
+      <button class="btn" onclick="generate()">⚡ Generate Compose File</button>
+    </div>
+    <div class="output-panel">
+      <div class="output-header">
+        <span>docker-compose.yml</span>
+        <button class="copy-btn" onclick="copyOutput()">Copy</button>
+      </div>
+      <pre id="output"><!-- Click "Generate" to preview --></pre>
+    </div>
+  </div>
+  <div class="cta-box">
+    <h3>🚀 Full Template Library — 20+ Stacks Included</h3>
+    <p>Full version includes production configs, multi-stage builds, health checks, secrets management, and more stacks.</p>
+    <a href="https://buy.stripe.com/8x2eVdfTh1uugZQaGtgjJ0A" class="cta-btn">Buy Full Version — $9.99</a>
+    <button class="crypto-pay-btn" data-product-slug="docker-compose-templates" data-store-slug="deploy-kit" data-product-name="Docker Compose Templates" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo shows limited functionality. Buy the full tool for all features including 20+ stack templates, production hardening configs, and CI/CD integration.</footer>
+<script>
+let selectedStack = 'fastapi';
+document.querySelectorAll('.stack-tag').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.stack-tag').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    selectedStack = t.dataset.val;
+  });
+});
+
+const stacks = {
+  fastapi: { app: 'fastapi', db: 'postgres:15', dbEnv: 'POSTGRES_DB', appPort: '8000', image: 'python:3.11-slim', cmd: 'uvicorn main:app --host 0.0.0.0 --port 8000' },
+  django:  { app: 'django',  db: 'postgres:15', dbEnv: 'POSTGRES_DB', appPort: '8000', image: 'python:3.11-slim', cmd: 'gunicorn config.wsgi:application --bind 0.0.0.0:8000' },
+  nextjs:  { app: 'nextjs',  db: 'mongo:7',     dbEnv: 'MONGO_INITDB_DATABASE', appPort: '3000', image: 'node:20-slim', cmd: 'node server.js' },
+  flask:   { app: 'flask',   db: 'mysql:8',     dbEnv: 'MYSQL_DATABASE', appPort: '5000', image: 'python:3.11-slim', cmd: 'gunicorn app:app --bind 0.0.0.0:5000' },
+  node:    { app: 'node',    db: 'postgres:15', dbEnv: 'POSTGRES_DB', appPort: '3000', image: 'node:20-slim', cmd: 'node src/index.js' },
+};
+
+function hl(text) {
+  return text
+    .replace(/(^  \w[\w-]+:)/gm, m => `<span class="k-service">${m}</span>`)
+    .replace(/(\s{4,}\w[\w-]+)(?=:)/g, m => `<span class="k-key">${m}</span>`)
+    .replace(/(#.+)/g, m => `<span class="k-comment">${m}</span>`);
+}
+
+function generate() {
+  const s = stacks[selectedStack];
+  const name = document.getElementById('projectName').value || 'my-app';
+  const useNginx = document.getElementById('nginx').checked;
+  const useRedis = document.getElementById('redis').checked;
+  const useCelery = document.getElementById('celery').checked;
+  const useAdminer = document.getElementById('adminer').checked;
+  const usePrometheus = document.getElementById('prometheus').checked;
+
+  let services = '';
+
+  services += `  ${s.app}:\n`;
+  services += `    image: ${s.image}\n`;
+  services += `    container_name: ${name}-${s.app}\n`;
+  services += `    command: ${s.cmd}\n`;
+  services += `    volumes:\n      - .:/app\n    working_dir: /app\n`;
+  services += `    env_file: [.env]\n`;
+  services += `    ports:\n      - "${s.appPort}:${s.appPort}"\n`;
+  services += `    depends_on:\n      db:\n        condition: service_healthy\n`;
+  if (useRedis) services += `      redis:\n        condition: service_healthy\n`;
+  services += `    restart: unless-stopped\n`;
+  services += `    networks: [${name}-net]\n\n`;
+
+  services += `  db:\n`;
+  services += `    image: ${s.db}\n`;
+  services += `    container_name: ${name}-db\n`;
+  services += `    environment:\n      ${s.dbEnv}: ${name}\n      POSTGRES_USER: appuser  # change in .env\n      POSTGRES_PASSWORD: \${DB_PASSWORD}\n`;
+  services += `    volumes:\n      - db_data:/var/lib/postgresql/data\n`;
+  services += `    healthcheck:\n      test: ["CMD-SHELL","pg_isready -U appuser"]\n      interval: 10s\n      timeout: 5s\n      retries: 5\n`;
+  services += `    networks: [${name}-net]\n\n`;
+
+  if (useRedis) {
+    services += `  redis:\n    image: redis:7-alpine\n    container_name: ${name}-redis\n`;
+    services += `    command: redis-server --appendonly yes\n    volumes:\n      - redis_data:/data\n`;
+    services += `    healthcheck:\n      test: ["CMD","redis-cli","ping"]\n      interval: 10s\n    networks: [${name}-net]\n\n`;
+  }
+  if (useCelery) {
+    services += `  celery:\n    image: ${s.image}\n    container_name: ${name}-celery\n`;
+    services += `    command: celery -A tasks worker --loglevel=info\n    volumes:\n      - .:/app\n    working_dir: /app\n`;
+    services += `    env_file: [.env]\n    depends_on: [${s.app}, redis]\n    networks: [${name}-net]\n\n`;
+  }
+  if (useNginx) {
+    services += `  nginx:\n    image: nginx:1.25-alpine\n    container_name: ${name}-nginx\n`;
+    services += `    ports:\n      - "80:80"\n      - "443:443"\n`;
+    services += `    volumes:\n      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro\n`;
+    services += `      - ./certs:/etc/letsencrypt:ro\n    depends_on: [${s.app}]\n    networks: [${name}-net]\n\n`;
+  }
+  if (useAdminer) {
+    services += `  adminer:\n    image: adminer\n    container_name: ${name}-adminer\n`;
+    services += `    ports:\n      - "8080:8080"\n    depends_on: [db]\n    networks: [${name}-net]\n\n`;
+  }
+  if (usePrometheus) {
+    services += `  prometheus:\n    image: prom/prometheus:latest\n    container_name: ${name}-prometheus\n`;
+    services += `    ports:\n      - "9090:9090"\n    volumes:\n      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro\n`;
+    services += `    networks: [${name}-net]\n\n`;
+  }
+
+  let volumes = `volumes:\n  db_data:\n`;
+  if (useRedis) volumes += `  redis_data:\n`;
+
+  const yaml = `# Generated by Deploy Kit — docker-compose-templates\n# Stack: ${selectedStack.toUpperCase()} | Project: ${name}\n# Full version: https://deploy-kit.codevault.dev\n\nversion: "3.9"\n\nservices:\n${services}${volumes}\nnetworks:\n  ${name}-net:\n    driver: bridge\n`;
+
+  document.getElementById('output').innerHTML = hl(yaml);
+}
+
+function copyOutput() {
+  const text = document.getElementById('output').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+
+generate();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

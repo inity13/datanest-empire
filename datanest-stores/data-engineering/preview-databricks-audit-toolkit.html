@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Preview Databricks Audit Toolkit — see the file structure, code samples, and documentation before you buy.">
+  <meta name="theme-color" content="#0f766e">
+  <title>Databricks Audit Toolkit — Preview | DataStack Pro</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .preview-page { padding-top: calc(var(--header-height, 72px) + 2rem); padding-bottom: 4rem; }
+    .preview-back { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; color: var(--color-text-muted, #94a3b8); font-size: 0.875rem; text-decoration: none; transition: color 0.2s; }
+    .preview-back:hover { color: var(--color-primary, #0f766e); }
+    .preview-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--color-card-border, #334155); }
+    .preview-header h1 { margin: 0; font-size: 1.75rem; }
+    .preview-header .price { font-size: 1.75rem; font-weight: 800; color: var(--color-accent, #14b8a6); }
+    .preview-desc { color: var(--color-text-muted, #94a3b8); margin-bottom: 1.5rem; font-size: 1rem; line-height: 1.6; max-width: 80ch; }
+    .preview-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+    .preview-badge { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; border: 1px solid; }
+    .preview-badge .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    .preview-section { background: var(--color-card, #1e293b); border: 1px solid var(--color-card-border, #334155); border-radius: 12px; margin-bottom: 1.5rem; overflow: hidden; }
+    .preview-section-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; background: var(--color-surface, #0f172a); border-bottom: 1px solid var(--color-card-border, #334155); cursor: pointer; user-select: none; }
+    .preview-section-header:hover { background: var(--color-card-hover, #263044); }
+    .preview-section-header h3 { font-size: 1.125rem; margin: 0; display: flex; align-items: center; gap: 0.5rem; }
+    .preview-section-header .badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 9999px; background: rgba(20, 184, 166, 0.15); color: var(--color-accent, #14b8a6); font-weight: 600; }
+    .preview-section-body { padding: 1.5rem; max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+    .preview-section.open .preview-section-body { max-height: 8000px; }
+    .preview-section .chevron { transition: transform 0.3s ease; color: var(--color-text-muted, #94a3b8); }
+    .preview-section.open .chevron { transform: rotate(180deg); }
+    .preview-code { background: var(--color-bg-alt, #0f172a); border: 1px solid var(--color-card-border, #334155); border-radius: 8px; padding: 1rem; overflow-x: auto; font-family: var(--font-mono, 'SF Mono', Consolas, monospace); font-size: 0.8125rem; line-height: 1.6; white-space: pre; color: var(--color-text, #f8fafc); }
+    .preview-code .filename { display: block; color: var(--color-text-muted, #94a3b8); font-size: 0.75rem; margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-card-border, #334155); }
+    .file-tree { font-family: var(--font-mono, 'SF Mono', Consolas, monospace); font-size: 0.8125rem; line-height: 1.8; color: var(--color-text-muted, #94a3b8); background: var(--color-bg-alt, #0f172a); border: 1px solid var(--color-card-border, #334155); border-radius: 8px; padding: 1rem; overflow-x: auto; white-space: pre; }
+    .file-tree .dir { color: var(--color-primary-light, #14b8a6); font-weight: 600; }
+    .file-tree .file { color: var(--color-text, #f8fafc); }
+    .readme-excerpt { line-height: 1.7; color: var(--color-text-muted, #94a3b8); }
+    .readme-excerpt h3 { color: var(--color-text, #f8fafc); margin: 1.25rem 0 0.5rem; font-size: 1.1rem; }
+    .readme-excerpt p { margin: 0.5rem 0; }
+    .readme-excerpt ul { margin: 0.5rem 0; padding-left: 1.5rem; }
+    .readme-excerpt li { margin: 0.25rem 0; }
+    .readme-excerpt code { background: var(--color-bg-alt, #0f172a); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.85em; }
+    .readme-excerpt pre { background: var(--color-bg-alt, #0f172a); border: 1px solid var(--color-card-border, #334155); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 0.75rem 0; }
+    .readme-excerpt pre code { background: none; padding: 0; font-size: 0.8125rem; }
+    .preview-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--color-card-border, #334155); }
+    .redacted { color: var(--color-text-muted, #64748b); font-style: italic; opacity: 0.6; }
+    .redacted::before { content: "# "; }
+    @media (max-width: 640px) {
+      .preview-section-header { padding: 0.75rem 1rem; }
+      .preview-section-body { padding: 1rem; }
+      .preview-code, .file-tree { font-size: 0.7rem; }
+      .preview-header h1 { font-size: 1.25rem; }
+    }
+  </style>
+  <script defer data-domain="datanest-stores.pages.dev" src="https://plausible.io/js/script.js"></script>
+<!-- analytics-start -->
+<script>
+(function(){
+  try{
+    fetch("https://ferovwapilhcpqozqinn.supabase.co/rest/v1/page_views",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Prefer":"return=minimal"},
+      body:JSON.stringify({store_name:"DataStack Pro",page_path:location.pathname,referrer:document.referrer||null,user_agent:navigator.userAgent}),
+      keepalive:true
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+<!-- analytics-end -->
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a href="index.html" class="logo" aria-label="DataStack Pro home">
+        <span class="logo-icon" aria-hidden="true">&#9881;</span>
+        DataStack Pro
+      </a>
+      <nav class="nav-desktop" aria-label="Main navigation">
+        <a href="index.html#products">Products</a>
+        <a href="index.html#bundle">Bundle</a>
+        <a href="index.html#faq">FAQ</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" aria-label="Toggle dark/light mode">
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="preview-page">
+    <div class="container">
+      <a href="index.html#products" class="preview-back">&larr; Back to all products</a>
+
+      <div class="preview-header">
+        <div><h1>Databricks Audit Toolkit</h1></div>
+        <span class="price">&euro;39</span>
+      </div>
+
+      <p class="preview-desc">A comprehensive audit and inventory toolkit for Databricks workspaces. Runs 12 independent audit modules covering security, governance, compute costs, access control, and data lineage — then generates professional HTML and JSON reports with risk scores.</p>
+
+      <div class="preview-meta" style="display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;font-size:0.875rem;color:var(--color-text-muted,#94a3b8);"><span>&#128193; 15 files</span><span>&#127991; v1.0.0</span></div>
+
+      <div class="preview-badges"><span class="preview-badge" style="border-color: #3776AB40; color: #3776AB;"><span class="dot" style="background: #3776AB;"></span>Python</span><span class="preview-badge" style="border-color: #FF362440; color: #FF3624;"><span class="dot" style="background: #FF3624;"></span>Databricks</span><span class="preview-badge" style="border-color: #00979D40; color: #00979D;"><span class="dot" style="background: #00979D;"></span>REST API</span><span class="preview-badge" style="border-color: #B4145040; color: #B41450;"><span class="dot" style="background: #B41450;"></span>Jinja2</span><span class="preview-badge" style="border-color: #D63AFF40; color: #D63AFF;"><span class="dot" style="background: #D63AFF;"></span>Security</span></div>
+
+      <div class="preview-section open">
+        <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+          <h3>&#128193; File Structure <span class="badge">15 files</span></h3>
+          <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="preview-section-body">
+          <div class="file-tree"><span class="dir">databricks-audit-toolkit/</span>
+├── <span class="file">config.py</span>
+├── <span class="file">utils.py</span>
+├── <span class="file">run_audit.sh</span>
+├── <span class="file">requirements.txt</span>
+├── <span class="file">LICENSE</span>
+├── <span class="file">README.md</span>
+│
+├── <span class="dir">audits/</span>
+│   ├── <span class="file">__init__.py</span>
+│   ├── <span class="file">a01_catalog_inventory.py</span>
+│   ├── <span class="file">a02_job_inventory.py</span>
+│   ├── <span class="file">a03_access_audit.py</span>
+│   ├── <span class="file">a04_secret_inventory.py</span>
+│   ├── <span class="file">a05_compute_analysis.py</span>
+│   ├── <span class="file">a06_security_findings.py</span>
+│   ├── <span class="file">a07_audit_logs.py</span>
+│   ├── <span class="file">a08_external_storage.py</span>
+│   ├── <span class="file">a09_token_inventory.py</span>
+│   ├── <span class="file">a10_query_history.py</span>
+│   ├── <span class="file">a11_data_lineage.py</span>
+│   └── <span class="file">a12_table_permissions.py</span>
+│
+├── <span class="dir">reports/</span>
+│   ├── <span class="file">__init__.py</span>
+│   ├── <span class="file">html_report.py</span>
+│   ├── <span class="file">json_report.py</span>
+│   └── <span class="dir">templates/</span>
+│       └── <span class="file">audit_report.html</span>
+│
+├── <span class="dir">examples/</span>
+│   ├── <span class="file">sample_output.json</span>
+│   └── <span class="file">scheduling_guide.md</span>
+│
+└── <span class="dir">output/</span>
+    └── <span class="file">.gitkeep</span></div>
+        </div>
+      </div>
+
+      <div class="preview-section open">
+        <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+          <h3>&#128214; Documentation Preview <span class="badge">README excerpt</span></h3>
+          <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="preview-section-body">
+          <div class="readme-excerpt">
+            <h3>Features</h3>
+
+<ul>
+  <li><strong>12 audit modules</strong> covering Unity Catalog, access control, secrets, compute, tokens, query history, data lineage, external storage</li>
+  <li><strong>Professional HTML reports</strong> with risk scores, severity distribution, and actionable recommendations</li>
+  <li><strong>Machine-readable JSON output</strong> for SIEM ingestion, dashboards, and trend analysis</li>
+  <li><strong>Risk scoring engine</strong> that aggregates findings into a 0-100 risk score with CRITICAL/HIGH/MEDIUM/LOW ratings</li>
+  <li><strong>Rate limiting and retry logic</strong> — respects Databricks API limits with exponential backoff</li>
+  <li><strong>Extensible architecture</strong> — add your own audit modules by inheriting from <code>BaseAudit</code></li>
+</ul>
+
+<h3>Quick Start</h3>
+
+<pre><code># 1. Install dependencies
+pip install -r requirements.txt
+
+# 2. Set credentials
+export DATABRICKS_HOST='https://your-workspace.cloud.databricks.com'
+export DATABRICKS_TOKEN='dapi...'
+
+# 3. Run all audits
+./run_audit.sh --all
+
+# 4. Open the report
+open output/audit_report.html
+</code></pre>
+
+<h3>Risk Scoring</h3>
+
+<p>CRITICAL (25 weight), HIGH (10), MEDIUM (4), LOW (1), INFO (0). Raw weighted sum capped at 100. Ratings: 75-100 CRITICAL, 50-74 HIGH, 25-49 MEDIUM, 0-24 LOW.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview-section">
+        <div class="preview-section-header" onclick="this.parentElement.classList.toggle('open')">
+          <h3>&#128196; Code Sample <span class="badge">.py preview</span></h3>
+          <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="preview-section-body">
+          <div class="preview-code"><span class="filename">config.py</span>
+&quot;&quot;&quot;
+Databricks Audit Toolkit - Central Configuration
+
+All credentials are loaded from environment variables.
+Never hardcode tokens, URLs, or other secrets in source code.
+
+Required environment variables:
+    DATABRICKS_HOST  - Your workspace URL
+    DATABRICKS_TOKEN - Personal access token or SP token
+
+Optional environment variables:
+    DATABRICKS_WAREHOUSE_ID - SQL warehouse for query audits
+    AUDIT_OUTPUT_DIR        - Output directory (default: ./output)
+    AUDIT_LOG_LEVEL         - DEBUG, INFO, WARNING, ERROR
+    AUDIT_MAX_RETRIES       - Max API retry attempts (default: 3)
+    AUDIT_REQUEST_TIMEOUT   - Timeout in seconds (default: 60)
+    AUDIT_RATE_LIMIT_RPS    - Max requests per second (default: 10)
+&quot;&quot;&quot;
+
+import os
+import sys
+
+
+# ---------------------------------------------------------------
+# Credential configuration (always from environment)
+# ---------------------------------------------------------------
+
+DATABRICKS_HOST: str = os.environ.get(&quot;DATABRICKS_HOST&quot;, &quot;&quot;).rstrip(&quot;/&quot;)
+DATABRICKS_TOKEN: str = os.environ.get(&quot;DATABRICKS_TOKEN&quot;, &quot;&quot;)
+<span class="redacted">... remaining implementation in full product</span></div>
+        </div>
+      </div>
+
+      <div class="preview-actions">
+        <a href="https://buy.stripe.com/9B63cvcH58WW8tk9CpgjG2C" class="btn btn-primary">Buy Now &mdash; &euro;39</a>
+        <button class="crypto-pay-btn" data-product-slug="databricks-audit-toolkit" data-store-slug="data-engineering" data-product-name="Databricks Audit Toolkit" data-price-usd="39">&#8383; Pay with Crypto &mdash; Save 15%</button>
+        <a href="index.html#products" class="btn btn-secondary btn-sm">Back to Products</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2025 DataStack Pro. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="index.html">Store</a>
+          <a href="about.html">About</a>
+          <a href="mailto:megafolder122122@hotmail.com">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="crypto-checkout.js"></script>
+</body>
+</html>

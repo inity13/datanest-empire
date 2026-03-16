@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compliance Checker &mdash; Security Kit &mdash; CodeVault</title>
+    <meta name="description" content="OWASP Top 10 compliance checker for Python web apps. Validates HTTP headers, cookie flags, input sanitization, and generates a compliance scorecard.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F6E1;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#D500F9">
+    <script defer data-domain="security-kit.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Security Kit</a>
+        <h1 class="preview-page__title">&#x2705; Compliance Checker</h1>
+        <p class="preview-page__price">$9.99</p>
+        <p class="preview-page__desc">Audit your web app against the OWASP Top 10 and common security headers spec. Point it at a URL and get a compliance scorecard with pass/fail breakdown, severity ratings, and remediation links. Read-only &mdash; safe for production.</p>
+
+        <ul class="preview-page__features">
+            <li>OWASP Top 10 checks: injection, broken auth, XSS, IDOR, misconfig</li>
+            <li>Security headers: CSP, HSTS, X-Frame-Options, Referrer-Policy</li>
+            <li>Cookie flag auditor (Secure, HttpOnly, SameSite)</li>
+            <li>TLS version and cipher suite validation</li>
+            <li>CORS policy checker</li>
+            <li>HTML + JSON scorecard output with per-item severity</li>
+            <li>CI-friendly exit codes (0 = pass, 1 = fail)</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Audit a URL
+python check.py --url https://example.com
+
+# Full audit with output
+python check.py --url https://app.example.com --output report.html
+
+# CI mode (exits 1 on any HIGH severity)
+python check.py --url https://example.com --ci --min-severity HIGH</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="https://buy.stripe.com/PLACEHOLDER_compliance-checker"
+               class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/PLACEHOLDER_compliance-checker"
+               data-product="compliance-checker">
+                Buy Now &mdash; $9.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Compliance Checker"
+                    data-crypto-price="849">
+                Pay with Crypto ($8.49)
+            </button>
+        </div>
+
+        <hr style="border-color: var(--cv-border); margin: 32px 0;">
+        <h2 style="font-size: 1rem; margin-bottom: 16px; color: var(--cv-text-muted);">Related tools</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <a href="preview-csp-builder.html" class="btn btn--secondary" style="font-size: 0.85rem;">CSP Builder</a>
+            <a href="preview-vulnerability-scanner.html" class="btn btn--secondary" style="font-size: 0.85rem;">Vulnerability Scanner</a>
+            <a href="preview-security-report-generator.html" class="btn btn--secondary" style="font-size: 0.85rem;">Security Report Generator</a>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FastAPI Starter Template | Digital Stores Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#0f1117;color:#e2e8f0;font-family:'Inter', 'SF Pro', system-ui, sans-serif;line-height:1.6}
+    a{color:#3b82f6;text-decoration:none} a:hover{text-decoration:underline}
+    .container{max-width:1000px;margin:0 auto;padding:24px 16px}
+    .btn{display:inline-block;padding:10px 24px;background:#3b82f6;color:#fff;
+          font-weight:600;border:none;border-radius:6px;cursor:pointer;font-size:14px}
+    .btn:hover{opacity:0.85;text-decoration:none}
+    .price{font-size:20px;font-weight:700;color:#3b82f6}
+    .muted{color:#94a3b8;font-size:13px}
+    .card{background:#1a1d27;border-radius:8px;padding:16px;border:1px solid #2a2d37}
+    .tag{display:inline-block;padding:2px 8px;background:#3b82f622;color:#3b82f6;
+         border-radius:4px;font-size:11px;font-weight:600}
+    code,.mono{font-family:'JetBrains Mono',monospace}
+    </style>
+<style>.crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}.crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}</style>
+</head>
+<body>
+<div class="container">
+
+<h1 style="font-size:18px;margin-bottom:4px">FastAPI Starter Template</h1>
+<p class="muted" style="margin-bottom:16px">Production FastAPI project with auth, database, testing, Docker, CI/CD, and OpenAPI documentation.</p>
+<div style="background:#1a1d27;border-radius:8px;overflow:hidden;margin-bottom:16px">
+<div style="display:flex;gap:2px;padding:8px 8px 0;background:#12141c"><button class="tab-btn" data-idx="0" style="padding:6px 14px;border:none;border-radius:4px 4px 0 0;cursor:pointer;font-size:12px;font-family:inherit;background:#3b82f6;color:#fff">main.py</button><button class="tab-btn" data-idx="1" style="padding:6px 14px;border:none;border-radius:4px 4px 0 0;cursor:pointer;font-size:12px;font-family:inherit;background:transparent;color:#94a3b8">config.yaml</button><button class="tab-btn" data-idx="2" style="padding:6px 14px;border:none;border-radius:4px 4px 0 0;cursor:pointer;font-size:12px;font-family:inherit;background:transparent;color:#94a3b8">Dockerfile</button></div>
+<div style="position:relative">
+<pre id="codeBlock" class="mono" style="padding:16px;font-size:13px;line-height:1.5;overflow-x:auto;min-height:260px;margin:0;white-space:pre-wrap;color:#e2e8f0"></pre>
+<button id="copyBtn" style="position:absolute;top:8px;right:8px;padding:4px 10px;background:#2a2d37;color:#94a3b8;border:1px solid #3a3d47;border-radius:4px;cursor:pointer;font-size:11px">Copy</button>
+</div>
+</div>
+<div style="display:flex;gap:12px;align-items:center">
+<span class="price">$39.00</span>
+<a href="https://buy.stripe.com/aFa28rfTh4GGaBs01PgjH2v" class="btn">Buy Now</a>
+<button class="crypto-pay-btn" data-product-slug="fastapi-starter-template" data-store-slug="python-developer" data-product-name="FastAPI Starter Template" data-price-usd="39">Pay with Crypto (Save 15%)</button>
+</div>
+
+</div>
+<script>
+(function(){
+  var codes=['# FastAPI Starter Template\\n# Auto-generated demo preview\\n\\nimport os\\nimport logging\\n\\nlogger = logging.getLogger(__name__)\\n\\ndef setup():\\n    """Initialize fastapi starter template configuration."""\\n    config = load_config("config.yaml")\\n    logger.info("Starting %s", config["name"])\\n    return config\\n\\ndef process(data):\\n    results = []\\n    for item in data:\\n        if validate(item):\\n            results.append(transform(item))\\n    return results\\n\\nif __name__ == "__main__":\\n    setup()', '# FastAPI Starter Template Configuration\\nname: fastapi-starter-template\\nversion: "1.0.65"\\n\\nserver:\\n  host: 0.0.0.0\\n  port: 8048\\n  workers: 3\\n\\ndatabase:\\n  engine: postgresql\\n  pool_size: 10\\n\\nlogging:\\n  level: INFO\\n  format: structured', 'FROM python:3.12-slim\\nWORKDIR /app\\nCOPY requirements.txt .\\nRUN pip install --no-cache-dir -r requirements.txt\\nCOPY . .\\nEXPOSE 8048\\nCMD ["python", "main.py"]'];
+  var cur=0;
+  var block=document.getElementById('codeBlock');
+  var btns=document.querySelectorAll('.tab-btn');
+  function show(i){
+    cur=i; block.textContent=codes[i].replace(/\\n/g,'\n');
+    btns.forEach(function(b,j){
+      b.style.background=j===i?'#3b82f6':'transparent';
+      b.style.color=j===i?'#fff':'#94a3b8';
+    });
+  }
+  show(0);
+  btns.forEach(function(b){ b.onclick=function(){ show(parseInt(this.dataset.idx)); }; });
+  document.getElementById('copyBtn').onclick=function(){
+    navigator.clipboard.writeText(block.textContent).then(function(){
+      document.getElementById('copyBtn').textContent='Copied!';
+      setTimeout(function(){ document.getElementById('copyBtn').textContent='Copy'; },1500);
+    });
+  };
+})();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

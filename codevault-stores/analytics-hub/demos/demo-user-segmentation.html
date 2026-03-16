@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Segmentation Demo — Analytics Hub | CodeVault</title>
+<meta name="description" content="Interactive user segmentation builder demo from Analytics Hub.">
+<style>
+  :root {
+    --bg: #0A0E1A; --surface: #141824; --surface2: #1E2436;
+    --border: #2A2E3E; --text: #EAEAFF; --muted: #8888AA;
+    --accent: #00E5FF; --danger: #FF4444; --success: #00E676; --warn: #FF9800;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 15px; min-height: 100vh; }
+  a { color: var(--accent); text-decoration: none; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  header .brand { font-weight: 700; font-size: 1.1rem; }
+  header .brand span { color: var(--accent); }
+  .badge { background: var(--accent); color: #0A0E1A; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 32px 20px; }
+  h1 { font-size: 1.6rem; margin-bottom: 6px; }
+  .subtitle { color: var(--muted); margin-bottom: 28px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media(max-width:700px) { .two-col { grid-template-columns: 1fr; } }
+
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+  .panel-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 16px; }
+
+  label { display: block; color: var(--muted); font-size: 0.82rem; margin-bottom: 4px; margin-top: 10px; }
+  label:first-of-type { margin-top: 0; }
+  select, input[type=text], input[type=number] { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 7px 12px; color: var(--text); font-size: 0.88rem; outline: none; }
+  select:focus, input:focus { border-color: var(--accent); }
+
+  /* Rule rows */
+  .rule-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  .rule-row { display: flex; gap: 6px; align-items: center; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; }
+  .rule-row select { flex: 1; padding: 5px 8px; font-size: 0.82rem; }
+  .rule-row input { flex: 1; padding: 5px 8px; font-size: 0.82rem; }
+  .rm-btn { background: none; border: 1px solid var(--border); border-radius: 4px; color: var(--muted); cursor: pointer; padding: 4px 8px; font-size: 0.82rem; flex-shrink: 0; }
+  .rm-btn:hover { border-color: var(--danger); color: var(--danger); }
+
+  .logic-badge { background: rgba(0,229,255,.12); color: var(--accent); font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; align-self: center; cursor: pointer; flex-shrink: 0; }
+  .logic-badge:hover { background: rgba(0,229,255,.2); }
+
+  .btn { background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 9px 20px; border-radius: 7px; border: none; cursor: pointer; font-size: 0.9rem; }
+  .btn:hover { opacity: .88; }
+  .btn-sec { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-sec:hover { border-color: var(--accent); color: var(--accent); opacity: 1; }
+  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* Results */
+  .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .result-count { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+  .result-pct { font-size: 0.85rem; color: var(--muted); }
+
+  .user-list { display: flex; flex-direction: column; gap: 6px; max-height: 300px; overflow-y: auto; }
+  .user-row { display: flex; gap: 10px; align-items: center; background: var(--surface2); border-radius: 6px; padding: 8px 12px; font-size: 0.82rem; }
+  .user-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #0077ff); display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; color: #0A0E1A; flex-shrink: 0; }
+  .user-info { flex: 1; }
+  .user-name { font-weight: 600; }
+  .user-attrs { color: var(--muted); font-size: 0.75rem; margin-top: 2px; }
+
+  /* Segment presets */
+  .preset-list { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .preset-btn { background: var(--surface2); border: 1px solid var(--border); border-radius: 5px; padding: 5px 12px; font-size: 0.78rem; cursor: pointer; color: var(--muted); }
+  .preset-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .cta-box { background: linear-gradient(135deg, rgba(0,229,255,.08), rgba(0,229,255,.02)); border: 1px solid rgba(0,229,255,.25); border-radius: 12px; padding: 28px 24px; text-align: center; margin-top: 32px; }
+  .cta-box h2 { font-size: 1.25rem; margin-bottom: 8px; }
+  .cta-box p { color: var(--muted); margin-bottom: 20px; font-size: 0.9rem; }
+  .btn-cta { display: inline-block; background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 12px 32px; border-radius: 8px; font-size: 1rem; text-decoration: none; }
+  .btn-cta:hover { opacity: .9; text-decoration: none; }
+  .demo-note { color: var(--muted); font-size: 0.82rem; margin-top: 14px; }
+
+  footer { text-align: center; padding: 24px; color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--border); margin-top: 40px; }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Analytics<span>Hub</span> — User Segmentation</div>
+  <span class="badge">Demo</span>
+</header>
+
+<div class="container">
+  <h1>User Segmentation</h1>
+  <p class="subtitle">Build rule-based segments with AND/OR logic and instantly see matching users.</p>
+
+  <div class="two-col">
+    <!-- Builder -->
+    <div class="panel">
+      <div class="panel-title">Segment Builder</div>
+
+      <div style="font-size:.82rem;color:var(--muted);margin-bottom:8px">Quick presets:</div>
+      <div class="preset-list">
+        <span class="preset-btn" onclick="loadPreset('power')">Power Users</span>
+        <span class="preset-btn" onclick="loadPreset('churn')">Churn Risk</span>
+        <span class="preset-btn" onclick="loadPreset('new')">New Trialists</span>
+        <span class="preset-btn" onclick="loadPreset('highvalue')">High Value</span>
+      </div>
+
+      <div id="ruleList" class="rule-list"></div>
+      <div id="logicNote" style="font-size:.78rem;color:var(--muted);margin-bottom:10px"></div>
+
+      <div class="btn-row">
+        <button class="btn btn-sec" onclick="addRule()">+ Add Rule</button>
+        <button class="btn" onclick="evaluate()">Find Users</button>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="panel">
+      <div class="panel-title">Matching Users</div>
+      <div class="result-header">
+        <div>
+          <div class="result-count" id="matchCount">—</div>
+          <div class="result-pct" id="matchPct">Run segment to see results</div>
+        </div>
+        <div id="segmentTag" style="font-size:.78rem;background:rgba(0,229,255,.1);color:var(--accent);padding:4px 10px;border-radius:20px;display:none"></div>
+      </div>
+      <div class="user-list" id="userList">
+        <div style="color:var(--muted);font-size:.85rem">Add rules and click "Find Users".</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h2>Get the Full User Segmentation</h2>
+    <p>Behavioral rules (event count, property values, sequences), real-time segment refresh, CRM sync (HubSpot, Intercom), and automated email/push campaigns triggered by segment entry.</p>
+    <a class="btn-cta" href="https://buy.stripe.com/6oU00jfTha1010SaGtgjI3Z">Buy Full Version — $59.00</a>
+    <button class="crypto-pay-btn" data-product-slug="user-segmentation" data-store-slug="analytics-hub" data-product-name="User Segmentation" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+    <div class="demo-note">This demo shows limited functionality. Buy the full tool for all features.</div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 CodeVault / Analytics Hub &mdash; <a href="https://buy.stripe.com/6oU00jfTha1010SaGtgjI3Z">Back to Store</a>
+  &mdash; <a href="index.html">All Demos</a>
+</footer>
+
+<script>
+let rules = [];
+let ruleId = 0;
+let logic = 'AND';
+
+// --- Sample user dataset ---
+const USERS = [
+  { name:'Alice Chen', email:'alice@acme.com', plan:'pro', sessions:48, days_active:28, spend:79, country:'US', trial:false },
+  { name:'Bob Torres', email:'bob@startup.io', plan:'starter', sessions:4, days_active:3, spend:0, country:'MX', trial:true },
+  { name:'Clara Webb', email:'clara@devco.net', plan:'business', sessions:92, days_active:30, spend:199, country:'UK', trial:false },
+  { name:'Dan Kim', email:'dan@widgets.com', plan:'pro', sessions:31, days_active:22, spend:79, country:'US', trial:false },
+  { name:'Eve Patel', email:'eve@softlab.dev', plan:'starter', sessions:2, days_active:1, spend:0, country:'IN', trial:false },
+  { name:'Frank Liu', email:'frank@saasco.io', plan:'business', sessions:77, days_active:29, spend:199, country:'SG', trial:false },
+  { name:'Grace Moon', email:'grace@applab.com', plan:'starter', sessions:8, days_active:7, spend:0, country:'KR', trial:true },
+  { name:'Hiro Tanaka', email:'hiro@neko.dev', plan:'starter', sessions:14, days_active:12, spend:29, country:'JP', trial:false },
+  { name:'Iris Reyes', email:'iris@creativeX.io', plan:'pro', sessions:5, days_active:2, spend:79, country:'MX', trial:false },
+  { name:'Jake Fox', email:'jake@boldapp.co', plan:'business', sessions:112, days_active:30, spend:199, country:'US', trial:false },
+  { name:'Kai Nguyen', email:'kai@datasuite.vn', plan:'pro', sessions:40, days_active:25, spend:79, country:'VN', trial:false },
+  { name:'Lena Bach', email:'lena@codehaus.de', plan:'business', sessions:60, days_active:28, spend:199, country:'DE', trial:false },
+  { name:'Marco Rossi', email:'marco@italytech.it', plan:'starter', sessions:1, days_active:1, spend:0, country:'IT', trial:true },
+  { name:'Nina Scott', email:'nina@buildfast.io', plan:'pro', sessions:22, days_active:18, spend:79, country:'CA', trial:false },
+  { name:'Omar Farouk', email:'omar@cloudbiz.ae', plan:'starter', sessions:6, days_active:4, spend:0, country:'AE', trial:false },
+];
+
+const FIELDS = {
+  plan: { label: 'Plan', ops: ['equals','not equals'], values: ['starter','pro','business'] },
+  sessions: { label: 'Sessions (30d)', ops: ['greater than','less than','equals'], values: null },
+  days_active: { label: 'Days Active', ops: ['greater than','less than','equals'], values: null },
+  spend: { label: 'Monthly Spend ($)', ops: ['greater than','less than','equals'], values: null },
+  country: { label: 'Country', ops: ['equals','not equals'], values: ['US','UK','DE','JP','SG','CA','MX','IN','KR','VN','IT','AE'] },
+  trial: { label: 'Is Trial', ops: ['equals'], values: ['true','false'] },
+};
+
+function addRule(field='plan', op='equals', val='pro') {
+  const id = ruleId++;
+  const r = { id, field, op, val };
+  rules.push(r);
+  renderRules();
+}
+
+function removeRule(id) {
+  rules = rules.filter(r => r.id !== id);
+  renderRules();
+}
+
+function toggleLogic() {
+  logic = logic === 'AND' ? 'OR' : 'AND';
+  renderRules();
+}
+
+function renderRules() {
+  const el = document.getElementById('ruleList');
+  if (!rules.length) { el.innerHTML = '<div style="color:var(--muted);font-size:.85rem;padding:4px 0">No rules. Add a rule to build your segment.</div>'; document.getElementById('logicNote').textContent=''; return; }
+
+  el.innerHTML = rules.map((r, i) => {
+    const f = FIELDS[r.field];
+    const valInput = f.values
+      ? `<select onchange="updateRule(${r.id},'val',this.value)" style="flex:1;padding:5px 8px;font-size:.82rem">${f.values.map(v=>`<option ${v===r.val?'selected':''}>${v}</option>`).join('')}</select>`
+      : `<input type="text" value="${r.val}" onchange="updateRule(${r.id},'val',this.value)" style="flex:1;padding:5px 8px;font-size:.82rem" placeholder="value">`;
+    const logicLabel = i > 0 ? `<span class="logic-badge" onclick="toggleLogic()">${logic}</span>` : '<span style="width:36px"></span>';
+    return `<div class="rule-row">
+      ${logicLabel}
+      <select onchange="updateRule(${r.id},'field',this.value)" style="flex:1.2;padding:5px 8px;font-size:.82px">
+        ${Object.entries(FIELDS).map(([k,v])=>`<option value="${k}" ${k===r.field?'selected':''}>${v.label}</option>`).join('')}
+      </select>
+      <select onchange="updateRule(${r.id},'op',this.value)" style="flex:1;padding:5px 8px;font-size:.82rem">
+        ${FIELDS[r.field].ops.map(o=>`<option ${o===r.op?'selected':''}>${o}</option>`).join('')}
+      </select>
+      ${valInput}
+      <button class="rm-btn" onclick="removeRule(${r.id})">×</button>
+    </div>`;
+  }).join('');
+
+  if (rules.length > 1) {
+    document.getElementById('logicNote').textContent = `Logic: ${logic} — click the "${logic}" badge to toggle.`;
+  } else {
+    document.getElementById('logicNote').textContent = '';
+  }
+}
+
+function updateRule(id, key, val) {
+  const r = rules.find(r => r.id === id);
+  if (!r) return;
+  if (key === 'field') { r.field = val; r.op = FIELDS[val].ops[0]; r.val = FIELDS[val].values ? FIELDS[val].values[0] : ''; }
+  else r[key] = val;
+  renderRules();
+}
+
+function matchUser(user, r) {
+  let uv = user[r.field];
+  let rv = r.val;
+  if (r.field === 'trial') { uv = String(uv); }
+  if (r.op === 'equals') return String(uv) === String(rv);
+  if (r.op === 'not equals') return String(uv) !== String(rv);
+  if (r.op === 'greater than') return Number(uv) > Number(rv);
+  if (r.op === 'less than') return Number(uv) < Number(rv);
+  return false;
+}
+
+function evaluate() {
+  if (!rules.length) { alert('Add at least one rule.'); return; }
+  const matched = USERS.filter(u => {
+    const results = rules.map(r => matchUser(u, r));
+    return logic === 'AND' ? results.every(Boolean) : results.some(Boolean);
+  });
+
+  document.getElementById('matchCount').textContent = matched.length;
+  document.getElementById('matchPct').textContent = `${((matched.length/USERS.length)*100).toFixed(0)}% of total users`;
+  document.getElementById('segmentTag').style.display = 'block';
+  document.getElementById('segmentTag').textContent = matched.length + ' users';
+
+  if (!matched.length) {
+    document.getElementById('userList').innerHTML = '<div style="color:var(--muted);font-size:.85rem">No users match these criteria.</div>';
+    return;
+  }
+
+  document.getElementById('userList').innerHTML = matched.map(u => {
+    const initials = u.name.split(' ').map(n=>n[0]).join('');
+    return `<div class="user-row">
+      <div class="user-avatar">${initials}</div>
+      <div class="user-info">
+        <div class="user-name">${u.name}</div>
+        <div class="user-attrs">${u.plan} · ${u.sessions} sessions · $${u.spend}/mo · ${u.country}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function loadPreset(name) {
+  rules = []; ruleId = 0;
+  const presets = {
+    power:    [['sessions','greater than','30'],['plan','not equals','starter']],
+    churn:    [['sessions','less than','5'],['days_active','less than','7']],
+    new:      [['trial','equals','true']],
+    highvalue:[['spend','greater than','100'],['days_active','greater than','20']],
+  };
+  presets[name].forEach(([f,o,v]) => { rules.push({id:ruleId++,field:f,op:o,val:v}); });
+  logic = name === 'churn' ? 'AND' : 'AND';
+  renderRules();
+  evaluate();
+}
+
+// Init
+addRule('plan','equals','pro');
+addRule('sessions','greater than','20');
+renderRules();
+evaluate();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lo-fi Beat Loops | Pixel Empire Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#0a0a0f; color:#e0e0e0; font-family:'Inter', system-ui, sans-serif; line-height:1.6; }
+    h1,h2,h3 { font-family:'Press Start 2P', 'Inter', system-ui, sans-serif; letter-spacing:1px; }
+    a { color:#06b6d4; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .container { max-width:960px; margin:0 auto; padding:24px 16px; }
+    .btn { display:inline-block; padding:12px 28px; background:#06b6d4; color:#000;
+            font-weight:700; border:none; border-radius:6px; cursor:pointer; font-size:14px; }
+    .btn:hover { opacity:0.85; text-decoration:none; }
+    .price { font-size:22px; font-weight:700; color:#06b6d4; }
+    .muted { color:#888; font-size:13px; }
+    .card { background:#14141f; border-radius:10px; padding:16px; }
+    canvas { display:block; border-radius:8px; image-rendering:pixelated; }
+    .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+.crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+    </style>
+</head>
+<body>
+<div class="container">
+
+<h1 style="font-size:16px;margin-bottom:8px;color:#06b6d4">Lo-fi Beat Loops</h1>
+<p class="muted" style="margin-bottom:12px">25 lo-fi hip-hop beat loops. Study vibes, chill gaming, background music. Royalty-free, seamless loops.</p>
+<canvas id="wave" width="800" height="200" style="width:100%;height:150px;margin-bottom:12px;background:#14141f"></canvas>
+<div style="display:flex;gap:12px;align-items:center;margin-bottom:8px">
+  <button class="btn" id="playBtn">&#9654; Play</button>
+  <div style="flex:1;height:6px;background:#333;border-radius:3px;overflow:hidden">
+    <div id="prog" style="width:0%;height:100%;background:#06b6d4;transition:width 0.1s"></div>
+  </div>
+  <span class="muted" id="timer">0:00 / 2:30</span>
+</div>
+<div style="margin-top:16px;display:flex;gap:12px;align-items:center">
+  <span class="price">$4.99</span>
+  <a href="https://buy.stripe.com/fZu00jbD13CC10S6qdgjI1a" class="btn" target="_blank" rel="noopener">Buy Now</a>
+<button class="crypto-pay-btn" data-product-slug="lofi-beat-loops" data-store-slug="sound-fx" data-product-name="Lo-fi Beat Loops" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+
+</div>
+
+</div>
+<script>
+(function(){
+  var cv=document.getElementById('wave'),ctx=cv.getContext('2d');
+  var seed=[102,15,57,7,135,67,251,178];
+  var playing=false,pos=0;
+  function drawWave(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    ctx.strokeStyle='#06b6d4'; ctx.lineWidth=2; ctx.beginPath();
+    for(var x=0;x<cv.width;x++){
+      var s=seed[x%seed.length]/128;
+      var y=cv.height/2+Math.sin(x*0.03+s*3+pos*0.05)*40*s
+            +Math.sin(x*0.07+s*2)*20;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    if(playing){ pos++; var pct=Math.min(pos/300*100,100);
+      document.getElementById('prog').style.width=pct+'%';
+      var sec=Math.floor(pos/2); var m=Math.floor(sec/60); var ss=sec%60;
+      document.getElementById('timer').textContent=m+':'+(ss<10?'0':'')+ss+' / 2:30';
+      if(pct<100) requestAnimationFrame(drawWave); else { playing=false; document.getElementById('playBtn').textContent='\u25B6 Play'; }
+    }
+  }
+  drawWave();
+  document.getElementById('playBtn').onclick=function(){
+    playing=!playing;
+    this.textContent=playing?'\u23F8 Pause':'\u25B6 Play';
+    if(playing) drawWave();
+  };
+})();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

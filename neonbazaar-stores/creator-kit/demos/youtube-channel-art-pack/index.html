@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banner Preview Builder — Creator Kit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0a0f;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      padding: 30px;
+    }
+
+    .page-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 22px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: #00f0ff;
+      text-align: center;
+      margin-bottom: 6px;
+      text-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+    }
+
+    .page-sub {
+      text-align: center;
+      color: #556;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 30px;
+    }
+
+    .controls {
+      max-width: 800px;
+      margin: 0 auto 30px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 100px 100px;
+      gap: 14px;
+      align-items: end;
+    }
+
+    .control-group label {
+      display: block;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #556;
+      margin-bottom: 6px;
+    }
+
+    .control-group input, .control-group select {
+      width: 100%;
+      background: rgba(15, 15, 30, 0.9);
+      border: 1px solid #223;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .control-group input:focus, .control-group select:focus {
+      border-color: #00f0ff;
+    }
+
+    .banner-preview {
+      max-width: 800px;
+      margin: 0 auto;
+      aspect-ratio: 2560 / 1440;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      border: 2px solid #1a1a2a;
+    }
+
+    .banner-canvas {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .banner-canvas::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+
+    .channel-name {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: clamp(24px, 5vw, 60px);
+      text-transform: uppercase;
+      letter-spacing: 6px;
+      text-align: center;
+    }
+
+    .tagline {
+      font-size: clamp(10px, 2vw, 20px);
+      color: #8899aa;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .divider {
+      width: 200px;
+      height: 2px;
+      margin-top: 16px;
+      opacity: 0.4;
+    }
+
+    /* Safe area overlay */
+    .safe-area {
+      position: absolute;
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      pointer-events: none;
+    }
+
+    .safe-label {
+      position: absolute;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8px;
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.2);
+      padding: 2px 6px;
+    }
+
+    .safe-desktop {
+      top: 35.4%;
+      bottom: 35.4%;
+      left: 0;
+      right: 0;
+    }
+
+    .safe-mobile {
+      top: 35.4%;
+      bottom: 35.4%;
+      left: 19.8%;
+      right: 19.8%;
+    }
+
+    .safe-text {
+      top: 38.3%;
+      bottom: 38.3%;
+      left: 25.9%;
+      right: 25.9%;
+    }
+
+    .toggle-safe {
+      max-width: 800px;
+      margin: 12px auto 0;
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+    }
+
+    .toggle-safe label {
+      font-size: 12px;
+      color: #556;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .toggle-safe input[type="checkbox"] {
+      accent-color: #00f0ff;
+    }
+
+    .size-info {
+      max-width: 800px;
+      margin: 20px auto 0;
+      text-align: center;
+      font-size: 12px;
+      color: #334;
+      letter-spacing: 1px;
+    }
+
+    /* Corner decoration */
+    .corner { position: absolute; width: 20px; height: 20px; opacity: 0.2; }
+    .corner-tl { top: 10px; left: 10px; border-top: 2px solid; border-left: 2px solid; }
+    .corner-tr { top: 10px; right: 10px; border-top: 2px solid; border-right: 2px solid; }
+    .corner-bl { bottom: 10px; left: 10px; border-bottom: 2px solid; border-left: 2px solid; }
+    .corner-br { bottom: 10px; right: 10px; border-bottom: 2px solid; border-right: 2px solid; }
+  .crypto-pay-btn{background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem}
+.crypto-pay-btn:hover{opacity:0.9}
+</style>
+</head>
+<body>
+
+  <div class="page-title">Banner Builder</div>
+  <div class="page-sub">Edit text live, pick a theme, see your banner in real time</div>
+
+  <div class="controls">
+    <div class="control-group">
+      <label>Channel Name</label>
+      <input type="text" id="channelName" value="NeonPlayer" oninput="update()">
+    </div>
+    <div class="control-group">
+      <label>Tagline</label>
+      <input type="text" id="tagline" value="LIVE STREAMS & GAMEPLAY" oninput="update()">
+    </div>
+    <div class="control-group">
+      <label>Theme</label>
+      <select id="theme" onchange="update()">
+        <option value="gaming">Gaming</option>
+        <option value="tech">Tech</option>
+        <option value="vlog">Vlog</option>
+      </select>
+    </div>
+    <div class="control-group">
+      <label>Accent</label>
+      <input type="color" id="accent" value="#00f0ff" onchange="update()">
+    </div>
+    <div class="control-group">
+      <label>Secondary</label>
+      <input type="color" id="secondary" value="#ff00e5" onchange="update()">
+    </div>
+  </div>
+
+  <div class="banner-preview" id="bannerPreview">
+    <div class="banner-canvas" id="bannerCanvas">
+      <div class="corner corner-tl" id="cornerTL"></div>
+      <div class="corner corner-tr" id="cornerTR"></div>
+      <div class="corner corner-bl" id="cornerBL"></div>
+      <div class="corner corner-br" id="cornerBR"></div>
+      <div class="channel-name" id="nameDisplay">NEONPLAYER</div>
+      <div class="tagline" id="taglineDisplay">LIVE STREAMS & GAMEPLAY</div>
+      <div class="divider" id="dividerLine"></div>
+      <div class="safe-area safe-desktop" id="safeDesktop" style="display:none"><span class="safe-label">Desktop safe</span></div>
+      <div class="safe-area safe-mobile" id="safeMobile" style="display:none"><span class="safe-label">Mobile safe</span></div>
+      <div class="safe-area safe-text" id="safeText" style="display:none"><span class="safe-label">Text safe</span></div>
+    </div>
+  </div>
+
+  <div class="toggle-safe">
+    <label><input type="checkbox" onchange="document.getElementById('safeDesktop').style.display=this.checked?'block':'none'"> Desktop safe area</label>
+    <label><input type="checkbox" onchange="document.getElementById('safeMobile').style.display=this.checked?'block':'none'"> Mobile safe area</label>
+    <label><input type="checkbox" onchange="document.getElementById('safeText').style.display=this.checked?'block':'none'"> Text safe area</label>
+  </div>
+
+  <div class="size-info">Output: 2560 x 1440 &bull; Open banner_generator.py to export full-res SVG</div>
+
+  <script>
+    const themes = {
+      gaming:  { bg1: '#0a0a1a', bg2: '#0d0520', accent: '#00f0ff', secondary: '#ff00e5', tagline: 'LIVE STREAMS & GAMEPLAY' },
+      tech:    { bg1: '#0a0f0a', bg2: '#050a14', accent: '#00ff88', secondary: '#00b4ff', tagline: 'TUTORIALS & TECH REVIEWS' },
+      vlog:    { bg1: '#0f0a14', bg2: '#140a0f', accent: '#ff6b9d', secondary: '#c084fc', tagline: 'ADVENTURES & STORIES' },
+    };
+
+    function update() {
+      const name = document.getElementById('channelName').value || 'YourChannel';
+      const tagline = document.getElementById('tagline').value;
+      const theme = document.getElementById('theme').value;
+      const accent = document.getElementById('accent').value;
+      const secondary = document.getElementById('secondary').value;
+
+      const t = themes[theme];
+
+      // Update accent/secondary inputs when switching themes (only if user hasn't manually changed)
+      const canvas = document.getElementById('bannerCanvas');
+      canvas.style.background = `linear-gradient(145deg, ${t.bg1}, ${t.bg2})`;
+      canvas.querySelector('::before');
+
+      document.getElementById('nameDisplay').textContent = name.toUpperCase();
+      document.getElementById('nameDisplay').style.color = accent;
+      document.getElementById('nameDisplay').style.textShadow = `0 0 30px ${accent}60`;
+
+      document.getElementById('taglineDisplay').textContent = tagline || t.tagline;
+
+      document.getElementById('dividerLine').style.background = `linear-gradient(90deg, ${accent}, ${secondary})`;
+
+      // Corners
+      ['cornerTL','cornerTR','cornerBL','cornerBR'].forEach(id => {
+        document.getElementById(id).style.borderColor = accent;
+      });
+
+      // Banner border
+      document.getElementById('bannerPreview').style.borderColor = accent + '40';
+    }
+
+    update();
+  </script>
+
+<!-- payment-cta-start -->
+<div class="purchase-cta" style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,transparent,#0a0a12 20%);padding:20px;text-align:center;z-index:1000">
+  <div style="max-width:600px;margin:0 auto;background:#12122a;border:1px solid #1a1a3a;border-radius:12px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div><strong style="color:#fff;font-size:1rem">YouTube Channel Art Pack</strong><br><span style="color:#8888aa;font-size:.85rem">$5.00</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a href="https://buy.stripe.com/dRm28rayX5KK8tkcOBgjG1U" class="cta-buy-btn" style="display:inline-block;background:#FF2D9B;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem">Buy Now</a>
+      <button class="crypto-pay-btn" data-product-slug="youtube-channel-art-pack" data-store-slug="creator-kit" data-product-name="YouTube Channel Art Pack" data-price-usd="5.00">Crypto (15% off)</button>
+    </div>
+  </div>
+</div>
+<script src="../../crypto-checkout.js"></script>
+<!-- payment-cta-end -->
+
+</body>
+</html>

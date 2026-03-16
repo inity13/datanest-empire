@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deploy Kit Demos — Try Before You Buy | CodeVault</title>
+  <meta name="description" content="Interactive demos for all Deploy Kit tools. Try Docker Compose, CI/CD pipelines, Terraform, Kubernetes, and more before purchasing.">
+  <style>
+    :root {
+      --bg: #0A0E1A;
+      --surface: #141824;
+      --surface2: #1E2436;
+      --border: #2A2E3E;
+      --cv-text: #EAEAFF;
+      --cv-muted: #8888AA;
+      --accent: #00BCD4;
+      --accent-dim: rgba(0,188,212,0.15);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--cv-text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+    .nav-brand .logo { font-size: 1.4rem; }
+    .nav-brand .name { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+    .nav-back {
+      color: var(--cv-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--cv-text); }
+
+    /* HERO */
+    .hero {
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 20px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      color: var(--cv-muted);
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.6;
+    }
+    .hero-cta {
+      display: inline-block;
+      background: var(--accent);
+      color: #0A0E1A;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 0.75rem 1.75rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: opacity 0.2s;
+    }
+    .hero-cta:hover { opacity: 0.85; }
+
+    /* GRID */
+    .demos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+      padding: 2.5rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* CARD */
+    .demo-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .demo-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .card-header { display: flex; align-items: center; gap: 0.75rem; }
+    .card-icon { font-size: 1.8rem; }
+    .card-meta { flex: 1; }
+    .card-meta h3 { font-size: 1rem; font-weight: 700; color: var(--cv-text); }
+    .card-price {
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-top: 0.2rem;
+    }
+    .tier-badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .tier-starter { background: rgba(100,200,100,0.15); color: #6dc; }
+    .tier-pro     { background: rgba(0,188,212,0.15);   color: var(--accent); }
+    .tier-premium { background: rgba(255,150,50,0.15);  color: #fa6; }
+
+    .card-desc {
+      font-size: 0.875rem;
+      color: var(--cv-muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+    .card-actions {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+    .btn-demo {
+      flex: 1;
+      background: var(--accent);
+      color: #0A0E1A;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      padding: 0.6rem 0.75rem;
+      border-radius: 7px;
+      font-size: 0.85rem;
+      transition: opacity 0.2s;
+    }
+    .btn-demo:hover { opacity: 0.85; }
+    .btn-buy {
+      flex: 1;
+      background: var(--surface2);
+      color: var(--cv-text);
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      padding: 0.6rem 0.75rem;
+      border-radius: 7px;
+      font-size: 0.85rem;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s;
+    }
+    .btn-buy:hover { border-color: var(--accent); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      color: var(--cv-muted);
+      font-size: 0.85rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      nav { padding: 0.75rem 1rem; }
+      .hero { padding: 2rem 1rem 1.5rem; }
+      .demos-grid { padding: 1.5rem 1rem; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="https://deploy-kit.codevault.dev/" class="nav-brand">
+    <span class="logo">🚀</span>
+    <span class="name">Deploy Kit</span>
+  </a>
+  <a href="https://deploy-kit.codevault.dev/" class="nav-back">← Back to Store</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">Interactive Demos</div>
+  <h1>Try <span>Deploy Kit</span> Tools</h1>
+  <p>Test-drive every tool before you buy. Enter real values, see real output — no signup required.</p>
+  <a href="https://deploy-kit.codevault.dev/" class="hero-cta">View All Products →</a>
+</section>
+
+<div class="demos-grid">
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">🐳</span>
+      <div class="card-meta">
+        <h3>Docker Compose Templates</h3>
+        <div class="card-price">$19 <span class="tier-badge tier-starter">Starter</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Generate production-ready Docker Compose configs for common stacks. Web, DB, cache, and reverse proxy in seconds.</p>
+    <div class="card-actions">
+      <a href="demo-docker-compose-templates.html" class="btn-demo">Try Demo</a>
+      <a href="https://deploy-kit.codevault.dev/#docker-compose-templates" class="btn-buy">Buy $19</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">⚙️</span>
+      <div class="card-meta">
+        <h3>CI/CD Pipeline Kit</h3>
+        <div class="card-price">$29 <span class="tier-badge tier-pro">Pro</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Build GitHub Actions / GitLab CI pipelines with test, lint, build, and deploy stages auto-configured for your stack.</p>
+    <div class="card-actions">
+      <a href="demo-ci-cd-pipeline-kit.html" class="btn-demo">Try Demo</a>
+      <a href="https://deploy-kit.codevault.dev/#ci-cd-pipeline-kit" class="btn-buy">Buy $29</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">🌍</span>
+      <div class="card-meta">
+        <h3>Terraform Starter</h3>
+        <div class="card-price">$39 <span class="tier-badge tier-pro">Pro</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Scaffold cloud infrastructure with Terraform modules for AWS, GCP, and Azure. VPCs, instances, and managed DBs ready to deploy.</p>
+    <div class="card-actions">
+      <a href="demo-terraform-starter.html" class="btn-demo">Try Demo</a>
+      <a href="https://deploy-kit.codevault.dev/#terraform-starter" class="btn-buy">Buy $39</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">☸️</span>
+      <div class="card-meta">
+        <h3>Kubernetes Manifests</h3>
+        <div class="card-price">$49 <span class="tier-badge tier-premium">Premium</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Generate K8s Deployments, Services, Ingress, ConfigMaps, and HPA configs tailored to your app's requirements.</p>
+    <div class="card-actions">
+      <a href="demo-kubernetes-manifests.html" class="btn-demo">Try Demo</a>
+      <a href="https://deploy-kit.codevault.dev/#kubernetes-manifests" class="btn-buy">Buy $49</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">📜</span>
+      <div class="card-meta">
+        <h3>Deploy Scripts</h3>
+        <div class="card-price">$19 <span class="tier-badge tier-starter">Starter</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Shell and Python deploy scripts for zero-downtime rolling deploys, blue/green switching, and rollback automation.</p>
+    <div class="card-actions">
+      <a href="demo-deploy-scripts.html" class="btn-demo">Try Demo</a>
+      <a href="https://deploy-kit.codevault.dev/#deploy-scripts" class="btn-buy">Buy $19</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">💓</span>
+      <div class="card-meta">
+        <h3>Health Check System</h3>
+        <div class="card-price">$24 <span class="tier-badge tier-starter">Starter</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Multi-endpoint health monitoring with status dashboards, alerting hooks, and uptime reporting built in.</p>
+    <div class="card-actions">
+      <a href="demo-health-check-system.html" class="btn-demo">Try Demo</a>
+      <a href="https://deploy-kit.codevault.dev/#health-check-system" class="btn-buy">Buy $24</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">🔧</span>
+      <div class="card-meta">
+        <h3>Environment Manager</h3>
+        <div class="card-price">$29 <span class="tier-badge tier-pro">Pro</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Manage .env files across dev/staging/prod with secret validation, diff detection, and vault integration support.</p>
+    <div class="card-actions">
+      <a href="demo-environment-manager.html" class="btn-demo">Try Demo</a>
+      <a href="https://deploy-kit.codevault.dev/#environment-manager" class="btn-buy">Buy $29</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">🔒</span>
+      <div class="card-meta">
+        <h3>SSL Cert Manager</h3>
+        <div class="card-price">$24 <span class="tier-badge tier-starter">Starter</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Automate Let's Encrypt cert issuance, renewal, and Nginx/Caddy config updates. Never miss an expiry again.</p>
+    <div class="card-actions">
+      <a href="demo-ssl-cert-manager.html" class="btn-demo">Try Demo</a>
+      <a href="https://deploy-kit.codevault.dev/#ssl-cert-manager" class="btn-buy">Buy $24</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">📋</span>
+      <div class="card-meta">
+        <h3>Log Aggregator</h3>
+        <div class="card-price">$34 <span class="tier-badge tier-pro">Pro</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Collect, parse, and tail logs from multiple services. Filter by level, search patterns, and export structured JSON.</p>
+    <div class="card-actions">
+      <a href="demo-log-aggregator.html" class="btn-demo">Try Demo</a>
+      <a href="https://deploy-kit.codevault.dev/#log-aggregator" class="btn-buy">Buy $34</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="card-header">
+      <span class="card-icon">💾</span>
+      <div class="card-meta">
+        <h3>Backup Automation</h3>
+        <div class="card-price">$39 <span class="tier-badge tier-premium">Premium</span></div>
+      </div>
+    </div>
+    <p class="card-desc">Scheduled backups for databases and volumes to S3/GCS/Azure Blob with compression, encryption, and restore scripts.</p>
+    <div class="card-actions">
+      <a href="demo-backup-automation.html" class="btn-demo">Try Demo</a>
+      <a href="https://deploy-kit.codevault.dev/#backup-automation" class="btn-buy">Buy $39</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>Deploy Kit is part of <a href="https://codevault.dev/">CodeVault</a> — Professional Python DevTools &nbsp;·&nbsp;
+  <a href="https://deploy-kit.codevault.dev/">Back to Store</a></p>
+</footer>
+
+</body>
+</html>

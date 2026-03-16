@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canonical URL Planner Demo — SEO Toolkit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:820px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#00FF8820;color:#00FF88;border:1px solid #00FF8840;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#00FF88;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+  label{display:block;font-size:13px;color:#94a3b8;margin-bottom:6px;font-weight:500}
+  input,textarea{width:100%;background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:10px 14px;color:#e2e8f0;font-size:14px;outline:none;transition:border-color .2s;font-family:inherit}
+  input:focus,textarea:focus{border-color:#00FF88}
+  textarea{resize:vertical;min-height:120px}
+  .btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:11px 24px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;width:100%;margin-top:12px}
+  .btn-primary{background:#00FF88;color:#0A0E1A}
+  .btn-primary:hover{background:#00e67a}
+  .url-result{display:flex;flex-direction:column;gap:8px}
+  .url-item{background:#0A0E1A;border:1px solid #1e293b;border-radius:8px;padding:12px 16px}
+  .url-item-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .url-raw{font-family:monospace;font-size:12px;color:#94a3b8;word-break:break-all}
+  .url-canonical{font-family:monospace;font-size:12px;color:#00FF88;word-break:break-all;margin-top:4px}
+  .tag-chip{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600}
+  .tag-ok{background:#00FF8820;color:#00FF88}
+  .tag-issue{background:#f59e0b20;color:#f59e0b}
+  .tag-dup{background:#ef444420;color:#ef4444}
+  .issue-list{margin-top:8px;display:flex;flex-direction:column;gap:6px}
+  .issue-item{font-size:12px;padding:6px 10px;border-radius:6px}
+  .issue-warn{background:#f59e0b15;border-left:3px solid #f59e0b;color:#f59e0b}
+  .issue-bad{background:#ef444415;border-left:3px solid #ef4444;color:#ef4444}
+  .issue-good{background:#00FF8815;border-left:3px solid #00FF88;color:#00FF88}
+  .code-box{background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:14px;font-family:monospace;font-size:13px;color:#a3e635;margin-top:8px}
+  .stats-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+  .stat{background:#0A0E1A;border:1px solid #1e293b;border-radius:8px;padding:10px 16px;flex:1;min-width:90px;text-align:center}
+  .stat-val{font-size:20px;font-weight:700;color:#00FF88}
+  .stat-label{font-size:11px;color:#64748b;margin-top:2px}
+  .cta-bar{background:linear-gradient(135deg,#00FF8815,#00FF8805);border:1px solid #00FF8830;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#00FF88;color:#0A0E1A;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#00e67a;transform:translateY(-1px);box-shadow:0 8px 24px #00FF8840}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Canonical URL Planner</h1>
+    <p class="subtitle">Detect duplicate content and generate canonical tag recommendations</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">URL Input</div>
+    <label>Enter multiple URL variants (one per line)</label>
+    <textarea id="urlInput">https://example.com/blog/seo-tips
+http://example.com/blog/seo-tips
+https://www.example.com/blog/seo-tips
+https://example.com/blog/seo-tips/
+https://example.com/blog/seo-tips?utm_source=twitter
+https://example.com/blog/seo-tips?page=1
+https://example.com/BLOG/SEO-TIPS</textarea>
+    <label style="margin-top:14px">Preferred Canonical Base URL</label>
+    <input type="text" id="canonical" value="https://example.com">
+    <button class="btn btn-primary" onclick="analyze()">🔍 Detect Canonical Issues</button>
+  </div>
+
+  <div id="results"></div>
+
+  <div class="cta-bar">
+    <p>The full tool crawls your entire site, finds all duplicate content, generates rel=canonical tags in bulk, and integrates directly with WordPress and other CMS platforms.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/14AaEXdL91uu24Wg0NgjJ23">Buy Full Version — $24.00</a>
+    <button class="crypto-pay-btn" data-product-slug="canonical-url-planner" data-store-slug="seo-toolkit" data-product-name="Canonical URL Planner" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows limited functionality. Buy the full tool for all features.</div>
+</div>
+<script>
+function normalize(url) {
+  try {
+    const u = new URL(url);
+    let p = u.pathname.replace(/\/$/,'').toLowerCase();
+    if (!p) p = '/';
+    return u.hostname.replace(/^www\./,'') + p;
+  } catch(e) { return url.toLowerCase(); }
+}
+
+function canonicalize(url, base) {
+  try {
+    const u = new URL(url);
+    let p = u.pathname.replace(/\/$/,'').toLowerCase();
+    if (!p) p = '/';
+    const b = new URL(base);
+    return b.protocol + '//' + b.hostname + p;
+  } catch(e) { return url; }
+}
+
+function getIssues(url, canonical, base) {
+  const issues = [];
+  try {
+    const u = new URL(url);
+    if (u.protocol === 'http:') issues.push({type:'bad', msg:'Not HTTPS — upgrade to HTTPS'});
+    if (u.hostname.startsWith('www.') && !base.includes('www.')) issues.push({type:'warn', msg:'www vs non-www mismatch'});
+    if (u.pathname !== u.pathname.toLowerCase()) issues.push({type:'warn', msg:'Uppercase letters in URL'});
+    if (u.pathname.endsWith('/') && u.pathname !== '/') issues.push({type:'warn', msg:'Trailing slash may cause duplicates'});
+    if (u.searchParams.toString().includes('utm_')) issues.push({type:'bad', msg:'UTM parameters create duplicate pages'});
+    if (u.search && !u.search.includes('utm')) issues.push({type:'warn', msg:'Query parameters may cause duplicates'});
+    if (url !== canonical) issues.push({type:'warn', msg:'This URL needs a canonical tag pointing to the preferred version'});
+    else issues.push({type:'good', msg:'This is the preferred canonical URL'});
+  } catch(e) {}
+  return issues;
+}
+
+function analyze() {
+  const raw = document.getElementById('urlInput').value.trim();
+  const base = document.getElementById('canonical').value.trim();
+  const urls = raw.split('\n').map(u=>u.trim()).filter(Boolean);
+  if (!urls.length) return;
+
+  const groups = {};
+  urls.forEach(url => {
+    const key = normalize(url);
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(url);
+  });
+
+  let html = '';
+  let totalIssues = 0, totalOk = 0;
+  const groupCount = Object.keys(groups).length;
+  const dupGroups = Object.values(groups).filter(g=>g.length>1).length;
+
+  html += `<div class="card"><div class="card-title">Summary</div>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-val">${urls.length}</div><div class="stat-label">URLs Analyzed</div></div>
+    <div class="stat"><div class="stat-val">${groupCount}</div><div class="stat-label">Unique Pages</div></div>
+    <div class="stat"><div class="stat-val" style="color:${dupGroups>0?'#ef4444':'#00FF88'}">${dupGroups}</div><div class="stat-label">Duplicate Groups</div></div>
+  </div>`;
+
+  Object.entries(groups).forEach(([key, grpUrls]) => {
+    const preferred = canonicalize(grpUrls[0], base);
+    const isDup = grpUrls.length > 1;
+    html += `<div style="margin-bottom:16px">
+      <div style="font-size:12px;color:#64748b;margin-bottom:6px">Group: ${isDup?'⚠️ Duplicates detected':'✅ Unique'}</div>
+      <div class="url-result">`;
+    grpUrls.forEach(url => {
+      const canon = canonicalize(url, base);
+      const issues = getIssues(url, canon, base);
+      const tag = url === canon ? 'tag-ok' : isDup ? 'tag-dup' : 'tag-issue';
+      const label = url === canon ? 'CANONICAL' : 'DUPLICATE';
+      html += `<div class="url-item">
+        <div class="url-item-header"><span class="url-raw">${url}</span><span class="tag-chip ${tag}">${label}</span></div>
+        ${url !== canon ? `<div><span style="font-size:11px;color:#64748b">→ Canonical: </span><span class="url-canonical">${canon}</span></div>
+        <div class="code-box">&lt;link rel="canonical" href="${canon}"&gt;</div>` : ''}
+        <div class="issue-list">${issues.map(i=>`<div class="issue-item issue-${i.type}">${i.msg}</div>`).join('')}</div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+  html += '</div>';
+
+  document.getElementById('results').innerHTML = html;
+}
+analyze();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

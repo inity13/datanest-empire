@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Neon Bazaar Demo Hub | Datanest</title>
+<meta name="description" content="Explore 26+ interactive demos across 5 stores in Neon Bazaar. Aesthetic digital goods, wallpapers, mods & creative assets">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --accent:#FF2D9B; --accent2:#ff6bc0; --glow1:#FF2D9B10; --glow2:#ff6bc008; }
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#08080d; color:#e2e8f0; font-family:'Inter',system-ui,-apple-system,sans-serif; line-height:1.6; min-height:100vh; overflow-x:hidden; }
+a { text-decoration:none; color:inherit; }
+
+.bg-grid { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; opacity:0.03;
+  background-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px);
+  background-size: 60px 60px; }
+.bg-glow { position:fixed; top:-50%; left:-50%; width:200%; height:200%; z-index:0; pointer-events:none;
+  background: radial-gradient(ellipse at 30% 20%, var(--glow1, rgba(168,85,247,0.06)) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 80%, var(--glow2, rgba(59,130,246,0.04)) 0%, transparent 50%);
+  animation: glowDrift 20s ease-in-out infinite alternate; }
+@keyframes glowDrift { 0%{transform:translate(0,0)} 100%{transform:translate(-5%,3%)} }
+
+.container { max-width:1200px; margin:0 auto; padding:40px 20px; position:relative; z-index:1; }
+
+.empire-nav { display:flex; align-items:center; justify-content:center; gap:6px; padding:12px 20px;
+  background:rgba(15,15,25,0.8); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,0.06);
+  border-radius:12px; margin-bottom:40px; flex-wrap:wrap; }
+.empire-nav a, .empire-nav span { font-size:12px; font-weight:600; padding:6px 14px; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.empire-nav a:hover { background:rgba(255,255,255,0.06); }
+
+.hero { text-align:center; margin-bottom:48px; padding:32px 0; }
+.hero-icon { font-size:48px; margin-bottom:16px; display:block; filter:drop-shadow(0 0 20px var(--accent,#a855f7)); }
+.hero h1 { font-size:clamp(24px,4vw,40px); font-weight:800; margin-bottom:8px;
+  background:linear-gradient(135deg, var(--accent,#a855f7), var(--accent2,#60a5fa));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.hero p { color:#94a3b8; font-size:15px; max-width:600px; margin:0 auto 24px; }
+.hero-stats { display:flex; justify-content:center; gap:40px; flex-wrap:wrap; }
+.hero-stat .num { font-size:32px; font-weight:800; color:#fff; }
+.hero-stat .label { font-size:11px; color:#64748b; text-transform:uppercase; letter-spacing:1.5px; margin-top:2px; }
+
+.store-section { margin-bottom:48px; }
+.store-header { display:flex; align-items:center; gap:16px; margin-bottom:20px; padding-bottom:16px;
+  border-bottom:1px solid rgba(255,255,255,0.06); }
+.store-badge { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+  font-size:20px; font-weight:800; color:#fff; flex-shrink:0; }
+.store-header h2 { font-size:20px; font-weight:700; color:#f1f5f9; }
+.store-header .store-meta { font-size:12px; color:#64748b; margin-top:2px; }
+
+.product-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
+.product-card { background:rgba(15,15,25,0.6); border:1px solid rgba(255,255,255,0.06); border-radius:12px;
+  padding:16px; transition:all 0.25s; position:relative; overflow:hidden; display:block; }
+.product-card:hover { border-color:var(--accent,#a855f7); transform:translateY(-2px);
+  box-shadow:0 8px 30px rgba(0,0,0,0.3), 0 0 20px color-mix(in srgb, var(--accent,#a855f7) 15%, transparent); }
+.product-thumb { width:100%; height:80px; border-radius:8px; margin-bottom:12px; overflow:hidden; }
+.product-thumb img { width:100%; height:100%; object-fit:cover; }
+.product-card h3 { font-size:13px; font-weight:600; color:#e2e8f0; margin-bottom:8px; line-height:1.3; }
+.product-card .price-row { display:flex; align-items:center; justify-content:space-between; }
+.product-card .price { font-size:16px; font-weight:700; color:var(--accent,#a855f7); }
+.product-card .view-demo { font-size:11px; font-weight:600; color:#94a3b8; padding:4px 10px;
+  border:1px solid rgba(255,255,255,0.1); border-radius:6px; transition:all 0.2s; }
+.product-card:hover .view-demo { border-color:var(--accent,#a855f7); color:var(--accent,#a855f7); }
+
+.footer { text-align:center; padding:40px 0 20px; border-top:1px solid rgba(255,255,255,0.06); margin-top:48px; }
+.footer p { color:#475569; font-size:12px; }
+.footer .brand { font-weight:700; color:var(--accent,#a855f7); }
+
+.store-nav { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:32px; padding:16px 20px;
+  background:rgba(15,15,25,0.6); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.04);
+  border-radius:12px; }
+.store-nav a { font-size:12px; font-weight:600; padding:6px 14px; border-radius:8px;
+  background:rgba(255,255,255,0.04); color:#94a3b8; transition:all 0.2s; white-space:nowrap; }
+.store-nav a:hover { background:color-mix(in srgb, var(--accent,#a855f7) 15%, transparent); color:var(--accent,#a855f7); }
+
+@media (max-width:640px) {
+  .product-grid { grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px; }
+  .product-card { padding:12px; }
+  .product-thumb { height:60px; }
+  .hero-stats { gap:24px; }
+  .hero-stat .num { font-size:24px; }
+  .empire-nav { gap:4px; padding:8px 12px; }
+  .empire-nav a, .empire-nav span { font-size:11px; padding:5px 10px; }
+}
+
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+<div class="container">
+
+<nav class="empire-nav">
+  <a href="https://pixelempire-stores.pages.dev/" style="color:#ff6b9d">Pixel Empire</a>
+<a href="https://datanest-stores.pages.dev/" style="color:#3b82f6">Digital Stores</a>
+<a href="https://codevault-stores.pages.dev/" style="color:#FF1744">CodeVault</a>
+<span class="active" style="background:color-mix(in srgb, #FF2D9B 20%, transparent);color:#FF2D9B">Neon Bazaar</span>
+<a href="https://cryptoforge-stores.pages.dev/" style="color:#FF6B00">CryptoForge</a>
+</nav>
+
+<div class="hero">
+  <span class="hero-icon">🌙</span>
+  <h1>Neon Bazaar</h1>
+  <p>Aesthetic digital goods, wallpapers, mods & creative assets</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">26</div><div class="label">Products</div></div>
+    <div class="hero-stat"><div class="num">5</div><div class="label">Stores</div></div>
+    <div class="hero-stat"><div class="num">26</div><div class="label">Interactive Demos</div></div>
+  </div>
+</div>
+
+<nav class="store-nav">
+  <a href="#aesthetic-studio">Aesthetic Studio</a>
+<a href="#creator-kit">Creator Kit</a>
+<a href="#game-vault">Game Vault</a>
+<a href="#mod-lab">Mod Lab</a>
+<a href="#pixel-forge">Pixel Forge</a>
+</nav>
+
+<section class="store-section" id="aesthetic-studio">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF2D9B, #ff6bc0)">AS</div>
+    <div>
+      <h2>Aesthetic Studio</h2>
+      <div class="store-meta">9 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="aesthetic-studio/demos/aesthetic-color-palettes/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMkQ5QjQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYyRDlCMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYyRDlCMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Aesthetic Color Palettes</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="aesthetic-studio/demos/anime-wallpaper-collection/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYyRDlCMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMkQ5QjBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Anime Wallpapers</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="aesthetic-studio/demos/dark-academia-icon-set/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYyRDlCMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjJEOUIwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Dark Academia Icon Set</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="aesthetic-studio/demos/digital-sticker-mega-pack/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYyRDlCMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYyRDlCMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Digital Sticker Mega Pack</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="aesthetic-studio/demos/grunge-aesthetic-pack/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMkQ5QjE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMkQ5QjBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Grunge Aesthetic Pack</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="aesthetic-studio/demos/mood-board-creator-kit/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMkQ5QjIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjJEOUIwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Mood Board Creator Kit</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="aesthetic-studio/demos/neon-glow-icon-set/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMkQ5QjQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYyRDlCMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYyRDlCMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Neon Glow Icon Set</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="aesthetic-studio/demos/pastel-dream-journal/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYyRDlCMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMkQ5QjBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Pastel Dream Journal</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="aesthetic-studio/demos/y2k-widget-theme/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYyRDlCMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjJEOUIwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Y2K Widget Theme</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="creator-kit">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF2D9B, #ff6bc0)">CK</div>
+    <div>
+      <h2>Creator Kit</h2>
+      <div class="store-meta">3 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="creator-kit/demos/social-media-template-kit/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYyRDlCMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYyRDlCMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Template Editor</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="creator-kit/demos/stream-schedule-maker/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMkQ5QjE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMkQ5QjBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Stream Schedule Builder</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="creator-kit/demos/youtube-channel-art-pack/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMkQ5QjIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjJEOUIwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Banner Preview Builder</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="game-vault">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF2D9B, #ff6bc0)">GV</div>
+    <div>
+      <h2>Game Vault</h2>
+      <div class="store-meta">1 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="game-vault/demos/gaming-keybind-planner/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMkQ5QjQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYyRDlCMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYyRDlCMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Keybind Planner</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="mod-lab">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF2D9B, #ff6bc0)">ML</div>
+    <div>
+      <h2>Mod Lab</h2>
+      <div class="store-meta">3 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="mod-lab/demos/godot-platformer-kit/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYyRDlCMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMkQ5QjBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Godot Platformer Kit</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="mod-lab/demos/pixel-game-physics/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYyRDlCMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjJEOUIwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Pixel Game Physics</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="mod-lab/demos/web-game-html5-kit/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYyRDlCMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYyRDlCMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Interactive</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="pixel-forge">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF2D9B, #ff6bc0)">PF</div>
+    <div>
+      <h2>Pixel Forge</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="pixel-forge/demos/dungeon-tileset/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMkQ5QjE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMkQ5QjBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Dungeon Map</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="pixel-forge/demos/explosion-vfx-pack/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMkQ5QjIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjJEOUIwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Explosion VFX</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="pixel-forge/demos/monster-bestiary-pack/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMkQ5QjQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYyRDlCMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYyRDlCMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Monster Bestiary</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="pixel-forge/demos/nature-tileset-mega/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYyRDlCMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMkQ5QjBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Nature Tileset</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="pixel-forge/demos/pixel-font-pack/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkYyRDlCMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjJEOUIwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Pixel Font Pack</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="pixel-forge/demos/pixel-weapons-collection/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkYyRDlCMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYyRDlCMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Inventory</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="pixel-forge/demos/retro-platformer-kit/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGMkQ5QjE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMkQ5QjBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Platformer Level</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="pixel-forge/demos/sci-fi-ui-kit/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGMkQ5QjIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjJEOUIwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Sci-Fi UI Kit</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="pixel-forge/demos/space-shooter-assets/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGMkQ5QjQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkYyRDlCMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkYyRDlCMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Space Shooter</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="pixel-forge/demos/warrior-sprite-pack/index.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkYyRDlCMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGMkQ5QjBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Warrior</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>&copy; 2025 <span class="brand">Datanest</span> &mdash; Neon Bazaar. All rights reserved.</p>
+</footer>
+
+</div>
+</body>
+</html>

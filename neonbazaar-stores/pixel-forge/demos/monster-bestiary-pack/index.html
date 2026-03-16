@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster Bestiary — Battle Demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0a1a; color: #e0e8ff; font-family: 'Courier New', monospace; display: flex; flex-direction: column; align-items: center; padding: 16px; }
+        canvas { display: block; image-rendering: pixelated; border: 1px solid #222; cursor: crosshair; }
+        #info { margin-top: 12px; color: #6080a0; font-size: 12px; text-align: center; }
+    .crypto-pay-btn{background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem}
+.crypto-pay-btn:hover{opacity:0.9}
+</style>
+</head>
+<body>
+    <canvas id="game" width="480" height="360"></canvas>
+    <div id="info">Click monsters to attack! Press R to restart, 1-6 to switch monsters.</div>
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const W = 480, H = 360;
+
+const PAL = {
+    '_':null,'O':'#1a1a2e','g':'#2ecc71','G':'#1a9c54','w':'#ffffff',
+    'b':'#f0e6d0','B':'#c8b898','m':'#8a9ab0','f':'#ff6b35','F':'#ffb347',
+    'd':'#cc4400','i':'#a8d8ff','I':'#74b9ff','J':'#3d7bc9','s':'#8b7ceb',
+    'S':'#6c5ce7','P':'#4a3ab5','r':'#ef6f5c','R':'#e74c3c','D':'#a93226',
+    'y':'#f5c56a','E':'#ff0000','Y':'#f1c40f','K':'#000000',
+};
+
+const MON_DATA = [
+    { name:'Green Slime', hp:15, atk:3, def:1, color:'#2ecc71', idle:[
+        '________________________________','________________________________','________________________________','________________________________',
+        '________________________________','________________________________','________________________________','________________________________',
+        '________________________________','________________________________','____________OOOOOOOO____________','__________OOggggggggOO__________',
+        '_________OgggggggggggO__________','________OggggggggggggggO________','________OggwwOggggwwOggO________','________OggwwOggggwwOggO________',
+        '________OggggggggggggggO________','_______OgggggggggggggggO________','_______OggggggGGggggggggO_______','_______OgggGGGGGGGGgggggO______',
+        '______OgggGGGGGGGGGGggggO______','______OggGGGGGGGGGGGGgggO______','______OgGGGGGGGGGGGGGGggO______','_____OGGGGGGGGGGGGGGGGGGO_______',
+        '_____OOOOOOOOOOOOOOOOOOO________','________________________________','________________________________','________________________________',
+        '________________________________','________________________________','________________________________','________________________________',
+    ], attack:[
+        '________________________________','________________________________','________________________________','________________________________',
+        '________________________________','________________________________','________________________________','________________________________',
+        '__________OOOOOOOOOO____________','________OOggggggggggOO__________','_______OgggggggggggggO__________','______OggggggggggggggggO________',
+        '______OggwwOggggggwwOggO________','______OggwwOggggggwwOggO________','______OgggggggOOggggggO_________','_____OggggggOggggOggggO_________',
+        '_____OgggggggggggggggggO________','_____OgggggggGGggggggggO________','____OggggGGGGGGGGGgggggO_______','____OgggGGGGGGGGGGGggggO_______',
+        '____OggGGGGGGGGGGGGGgggO_______','___OgGGGGGGGGGGGGGGGGgO________','___OGGGGGGGGGGGGGGGGGGO_________','___OOOOOOOOOOOOOOOOOOO__________',
+        '________________________________','________________________________','________________________________','________________________________',
+        '________________________________','________________________________','________________________________','________________________________',
+    ]},
+    { name:'Skeleton', hp:25, atk:8, def:4, color:'#f0e6d0', idle:[
+        '________________________________','________________________________','____________OOOOO_______________','___________ObbbbBO______________',
+        '__________ObbbbbbBO_____________','__________ObEObBEbO_____________','__________ObbbbbbBO_____________','__________ObObbObBO_____________',
+        '___________ObbbbO_______________','____________ObBO________________','___________OOOOO________________','__________ObbBbbO________________',
+        '_________ObbOBObbO______________','_________ObOOBOObO______________','________ObbO_B_ObbO_____________','________ObO__B__ObO_____________',
+        '_________OO_OBO_OO______________','____________ObBO_________________','____________ObBO_________________','____________OBBO_________________',
+        '____________ObBO_________________','____________ObBO_________________','___________ObbBbO_______________','__________ObbO_ObO______________',
+        '_________ObbO___ObO_____________','_________ObO_____bO_____________','_________OO______OO_____________','________________________________',
+        '________________________________','________________________________','________________________________','________________________________',
+    ], attack:[
+        '________________________________','________________________________','____________OOOOO_______________','___________ObbbbBO______________',
+        '__________ObbbbbbBO_____________','__________ObEObBEbO_____________','__________ObbbbbbBO_____________','__________ObObbObBO_____________',
+        '___________ObbbbO_______________','____________ObBO________________','___________OOOOO________________','__________ObbBbbO________________',
+        '_OmmmO__ObbOBObbO_______________','_OmmmO_ObbOOBOObO_______________','__OmOOObbO__B__ObO______________','___OObbO____B___OO______________',
+        '____OO_____OBO___OO_____________','____________ObBO_________________','____________ObBO_________________','____________OBBO_________________',
+        '____________ObBO_________________','____________ObBO_________________','___________ObbBbO_______________','__________ObbO_ObO______________',
+        '_________ObbO___ObO_____________','_________ObO_____bO_____________','_________OO______OO_____________','________________________________',
+        '________________________________','________________________________','________________________________','________________________________',
+    ]},
+    { name:'Fire Bat', hp:10, atk:6, def:1, color:'#ff6b35', idle:[
+        '________________________________','________________________________','________________________________','________________________________',
+        '________________________________','________________________________','________________________________','___Of____OOOO____fO_____________',
+        '__Off___OffffO___ffO____________','_Offf__OfffffO__fffO____________','OffFf_OffffffO_fFffO___________','OfFFfOffffffffOfFFfO___________',
+        'OFFFfOffffEEffOfFFFO___________','_OFFfOffffffffOFFfO____________','__OfOOOffffffOOOfO_____________','____OddffffffdO________________',
+        '_____OddffffdO_________________','______OddddddO_________________','_______OOOOOO___________________','________________________________',
+        '________________________________','________________________________','________________________________','________________________________',
+        '________________________________','________________________________','________________________________','________________________________',
+        '________________________________','________________________________','________________________________','________________________________',
+    ], attack:[
+        '________________________________','________________________________','________________________________','________________________________',
+        '___Of______________fO___________','__Off______________ffO__________','_Offf____OOOO____fffO___________','OffFf___OffffO___fFffO__________',
+        'OfFFf__OfffffO__fFFfO___________','OFFFf_OffffffO_fFFFO___________','_OFFfOffffffffOfFFfO____________','__OfOOffffEEffOOfO______________',
+        '____OdffffffffdO________________','_____OdffffffdO_________________','______OffffffO___FFF____________','_______OddddO__FFFFF___________',
+        '________OOOO__FFFFFFF__________','______________OFFFffO___________','_______________OfffO____________','________________OOO_____________',
+        '________________________________','________________________________','________________________________','________________________________',
+        '________________________________','________________________________','________________________________','________________________________',
+        '________________________________','________________________________','________________________________','________________________________',
+    ]},
+    { name:'Ice Golem', hp:60, atk:12, def:10, color:'#74b9ff', idle:[
+        '________________________________','____________OOOOOO______________','___________OIIIIIiO_____________','__________OIIJJJIIiO____________',
+        '__________OIJEOJEIiO____________','__________OIJJJJJIiO____________','__________OIIJJJIIiO____________','___________OIIIIiO______________',
+        '___________OIIIIIO______________','__________OIIJJIIIIO____________','_________OIIIJJIIIiO____________','________OIIIIJJIIIIiO___________',
+        '________OIIIIJJIIIIiO___________','_______OJIIIIJJIIIIJiO__________','______OJJIIIIJJIIIIJJiO_________','______OJJIIIIIIIIIIJJiO_________',
+        '______OJJJIIIIIIIIJJJiO_________','_______OJJIIIIIIIIJJiO__________','________OIIIIIIIIIIiO___________','________OIIIJJJJIIIiO___________',
+        '________OIIJJOOJJIIiO___________','_______OIIIJJOOJJIIiO___________','_______OIIIJJOOJJIIIiO__________','_______OIIJJO__OJJIIiO__________',
+        '______OIIJJO____OJJIiO__________','______OIIJJO____OJJIiO__________','______OIIJJO____OJJIiO__________','______OOJJO______OJJOO__________',
+        '_______OOO________OOO___________','________________________________','________________________________','________________________________',
+    ], attack:[
+        '________________________________','____________OOOOOO______________','___________OIIIIIiO_____________','__________OIIJJJIIiO____________',
+        '__________OIJEOJEIiO____________','__________OIJJJJJIiO____________','__________OIIJJJIIiO____________','___________OIIIIiO______________',
+        '___________OIIIIIO______________','__________OIIJJIIIIO____________','_________OIIIJJIIIiO____________','________OIIIIJJIIIIiO___________',
+        'OOOOO__OIIIIJJIIIIiO___________','OiiiiOOJIIIIJJIIIIJiO__________','OiIIIOJJIIIIJJIIIIJJiO_________','_OIIOJJIIIIIIIIIIIIJJO___________',
+        '__OIOJJJIIIIIIIIIJJJiO__________','___OOOJJIIIIIIIIIJJiO___________','________OIIIIIIIIIIiO___________','________OIIIJJJJIIIiO___________',
+        '________OIIJJOOJJIIiO___________','_______OIIIJJOOJJIIiO___________','_______OIIIJJOOJJIIIiO__________','_______OIIJJO__OJJIIiO__________',
+        '______OIIJJO____OJJIiO__________','______OIIJJO____OJJIiO__________','______OIIJJO____OJJIiO__________','______OOJJO______OJJOO__________',
+        '_______OOO________OOO___________','________________________________','________________________________','________________________________',
+    ]},
+    { name:'Shadow Wraith', hp:35, atk:14, def:3, color:'#6c5ce7', idle:[
+        '________________________________','________________________________','________________________________','___________OOOOOOO______________',
+        '__________OSSSSSSsO_____________','_________OSSPPPPSSsO____________','_________OSPEOPEOSsO____________','_________OSSPPPPSSsO____________',
+        '__________OSSSSSSsO_____________','___________OSSSsO_______________','_________OOSSSSSSsOO____________','________OSSSSSSSSSSsO___________',
+        '_______OSSSSSSSSSSSsO___________','______OPSSSSSSSSSSSSsO__________','______OPSSSSSSSSSSSSsO__________','_____OPPSSSSSSSSSSSSPsO_________',
+        '_____OPPSSSSSSSSSSSPPsO_________','______OPSSSSSSSSSSSPsO__________','_______OSSSSSSSSSSSSsO__________','________OSSSSSSSSSSsO___________',
+        '_________OSSSSSSSSSsO___________','__________OSSSSSSPsO____________','___________OSSSPPsO_____________','____________OPPPsO______________',
+        '_____________OPsO_______________','______________OO_________________','________________________________','________________________________',
+        '________________________________','________________________________','________________________________','________________________________',
+    ], attack:[
+        '________________________________','________________________________','________________________________','___________OOOOOOO______________',
+        '__________OSSSSSSsO_____________','_________OSSPPPPSSsO____________','_________OSPEOPEOSsO____________','_________OSSPPPPSSsO____________',
+        '__________OSSSSSSsO_____________','___________OSSSsO_______________','_________OOSSSSSSsOO____________','________OSSSSSSSSSSsO___________',
+        '_______OSSSSSSSSSSSsO___________','OSSO__OPSSSSSSSSSSSSsO__OSSO____','OSSSOOPSSSSSSSSSSSSsOOOSSO_____','OPSSSOPSSSSSSSSSSSPPSOSSPsO____',
+        '_OPSSOPSSSSSSSSSSSPSOSSPsO_____','__OSOOPSSSSSSSSSSSSSOOSPO_______','___OO__OSSSSSSSSSSsO_OO_________','_________OSSSSSSSSSsO___________',
+        '__________OSSSSSSPsO____________','___________OSSSPPsO_____________','____________OPPPsO______________','_____________OPsO_______________',
+        '______________OO_________________','________________________________','________________________________','________________________________',
+        '________________________________','________________________________','________________________________','________________________________',
+    ]},
+    { name:'Dragon Boss', hp:150, atk:20, def:15, color:'#e74c3c', idle:[
+        '________________________________','______OOOOO_____________________','_____ORRRRrO____________________','____ORRYOYRrO___________________',
+        '____ORRRRRRrO___________________','____ORRDDRRrO___________________','_____ORRRRrO____________________','_____ORRRRrO_______OO___________',
+        '______ORRrO______OrrO___________','______ORRrO____OrrRrO___________','______ORRDrOOOrrRRRrO___________','______ORRDDrrRRRRRRrO___________',
+        '_____ORRRDDyyyRRRRrO____________','____ORRRRDyyyyyRRRrO____________','____ORRRRDyyyyyRRRrO____________','____ORRRRDyyyyyRRRrO____________',
+        '_____ORRRDyyyRRRRrO_____________','______ORRDDRRRRRRrO_____________','_______ORRDRRRRRrO______________','________ORRRRRRrO_______________',
+        '________ORRRRRRrO_______________','________ORROORRrO_______________','_______ORROo__ORRrO______________','_______ORRO____ORrO_____________',
+        '______ORRDO____ODRrO____________','______ORRDO____ODRrO____________','______OODO______ODOO____________','_______OO________OO_____________',
+        '________________________________','________________________________','________________________________','________________________________',
+    ], attack:[
+        '________________________________','______OOOOO_____________________','_____ORRRRrO____________________','____ORRYOYRrO___________________',
+        '____ORRRRRRrO__FFFFF____________','____ORRRRRRrOFFfFFFF____________','_____ORRRRrOFffffFFF____________','_____ORRRRrOfffffffFF___________',
+        '______ORRrOOfffffffF____________','______ORRrO__OFFFFF_____________','______ORRDrOOOrrRRRrO___________','______ORRDDrrRRRRRRrO___________',
+        '_____ORRRDDyyyRRRRrO____________','____ORRRRDyyyyyRRRrO____________','____ORRRRDyyyyyRRRrO____________','____ORRRRDyyyyyRRRrO____________',
+        '_____ORRRDyyyRRRRrO_____________','______ORRDDRRRRRRrO_____________','_______ORRDRRRRRrO______________','________ORRRRRRrO_______________',
+        '________ORRRRRRrO_______________','________ORROORRrO_______________','_______ORROo__ORRrO______________','_______ORRO____ORrO_____________',
+        '______ORRDO____ODRrO____________','______ORRDO____ODRrO____________','______OODO______ODOO____________','_______OO________OO_____________',
+        '________________________________','________________________________','________________________________','________________________________',
+    ]},
+];
+
+// ─── Game State ─────────────────────────────────────────────────────────
+let currentMonster = 0;
+let monsterHP = MON_DATA[0].hp;
+let playerHP = 50;
+let playerMaxHP = 50;
+let playerAtk = 10;
+let damageNumbers = [];  // {x, y, text, color, life}
+let shakeTimer = 0;
+let attackAnim = 0;
+let gameOver = false;
+let victory = false;
+let kills = 0;
+let time = 0;
+
+function resetFight() {
+    monsterHP = MON_DATA[currentMonster].hp;
+    attackAnim = 0;
+    shakeTimer = 0;
+}
+
+function resetGame() {
+    currentMonster = 0;
+    monsterHP = MON_DATA[0].hp;
+    playerHP = playerMaxHP;
+    damageNumbers = [];
+    shakeTimer = 0;
+    attackAnim = 0;
+    gameOver = false;
+    victory = false;
+    kills = 0;
+}
+
+function renderSprite(data, x, y, scale, shake) {
+    const ox = shake ? Math.floor(Math.random() * 6 - 3) : 0;
+    const oy = shake ? Math.floor(Math.random() * 6 - 3) : 0;
+    for (let py = 0; py < data.length; py++) {
+        for (let px = 0; px < data[py].length; px++) {
+            const c = PAL[data[py][px]];
+            if (!c) continue;
+            ctx.fillStyle = c;
+            ctx.fillRect(x + ox + px * scale, y + oy + py * scale, scale, scale);
+        }
+    }
+}
+
+function drawBar(x, y, w, h, val, max, color, label) {
+    ctx.fillStyle = '#1a1a2e';
+    ctx.fillRect(x, y, w, h);
+    ctx.strokeStyle = '#333';
+    ctx.strokeRect(x, y, w, h);
+    const fill = Math.max(0, (val / max) * w);
+    ctx.fillStyle = color;
+    ctx.fillRect(x + 1, y + 1, fill - 2, h - 2);
+    ctx.fillStyle = '#e0e8ff';
+    ctx.font = '11px monospace';
+    ctx.fillText(`${label}: ${Math.max(0,val)}/${max}`, x + 4, y + h - 3);
+}
+
+function render() {
+    time++;
+    ctx.fillStyle = '#0a0a1a';
+    ctx.fillRect(0, 0, W, H);
+
+    // Background gradient
+    const grad = ctx.createLinearGradient(0, 0, 0, H);
+    grad.addColorStop(0, '#0a0a2a');
+    grad.addColorStop(1, '#1a0a1a');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Ground
+    ctx.fillStyle = '#1a1a2e';
+    ctx.fillRect(0, 280, W, 80);
+    ctx.strokeStyle = '#333';
+    ctx.beginPath(); ctx.moveTo(0, 280); ctx.lineTo(W, 280); ctx.stroke();
+
+    const mon = MON_DATA[currentMonster];
+    const isAttacking = attackAnim > 0;
+    const spriteData = isAttacking ? mon.attack : mon.idle;
+    const shaking = shakeTimer > 0;
+
+    // Monster sprite (centered)
+    const scale = 4;
+    const sx = W / 2 - 64;
+    const sy = 100;
+    renderSprite(spriteData, sx, sy, scale, shaking);
+
+    // Monster name + type
+    ctx.fillStyle = mon.color;
+    ctx.font = 'bold 16px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(mon.name, W / 2, 80);
+    ctx.textAlign = 'left';
+
+    // Monster HP bar
+    drawBar(W / 2 - 100, 46, 200, 18, monsterHP, mon.hp, mon.color, 'HP');
+
+    // Player HP bar
+    drawBar(20, H - 40, 180, 18, playerHP, playerMaxHP, '#2ecc71', 'Player HP');
+
+    // Kill counter
+    ctx.fillStyle = '#f1c40f';
+    ctx.font = '12px monospace';
+    ctx.fillText(`Kills: ${kills}`, W - 100, H - 24);
+
+    // Damage numbers
+    for (let i = damageNumbers.length - 1; i >= 0; i--) {
+        const dn = damageNumbers[i];
+        dn.y -= 1.5;
+        dn.life--;
+        ctx.globalAlpha = Math.max(0, dn.life / 30);
+        ctx.fillStyle = dn.color;
+        ctx.font = 'bold 18px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(dn.text, dn.x, dn.y);
+        ctx.textAlign = 'left';
+        ctx.globalAlpha = 1;
+        if (dn.life <= 0) damageNumbers.splice(i, 1);
+    }
+
+    // Timers
+    if (shakeTimer > 0) shakeTimer--;
+    if (attackAnim > 0) attackAnim--;
+
+    // Game over / victory overlay
+    if (gameOver) {
+        ctx.fillStyle = 'rgba(0,0,0,0.7)';
+        ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = '#ff3030';
+        ctx.font = 'bold 32px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('DEFEATED', W / 2, H / 2 - 10);
+        ctx.fillStyle = '#6080a0';
+        ctx.font = '14px monospace';
+        ctx.fillText(`Kills: ${kills}. Press R to restart.`, W / 2, H / 2 + 20);
+        ctx.textAlign = 'left';
+    }
+    if (victory) {
+        ctx.fillStyle = 'rgba(0,0,0,0.7)';
+        ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = '#f1c40f';
+        ctx.font = 'bold 32px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('VICTORY!', W / 2, H / 2 - 10);
+        ctx.fillStyle = '#6080a0';
+        ctx.font = '14px monospace';
+        ctx.fillText('All monsters defeated! Press R to play again.', W / 2, H / 2 + 20);
+        ctx.textAlign = 'left';
+    }
+
+    // Instructions
+    if (!gameOver && !victory) {
+        ctx.fillStyle = '#6080a0';
+        ctx.font = '10px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('Click the monster to attack! Keys 1-6 to switch target.', W / 2, H - 6);
+        ctx.textAlign = 'left';
+    }
+
+    requestAnimationFrame(render);
+}
+
+// ─── Combat Logic ───────────────────────────────────────────────────────
+function playerAttack() {
+    if (gameOver || victory) return;
+    const mon = MON_DATA[currentMonster];
+    // Player attacks monster
+    const dmg = Math.max(1, playerAtk - mon.def + Math.floor(Math.random() * 4));
+    monsterHP -= dmg;
+    shakeTimer = 10;
+    damageNumbers.push({
+        x: W / 2 + Math.random() * 40 - 20,
+        y: 140,
+        text: `-${dmg}`,
+        color: '#ff3030',
+        life: 30
+    });
+
+    // Monster retaliates after delay
+    setTimeout(() => {
+        if (gameOver || victory) return;
+        const monDmg = Math.max(1, mon.atk - 2 + Math.floor(Math.random() * 3));
+        playerHP -= monDmg;
+        attackAnim = 15;
+        damageNumbers.push({
+            x: 110 + Math.random() * 30,
+            y: H - 50,
+            text: `-${monDmg}`,
+            color: '#ff6b35',
+            life: 30
+        });
+        if (playerHP <= 0) {
+            playerHP = 0;
+            gameOver = true;
+        }
+    }, 300);
+
+    // Check monster death
+    if (monsterHP <= 0) {
+        monsterHP = 0;
+        kills++;
+        damageNumbers.push({
+            x: W / 2, y: 120,
+            text: 'DEFEATED!',
+            color: '#f1c40f',
+            life: 45
+        });
+        // Heal player a bit
+        playerHP = Math.min(playerMaxHP, playerHP + 5);
+        // Next monster
+        if (currentMonster < MON_DATA.length - 1) {
+            setTimeout(() => {
+                currentMonster++;
+                resetFight();
+            }, 600);
+        } else {
+            setTimeout(() => { victory = true; }, 600);
+        }
+    }
+}
+
+canvas.addEventListener('click', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    // Check if click is near monster sprite area
+    if (mx > W/2 - 80 && mx < W/2 + 80 && my > 80 && my < 280) {
+        playerAttack();
+    }
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'r' || e.key === 'R') resetGame();
+    const num = parseInt(e.key);
+    if (num >= 1 && num <= 6 && !gameOver && !victory) {
+        currentMonster = num - 1;
+        resetFight();
+    }
+});
+
+render();
+</script>
+
+<!-- payment-cta-start -->
+<div class="purchase-cta" style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,transparent,#0a0a12 20%);padding:20px;text-align:center;z-index:1000">
+  <div style="max-width:600px;margin:0 auto;background:#12122a;border:1px solid #1a1a3a;border-radius:12px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div><strong style="color:#fff;font-size:1rem">Monster Bestiary Pack</strong><br><span style="color:#8888aa;font-size:.85rem">$5.00</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a href="https://buy.stripe.com/bJe4gz8qP4GGeRI6qdgjG2n" class="cta-buy-btn" style="display:inline-block;background:#FF2D9B;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem">Buy Now</a>
+      <button class="crypto-pay-btn" data-product-slug="monster-bestiary-pack" data-store-slug="pixel-forge" data-product-name="Monster Bestiary Pack" data-price-usd="5.00">Crypto (15% off)</button>
+    </div>
+  </div>
+</div>
+<script src="../../crypto-checkout.js"></script>
+<!-- payment-cta-end -->
+
+</body>
+</html>

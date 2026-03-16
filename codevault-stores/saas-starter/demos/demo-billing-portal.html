@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Billing Portal — Interactive Demo | SaaS Starter</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#FFD600;--accent-dim:rgba(255,214,0,.1);--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;--red:#FF4B6E;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;}
+  .badge{background:var(--accent);color:#0A0E1A;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:960px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;border-bottom:1px solid var(--border);padding-bottom:.75rem;flex-wrap:wrap;}
+  .tab{padding:.45rem 1rem;border-radius:8px;font-size:.88rem;cursor:pointer;color:var(--muted);border:1px solid transparent;}
+  .tab.active{background:var(--accent-dim);border-color:var(--accent);color:var(--accent);}
+  .tab-pane{display:none;} .tab-pane.active{display:block;}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;}
+  h3{font-size:1rem;font-weight:700;margin-bottom:1rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+  input,select{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.55rem .8rem;border-radius:8px;font-size:.88rem;margin-bottom:.85rem;font-family:inherit;}
+  input:focus,select:focus{outline:none;border-color:var(--accent);}
+  .btn{padding:.6rem 1.2rem;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;background:var(--accent);color:#0A0E1A;}
+  .btn:hover{opacity:.85;}
+  .btn-muted{background:var(--surface2);border:1px solid var(--border);color:var(--text);}
+  .btn-danger{background:var(--red);color:#fff;}
+  /* Plan comparison */
+  .plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+  @media(max-width:600px){.plan-grid{grid-template-columns:1fr;}}
+  .plan-card{background:var(--surface2);border:2px solid var(--border);border-radius:12px;padding:1.25rem;text-align:center;transition:all .2s;}
+  .plan-card.current{border-color:var(--accent);}
+  .plan-name{font-weight:700;margin-bottom:.4rem;}
+  .plan-price{font-size:1.5rem;font-weight:700;color:var(--accent);margin:.4rem 0;}
+  .plan-features{font-size:.75rem;color:var(--muted);text-align:left;margin:.75rem 0;}
+  .plan-features li{padding:.2rem 0;} .plan-features li::before{content:'✓ ';color:var(--green);}
+  .plan-features li.no{opacity:.4;} .plan-features li.no::before{content:'✗ ';color:var(--red);}
+  .current-badge{background:var(--accent);color:#0A0E1A;font-size:.65rem;font-weight:700;padding:.15rem .4rem;border-radius:4px;display:inline-block;margin-bottom:.4rem;}
+  /* Invoice table */
+  .inv-table{width:100%;border-collapse:collapse;font-size:.82rem;}
+  .inv-table th{text-align:left;padding:.4rem .75rem;color:var(--muted);font-size:.72rem;text-transform:uppercase;border-bottom:1px solid var(--border);}
+  .inv-table td{padding:.6rem .75rem;border-bottom:1px solid rgba(42,46,62,.4);}
+  .status-pill{display:inline-block;padding:.12rem .45rem;border-radius:4px;font-size:.68rem;font-weight:600;}
+  .s-paid{background:rgba(0,255,136,.1);color:var(--green);}
+  .s-pending{background:rgba(255,214,0,.1);color:var(--accent);}
+  .s-failed{background:rgba(255,75,110,.1);color:var(--red);}
+  /* Card form */
+  .card-input{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:1rem;font-family:'Courier New',monospace;}
+  .card-row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:.75rem;}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a1a0a);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#0A0E1A;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">💼</span>
+  <h1>Billing Portal</h1>
+  <span style="color:var(--muted);font-size:.9rem">Interactive Demo</span>
+  <span class="badge">SaaS Starter</span>
+</header>
+<div class="container">
+  <h2>Customer Billing Portal</h2>
+  <p class="subtitle">A complete self-serve billing portal: plan management, payment methods, invoice history, and usage details — all in one place.</p>
+
+  <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+    <div style="flex:1"><div style="font-weight:700">Alice Chen</div><div style="font-size:.8rem;color:var(--muted)">alice@acme.com · Customer since Jan 2025</div></div>
+    <div><span style="font-size:.75rem;color:var(--muted)">Current Plan: </span><strong style="color:var(--accent)">Pro · $29/mo</strong></div>
+    <div><span style="font-size:.75rem;color:var(--muted)">Next billing: </span><strong>Apr 1, 2026</strong></div>
+    <span style="background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.2);padding:.2rem .5rem;border-radius:20px;font-size:.72rem;font-weight:600">● Active</span>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('plans',this)">Plans</div>
+    <div class="tab" onclick="switchTab('payment',this)">Payment Methods</div>
+    <div class="tab" onclick="switchTab('invoices',this)">Invoices</div>
+    <div class="tab" onclick="switchTab('cancel',this)">Cancel</div>
+  </div>
+
+  <!-- Plans -->
+  <div class="tab-pane active" id="tab-plans">
+    <div class="plan-grid">
+      <div class="plan-card">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">$9<span style="font-size:.8rem;font-weight:400;color:var(--muted)">/mo</span></div>
+        <ul class="plan-features list-style:none"><li>1 project</li><li>5 users</li><li>10k API calls</li><li class="no">Analytics</li><li class="no">Priority support</li></ul>
+        <button class="btn btn-muted" style="width:100%;font-size:.8rem" onclick="changePlan('Starter','$9')">Downgrade</button>
+      </div>
+      <div class="plan-card current">
+        <div class="current-badge">CURRENT PLAN</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$29<span style="font-size:.8rem;font-weight:400;color:var(--muted)">/mo</span></div>
+        <ul class="plan-features"><li>Unlimited projects</li><li>25 users</li><li>100k API calls</li><li>Advanced analytics</li><li class="no">Dedicated support</li></ul>
+        <button class="btn btn-muted" style="width:100%;font-size:.8rem;opacity:.5" disabled>Current Plan</button>
+      </div>
+      <div class="plan-card">
+        <div class="plan-name">Business</div>
+        <div class="plan-price">$79<span style="font-size:.8rem;font-weight:400;color:var(--muted)">/mo</span></div>
+        <ul class="plan-features"><li>Unlimited projects</li><li>Unlimited users</li><li>1M API calls</li><li>Advanced analytics</li><li>Priority support</li></ul>
+        <button class="btn" style="width:100%;font-size:.8rem" onclick="changePlan('Business','$79')">Upgrade</button>
+      </div>
+    </div>
+    <div id="planMsg" style="margin-top:1rem;text-align:center;color:var(--muted);font-size:.85rem"></div>
+  </div>
+
+  <!-- Payment -->
+  <div class="tab-pane" id="tab-payment">
+    <div class="panel">
+      <h3>Payment Methods</h3>
+      <div id="cards">
+        <div style="display:flex;align-items:center;gap:1rem;background:var(--surface2);border:1px solid var(--accent);border-radius:10px;padding:1rem;margin-bottom:.75rem">
+          <span style="font-size:1.5rem">💳</span>
+          <div style="flex:1"><div style="font-weight:600">Visa •••• 4242</div><div style="font-size:.75rem;color:var(--muted)">Expires 12/27</div></div>
+          <span style="background:var(--accent-dim);color:var(--accent);font-size:.7rem;padding:.2rem .4rem;border-radius:4px">Default</span>
+        </div>
+      </div>
+      <div class="panel" style="margin-top:1rem">
+        <h3>Add New Card</h3>
+        <label>Card Number</label>
+        <input type="text" id="cardNum" placeholder="4242 4242 4242 4242" maxlength="19" oninput="formatCard(this)">
+        <div class="card-row">
+          <div><label>Expiry</label><input type="text" placeholder="MM/YY" maxlength="5"></div>
+          <div><label>CVC</label><input type="text" placeholder="•••" maxlength="4"></div>
+          <div><label>&nbsp;</label><button class="btn" onclick="addCard()" style="width:100%;margin-bottom:.85rem">Add Card</button></div>
+        </div>
+        <div id="cardMsg"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Invoices -->
+  <div class="tab-pane" id="tab-invoices">
+    <div class="panel" style="padding:0;overflow:hidden">
+      <table class="inv-table">
+        <thead><tr><th>Invoice #</th><th>Date</th><th>Description</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="invoiceTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Cancel -->
+  <div class="tab-pane" id="tab-cancel">
+    <div class="panel" style="text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:1rem">😢</div>
+      <h3>Cancel Subscription</h3>
+      <p style="color:var(--muted);font-size:.9rem;margin-bottom:1.5rem">We'd hate to see you go. Your plan will remain active until the end of the current billing period (Apr 1, 2026).</p>
+      <div style="background:var(--surface2);border-radius:10px;padding:1rem;margin-bottom:1.5rem;text-align:left">
+        <div style="font-size:.85rem;font-weight:700;margin-bottom:.5rem">Before you cancel, did you know you can:</div>
+        <div style="font-size:.82rem;color:var(--muted);line-height:2">✓ Pause your account for up to 3 months<br>✓ Downgrade to our free Starter plan<br>✓ Get a 20% discount if you stay — just contact us</div>
+      </div>
+      <label>Tell us why (optional)</label>
+      <select style="margin-bottom:1rem">
+        <option value="">Select a reason...</option>
+        <option>Too expensive</option>
+        <option>Missing features I need</option>
+        <option>Switching to another tool</option>
+        <option>Project ended</option>
+        <option>Other</option>
+      </select>
+      <div style="display:flex;gap:.75rem;justify-content:center">
+        <button class="btn" onclick="switchTab('plans',document.querySelector('.tab'))">Keep My Plan</button>
+        <button class="btn btn-danger" onclick="alert('In production, this would cancel at period end.')">Cancel Subscription</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <p>Full version includes Stripe Customer Portal integration, dunning management, failed payment retries, and proration handling.</p>
+    <a href="https://buy.stripe.com/28E4gzfTh8WW4d429XgjJ1z" class="cta-btn">Buy Full Version — $19.99</a>
+    <button class="crypto-pay-btn" data-product-slug="billing-portal" data-store-slug="saas-starter" data-product-name="billing-portal" data-price-usd="0.00">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+<script>
+const invoices = [
+  {id:'INV-2026-003',date:'Mar 1, 2026',desc:'Pro Plan — March',amount:'$29.00',status:'paid'},
+  {id:'INV-2026-002',date:'Feb 1, 2026',desc:'Pro Plan — February',amount:'$29.00',status:'paid'},
+  {id:'INV-2026-001',date:'Jan 1, 2026',desc:'Pro Plan — January',amount:'$29.00',status:'paid'},
+  {id:'INV-2025-012',date:'Dec 1, 2025',desc:'Starter Plan — December',amount:'$9.00',status:'paid'},
+  {id:'INV-2025-011',date:'Nov 1, 2025',desc:'Pro Plan — November (upgrade)',amount:'$29.00',status:'paid'},
+  {id:'INV-2025-010',date:'Oct 1, 2025',desc:'Starter Plan — October',amount:'$9.00',status:'failed'},
+];
+
+document.getElementById('invoiceTable').innerHTML = invoices.map(inv=>`
+  <tr>
+    <td style="font-family:monospace;font-size:.78rem">${inv.id}</td>
+    <td>${inv.date}</td>
+    <td>${inv.desc}</td>
+    <td style="font-weight:600">${inv.amount}</td>
+    <td><span class="status-pill s-${inv.status}">${inv.status}</span></td>
+    <td><button style="background:none;border:1px solid var(--border);color:var(--muted);padding:.2rem .5rem;border-radius:5px;font-size:.72rem;cursor:pointer" onclick="alert('Download PDF invoice: '+this.closest('tr').querySelector('td').textContent)">PDF</button></td>
+  </tr>`).join('');
+
+function switchTab(id,el) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(t=>t.classList.remove('active'));
+  if(el) el.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+}
+
+function changePlan(name, price) {
+  document.getElementById('planMsg').innerHTML = `<div style="background:rgba(255,214,0,.1);border:1px solid var(--accent);border-radius:8px;padding:.75rem;color:var(--accent)">✓ Plan change to <strong>${name} (${price}/mo)</strong> scheduled for next billing cycle. Proration will be applied.</div>`;
+}
+
+function formatCard(el) {
+  let v = el.value.replace(/\D/g,'').slice(0,16);
+  el.value = v.replace(/(.{4})/g,'$1 ').trim();
+}
+
+function addCard() {
+  const num = document.getElementById('cardNum').value.replace(/\s/g,'');
+  if(num.length < 16) { document.getElementById('cardMsg').innerHTML='<span style="color:var(--red);font-size:.8rem">Enter a valid 16-digit card number.</span>'; return; }
+  const last4 = num.slice(-4);
+  document.getElementById('cardMsg').innerHTML=`<div style="background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);border-radius:8px;padding:.6rem;color:var(--green);font-size:.82rem">✓ Card ending in ${last4} added successfully.</div>`;
+}
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

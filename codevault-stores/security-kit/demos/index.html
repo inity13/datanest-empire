@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Demos — Security Kit | CodeVault</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#D500F9}
+  .header .back{color:#D500F9;text-decoration:none;font-size:.85rem}
+  .container{max-width:960px;margin:0 auto;padding:40px 24px}
+  .hero{text-align:center;margin-bottom:48px}
+  .hero h2{font-size:2rem;font-weight:700;margin-bottom:12px}
+  .hero p{color:#8899aa;font-size:1.05rem;max-width:520px;margin:0 auto}
+  .badge{display:inline-block;background:rgba(213,0,249,.12);color:#D500F9;border:1px solid rgba(213,0,249,.3);border-radius:20px;padding:4px 14px;font-size:.8rem;font-weight:600;margin-bottom:16px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+  .card{background:#0d1321;border:1px solid #1e2a3a;border-radius:14px;padding:24px;transition:border-color .2s,transform .2s;text-decoration:none;color:inherit;display:block}
+  .card:hover{border-color:#D500F9;transform:translateY(-3px)}
+  .card-icon{font-size:2rem;margin-bottom:12px}
+  .card h3{font-size:1rem;font-weight:600;margin-bottom:8px;color:#fff}
+  .card p{font-size:.83rem;color:#8899aa;line-height:1.5;margin-bottom:16px}
+  .card-cta{font-size:.82rem;color:#D500F9;font-weight:600}
+  .cta-bar{text-align:center;margin-top:48px;padding:32px;background:#0d1321;border-radius:16px;border:1px solid #1e2a3a}
+  .cta-bar p{color:#8899aa;margin-bottom:16px}
+  .btn-buy{display:inline-block;background:#D500F9;color:#fff;padding:14px 32px;border-radius:10px;font-weight:700;font-size:1rem;text-decoration:none;transition:background .2s}
+  .btn-buy:hover{background:#e040fb}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🛡️ Security Kit Demos</h1>
+  <a href="../index.html" class="back">← Back to Store</a>
+</div>
+<div class="container">
+  <div class="hero">
+    <div class="badge">10 Interactive Demos</div>
+    <h2>Try Before You Buy</h2>
+    <p>Each demo runs live in your browser. See exactly what you're getting before purchasing.</p>
+  </div>
+  <div class="grid">
+    <a href="demo-vulnerability-scanner.html" class="card">
+      <div class="card-icon">🔍</div>
+      <h3>Vulnerability Scanner</h3>
+      <p>Simulate an OWASP-based scan against a target URL and review findings by severity.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-dependency-auditor.html" class="card">
+      <div class="card-icon">📦</div>
+      <h3>Dependency Auditor</h3>
+      <p>Paste your requirements.txt or package.json and audit for known CVE vulnerabilities.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-secrets-detector.html" class="card">
+      <div class="card-icon">🔐</div>
+      <h3>Secrets Detector</h3>
+      <p>Scan code and configs for accidentally committed API keys, tokens, and credentials.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-cors-configurator.html" class="card">
+      <div class="card-icon">🌐</div>
+      <h3>CORS Configurator</h3>
+      <p>Configure CORS policies and generate HTTP headers with Express, FastAPI code snippets.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-csp-generator.html" class="card">
+      <div class="card-icon">🛡️</div>
+      <h3>CSP Generator</h3>
+      <p>Build a Content Security Policy header interactively with a strictness score meter.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-xss-sanitizer.html" class="card">
+      <div class="card-icon">🧹</div>
+      <h3>XSS Sanitizer</h3>
+      <p>Strip dangerous XSS payloads from user input and see exactly what gets removed.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-sql-injection-tester.html" class="card">
+      <div class="card-icon">💉</div>
+      <h3>SQL Injection Tester</h3>
+      <p>Detect SQL injection patterns and get parameterized query suggestions automatically.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-encryption-toolkit.html" class="card">
+      <div class="card-icon">🔒</div>
+      <h3>Encryption Toolkit</h3>
+      <p>Hash with SHA-256, encode in Base64, and explore Caesar cipher and AES concepts.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-security-headers-checker.html" class="card">
+      <div class="card-icon">📋</div>
+      <h3>Security Headers Checker</h3>
+      <p>Check 8 critical HTTP security headers and get a scored report with remediation steps.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+    <a href="demo-penetration-test-reporter.html" class="card">
+      <div class="card-icon">📄</div>
+      <h3>Penetration Test Reporter</h3>
+      <p>Build professional pentest reports with live preview and one-click HTML download.</p>
+      <span class="card-cta">Try Demo →</span>
+    </a>
+  </div>
+  <div class="cta-bar">
+    <p>Ready to lock down your apps with professional security tooling?</p>
+    <a href="javascript:void(0)" onclick="alert('Bundle coming soon! Browse individual products below.')" style="opacity:0.7" class="btn-buy">Get Security Kit Pro — $99</a>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0D0D1A"/>
+      <stop offset="100%" style="stop-color:#1A1A2E"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FF6B00"/>
+      <stop offset="100%" style="stop-color:#FFD700"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Grid pattern -->
+  <g stroke="#1A1A2E" stroke-width="0.5" opacity="0.5">
+    <line x1="0" y1="0" x2="0" y2="630"/>
+    <line x1="60" y1="0" x2="60" y2="630"/>
+    <line x1="120" y1="0" x2="120" y2="630"/>
+    <line x1="180" y1="0" x2="180" y2="630"/>
+    <line x1="240" y1="0" x2="240" y2="630"/>
+    <line x1="300" y1="0" x2="300" y2="630"/>
+    <line x1="360" y1="0" x2="360" y2="630"/>
+    <line x1="420" y1="0" x2="420" y2="630"/>
+    <line x1="480" y1="0" x2="480" y2="630"/>
+    <line x1="540" y1="0" x2="540" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="660" y1="0" x2="660" y2="630"/>
+    <line x1="720" y1="0" x2="720" y2="630"/>
+    <line x1="780" y1="0" x2="780" y2="630"/>
+    <line x1="840" y1="0" x2="840" y2="630"/>
+    <line x1="900" y1="0" x2="900" y2="630"/>
+    <line x1="960" y1="0" x2="960" y2="630"/>
+    <line x1="1020" y1="0" x2="1020" y2="630"/>
+    <line x1="1080" y1="0" x2="1080" y2="630"/>
+    <line x1="1140" y1="0" x2="1140" y2="630"/>
+    <line x1="1200" y1="0" x2="1200" y2="630"/>
+  </g>
+
+  <!-- Router icon (arrows routing through nodes) -->
+  <g transform="translate(480, 80)">
+    <!-- Central node -->
+    <circle cx="120" cy="80" r="28" fill="none" stroke="url(#accent)" stroke-width="3"/>
+    <circle cx="120" cy="80" r="8" fill="#FF6B00" opacity="0.8"/>
+
+    <!-- Left input node -->
+    <circle cx="20" cy="40" r="16" fill="none" stroke="#FF6B00" stroke-width="2"/>
+    <circle cx="20" cy="120" r="16" fill="none" stroke="#FF6B00" stroke-width="2"/>
+
+    <!-- Right output nodes -->
+    <circle cx="220" cy="30" r="14" fill="none" stroke="#FFD700" stroke-width="2"/>
+    <circle cx="220" cy="80" r="14" fill="none" stroke="#FFD700" stroke-width="2"/>
+    <circle cx="220" cy="130" r="14" fill="none" stroke="#FFD700" stroke-width="2"/>
+
+    <!-- Routing lines -->
+    <line x1="36" y1="40" x2="92" y2="72" stroke="#FF6B00" stroke-width="2" opacity="0.7"/>
+    <line x1="36" y1="120" x2="92" y2="88" stroke="#FF6B00" stroke-width="2" opacity="0.7"/>
+    <line x1="148" y1="68" x2="206" y2="30" stroke="#FFD700" stroke-width="2" opacity="0.7"/>
+    <line x1="148" y1="80" x2="206" y2="80" stroke="#FFD700" stroke-width="2" opacity="0.7"/>
+    <line x1="148" y1="92" x2="206" y2="130" stroke="#FFD700" stroke-width="2" opacity="0.7"/>
+
+    <!-- Arrow heads on output lines -->
+    <polygon points="206,26 196,30 200,36" fill="#FFD700" opacity="0.7"/>
+    <polygon points="206,76 196,80 200,86" fill="#FFD700" opacity="0.7"/>
+    <polygon points="206,126 196,130 200,136" fill="#FFD700" opacity="0.7"/>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="310" text-anchor="middle" fill="#E0E0E0" font-family="'JetBrains Mono', 'Fira Code', monospace" font-size="52" font-weight="700">DEFI ROUTER</text>
+
+  <!-- Subtitle -->
+  <text x="600" y="360" text-anchor="middle" fill="#FF6B00" font-family="'JetBrains Mono', 'Fira Code', monospace" font-size="20" font-weight="400">Routing &amp; Swap Aggregation Toolkit</text>
+
+  <!-- Tags -->
+  <text x="600" y="410" text-anchor="middle" fill="#888899" font-family="'Inter', 'Helvetica', sans-serif" font-size="16">10 Products &bull; Solidity ^0.8.24 &bull; TypeScript &bull; Python &bull; React</text>
+
+  <!-- Brand bar -->
+  <rect x="0" y="610" width="1200" height="20" fill="url(#accent)"/>
+
+  <!-- CryptoForge logo text -->
+  <text x="600" y="470" text-anchor="middle" fill="#555566" font-family="'JetBrains Mono', monospace" font-size="14" letter-spacing="4">CRYPTOFORGE</text>
+
+  <!-- Decorative corners -->
+  <path d="M 20 20 L 20 60 M 20 20 L 60 20" stroke="#FF6B00" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M 1180 20 L 1180 60 M 1180 20 L 1140 20" stroke="#FF6B00" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M 20 600 L 20 560 M 20 600 L 60 600" stroke="#FF6B00" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M 1180 600 L 1180 560 M 1180 600 L 1140 600" stroke="#FF6B00" stroke-width="2" fill="none" opacity="0.5"/>
+</svg>

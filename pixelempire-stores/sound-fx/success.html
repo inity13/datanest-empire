@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#06b6d4">
+  <title>Purchase Complete! — SoundByte</title>
+
+  <script defer data-domain="inity13.github.io" src="https://plausible.io/js/script.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .download-card {
+      background: var(--surface-2, #1a1a2e);
+      border: 2px solid #06b6d4;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+      image-rendering: pixelated;
+    }
+    .download-card h3 { margin: 0 0 0.5rem 0; color: var(--text-primary, #f0f0f0); }
+    .download-card p { margin: 0 0 1rem 0; color: var(--text-muted, #94a3b8); font-size: 0.875rem; }
+    .spinner {
+      display: inline-block;
+      width: 24px; height: 24px;
+      border: 3px solid var(--surface-3, #2a2a4e);
+      border-top-color: #06b6d4;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 0.5rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .download-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted, #64748b);
+      margin-top: 0.75rem;
+    }
+    .error-msg {
+      color: #f87171;
+      background: rgba(248,113,113,0.1);
+      border: 2px solid rgba(248,113,113,0.3);
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    .retry-btn {
+      margin-top: 0.5rem;
+      cursor: pointer;
+      background: transparent;
+      border: 2px solid #06b6d4;
+      color: var(--text-primary, #f0f0f0);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.7rem;
+    }
+    .retry-btn:hover { background: #06b6d422; }
+  </style>
+</head>
+<body>
+  <!-- Floating pixel decorations -->
+  <div class="floating-pixels" aria-hidden="true"></div>
+
+  <!-- Confetti canvas -->
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <div class="success-page">
+    <div class="success-card">
+      <span class="success-emoji" aria-hidden="true">&#127881;</span>
+      <h1>Purchase Complete!</h1>
+      <p>Your product files are ready to download.</p>
+
+      <div id="download-section"></div>
+
+      <p>
+        Thanks for supporting <strong>SoundByte</strong>!
+        You just leveled up. &#127775;
+      </p>
+      <div style="margin-top: var(--space-xl);">
+        <a href="https://inity13.github.io/pixel-sound-byte/" class="btn btn-primary">&#9668; Back to Shop</a>
+      </div>
+      <p class="mt-lg" style="font-size: 0.8rem; color: var(--text-muted);">
+        Need help? Email us at <a href="mailto:hello@pixelempire.store">hello@pixelempire.store</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var DOWNLOAD_API = 'https://ferovwapilhcpqozqinn.supabase.co/functions/v1/download';
+      var section = document.getElementById('download-section');
+      var params = new URLSearchParams(window.location.search);
+      var sessionId = params.get('session_id');
+      var token = params.get('token');
+
+      var storageKey = 'dl_token_' + (sessionId || '');
+      if (!token && sessionId) {
+        token = sessionStorage.getItem(storageKey);
+      }
+
+      function esc(s) {
+        var d = document.createElement('div');
+        d.appendChild(document.createTextNode(s));
+        return d.innerHTML.replace(/"/g, '&quot;');
+      }
+
+      function safeUrl(u) {
+        try { var p = new URL(u); return (p.protocol === 'https:' || p.protocol === 'http:') ? p.href : '#'; }
+        catch(e) { return '#'; }
+      }
+
+      function showLoading() {
+        section.innerHTML = '<div class="download-card">' +
+          '<div class="spinner"></div>' +
+          '<h3>Preparing Your Download...</h3>' +
+          '<p>Generating a secure download link. This may take a moment.</p>' +
+          '</div>';
+      }
+
+      function showDownload(data) {
+        var name = esc(data.product_name || 'Your Product');
+        var fname = esc(data.filename || 'download');
+        var url = safeUrl(data.download_url || '');
+        var remaining = parseInt(data.downloads_remaining, 10) || 0;
+        section.innerHTML = '<div class="download-card">' +
+          '<h3>' + name + '</h3>' +
+          '<p>Your secure download is ready. Link expires in 15 minutes.</p>' +
+          '<a href="' + url + '" class="btn btn-primary btn-lg" download="' + fname + '">' +
+          'Download ' + fname + '</a>' +
+          '<div class="download-meta">' +
+          remaining + ' download' + (remaining !== 1 ? 's' : '') + ' remaining' +
+          '</div></div>';
+        if (data.download_token) {
+          sessionStorage.setItem(storageKey, data.download_token);
+          if (!params.get('token')) {
+            var newUrl = window.location.pathname + '?token=' + data.download_token;
+            window.history.replaceState(null, '', newUrl);
+          }
+        }
+      }
+
+      function showError(msg, canRetry) {
+        section.innerHTML = '<div class="error-msg">' +
+          '<strong>Download Issue</strong><p>' + esc(msg) + '</p>' +
+          (canRetry ? '<button class="retry-btn" onclick="window.location.reload()">TRY AGAIN</button>' : '') +
+          '</div>';
+      }
+
+      function showExhausted() {
+        section.innerHTML = '<div class="download-card">' +
+          '<h3>Downloads Exhausted</h3>' +
+          '<p>You have used all available downloads for this purchase. ' +
+          'Need help? Contact <a href="mailto:hello@pixelempire.store">hello@pixelempire.store</a></p>' +
+          '</div>';
+      }
+
+      function fetchDownload() {
+        var url;
+        if (token) {
+          url = DOWNLOAD_API + '?token=' + encodeURIComponent(token);
+        } else if (sessionId) {
+          url = DOWNLOAD_API + '?session_id=' + encodeURIComponent(sessionId);
+        } else {
+          showError('No download session found. Check your email for the download link, or contact support.', false);
+          return;
+        }
+
+        showLoading();
+
+        fetch(url)
+          .then(function(res) {
+            return res.json().then(function(data) {
+              return { status: res.status, data: data };
+            });
+          })
+          .then(function(result) {
+            if (result.status === 200) {
+              showDownload(result.data);
+            } else if (result.status === 429) {
+              showExhausted();
+            } else if (result.status === 410) {
+              showError('This download link has expired. Please contact support for a new link.', false);
+            } else if (result.status === 404 && result.data.retry) {
+              setTimeout(fetchDownload, 3000);
+            } else {
+              showError(result.data.error || 'An unexpected error occurred.', true);
+            }
+          })
+          .catch(function(err) {
+            showError('Network error. Please check your connection and try again.', true);
+          });
+      }
+
+      fetchDownload();
+    })();
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>

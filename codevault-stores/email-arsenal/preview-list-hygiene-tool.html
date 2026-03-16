@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Hygiene Tool &mdash; Email Arsenal &mdash; CodeVault</title>
+    <meta name="description" content="Python script to clean email lists: dedup, validate format, remove role addresses, and check for disposable domains.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F4E7;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#FF3366">
+    <script defer data-domain="email-arsenal.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Email Arsenal</a>
+        <h1 class="preview-page__title">List Hygiene Tool</h1>
+        <p class="preview-page__price">$4.99</p>
+        <p class="preview-page__desc">Python script to clean email lists: deduplicate, validate format, remove role addresses, and check for disposable domains. Feed it a dirty list, get back a clean one.</p>
+
+        <ul class="preview-page__features">
+            <li>Case-insensitive deduplication with original case preservation</li>
+            <li>RFC 5322 email format validation</li>
+            <li>Role-based address detection and removal (info@, admin@, etc.)</li>
+            <li>Disposable domain detection (built-in blocklist of 2000+ domains)</li>
+            <li>Typo domain suggestion (gmial.com &rarr; gmail.com)</li>
+            <li>Empty and whitespace line cleanup</li>
+            <li>Before/after statistics report</li>
+            <li>Supports TXT, CSV, and one-email-per-line input formats</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Clean an email list
+python list_hygiene.py --input dirty_list.txt --output clean_list.txt
+
+# Run specific checks only
+python list_hygiene.py --input list.txt --checks dedup,format,disposable
+
+# Get statistics without modifying
+python list_hygiene.py --input list.txt --dry-run</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_list_hygiene_tool"
+               data-product="list-hygiene-tool">
+                Grab This &mdash; $4.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="List Hygiene Tool"
+                    data-crypto-price="499">
+                Pay with Crypto ($3.99)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

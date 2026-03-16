@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Report Generator &mdash; Security Kit &mdash; CodeVault</title>
+    <meta name="description" content="Generate professional security audit reports in HTML and PDF from JSON findings. Severity grouping, executive summary, and branded output. Python 3.10+ stdlib only.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F6E1;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#D500F9">
+    <script defer data-domain="security-kit.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Security Kit</a>
+        <h1 class="preview-page__title">&#x1F4CA; Security Report Generator</h1>
+        <p class="preview-page__price">$4.99</p>
+        <p class="preview-page__desc">Turn raw JSON findings from any of the Security Kit tools into a clean, professional HTML report. Includes an executive summary, severity breakdown chart, per-finding detail sections, and remediation recommendations. Print-ready for client delivery.</p>
+
+        <ul class="preview-page__features">
+            <li>JSON findings input from any Security Kit tool</li>
+            <li>Executive summary with risk score and severity breakdown</li>
+            <li>Per-finding cards: title, severity, description, remediation</li>
+            <li>Severity grouping: CRITICAL / HIGH / MEDIUM / LOW / INFO</li>
+            <li>Custom branding: logo URL, company name, report date</li>
+            <li>Print-optimized CSS (looks great as PDF via browser print)</li>
+            <li>Standalone HTML output &mdash; no external dependencies</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Generate report from scanner output
+python report.py --input scan-results.json --output report.html
+
+# Custom branding
+python report.py --input findings.json \
+  --company "Acme Corp" --logo https://example.com/logo.png
+
+# Combine multiple tool outputs
+python report.py --input scan.json audit.json deps.json --output combined.html</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="https://buy.stripe.com/PLACEHOLDER_security-report-generator"
+               class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/PLACEHOLDER_security-report-generator"
+               data-product="security-report-generator">
+                Buy Now &mdash; $4.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Security Report Generator"
+                    data-crypto-price="424">
+                Pay with Crypto ($4.24)
+            </button>
+        </div>
+
+        <hr style="border-color: var(--cv-border); margin: 32px 0;">
+        <h2 style="font-size: 1rem; margin-bottom: 16px; color: var(--cv-text-muted);">Related tools</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <a href="preview-vulnerability-scanner.html" class="btn btn--secondary" style="font-size: 0.85rem;">Vulnerability Scanner</a>
+            <a href="preview-compliance-checker.html" class="btn btn--secondary" style="font-size: 0.85rem;">Compliance Checker</a>
+            <a href="preview-dependency-auditor.html" class="btn btn--secondary" style="font-size: 0.85rem;">Dependency Auditor</a>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

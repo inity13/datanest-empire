@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Launchpad — Interactive Demos</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0A0E1A;color:#E2E8F0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+header{background:#0F1628;border-bottom:1px solid #1E2A45;padding:16px 24px}
+.header-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.store-brand{display:flex;align-items:center;gap:10px}
+.store-icon{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#FF9100,#E06000);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.store-name{font-size:1.05rem;font-weight:700;color:#F1F5F9}
+.store-tagline{font-size:.75rem;color:#64748B}
+.back-link{color:#FF9100;text-decoration:none;font-size:.85rem;display:flex;align-items:center;gap:6px;padding:7px 14px;background:#0A0E1A;border:1px solid #1E2A45;border-radius:6px;transition:.2s}
+.back-link:hover{border-color:#FF9100}
+.hero{background:linear-gradient(180deg,#0F1628 0%,#0A0E1A 100%);padding:40px 24px;text-align:center;border-bottom:1px solid #1E2A45}
+.hero-inner{max-width:600px;margin:0 auto}
+.hero h1{font-size:1.8rem;font-weight:800;color:#F1F5F9;margin-bottom:10px}
+.hero h1 span{color:#FF9100}
+.hero p{color:#94A3B8;font-size:.95rem;line-height:1.6;margin-bottom:20px}
+.demo-count{display:inline-block;background:#1E2A45;color:#FF9100;padding:5px 14px;border-radius:20px;font-size:.82rem;font-weight:700}
+.container{flex:1;padding:32px 24px;max-width:900px;margin:0 auto;width:100%}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.demo-card{background:#0F1628;border:1px solid #1E2A45;border-radius:12px;padding:20px;transition:.2s;display:flex;flex-direction:column}
+.demo-card:hover{border-color:#FF9100;transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,145,0,.08)}
+.card-icon{font-size:1.8rem;margin-bottom:12px}
+.card-title{font-size:.95rem;font-weight:700;color:#F1F5F9;margin-bottom:6px}
+.card-desc{font-size:.8rem;color:#64748B;line-height:1.5;flex:1;margin-bottom:14px}
+.card-link{display:block;background:#FF9100;color:#0A0E1A;text-align:center;padding:9px 16px;border-radius:6px;font-size:.85rem;font-weight:700;text-decoration:none;transition:.2s}
+.card-link:hover{background:#FFA733}
+footer{text-align:center;padding:20px;color:#475569;font-size:.8rem;border-top:1px solid #1E2A45;margin-top:auto}
+footer a{color:#FF9100;text-decoration:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div class="store-brand">
+      <div class="store-icon">🚀</div>
+      <div>
+        <div class="store-name">API Launchpad</div>
+        <div class="store-tagline">Professional Python API Tools</div>
+      </div>
+    </div>
+    <a href="../index.html" class="back-link">← Back to Store</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Interactive <span>Demos</span></h1>
+    <p>Try each API tool right in your browser before you buy. Every demo is fully interactive with real inputs and live output.</p>
+    <span class="demo-count">10 tools available</span>
+  </div>
+</div>
+
+<div class="container">
+  <div class="grid">
+    <div class="demo-card">
+      <div class="card-icon">🚀</div>
+      <div class="card-title">REST API Starter</div>
+      <div class="card-desc">Build and send REST API requests with custom headers, body, and auth — real HTTP in the browser.</div>
+      <a href="demo-rest-api-starter.html" class="card-link">Try Demo</a>
+    </div>
+    <div class="demo-card">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">GraphQL Boilerplate</div>
+      <div class="card-desc">Write GraphQL queries with syntax highlighting, mock execution, and boilerplate code generation.</div>
+      <a href="demo-graphql-boilerplate.html" class="card-link">Try Demo</a>
+    </div>
+    <div class="demo-card">
+      <div class="card-icon">🔔</div>
+      <div class="card-title">Webhook Handler</div>
+      <div class="card-desc">Simulate incoming webhooks, inspect headers and payloads, and validate HMAC signatures.</div>
+      <a href="demo-webhook-handler.html" class="card-link">Try Demo</a>
+    </div>
+    <div class="demo-card">
+      <div class="card-icon">🛡️</div>
+      <div class="card-title">Rate Limiter</div>
+      <div class="card-desc">Configure a token bucket rate limiter and simulate burst traffic to see throttling in action.</div>
+      <a href="demo-rate-limiter.html" class="card-link">Try Demo</a>
+    </div>
+    <div class="demo-card">
+      <div class="card-icon">🔑</div>
+      <div class="card-title">API Key Manager</div>
+      <div class="card-desc">Generate scoped API keys, set expiry policies, and manage access controls across your services.</div>
+      <a href="demo-api-key-manager.html" class="card-link">Try Demo</a>
+    </div>
+    <div class="demo-card">
+      <div class="card-icon">📄</div>
+      <div class="card-title">OpenAPI Spec Generator</div>
+      <div class="card-desc">Describe your endpoint and instantly generate a valid OpenAPI 3.0 spec in YAML or JSON.</div>
+      <a href="demo-openapi-spec-generator.html" class="card-link">Try Demo</a>
+    </div>
+    <div class="demo-card">
+      <div class="card-icon">🎭</div>
+      <div class="card-title">Mock Server Builder</div>
+      <div class="card-desc">Define mock API endpoints with custom responses and latency, then test them instantly.</div>
+      <a href="demo-mock-server-builder.html" class="card-link">Try Demo</a>
+    </div>
+    <div class="demo-card">
+      <div class="card-icon">🧪</div>
+      <div class="card-title">API Test Framework</div>
+      <div class="card-desc">Write API test assertions, run the full test suite, and get pass/fail reports with timing.</div>
+      <a href="demo-api-test-framework.html" class="card-link">Try Demo</a>
+    </div>
+    <div class="demo-card">
+      <div class="card-icon">🔀</div>
+      <div class="card-title">API Versioning Toolkit</div>
+      <div class="card-desc">Compare URL, header, query param, and subdomain versioning strategies with live examples.</div>
+      <a href="demo-api-versioning-toolkit.html" class="card-link">Try Demo</a>
+    </div>
+    <div class="demo-card">
+      <div class="card-icon">📚</div>
+      <div class="card-title">API Docs Generator</div>
+      <div class="card-desc">Describe an endpoint and generate beautiful, structured documentation with code examples.</div>
+      <a href="demo-api-docs-generator.html" class="card-link">Try Demo</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a href="../index.html">← Back to API Launchpad Store</a> &nbsp;·&nbsp; All demos are browser-based simulations of the full Python tools.
+</footer>
+</body>
+</html>

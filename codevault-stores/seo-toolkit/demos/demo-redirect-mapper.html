@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redirect Mapper Demo — SEO Toolkit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:820px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#00FF8820;color:#00FF88;border:1px solid #00FF8840;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#00FF88;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+  label{display:block;font-size:13px;color:#94a3b8;margin-bottom:6px;font-weight:500}
+  input,textarea{width:100%;background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:10px 14px;color:#e2e8f0;font-size:14px;outline:none;transition:border-color .2s;font-family:inherit}
+  input:focus,textarea:focus{border-color:#00FF88}
+  textarea{resize:vertical;min-height:100px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+  .btn-primary{background:#00FF88;color:#0A0E1A;width:100%;justify-content:center;margin-top:12px}
+  .btn-primary:hover{background:#00e67a}
+  .chain{display:flex;flex-direction:column;gap:0}
+  .chain-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#0A0E1A;border:1px solid #1e293b;font-size:13px}
+  .chain-item:first-child{border-radius:8px 8px 0 0}
+  .chain-item:last-child{border-radius:0 0 8px 8px;border-top:none}
+  .chain-item+.chain-item{border-top:none}
+  .step-num{background:#1e293b;border:1px solid #2d3748;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+  .status-badge{padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;flex-shrink:0}
+  .s301{background:#00FF8820;color:#00FF88;border:1px solid #00FF8840}
+  .s302{background:#f59e0b20;color:#f59e0b;border:1px solid #f59e0b40}
+  .s200{background:#3b82f620;color:#60a5fa;border:1px solid #3b82f640}
+  .s404{background:#ef444420;color:#ef4444;border:1px solid #ef444440}
+  .url-text{color:#94a3b8;font-family:monospace;flex:1;word-break:break-all}
+  .url-final{color:#e2e8f0}
+  .arrow{color:#475569;font-size:16px}
+  .result-stats{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+  .stat{background:#0A0E1A;border:1px solid #1e293b;border-radius:8px;padding:10px 16px;flex:1;min-width:100px;text-align:center}
+  .stat-val{font-size:20px;font-weight:700}
+  .stat-label{font-size:11px;color:#64748b;margin-top:2px}
+  .good{color:#00FF88}.warn{color:#f59e0b}.bad{color:#ef4444}
+  .hidden{display:none}
+  .alert{padding:12px 16px;border-radius:8px;font-size:13px;margin-bottom:12px}
+  .alert-bad{background:#ef444415;border:1px solid #ef444430;color:#ef4444}
+  .alert-good{background:#00FF8815;border:1px solid #00FF8830;color:#00FF88}
+  .alert-warn{background:#f59e0b15;border:1px solid #f59e0b30;color:#f59e0b}
+  .cta-bar{background:linear-gradient(135deg,#00FF8815,#00FF8805);border:1px solid #00FF8830;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#00FF88;color:#0A0E1A;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#00e67a;transform:translateY(-1px);box-shadow:0 8px 24px #00FF8840}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Redirect Mapper</h1>
+    <p class="subtitle">Map URL redirect chains and detect SEO-damaging redirect issues</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Redirect Chain Simulator</div>
+    <p style="font-size:13px;color:#64748b;margin-bottom:14px">Define a redirect chain to simulate. In the full tool, this crawls real URLs automatically.</p>
+    <label>Starting URL</label>
+    <input type="text" id="startUrl" value="http://example.com/old-page" placeholder="http://example.com/old-page">
+    <div style="margin-top:14px">
+      <label>Redirect Hops (one per line: FROM → TO | STATUS_CODE)</label>
+      <textarea id="hopsInput" rows="5">http://example.com/old-page → http://www.example.com/old-page | 301
+http://www.example.com/old-page → https://www.example.com/old-page | 301
+https://www.example.com/old-page → https://example.com/new-page | 302
+https://example.com/new-page → [FINAL] | 200</textarea>
+    </div>
+    <button class="btn btn-primary" onclick="analyzeRedirects()">🔍 Analyze Redirect Chain</button>
+  </div>
+
+  <div id="results" class="hidden">
+    <div class="card">
+      <div class="card-title">Chain Analysis</div>
+      <div class="result-stats">
+        <div class="stat"><div class="stat-val" id="sHops">0</div><div class="stat-label">Total Hops</div></div>
+        <div class="stat"><div class="stat-val" id="s301">0</div><div class="stat-label">301 Permanent</div></div>
+        <div class="stat"><div class="stat-val" id="s302">0</div><div class="stat-label">302 Temporary</div></div>
+        <div class="stat"><div class="stat-val" id="sLoss">—</div><div class="stat-label">Link Equity</div></div>
+      </div>
+      <div id="alerts"></div>
+      <div class="chain" id="chainViz"></div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <p>The full tool crawls real URLs, batch-processes hundreds of redirects, exports .htaccess rules, detects redirect loops, and monitors changes over time.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/6oUcN5dL9flkcJAdSFgjJ22">Buy Full Version — $29.00</a>
+    <button class="crypto-pay-btn" data-product-slug="redirect-mapper" data-store-slug="seo-toolkit" data-product-name="Redirect Mapper" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows limited functionality. Buy the full tool for all features.</div>
+</div>
+<script>
+function analyzeRedirects() {
+  const raw = document.getElementById('hopsInput').value.trim();
+  const lines = raw.split('\n').filter(l=>l.trim());
+  document.getElementById('results').classList.remove('hidden');
+
+  const hops = lines.map(l => {
+    const parts = l.split('|');
+    const urls = parts[0].split('→').map(s=>s.trim());
+    const code = parseInt((parts[1]||'200').trim());
+    return {from: urls[0], to: urls[1]||'[FINAL]', code};
+  });
+
+  const count301 = hops.filter(h=>h.code===301).length;
+  const count302 = hops.filter(h=>h.code===302).length;
+  const totalHops = hops.length - 1;
+  const equityLoss = Math.round(100 - (100 * Math.pow(0.99, count301) * Math.pow(0.85, count302)));
+
+  document.getElementById('sHops').textContent = totalHops;
+  document.getElementById('sHops').className = 'stat-val ' + (totalHops > 3 ? 'bad' : totalHops > 1 ? 'warn' : 'good');
+  document.getElementById('s301').textContent = count301;
+  document.getElementById('s302').textContent = count302;
+  document.getElementById('s302').className = 'stat-val ' + (count302 > 0 ? 'warn' : 'good');
+  document.getElementById('sLoss').textContent = `~${equityLoss}%`;
+  document.getElementById('sLoss').className = 'stat-val ' + (equityLoss > 20 ? 'bad' : equityLoss > 5 ? 'warn' : 'good');
+
+  const alerts = [];
+  if (totalHops > 3) alerts.push(['bad', `❌ Chain too long (${totalHops} hops) — Google recommends max 3. Excessive hops dilute PageRank.`]);
+  if (count302 > 0) alerts.push(['warn', `⚠️ ${count302} temporary redirect(s) found — 302s don't pass full link equity. Switch to 301 unless intentionally temporary.`]);
+  if (totalHops === 0) alerts.push(['good','✅ No redirects needed — direct URL is best for SEO.']);
+  if (count302 === 0 && totalHops <= 2) alerts.push(['good','✅ Redirect chain looks clean!']);
+  if (equityLoss > 20) alerts.push(['bad',`❌ Estimated ~${equityLoss}% link equity loss — consolidate redirects to a single hop.`]);
+
+  document.getElementById('alerts').innerHTML = alerts.map(([t,m])=>`<div class="alert alert-${t}">${m}</div>`).join('');
+
+  const codeClass = c => c===301?'s301':c===302?'s302':c===200?'s200':'s404';
+  document.getElementById('chainViz').innerHTML = hops.map((h,i)=>`
+    <div class="chain-item">
+      <span class="step-num">${i+1}</span>
+      <span class="url-text ${h.to==='[FINAL]'?'url-final':''}">${h.from}</span>
+      ${h.to!=='[FINAL]'?`<span class="arrow">→</span>
+      <span class="status-badge ${codeClass(h.code)}">${h.code}</span>`:`<span class="status-badge s200">✓ ${h.code}</span>`}
+    </div>`).join('');
+}
+analyzeRedirects();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

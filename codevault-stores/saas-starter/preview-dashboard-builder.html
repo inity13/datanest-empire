@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Builder &mdash; SaaS Starter &mdash; CodeVault</title>
+    <meta name="description" content="Python dashboard template generator: widgets, charts, tables, filters, and export. Build data-rich dashboards in minutes.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F680;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#FFD600">
+    <script defer data-domain="saas-starter.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to SaaS Starter</a>
+        <h1 class="preview-page__title">Dashboard Builder</h1>
+        <p class="preview-page__price">$9.99</p>
+        <p class="preview-page__desc">Python dashboard template generator: widgets, charts, tables, filters, and export. Build data-rich dashboards in minutes. Runs on Python 3.10+ stdlib only.</p>
+
+        <ul class="preview-page__features">
+            <li>Widget system: KPI cards, sparklines, progress bars, gauges</li>
+            <li>Table generator with sorting, pagination, and column types</li>
+            <li>Chart data formatters for bar, line, pie, and area charts</li>
+            <li>Filter engine with date ranges, dropdowns, and search</li>
+            <li>Export to CSV, JSON, and HTML static report</li>
+            <li>Responsive grid layout with configurable breakpoints</li>
+            <li>Real-time data refresh with polling intervals</li>
+            <li>Theme support (dark, light, custom brand colors)</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Generate a sample dashboard
+python src/main.py --demo
+
+# Build dashboard from config
+python src/main.py --config examples/sales_dashboard.json
+
+# Export dashboard to static HTML
+python src/main.py --export --format html --output report.html</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_dashboard_builder"
+               data-product="dashboard-builder">
+                Grab This &mdash; $9.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Dashboard Builder"
+                    data-crypto-price="999">
+                Pay with Crypto ($7.99)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

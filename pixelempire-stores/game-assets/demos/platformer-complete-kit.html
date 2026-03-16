@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Platformer Complete Kit | Pixel Empire Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#0a0a0f; color:#e0e0e0; font-family:'Inter', system-ui, sans-serif; line-height:1.6; }
+    h1,h2,h3 { font-family:'Press Start 2P', 'Inter', system-ui, sans-serif; letter-spacing:1px; }
+    a { color:#ef4444; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .container { max-width:960px; margin:0 auto; padding:24px 16px; }
+    .btn { display:inline-block; padding:12px 28px; background:#ef4444; color:#000;
+            font-weight:700; border:none; border-radius:6px; cursor:pointer; font-size:14px; }
+    .btn:hover { opacity:0.85; text-decoration:none; }
+    .price { font-size:22px; font-weight:700; color:#ef4444; }
+    .muted { color:#888; font-size:13px; }
+    .card { background:#14141f; border-radius:10px; padding:16px; }
+    canvas { display:block; border-radius:8px; image-rendering:pixelated; }
+    .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+.crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+    </style>
+</head>
+<body>
+<div class="container">
+
+<h1 style="font-size:16px;margin-bottom:8px;color:#ef4444">Platformer Complete Kit</h1>
+<p class="muted" style="margin-bottom:12px">Everything for a platformer game. Player sprites, enemies, tiles, backgrounds, UI, sounds. 500+ assets.</p>
+<canvas id="cv" width="320" height="320" style="width:320px;height:320px;margin-bottom:12px;background:#14141f"></canvas>
+<div style="display:flex;gap:12px;align-items:center;margin-bottom:16px">
+  <button class="btn" id="animBtn">Animate: OFF</button>
+  <span class="price">$7.99</span>
+</div>
+<a href="https://buy.stripe.com/8x2cN56iHc985h85m9gjI0f" class="btn" target="_blank" rel="noopener">Buy Now</a>
+<button class="crypto-pay-btn" data-product-slug="platformer-complete-kit" data-store-slug="game-assets" data-product-name="Platformer Complete Kit" data-price-usd="7.99">Pay with Crypto (Save 15%)</button>
+
+
+</div>
+<script>
+(function(){
+  var cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+  var seed=[210,145,30,21,10,238,223,243,190,253,90,35,6,119,184,177];
+  var grid=16,sz=cv.width/grid,anim=false,frame=0;
+  function draw(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    for(var y=0;y<grid;y++) for(var x=0;x<grid;x++){
+      var i=(y*grid+x)%seed.length;
+      var r=(seed[i]+x*17+(anim?frame*3:0))%256;
+      var g=(seed[(i+1)%seed.length]+y*13+(anim?frame*5:0))%256;
+      var b=(seed[(i+2)%seed.length]+x*y+(anim?frame*7:0))%256;
+      ctx.fillStyle='rgb('+r+','+g+','+b+')';
+      ctx.fillRect(x*sz,y*sz,sz-1,sz-1);
+    }
+    frame++;
+    if(anim) requestAnimationFrame(draw);
+  }
+  draw();
+  document.getElementById('animBtn').onclick=function(){
+    anim=!anim; this.textContent='Animate: '+(anim?'ON':'OFF');
+    if(anim) draw();
+  };
+})();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

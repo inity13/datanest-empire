@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Receipt Emailer — Demo | Payment Stack</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#76FF03}.header .back{color:#76FF03;text-decoration:none;font-size:.85rem}
+  .container{max-width:940px;margin:0 auto;padding:28px 20px}
+  h2{font-size:1.5rem;margin-bottom:6px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .layout{display:grid;grid-template-columns:310px 1fr;gap:18px}
+  @media(max-width:700px){.layout{grid-template-columns:1fr}}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:18px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#76FF03;margin-bottom:12px}
+  label{display:block;font-size:.8rem;color:#8899aa;margin-bottom:4px}
+  input,select,textarea{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:8px 10px;font-size:.85rem;margin-bottom:10px;outline:none;transition:border-color .2s;font-family:inherit}
+  input:focus,select:focus,textarea:focus{border-color:#76FF03}
+  .color-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .btn{width:100%;padding:11px;border:none;border-radius:8px;font-size:.92rem;font-weight:600;cursor:pointer;background:#76FF03;color:#0A0E1A;transition:all .2s;margin-bottom:8px}
+  .btn:hover{background:#8fff1a}
+  /* Email preview */
+  .email-preview{background:#f8f8f8;border-radius:8px;overflow:hidden;font-family:Georgia,serif;color:#333}
+  .em-header{padding:24px;text-align:center}
+  .em-logo{font-size:1.4rem;font-weight:800;margin-bottom:4px}
+  .em-tagline{font-size:.8rem;opacity:.7}
+  .em-body{background:#fff;padding:24px}
+  .em-title{font-size:1.3rem;font-weight:700;margin-bottom:8px}
+  .em-sub{font-size:.85rem;color:#666;margin-bottom:16px;line-height:1.5}
+  .em-order{border:1px solid #e5e5e5;border-radius:6px;overflow:hidden;margin-bottom:16px}
+  .em-order-header{background:#f5f5f5;padding:10px 14px;display:flex;justify-content:space-between;font-size:.78rem;color:#666}
+  .em-item{display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:.85rem}
+  .em-item:last-child{border:none}
+  .em-total{background:#f9f9f9;padding:10px 14px;display:flex;justify-content:space-between;font-weight:700;font-size:.9rem}
+  .em-btn{display:block;text-align:center;padding:12px;border-radius:6px;text-decoration:none;font-weight:700;margin:16px 0;font-size:.9rem;color:#fff}
+  .em-footer{padding:16px;text-align:center;font-size:.72rem;color:#999;border-top:1px solid #eee}
+  .send-status{padding:10px;border-radius:6px;font-size:.85rem;text-align:center;display:none;margin-top:8px}
+  .send-status.show{display:block}
+  .s-ok{background:rgba(118,255,3,.1);border:1px solid rgba(118,255,3,.3);color:#76FF03}
+  .cta-bar{background:linear-gradient(135deg,#0d1321,#111827);border:1px solid #76FF03;border-radius:12px;padding:20px;text-align:center;margin-top:18px}
+  .cta-bar p{color:#8899aa;font-size:.85rem;margin-bottom:12px;margin-top:6px}
+  .cta-btn{display:inline-block;background:#76FF03;color:#0A0E1A;padding:12px 26px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s}
+  .cta-btn:hover{background:#8fff1a;transform:translateY(-2px)}
+  .footer-note{text-align:center;color:#445566;font-size:.77rem;margin-top:16px;padding-top:12px;border-top:1px solid #1e2a3a}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>⚡ Payment Stack — Receipt Emailer Demo</h1>
+  <a class="back" href="../index.html">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>Receipt Template Builder</h2>
+  <p class="subtitle">Design branded payment receipts with custom colors, logo, and messaging. Preview live as you build.</p>
+  <div class="layout">
+    <div>
+      <div class="panel" style="margin-bottom:12px">
+        <h3>🎨 Branding</h3>
+        <label>Company Name</label>
+        <input id="company" value="Acme Software" oninput="preview()">
+        <label>Tagline</label>
+        <input id="tagline" value="Build faster, ship smarter" oninput="preview()">
+        <div class="color-row">
+          <div><label>Brand Color</label><input id="brandColor" type="color" value="#76FF03" oninput="preview()" style="height:36px;cursor:pointer"></div>
+          <div><label>Header BG</label><input id="headerBg" type="color" value="#0A0E1A" oninput="preview()" style="height:36px;cursor:pointer"></div>
+        </div>
+      </div>
+      <div class="panel" style="margin-bottom:12px">
+        <h3>📦 Purchase Details</h3>
+        <label>Customer Email</label>
+        <input id="custEmail" value="customer@example.com" oninput="preview()">
+        <label>Product Name</label>
+        <input id="productName" value="Pro Developer Bundle" oninput="preview()">
+        <label>Amount</label>
+        <input id="amount" value="49.00" oninput="preview()">
+        <label>Order ID</label>
+        <input id="orderId" value="ORD-2024-7821" oninput="preview()">
+      </div>
+      <div class="panel">
+        <h3>✉ Messaging</h3>
+        <label>Thank You Message</label>
+        <textarea id="message" rows="3" oninput="preview()">Thank you for your purchase! Your download link is ready below.</textarea>
+        <label>CTA Button Text</label>
+        <input id="ctaText" value="Download Your Files" oninput="preview()">
+        <label>Footer Note</label>
+        <input id="footerNote" value="Questions? Reply to this email." oninput="preview()">
+        <button class="btn" onclick="simulateSend()">📤 Simulate Send</button>
+        <div id="sendStatus" class="send-status"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>👁 Email Preview</h3>
+      <div id="emailPreview" class="email-preview"></div>
+    </div>
+  </div>
+  <div class="cta-bar">
+    <h3>Get the Full Receipt Emailer</h3>
+    <p>Python + SendGrid/SES integration: HTML+text fallback, PDF receipt attachment, webhook triggers, and template versioning.</p>
+    <a class="cta-btn" href="https://buy.stripe.com/5kQcN5bD11uu390aGtgjJ1r">Buy Full Version — $29.00</a>
+    <button class="crypto-pay-btn" data-product-slug="receipt-emailer" data-store-slug="payment-stack" data-product-name="Receipt Emailer" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+function g(id){return document.getElementById(id).value;}
+function preview(){
+  const brand=g('brandColor'), bg=g('headerBg');
+  const date=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('emailPreview').innerHTML=`
+    <div class="em-header" style="background:${bg}">
+      <div class="em-logo" style="color:${brand}">${g('company')}</div>
+      <div class="em-tagline" style="color:#aaa">${g('tagline')}</div>
+    </div>
+    <div class="em-body">
+      <div class="em-title">Payment Confirmed ✓</div>
+      <div class="em-sub">Hi ${g('custEmail')},<br>${g('message')}</div>
+      <div class="em-order">
+        <div class="em-order-header"><span>Order: <b>${g('orderId')}</b></span><span>${date}</span></div>
+        <div class="em-item"><span>${g('productName')}</span><span>$${g('amount')}</span></div>
+        <div class="em-item"><span>Tax</span><span>$0.00</span></div>
+        <div class="em-total"><span>Total Paid</span><span>$${g('amount')}</span></div>
+      </div>
+      <a class="em-btn" style="background:${brand};color:${bg==='#ffffff'?'#000':'#fff'}">${g('ctaText')}</a>
+      <div class="em-footer">${g('footerNote')}<br><br>${g('company')} · Sent via Receipt Emailer</div>
+    </div>`;
+}
+async function simulateSend(){
+  const s=document.getElementById('sendStatus');
+  s.className='send-status show';s.style.background='rgba(255,171,0,.1)';s.style.border='1px solid rgba(255,171,0,.3)';s.style.color='#ffab00';
+  s.textContent='⏳ Sending receipt...';
+  await new Promise(r=>setTimeout(r,1200));
+  s.className='send-status show s-ok';
+  s.textContent=`✓ Receipt sent to ${g('custEmail')} · Message-ID: <${Math.random().toString(36).slice(2)}@acme.com>`;
+}
+preview();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

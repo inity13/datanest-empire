@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Builder Demo — Analytics Hub | CodeVault</title>
+<meta name="description" content="Interactive dashboard builder demo from Analytics Hub.">
+<style>
+  :root {
+    --bg: #0A0E1A; --surface: #141824; --surface2: #1E2436;
+    --border: #2A2E3E; --text: #EAEAFF; --muted: #8888AA;
+    --accent: #00E5FF; --danger: #FF4444; --success: #00E676; --warn: #FF9800;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 15px; min-height: 100vh; }
+  a { color: var(--accent); text-decoration: none; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  header .brand { font-weight: 700; font-size: 1.1rem; }
+  header .brand span { color: var(--accent); }
+  .badge { background: var(--accent); color: #0A0E1A; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 32px 20px; }
+  h1 { font-size: 1.6rem; margin-bottom: 6px; }
+  .subtitle { color: var(--muted); margin-bottom: 24px; }
+
+  .layout { display: grid; grid-template-columns: 240px 1fr; gap: 20px; }
+  @media(max-width:700px) { .layout { grid-template-columns: 1fr; } }
+
+  /* Sidebar */
+  .sidebar { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .sidebar-title { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 12px; }
+  .widget-palette { display: flex; flex-direction: column; gap: 6px; }
+  .palette-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; cursor: pointer; transition: border-color .2s; display: flex; align-items: center; gap: 8px; }
+  .palette-item:hover { border-color: var(--accent); }
+  .palette-item .icon { font-size: 1.1rem; width: 22px; text-align: center; }
+  .palette-item .info .name { font-size: 0.85rem; font-weight: 600; }
+  .palette-item .info .desc { font-size: 0.72rem; color: var(--muted); }
+
+  /* Canvas */
+  .canvas { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; min-height: 480px; }
+  .canvas-toolbar { display: flex; gap: 8px; margin-bottom: 14px; align-items: center; flex-wrap: wrap; }
+  .canvas-title { font-size: 0.85rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; flex: 1; }
+  .btn-sm { padding: 5px 12px; font-size: 0.78rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 5px; color: var(--text); cursor: pointer; }
+  .btn-sm:hover { border-color: var(--accent); color: var(--accent); }
+
+  .widget-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media(max-width:900px) { .widget-grid { grid-template-columns: repeat(2,1fr); } }
+  @media(max-width:500px) { .widget-grid { grid-template-columns: 1fr; } }
+
+  .widget { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; position: relative; min-height: 120px; transition: border-color .2s; }
+  .widget:hover { border-color: var(--accent); }
+  .widget-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .widget-name { font-size: 0.78rem; font-weight: 600; color: var(--muted); }
+  .widget-del { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1rem; line-height: 1; padding: 0; }
+  .widget-del:hover { color: var(--danger); }
+
+  /* Widget content types */
+  .metric-big { font-size: 2rem; font-weight: 700; color: var(--accent); }
+  .metric-sub { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+  .metric-delta { font-size: 0.82rem; margin-top: 6px; }
+  .delta-up { color: var(--success); } .delta-down { color: var(--danger); }
+
+  /* Mini bar chart */
+  .mini-bars { display: flex; align-items: flex-end; gap: 3px; height: 60px; margin-top: 4px; }
+  .mini-bar { flex: 1; background: var(--accent); border-radius: 2px 2px 0 0; opacity: 0.7; min-height: 4px; }
+
+  /* Mini line (SVG) */
+  svg.sparkline { width: 100%; height: 50px; margin-top: 6px; }
+
+  /* Donut */
+  .donut-wrap { display: flex; align-items: center; gap: 12px; margin-top: 6px; }
+  svg.donut { width: 70px; height: 70px; flex-shrink: 0; }
+  .donut-legend { font-size: 0.72rem; display: flex; flex-direction: column; gap: 4px; }
+  .donut-item { display: flex; align-items: center; gap: 5px; }
+  .donut-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  .empty-canvas { text-align: center; padding: 60px 20px; color: var(--muted); }
+  .empty-canvas .icon { font-size: 2.5rem; margin-bottom: 10px; }
+
+  .cta-box { background: linear-gradient(135deg, rgba(0,229,255,.08), rgba(0,229,255,.02)); border: 1px solid rgba(0,229,255,.25); border-radius: 12px; padding: 28px 24px; text-align: center; margin-top: 32px; }
+  .cta-box h2 { font-size: 1.25rem; margin-bottom: 8px; }
+  .cta-box p { color: var(--muted); margin-bottom: 20px; font-size: 0.9rem; }
+  .btn-cta { display: inline-block; background: var(--accent); color: #0A0E1A; font-weight: 700; padding: 12px 32px; border-radius: 8px; font-size: 1rem; text-decoration: none; }
+  .btn-cta:hover { opacity: .9; text-decoration: none; }
+  .demo-note { color: var(--muted); font-size: 0.82rem; margin-top: 14px; }
+
+  footer { text-align: center; padding: 24px; color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--border); margin-top: 40px; }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Analytics<span>Hub</span> — Dashboard Builder</div>
+  <span class="badge">Demo</span>
+</header>
+
+<div class="container">
+  <h1>Dashboard Builder</h1>
+  <p class="subtitle">Drag widgets onto your canvas to compose custom analytics dashboards.</p>
+
+  <div class="layout">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-title">Widget Palette</div>
+      <div class="widget-palette">
+        <div class="palette-item" onclick="addWidget('metric')"><div class="icon">🔢</div><div class="info"><div class="name">Metric Card</div><div class="desc">Single KPI value</div></div></div>
+        <div class="palette-item" onclick="addWidget('bar')"><div class="icon">📊</div><div class="info"><div class="name">Bar Chart</div><div class="desc">Daily/weekly bars</div></div></div>
+        <div class="palette-item" onclick="addWidget('line')"><div class="icon">📈</div><div class="info"><div class="name">Line Chart</div><div class="desc">Trend over time</div></div></div>
+        <div class="palette-item" onclick="addWidget('donut')"><div class="icon">🍩</div><div class="info"><div class="name">Donut Chart</div><div class="desc">Distribution</div></div></div>
+        <div class="palette-item" onclick="addWidget('table')"><div class="icon">📋</div><div class="info"><div class="name">Top Items Table</div><div class="desc">Ranked list</div></div></div>
+      </div>
+    </div>
+
+    <!-- Canvas -->
+    <div class="canvas">
+      <div class="canvas-toolbar">
+        <span class="canvas-title">Dashboard Canvas</span>
+        <button class="btn-sm" onclick="loadSample()">Load Sample</button>
+        <button class="btn-sm" onclick="clearCanvas()">Clear</button>
+        <span id="widgetCountBadge" style="font-size:.78rem;color:var(--muted)">0 widgets</span>
+      </div>
+      <div class="widget-grid" id="widgetGrid">
+        <div class="empty-canvas" id="emptyMsg" style="grid-column:1/-1">
+          <div class="icon">📐</div>
+          <div>Click a widget in the palette to add it to your dashboard</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h2>Get the Full Dashboard Builder</h2>
+    <p>Real drag-and-drop grid, live data connectors (PostgreSQL, BigQuery, Segment), widget resize handles, share URLs, scheduled PDF exports, and team collaboration.</p>
+    <a class="btn-cta" href="https://buy.stripe.com/eVqbJ19uTc98eRIeWJgjI3W">Buy Full Version — $79.00</a>
+    <button class="crypto-pay-btn" data-product-slug="dashboard-generator" data-store-slug="analytics-hub" data-product-name="Dashboard Generator" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+    <div class="demo-note">This demo shows limited functionality. Buy the full tool for all features.</div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 CodeVault / Analytics Hub &mdash; <a href="https://buy.stripe.com/eVqbJ19uTc98eRIeWJgjI3W">Back to Store</a>
+  &mdash; <a href="index.html">All Demos</a>
+</footer>
+
+<script>
+let widgetCount = 0;
+
+const METRICS = [
+  { name: 'Monthly Active Users', val: '24,891', delta: '+12%', up: true },
+  { name: 'Revenue (MRR)', val: '$41,220', delta: '+8%', up: true },
+  { name: 'Churn Rate', val: '3.4%', delta: '+0.3pp', up: false },
+  { name: 'Avg Session Duration', val: '4m 22s', delta: '+15s', up: true },
+  { name: 'New Signups Today', val: '187', delta: '+23%', up: true },
+  { name: 'Support Tickets Open', val: '42', delta: '-8%', up: true },
+];
+
+const TABLE_DATA = [
+  { item: '/pricing', val: '12,440 views' },
+  { item: '/dashboard', val: '9,820 views' },
+  { item: '/signup', val: '6,301 views' },
+  { item: '/features', val: '4,102 views' },
+  { item: '/blog', val: '2,890 views' },
+];
+
+const DONUT_SETS = [
+  { title: 'Traffic Source', slices: [{l:'Organic',v:42,c:'#00E5FF'},{l:'Direct',v:28,c:'#00E676'},{l:'Paid',v:18,c:'#FF9800'},{l:'Social',v:12,c:'#E91E63'}] },
+  { title: 'Device Type', slices: [{l:'Desktop',v:55,c:'#00E5FF'},{l:'Mobile',v:38,c:'#00E676'},{l:'Tablet',v:7,c:'#FF9800'}] },
+];
+
+function randBars(n=10) { return Array.from({length:n}, ()=>Math.floor(Math.random()*90)+10); }
+function randLine(n=14) {
+  let v = 50; return Array.from({length:n}, ()=>{ v += (Math.random()-0.45)*15; v=Math.max(5,Math.min(100,v)); return Math.round(v); });
+}
+
+function buildSparkline(data) {
+  const w=200, h=50, max=Math.max(...data), min=Math.min(...data);
+  const pts = data.map((v,i)=>`${Math.round(i/(data.length-1)*w)},${Math.round(h-(v-min)/(max-min||1)*(h-4)-2)}`).join(' ');
+  return `<svg class="sparkline" viewBox="0 0 ${w} ${h}"><polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/></svg>`;
+}
+
+function buildDonut(slices) {
+  let offset=0; const r=28, cx=35, cy=35, circ=2*Math.PI*r;
+  const paths = slices.map(s=>{
+    const dash=circ*s.v/100; const o=offset; offset+=dash;
+    return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${s.c}" stroke-width="12" stroke-dasharray="${dash} ${circ-dash}" stroke-dashoffset="${-o}" transform="rotate(-90 ${cx} ${cy})"/>`;
+  }).join('');
+  const legend = slices.map(s=>`<div class="donut-item"><div class="donut-dot" style="background:${s.c}"></div>${s.l} (${s.v}%)</div>`).join('');
+  return `<div class="donut-wrap">
+    <svg class="donut" viewBox="0 0 70 70">${paths}</svg>
+    <div class="donut-legend">${legend}</div>
+  </div>`;
+}
+
+function addWidget(type) {
+  document.getElementById('emptyMsg')?.remove();
+  const id = 'w-' + (widgetCount++);
+  const div = document.createElement('div');
+  div.className = 'widget';
+  div.id = id;
+
+  let content = '';
+  if (type === 'metric') {
+    const m = METRICS[Math.floor(Math.random()*METRICS.length)];
+    content = `<div class="widget-header"><div class="widget-name">${m.name}</div><button class="widget-del" onclick="removeWidget('${id}')">×</button></div>
+      <div class="metric-big">${m.val}</div>
+      <div class="metric-delta ${m.up?'delta-up':'delta-down'}">${m.up?'↑':'↓'} ${m.delta} vs last period</div>`;
+  } else if (type === 'bar') {
+    const bars = randBars(10); const max = Math.max(...bars);
+    const barHtml = bars.map(v=>`<div class="mini-bar" style="height:${Math.max(4,(v/max)*100)}%"></div>`).join('');
+    content = `<div class="widget-header"><div class="widget-name">Daily Events</div><button class="widget-del" onclick="removeWidget('${id}')">×</button></div>
+      <div class="mini-bars">${barHtml}</div>
+      <div class="metric-sub" style="margin-top:4px">Last 10 days</div>`;
+  } else if (type === 'line') {
+    const data = randLine(14);
+    content = `<div class="widget-header"><div class="widget-name">Active Users Trend</div><button class="widget-del" onclick="removeWidget('${id}')">×</button></div>
+      ${buildSparkline(data)}
+      <div class="metric-sub">14-day trend</div>`;
+  } else if (type === 'donut') {
+    const ds = DONUT_SETS[Math.floor(Math.random()*DONUT_SETS.length)];
+    content = `<div class="widget-header"><div class="widget-name">${ds.title}</div><button class="widget-del" onclick="removeWidget('${id}')">×</button></div>
+      ${buildDonut(ds.slices)}`;
+  } else if (type === 'table') {
+    const rows = TABLE_DATA.map(r=>`<tr><td style="padding:4px 0;font-size:.8rem">${r.item}</td><td style="padding:4px 0;font-size:.8rem;text-align:right;color:var(--accent)">${r.val}</td></tr>`).join('');
+    content = `<div class="widget-header"><div class="widget-name">Top Pages</div><button class="widget-del" onclick="removeWidget('${id}')">×</button></div>
+      <table style="width:100%;border-collapse:collapse">${rows}</table>`;
+  }
+
+  div.innerHTML = content;
+  document.getElementById('widgetGrid').appendChild(div);
+  updateCount();
+}
+
+function removeWidget(id) {
+  document.getElementById(id)?.remove();
+  updateCount();
+  if (document.querySelectorAll('.widget').length === 0) {
+    const empty = document.createElement('div');
+    empty.id = 'emptyMsg'; empty.className = 'empty-canvas';
+    empty.style.gridColumn = '1/-1';
+    empty.innerHTML = '<div class="icon">📐</div><div>Click a widget in the palette to add it to your dashboard</div>';
+    document.getElementById('widgetGrid').appendChild(empty);
+  }
+}
+
+function updateCount() {
+  const n = document.querySelectorAll('.widget').length;
+  document.getElementById('widgetCountBadge').textContent = n + ' widget' + (n!==1?'s':'');
+}
+
+function clearCanvas() {
+  document.getElementById('widgetGrid').innerHTML = `
+    <div class="empty-canvas" id="emptyMsg" style="grid-column:1/-1">
+      <div class="icon">📐</div>
+      <div>Click a widget in the palette to add it to your dashboard</div>
+    </div>`;
+  widgetCount = 0; updateCount();
+}
+
+function loadSample() {
+  clearCanvas();
+  ['metric','metric','metric','bar','line','donut','table','metric'].forEach(t => addWidget(t));
+}
+
+loadSample();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

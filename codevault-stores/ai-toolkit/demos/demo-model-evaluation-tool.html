@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Model Evaluation Tool — Demo | AI Toolkit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#FF1744}.header .back{color:#FF1744;text-decoration:none;font-size:.85rem}
+  .container{max-width:900px;margin:0 auto;padding:28px 20px}
+  h2{font-size:1.5rem;margin-bottom:6px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px;margin-bottom:18px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#FF1744;margin-bottom:14px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:600px){.grid2{grid-template-columns:1fr}}
+  label{display:block;font-size:.8rem;color:#8899aa;margin-bottom:4px}
+  textarea{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:8px 10px;font-size:.82rem;margin-bottom:10px;outline:none;transition:border-color .2s;font-family:'Courier New',monospace}
+  textarea:focus{border-color:#FF1744}
+  .btn{padding:11px 20px;border:none;border-radius:8px;font-size:.92rem;font-weight:600;cursor:pointer;background:#FF1744;color:#fff;transition:all .2s}
+  .btn:hover{background:#ff4060}
+  .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+  @media(max-width:600px){.metrics-grid{grid-template-columns:repeat(2,1fr)}}
+  .metric{background:#060a12;border:1px solid #1e2a3a;border-radius:8px;padding:14px;text-align:center}
+  .metric-val{font-size:1.6rem;font-weight:700;color:#FF1744}
+  .metric-label{font-size:.72rem;color:#8899aa;margin-top:3px}
+  .metric-bar{height:4px;background:#1e2a3a;border-radius:2px;margin-top:8px;overflow:hidden}
+  .metric-bar-fill{height:100%;background:#FF1744;border-radius:2px;transition:width .5s}
+  .cm-wrap{overflow-x:auto}
+  table.cm{border-collapse:collapse;font-size:.8rem}
+  .cm th,.cm td{padding:8px 12px;border:1px solid #1e2a3a;text-align:center}
+  .cm th{background:#060a12;color:#8899aa}
+  .cm .cm-diag{background:rgba(255,23,68,.15);color:#FF1744;font-weight:600}
+  .cm .cm-off{color:#8899aa}
+  .class-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:.82rem}
+  .class-bar{flex:1;height:14px;background:#1e2a3a;border-radius:3px;overflow:hidden}
+  .class-fill{height:100%;background:#FF1744;border-radius:3px}
+  .class-label{width:80px;color:#8899aa}
+  .class-val{width:40px;color:#FF1744;text-align:right}
+  .cta-bar{background:linear-gradient(135deg,#0d1321,#111827);border:1px solid #FF1744;border-radius:12px;padding:20px;text-align:center;margin-top:18px}
+  .cta-bar p{color:#8899aa;font-size:.85rem;margin-bottom:12px;margin-top:6px}
+  .cta-btn{display:inline-block;background:#FF1744;color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s}
+  .cta-btn:hover{background:#ff4060;transform:translateY(-2px)}
+  .footer-note{text-align:center;color:#445566;font-size:.77rem;margin-top:16px;padding-top:12px;border-top:1px solid #1e2a3a}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🤖 AI Toolkit — Model Evaluation Tool Demo</h1>
+  <a class="back" href="../index.html">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>Model Metrics Calculator</h2>
+  <p class="subtitle">Enter predicted vs. actual labels to compute precision, recall, F1-score, and confusion matrix.</p>
+
+  <div class="grid2" style="margin-bottom:18px">
+    <div class="panel">
+      <h3>📥 Input Labels</h3>
+      <label>Actual Labels (one per line or comma-separated)</label>
+      <textarea id="actual" rows="8">positive
+negative
+positive
+neutral
+negative
+positive
+positive
+neutral
+negative
+negative
+positive
+neutral</textarea>
+    </div>
+    <div class="panel">
+      <h3>🤖 Predicted Labels</h3>
+      <label>Model Predictions (one per line or comma-separated)</label>
+      <textarea id="predicted" rows="8">positive
+negative
+neutral
+neutral
+negative
+positive
+negative
+neutral
+positive
+negative
+positive
+positive</textarea>
+      <button class="btn" onclick="evaluate()" style="width:100%;margin-top:8px">▶ Evaluate</button>
+    </div>
+  </div>
+
+  <div class="metrics-grid" id="metricsGrid">
+    <div class="metric"><div class="metric-val" id="mAcc">—</div><div class="metric-label">Accuracy</div><div class="metric-bar"><div class="metric-bar-fill" id="bAcc" style="width:0%"></div></div></div>
+    <div class="metric"><div class="metric-val" id="mPrec">—</div><div class="metric-label">Precision (macro)</div><div class="metric-bar"><div class="metric-bar-fill" id="bPrec" style="width:0%"></div></div></div>
+    <div class="metric"><div class="metric-val" id="mRec">—</div><div class="metric-label">Recall (macro)</div><div class="metric-bar"><div class="metric-bar-fill" id="bRec" style="width:0%"></div></div></div>
+    <div class="metric"><div class="metric-val" id="mF1">—</div><div class="metric-label">F1 Score (macro)</div><div class="metric-bar"><div class="metric-bar-fill" id="bF1" style="width:0%"></div></div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="panel">
+      <h3>📊 Confusion Matrix</h3>
+      <div class="cm-wrap" id="cmWrap"><div style="color:#445566;text-align:center;padding:20px">Run evaluation to see matrix</div></div>
+    </div>
+    <div class="panel">
+      <h3>📋 Per-Class Metrics</h3>
+      <div id="perClass"><div style="color:#445566;text-align:center;padding:20px">Run evaluation to see breakdown</div></div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Get the Full Model Evaluation Tool</h3>
+    <p>Python + HuggingFace integration: BLEU/ROUGE scoring, side-by-side model comparison, evaluation datasets, and HTML report export.</p>
+    <a class="cta-btn" href="https://buy.stripe.com/4gMdR9gXlflk7pgbKxgjI3Q">Buy Full Version — $49.00</a>
+    <button class="crypto-pay-btn" data-product-slug="model-evaluation-tool" data-store-slug="ai-toolkit" data-product-name="Model Evaluation Tool" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+function parseLabels(str) {
+  return str.split(/[\n,]+/).map(s=>s.trim()).filter(Boolean);
+}
+
+function evaluate() {
+  const actual = parseLabels(document.getElementById('actual').value);
+  const predicted = parseLabels(document.getElementById('predicted').value);
+  if(actual.length !== predicted.length) {
+    alert(`Length mismatch: ${actual.length} actual vs ${predicted.length} predicted`);
+    return;
+  }
+  const classes = [...new Set([...actual,...predicted])].sort();
+  const n = actual.length;
+  const correct = actual.filter((a,i)=>a===predicted[i]).length;
+  const acc = correct/n;
+
+  // Build confusion matrix
+  const cm = {};
+  classes.forEach(c=>cm[c]={});
+  classes.forEach(c=>classes.forEach(d=>cm[c][d]=0));
+  for(let i=0;i<n;i++) cm[actual[i]][predicted[i]]++;
+
+  // Per-class metrics
+  const classMetrics = classes.map(c=>{
+    const tp = cm[c][c];
+    const fp = classes.reduce((s,r)=>r!==c?s+cm[r][c]:s,0);
+    const fn = classes.reduce((s,d)=>d!==c?s+cm[c][d]:s,0);
+    const prec = tp+fp>0?tp/(tp+fp):0;
+    const rec = tp+fn>0?tp/(tp+fn):0;
+    const f1 = prec+rec>0?2*prec*rec/(prec+rec):0;
+    return {c,tp,fp,fn,prec,rec,f1};
+  });
+
+  const macroPrec = classMetrics.reduce((s,m)=>s+m.prec,0)/classes.length;
+  const macroRec = classMetrics.reduce((s,m)=>s+m.rec,0)/classes.length;
+  const macroF1 = classMetrics.reduce((s,m)=>s+m.f1,0)/classes.length;
+
+  const pct = v => `${(v*100).toFixed(0)}%`;
+  document.getElementById('mAcc').textContent = pct(acc);
+  document.getElementById('mPrec').textContent = pct(macroPrec);
+  document.getElementById('mRec').textContent = pct(macroRec);
+  document.getElementById('mF1').textContent = pct(macroF1);
+  ['Acc','Prec','Rec','F1'].forEach((k,i)=>{
+    const vals=[acc,macroPrec,macroRec,macroF1];
+    document.getElementById('b'+k).style.width = pct(vals[i]);
+  });
+
+  // Confusion matrix
+  document.getElementById('cmWrap').innerHTML = `<table class="cm">
+    <thead><tr><th>A\\P</th>${classes.map(c=>`<th>${c}</th>`).join('')}</tr></thead>
+    <tbody>${classes.map(r=>`<tr><th>${r}</th>${classes.map(d=>`<td class="${r===d?'cm-diag':'cm-off'}">${cm[r][d]}</td>`).join('')}</tr>`).join('')}</tbody>
+  </table>`;
+
+  // Per-class
+  document.getElementById('perClass').innerHTML = classMetrics.map(m=>`
+    <div style="margin-bottom:10px">
+      <div style="font-size:.8rem;color:#fff;margin-bottom:4px;font-weight:600">${m.c}</div>
+      <div class="class-row"><span class="class-label">Precision</span><div class="class-bar"><div class="class-fill" style="width:${m.prec*100}%"></div></div><span class="class-val">${pct(m.prec)}</span></div>
+      <div class="class-row"><span class="class-label">Recall</span><div class="class-bar"><div class="class-fill" style="width:${m.rec*100}%"></div></div><span class="class-val">${pct(m.rec)}</span></div>
+      <div class="class-row"><span class="class-label">F1</span><div class="class-bar"><div class="class-fill" style="width:${m.f1*100}%"></div></div><span class="class-val">${pct(m.f1)}</span></div>
+    </div>`).join('');
+}
+evaluate();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

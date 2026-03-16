@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stream Schedule Builder — Creator Kit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0a0f;
+      color: #ffffff;
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      padding: 30px;
+    }
+
+    .builder-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: #00f0ff;
+      text-align: center;
+      margin-bottom: 8px;
+      text-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+    }
+
+    .builder-subtitle {
+      text-align: center;
+      color: #667;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 30px;
+    }
+
+    .controls {
+      max-width: 700px;
+      margin: 0 auto 30px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+
+    .control-group label {
+      display: block;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #667;
+      margin-bottom: 6px;
+    }
+
+    .control-group input, .control-group select {
+      width: 100%;
+      background: rgba(15, 15, 30, 0.9);
+      border: 1px solid #223;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .control-group input:focus, .control-group select:focus {
+      border-color: #00f0ff;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+    }
+
+    .schedule-table {
+      max-width: 700px;
+      margin: 0 auto 30px;
+    }
+
+    .day-editor {
+      display: grid;
+      grid-template-columns: 80px 50px 130px 130px 1fr 100px;
+      gap: 8px;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #1a1a2a;
+    }
+
+    .day-editor .day-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #556;
+      transition: color 0.2s;
+    }
+
+    .day-editor.active .day-name { color: #00f0ff; }
+
+    .day-editor .toggle {
+      width: 40px;
+      height: 22px;
+      background: #1a1a2a;
+      border-radius: 11px;
+      position: relative;
+      cursor: pointer;
+      border: 1px solid #334;
+      transition: all 0.3s;
+    }
+
+    .day-editor .toggle.on {
+      background: rgba(0, 240, 255, 0.2);
+      border-color: #00f0ff;
+    }
+
+    .day-editor .toggle::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #556;
+      top: 2px;
+      left: 2px;
+      transition: all 0.3s;
+    }
+
+    .day-editor .toggle.on::after {
+      left: 20px;
+      background: #00f0ff;
+      box-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+    }
+
+    .day-editor input, .day-editor select {
+      background: rgba(15, 15, 30, 0.7);
+      border: 1px solid #223;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .day-editor input:disabled, .day-editor select:disabled {
+      opacity: 0.2;
+    }
+
+    .day-editor input:focus {
+      border-color: #00f0ff;
+    }
+
+    .actions {
+      max-width: 700px;
+      margin: 0 auto;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .btn {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 12px 28px;
+      border: 2px solid #00f0ff;
+      border-radius: 6px;
+      background: transparent;
+      color: #00f0ff;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background: rgba(0, 240, 255, 0.1);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+    }
+
+    .btn-secondary {
+      border-color: #ff00e5;
+      color: #ff00e5;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 0, 229, 0.1);
+      box-shadow: 0 0 20px rgba(255, 0, 229, 0.3);
+    }
+
+    .preview-area {
+      max-width: 700px;
+      margin: 40px auto 0;
+      border: 1px solid #223;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .preview-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #445;
+      padding: 10px 16px;
+      background: rgba(10, 10, 20, 0.8);
+      border-bottom: 1px solid #223;
+    }
+
+    #previewFrame {
+      width: 100%;
+      border: none;
+      height: 600px;
+      background: #0a0a0f;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="builder-title">Schedule Builder</div>
+  <div class="builder-subtitle">Click to set your stream days, pick your games, export when ready</div>
+
+  <div class="controls">
+    <div class="control-group">
+      <label>Streamer Name</label>
+      <input type="text" id="streamerName" value="NeonPlayer" placeholder="Your name">
+    </div>
+    <div class="control-group">
+      <label>Timezone</label>
+      <select id="timezone">
+        <option value="EST">EST</option>
+        <option value="CST">CST</option>
+        <option value="PST">PST</option>
+        <option value="GMT">GMT</option>
+        <option value="CET">CET</option>
+        <option value="JST">JST</option>
+        <option value="AEST">AEST</option>
+      </select>
+    </div>
+    <div class="control-group">
+      <label>Accent Color</label>
+      <input type="color" id="accentColor" value="#00f0ff">
+    </div>
+  </div>
+
+  <div class="schedule-table" id="scheduleTable"></div>
+
+  <div class="actions">
+    <button class="btn" onclick="updatePreview()">Preview</button>
+    <button class="btn btn-secondary" onclick="exportHTML()">Export HTML</button>
+    <button class="btn btn-secondary" onclick="exportJSON()">Export JSON</button>
+  </div>
+
+  <div class="preview-area">
+    <div class="preview-label">Live Preview</div>
+    <iframe id="previewFrame"></iframe>
+  </div>
+
+  <script>
+    const DAYS = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+    const DAY_LABELS = {monday:'MON',tuesday:'TUE',wednesday:'WED',thursday:'THU',friday:'FRI',saturday:'SAT',sunday:'SUN'};
+    const GAMES = ['Valorant','Fortnite','Minecraft','Just Chatting','Apex Legends','League of Legends','GTA V','Variety','Creative','IRL'];
+    const TYPES = ['ranked','chill','collab','tournament','creative','variety','irl','special'];
+
+    const state = {};
+    DAYS.forEach(d => state[d] = { live: false, time: '7:00 PM', end_time: '10:00 PM', game: 'Variety', type: 'variety' });
+
+    function buildTable() {
+      const table = document.getElementById('scheduleTable');
+      table.innerHTML = '';
+      DAYS.forEach(day => {
+        const row = document.createElement('div');
+        row.className = 'day-editor' + (state[day].live ? ' active' : '');
+        row.id = 'row-' + day;
+
+        const gameOptions = GAMES.map(g => `<option value="${g}" ${state[day].game === g ? 'selected' : ''}>${g}</option>`).join('');
+        const typeOptions = TYPES.map(t => `<option value="${t}" ${state[day].type === t ? 'selected' : ''}>${t}</option>`).join('');
+        const dis = state[day].live ? '' : 'disabled';
+
+        row.innerHTML = `
+          <div class="day-name">${DAY_LABELS[day]}</div>
+          <div class="toggle ${state[day].live ? 'on' : ''}" onclick="toggleDay('${day}')"></div>
+          <input type="text" value="${state[day].time}" placeholder="Start time" ${dis} onchange="state['${day}'].time=this.value">
+          <input type="text" value="${state[day].end_time}" placeholder="End time" ${dis} onchange="state['${day}'].end_time=this.value">
+          <select ${dis} onchange="state['${day}'].game=this.value">${gameOptions}</select>
+          <select ${dis} onchange="state['${day}'].type=this.value">${typeOptions}</select>
+        `;
+        table.appendChild(row);
+      });
+    }
+
+    function toggleDay(day) {
+      state[day].live = !state[day].live;
+      buildTable();
+    }
+
+    function getScheduleData() {
+      const week = {};
+      DAYS.forEach(day => {
+        if (state[day].live) {
+          week[day] = { live: true, time: state[day].time, end_time: state[day].end_time, game: state[day].game, type: state[day].type };
+        } else {
+          week[day] = { live: false };
+        }
+      });
+      return {
+        streamer_name: document.getElementById('streamerName').value || 'Streamer',
+        timezone: document.getElementById('timezone').value,
+        week,
+        special_events: []
+      };
+    }
+
+    function updatePreview() {
+      const data = getScheduleData();
+      const accent = document.getElementById('accentColor').value;
+      // Build a minimal inline HTML preview
+      const iframe = document.getElementById('previewFrame');
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      doc.open();
+      doc.write(buildPreviewHTML(data, accent));
+      doc.close();
+    }
+
+    function buildPreviewHTML(data, accent) {
+      const secondary = '#ff00e5';
+      const daysOrder = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+      const abbrev = {monday:'MON',tuesday:'TUE',wednesday:'WED',thursday:'THU',friday:'FRI',saturday:'SAT',sunday:'SUN'};
+      let rows = '';
+      daysOrder.forEach(day => {
+        const info = data.week[day] || { live: false };
+        const a = abbrev[day];
+        if (info.live) {
+          const timeStr = info.end_time ? `${info.time} - ${info.end_time}` : info.time;
+          rows += `<div style="display:grid;grid-template-columns:70px 150px 1fr 60px;align-items:center;padding:12px 16px;margin-bottom:4px;border-radius:6px;background:linear-gradient(90deg,rgba(0,240,255,0.08),transparent);border-left:3px solid ${accent}">
+            <div style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:13px;letter-spacing:2px;color:${accent}">${a}</div>
+            <div style="font-size:14px;color:#ccc">${timeStr}</div>
+            <div style="font-size:15px;font-weight:600">${info.game || 'TBD'}</div>
+            <div style="font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:2px;color:${accent};background:rgba(0,240,255,0.12);padding:3px 8px;border-radius:4px;text-align:center;border:1px solid rgba(0,240,255,0.3)">LIVE</div>
+          </div>`;
+        } else {
+          rows += `<div style="display:grid;grid-template-columns:70px 150px 1fr 60px;align-items:center;padding:12px 16px;margin-bottom:4px;opacity:0.35">
+            <div style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:13px;letter-spacing:2px;color:#555">${a}</div>
+            <div style="font-size:14px;color:#555">—</div>
+            <div style="color:#555">Off Day</div>
+            <div style="font-family:'Orbitron',sans-serif;font-size:9px;color:#444">OFF</div>
+          </div>`;
+        }
+      });
+
+      return `<!DOCTYPE html><html><head>
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <style>*{box-sizing:border-box;margin:0;padding:0}body{background:#0a0a0f;color:#fff;font-family:'Rajdhani',sans-serif;display:flex;justify-content:center;padding:20px}</style>
+      </head><body>
+        <div style="background:linear-gradient(145deg,rgba(15,15,25,0.95),rgba(5,5,15,0.98));border:2px solid ${accent};border-radius:16px;padding:36px;width:100%;max-width:650px;box-shadow:0 0 30px rgba(0,240,255,0.15)">
+          <div style="text-align:center;margin-bottom:28px">
+            <div style="font-family:'Orbitron',sans-serif;font-size:24px;font-weight:900;text-transform:uppercase;letter-spacing:4px;color:${accent};text-shadow:0 0 20px rgba(0,240,255,0.4)">${data.streamer_name}</div>
+            <div style="font-size:14px;color:#667;letter-spacing:2px;text-transform:uppercase;margin-top:4px">Stream Schedule</div>
+            <div style="display:inline-block;background:rgba(0,240,255,0.1);color:${accent};font-family:'Orbitron',sans-serif;font-size:10px;padding:4px 12px;border-radius:20px;margin-top:10px;letter-spacing:2px">All times ${data.timezone}</div>
+          </div>
+          ${rows}
+          <div style="text-align:center;margin-top:20px;font-size:11px;color:#334">Schedule subject to change</div>
+        </div>
+      </body></html>`;
+    }
+
+    function exportHTML() {
+      const data = getScheduleData();
+      const accent = document.getElementById('accentColor').value;
+      const html = buildPreviewHTML(data, accent);
+      const blob = new Blob([html], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${data.streamer_name.toLowerCase().replace(/\s+/g,'-')}-schedule.html`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function exportJSON() {
+      const data = getScheduleData();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${data.streamer_name.toLowerCase().replace(/\s+/g,'-')}-schedule.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // Init
+    buildTable();
+    // Auto-enable a few days for the demo
+    state.monday.live = true; state.monday.game = 'Valorant'; state.monday.type = 'ranked';
+    state.wednesday.live = true; state.wednesday.game = 'Just Chatting'; state.wednesday.type = 'chill';
+    state.friday.live = true; state.friday.game = 'Variety'; state.friday.type = 'variety';
+    state.saturday.live = true; state.saturday.game = 'Minecraft'; state.saturday.type = 'creative';
+    buildTable();
+    setTimeout(updatePreview, 300);
+  </script>
+</body>
+</html>

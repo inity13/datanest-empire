@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mod Lab — Neon Bazaar</title>
+    <meta name="description" content="Game dev starter kits, mod templates, and scripting references for Godot, Unity, Roblox, Minecraft, Python, and HTML5. Start building today.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Mod Lab — Neon Bazaar">
+    <meta property="og:description" content="Game dev starter kits, mod templates, and scripting references for Godot, Unity, Roblox, Minecraft, Python, and HTML5. Start building today.">
+    <meta property="og:site_name" content="Neon Bazaar">
+
+    <meta property="og:url" content="https://inity13.github.io/neon-mod-lab/">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mod Lab — Neon Bazaar">
+    <meta name="twitter:description" content="Game dev starter kits, mod templates, and scripting references for Godot, Unity, Roblox, Minecraft, Python, and HTML5. Start building today.">
+
+    <!-- Favicon (inline SVG for no-dependency setup) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛍️</text></svg>">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#9D4EDD">
+
+
+</head>
+<body>
+    <nav class="cross-nav" aria-label="Neon Bazaar stores">
+        <div class="cross-nav__inner">
+            <span class="cross-nav__brand">Neon Bazaar</span>
+        <a href="../pixel-forge/storefront/index.html" class="cross-nav__link">Pixel Forge</a>
+        <a href="../game-vault/storefront/index.html" class="cross-nav__link">Game Vault</a>
+        <a href="../creator-kit/storefront/index.html" class="cross-nav__link">Creator Kit</a>
+        <a href="#" class="cross-nav__link cross-nav__link--active" style="--nb-accent: #9D4EDD">Mod Lab</a>
+        <a href="../aesthetic-studio/storefront/index.html" class="cross-nav__link">Aesthetic Studio</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="top">
+        <div class="container">
+            <h1 class="hero__title glitch" data-text="Mod Lab">Mod Lab</h1>
+            <p class="hero__subtitle">Starter kits and templates so you can skip the boilerplate and start building</p>
+            <div class="hero__cta-row">
+                <a href="#products" class="btn btn--primary">Browse the goods</a>
+                <a href="#faq" class="btn btn--secondary">How it works</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Products Section -->
+    <section class="section" id="products">
+        <div class="container">
+            <h2 class="section__heading">What&rsquo;s in stock</h2>
+            <p class="section__subheading">Everything here was made with care. No filler, no fluff.</p>
+        <div class="filter-bar">
+            <span class="filter-bar__label">Filter:</span>
+            <button class="filter-tag active" data-filter="all">All</button>
+            <button class="filter-tag" data-filter="game-dev">game-dev</button>
+            <button class="filter-tag" data-filter="python">python</button>
+            <button class="filter-tag" data-filter="bundle">bundle</button>
+            <button class="filter-tag" data-filter="lua">lua</button>
+            <button class="filter-tag" data-filter="all-engines">all-engines</button>
+            <button class="filter-tag" data-filter="bot">bot</button>
+            <button class="filter-tag" data-filter="canvas">canvas</button>
+            <button class="filter-tag" data-filter="discord">discord</button>
+            <button class="filter-tag" data-filter="games">games</button>
+            <button class="filter-tag" data-filter="gdd">gdd</button>
+            <button class="filter-tag" data-filter="godot">godot</button>
+            <button class="filter-tag" data-filter="html5">html5</button>
+            <select class="sort-select" aria-label="Sort products">
+                <option value="default">Sort: Featured</option>
+                <option value="price-asc">Price: Low → High</option>
+                <option value="price-desc">Price: High → Low</option>
+            </select>
+        </div>
+            <div class="product-grid">
+        <article class="product-card product-card--bundle fade-in"
+                 data-tags="bundle,starter"
+                 data-price="900"
+                 data-slug="mod-lab-starter-bundle">
+            <div class="product-card__inner">
+                <div>
+                    <span class="bundle-badge">BUNDLE DEAL</span>
+                    <h3 class="product-card__name" style="margin-top: 12px">Mod Lab Starter Bundle</h3>
+                    <p class="product-card__desc">The planning essentials — Game Design Document, Lua Scripting Cheatsheet, and Python Game Starter Pack bundled together.</p>
+            <div class="product-card__tags"><span class="product-card__tag">bundle</span><span class="product-card__tag">starter</span></div>
+                    <ul class="product-card__bundle-list"><li>Game Design Document</li><li>Lua Scripting Cheatsheet</li><li>Python Game Starter</li></ul>
+                </div>
+                <div>
+                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$9.00</p>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/cNi6oHayX4GGfVM3e1gjG2j"
+                           data-product="mod-lab-starter-bundle">
+                            Grab This Bundle
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Mod Lab Starter Bundle"
+                                data-crypto-price="900">
+                            Pay with Crypto ($7.20)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <article class="product-card product-card--bundle fade-in"
+                 data-tags="bundle,mega-pack"
+                 data-price="1900"
+                 data-slug="mod-lab-ultimate-bundle">
+            <div class="product-card__inner">
+                <div>
+                    <span class="bundle-badge">BUNDLE DEAL</span>
+                    <h3 class="product-card__name" style="margin-top: 12px">Mod Lab Ultimate Bundle</h3>
+                    <p class="product-card__desc">Every kit, every template, every cheatsheet — the complete Mod Lab collection. Build anything.</p>
+            <div class="product-card__tags"><span class="product-card__tag">bundle</span><span class="product-card__tag">mega-pack</span></div>
+                    <ul class="product-card__bundle-list"><li>Discord Bot Starter</li><li>Game Design Document</li><li>Godot Platformer Kit</li><li>Lua Scripting Cheatsheet</li><li>Minecraft Mod Starter</li><li>Pixel Game Physics</li><li>Python Game Starter</li><li>Roblox Game Template</li><li>Unity 2D Rpg Kit</li><li>Web Game Html5 Kit</li></ul>
+                </div>
+                <div>
+                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$19.00</p>
+                    <div class="product-card__actions">
+                        <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/bJe8wPdL91uu6lc9CpgjG2k"
+                           data-product="mod-lab-ultimate-bundle">
+                            Grab This Bundle
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Mod Lab Ultimate Bundle"
+                                data-crypto-price="1900">
+                            Pay with Crypto ($15.20)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <article class="product-card fade-in"
+                 data-tags="discord,bot,python"
+                 data-price="500"
+                 data-slug="discord-bot-starter">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Discord Bot Starter Kit</h3>
+                <span class="product-card__price">$5.00</span>
+            </div>
+            <p class="product-card__desc">A clean Python Discord bot scaffold with command handling, event listeners, and config management. Ready to extend.</p>
+            <div class="product-card__tags"><span class="product-card__tag">discord</span><span class="product-card__tag">bot</span><span class="product-card__tag">python</span></div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/6oU8wP7mLb54gZQ3e1gjG29"
+                   data-product="discord-bot-starter">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Discord Bot Starter Kit"
+                        data-crypto-price="500">
+                    Pay with Crypto ($4.00)
+                </button>
+            </div>
+        </article>
+        <article class="product-card fade-in"
+                 data-tags="gdd,planning,all-engines"
+                 data-price="300"
+                 data-slug="game-design-document">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Game Design Document</h3>
+                <span class="product-card__price">$3.00</span>
+            </div>
+            <p class="product-card__desc">A structured GDD template in Markdown + JSON. Covers mechanics, progression, art direction, and scope planning.</p>
+            <div class="product-card__tags"><span class="product-card__tag">gdd</span><span class="product-card__tag">planning</span><span class="product-card__tag">all-engines</span></div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/5kQ28r36vflk3906qdgjG2a"
+                   data-product="game-design-document">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Game Design Document"
+                        data-crypto-price="300">
+                    Pay with Crypto ($2.40)
+                </button>
+            </div>
+        </article>
+        <article class="product-card fade-in"
+                 data-tags="godot,platformer,game-dev"
+                 data-price="700"
+                 data-slug="godot-platformer-kit">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Godot Platformer Kit</h3>
+                <span class="product-card__price">$7.00</span>
+            </div>
+            <p class="product-card__desc">A complete 2D platformer starter project for Godot 4 — player controller, enemies, collectibles, and level design tools.</p>
+            <div class="product-card__tags"><span class="product-card__tag">godot</span><span class="product-card__tag">platformer</span><span class="product-card__tag">game-dev</span></div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/9B66oH6iHflk6lcaGtgjG2b"
+                   data-product="godot-platformer-kit">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Godot Platformer Kit"
+                        data-crypto-price="700">
+                    Pay with Crypto ($5.60)
+                </button>
+            </div>
+        </article>
+        <article class="product-card fade-in"
+                 data-tags="lua,reference,scripting"
+                 data-price="300"
+                 data-slug="lua-scripting-cheatsheet">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Lua Scripting Cheatsheet</h3>
+                <span class="product-card__price">$3.00</span>
+            </div>
+            <p class="product-card__desc">Quick-reference Lua cheatsheet covering tables, metatables, coroutines, and Roblox/LOVE2D-specific patterns.</p>
+            <div class="product-card__tags"><span class="product-card__tag">lua</span><span class="product-card__tag">reference</span><span class="product-card__tag">scripting</span></div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/dRm6oHayX2yy4d429XgjG2c"
+                   data-product="lua-scripting-cheatsheet">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Lua Scripting Cheatsheet"
+                        data-crypto-price="300">
+                    Pay with Crypto ($2.40)
+                </button>
+            </div>
+        </article>
+        <article class="product-card fade-in"
+                 data-tags="minecraft,modding,java"
+                 data-price="700"
+                 data-slug="minecraft-mod-starter">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Minecraft Mod Starter Kit</h3>
+                <span class="product-card__price">$7.00</span>
+            </div>
+            <p class="product-card__desc">Java-based Minecraft mod scaffold with custom blocks, items, recipes, and world generation hooks. Forge + Fabric support.</p>
+            <div class="product-card__tags"><span class="product-card__tag">minecraft</span><span class="product-card__tag">modding</span><span class="product-card__tag">java</span></div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/fZueVdfTh0qq5h815TgjG2d"
+                   data-product="minecraft-mod-starter">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Minecraft Mod Starter Kit"
+                        data-crypto-price="700">
+                    Pay with Crypto ($5.60)
+                </button>
+            </div>
+        </article>
+        <article class="product-card fade-in"
+                 data-tags="physics,python,game-dev"
+                 data-price="500"
+                 data-slug="pixel-game-physics">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Pixel Game Physics</h3>
+                <span class="product-card__price">$5.00</span>
+            </div>
+            <p class="product-card__desc">Python physics engine for 2D pixel games — collision detection, gravity, friction, and projectile math. Zero dependencies.</p>
+            <div class="product-card__tags"><span class="product-card__tag">physics</span><span class="product-card__tag">python</span><span class="product-card__tag">game-dev</span></div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/6oUfZh7mL3CCaBs5m9gjG2e"
+                   data-product="pixel-game-physics">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Pixel Game Physics"
+                        data-crypto-price="500">
+                    Pay with Crypto ($4.00)
+                </button>
+            </div>
+        </article>
+        <article class="product-card fade-in"
+                 data-tags="python,games,tkinter"
+                 data-price="500"
+                 data-slug="python-game-starter">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Python Game Starter Pack</h3>
+                <span class="product-card__price">$5.00</span>
+            </div>
+            <p class="product-card__desc">Starter templates for building games with Python&#x27;s tkinter — game loop, input handling, sprite rendering, and sound.</p>
+            <div class="product-card__tags"><span class="product-card__tag">python</span><span class="product-card__tag">games</span><span class="product-card__tag">tkinter</span></div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/3cIbJ1ayX0qqaBs6qdgjG2f"
+                   data-product="python-game-starter">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Python Game Starter Pack"
+                        data-crypto-price="500">
+                    Pay with Crypto ($4.00)
+                </button>
+            </div>
+        </article>
+        <article class="product-card fade-in"
+                 data-tags="roblox,lua,game-dev"
+                 data-price="500"
+                 data-slug="roblox-game-template">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Roblox Game Template</h3>
+                <span class="product-card__price">$5.00</span>
+            </div>
+            <p class="product-card__desc">A Roblox game template with player spawning, leaderboards, in-game shop, and obby mechanics in Lua.</p>
+            <div class="product-card__tags"><span class="product-card__tag">roblox</span><span class="product-card__tag">lua</span><span class="product-card__tag">game-dev</span></div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/9B67sL7mL0qqaBsg0NgjG2g"
+                   data-product="roblox-game-template">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Roblox Game Template"
+                        data-crypto-price="500">
+                    Pay with Crypto ($4.00)
+                </button>
+            </div>
+        </article>
+        <article class="product-card fade-in"
+                 data-tags="unity,rpg,game-dev"
+                 data-price="700"
+                 data-slug="unity-2d-rpg-kit">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Unity 2D RPG Kit</h3>
+                <span class="product-card__price">$7.00</span>
+            </div>
+            <p class="product-card__desc">Unity 2D RPG starter — dialogue system, inventory, turn-based combat, and tile-based movement. C# throughout.</p>
+            <div class="product-card__tags"><span class="product-card__tag">unity</span><span class="product-card__tag">rpg</span><span class="product-card__tag">game-dev</span></div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/4gMdR97mL3CC5h83e1gjG2h"
+                   data-product="unity-2d-rpg-kit">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Unity 2D RPG Kit"
+                        data-crypto-price="700">
+                    Pay with Crypto ($5.60)
+                </button>
+            </div>
+        </article>
+        <article class="product-card fade-in"
+                 data-tags="html5,canvas,web"
+                 data-price="500"
+                 data-slug="web-game-html5-kit">
+            <div class="product-card__header">
+                <h3 class="product-card__name">Web Game HTML5 Kit</h3>
+                <span class="product-card__price">$5.00</span>
+            </div>
+            <p class="product-card__desc">Vanilla HTML5 Canvas game template — game loop, sprite system, input handling, and audio. No frameworks, no build tools.</p>
+            <div class="product-card__tags"><span class="product-card__tag">html5</span><span class="product-card__tag">canvas</span><span class="product-card__tag">web</span></div>
+            <div class="product-card__actions">
+                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/bJe28r4az1uuaBs6qdgjG2i"
+                   data-product="web-game-html5-kit">
+                    Grab This
+                </a>
+                <button class="btn btn--crypto btn--card"
+                        data-crypto-product="Web Game HTML5 Kit"
+                        data-crypto-price="500">
+                    Pay with Crypto ($4.00)
+                </button>
+            </div>
+        </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="trust-section" id="trust">
+        <div class="container">
+            <h2 class="section__heading">Why people grab from here</h2>
+            <p class="section__subheading">No cap — here's why this store hits different</p>
+            <div class="trust-grid">
+            <div class="trust-card fade-in">
+                <div class="trust-card__icon">⚡</div>
+                <p class="trust-card__text">
+                    <strong>Instant digital download</strong>
+                    
+                </p>
+            </div>
+            <div class="trust-card fade-in">
+                <div class="trust-card__icon">🔒</div>
+                <p class="trust-card__text">
+                    <strong>MIT License — use anywhere</strong>
+                    
+                </p>
+            </div>
+            <div class="trust-card fade-in">
+                <div class="trust-card__icon">💎</div>
+                <p class="trust-card__text">
+                    <strong>Python stdlib only — no dependencies</strong>
+                    
+                </p>
+            </div>
+            <div class="trust-card fade-in">
+                <div class="trust-card__icon">🪙</div>
+                <p class="trust-card__text">
+                    <strong>Works with Godot, Unity, Roblox, and Minecraft</strong>
+                    
+                </p>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section__heading">Got questions?</h2>
+            <p class="section__subheading">We got answers. Probably.</p>
+            <div class="faq-list">
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    <span>What languages and engines are covered?</span>
+                    <span class="faq-question__icon">+</span>
+                </button>
+                <div class="faq-answer" aria-hidden="true">
+                    <div class="faq-answer__inner">Python, Lua, GDScript, C#, Java, and JavaScript. Engine-wise we&#x27;ve got kits for Godot, Unity, Roblox, and Minecraft — plus vanilla HTML5 and Python.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    <span>Can I use these as the base for my own game?</span>
+                    <span class="faq-question__icon">+</span>
+                </button>
+                <div class="faq-answer" aria-hidden="true">
+                    <div class="faq-answer__inner">Yep, MIT license. Fork it, mod it, ship it, sell it. These kits are literally designed to be starting points.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    <span>How do I get my download?</span>
+                    <span class="faq-question__icon">+</span>
+                </button>
+                <div class="faq-answer" aria-hidden="true">
+                    <div class="faq-answer__inner">Instant download after payment. Each kit includes a README with setup instructions and a quick-start walkthrough.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    <span>Do I need any extra tools or libraries?</span>
+                    <span class="faq-question__icon">+</span>
+                </button>
+                <div class="faq-answer" aria-hidden="true">
+                    <div class="faq-answer__inner">Python kits use stdlib only — zero dependencies. Engine kits just need the engine itself (Godot, Unity, etc). We keep it simple.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    <span>What if I&#x27;m a total beginner?</span>
+                    <span class="faq-question__icon">+</span>
+                </button>
+                <div class="faq-answer" aria-hidden="true">
+                    <div class="faq-answer__inner">That&#x27;s exactly who these are for. Each kit is heavily commented and comes with a step-by-step guide. Stuck? DM us on Discord.</div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__brand">Neon Bazaar</p>
+            <p class="footer__tagline">Your digital playground</p>
+            <nav class="footer__links" aria-label="Other stores">
+            <a href="../pixel-forge/storefront/index.html" class="footer__link">Pixel Forge</a>
+            <a href="../game-vault/storefront/index.html" class="footer__link">Game Vault</a>
+            <a href="../creator-kit/storefront/index.html" class="footer__link">Creator Kit</a>
+            <a href="../aesthetic-studio/storefront/index.html" class="footer__link">Aesthetic Studio</a>
+            </nav>
+            <p class="footer__copy">&copy; 2026 Neon Bazaar. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

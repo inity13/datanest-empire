@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM Cost Tracker — Demo | AI Toolkit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#FF1744}.header .back{color:#FF1744;text-decoration:none;font-size:.85rem}
+  .container{max-width:900px;margin:0 auto;padding:28px 20px}
+  h2{font-size:1.5rem;margin-bottom:6px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+  @media(max-width:600px){.grid2{grid-template-columns:1fr}}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#FF1744;margin-bottom:14px}
+  label{display:block;font-size:.8rem;color:#8899aa;margin-bottom:4px}
+  input,select,textarea{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:8px 10px;font-size:.88rem;margin-bottom:12px;outline:none;transition:border-color .2s;font-family:inherit}
+  input:focus,select:focus,textarea:focus{border-color:#FF1744}
+  .btn{width:100%;padding:11px;border:none;border-radius:8px;font-size:.92rem;font-weight:600;cursor:pointer;background:#FF1744;color:#fff;transition:all .2s}
+  .btn:hover{background:#ff4060}
+  .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+  .kpi{background:#060a12;border:1px solid #1e2a3a;border-radius:8px;padding:12px;text-align:center}
+  .kpi-val{font-size:1.4rem;font-weight:700;color:#FF1744}
+  .kpi-label{font-size:.7rem;color:#8899aa;margin-top:3px}
+  .model-table{width:100%;border-collapse:collapse}
+  .model-table th{text-align:left;color:#8899aa;font-size:.75rem;padding:6px 8px;border-bottom:1px solid #1e2a3a}
+  .model-table td{padding:7px 8px;border-bottom:1px solid #111827;font-size:.82rem}
+  .model-table tr:hover td{background:#111827}
+  .model-table td:last-child{color:#FF1744;font-weight:500}
+  .model-table .best{background:rgba(255,23,68,.08)}
+  .slider-val{display:inline-block;color:#FF1744;font-weight:600;width:80px}
+  input[type=range]{accent-color:#FF1744;margin-bottom:0;height:4px}
+  .sl-row{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+  .sl-row label{width:120px;margin-bottom:0}
+  .sl-row input{flex:1}
+  .cta-bar{background:linear-gradient(135deg,#0d1321,#111827);border:1px solid #FF1744;border-radius:12px;padding:20px;text-align:center;margin-top:18px}
+  .cta-bar p{color:#8899aa;font-size:.85rem;margin-bottom:12px;margin-top:6px}
+  .cta-btn{display:inline-block;background:#FF1744;color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s}
+  .cta-btn:hover{background:#ff4060;transform:translateY(-2px)}
+  .footer-note{text-align:center;color:#445566;font-size:.77rem;margin-top:16px;padding-top:12px;border-top:1px solid #1e2a3a}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🤖 AI Toolkit — LLM Cost Tracker Demo</h1>
+  <a class="back" href="../index.html">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>LLM Cost Calculator</h2>
+  <p class="subtitle">Calculate API costs across all major LLM providers. Compare models and optimize your AI spending.</p>
+  <div class="grid2">
+    <div class="panel">
+      <h3>⚙ Usage Parameters</h3>
+      <div class="sl-row"><label>Daily requests</label><input type="range" id="reqs" min="100" max="100000" value="5000" oninput="calc()"><span class="slider-val" id="vReqs">5,000</span></div>
+      <div class="sl-row"><label>Avg prompt tokens</label><input type="range" id="promptTok" min="50" max="4000" value="500" oninput="calc()"><span class="slider-val" id="vPrompt">500</span></div>
+      <div class="sl-row"><label>Avg output tokens</label><input type="range" id="outTok" min="50" max="4000" value="200" oninput="calc()"><span class="slider-val" id="vOut">200</span></div>
+      <label>Use case</label>
+      <select id="useCase" onchange="calc()">
+        <option value="1">Chat / Q&A (standard)</option>
+        <option value="1.5">RAG pipeline (more context)</option>
+        <option value="3">Document analysis (long input)</option>
+        <option value="0.5">Classification (short I/O)</option>
+      </select>
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-val" id="kDaily">—</div><div class="kpi-label">Daily cost</div></div>
+        <div class="kpi"><div class="kpi-val" id="kMonthly">—</div><div class="kpi-label">Monthly cost</div></div>
+        <div class="kpi"><div class="kpi-val" id="kAnnual">—</div><div class="kpi-label">Annual cost</div></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>📊 Model Comparison</h3>
+      <table class="model-table" id="modelTable">
+        <thead><tr><th>Model</th><th>Input $/1M</th><th>Output $/1M</th><th>Monthly Est.</th></tr></thead>
+        <tbody id="modelBody"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="cta-bar">
+    <h3>Get the Full LLM Cost Tracker</h3>
+    <p>Python dashboard: real-time OpenAI/Anthropic API cost tracking, budget alerts, cost-per-feature breakdowns, and CSV exports.</p>
+    <a class="cta-btn" href="https://buy.stripe.com/eVq4gz6iH8WW24W9CpgjI3S">Buy Full Version — $39.00</a>
+    <button class="crypto-pay-btn" data-product-slug="llm-cost-tracker" data-store-slug="ai-toolkit" data-product-name="LLM Cost Tracker" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+const MODELS=[
+  {name:'GPT-4o',in:5,out:15},
+  {name:'GPT-4o mini',in:0.15,out:0.6},
+  {name:'GPT-4 Turbo',in:10,out:30},
+  {name:'GPT-3.5 Turbo',in:0.5,out:1.5},
+  {name:'Claude 3 Opus',in:15,out:75},
+  {name:'Claude 3.5 Sonnet',in:3,out:15},
+  {name:'Claude 3 Haiku',in:0.25,out:1.25},
+  {name:'Gemini 1.5 Pro',in:3.5,out:10.5},
+  {name:'Gemini 1.5 Flash',in:0.075,out:0.3},
+  {name:'Llama 3.1 70B',in:0.9,out:0.9},
+];
+
+function fmt(n){
+  if(n>=1000)return '$'+(n/1000).toFixed(1)+'k';
+  if(n>=1)return '$'+n.toFixed(2);
+  return '$'+n.toFixed(4);
+}
+
+function calc(){
+  const reqs=parseInt(document.getElementById('reqs').value);
+  const prompt=parseInt(document.getElementById('promptTok').value);
+  const out=parseInt(document.getElementById('outTok').value);
+  const mult=parseFloat(document.getElementById('useCase').value);
+  document.getElementById('vReqs').textContent=reqs.toLocaleString();
+  document.getElementById('vPrompt').textContent=prompt.toLocaleString();
+  document.getElementById('vOut').textContent=out.toLocaleString();
+
+  const pTok=prompt*mult, oTok=out;
+  const rows=MODELS.map(m=>{
+    const daily=reqs*(pTok/1e6*m.in + oTok/1e6*m.out);
+    return {...m,daily,monthly:daily*30};
+  }).sort((a,b)=>a.monthly-b.monthly);
+
+  const cheapest=rows[0].monthly;
+  document.getElementById('kDaily').textContent=fmt(rows[0].daily);
+  document.getElementById('kMonthly').textContent=fmt(cheapest);
+  document.getElementById('kAnnual').textContent=fmt(cheapest*12);
+
+  document.getElementById('modelBody').innerHTML=rows.map((r,i)=>`
+    <tr class="${i===0?'best':''}">
+      <td>${i===0?'⭐ ':''}<b>${r.name}</b></td>
+      <td>$${r.in}</td>
+      <td>$${r.out}</td>
+      <td>${fmt(r.monthly)}/mo</td>
+    </tr>`).join('');
+}
+calc();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

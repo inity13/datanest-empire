@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Embedding Generator — Demo | AI Toolkit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#FF1744}.header .back{color:#FF1744;text-decoration:none;font-size:.85rem}
+  .container{max-width:880px;margin:0 auto;padding:28px 20px}
+  h2{font-size:1.5rem;margin-bottom:6px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px;margin-bottom:18px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#FF1744;margin-bottom:14px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:600px){.grid2{grid-template-columns:1fr}}
+  label{display:block;font-size:.8rem;color:#8899aa;margin-bottom:4px}
+  textarea,input{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:8px 10px;font-size:.88rem;margin-bottom:10px;outline:none;transition:border-color .2s;font-family:inherit}
+  textarea:focus,input:focus{border-color:#FF1744}
+  .btn{padding:11px 18px;border:none;border-radius:8px;font-size:.92rem;font-weight:600;cursor:pointer;background:#FF1744;color:#fff;transition:all .2s;width:100%}
+  .btn:hover{background:#ff4060}
+  .sim-pair{background:#0d1321;border:1px solid #1e2a3a;border-radius:10px;padding:14px;margin-bottom:10px}
+  .sim-texts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+  .sim-text{background:#060a12;border:1px solid #1e2a3a;border-radius:6px;padding:10px;font-size:.82rem;color:#ccc;min-height:48px}
+  .sim-bar-wrap{display:flex;align-items:center;gap:10px}
+  .sim-bar{flex:1;height:20px;background:#1e2a3a;border-radius:4px;overflow:hidden}
+  .sim-fill{height:100%;border-radius:4px;transition:width .6s}
+  .sim-score{width:44px;text-align:right;font-size:.9rem;font-weight:700}
+  .sim-label{font-size:.72rem;color:#8899aa;text-align:center;margin-top:4px}
+  .vec-preview{background:#060a12;border:1px solid #1e2a3a;border-radius:8px;padding:12px;font-family:'Courier New',monospace;font-size:.72rem;color:#FF1744;word-break:break-all;max-height:80px;overflow:hidden}
+  .add-btn{background:none;border:1px dashed #1e2a3a;border-radius:6px;color:#8899aa;padding:10px;width:100%;cursor:pointer;font-size:.82rem;transition:all .2s}
+  .add-btn:hover{border-color:#FF1744;color:#FF1744}
+  .del-btn{background:none;border:none;color:#ff4444;cursor:pointer;font-size:.9rem;float:right}
+  .cta-bar{background:linear-gradient(135deg,#0d1321,#111827);border:1px solid #FF1744;border-radius:12px;padding:20px;text-align:center;margin-top:18px}
+  .cta-bar p{color:#8899aa;font-size:.85rem;margin-bottom:12px;margin-top:6px}
+  .cta-btn{display:inline-block;background:#FF1744;color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s}
+  .cta-btn:hover{background:#ff4060;transform:translateY(-2px)}
+  .footer-note{text-align:center;color:#445566;font-size:.77rem;margin-top:16px;padding-top:12px;border-top:1px solid #1e2a3a}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🤖 AI Toolkit — Embedding Generator Demo</h1>
+  <a class="back" href="../index.html">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>Text Embedding Visualizer</h2>
+  <p class="subtitle">See how semantic similarity works between text pairs. Simulates embedding vector comparison as used in real LLM pipelines.</p>
+
+  <div class="panel">
+    <h3>🔬 Similarity Comparator</h3>
+    <p style="font-size:.8rem;color:#8899aa;margin-bottom:14px">Compare text pairs and see their cosine similarity score. Edit any text to update scores in real time.</p>
+    <div id="pairList"></div>
+    <button class="add-btn" onclick="addPair()">+ Add text pair</button>
+    <button class="btn" onclick="computeAll()" style="margin-top:10px">▶ Compute Similarities</button>
+  </div>
+
+  <div class="panel">
+    <h3>📐 Embedding Vector Preview</h3>
+    <label>Text to embed</label>
+    <input id="embedText" value="The quick brown fox jumps over the lazy dog" oninput="showVec()">
+    <div style="font-size:.78rem;color:#8899aa;margin-bottom:6px">Simulated 1536-dim vector (first 40 dims shown):</div>
+    <div class="vec-preview" id="vecPreview"></div>
+    <div style="font-size:.75rem;color:#445566;margin-top:6px">Real embeddings use text-embedding-ada-002 or similar. This demo simulates the vector space.</div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Get the Full Embedding Generator</h3>
+    <p>Python SDK: OpenAI/Cohere/local model support, batch processing, vector storage integrations (Pinecone, Weaviate, pgvector), and similarity search.</p>
+    <a class="cta-btn" href="https://buy.stripe.com/28E00j0Ync987pg9CpgjI3L">Buy Full Version — $44.00</a>
+    <button class="crypto-pay-btn" data-product-slug="embedding-generator" data-store-slug="ai-toolkit" data-product-name="Embedding Generator" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+const DEFAULT_PAIRS = [
+  ['The cat sat on the mat', 'A feline rested on the rug'],
+  ['How do I reset my password?', 'Steps to recover account access'],
+  ['Python is a programming language', 'JavaScript runs in browsers'],
+  ['I love pizza and pasta', 'She enjoys playing tennis'],
+];
+
+// Deterministic pseudo-similarity based on word overlap + semantic heuristics
+function wordTokens(s){return s.toLowerCase().replace(/[^a-z0-9\s]/g,'').split(/\s+/).filter(Boolean);}
+function cosineSim(a, b){
+  const wa=new Set(wordTokens(a)), wb=new Set(wordTokens(b));
+  const inter=[...wa].filter(w=>wb.has(w)).length;
+  const union=new Set([...wa,...wb]).size;
+  const jaccard=union>0?inter/union:0;
+  // Add semantic boost for synonym-like pairs
+  const semanticPairs=[
+    ['cat','feline'],['mat','rug'],['reset','recover'],['password','account','access'],
+    ['python','programming'],['javascript','browsers'],['love','enjoy'],
+  ];
+  let boost=0;
+  semanticPairs.forEach(group=>{
+    const inA=group.some(w=>wa.has(w)), inB=group.some(w=>wb.has(w));
+    if(inA&&inB) boost+=0.15;
+  });
+  return Math.min(0.99, Math.max(0.02, jaccard*0.6 + boost + (Math.random()*0.04-0.02)));
+}
+
+function getColor(score){
+  if(score>0.7) return '#76FF03';
+  if(score>0.4) return '#ffab00';
+  return '#ff4444';
+}
+
+let pairs = DEFAULT_PAIRS.map(p=>({a:p[0],b:p[1]}));
+
+function renderPairs(){
+  document.getElementById('pairList').innerHTML = pairs.map((p,i)=>`
+    <div class="sim-pair" id="pair${i}">
+      <button class="del-btn" onclick="removePair(${i})" title="Remove">✕</button>
+      <div class="sim-texts">
+        <div><div style="font-size:.72rem;color:#8899aa;margin-bottom:4px">Text A</div><textarea rows="2" oninput="pairs[${i}].a=this.value" style="margin-bottom:0">${p.a}</textarea></div>
+        <div><div style="font-size:.72rem;color:#8899aa;margin-bottom:4px">Text B</div><textarea rows="2" oninput="pairs[${i}].b=this.value" style="margin-bottom:0">${p.b}</textarea></div>
+      </div>
+      <div class="sim-bar-wrap">
+        <div class="sim-bar"><div class="sim-fill" id="sf${i}" style="width:0%;background:#FF1744"></div></div>
+        <span class="sim-score" id="ss${i}" style="color:#FF1744">—</span>
+      </div>
+      <div class="sim-label" id="sl${i}">Click Compute</div>
+    </div>`).join('');
+}
+
+function computeAll(){
+  pairs.forEach((p,i)=>{
+    const score=cosineSim(p.a,p.b);
+    const pct=Math.round(score*100);
+    const col=getColor(score);
+    const fill=document.getElementById('sf'+i);
+    const scoreEl=document.getElementById('ss'+i);
+    const lbl=document.getElementById('sl'+i);
+    if(fill){fill.style.width=pct+'%';fill.style.background=col;}
+    if(scoreEl){scoreEl.textContent=score.toFixed(2);scoreEl.style.color=col;}
+    if(lbl){lbl.textContent=score>0.7?'High similarity — likely same topic':score>0.4?'Moderate similarity — related topics':'Low similarity — different topics';}
+  });
+}
+
+function addPair(){pairs.push({a:'',b:''});renderPairs();}
+function removePair(i){pairs.splice(i,1);renderPairs();}
+
+function fakeVec(text){
+  const seed=text.split('').reduce((h,c)=>((h<<5)-h)+c.charCodeAt(0)|0,0);
+  let s=seed;
+  return Array.from({length:40},(_,i)=>{
+    s=(s*1664525+1013904223)&0xffffffff;
+    return ((s>>>0)/4294967295*2-1).toFixed(4);
+  });
+}
+
+function showVec(){
+  const text=document.getElementById('embedText').value;
+  const vec=fakeVec(text);
+  document.getElementById('vecPreview').textContent='['+vec.join(', ')+', ...]';
+}
+
+renderPairs();
+computeAll();
+showVec();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

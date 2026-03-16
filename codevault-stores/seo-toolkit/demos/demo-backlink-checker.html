@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Backlink Checker Demo — SEO Toolkit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
+  .container{max-width:820px;margin:0 auto}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:1px solid #1e293b;margin-bottom:28px}
+  .badge{display:inline-block;background:#00FF8820;color:#00FF88;border:1px solid #00FF8840;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
+  h1{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px}
+  .subtitle{color:#94a3b8;font-size:15px}
+  .card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-bottom:20px}
+  .card-title{font-size:14px;font-weight:600;color:#00FF88;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+  label{display:block;font-size:13px;color:#94a3b8;margin-bottom:6px;font-weight:500}
+  input{width:100%;background:#0A0E1A;border:1px solid #2d3748;border-radius:8px;padding:11px 14px;color:#e2e8f0;font-size:14px;outline:none;transition:border-color .2s}
+  input:focus{border-color:#00FF88}
+  .btn{display:flex;justify-content:center;align-items:center;gap:8px;padding:12px 24px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;width:100%;margin-top:12px}
+  .btn-primary{background:#00FF88;color:#0A0E1A}
+  .btn-primary:hover{background:#00e67a}
+  .stats-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+  .stat{background:#0A0E1A;border:1px solid #1e293b;border-radius:8px;padding:12px 16px;flex:1;min-width:100px;text-align:center}
+  .stat-val{font-size:24px;font-weight:700;color:#00FF88}
+  .stat-label{font-size:11px;color:#64748b;margin-top:3px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;color:#64748b;font-weight:600;padding:8px 12px;border-bottom:1px solid #1e293b;font-size:11px;text-transform:uppercase}
+  td{padding:10px 12px;border-bottom:1px solid #0f172a;vertical-align:middle}
+  tr:hover td{background:#0f172a}
+  .dr-bar{display:inline-block;background:#1e293b;border-radius:3px;height:6px;vertical-align:middle;margin-left:6px}
+  .dr-fill{height:100%;border-radius:3px}
+  .tag{font-size:11px;padding:2px 7px;border-radius:10px;font-weight:600}
+  .tag-dofollow{background:#00FF8820;color:#00FF88}
+  .tag-nofollow{background:#64748b20;color:#64748b}
+  .tag-new{background:#3b82f620;color:#60a5fa}
+  .tag-toxic{background:#ef444420;color:#ef4444}
+  .domain{color:#e2e8f0;font-family:monospace;font-size:12px}
+  .anchor{color:#94a3b8;font-size:12px}
+  .loading{text-align:center;padding:40px;color:#64748b}
+  .progress{height:4px;background:#1e293b;border-radius:2px;overflow:hidden;margin:8px 0}
+  .progress-fill{height:100%;background:linear-gradient(90deg,#00FF88,#00e67a);border-radius:2px;transition:width .3s}
+  .hidden{display:none}
+  .cta-bar{background:linear-gradient(135deg,#00FF8815,#00FF8805);border:1px solid #00FF8830;border-radius:12px;padding:20px;text-align:center;margin-top:24px}
+  .cta-bar p{color:#94a3b8;font-size:13px;margin-bottom:12px}
+  .btn-buy{background:#00FF88;color:#0A0E1A;font-size:15px;font-weight:700;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+  .btn-buy:hover{background:#00e67a;transform:translateY(-1px);box-shadow:0 8px 24px #00FF8840}
+  .footer-note{text-align:center;color:#475569;font-size:12px;margin-top:16px}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">LIVE DEMO</div>
+    <h1>Backlink Checker</h1>
+    <p class="subtitle">Analyze backlink profiles — simulated demo shows the tool's interface and output</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Enter Domain to Check</div>
+    <label>Domain or URL</label>
+    <input type="text" id="domain" value="example.com" placeholder="example.com">
+    <button class="btn btn-primary" onclick="runCheck()">🔗 Check Backlinks</button>
+  </div>
+
+  <div id="results" class="hidden">
+    <div class="card">
+      <div class="progress"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+      <p id="loadingMsg" style="font-size:13px;color:#64748b;text-align:center;margin:8px 0">Crawling backlink databases...</p>
+    </div>
+    <div id="reportSection" class="hidden">
+      <div class="card">
+        <div class="card-title">Backlink Summary</div>
+        <div class="stats-row">
+          <div class="stat"><div class="stat-val" id="sTotalBL">—</div><div class="stat-label">Total Backlinks</div></div>
+          <div class="stat"><div class="stat-val" id="sRefDomains">—</div><div class="stat-label">Ref. Domains</div></div>
+          <div class="stat"><div class="stat-val" id="sDR">—</div><div class="stat-label">Domain Rating</div></div>
+          <div class="stat"><div class="stat-val" id="sDofollow">—</div><div class="stat-label">Dofollow %</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Top Backlinks</div>
+        <table>
+          <thead><tr><th>Referring Domain</th><th>DR</th><th>Anchor Text</th><th>Type</th><th>Status</th></tr></thead>
+          <tbody id="blTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <p>The full tool connects to real backlink databases, monitors new/lost links daily, detects toxic backlinks for disavow, and tracks competitor link-building.</p>
+    <a class="btn-buy" href="https://buy.stripe.com/3cI6oH22r5KKdNE5m9gjJ24">Buy Full Version — $39.00</a>
+    <button class="crypto-pay-btn" data-product-slug="backlink-checker" data-store-slug="seo-toolkit" data-product-name="Backlink Checker" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <div class="footer-note">⚠️ This demo shows simulated data. Buy the full tool for real backlink analysis.</div>
+</div>
+<script>
+function runCheck() {
+  const domain = document.getElementById('domain').value || 'example.com';
+  document.getElementById('results').classList.remove('hidden');
+  document.getElementById('reportSection').classList.add('hidden');
+
+  let prog = 0;
+  const interval = setInterval(() => {
+    prog += Math.random() * 15 + 5;
+    if (prog >= 100) { prog = 100; clearInterval(interval); showReport(domain); }
+    document.getElementById('progress').style.width = prog + '%';
+    const msgs = ['Crawling backlink databases...','Analyzing domain authority...','Checking anchor text distribution...','Calculating toxicity scores...','Building report...'];
+    document.getElementById('loadingMsg').textContent = msgs[Math.min(Math.floor(prog/25), 4)];
+  }, 200);
+}
+
+function genBacklinks(domain) {
+  const domains = ['techrader.com','hackernews.com','devto.io','medium.com','github.com','stackoverflow.com','reddit.com','producthunt.com','indiehackers.com','ycombinator.com','smashingmagazine.com','css-tricks.com','webdev.google','dev.to','hubspot.com','moz.com'];
+  const anchors = [domain,'click here','learn more','best tools','check it out','visit site','developer tools','this guide','read more','awesome resource'];
+  const result = [];
+  for(let i=0;i<14;i++){
+    const d = domains[i % domains.length];
+    result.push({
+      domain: d,
+      dr: Math.floor(Math.random()*60+20),
+      anchor: anchors[i%anchors.length],
+      type: Math.random()>0.3?'dofollow':'nofollow',
+      status: Math.random()>0.1?'active':Math.random()>0.5?'new':'toxic',
+    });
+  }
+  return result.sort((a,b)=>b.dr-a.dr);
+}
+
+function showReport(domain) {
+  const links = genBacklinks(domain);
+  document.getElementById('reportSection').classList.remove('hidden');
+  document.getElementById('sTotalBL').textContent = (links.length * 47).toLocaleString();
+  document.getElementById('sRefDomains').textContent = links.length;
+  const dr = Math.floor(links.reduce((s,l)=>s+l.dr,0)/links.length);
+  document.getElementById('sDR').textContent = dr;
+  document.getElementById('sDR').style.color = dr>=50?'#00FF88':dr>=30?'#f59e0b':'#ef4444';
+  const dofollow = Math.round(links.filter(l=>l.type==='dofollow').length/links.length*100);
+  document.getElementById('sDofollow').textContent = dofollow+'%';
+
+  document.getElementById('blTable').innerHTML = links.map(l=>{
+    const barW = Math.round(l.dr/100*80);
+    const barColor = l.dr>=50?'#00FF88':l.dr>=30?'#f59e0b':'#ef4444';
+    const statusTag = l.status==='new'?'tag-new':l.status==='toxic'?'tag-toxic':'';
+    return `<tr>
+      <td class="domain">${l.domain}</td>
+      <td><span style="color:${barColor};font-weight:700">${l.dr}</span>
+        <span class="dr-bar" style="width:50px"><span class="dr-fill" style="width:${barW}%;background:${barColor}"></span></span>
+      </td>
+      <td class="anchor">${l.anchor}</td>
+      <td><span class="tag tag-${l.type}">${l.type}</span></td>
+      <td>${l.status!=='active'?`<span class="tag ${statusTag}">${l.status}</span>`:''}</td>
+    </tr>`;
+  }).join('');
+}
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CryptoForge Demo Hub | Datanest</title>
+<meta name="description" content="Explore 94+ interactive demos across 10 stores in CryptoForge. DeFi infrastructure, smart contracts & Web3 builder tools">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --accent:#FF6B00; --accent2:#ff9b40; --glow1:#FF6B0010; --glow2:#ff9b4008; }
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#08080d; color:#e2e8f0; font-family:'Inter',system-ui,-apple-system,sans-serif; line-height:1.6; min-height:100vh; overflow-x:hidden; }
+a { text-decoration:none; color:inherit; }
+
+.bg-grid { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; opacity:0.03;
+  background-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px);
+  background-size: 60px 60px; }
+.bg-glow { position:fixed; top:-50%; left:-50%; width:200%; height:200%; z-index:0; pointer-events:none;
+  background: radial-gradient(ellipse at 30% 20%, var(--glow1, rgba(168,85,247,0.06)) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 80%, var(--glow2, rgba(59,130,246,0.04)) 0%, transparent 50%);
+  animation: glowDrift 20s ease-in-out infinite alternate; }
+@keyframes glowDrift { 0%{transform:translate(0,0)} 100%{transform:translate(-5%,3%)} }
+
+.container { max-width:1200px; margin:0 auto; padding:40px 20px; position:relative; z-index:1; }
+
+.empire-nav { display:flex; align-items:center; justify-content:center; gap:6px; padding:12px 20px;
+  background:rgba(15,15,25,0.8); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,0.06);
+  border-radius:12px; margin-bottom:40px; flex-wrap:wrap; }
+.empire-nav a, .empire-nav span { font-size:12px; font-weight:600; padding:6px 14px; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.empire-nav a:hover { background:rgba(255,255,255,0.06); }
+
+.hero { text-align:center; margin-bottom:48px; padding:32px 0; }
+.hero-icon { font-size:48px; margin-bottom:16px; display:block; filter:drop-shadow(0 0 20px var(--accent,#a855f7)); }
+.hero h1 { font-size:clamp(24px,4vw,40px); font-weight:800; margin-bottom:8px;
+  background:linear-gradient(135deg, var(--accent,#a855f7), var(--accent2,#60a5fa));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.hero p { color:#94a3b8; font-size:15px; max-width:600px; margin:0 auto 24px; }
+.hero-stats { display:flex; justify-content:center; gap:40px; flex-wrap:wrap; }
+.hero-stat .num { font-size:32px; font-weight:800; color:#fff; }
+.hero-stat .label { font-size:11px; color:#64748b; text-transform:uppercase; letter-spacing:1.5px; margin-top:2px; }
+
+.store-section { margin-bottom:48px; }
+.store-header { display:flex; align-items:center; gap:16px; margin-bottom:20px; padding-bottom:16px;
+  border-bottom:1px solid rgba(255,255,255,0.06); }
+.store-badge { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+  font-size:20px; font-weight:800; color:#fff; flex-shrink:0; }
+.store-header h2 { font-size:20px; font-weight:700; color:#f1f5f9; }
+.store-header .store-meta { font-size:12px; color:#64748b; margin-top:2px; }
+
+.product-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
+.product-card { background:rgba(15,15,25,0.6); border:1px solid rgba(255,255,255,0.06); border-radius:12px;
+  padding:16px; transition:all 0.25s; position:relative; overflow:hidden; display:block; }
+.product-card:hover { border-color:var(--accent,#a855f7); transform:translateY(-2px);
+  box-shadow:0 8px 30px rgba(0,0,0,0.3), 0 0 20px color-mix(in srgb, var(--accent,#a855f7) 15%, transparent); }
+.product-thumb { width:100%; height:80px; border-radius:8px; margin-bottom:12px; overflow:hidden; }
+.product-thumb img { width:100%; height:100%; object-fit:cover; }
+.product-card h3 { font-size:13px; font-weight:600; color:#e2e8f0; margin-bottom:8px; line-height:1.3; }
+.product-card .price-row { display:flex; align-items:center; justify-content:space-between; }
+.product-card .price { font-size:16px; font-weight:700; color:var(--accent,#a855f7); }
+.product-card .view-demo { font-size:11px; font-weight:600; color:#94a3b8; padding:4px 10px;
+  border:1px solid rgba(255,255,255,0.1); border-radius:6px; transition:all 0.2s; }
+.product-card:hover .view-demo { border-color:var(--accent,#a855f7); color:var(--accent,#a855f7); }
+
+.footer { text-align:center; padding:40px 0 20px; border-top:1px solid rgba(255,255,255,0.06); margin-top:48px; }
+.footer p { color:#475569; font-size:12px; }
+.footer .brand { font-weight:700; color:var(--accent,#a855f7); }
+
+.store-nav { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:32px; padding:16px 20px;
+  background:rgba(15,15,25,0.6); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.04);
+  border-radius:12px; }
+.store-nav a { font-size:12px; font-weight:600; padding:6px 14px; border-radius:8px;
+  background:rgba(255,255,255,0.04); color:#94a3b8; transition:all 0.2s; white-space:nowrap; }
+.store-nav a:hover { background:color-mix(in srgb, var(--accent,#a855f7) 15%, transparent); color:var(--accent,#a855f7); }
+
+@media (max-width:640px) {
+  .product-grid { grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px; }
+  .product-card { padding:12px; }
+  .product-thumb { height:60px; }
+  .hero-stats { gap:24px; }
+  .hero-stat .num { font-size:24px; }
+  .empire-nav { gap:4px; padding:8px 12px; }
+  .empire-nav a, .empire-nav span { font-size:11px; padding:5px 10px; }
+}
+
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+<div class="container">
+
+<nav class="empire-nav">
+  <a href="https://pixelempire-stores.pages.dev/" style="color:#ff6b9d">Pixel Empire</a>
+<a href="https://datanest-stores.pages.dev/" style="color:#3b82f6">Digital Stores</a>
+<a href="https://codevault-stores.pages.dev/" style="color:#FF1744">CodeVault</a>
+<a href="https://neonbazaar-stores.pages.dev/" style="color:#FF2D9B">Neon Bazaar</a>
+<span class="active" style="background:color-mix(in srgb, #FF6B00 20%, transparent);color:#FF6B00">CryptoForge</span>
+</nav>
+
+<div class="hero">
+  <span class="hero-icon">⛏️</span>
+  <h1>CryptoForge</h1>
+  <p>DeFi infrastructure, smart contracts & Web3 builder tools</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">94</div><div class="label">Products</div></div>
+    <div class="hero-stat"><div class="num">10</div><div class="label">Stores</div></div>
+    <div class="hero-stat"><div class="num">94</div><div class="label">Interactive Demos</div></div>
+  </div>
+</div>
+
+<nav class="store-nav">
+  <a href="#coverage-vault">Coverage Vault</a>
+<a href="#defi-router">DeFi Router</a>
+<a href="#index-lab">Index Lab</a>
+<a href="#mev-shield">MEV Shield</a>
+<a href="#oracle-forge">Oracle Forge</a>
+<a href="#prover-market">Prover Market</a>
+<a href="#rollup-kit">Rollup Kit</a>
+<a href="#staking-kit">Staking Kit</a>
+<a href="#sub-protocol">sub-protocol</a>
+<a href="#vault-forge">Vault Forge</a>
+</nav>
+
+<section class="store-section" id="coverage-vault">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF6B00, #ff9b40)">CV</div>
+    <div>
+      <h2>Coverage Vault</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="coverage-vault/demos/backstop-staking.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGNkIwMDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkY2QjAwMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Backstop Staking</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="coverage-vault/demos/claims-adjudicator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkY2QjAwMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Claims Adjudicator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="coverage-vault/demos/coverage-dashboard.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkY2QjAwMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Coverage Dashboard</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="coverage-vault/demos/coverage-nft.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2QjAwMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Coverage NFT</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="coverage-vault/demos/coverage-pool-contract.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGNkIwMDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Coverage Pool Contract</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="coverage-vault/demos/depeg-detector.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGNkIwMDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Depeg Detector</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="coverage-vault/demos/exploit-monitor.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGNkIwMDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkY2QjAwMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Exploit Monitor</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="coverage-vault/demos/loss-simulator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkY2QjAwMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Loss Simulator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="coverage-vault/demos/portfolio-risk-scorer.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkY2QjAwMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Portfolio Risk Scorer</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="coverage-vault/demos/risk-premium-engine.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2QjAwMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Risk Premium Engine</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="defi-router">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF6B00, #ff9b40)">DR</div>
+    <div>
+      <h2>DeFi Router</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="defi-router/demos/aggregator-api.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGNkIwMDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Aggregator API</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="defi-router/demos/cow-protocol-sdk.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGNkIwMDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>CoW Protocol SDK</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="defi-router/demos/fee-splitter.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGNkIwMDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkY2QjAwMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Fee Splitter</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="defi-router/demos/limit-order-book.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkY2QjAwMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Limit Order Book</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="defi-router/demos/quote-comparison-ui.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkY2QjAwMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Quote Comparison UI</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="defi-router/demos/routing-engine.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2QjAwMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Routing Engine</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="defi-router/demos/rpc-load-balancer.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGNkIwMDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>RPC Load Balancer</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="defi-router/demos/slippage-guard.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGNkIwMDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Slippage Guard</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="defi-router/demos/swap-router-contract.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGNkIwMDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkY2QjAwMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Swap Router Contract</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="defi-router/demos/trade-analytics.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkY2QjAwMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Trade Analytics Dashboard</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="index-lab">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF6B00, #ff9b40)">IL</div>
+    <div>
+      <h2>Index Lab</h2>
+      <div class="store-meta">8 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="index-lab/demos/basket-creator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkY2QjAwMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Basket Creator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="index-lab/demos/compliance-checker.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2QjAwMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Compliance Checker</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="index-lab/demos/index-dashboard.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGNkIwMDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Index Dashboard</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="index-lab/demos/index-factory.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGNkIwMDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Index Factory</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="index-lab/demos/issuance-module.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGNkIwMDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkY2QjAwMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Issuance Module</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="index-lab/demos/portfolio-analytics.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkY2QjAwMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Portfolio Analytics</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="index-lab/demos/rebalance-engine.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkY2QjAwMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Rebalance Engine</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="index-lab/demos/streaming-fee-module.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2QjAwMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Streaming Fee Module</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="mev-shield">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF6B00, #ff9b40)">MS</div>
+    <div>
+      <h2>MEV Shield</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="mev-shield/demos/bundle-simulator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGNkIwMDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Bundle Simulator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="mev-shield/demos/eip712-signing-lib.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGNkIwMDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>EIP-712 Signing Library</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="mev-shield/demos/mev-monitoring-agent.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGNkIwMDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkY2QjAwMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>MEV Monitoring Agent</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="mev-shield/demos/mev-rebate-router.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkY2QjAwMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>MEV Rebate Router</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="mev-shield/demos/mev-share-sdk.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkY2QjAwMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>MEV-Share SDK</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="mev-shield/demos/orderflow-analytics.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2QjAwMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Orderflow Analytics</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="mev-shield/demos/paymaster-template.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGNkIwMDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Paymaster Template</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="mev-shield/demos/private-tx-relay.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGNkIwMDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Private Tx Relay</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="mev-shield/demos/sandwich-detector.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGNkIwMDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkY2QjAwMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Sandwich Detector</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="mev-shield/demos/searcher-starter-kit.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkY2QjAwMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Searcher Starter Kit</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="oracle-forge">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF6B00, #ff9b40)">OF</div>
+    <div>
+      <h2>Oracle Forge</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="oracle-forge/demos/custom-data-feed.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkY2QjAwMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Custom Data Feed</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="oracle-forge/demos/data-indexer-template.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2QjAwMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Data Indexer Template</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="oracle-forge/demos/deviation-alerter.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGNkIwMDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Deviation Alerter</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="oracle-forge/demos/feed-registry.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGNkIwMDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Feed Registry</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="oracle-forge/demos/oracle-aggregator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGNkIwMDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkY2QjAwMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Oracle Aggregator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="oracle-forge/demos/oracle-monitor.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkY2QjAwMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Oracle Monitor</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="oracle-forge/demos/oracle-testing-harness.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkY2QjAwMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Oracle Testing Harness</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="oracle-forge/demos/price-oracle-node.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2QjAwMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Price Oracle Node</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="oracle-forge/demos/risk-rating-oracle.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGNkIwMDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Risk Rating Oracle</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="oracle-forge/demos/vrf-randomness-kit.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGNkIwMDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>VRF Randomness Kit</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="prover-market">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF6B00, #ff9b40)">PM</div>
+    <div>
+      <h2>Prover Market</h2>
+      <div class="store-meta">8 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="prover-market/demos/benchmark-suite.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGNkIwMDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkY2QjAwMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Benchmark Suite</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="prover-market/demos/proof-batching-engine.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkY2QjAwMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Proof Batching Engine</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="prover-market/demos/proof-generator-cli.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkY2QjAwMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Proof Generator CLI</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="prover-market/demos/proof-verifier-contracts.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2QjAwMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Proof Verifier Contracts</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="prover-market/demos/prover-marketplace-contract.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGNkIwMDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Prover Marketplace Contract</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="prover-market/demos/prover-monitoring.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGNkIwMDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Prover Monitoring</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="prover-market/demos/reputation-staking.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGNkIwMDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkY2QjAwMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Reputation Staking</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="prover-market/demos/zk-circuit-templates.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkY2QjAwMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>ZK Circuit Templates</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="rollup-kit">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF6B00, #ff9b40)">RK</div>
+    <div>
+      <h2>Rollup Kit</h2>
+      <div class="store-meta">8 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="rollup-kit/demos/batch-optimizer.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkY2QjAwMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Batch Optimizer</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="rollup-kit/demos/bridge-template.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2QjAwMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Bridge Template</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="rollup-kit/demos/da-cost-analyzer.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGNkIwMDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>DA Cost Analyzer</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="rollup-kit/demos/inclusion-monitor.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGNkIwMDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Inclusion Monitor</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="rollup-kit/demos/l1-cost-tracker.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGNkIwMDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkY2QjAwMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>L1 Cost Tracker</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="rollup-kit/demos/op-stack-deployer.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkY2QjAwMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>OP Stack Deployer</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="rollup-kit/demos/rollup-economics-sim.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkY2QjAwMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Rollup Economics Sim</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="rollup-kit/demos/sequencer-dashboard.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2QjAwMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Sequencer Dashboard</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="staking-kit">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF6B00, #ff9b40)">SK</div>
+    <div>
+      <h2>Staking Kit</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="staking-kit/demos/delegation-manager.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGNkIwMDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Delegation Manager</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="staking-kit/demos/lst-factory.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGNkIwMDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>LST Factory</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="staking-kit/demos/restaking-adapter.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGNkIwMDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkY2QjAwMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Restaking Adapter</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="staking-kit/demos/slashing-insurance.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkY2QjAwMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Slashing Insurance</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="staking-kit/demos/staking-dashboard.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkY2QjAwMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Staking Dashboard</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="staking-kit/demos/staking-rewards-calc.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2QjAwMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Staking Rewards Calculator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="staking-kit/demos/staking-tax-reporter.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGNkIwMDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Staking Tax Reporter</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="staking-kit/demos/validator-key-manager.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGNkIwMDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Validator Key Manager</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="staking-kit/demos/validator-monitor.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGNkIwMDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkY2QjAwMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Validator Monitor</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="staking-kit/demos/withdrawal-queue.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkY2QjAwMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Withdrawal Queue</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="sub-protocol">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF6B00, #ff9b40)">S</div>
+    <div>
+      <h2>sub-protocol</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="sub-protocol/demos/aa-onboarding-kit.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkY2QjAwMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>AA Onboarding Kit</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="sub-protocol/demos/access-gate-middleware.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2QjAwMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Access Gate Middleware</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="sub-protocol/demos/fiat-onramp-bridge.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGNkIwMDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Fiat Onramp Bridge</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="sub-protocol/demos/membership-nft-factory.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGNkIwMDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Membership NFT Factory</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="sub-protocol/demos/referral-system.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGNkIwMDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkY2QjAwMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Referral System</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="sub-protocol/demos/renewal-automator.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkY2QjAwMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Renewal Automator</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="sub-protocol/demos/subscriber-crm.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkY2QjAwMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Subscriber CRM</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="sub-protocol/demos/subscription-dashboard.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2QjAwMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Subscription Dashboard</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="sub-protocol/demos/tiered-access-contract.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGNkIwMDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Tiered Access Contract</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="sub-protocol/demos/yield-subscription.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGNkIwMDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Yield Subscription</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section><section class="store-section" id="vault-forge">
+  <div class="store-header">
+    <div class="store-badge" style="background:linear-gradient(135deg, #FF6B00, #ff9b40)">VF</div>
+    <div>
+      <h2>Vault Forge</h2>
+      <div class="store-meta">10 interactive demos</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <a href="vault-forge/demos/erc4626-base-vault.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGNkIwMDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkY2QjAwMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>ERC-4626 Base Vault</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="vault-forge/demos/multi-strategy-vault.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkY2QjAwMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Multi-Strategy Vault</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="vault-forge/demos/permit2-vault-adapter.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkY2QjAwMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Permit2 Vault Adapter</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="vault-forge/demos/vault-accounting-engine.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2QjAwMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Vault Accounting Engine</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="vault-forge/demos/vault-dashboard.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDBsMTAgMTBNMTAgMGwtMTAgMTAiIHN0cm9rZT0iI0ZGNkIwMDE1IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Vault Dashboard</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="vault-forge/demos/vault-deployer-cli.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDEwYzEwLTEwIDMwIDEwIDQwIDAiIHN0cm9rZT0iI0ZGNkIwMDIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Vault Deployer CLI</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="vault-forge/demos/vault-factory-contract.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEuNSIgZmlsbD0iI0ZGNkIwMDQwIi8+PHBhdGggZD0iTTEwIDB2MTBNMCAxMGgxMCIgc3Ryb2tlPSIjRkY2QjAwMjAiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDgiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Vault Factory Contract</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="vault-forge/demos/vault-fee-module.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMiIgc3Ryb2tlPSIjRkY2QjAwMjUiIHN0cm9rZS13aWR0aD0iMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0ZGNkIwMDBhIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwKSIvPjwvc3ZnPg==" alt="" loading="lazy"/></div>
+  <h3>Vault Fee Module</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="vault-forge/demos/vault-security-suite.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkY2QjAwMzAiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNGRjZCMDAwOCIvPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcCkiLz48L3N2Zz4=" alt="" loading="lazy"/></div>
+  <h3>Vault Security Suite</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a><a href="vault-forge/demos/vault-subgraph.html" class="product-card">
+  <div class="product-thumb"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwIiB3aWR0aD0iMjgiIGhlaWdodD0iNDkiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0xNCAwbDE0IDh2MTZsLTE0IDhMMCAyNFY4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2QjAwMTgiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjAwMDYiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3ApIi8+PC9zdmc+" alt="" loading="lazy"/></div>
+  <h3>Vault Subgraph</h3>
+  <div class="price-row"><span class="price">$4.99</span><span class="view-demo">View Demo</span></div>
+</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>&copy; 2025 <span class="brand">Datanest</span> &mdash; CryptoForge. All rights reserved.</p>
+</footer>
+
+</div>
+</body>
+</html>

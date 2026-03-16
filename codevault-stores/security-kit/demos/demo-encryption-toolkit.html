@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encryption Toolkit — Demo | Security Kit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#D500F9}.header .back{color:#D500F9;text-decoration:none;font-size:.85rem}
+  .container{max-width:960px;margin:0 auto;padding:32px 20px}
+  h2{font-size:1.5rem;margin-bottom:8px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid #1e2a3a;padding-bottom:0}
+  .tab{padding:8px 18px;border:none;background:none;color:#8899aa;font-size:.88rem;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s}
+  .tab.active{color:#D500F9;border-bottom-color:#D500F9}
+  .tab:hover:not(.active){color:#e0e0e0}
+  .tab-content{display:none}.tab-content.active{display:block}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px;margin-bottom:16px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#D500F9;margin-bottom:12px}
+  label{display:block;font-size:.8rem;color:#8899aa;margin-bottom:4px;margin-top:10px}
+  input,textarea{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:9px 12px;font-size:.85rem;outline:none;font-family:monospace;resize:vertical;transition:border-color .2s}
+  input:focus,textarea:focus{border-color:#D500F9}
+  .hash-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:600px){.hash-grid{grid-template-columns:1fr}}
+  .hash-box{background:#0A0E1A;border:1px solid #1e2a3a;border-radius:8px;padding:12px}
+  .hash-label{font-size:.75rem;color:#D500F9;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+  .hash-val{font-family:monospace;font-size:.75rem;color:#e0e0e0;word-break:break-all;min-height:20px}
+  .slider-wrap{margin:10px 0}
+  .slider-wrap input[type=range]{width:100%;accent-color:#D500F9}
+  .cipher-out{background:#0A0E1A;border:1px solid #1e2a3a;border-radius:8px;padding:12px;font-family:monospace;font-size:.85rem;min-height:40px;margin-top:8px;word-break:break-all;color:#D500F9}
+  .btn-copy{padding:6px 14px;border:1px solid #1e2a3a;border-radius:6px;background:none;color:#8899aa;font-size:.78rem;cursor:pointer;transition:all .2s;float:right}
+  .btn-copy:hover{border-color:#D500F9;color:#D500F9}
+  .aes-note{background:rgba(213,0,249,.08);border:1px solid rgba(213,0,249,.2);border-radius:8px;padding:12px;font-size:.8rem;color:#8899aa;margin-top:8px}
+  .cta-bar{text-align:center;padding:24px;background:#0d1321;border-radius:12px;border:1px solid #1e2a3a}
+  .cta-bar p{color:#8899aa;font-size:.88rem;margin-bottom:14px}
+  .btn-buy{display:inline-block;background:#D500F9;color:#fff;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none}
+  .note{text-align:center;font-size:.75rem;color:#4a5568;margin-top:14px}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🔒 Encryption Toolkit — Demo</h1>
+  <a href="../index.html" class="back">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>Encryption Toolkit</h2>
+  <p class="subtitle">Hash, encode, and encrypt text with common cryptographic primitives — all running in your browser.</p>
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('hash',this)">Hash / Encode</button>
+    <button class="tab" onclick="showTab('caesar',this)">Caesar Cipher</button>
+    <button class="tab" onclick="showTab('aes',this)">AES-256 (Concept)</button>
+  </div>
+
+  <div class="tab-content active" id="tab-hash">
+    <div class="panel">
+      <h3>Input</h3>
+      <label>Text to hash / encode</label>
+      <textarea id="hashInput" rows="3" oninput="computeHash()" placeholder="Type anything...">Hello, World!</textarea>
+    </div>
+    <div class="hash-grid" id="hashOutputs"></div>
+  </div>
+
+  <div class="tab-content" id="tab-caesar">
+    <div class="panel">
+      <h3>Caesar Cipher</h3>
+      <label>Plaintext</label>
+      <textarea id="caesarInput" rows="3" oninput="computeCaesar()" placeholder="Type text to encrypt...">The quick brown fox jumps over the lazy dog</textarea>
+      <div class="slider-wrap">
+        <label>Shift: <span id="shiftVal">13</span></label>
+        <input type="range" id="shiftSlider" min="1" max="25" value="13" oninput="document.getElementById('shiftVal').textContent=this.value;computeCaesar()">
+      </div>
+      <label>Ciphertext</label>
+      <div class="cipher-out" id="caesarOut"></div>
+      <label style="margin-top:12px">Decrypted (reverse shift)</label>
+      <div class="cipher-out" id="caesarDec" style="color:#76FF03"></div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="tab-aes">
+    <div class="panel">
+      <h3>AES-256-GCM (Conceptual Demo)</h3>
+      <label>Plaintext</label>
+      <textarea id="aesInput" rows="3" oninput="computeAES()" placeholder="Type a message...">Secret message for encryption demo</textarea>
+      <label>Key (hex, 64 chars = 32 bytes)</label>
+      <input type="text" id="aesKey" value="0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef" oninput="computeAES()">
+      <label style="margin-top:12px">Encrypted (XOR simulation)</label>
+      <div class="cipher-out" id="aesOut"></div>
+      <div class="aes-note">⚠️ This is a simplified XOR demonstration of the concept. The full tool uses real AES-256-GCM via Python's <code>cryptography</code> library with proper IV, authentication tags, and key derivation.</div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <p>Full version: real AES-256-GCM, RSA key generation, PBKDF2 key derivation, file encryption, batch processing.</p>
+    <a href="https://buy.stripe.com/cNi28r6iHb5424W8ylgjJ1S" class="btn-buy">Buy Full Version — $29</a>
+    <button class="crypto-pay-btn" data-product-slug="encryption-toolkit" data-store-slug="security-kit" data-product-name="Encryption Toolkit" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+function showTab(name, el) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  el.classList.add('active');
+}
+
+async function computeHash() {
+  const text = document.getElementById('hashInput').value;
+  const enc = new TextEncoder();
+  const data = enc.encode(text);
+  const sha256Buf = await crypto.subtle.digest('SHA-256', data);
+  const sha256 = Array.from(new Uint8Array(sha256Buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  const sha1Buf = await crypto.subtle.digest('SHA-1', data);
+  const sha1 = Array.from(new Uint8Array(sha1Buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  const b64 = btoa(text);
+  const b64url = btoa(text).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  document.getElementById('hashOutputs').innerHTML = `
+    <div class="hash-box"><div class="hash-label">SHA-256</div><div class="hash-val">${sha256}</div></div>
+    <div class="hash-box"><div class="hash-label">SHA-1</div><div class="hash-val">${sha1}</div></div>
+    <div class="hash-box"><div class="hash-label">Base64</div><div class="hash-val">${b64}</div></div>
+    <div class="hash-box"><div class="hash-label">Base64url</div><div class="hash-val">${b64url}</div></div>`;
+}
+
+function caesarShift(text, shift) {
+  return text.split('').map(c => {
+    if (c >= 'a' && c <= 'z') return String.fromCharCode(((c.charCodeAt(0)-97+shift)%26)+97);
+    if (c >= 'A' && c <= 'Z') return String.fromCharCode(((c.charCodeAt(0)-65+shift)%26)+65);
+    return c;
+  }).join('');
+}
+function computeCaesar() {
+  const t = document.getElementById('caesarInput').value;
+  const s = parseInt(document.getElementById('shiftSlider').value);
+  document.getElementById('caesarOut').textContent = caesarShift(t, s);
+  document.getElementById('caesarDec').textContent = caesarShift(caesarShift(t, s), 26-s);
+}
+
+function computeAES() {
+  const text = document.getElementById('aesInput').value;
+  const key = document.getElementById('aesKey').value;
+  const keyBytes = key.match(/.{1,2}/g).map(h => parseInt(h,16));
+  const enc = new TextEncoder().encode(text);
+  const xored = Array.from(enc).map((b,i) => b ^ (keyBytes[i % keyBytes.length] || 0));
+  const hex = xored.map(b => b.toString(16).padStart(2,'0')).join('');
+  document.getElementById('aesOut').textContent = `IV:a3f2... TAG:8b1c... CIPHER:${hex.slice(0,64)}${hex.length>64?'...':''}`;
+}
+
+computeHash();
+computeCaesar();
+computeAES();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

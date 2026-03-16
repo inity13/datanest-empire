@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dependency Auditor — Demo | Security Kit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0E1A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh}
+  .header{background:#0d1321;border-bottom:1px solid #1e2a3a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header h1{font-size:1.1rem;color:#D500F9}.header .back{color:#D500F9;text-decoration:none;font-size:.85rem}
+  .container{max-width:900px;margin:0 auto;padding:32px 20px}
+  h2{font-size:1.5rem;margin-bottom:8px}.subtitle{color:#8899aa;margin-bottom:24px}
+  .layout{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:680px){.layout{grid-template-columns:1fr}}
+  .panel{background:#0d1321;border:1px solid #1e2a3a;border-radius:12px;padding:20px;margin-bottom:20px}
+  .panel h3{font-size:.83rem;text-transform:uppercase;letter-spacing:.07em;color:#D500F9;margin-bottom:12px}
+  .samples{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+  .sample-btn{background:#0A0E1A;border:1px solid #1e2a3a;color:#8899aa;padding:5px 12px;border-radius:6px;font-size:.78rem;cursor:pointer;transition:all .2s}
+  .sample-btn:hover{border-color:#D500F9;color:#fff}
+  textarea{width:100%;background:#0A0E1A;border:1px solid #1e2a3a;border-radius:6px;color:#fff;padding:10px 12px;font-size:.82rem;outline:none;font-family:monospace;resize:vertical;transition:border-color .2s}
+  textarea:focus{border-color:#D500F9}
+  .btn{padding:10px 22px;border:none;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer;background:#D500F9;color:#fff;transition:all .2s;margin-top:10px}
+  .btn:hover{background:#e040fb}
+  .summary-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+  .sum-box{flex:1;min-width:80px;text-align:center;padding:10px;background:#0A0E1A;border-radius:8px;border:1px solid #1e2a3a}
+  .sum-num{font-size:1.4rem;font-weight:700}
+  table{width:100%;border-collapse:collapse;font-size:.8rem}
+  th{text-align:left;padding:7px 10px;border-bottom:2px solid #1e2a3a;color:#8899aa;font-size:.73rem;text-transform:uppercase}
+  td{padding:7px 10px;border-bottom:1px solid #1e2a3a;vertical-align:top}
+  .badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:.7rem;font-weight:700}
+  .critical{background:rgba(229,57,53,.2);color:#ef5350}.high{background:rgba(255,87,34,.2);color:#ff7043}
+  .medium{background:rgba(255,171,0,.2);color:#FFAB00}.low{background:rgba(118,255,3,.2);color:#76FF03}
+  .safe{background:rgba(118,255,3,.15);color:#76FF03}
+  .cta-bar{text-align:center;margin-top:24px;padding:24px;background:#0d1321;border-radius:12px;border:1px solid #1e2a3a}
+  .cta-bar p{color:#8899aa;font-size:.88rem;margin-bottom:14px}
+  .btn-buy{display:inline-block;background:#D500F9;color:#fff;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none}
+  .note{text-align:center;font-size:.75rem;color:#4a5568;margin-top:14px}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📦 Dependency Auditor — Demo</h1>
+  <a href="../index.html" class="back">← Back to Store</a>
+</div>
+<div class="container">
+  <h2>Dependency Auditor</h2>
+  <p class="subtitle">Paste your requirements.txt or package.json and audit packages against a CVE vulnerability database.</p>
+  <div class="layout">
+    <div class="panel" style="margin-bottom:0">
+      <h3>Input</h3>
+      <div class="samples">
+        <button class="sample-btn" onclick="loadSample('pip')">requirements.txt</button>
+        <button class="sample-btn" onclick="loadSample('npm')">package.json</button>
+      </div>
+      <textarea id="depsInput" rows="14" placeholder="Paste requirements.txt or package.json here..."></textarea>
+      <button class="btn" onclick="audit()">Audit Dependencies</button>
+    </div>
+    <div class="panel" style="margin-bottom:0">
+      <h3>Results</h3>
+      <div id="placeholder" style="color:#4a5568;font-size:.85rem;padding-top:20px">Paste dependencies and click Audit.</div>
+      <div id="results" style="display:none">
+        <div class="summary-row" id="summaryRow"></div>
+        <table><thead><tr><th>Package</th><th>Version</th><th>Severity</th><th>CVE</th></tr></thead>
+        <tbody id="auditBody"></tbody></table>
+      </div>
+    </div>
+  </div>
+  <div class="cta-bar">
+    <p>Full version: auto-fix suggestions, PR integration, SBOM export, continuous monitoring, Slack alerts.</p>
+    <a href="https://buy.stripe.com/8x2cN58qPehgeRIaGtgjJ1P" class="btn-buy">Buy Full Version — $19</a>
+    <button class="crypto-pay-btn" data-product-slug="dependency-auditor" data-store-slug="security-kit" data-product-name="Dependency Auditor" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="note">This demo shows limited functionality. Buy the full tool for all features.</p>
+</div>
+<script>
+const SAMPLES = {
+  pip: `flask==2.0.1\nrequests==2.25.1\nnumpy==1.20.0\npillow==8.1.0\ndjango==3.1.0\nparamiko==2.7.1\npyyaml==5.3.1\ncryptography==3.2.0\nbabel==2.9.0\njinja2==2.11.2`,
+  npm: `{\n  "dependencies": {\n    "lodash": "4.17.19",\n    "axios": "0.19.0",\n    "express": "4.16.0",\n    "moment": "2.24.0",\n    "jquery": "3.4.1",\n    "webpack": "4.44.0",\n    "node-fetch": "2.6.0",\n    "minimist": "1.2.0",\n    "serialize-javascript": "2.1.0",\n    "react": "16.13.0"\n  }\n}`
+};
+
+const CVE_DB = {
+  'flask': { ver:'2.0.1', sev:'Medium', cve:'CVE-2023-30861', desc:'Cookie session handling bypass' },
+  'requests': { ver:'2.25.1', sev:'High', cve:'CVE-2023-32681', desc:'Proxy-Authorization header leak' },
+  'pillow': { ver:'8.1.0', sev:'Critical', cve:'CVE-2021-28678', desc:'Buffer overflow in BLP image processing' },
+  'django': { ver:'3.1.0', sev:'High', cve:'CVE-2021-35042', desc:'SQL injection via unsanitized QuerySet.order_by()' },
+  'pyyaml': { ver:'5.3.1', sev:'Critical', cve:'CVE-2020-14343', desc:'Remote code execution via unsafe YAML load' },
+  'jinja2': { ver:'2.11.2', sev:'High', cve:'CVE-2020-28493', desc:'ReDoS via crafted email address' },
+  'lodash': { ver:'4.17.19', sev:'Critical', cve:'CVE-2021-23337', desc:'Command injection via template' },
+  'axios': { ver:'0.19.0', sev:'High', cve:'CVE-2020-28168', desc:'SSRF via relative URL redirect' },
+  'jquery': { ver:'3.4.1', sev:'Medium', cve:'CVE-2020-11022', desc:'XSS in HTML passing functions' },
+  'minimist': { ver:'1.2.0', sev:'Critical', cve:'CVE-2021-44906', desc:'Prototype pollution' },
+  'serialize-javascript': { ver:'2.1.0', sev:'High', cve:'CVE-2020-7660', desc:'Remote code execution via regex' },
+  'node-fetch': { ver:'2.6.0', sev:'High', cve:'CVE-2022-0235', desc:'Exposure of sensitive info to unauthorized actor' }
+};
+
+function loadSample(t) { document.getElementById('depsInput').value = SAMPLES[t]; }
+
+function audit() {
+  const text = document.getElementById('depsInput').value.trim();
+  if (!text) { alert('Paste a requirements.txt or package.json first.'); return; }
+  const packages = [];
+  // Try to extract package=version pairs
+  const lines = text.split('\n');
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#') || trimmed.startsWith('{') || trimmed.startsWith('}')) continue;
+    // pip format: pkg==version
+    const pipMatch = trimmed.match(/^([\w\-]+)[=><~!]+(.+)$/);
+    if (pipMatch) { packages.push({ name: pipMatch[1].toLowerCase(), version: pipMatch[2].trim() }); continue; }
+    // npm format: "pkg": "version"
+    const npmMatch = trimmed.match(/"([\w\-@/]+)":\s*"([^"]+)"/);
+    if (npmMatch && !['dependencies','devDependencies','name','version'].includes(npmMatch[1])) {
+      packages.push({ name: npmMatch[1].toLowerCase(), version: npmMatch[2].trim() });
+    }
+  }
+  if (packages.length === 0) { alert('No packages detected. Try one of the sample files.'); return; }
+  const vulnerable = []; const safe = [];
+  packages.forEach(p => {
+    const cve = CVE_DB[p.name];
+    if (cve) vulnerable.push({ ...p, ...cve });
+    else safe.push(p);
+  });
+  const counts = { Critical:0, High:0, Medium:0, Low:0 };
+  vulnerable.forEach(v => { if (counts[v.sev] !== undefined) counts[v.sev]++; });
+  document.getElementById('summaryRow').innerHTML =
+    `<div class="sum-box"><div class="sum-num" style="color:#ef5350">${counts.Critical}</div><div style="font-size:.72rem;color:#8899aa">Critical</div></div>
+     <div class="sum-box"><div class="sum-num" style="color:#ff7043">${counts.High}</div><div style="font-size:.72rem;color:#8899aa">High</div></div>
+     <div class="sum-box"><div class="sum-num" style="color:#FFAB00">${counts.Medium}</div><div style="font-size:.72rem;color:#8899aa">Medium</div></div>
+     <div class="sum-box"><div class="sum-num" style="color:#76FF03">${safe.length}</div><div style="font-size:.72rem;color:#8899aa">Safe</div></div>`;
+  const sevCls = { Critical:'critical', High:'high', Medium:'medium', Low:'low' };
+  const rows = vulnerable.map(v =>
+    `<tr><td style="font-family:monospace">${v.name}</td><td style="font-family:monospace">${v.version}</td><td><span class="badge ${sevCls[v.sev]}">${v.sev}</span></td><td style="color:#8899aa;font-size:.75rem">${v.cve}<br>${v.desc}</td></tr>`
+  ).concat(safe.map(s =>
+    `<tr><td style="font-family:monospace">${s.name}</td><td style="font-family:monospace">${s.version}</td><td><span class="badge safe">Safe</span></td><td style="color:#4a5568;font-size:.75rem">No known CVEs</td></tr>`
+  ));
+  document.getElementById('auditBody').innerHTML = rows.join('');
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+}
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

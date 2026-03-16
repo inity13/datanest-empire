@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Lab — Ship faster. Build smarter. | CodeVault</title>
+    <meta name="description" content="Python landing page tools: A/B testing, conversion tracking, CTA optimizers, social proof widgets, exit-intent popups, heatmaps, and more. Zero dependencies. Instant download.">
+    <meta name="keywords" content="landing page tools, python ab testing, conversion tracking, cta optimizer, social proof, exit intent popup, heatmap, lead magnet, python landing page">
+    <link rel="canonical" href="https://landing-lab.codevault.dev/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Landing Lab — Ship faster. Build smarter. | CodeVault">
+    <meta property="og:description" content="Python landing page tools: A/B testing, conversion tracking, CTA optimizers, social proof widgets, exit-intent popups, heatmaps, and more. Zero dependencies. Instant download.">
+    <meta property="og:site_name" content="CodeVault">
+    <meta property="og:url" content="https://landing-lab.codevault.dev/">
+    <meta property="og:image" content="https://landing-lab.codevault.dev/og-image.svg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Landing Lab — Ship faster. Build smarter. | CodeVault">
+    <meta name="twitter:description" content="Python landing page tools: A/B testing, conversion tracking, CTA optimizers, social proof widgets, exit-intent popups, heatmaps, and more. Zero dependencies. Instant download.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#FFAB00">
+
+    <!-- Plausible Analytics -->
+    <script defer data-domain="landing-lab.codevault.dev" src="https://plausible.io/js/script.js"></script>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Store",
+        "name": "Landing Lab",
+        "description": "Python landing page tools: A/B testing, conversion tracking, CTA optimizers, social proof widgets, and more.",
+        "url": "https://landing-lab.codevault.dev/",
+        "brand": { "@type": "Brand", "name": "CodeVault" },
+        "offers": {
+            "@type": "AggregateOffer",
+            "lowPrice": "4.99",
+            "highPrice": "39.99",
+            "priceCurrency": "USD",
+            "offerCount": "12"
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- Cross-Store Navigation -->
+    <nav class="cross-nav" aria-label="CodeVault stores">
+        <div class="cross-nav__inner">
+            <span class="cross-nav__brand">CodeVault</span>
+            <a href="../seo-toolkit/storefront/index.html" class="cross-nav__link">SEO Toolkit</a>
+            <a href="../email-arsenal/storefront/index.html" class="cross-nav__link">Email Arsenal</a>
+            <a href="../form-forge/storefront/index.html" class="cross-nav__link">Form Forge</a>
+            <a href="../api-launchpad/storefront/index.html" class="cross-nav__link">API Launchpad</a>
+            <a href="../deploy-kit/storefront/index.html" class="cross-nav__link">Deploy Kit</a>
+            <a href="../auth-vault/storefront/index.html" class="cross-nav__link">Auth Vault</a>
+            <a href="../saas-starter/storefront/index.html" class="cross-nav__link">SaaS Starter</a>
+            <a href="../analytics-hub/storefront/index.html" class="cross-nav__link">Analytics Hub</a>
+            <a href="../payment-stack/storefront/index.html" class="cross-nav__link">Payment Stack</a>
+            <a href="../ai-toolkit/storefront/index.html" class="cross-nav__link">AI Toolkit</a>
+            <a href="../security-kit/storefront/index.html" class="cross-nav__link">Security Kit</a>
+            <a href="#" class="cross-nav__link cross-nav__link--active">Landing Lab</a>
+            <a href="../automation-hub/storefront/index.html" class="cross-nav__link">Automation Hub</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="top">
+        <div class="container">
+            <h1 class="hero__title glitch" data-text="Landing Lab">Landing Lab</h1>
+            <p class="hero__subtitle">Ship faster. Build smarter.</p>
+            <p class="hero__sub2">Convert more visitors. Waste fewer clicks.</p>
+            <div class="hero__cta-row">
+                <a href="#products" class="btn btn--primary">Browse Tools</a>
+                <a href="#faq" class="btn btn--secondary">How it works</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Products Section -->
+    <section class="section" id="products">
+        <div class="container">
+            <h2 class="section__heading">What&rsquo;s in the lab</h2>
+            <p class="section__subheading">Conversion tools that ship. No bloat, no dependencies, just results.</p>
+
+            <div class="filter-bar">
+                <span class="filter-bar__label">Filter:</span>
+                <button class="filter-tag active" data-filter="all">All</button>
+                <button class="filter-tag" data-filter="bundle">bundle</button>
+                <button class="filter-tag" data-filter="templates">templates</button>
+                <button class="filter-tag" data-filter="analytics">analytics</button>
+                <button class="filter-tag" data-filter="optimization">optimization</button>
+                <button class="filter-tag" data-filter="widget">widget</button>
+                <button class="filter-tag" data-filter="tracking">tracking</button>
+                <button class="filter-tag" data-filter="email">email</button>
+                <select class="sort-select" aria-label="Sort products">
+                    <option value="default">Sort: Featured</option>
+                    <option value="price-asc">Price: Low &rarr; High</option>
+                    <option value="price-desc">Price: High &rarr; Low</option>
+                </select>
+            </div>
+
+            <div class="product-grid">
+
+                <!-- Bundle: Landing Lab Starter Bundle -->
+                <article class="product-card product-card--bundle fade-in"
+                         data-tags="bundle,starter"
+                         data-price="1999"
+                         data-slug="landing-lab-starter-bundle">
+                    <div class="product-card__inner">
+                        <div>
+                            <span class="bundle-badge">BUNDLE DEAL</span>
+                            <h3 class="product-card__name" style="margin-top: 12px">Landing Lab Starter Bundle</h3>
+                            <p class="product-card__desc">Landing Page Templates, Conversion Tracker, Social Proof Widget, and CTA Optimizer in one bundle.</p>
+                            <div class="product-card__tags"><span class="product-card__tag">bundle</span><span class="product-card__tag">starter</span></div>
+                            <ul class="product-card__bundle-list">
+                                <li>Landing Page Templates</li>
+                                <li>Conversion Tracker</li>
+                                <li>Social Proof Widget</li>
+                                <li>CTA Optimizer</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$19.99</p>
+                            <div class="product-card__actions">
+                                <a href="https://buy.stripe.com/PLACEHOLDER_landing-lab-starter-bundle" class="btn btn--primary btn--card"
+                                   data-product="landing-lab-starter-bundle">
+                                    Grab This Bundle
+                                </a>
+                                <button class="btn btn--crypto btn--card"
+                                        data-crypto-product="Landing Lab Starter Bundle"
+                                        data-crypto-price="1999">
+                                    Pay with Crypto ($15.99)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Bundle: Landing Lab Pro Bundle -->
+                <article class="product-card product-card--bundle fade-in"
+                         data-tags="bundle,pro"
+                         data-price="3999"
+                         data-slug="landing-lab-pro-bundle">
+                    <div class="product-card__inner">
+                        <div>
+                            <span class="bundle-badge">BUNDLE DEAL</span>
+                            <h3 class="product-card__name" style="margin-top: 12px">Landing Lab Pro Bundle</h3>
+                            <p class="product-card__desc">Every tool in the Landing Lab &mdash; all 10 products at a massive discount.</p>
+                            <div class="product-card__tags"><span class="product-card__tag">bundle</span><span class="product-card__tag">pro</span></div>
+                            <ul class="product-card__bundle-list">
+                                <li>Landing Page Templates</li>
+                                <li>A/B Testing Framework</li>
+                                <li>Conversion Tracker</li>
+                                <li>CTA Optimizer</li>
+                                <li>Social Proof Widget</li>
+                                <li>Testimonial Collector</li>
+                                <li>Exit-Intent Popup</li>
+                                <li>Heatmap Integrator</li>
+                                <li>Page Speed Optimizer</li>
+                                <li>Lead Magnet Builder</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$39.99</p>
+                            <div class="product-card__actions">
+                                <a href="https://buy.stripe.com/PLACEHOLDER_landing-lab-pro-bundle" class="btn btn--primary btn--card"
+                                   data-product="landing-lab-pro-bundle">
+                                    Grab This Bundle
+                                </a>
+                                <button class="btn btn--crypto btn--card"
+                                        data-crypto-product="Landing Lab Pro Bundle"
+                                        data-crypto-price="3999">
+                                    Pay with Crypto ($31.99)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product: Landing Page Templates -->
+                <article class="product-card fade-in"
+                         data-tags="templates,html,responsive"
+                         data-price="999"
+                         data-slug="landing-page-templates">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Landing Page Templates</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Collection of 15+ responsive landing page templates for SaaS, apps, products, waitlists, and coming-soon pages.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">templates</span><span class="product-card__tag">html</span><span class="product-card__tag">responsive</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_landing-page-templates" class="btn btn--primary btn--card"
+                           data-product="landing-page-templates">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Landing Page Templates"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                        <a href="preview-landing-page-templates.html" class="product-card__preview-link">Preview &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Product: A/B Testing Framework -->
+                <article class="product-card fade-in"
+                         data-tags="testing,statistics,tool,analytics"
+                         data-price="999"
+                         data-slug="ab-testing-framework">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">A/B Testing Framework</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Python A/B testing engine with variant serving, conversion tracking, and statistical significance calculations.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">testing</span><span class="product-card__tag">analytics</span><span class="product-card__tag">statistics</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_ab-testing-framework" class="btn btn--primary btn--card"
+                           data-product="ab-testing-framework">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="A/B Testing Framework"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                        <a href="preview-ab-testing-framework.html" class="product-card__preview-link">Preview &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Conversion Tracker -->
+                <article class="product-card fade-in"
+                         data-tags="conversion,analytics,tool,tracking"
+                         data-price="499"
+                         data-slug="conversion-tracker">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Conversion Tracker</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Python conversion tracking tool with goal setup, funnel steps, event capture, and attribution modeling.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">conversion</span><span class="product-card__tag">analytics</span><span class="product-card__tag">tracking</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_conversion-tracker" class="btn btn--primary btn--card"
+                           data-product="conversion-tracker">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Conversion Tracker"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                        <a href="preview-conversion-tracker.html" class="product-card__preview-link">Preview &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Product: CTA Optimizer -->
+                <article class="product-card fade-in"
+                         data-tags="cta,optimization,tool"
+                         data-price="499"
+                         data-slug="cta-optimizer">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">CTA Optimizer</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Python CTA analysis tool for button text testing, color contrast scoring, placement recommendations.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">cta</span><span class="product-card__tag">optimization</span><span class="product-card__tag">tool</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_cta-optimizer" class="btn btn--primary btn--card"
+                           data-product="cta-optimizer">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="CTA Optimizer"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                        <a href="preview-cta-optimizer.html" class="product-card__preview-link">Preview &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Social Proof Widget -->
+                <article class="product-card fade-in"
+                         data-tags="social-proof,widget,html"
+                         data-price="499"
+                         data-slug="social-proof-widget">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Social Proof Widget</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Python-generated social proof widgets: testimonial rotators, review aggregators, trust badges, live visitor counters.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">widget</span><span class="product-card__tag">social-proof</span><span class="product-card__tag">html</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_social-proof-widget" class="btn btn--primary btn--card"
+                           data-product="social-proof-widget">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Social Proof Widget"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                        <a href="preview-social-proof-widget.html" class="product-card__preview-link">Preview &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Testimonial Collector -->
+                <article class="product-card fade-in"
+                         data-tags="testimonials,email,tool"
+                         data-price="499"
+                         data-slug="testimonial-collector">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Testimonial Collector</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Python testimonial collection system with request email generation, approval workflow, display-ready HTML formatting.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">email</span><span class="product-card__tag">testimonials</span><span class="product-card__tag">tool</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_testimonial-collector" class="btn btn--primary btn--card"
+                           data-product="testimonial-collector">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Testimonial Collector"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                        <a href="preview-testimonial-collector.html" class="product-card__preview-link">Preview &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Exit-Intent Popup -->
+                <article class="product-card fade-in"
+                         data-tags="popup,exit-intent,html"
+                         data-price="499"
+                         data-slug="exit-intent-popup">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Exit-Intent Popup</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Python exit-intent popup generator for email capture, discount offers, and survey prompts.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">popup</span><span class="product-card__tag">exit-intent</span><span class="product-card__tag">html</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_exit-intent-popup" class="btn btn--primary btn--card"
+                           data-product="exit-intent-popup">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Exit-Intent Popup"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                        <a href="preview-exit-intent-popup.html" class="product-card__preview-link">Preview &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Heatmap Integrator -->
+                <article class="product-card fade-in"
+                         data-tags="heatmap,analytics,tracking"
+                         data-price="999"
+                         data-slug="heatmap-integrator">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Heatmap Integrator</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Python heatmap integration kit with click tracking, scroll depth analysis, mouse movement recording.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">heatmap</span><span class="product-card__tag">analytics</span><span class="product-card__tag">tracking</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_heatmap-integrator" class="btn btn--primary btn--card"
+                           data-product="heatmap-integrator">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Heatmap Integrator"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                        <a href="preview-heatmap-integrator.html" class="product-card__preview-link">Preview &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Page Speed Optimizer -->
+                <article class="product-card fade-in"
+                         data-tags="performance,optimization,tool"
+                         data-price="499"
+                         data-slug="page-speed-optimizer">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Page Speed Optimizer</h3>
+                        <span class="product-card__price">$4.99</span>
+                    </div>
+                    <p class="product-card__desc">Python page optimization tool for image compression, CSS/JS minification, lazy loading setup.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">performance</span><span class="product-card__tag">optimization</span><span class="product-card__tag">tool</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_page-speed-optimizer" class="btn btn--primary btn--card"
+                           data-product="page-speed-optimizer">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Page Speed Optimizer"
+                                data-crypto-price="499">
+                            Pay with Crypto ($3.99)
+                        </button>
+                        <a href="preview-page-speed-optimizer.html" class="product-card__preview-link">Preview &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Product: Lead Magnet Builder -->
+                <article class="product-card fade-in"
+                         data-tags="lead-magnet,email,tool"
+                         data-price="999"
+                         data-slug="lead-magnet-builder">
+                    <div class="product-card__header">
+                        <h3 class="product-card__name">Lead Magnet Builder</h3>
+                        <span class="product-card__price">$9.99</span>
+                    </div>
+                    <p class="product-card__desc">Python lead magnet creator with PDF generators, email course schedulers, and free tool packagers.</p>
+                    <div class="product-card__tags"><span class="product-card__tag">lead-magnet</span><span class="product-card__tag">email</span><span class="product-card__tag">tool</span></div>
+                    <div class="product-card__actions">
+                        <a href="https://buy.stripe.com/PLACEHOLDER_lead-magnet-builder" class="btn btn--primary btn--card"
+                           data-product="lead-magnet-builder">
+                            Grab This
+                        </a>
+                        <button class="btn btn--crypto btn--card"
+                                data-crypto-product="Lead Magnet Builder"
+                                data-crypto-price="999">
+                            Pay with Crypto ($7.99)
+                        </button>
+                        <a href="preview-lead-magnet-builder.html" class="product-card__preview-link">Preview &rarr;</a>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Signals -->
+    <section class="trust-section" id="trust">
+        <div class="container">
+            <h2 class="section__heading">Why devs grab from here</h2>
+            <p class="section__subheading">Built by developers, for conversion-minded builders</p>
+            <div class="trust-grid">
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#9889;</div>
+                    <p class="trust-card__text">
+                        <strong>Instant digital download</strong>
+                        Unzip and run. No setup, no accounts, no waiting.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128274;</div>
+                    <p class="trust-card__text">
+                        <strong>MIT License &mdash; use anywhere</strong>
+                        Personal projects, client work, SaaS products. You own it.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128142;</div>
+                    <p class="trust-card__text">
+                        <strong>Python stdlib only &mdash; zero dependencies</strong>
+                        No pip install, no virtualenv, no dependency hell.
+                    </p>
+                </div>
+                <div class="trust-card fade-in">
+                    <div class="trust-card__icon">&#128187;</div>
+                    <p class="trust-card__text">
+                        <strong>Works on any OS with Python 3.10+</strong>
+                        macOS, Linux, Windows &mdash; if Python runs, these tools run.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- License Tiers -->
+    <section class="tier-section" id="tiers">
+        <div class="container">
+            <h2 class="section__heading">License tiers</h2>
+            <p class="section__subheading">Every purchase is MIT-licensed. Pick what fits.</p>
+            <div class="tier-grid">
+                <div class="tier-card fade-in">
+                    <h3 class="tier-card__name">Personal</h3>
+                    <p class="tier-card__desc">For solo devs and side projects</p>
+                    <ul class="tier-card__features">
+                        <li>Use on unlimited personal projects</li>
+                        <li>Full source code access</li>
+                        <li>Lifetime updates</li>
+                        <li>MIT License included</li>
+                    </ul>
+                    <a href="#products" class="btn btn--secondary btn--sm">Browse tools</a>
+                </div>
+                <div class="tier-card tier-card--featured fade-in">
+                    <h3 class="tier-card__name">Team</h3>
+                    <p class="tier-card__desc">For small teams and agencies</p>
+                    <ul class="tier-card__features">
+                        <li>Everything in Personal</li>
+                        <li>Share with up to 10 team members</li>
+                        <li>Use in client deliverables</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <a href="#products" class="btn btn--primary btn--sm">Grab the Pro Bundle</a>
+                </div>
+                <div class="tier-card fade-in">
+                    <h3 class="tier-card__name">Enterprise</h3>
+                    <p class="tier-card__desc">For large teams and SaaS products</p>
+                    <ul class="tier-card__features">
+                        <li>Everything in Team</li>
+                        <li>Unlimited team members</li>
+                        <li>Embed in commercial SaaS</li>
+                        <li>Dedicated support channel</li>
+                    </ul>
+                    <a href="mailto:support@codevault.dev" class="btn btn--secondary btn--sm">Contact us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter-section" id="newsletter">
+        <div class="container">
+            <div class="newsletter-box fade-in">
+                <h2 class="newsletter-box__title">Stay in the loop</h2>
+                <p class="newsletter-box__desc">Get notified when we ship new tools. No spam, just releases.</p>
+                <!-- ConvertKit Form ID: PLACEHOLDER -->
+                <form class="newsletter-form" action="https://app.convertkit.com/forms/PLACEHOLDER/subscriptions" method="post" onsubmit="return false;">
+                    <input type="email" class="newsletter-form__input" placeholder="you@example.com" required aria-label="Email address">
+                    <button type="submit" class="newsletter-form__btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Companion App -->
+    <section class="app-section" id="app">
+        <div class="container">
+            <div class="app-promo fade-in">
+                <div class="app-promo__content">
+                    <span class="app-promo__badge">ANDROID APP</span>
+                    <h2 class="app-promo__title">Landing Lab Mobile</h2>
+                    <p class="app-promo__desc">Take your landing page toolkit on the go. Dashboard, community templates, daily challenges, and streak rewards &mdash; all in a dark-themed Material&nbsp;3 interface.</p>
+                    <ul class="app-promo__features">
+                        <li>Visual landing page editor with components</li>
+                        <li>A/B testing dashboard and conversion tracker</li>
+                        <li>Community sharing &amp; daily challenges</li>
+                        <li>Premium tools via in-app purchase ($0.99&ndash;$4.99)</li>
+                    </ul>
+                    <div class="app-promo__actions">
+                        <a href="https://play.google.com/store/apps/details?id=com.codevault.landinglab" class="btn btn--primary">Get on Google Play</a>
+                        <a href="https://github.com/codevault/landing-lab-android" class="btn btn--secondary">View Source</a>
+                    </div>
+                </div>
+                <div class="app-promo__visual">
+                    <div class="app-mockup" style="--app-color: #FFAB00">
+                        <div class="app-mockup__screen">
+                            <div class="app-mockup__header">Landing Lab</div>
+                            <div class="app-mockup__tabs">
+                                <span class="app-mockup__tab app-mockup__tab--active">Editor</span>
+                                <span class="app-mockup__tab">Analytics</span>
+                                <span class="app-mockup__tab">Community</span>
+                                <span class="app-mockup__tab">Store</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section__heading">Got questions?</h2>
+            <p class="section__subheading">We got answers.</p>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Do these tools require any pip packages?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Nope. Every tool runs on Python 3.10+ stdlib only. No pip install, no virtualenv, no dependency hell.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I use these in my SaaS product?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Absolutely. MIT license &mdash; use them in personal projects, client work, or inside your SaaS. Just don't resell the tools themselves.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do I get my download?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Instant download after payment. You'll get a .zip with the tool, README, examples, and a LICENSE file.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What Python version do I need?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Python 3.10 or newer. That's it &mdash; no other requirements.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What&rsquo;s the difference between bundles and individual tools?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">Bundles give you multiple tools at a significant discount. The Pro Bundle includes all 10 tools &mdash; the best value if you're building out a full conversion stack.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I get a refund?</span>
+                        <span class="faq-question__icon">+</span>
+                    </button>
+                    <div class="faq-answer" aria-hidden="true">
+                        <div class="faq-answer__inner">If a tool doesn't work as described, absolutely. Email <a href="mailto:support@codevault.dev">support@codevault.dev</a> and we'll make it right.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__brand">CodeVault</p>
+            <p class="footer__tagline">Ship faster. Build smarter.</p>
+            <nav class="footer__links" aria-label="Other stores">
+                <a href="../seo-toolkit/storefront/index.html" class="footer__link">SEO Toolkit</a>
+                <a href="../email-arsenal/storefront/index.html" class="footer__link">Email Arsenal</a>
+                <a href="../form-forge/storefront/index.html" class="footer__link">Form Forge</a>
+                <a href="../api-launchpad/storefront/index.html" class="footer__link">API Launchpad</a>
+                <a href="../deploy-kit/storefront/index.html" class="footer__link">Deploy Kit</a>
+                <a href="../auth-vault/storefront/index.html" class="footer__link">Auth Vault</a>
+                <a href="../saas-starter/storefront/index.html" class="footer__link">SaaS Starter</a>
+                <a href="../analytics-hub/storefront/index.html" class="footer__link">Analytics Hub</a>
+                <a href="../payment-stack/storefront/index.html" class="footer__link">Payment Stack</a>
+                <a href="../ai-toolkit/storefront/index.html" class="footer__link">AI Toolkit</a>
+                <a href="../security-kit/storefront/index.html" class="footer__link">Security Kit</a>
+                <a href="../automation-hub/storefront/index.html" class="footer__link">Automation Hub</a>
+            </nav>
+            <p class="footer__copy">&copy; 2026 CodeVault. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

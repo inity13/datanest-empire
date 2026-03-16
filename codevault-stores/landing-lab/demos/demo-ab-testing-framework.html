@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A/B Testing Framework Demo — Landing Lab</title>
+<style>
+  :root { --brand: #FFAB00; --bg: #0A0E1A; --panel: #0d1321; --border: #1e2a3a; --text: #e2e8f0; --muted: #64748b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 820px; margin: 0 auto; }
+  h1 { color: var(--brand); font-size: 1.6rem; margin-bottom: 0.3rem; }
+  .subtitle { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem; }
+  .panel h2 { color: var(--brand); font-size: 1rem; margin-bottom: 1rem; }
+  label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 0.3rem; margin-top: 0.75rem; }
+  input { width: 100%; background: #0a1020; border: 1px solid var(--border); border-radius: 4px; color: var(--text); padding: 0.5rem 0.75rem; font-size: 0.9rem; }
+  input:focus { outline: none; border-color: var(--brand); }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn { background: var(--brand); color: #000; border: none; border-radius: 6px; padding: 0.6rem 1.4rem; font-weight: 700; cursor: pointer; font-size: 0.9rem; margin-top: 1rem; }
+  .btn:hover { opacity: 0.85; }
+  .result-box { background: #060d1a; border: 1px solid var(--border); border-radius: 6px; padding: 1rem; margin-top: 1rem; display: none; }
+  .result-box.show { display: block; }
+  .sig-badge { display: inline-block; padding: 0.3rem 0.9rem; border-radius: 20px; font-weight: 700; font-size: 0.9rem; }
+  .sig-yes { background: #052e16; color: #4ade80; border: 1px solid #16a34a; }
+  .sig-no { background: #1c1000; color: #fbbf24; border: 1px solid #d97706; }
+  .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-val { color: var(--brand); font-weight: 600; }
+  .bar-container { margin-top: 1rem; }
+  .bar-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.3rem; }
+  .bar-track { background: #1e2a3a; border-radius: 4px; height: 20px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+  .winner { color: #4ade80; font-size: 0.8rem; font-weight: 600; }
+  .cta-bar { background: linear-gradient(135deg, #1a1200, #2a1e00); border: 1px solid var(--brand); border-radius: 8px; padding: 1.25rem; margin-top: 1.5rem; text-align: center; }
+  .cta-bar h3 { color: var(--brand); margin-bottom: 0.4rem; }
+  .cta-bar p { color: var(--muted); font-size: 0.85rem; margin-bottom: 1rem; }
+  .buy-btn { display: inline-block; background: var(--brand); color: #000; text-decoration: none; padding: 0.75rem 2rem; border-radius: 6px; font-weight: 700; font-size: 1rem; }
+  .buy-btn:hover { opacity: 0.85; }
+  .footer-note { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 1rem; }
+  .tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+  .tab { background: #0a1020; border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.9rem; cursor: pointer; font-size: 0.85rem; color: var(--muted); }
+  .tab.active { border-color: var(--brand); color: var(--brand); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📊 A/B Testing Framework</h1>
+  <p class="subtitle">Run significance tests and calculate sample sizes for your landing page experiments.</p>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('sig')">Significance Test</div>
+    <div class="tab" onclick="switchTab('size')">Sample Size Calculator</div>
+  </div>
+
+  <div class="tab-panel active" id="tab-sig">
+    <div class="panel">
+      <h2>Test Significance (Z-test, Two-Proportion)</h2>
+      <div class="row">
+        <div>
+          <label>Variant A — Visitors</label>
+          <input id="aVisitors" type="number" value="1200" />
+          <label>Variant A — Conversions</label>
+          <input id="aConv" type="number" value="96" />
+        </div>
+        <div>
+          <label>Variant B — Visitors</label>
+          <input id="bVisitors" type="number" value="1200" />
+          <label>Variant B — Conversions</label>
+          <input id="bConv" type="number" value="126" />
+        </div>
+      </div>
+      <label>Confidence Level</label>
+      <input id="confLevel" type="number" value="95" min="80" max="99" />
+      <button class="btn" onclick="runSigTest()">Run Significance Test</button>
+    </div>
+    <div class="result-box" id="sigResult">
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem">
+        <span id="sigBadge" class="sig-badge"></span>
+        <span id="sigSummary" style="font-size:0.9rem;color:var(--muted)"></span>
+      </div>
+      <div id="statRows"></div>
+      <div class="bar-container">
+        <div class="bar-label"><span>Variant A</span><span id="aRateLabel"></span></div>
+        <div class="bar-track"><div id="aBar" class="bar-fill" style="background:#3b82f6;width:0%"></div></div>
+        <div class="bar-label" style="margin-top:0.6rem"><span>Variant B</span><span id="bRateLabel"></span></div>
+        <div class="bar-track"><div id="bBar" class="bar-fill" style="background:var(--brand);width:0%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-size">
+    <div class="panel">
+      <h2>Sample Size Calculator</h2>
+      <div class="row">
+        <div>
+          <label>Baseline Conversion Rate (%)</label>
+          <input id="baseline" type="number" value="5" />
+          <label>Minimum Detectable Effect (%)</label>
+          <input id="mde" type="number" value="20" />
+        </div>
+        <div>
+          <label>Statistical Power (%)</label>
+          <input id="power" type="number" value="80" />
+          <label>Significance Level (%)</label>
+          <input id="alpha" type="number" value="5" />
+        </div>
+      </div>
+      <button class="btn" onclick="calcSampleSize()">Calculate Sample Size</button>
+    </div>
+    <div class="result-box" id="sizeResult">
+      <div id="sizeRows"></div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Get the Full A/B Testing Framework — $19</h3>
+    <p>Python SDK with automatic experiment tracking, multi-variant support, Bayesian stats, and dashboard export.</p>
+    <a class="buy-btn" href="https://buy.stripe.com/9B6dR94azb5424WeWJgjJ1b">Buy Full Version — $19</a>
+    <button class="crypto-pay-btn" data-product-slug="ab-testing-framework" data-store-slug="landing-lab" data-product-name="A/B Testing Framework" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+  <p class="footer-note">This demo shows statistical calculations only. Full version includes Python experiment runner, result tracking, and CI/CD integration.</p>
+</div>
+<script>
+  function switchTab(t) {
+    document.querySelectorAll('.tab').forEach((el,i) => el.classList.toggle('active', ['sig','size'][i]===t));
+    document.querySelectorAll('.tab-panel').forEach((el,i) => el.classList.toggle('active', ['tab-sig','tab-size'][i]==='tab-'+t));
+  }
+
+  // Error function approximation for normal CDF
+  function normalCDF(z) {
+    const t = 1 / (1 + 0.3275911 * Math.abs(z));
+    const poly = t*(0.254829592 + t*(-0.284496736 + t*(1.421413741 + t*(-1.453152027 + t*1.061405429))));
+    const val = 1 - poly * Math.exp(-z*z/2) / Math.sqrt(2*Math.PI) * Math.sqrt(2*Math.PI);
+    return z >= 0 ? val : 1 - val;
+  }
+
+  function runSigTest() {
+    const aV = +document.getElementById('aVisitors').value;
+    const aC = +document.getElementById('aConv').value;
+    const bV = +document.getElementById('bVisitors').value;
+    const bC = +document.getElementById('bConv').value;
+    const conf = +document.getElementById('confLevel').value / 100;
+
+    if (!aV || !bV) return;
+    const pA = aC / aV, pB = bC / bV;
+    const pPool = (aC + bC) / (aV + bV);
+    const se = Math.sqrt(pPool * (1-pPool) * (1/aV + 1/bV));
+    const z = (pB - pA) / se;
+    const pVal = 2 * (1 - normalCDF(Math.abs(z)));
+    const significant = pVal < (1 - conf);
+    const lift = ((pB - pA) / pA * 100).toFixed(1);
+    const critZ = conf >= 0.99 ? 2.576 : conf >= 0.95 ? 1.96 : 1.645;
+    const ciA = (1.96 * Math.sqrt(pA*(1-pA)/aV) * 100).toFixed(2);
+    const ciB = (1.96 * Math.sqrt(pB*(1-pB)/bV) * 100).toFixed(2);
+
+    const res = document.getElementById('sigResult');
+    res.classList.add('show');
+    document.getElementById('sigBadge').className = 'sig-badge ' + (significant ? 'sig-yes' : 'sig-no');
+    document.getElementById('sigBadge').textContent = significant ? '✓ Significant' : '✗ Not Significant';
+    document.getElementById('sigSummary').textContent = significant
+      ? `Variant B wins with ${lift}% lift (p=${pVal.toFixed(4)})`
+      : `No significant difference yet (p=${pVal.toFixed(4)})`;
+
+    document.getElementById('statRows').innerHTML = [
+      ['Variant A Rate', `${(pA*100).toFixed(2)}% ±${ciA}%`],
+      ['Variant B Rate', `${(pB*100).toFixed(2)}% ±${ciB}%`],
+      ['Relative Lift', `${lift}%`, lift > 0 ? '#4ade80' : '#f87171'],
+      ['Z-Score', z.toFixed(3)],
+      ['P-Value', pVal.toFixed(4)],
+      ['Critical Z', critZ]
+    ].map(([k,v,c]) => `<div class="stat-row"><span>${k}</span><span class="stat-val" style="${c?'color:'+c:''}">${v}</span></div>`).join('');
+
+    const maxRate = Math.max(pA, pB);
+    document.getElementById('aBar').style.width = (pA/maxRate*100) + '%';
+    document.getElementById('bBar').style.width = (pB/maxRate*100) + '%';
+    document.getElementById('aRateLabel').textContent = (pA*100).toFixed(2) + '%';
+    document.getElementById('bRateLabel').textContent = (pB*100).toFixed(2) + '%';
+  }
+
+  function calcSampleSize() {
+    const p = +document.getElementById('baseline').value / 100;
+    const mde = +document.getElementById('mde').value / 100;
+    const power = +document.getElementById('power').value / 100;
+    const alpha = +document.getElementById('alpha').value / 100;
+
+    const p2 = p * (1 + mde);
+    const za = [2.576, 2.326, 1.96, 1.645, 1.282][[1,2,5,10,20].indexOf(+document.getElementById('alpha').value)] || 1.96;
+    const zb = power >= 0.90 ? 1.282 : power >= 0.85 ? 1.036 : 0.842;
+    const n = Math.ceil((za + zb)**2 * (p*(1-p) + p2*(1-p2)) / (p2-p)**2);
+    const days = (n: number, daily: number) => Math.ceil(n / daily);
+
+    const res = document.getElementById('sizeResult');
+    res.classList.add('show');
+    res.querySelector('#sizeRows') && (res.innerHTML = '');
+    res.innerHTML = [
+      ['Required Per Variant', n.toLocaleString()],
+      ['Total Sample (both)', (n*2).toLocaleString()],
+      ['Baseline Rate', (p*100).toFixed(1)+'%'],
+      ['Target Rate (with MDE)', (p2*100).toFixed(1)+'%'],
+      ['Days @ 500 visitors/day', days(n,500)],
+      ['Days @ 2000 visitors/day', days(n,2000)],
+      ['Days @ 10000 visitors/day', days(n,10000)],
+    ].map(([k,v]) => `<div class="stat-row"><span>${k}</span><span class="stat-val">${v}</span></div>`).join('');
+  }
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

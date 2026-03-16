@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deploy Scripts — Interactive Demo | Deploy Kit</title>
+<style>
+  :root{--bg:#0A0E1A;--surface:#141824;--surface2:#1E2436;--border:#2A2E3E;--accent:#00BCD4;--text:#EAEAFF;--muted:#8888AA;--green:#00FF88;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+  header h1{font-size:1.1rem;font-weight:600;} .badge{background:var(--accent);color:#000;font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+  .container{max-width:1000px;margin:0 auto;padding:2rem 1.5rem;}
+  h2{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);margin-bottom:2rem;font-size:.95rem;}
+  .layout{display:grid;grid-template-columns:280px 1fr;gap:1.5rem;}
+  @media(max-width:700px){.layout{grid-template-columns:1fr;}}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}
+  label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+  select,input{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.55rem .8rem;border-radius:8px;font-size:.88rem;margin-bottom:.9rem;}
+  select:focus,input:focus{outline:none;border-color:var(--accent);}
+  .checks{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.9rem;}
+  .checks label{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--text);text-transform:none;letter-spacing:0;margin:0;cursor:pointer;}
+  .checks input[type=checkbox]{width:auto;margin:0;}
+  .btn{display:block;width:100%;padding:.7rem;background:var(--accent);color:#000;border:none;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;}
+  .btn:hover{opacity:.85;}
+  .output-panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  .out-header{background:var(--surface2);padding:.75rem 1.25rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);}
+  .out-header span{font-size:.8rem;font-family:monospace;color:var(--muted);}
+  .copy-btn{background:transparent;border:1px solid var(--border);color:var(--accent);padding:.25rem .65rem;border-radius:5px;font-size:.72rem;cursor:pointer;}
+  .copy-btn:hover{background:var(--accent);color:#000;}
+  pre{padding:1.1rem;font-family:'Courier New',monospace;font-size:.77rem;line-height:1.6;overflow-x:auto;color:#cdd6f4;max-height:520px;overflow-y:auto;}
+  .strategy-pills{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.9rem;}
+  .pill{padding:.35rem .75rem;border-radius:20px;font-size:.8rem;cursor:pointer;border:1px solid var(--border);color:var(--muted);transition:all .2s;}
+  .pill.active{border-color:var(--accent);color:var(--accent);background:rgba(0,188,212,.1);}
+  .cta-box{background:linear-gradient(135deg,var(--surface2),#1a2040);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center;}
+  .cta-box p{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+  .cta-btn{display:inline-block;background:var(--accent);color:#000;font-weight:700;padding:.7rem 1.8rem;border-radius:8px;text-decoration:none;font-size:.9rem;}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;}
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.5rem">🚀</span>
+  <h1>Deploy Scripts</h1>
+  <span>Interactive Demo</span>
+  <span class="badge">Deploy Kit</span>
+</header>
+<div class="container">
+  <h2>Deploy Script Builder</h2>
+  <p class="subtitle">Configure your deployment strategy and get a production-ready shell script.</p>
+  <div class="layout">
+    <div class="panel">
+      <label>Deployment Strategy</label>
+      <div class="strategy-pills">
+        <div class="pill active" data-val="rolling" onclick="setPill(this)">Rolling</div>
+        <div class="pill" data-val="blue-green" onclick="setPill(this)">Blue-Green</div>
+        <div class="pill" data-val="canary" onclick="setPill(this)">Canary</div>
+      </div>
+      <label>App Name</label>
+      <input type="text" id="appName" value="my-api" oninput="generate()">
+      <label>Container Registry</label>
+      <input type="text" id="registry" value="ghcr.io/myorg/my-api" oninput="generate()">
+      <label>Target Environment</label>
+      <select id="targetEnv" onchange="generate()">
+        <option value="staging">Staging</option>
+        <option value="production">Production</option>
+      </select>
+      <label>Deploy Options</label>
+      <div class="checks">
+        <label><input type="checkbox" id="healthCheck" checked> Health check gate</label>
+        <label><input type="checkbox" id="rollback" checked> Auto rollback on failure</label>
+        <label><input type="checkbox" id="slackNotify"> Slack notification</label>
+        <label><input type="checkbox" id="dbMigrate"> Run DB migrations</label>
+        <label><input type="checkbox" id="smokeTest"> Smoke tests after deploy</label>
+      </div>
+      <button class="btn" onclick="generate()">⚡ Generate Script</button>
+    </div>
+    <div class="output-panel">
+      <div class="out-header">
+        <span id="scriptName">deploy.sh</span>
+        <button class="copy-btn" onclick="copyOut()">Copy</button>
+      </div>
+      <pre id="output"></pre>
+    </div>
+  </div>
+  <div class="cta-box">
+    <h3>🚀 Full Deploy Scripts Pack</h3>
+    <p>Includes Kubernetes rolling deploy, ECS task deploy, Lambda deploy, multi-region deploys, and runbook templates.</p>
+    <a href="https://buy.stripe.com/fZu3cvfTh2yy10S4i5gjJ0E" class="cta-btn">Buy Full Version — $14.99</a>
+    <button class="crypto-pay-btn" data-product-slug="deploy-scripts" data-store-slug="deploy-kit" data-product-name="Deploy Scripts" data-price-usd="4.99">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo shows limited functionality. Buy the full tool for all features.</footer>
+<script>
+let strategy='rolling';
+function setPill(el){
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  strategy=el.dataset.val;
+  generate();
+}
+function g(id){return document.getElementById(id).value;}
+function ch(id){return document.getElementById(id).checked;}
+
+function generate(){
+  const name=g('appName')||'my-app';
+  const reg=g('registry')||'ghcr.io/org/app';
+  const env=g('targetEnv');
+
+  let script=`#!/usr/bin/env bash\n# Generated by Deploy Kit — deploy-scripts\n# Strategy: ${strategy.toUpperCase()} | App: ${name} | Env: ${env}\n# https://deploy-kit.codevault.dev\n\nset -euo pipefail\n\n# ─── Config ──────────────────────────────────────────\nAPP_NAME="${name}"\nREGISTRY="${reg}"\nIMAGE_TAG="\${1:-latest}"\nENVIRONMENT="${env}"\n`;
+
+  if(strategy==='rolling'){
+    script+=`DEPLOY_TIMEOUT=300\nHEALTH_URL="https://\${APP_NAME}.example.com/health"\n\n`;
+    script+=`# ─── Rolling Deploy ───────────────────────────────────\nmain() {\n  log "Starting rolling deploy of \${IMAGE_TAG}..."\n  pull_image\n`;
+    if(ch('dbMigrate')) script+=`  run_migrations\n`;
+    script+=`  update_service\n`;
+    if(ch('healthCheck')) script+=`  wait_healthy\n`;
+    if(ch('smokeTest')) script+=`  run_smoke_tests\n`;
+    if(ch('slackNotify')) script+=`  notify_slack "✅ \${APP_NAME} deployed \${IMAGE_TAG} to \${ENVIRONMENT}"\n`;
+    script+=`  log "Deploy complete!"\n}\n\n`;
+  } else if(strategy==='blue-green'){
+    script+=`CURRENT_COLOR=""\nNEXT_COLOR=""\n\n`;
+    script+=`# ─── Blue-Green Deploy ────────────────────────────────\nmain() {\n  log "Starting blue-green deploy of \${IMAGE_TAG}..."\n  CURRENT_COLOR=\$(get_active_color)\n  NEXT_COLOR=\$([ "\$CURRENT_COLOR" = "blue" ] && echo "green" || echo "blue")\n  log "Active: \$CURRENT_COLOR → Deploying to: \$NEXT_COLOR"\n\n  pull_image\n`;
+    if(ch('dbMigrate')) script+=`  run_migrations\n`;
+    script+=`  deploy_to_color "\$NEXT_COLOR"\n`;
+    if(ch('healthCheck')) script+=`  wait_healthy "\$NEXT_COLOR"\n`;
+    if(ch('smokeTest')) script+=`  run_smoke_tests "\$NEXT_COLOR"\n`;
+    script+=`  switch_traffic "\$NEXT_COLOR"\n  log "Traffic switched to \$NEXT_COLOR"\n`;
+    if(ch('rollback')) script+=`  # Old color kept running for 5min for instant rollback\n  sleep 300 && stop_color "\$CURRENT_COLOR" &\n`;
+    if(ch('slackNotify')) script+=`  notify_slack "✅ Blue-green deploy complete: now on \$NEXT_COLOR"\n`;
+    script+=`}\n\n`;
+    script+=`get_active_color() {\n  # Read current active from load balancer config / DNS\n  cat /var/run/\${APP_NAME}-color 2>/dev/null || echo "blue"\n}\n\n`;
+  } else { // canary
+    script+=`CANARY_WEIGHT=10  # Start at 10% traffic\nMAX_CANARY_WEIGHT=100\nSAMPLE_INTERVAL=60\n\n`;
+    script+=`# ─── Canary Deploy ────────────────────────────────────\nmain() {\n  log "Starting canary deploy of \${IMAGE_TAG} (start at \${CANARY_WEIGHT}%)..."\n  pull_image\n`;
+    if(ch('dbMigrate')) script+=`  run_migrations\n`;
+    script+=`  deploy_canary\n  set_canary_weight "\$CANARY_WEIGHT"\n\n  # Gradually increase traffic\n  for weight in 10 25 50 75 100; do\n    log "Canary at \${weight}% — sampling for \${SAMPLE_INTERVAL}s"\n    sleep "\$SAMPLE_INTERVAL"\n`;
+    if(ch('healthCheck')) script+=`    check_error_rate || rollback_canary\n`;
+    script+=`    set_canary_weight "\$weight"\n  done\n\n  promote_canary\n`;
+    if(ch('slackNotify')) script+=`  notify_slack "✅ Canary deploy complete for \${APP_NAME} \${IMAGE_TAG}"\n`;
+    script+=`}\n\n`;
+  }
+
+  script+=`# ─── Helpers ──────────────────────────────────────────\nlog() { echo "[\$(date '+%Y-%m-%d %H:%M:%S')] \$*"; }\n\npull_image() {\n  log "Pulling \${REGISTRY}:\${IMAGE_TAG}"\n  docker pull "\${REGISTRY}:\${IMAGE_TAG}"\n}\n\n`;
+
+  if(ch('dbMigrate')){
+    script+=`run_migrations() {\n  log "Running database migrations..."\n  docker run --rm --env-file .env."\${ENVIRONMENT}" "\${REGISTRY}:\${IMAGE_TAG}" python manage.py migrate\n}\n\n`;
+  }
+
+  if(ch('healthCheck')){
+    script+=`wait_healthy() {\n  local url="\${1:-\$HEALTH_URL}"\n  local max=\$DEPLOY_TIMEOUT\n  local count=0\n  log "Waiting for health check: \$url"\n  until curl -sf "\$url" > /dev/null; do\n    count=\$((count+5))\n    [ \$count -ge \$max ] && { log "ERROR: Health check timed out"; exit 1; }\n    sleep 5\n  done\n  log "Health check passed!"\n}\n\n`;
+  }
+
+  if(ch('rollback')){
+    script+=`rollback() {\n  log "⚠️ Rollback triggered!"\n  # Restore previous image tag\n  docker service update --image "\${REGISTRY}:previous" "\${APP_NAME}"\n`;
+    if(ch('slackNotify')) script+=`  notify_slack "⚠️ Rollback triggered for \${APP_NAME} — reverted to previous"\n`;
+    script+=`  exit 1\n}\ntrap rollback ERR\n\n`;
+  }
+
+  if(ch('slackNotify')){
+    script+=`notify_slack() {\n  curl -s -X POST "\${SLACK_WEBHOOK_URL}" \\\n    -H 'Content-type: application/json' \\\n    --data "{\"text\":\"\$1\"}"\n}\n\n`;
+  }
+
+  if(ch('smokeTest')){
+    script+=`run_smoke_tests() {\n  log "Running smoke tests..."\n  # Add your smoke test commands here\n  curl -sf "https://\${APP_NAME}.example.com/api/v1/ping" | grep -q '"status":"ok"'\n  log "Smoke tests passed!"\n}\n\n`;
+  }
+
+  script+=`main "\$@"\n`;
+
+  document.getElementById('scriptName').textContent=`deploy-${strategy}.sh`;
+  document.getElementById('output').textContent=script;
+}
+
+function copyOut(){
+  navigator.clipboard.writeText(document.getElementById('output').textContent).then(()=>{
+    const b=document.querySelector('.copy-btn');b.textContent='✓ Copied!';setTimeout(()=>b.textContent='Copy',1500);
+  });
+}
+generate();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

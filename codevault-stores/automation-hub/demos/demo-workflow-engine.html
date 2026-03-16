@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workflow Engine Demo — Automation Hub</title>
+<style>
+  :root { --brand: #18FFFF; --bg: #0A0E1A; --panel: #0d1321; --border: #1e2a3a; --text: #e2e8f0; --muted: #64748b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; }
+  header { background: var(--panel); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  header h1 { font-size: 1.1rem; color: var(--brand); }
+  header a { color: var(--muted); font-size: 0.85rem; text-decoration: none; }
+  header a:hover { color: var(--brand); }
+  .container { max-width: 960px; margin: 0 auto; padding: 28px 16px 60px; }
+  .intro h2 { font-size: 1.4rem; margin-bottom: 6px; }
+  .intro p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 24px; }
+  .badge { display: inline-block; background: var(--brand); color: #000; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+  .panel h3 { color: var(--brand); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px; }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .field { flex: 1; min-width: 150px; }
+  label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 5px; }
+  select { width: 100%; background: #0a0f1e; border: 1px solid var(--border); color: var(--text); padding: 8px 10px; border-radius: 6px; font-size: 0.9rem; }
+  select:focus { outline: none; border-color: var(--brand); }
+  .btn { background: var(--brand); color: #000; border: none; padding: 10px 22px; border-radius: 6px; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: opacity 0.15s; }
+  .btn:hover { opacity: 0.85; }
+  .btn-outline { background: transparent; border: 1px solid var(--brand); color: var(--brand); }
+  /* Flowchart */
+  .flow-wrap { overflow-x: auto; padding: 10px 0; }
+  .flowchart { display: flex; flex-direction: column; align-items: flex-start; gap: 0; min-width: 600px; }
+  .flow-row { display: flex; align-items: center; gap: 0; }
+  .node { border: 2px solid var(--border); border-radius: 8px; padding: 10px 16px; background: #0a0f1e; min-width: 130px; text-align: center; position: relative; transition: all 0.3s; flex-shrink: 0; }
+  .node.trigger  { border-radius: 20px; border-color: #7c3aed; }
+  .node.action   { border-color: var(--border); }
+  .node.condition{ border-radius: 0; transform: rotate(0); border-color: #f59e0b; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); min-width: 100px; padding: 14px 12px; }
+  .node.end      { border-radius: 20px; border-color: #4ade80; }
+  .node.active   { border-color: var(--brand) !important; background: #001a1a !important; box-shadow: 0 0 12px rgba(24,255,255,0.25); }
+  .node.done     { border-color: #4ade80 !important; background: #001a10 !important; }
+  .node.fail     { border-color: #f87171 !important; background: #1a0000 !important; }
+  .node-icon { font-size: 1.1rem; }
+  .node-name { font-size: 0.75rem; color: var(--muted); margin-top: 3px; }
+  .node-status { font-size: 0.65rem; margin-top: 2px; min-height: 12px; }
+  .node.active .node-status { color: var(--brand); }
+  .node.done   .node-status { color: #4ade80; }
+  .node.fail   .node-status { color: #f87171; }
+  .arrow-h { width: 32px; height: 2px; background: var(--border); flex-shrink: 0; position: relative; }
+  .arrow-h::after { content: '▶'; position: absolute; right: -6px; top: -8px; font-size: 10px; color: var(--muted); }
+  .arrow-h.done { background: #4ade80; }
+  .arrow-h.done::after { color: #4ade80; }
+  .arrow-v-wrap { display: flex; justify-content: center; width: 130px; }
+  .arrow-v { width: 2px; height: 28px; background: var(--border); }
+  .arrow-v.done { background: #4ade80; }
+  /* Branch labels */
+  .branch-label { font-size: 0.68rem; color: var(--muted); margin-top: 2px; text-align: center; }
+  /* Exec log */
+  .exec-log { background: #040710; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-family: monospace; font-size: 0.8rem; height: 150px; overflow-y: auto; }
+  .el { margin-bottom: 3px; }
+  .el.ok   { color: var(--brand); }
+  .el.info { color: #94a3b8; }
+  .el.fail { color: #f87171; }
+  .el.warn { color: #f59e0b; }
+  /* Context */
+  .ctx-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
+  .ctx-item { background: #0a0f1e; border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; font-size: 0.82rem; }
+  .ctx-item .ck { color: var(--muted); font-size: 0.75rem; }
+  .ctx-item .cv { color: var(--brand); font-weight: 600; margin-top: 2px; }
+  .cta-bar { background: linear-gradient(135deg, #001a1a, #002a2a); border: 1px solid var(--brand); border-radius: 10px; padding: 24px 28px; text-align: center; margin-top: 28px; }
+  .cta-bar h3 { font-size: 1.15rem; margin-bottom: 6px; }
+  .cta-bar p { color: var(--muted); font-size: 0.9rem; margin-bottom: 16px; }
+  .price { font-size: 1.5rem; font-weight: 700; color: var(--brand); }
+  .buy-btn { display: inline-block; background: var(--brand); color: #000; font-weight: 700; padding: 12px 32px; border-radius: 7px; text-decoration: none; font-size: 1rem; margin-top: 10px; }
+  .buy-btn:hover { opacity: 0.85; }
+  footer { text-align: center; color: var(--muted); font-size: 0.8rem; padding: 20px; border-top: 1px solid var(--border); margin-top: 20px; }
+  .crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:8px;transition:all .2s}
+  .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<header>
+  <h1>⚡ Automation Hub <span class="badge">DEMO</span></h1>
+  <a href="../index.html">← Back to Store</a>
+</header>
+<div class="container">
+  <div class="intro">
+    <h2>Workflow Engine <span style="color:var(--brand)">Tool</span></h2>
+    <p>Select a workflow template and watch each step execute in sequence — with conditional branching, context passing, and step-by-step tracing. The full tool lets you define custom Python steps, conditionals, loops, and parallel branches via YAML/JSON config.</p>
+  </div>
+
+  <!-- Config -->
+  <div class="panel">
+    <h3>Workflow Selection</h3>
+    <div class="row">
+      <div class="field">
+        <label>Workflow Template</label>
+        <select id="wfTemplate" onchange="renderFlow()">
+          <option>New User Onboarding</option>
+          <option>Order Fulfillment</option>
+          <option>Incident Response</option>
+          <option>Content Publishing</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Execution Speed</label>
+        <select id="execSpeed">
+          <option value="700">Normal</option>
+          <option value="300">Fast</option>
+          <option value="1400">Slow</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" onclick="runWorkflow()">▶ Execute Workflow</button>
+    <button class="btn btn-outline" onclick="resetWorkflow()" style="margin-left:8px">Reset</button>
+  </div>
+
+  <!-- Flowchart -->
+  <div class="panel">
+    <h3>Workflow Diagram</h3>
+    <div class="flow-wrap">
+      <div class="flowchart" id="flowchart"></div>
+    </div>
+  </div>
+
+  <!-- Context -->
+  <div class="panel">
+    <h3>Execution Context</h3>
+    <div class="ctx-grid" id="ctxGrid">
+      <div class="ctx-item"><div class="ck">status</div><div class="cv">idle</div></div>
+    </div>
+  </div>
+
+  <!-- Exec Log -->
+  <div class="panel">
+    <h3>Execution Log</h3>
+    <div class="exec-log" id="execLog">
+      <div class="el info">[ready] Select a workflow and click Execute.</div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <h3>Full Workflow Engine</h3>
+    <p>YAML/JSON config · Custom Python steps · Conditionals · Parallel branches · Retry & error handling · REST triggers</p>
+    <div class="price">$29.00</div>
+    <br>
+    <a class="buy-btn" href="https://buy.stripe.com/4gM7sL8qPa105h8cOBgjJ0q">Buy Full Version — $29</a>
+    <button class="crypto-pay-btn" data-product-slug="workflow-engine" data-store-slug="automation-hub" data-product-name="Workflow Engine" data-price-usd="9.99">Pay with Crypto (Save 15%)</button>
+  </div>
+</div>
+<footer>This demo visualizes workflow execution in-browser. The full tool runs real Python steps with live integrations.</footer>
+
+<script>
+// Workflow definitions
+const WORKFLOWS = {
+  'New User Onboarding': {
+    ctx: { user_email: 'alex@example.com', plan: 'pro', invited_by: 'referral' },
+    steps: [
+      { id:'t', type:'trigger', icon:'🌐', name:'Webhook Trigger', desc:'User signed up' },
+      { id:'a1', type:'action', icon:'💾', name:'Create Account', desc:'DB insert' },
+      { id:'a2', type:'action', icon:'📧', name:'Send Welcome Email', desc:'SendGrid' },
+      { id:'c1', type:'condition', icon:'?', name:'Has Referral?', desc:'Check source' },
+      { id:'a3', type:'action', icon:'🎁', name:'Apply Referral Bonus', desc:'Add credits' },
+      { id:'a4', type:'action', icon:'🔔', name:'Notify Sales Slack', desc:'Post message' },
+      { id:'e', type:'end', icon:'✅', name:'Complete', desc:'Done' },
+    ],
+    condTrue: 'a3', condFalse: 'a4',
+  },
+  'Order Fulfillment': {
+    ctx: { order_id: 'ORD-4821', total: '$149.00', customer: 'Sam Lee', warehouse: 'EU-01' },
+    steps: [
+      { id:'t', type:'trigger', icon:'🛒', name:'Order Placed', desc:'Stripe webhook' },
+      { id:'a1', type:'action', icon:'🔍', name:'Validate Inventory', desc:'Check stock' },
+      { id:'c1', type:'condition', icon:'?', name:'In Stock?', desc:'Check qty' },
+      { id:'a2', type:'action', icon:'📦', name:'Pick & Pack', desc:'WMS request' },
+      { id:'a3', type:'action', icon:'🚚', name:'Create Shipment', desc:'Carrier API' },
+      { id:'a4', type:'action', icon:'📧', name:'Email Tracking', desc:'Notify buyer' },
+      { id:'e', type:'end', icon:'✅', name:'Fulfilled', desc:'Done' },
+    ],
+    condTrue: 'a2', condFalse: 'a4',
+  },
+  'Incident Response': {
+    ctx: { alert_id: 'ALT-991', severity: 'P1', host: 'web-prod-01', cpu: '98%' },
+    steps: [
+      { id:'t', type:'trigger', icon:'🚨', name:'Alert Triggered', desc:'Datadog webhook' },
+      { id:'a1', type:'action', icon:'📊', name:'Gather Metrics', desc:'Pull diagnostics' },
+      { id:'c1', type:'condition', icon:'?', name:'P1 Severity?', desc:'Check level' },
+      { id:'a2', type:'action', icon:'📞', name:'Page On-Call', desc:'PagerDuty' },
+      { id:'a3', type:'action', icon:'📝', name:'Create Ticket', desc:'Jira issue' },
+      { id:'a4', type:'action', icon:'🔧', name:'Auto-Remediate', desc:'Run playbook' },
+      { id:'e', type:'end', icon:'✅', name:'Mitigated', desc:'Done' },
+    ],
+    condTrue: 'a2', condFalse: 'a3',
+  },
+  'Content Publishing': {
+    ctx: { post_id: 'POST-77', author: 'Maria G.', channel: 'blog+social', status: 'draft' },
+    steps: [
+      { id:'t', type:'trigger', icon:'✍️', name:'Draft Submitted', desc:'CMS webhook' },
+      { id:'a1', type:'action', icon:'🔍', name:'SEO Analysis', desc:'Score content' },
+      { id:'c1', type:'condition', icon:'?', name:'SEO > 70?', desc:'Check score' },
+      { id:'a2', type:'action', icon:'✅', name:'Auto-Approve', desc:'Set published' },
+      { id:'a3', type:'action', icon:'✏️', name:'Request Revision', desc:'Notify editor' },
+      { id:'a4', type:'action', icon:'📣', name:'Publish & Syndicate', desc:'Blog + socials' },
+      { id:'e', type:'end', icon:'🌐', name:'Live', desc:'Published' },
+    ],
+    condTrue: 'a2', condFalse: 'a3',
+  },
+};
+
+let wfTimer = null;
+
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+function renderFlow() {
+  const wf = WORKFLOWS[document.getElementById('wfTemplate').value];
+  const fc = document.getElementById('flowchart');
+  fc.innerHTML = '';
+
+  // Render as linear vertical flow
+  wf.steps.forEach((s, i) => {
+    if (i > 0) {
+      const vw = document.createElement('div');
+      vw.style.display = 'flex';
+      vw.style.flexDirection = 'column';
+      vw.style.alignItems = 'center';
+      vw.style.width = '162px';
+      const av = document.createElement('div');
+      av.className = 'arrow-v';
+      av.id = 'arr-' + i;
+      vw.appendChild(av);
+      if (s.type === 'condition') {
+        const bl = document.createElement('div');
+        bl.className = 'branch-label';
+        bl.textContent = '';
+        vw.appendChild(bl);
+      }
+      fc.appendChild(vw);
+    }
+    const row = document.createElement('div');
+    row.className = 'flow-row';
+    const node = document.createElement('div');
+    node.className = 'node ' + s.type;
+    node.id = 'node-' + s.id;
+    node.innerHTML = `<div class="node-icon">${s.icon}</div><div class="node-name">${esc(s.name)}</div><div class="node-status" id="ns-${s.id}"></div>`;
+    row.appendChild(node);
+    if (s.type === 'condition') {
+      const yes = document.createElement('div');
+      yes.innerHTML = `<div style="display:flex;align-items:center;gap:4px;margin-left:8px"><div class="arrow-h" id="arr-yes"></div><div style="font-size:0.7rem;color:#4ade80">YES</div></div>`;
+      row.appendChild(yes);
+    }
+    fc.appendChild(row);
+  });
+
+  updateCtx({status:'idle', workflow: document.getElementById('wfTemplate').value});
+}
+
+function updateCtx(extra) {
+  const wf = WORKFLOWS[document.getElementById('wfTemplate').value];
+  const ctx = Object.assign({}, wf.ctx, extra);
+  const grid = document.getElementById('ctxGrid');
+  grid.innerHTML = Object.entries(ctx).map(([k,v]) =>
+    `<div class="ctx-item"><div class="ck">${esc(k)}</div><div class="cv">${esc(v)}</div></div>`
+  ).join('');
+}
+
+function xlog(msg, type='info') {
+  const el = document.getElementById('execLog');
+  const ts = new Date().toISOString().substr(11,8);
+  const d = document.createElement('div');
+  d.className = 'el ' + type;
+  d.textContent = `[${ts}] ${msg}`;
+  el.appendChild(d);
+  el.scrollTop = el.scrollHeight;
+}
+
+function resetWorkflow() {
+  if (wfTimer) clearTimeout(wfTimer);
+  document.querySelectorAll('.node').forEach(n => n.className = n.className.replace(/ (active|done|fail)/g,''));
+  document.querySelectorAll('.arrow-v').forEach(a => a.classList.remove('done'));
+  document.querySelectorAll('.arrow-h').forEach(a => a.classList.remove('done'));
+  document.querySelectorAll('.node-status').forEach(s => s.textContent = '');
+  document.getElementById('execLog').innerHTML = '<div class="el info">[ready] Reset. Click Execute to run.</div>';
+  updateCtx({status:'idle'});
+}
+
+function runWorkflow() {
+  resetWorkflow();
+  const wfName = document.getElementById('wfTemplate').value;
+  const wf = WORKFLOWS[wfName];
+  const speed = parseInt(document.getElementById('execSpeed').value) || 700;
+
+  xlog(`Starting workflow: "${wfName}"`, 'info');
+  updateCtx({status:'running'});
+
+  // Build execution sequence (resolve condition)
+  const condResult = Math.random() > 0.35; // 65% true
+  // Sequence: trigger → a1 → condition → (a2 or a3) → a4 → end (skip some if needed)
+  const allSteps = wf.steps;
+  let sequence = allSteps.map(s => s.id);
+
+  // For condition step: skip condFalse if condTrue chosen and vice versa
+  if (condResult) {
+    // remove condFalse from sequence if it's in the middle
+    sequence = sequence.filter(id => id !== wf.condFalse);
+  } else {
+    sequence = sequence.filter(id => id !== wf.condTrue);
+  }
+
+  let i = 0;
+  function runNext() {
+    if (i >= sequence.length) {
+      xlog(`Workflow complete ✓`, 'ok');
+      updateCtx({status:'completed'});
+      return;
+    }
+    const sid = sequence[i];
+    const step = allSteps.find(s => s.id === sid);
+    const nodeEl = document.getElementById('node-' + sid);
+    const nsEl = document.getElementById('ns-' + sid);
+
+    if (nodeEl) nodeEl.classList.add('active');
+    if (nsEl) nsEl.textContent = 'running...';
+
+    if (step.type === 'condition') {
+      xlog(`[${step.name}] Evaluating condition... → ${condResult ? 'YES' : 'NO'}`, 'info');
+    } else {
+      xlog(`[${step.name}] ${step.desc}...`, 'info');
+    }
+
+    wfTimer = setTimeout(() => {
+      if (nodeEl) { nodeEl.classList.remove('active'); nodeEl.classList.add('done'); }
+      if (nsEl) nsEl.textContent = step.type === 'condition' ? (condResult ? 'yes' : 'no') : 'done';
+
+      // Mark arrow done
+      const arrEl = document.getElementById('arr-' + i);
+      if (arrEl) arrEl.classList.add('done');
+
+      if (step.type === 'condition') {
+        xlog(`[${step.name}] → Branch: ${condResult ? step.name + ' YES → ' + wf.condTrue : 'NO → ' + wf.condFalse}`, condResult ? 'ok' : 'warn');
+      } else {
+        xlog(`[${step.name}] ✓ Complete`, 'ok');
+      }
+
+      i++;
+      wfTimer = setTimeout(runNext, speed * 0.4);
+    }, speed);
+  }
+
+  runNext();
+}
+
+// Init
+renderFlow();
+</script>
+<script src="../crypto-checkout.js"></script>
+</body>
+</html>

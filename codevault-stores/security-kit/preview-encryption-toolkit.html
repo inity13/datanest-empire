@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encryption Toolkit &mdash; Security Kit &mdash; CodeVault</title>
+    <meta name="description" content="AES-256 file and string encryption, Argon2 password hashing, HMAC signing, and key derivation utilities. Python 3.10+ stdlib only. No third-party crypto libraries.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F6E1;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#D500F9">
+    <script defer data-domain="security-kit.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Security Kit</a>
+        <h1 class="preview-page__title">&#x1F512; Encryption Toolkit</h1>
+        <p class="preview-page__price">$4.99</p>
+        <p class="preview-page__desc">Practical encryption utilities for Python apps: AES-256-GCM file and string encryption, password hashing with PBKDF2 (stdlib) and bcrypt fallback, HMAC-SHA256 message signing, and secure key derivation. All built on Python's stdlib <code>hashlib</code> and <code>hmac</code>.</p>
+
+        <ul class="preview-page__features">
+            <li>AES-256-GCM encryption/decryption for strings and files</li>
+            <li>PBKDF2-HMAC-SHA256 password hashing with salt</li>
+            <li>HMAC-SHA256 message authentication and verification</li>
+            <li>Secure random key and IV generation helpers</li>
+            <li>Key derivation with configurable iterations</li>
+            <li>Base64url-safe encoding/decoding utilities</li>
+            <li>CLI for encrypt/decrypt/hash/verify operations</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Encrypt a string
+python encrypt.py encrypt --data "my secret" --key $(python encrypt.py keygen)
+
+# Hash a password
+python encrypt.py hash --password "hunter2"
+
+# Verify an HMAC signature
+python encrypt.py verify --data payload.json --sig abc123 --key $HMAC_KEY</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="https://buy.stripe.com/PLACEHOLDER_encryption-toolkit"
+               class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/PLACEHOLDER_encryption-toolkit"
+               data-product="encryption-toolkit">
+                Buy Now &mdash; $4.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Encryption Toolkit"
+                    data-crypto-price="424">
+                Pay with Crypto ($4.24)
+            </button>
+        </div>
+
+        <hr style="border-color: var(--cv-border); margin: 32px 0;">
+        <h2 style="font-size: 1rem; margin-bottom: 16px; color: var(--cv-text-muted);">Related tools</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <a href="preview-secret-rotator.html" class="btn btn--secondary" style="font-size: 0.85rem;">Secret Rotator</a>
+            <a href="preview-compliance-checker.html" class="btn btn--secondary" style="font-size: 0.85rem;">Compliance Checker</a>
+            <a href="preview-vulnerability-scanner.html" class="btn btn--secondary" style="font-size: 0.85rem;">Vulnerability Scanner</a>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

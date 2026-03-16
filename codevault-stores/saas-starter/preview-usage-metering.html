@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usage Metering &mdash; SaaS Starter &mdash; CodeVault</title>
+    <meta name="description" content="Python usage tracking: API calls, storage, compute, and billing integration hooks. Know exactly what every tenant consumes.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F680;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#FFD600">
+    <script defer data-domain="saas-starter.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to SaaS Starter</a>
+        <h1 class="preview-page__title">Usage Metering</h1>
+        <p class="preview-page__price">$4.99</p>
+        <p class="preview-page__desc">Python usage tracking: API calls, storage, compute, and billing integration hooks. Know exactly what every tenant consumes. Runs on Python 3.10+ stdlib only.</p>
+
+        <ul class="preview-page__features">
+            <li>Multi-dimensional metering (API calls, storage, bandwidth, compute)</li>
+            <li>Per-tenant usage buckets with hourly/daily/monthly aggregation</li>
+            <li>Quota enforcement with soft and hard limits</li>
+            <li>Overage detection with configurable alert thresholds</li>
+            <li>Billing integration hooks for usage-based pricing</li>
+            <li>Usage reports in JSON, CSV, and summary formats</li>
+            <li>Rate calculation with tiered pricing support</li>
+            <li>Historical usage data with retention policies</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Start metering demo
+python src/main.py --demo
+
+# Record an API call
+python src/main.py --record --tenant acme --metric api_calls --value 1
+
+# Get usage report
+python src/main.py --report --tenant acme --period 2026-03</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_usage_metering"
+               data-product="usage-metering">
+                Grab This &mdash; $4.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Usage Metering"
+                    data-crypto-price="499">
+                Pay with Crypto ($3.99)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

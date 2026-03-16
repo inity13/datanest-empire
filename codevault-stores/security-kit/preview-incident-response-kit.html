@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Response Kit &mdash; Security Kit &mdash; CodeVault</title>
+    <meta name="description" content="Python incident response playbook runner: automated log collection, process snapshot, network state capture, and Slack/email alerting. Be ready before you need it.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F6E1;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#D500F9">
+    <script defer data-domain="security-kit.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to Security Kit</a>
+        <h1 class="preview-page__title">&#x1F6A8; Incident Response Kit</h1>
+        <p class="preview-page__price">$4.99</p>
+        <p class="preview-page__desc">Pre-built incident response playbooks and automation scripts for common security events. Collect logs, snapshot system state, capture network connections, and fire alerts &mdash; all with one command. Prepare your runbooks before the fire starts.</p>
+
+        <ul class="preview-page__features">
+            <li>One-command system state snapshot (processes, ports, users)</li>
+            <li>Log collector: syslog, auth.log, app logs into timestamped bundle</li>
+            <li>Network connection capture with geolocation lookup</li>
+            <li>Slack and email webhook alerting</li>
+            <li>Configurable playbooks (YAML runbooks)</li>
+            <li>Evidence bundle creator with chain-of-custody log</li>
+            <li>Containment helpers: block IP, kill process, revoke session</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Run full incident snapshot
+python respond.py snapshot --output incident-2026-03-14/
+
+# Collect and bundle logs
+python respond.py collect-logs --since "2 hours ago"
+
+# Fire Slack alert
+python respond.py alert --channel #security --severity HIGH \
+  --message "Suspicious login from 1.2.3.4"</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="https://buy.stripe.com/PLACEHOLDER_incident-response-kit"
+               class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/PLACEHOLDER_incident-response-kit"
+               data-product="incident-response-kit">
+                Buy Now &mdash; $4.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Incident Response Kit"
+                    data-crypto-price="424">
+                Pay with Crypto ($4.24)
+            </button>
+        </div>
+
+        <hr style="border-color: var(--cv-border); margin: 32px 0;">
+        <h2 style="font-size: 1rem; margin-bottom: 16px; color: var(--cv-text-muted);">Related tools</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <a href="preview-audit-script-kit.html" class="btn btn--secondary" style="font-size: 0.85rem;">Audit Script Kit</a>
+            <a href="preview-security-report-generator.html" class="btn btn--secondary" style="font-size: 0.85rem;">Security Report Generator</a>
+            <a href="preview-vulnerability-scanner.html" class="btn btn--secondary" style="font-size: 0.85rem;">Vulnerability Scanner</a>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

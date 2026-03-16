@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feature Flags &mdash; SaaS Starter &mdash; CodeVault</title>
+    <meta name="description" content="Python feature flag system: percentage rollout, user targeting, A/B testing, and kill switch. Ship fearlessly with instant rollback.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F680;</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#FFD600">
+    <script defer data-domain="saas-starter.codevault.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <div class="preview-page">
+        <a href="index.html" class="preview-page__back">&larr; Back to SaaS Starter</a>
+        <h1 class="preview-page__title">Feature Flags</h1>
+        <p class="preview-page__price">$4.99</p>
+        <p class="preview-page__desc">Python feature flag system: percentage rollout, user targeting, A/B testing, and kill switch. Ship fearlessly with instant rollback. Runs on Python 3.10+ stdlib only.</p>
+
+        <ul class="preview-page__features">
+            <li>Boolean, percentage, and variant-based flags</li>
+            <li>User targeting by ID, email, plan, or custom attributes</li>
+            <li>Percentage rollout with consistent hashing (same user = same result)</li>
+            <li>Kill switch for instant feature disable</li>
+            <li>A/B testing with variant assignment and tracking</li>
+            <li>Flag lifecycle: created, active, stale, archived</li>
+            <li>JSON-based flag storage with hot reload</li>
+            <li>Evaluation audit log for debugging targeting rules</li>
+        </ul>
+
+        <div class="preview-page__code">
+            <pre><code># Run feature flags demo
+python src/main.py --demo
+
+# Evaluate a flag for a user
+python src/main.py --check dark_mode --user user123
+
+# Roll out a feature to 25% of users
+python src/main.py --set new_dashboard --rollout 25</code></pre>
+        </div>
+
+        <div class="preview-page__actions">
+            <a href="#" class="btn btn--primary"
+               data-stripe-link="https://buy.stripe.com/placeholder_feature_flags"
+               data-product="feature-flags">
+                Grab This &mdash; $4.99
+            </a>
+            <button class="btn btn--crypto"
+                    data-crypto-product="Feature Flags"
+                    data-crypto-price="499">
+                Pay with Crypto ($3.99)
+            </button>
+        </div>
+    </div>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeFi Router — Routing & Swap Aggregation Toolkit | CryptoForge</title>
+<meta name="description" content="Production-ready swap routers, pathfinding engines, limit orders, and aggregation APIs. Route trades and monetize orderflow.">
+<meta property="og:title" content="DeFi Router — Routing & Swap Aggregation Toolkit | CryptoForge">
+<meta property="og:description" content="Production-ready swap routers, pathfinding engines, limit orders, and aggregation APIs. Route trades and monetize orderflow.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://defirouter.cryptoforge.dev">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script defer data-domain="defirouter.cryptoforge.dev" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                         NAVIGATION                            -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <span class="logo-icon">&#x21C4;</span>
+      <span class="logo-text">DEFI<span class="logo-accent">ROUTER</span></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#products">Products</a>
+      <a href="#bundles">Bundles</a>
+      <a href="#features">Features</a>
+      <a href="#free">Free Tools</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://cryptoforge.dev" class="nav-cta">All Stores &rarr;</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                            HERO                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">CryptoForge Store #2</div>
+    <h1 class="hero-title">
+      <span class="gradient-text">DeFi Router</span>
+    </h1>
+    <p class="hero-subtitle">
+      Production-ready swap routing, aggregation, and orderflow monetization tools.<br>
+      Build your own DEX aggregator in days, not months.
+    </p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-value">10</span>
+        <span class="stat-label">Products</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">200+</span>
+        <span class="stat-label">Files</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">5</span>
+        <span class="stat-label">Chains</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">95%+</span>
+        <span class="stat-label">Test Coverage</span>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a href="#bundles" class="btn btn-primary btn-lg">Get the Pro Bundle — $59.99</a>
+      <a href="#products" class="btn btn-ghost btn-lg">Browse Products</a>
+    </div>
+    <div class="hero-trust">
+      <span>Solidity ^0.8.24</span>
+      <span class="trust-sep">&bull;</span>
+      <span>OpenZeppelin v5</span>
+      <span class="trust-sep">&bull;</span>
+      <span>Foundry Tests</span>
+      <span class="trust-sep">&bull;</span>
+      <span>Ethereum &bull; Arbitrum &bull; Base &bull; Optimism &bull; Polygon</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          BUNDLES                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="bundles">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Save with Bundles</span></h2>
+    <p class="section-desc">Get multiple products at a fraction of the individual price.</p>
+
+    <div class="bundle-grid">
+      <!-- Starter Bundle -->
+      <div class="bundle-card">
+        <div class="bundle-badge">SAVE 36%</div>
+        <h3 class="bundle-name">Starter Bundle</h3>
+        <p class="bundle-desc">Everything you need to build your first swap router. Router contract, CoW SDK, slippage guard, and quote comparison UI.</p>
+        <div class="bundle-pricing">
+          <span class="bundle-original">$46.96</span>
+          <span class="bundle-price">$29.99</span>
+        </div>
+        <ul class="bundle-includes">
+          <li>Swap Router Contract <span class="include-price">$14.99</span></li>
+          <li>CoW Protocol SDK <span class="include-price">$9.99</span></li>
+          <li>Slippage Guard <span class="include-price">$7.99</span></li>
+          <li>Quote Comparison UI <span class="include-price">$9.99</span></li>
+        </ul>
+        <a href="#" class="btn btn-secondary btn-full" data-product="starter-bundle">Buy Starter — $29.99</a>
+      </div>
+
+      <!-- Pro Bundle -->
+      <div class="bundle-card bundle-featured">
+        <div class="bundle-badge bundle-badge-gold">BEST VALUE — SAVE 52%</div>
+        <h3 class="bundle-name">Pro Bundle</h3>
+        <p class="bundle-desc">The complete routing toolkit. All 10 products — contracts, SDKs, dashboards, APIs, limit orders, and infrastructure.</p>
+        <div class="bundle-pricing">
+          <span class="bundle-original">$123.91</span>
+          <span class="bundle-price">$59.99</span>
+        </div>
+        <ul class="bundle-includes">
+          <li>All 10 Routing Products</li>
+          <li>All future updates included</li>
+          <li>Priority support (30 days)</li>
+        </ul>
+        <a href="#" class="btn btn-primary btn-full" data-product="pro-bundle">Buy Pro Bundle — $59.99</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                         PRODUCTS                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="products">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Product Catalog</span></h2>
+    <p class="section-desc">10 battle-tested products for building, deploying, and operating DEX routing infrastructure.</p>
+
+    <!-- Filter tabs -->
+    <div class="filter-tabs">
+      <button class="filter-btn active" data-filter="all">All (10)</button>
+      <button class="filter-btn" data-filter="contracts">Contracts (3)</button>
+      <button class="filter-btn" data-filter="tooling">Tools (2)</button>
+      <button class="filter-btn" data-filter="frontend">Frontend (2)</button>
+      <button class="filter-btn" data-filter="sdk">SDK (1)</button>
+      <button class="filter-btn" data-filter="api">API (1)</button>
+      <button class="filter-btn" data-filter="hybrid">Hybrid (1)</button>
+    </div>
+
+    <div class="product-grid">
+      <!-- Product 1 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#1</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">Swap Router Contract</h3>
+        <p class="product-desc">Multi-DEX swap router with fee-recipient monetization. Routes trades across Uniswap V2/V3, SushiSwap via pluggable adapter pattern. 24h timelock on fee changes.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">OpenZeppelin v5</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$14.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="swap-router-contract">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card" data-category="tooling">
+        <div class="product-number">#2</div>
+        <div class="product-tag tag-tooling">Tooling</div>
+        <h3 class="product-name">Routing Engine</h3>
+        <p class="product-desc">Off-chain pathfinding engine for optimal trade routes. Dijkstra/DFS graph algorithms, split-route optimization, gas-aware comparison. TypeScript + Python.</p>
+        <div class="product-tech">
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">ethers.js</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$19.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="routing-engine">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card" data-category="sdk">
+        <div class="product-number">#3</div>
+        <div class="product-tag tag-sdk">SDK</div>
+        <h3 class="product-name">CoW Protocol SDK</h3>
+        <p class="product-desc">TypeScript/Python SDK for CoW Protocol surplus-based routing. EIP-712 order signing, surplus tracking, order lifecycle management.</p>
+        <div class="product-tech">
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">ethers.js</span>
+          <span class="tech-tag">httpx</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="cow-protocol-sdk">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#4</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">Slippage Guard</h3>
+        <p class="product-desc">Pre-trade simulation and slippage protection module. Chainlink oracle price validation, balance-diff verification, composable with any router.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">Chainlink</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$7.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="slippage-guard">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 5 -->
+      <div class="product-card" data-category="api">
+        <div class="product-number">#5</div>
+        <div class="product-tag tag-api">API</div>
+        <h3 class="product-name">Aggregator API</h3>
+        <p class="product-desc">REST API wrapping 1inch, 0x, Paraswap, CowSwap with your fee layer. Parallel quote fetching, net-output ranking, Redis caching.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">FastAPI</span>
+          <span class="tech-tag">Redis</span>
+          <span class="tech-tag">Docker</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$14.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="aggregator-api">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 6 -->
+      <div class="product-card" data-category="frontend">
+        <div class="product-number">#6</div>
+        <div class="product-tag tag-frontend">Frontend</div>
+        <h3 class="product-name">Quote Comparison UI</h3>
+        <p class="product-desc">React widget comparing swap quotes across 6 DEX venues. Recharts visualization, auto-refresh, one-click swap execution via wagmi.</p>
+        <div class="product-tech">
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">wagmi</span>
+          <span class="tech-tag">Recharts</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="quote-comparison-ui">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 7 -->
+      <div class="product-card" data-category="contracts">
+        <div class="product-number">#7</div>
+        <div class="product-tag tag-contracts">Contracts</div>
+        <h3 class="product-name">Fee Splitter</h3>
+        <p class="product-desc">On-chain fee splitting for partner referrals and revenue shares. Up to 10 recipients, pull/push patterns, ETH + ERC-20 support.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">OpenZeppelin v5</span>
+          <span class="tech-tag">Foundry</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$7.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="fee-splitter">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 8 -->
+      <div class="product-card" data-category="frontend">
+        <div class="product-number">#8</div>
+        <div class="product-tag tag-frontend">Frontend</div>
+        <h3 class="product-name">Trade Analytics Dashboard</h3>
+        <p class="product-desc">React dashboard for trade execution analytics. Volume charts, slippage scatter plots, provider comparison, gas efficiency, fee revenue tracking.</p>
+        <div class="product-tech">
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">wagmi</span>
+          <span class="tech-tag">Recharts</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$12.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="trade-analytics">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 9 -->
+      <div class="product-card" data-category="hybrid">
+        <div class="product-number">#9</div>
+        <div class="product-tag tag-hybrid">Hybrid</div>
+        <h3 class="product-name">Limit Order Book</h3>
+        <p class="product-desc">Off-chain limit orders with on-chain settlement. EIP-712 signed orders, keeper bot, REST API, GTC + FOK, partial fills, batch execution.</p>
+        <div class="product-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Express</span>
+          <span class="tech-tag">SQLite</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$14.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="limit-order-book">Buy Now</a>
+        </div>
+      </div>
+
+      <!-- Product 10 -->
+      <div class="product-card" data-category="tooling">
+        <div class="product-number">#10</div>
+        <div class="product-tag tag-tooling">Tooling</div>
+        <h3 class="product-name">RPC Load Balancer</h3>
+        <p class="product-desc">Multi-provider RPC management with failover, rate limiting, and latency-based routing. Round-robin, least-latency, weighted-random strategies.</p>
+        <div class="product-tech">
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">undici</span>
+          <span class="tech-tag">asyncio</span>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">$9.99</span>
+          <a href="#" class="btn btn-sm btn-secondary" data-product="rpc-load-balancer">Buy Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                        FEATURES                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="features">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Why DeFi Router?</span></h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F4B0;</div>
+        <h3>Monetize Orderflow</h3>
+        <p>Built-in fee-recipient pattern across all contracts. Capture 0.05%-1% on every routed swap. Configurable with timelocked governance.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x26A1;</div>
+        <h3>Optimal Routing</h3>
+        <p>Graph-based pathfinding engine finds the cheapest route across Uniswap, SushiSwap, Curve, Balancer, and more. Split routes for better execution.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F6E1;</div>
+        <h3>MEV Protection</h3>
+        <p>Slippage Guard with Chainlink oracle validation. CoW Protocol integration for surplus-based routing. Limit orders to avoid on-chain MEV.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x2699;</div>
+        <h3>Production-Ready</h3>
+        <p>Not hackathon code. NatSpec documentation, comprehensive Foundry tests (unit + fuzz + invariant), deploy scripts, and integration guides.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x26D3;</div>
+        <h3>Multi-Chain</h3>
+        <p>Deploy to Ethereum, Arbitrum, Base, Optimism, and Polygon. Chain configs included. Same contracts, same security, lower gas on L2s.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#x1F4CA;</div>
+        <h3>Full Stack</h3>
+        <p>Contracts + SDKs + dashboards + APIs + keeper bots. Everything from Solidity to React to Python to TypeScript. Ship the whole routing stack.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                       FREE TOOLS                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="free">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">Free Resources</span></h2>
+    <div class="lead-magnet-grid">
+      <div class="lead-magnet-card">
+        <div class="lm-icon">&#x1F4CB;</div>
+        <h3>DEX Routing Architecture Guide</h3>
+        <p>How DEX aggregators work: routing algorithms, fee models, and MEV considerations. Free download.</p>
+        <form class="lm-form" data-magnet="dex-routing-guide">
+          <input type="email" placeholder="your@email.com" class="lm-input" required>
+          <button type="submit" class="btn btn-primary">Download Free</button>
+        </form>
+      </div>
+      <div class="lead-magnet-card">
+        <div class="lm-icon">&#x26A1;</div>
+        <h3>Orderflow Monetization Playbook</h3>
+        <p>How to build and monetize your own swap routing infrastructure. Revenue models + implementation guide.</p>
+        <form class="lm-form" data-magnet="orderflow-monetization-playbook">
+          <input type="email" placeholder="your@email.com" class="lm-input" required>
+          <button type="submit" class="btn btn-primary">Download Free</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          FAQ                                  -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="faq">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">FAQ</span></h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h3 class="faq-question">What DEXs are supported?</h3>
+        <p class="faq-answer">The routing contracts and pathfinding engine support Uniswap V2/V3, SushiSwap, Curve, Balancer, and 1inch. The pluggable adapter pattern makes it easy to add new DEX integrations.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What chains are supported?</h3>
+        <p class="faq-answer">All contracts deploy to Ethereum, Arbitrum, Base, Optimism, and Polygon. Chain configs are included. Same contracts, same security — lower gas on L2s.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Is the fee splitter customizable?</h3>
+        <p class="faq-answer">Yes — the Fee Splitter supports any split ratio with up to 10 recipients. Configure partner referral splits, revenue shares, and protocol fees with both pull and push payment patterns.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Are the contracts audited?</h3>
+        <p class="faq-answer">Every contract includes comprehensive Foundry test suites (unit, fuzz, and invariant tests) and detailed security notes. We recommend a professional audit before mainnet deployment with significant volume.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What license are the products under?</h3>
+        <p class="faq-answer">All products are MIT licensed. You can use, modify, and distribute them in commercial projects without restriction.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What support is included?</h3>
+        <p class="faq-answer">The Pro Bundle includes 30 days of priority support. Individual product purchases are supported through our community channels. All products include documentation and examples.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                       CROSS-SELL                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title"><span class="gradient-text">More from CryptoForge</span></h2>
+    <p class="section-desc">DeFi Router is one of 10 CryptoForge stores. Build your entire DeFi stack.</p>
+    <div class="cross-sell-grid">
+      <a href="#" class="cross-sell-card">
+        <h3>Vault Forge</h3>
+        <p>ERC-4626 yield vault toolkit. Route swap fees directly into yield vaults for compound returns.</p>
+        <span class="cross-sell-link">Browse Store &rarr;</span>
+      </a>
+      <a href="#" class="cross-sell-card">
+        <h3>MEV Shield</h3>
+        <p>MEV protection & orderflow tools. Protect routed trades from sandwich attacks and MEV extraction.</p>
+        <span class="cross-sell-link">Browse Store &rarr;</span>
+      </a>
+      <a href="#" class="cross-sell-card">
+        <h3>Sub Protocol</h3>
+        <p>Subscription & token-gating tools. Gate premium routing features behind subscription tokens.</p>
+        <span class="cross-sell-link">Browse Store &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--                          FOOTER                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo-icon">&#x2692;</span>
+        <span class="logo-text">CRYPTO<span class="logo-accent">FORGE</span></span>
+        <p class="footer-tagline">Forge the future of DeFi.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Stores</h4>
+        <a href="#">Vault Forge</a>
+        <a href="#">DeFi Router</a>
+        <a href="#">MEV Shield</a>
+        <a href="#">Staking Kit</a>
+        <a href="#">Sub Protocol</a>
+      </div>
+      <div class="footer-links">
+        <h4>Resources</h4>
+        <a href="#">Documentation</a>
+        <a href="#">Routing Guide</a>
+        <a href="#">Monetization Playbook</a>
+        <a href="#">Blog</a>
+      </div>
+      <div class="footer-links">
+        <h4>Payment</h4>
+        <p class="footer-note">We accept Stripe (credit/debit) and crypto payments (ETH, BTC).</p>
+        <p class="footer-note">All products include MIT license.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 CryptoForge. All rights reserved. Part of the DATANEST empire.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="payment-links.js"></script>
+  <script src="script.js"></script>
+    <script src="crypto-checkout.js"></script>
+</body>
+</html>

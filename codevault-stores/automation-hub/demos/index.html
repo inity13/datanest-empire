@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Demos — Automation Hub</title>
+<style>
+  :root { --brand: #18FFFF; --bg: #0A0E1A; --panel: #0d1321; --border: #1e2a3a; --text: #e2e8f0; --muted: #64748b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; }
+  header { background: var(--panel); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  header h1 { font-size: 1.1rem; color: var(--brand); }
+  header a { color: var(--muted); font-size: 0.85rem; text-decoration: none; }
+  header a:hover { color: var(--brand); }
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 16px 80px; }
+  .hero { text-align: center; margin-bottom: 48px; }
+  .hero .eyebrow { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brand); font-weight: 700; margin-bottom: 12px; }
+  .hero h1 { font-size: 2rem; font-weight: 800; margin-bottom: 12px; line-height: 1.2; }
+  .hero h1 span { color: var(--brand); }
+  .hero p { color: var(--muted); font-size: 1rem; max-width: 540px; margin: 0 auto 24px; line-height: 1.6; }
+  .hero-cta { display: inline-block; background: var(--brand); color: #000; font-weight: 700; padding: 12px 28px; border-radius: 7px; text-decoration: none; font-size: 0.95rem; transition: opacity 0.15s; }
+  .hero-cta:hover { opacity: 0.85; }
+  /* Demo grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .demo-card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 20px; display: flex; flex-direction: column; transition: border-color 0.2s, transform 0.15s; text-decoration: none; color: var(--text); }
+  .demo-card:hover { border-color: var(--brand); transform: translateY(-2px); }
+  .demo-card .card-icon { font-size: 2rem; margin-bottom: 10px; }
+  .demo-card .card-name { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+  .demo-card .card-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.5; flex: 1; }
+  .demo-card .card-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
+  .demo-card .card-price { font-size: 0.85rem; font-weight: 700; color: var(--brand); }
+  .demo-card .card-cta { font-size: 0.78rem; color: var(--brand); text-decoration: none; font-weight: 600; }
+  .badge { display: inline-block; background: var(--brand); color: #000; font-size: 0.65rem; font-weight: 700; padding: 2px 7px; border-radius: 3px; margin-left: 6px; vertical-align: middle; }
+  /* Store CTA */
+  .store-cta { background: linear-gradient(135deg, #001a1a, #002a2a); border: 1px solid var(--brand); border-radius: 12px; padding: 36px 28px; text-align: center; margin-top: 52px; }
+  .store-cta h2 { font-size: 1.5rem; margin-bottom: 8px; }
+  .store-cta p { color: var(--muted); font-size: 0.95rem; margin-bottom: 20px; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .store-cta .bundle-price { font-size: 1.6rem; font-weight: 800; color: var(--brand); margin-bottom: 4px; }
+  .store-cta .bundle-note { font-size: 0.8rem; color: var(--muted); margin-bottom: 20px; }
+  .buy-btn { display: inline-block; background: var(--brand); color: #000; font-weight: 700; padding: 14px 36px; border-radius: 8px; text-decoration: none; font-size: 1rem; transition: opacity 0.15s; }
+  .buy-btn:hover { opacity: 0.85; }
+  .trust { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 16px; }
+  .trust span { font-size: 0.78rem; color: var(--muted); }
+  footer { text-align: center; color: var(--muted); font-size: 0.8rem; padding: 24px; border-top: 1px solid var(--border); margin-top: 40px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>⚡ Automation Hub <span class="badge">DEMOS</span></h1>
+  <a href="../index.html">← Back to Store</a>
+</header>
+<div class="container">
+  <div class="hero">
+    <div class="eyebrow">Try Before You Buy</div>
+    <h1>Interactive <span>Python Automation</span> Demos</h1>
+    <p>Explore all 10 Automation Hub tools live in your browser. See exactly what you get before you purchase.</p>
+    <a href="../index.html" class="hero-cta">View Full Store →</a>
+  </div>
+
+  <div class="grid">
+    <a class="demo-card" href="demo-cron-job-builder.html">
+      <div class="card-icon">⏰</div>
+      <div class="card-name">Cron Job Builder</div>
+      <div class="card-desc">Visual 5-field cron expression builder with presets, human-readable output, and next-run time calculator.</div>
+      <div class="card-meta">
+        <span class="card-price">$14</span>
+        <span class="card-cta">Try Demo →</span>
+      </div>
+    </a>
+
+    <a class="demo-card" href="demo-task-scheduler.html">
+      <div class="card-icon">📅</div>
+      <div class="card-name">Task Scheduler</div>
+      <div class="card-desc">24-hour visual timeline grid. Add color-coded tasks with dependencies, priorities, and schedule conflicts.</div>
+      <div class="card-meta">
+        <span class="card-price">$14</span>
+        <span class="card-cta">Try Demo →</span>
+      </div>
+    </a>
+
+    <a class="demo-card" href="demo-file-watcher.html">
+      <div class="card-icon">👁️</div>
+      <div class="card-name">File Watcher</div>
+      <div class="card-desc">Configure file system watch rules and see animated real-time event logs with Python handler code generation.</div>
+      <div class="card-meta">
+        <span class="card-price">$14</span>
+        <span class="card-cta">Try Demo →</span>
+      </div>
+    </a>
+
+    <a class="demo-card" href="demo-webhook-trigger.html">
+      <div class="card-icon">🔗</div>
+      <div class="card-name">Webhook Trigger</div>
+      <div class="card-desc">Build and fire webhook payloads (Stripe, GitHub, Shopify, custom) with simulated HTTP request/response panels.</div>
+      <div class="card-meta">
+        <span class="card-price">$19</span>
+        <span class="card-cta">Try Demo →</span>
+      </div>
+    </a>
+
+    <a class="demo-card" href="demo-data-sync.html">
+      <div class="card-icon">🔄</div>
+      <div class="card-name">Data Sync</div>
+      <div class="card-desc">Configure source/destination sync with multiple strategies. Watch records flow with live progress, stats, and batch logs.</div>
+      <div class="card-meta">
+        <span class="card-price">$19</span>
+        <span class="card-cta">Try Demo →</span>
+      </div>
+    </a>
+
+    <a class="demo-card" href="demo-batch-processor.html">
+      <div class="card-icon">⚙️</div>
+      <div class="card-name">Batch Processor</div>
+      <div class="card-desc">Multi-stage processing pipeline with animated item queue, retry logic, error handling, and throughput metrics.</div>
+      <div class="card-meta">
+        <span class="card-price">$19</span>
+        <span class="card-cta">Try Demo →</span>
+      </div>
+    </a>
+
+    <a class="demo-card" href="demo-notification-dispatcher.html">
+      <div class="card-icon">📣</div>
+      <div class="card-name">Notification Dispatcher</div>
+      <div class="card-desc">Multi-channel notification builder with per-channel previews for Email, Slack, SMS, and webhook. Dispatch simulation.</div>
+      <div class="card-meta">
+        <span class="card-price">$19</span>
+        <span class="card-cta">Try Demo →</span>
+      </div>
+    </a>
+
+    <a class="demo-card" href="demo-workflow-engine.html">
+      <div class="card-icon">🧠</div>
+      <div class="card-name">Workflow Engine</div>
+      <div class="card-desc">Visual flowchart builder with 4 workflow templates. Watch steps execute with conditional branching and context tracing.</div>
+      <div class="card-meta">
+        <span class="card-price">$29</span>
+        <span class="card-cta">Try Demo →</span>
+      </div>
+    </a>
+
+    <a class="demo-card" href="demo-report-generator.html">
+      <div class="card-icon">📊</div>
+      <div class="card-name">Report Generator</div>
+      <div class="card-desc">Live report preview with 4 templates (Business, Revenue, Users, Infra). Renders charts, tables, and KPI cards.</div>
+      <div class="card-meta">
+        <span class="card-price">$19</span>
+        <span class="card-cta">Try Demo →</span>
+      </div>
+    </a>
+
+    <a class="demo-card" href="demo-config-manager.html">
+      <div class="card-icon">🔧</div>
+      <div class="card-name">Config Manager</div>
+      <div class="card-desc">Manage dev/staging/prod configs in one place. Edit values, export .env files, and diff environments side by side.</div>
+      <div class="card-meta">
+        <span class="card-price">$19</span>
+        <span class="card-cta">Try Demo →</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="store-cta">
+    <h2>Get the Complete <span style="color:var(--brand)">Automation Hub</span></h2>
+    <p>All 10 Python automation tools. Save hours on repetitive tasks. Includes source code, documentation, and lifetime updates.</p>
+    <div class="bundle-price">$149</div>
+    <div class="bundle-note">Or buy tools individually starting at $14 · One-time payment · No subscription</div>
+    <a class="buy-btn" href="javascript:void(0)" onclick="alert('Bundle coming soon! Browse individual products below.')" style="opacity:0.7">Get All 10 Tools — $149</a>
+    <div class="trust">
+      <span>🔒 Secure checkout via Stripe</span>
+      <span>📦 Instant download</span>
+      <span>🔄 Lifetime updates</span>
+      <span>💬 Email support</span>
+    </div>
+  </div>
+</div>
+<footer>Automation Hub · automation-hub.datanest.dev · Built with Python · © 2026 DataNest</footer>
+</body>
+</html>
