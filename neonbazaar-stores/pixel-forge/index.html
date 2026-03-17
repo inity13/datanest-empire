@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pixel Forge — Neon Bazaar</title>
-    <meta name="description" content="Premium pixel art game assets: sprites, tilesets, VFX, UI kits, weapons, and fonts. SVG + JSON format, works with any game engine. Instant download.">
+    <meta name="description" content="Neon Bazaar — Pixel Forge">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Pixel Forge — Neon Bazaar">
-    <meta property="og:description" content="Premium pixel art game assets: sprites, tilesets, VFX, UI kits, weapons, and fonts. SVG + JSON format, works with any game engine. Instant download.">
+    <meta property="og:description" content="Neon Bazaar — Pixel Forge">
     <meta property="og:site_name" content="Neon Bazaar">
 
-    <meta property="og:url" content="https://inity13.github.io/neon-pixel-forge/">
+    
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Pixel Forge — Neon Bazaar">
-    <meta name="twitter:description" content="Premium pixel art game assets: sprites, tilesets, VFX, UI kits, weapons, and fonts. SVG + JSON format, works with any game engine. Instant download.">
+    <meta name="twitter:description" content="Neon Bazaar — Pixel Forge">
 
     <!-- Favicon (inline SVG for no-dependency setup) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛍️</text></svg>">
@@ -26,11 +26,34 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- Theme color for mobile browsers -->
-    <meta name="theme-color" content="#FF2D9B">
+    <meta name="theme-color" content="#FF71CE">
 
 
 </head>
 <body>
+    <header class="site-header">
+        <div class="site-header__inner">
+            <a href="#top" class="site-header__brand">Pixel Forge</a>
+            <nav class="site-header__nav" aria-label="Main navigation">
+                <a href="#products" class="site-header__link">Products</a>
+                <a href="#bundles" class="site-header__link">Bundle</a>
+                <a href="#faq" class="site-header__link">FAQ</a>
+            </nav>
+            <div class="site-header__actions">
+                <button class="nb-theme-toggle" id="nb-theme-toggle" aria-label="Toggle theme">&#x1F319;</button>
+                <button class="nb-hamburger" id="nb-hamburger" aria-label="Open menu">&#9776;</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Nav Overlay -->
+    <div class="nb-mobile-nav" id="nb-mobile-nav">
+        <button class="nb-mobile-nav__close" aria-label="Close menu">&times;</button>
+        <a href="#products" class="nb-mobile-nav__link">Products</a>
+        <a href="#bundles" class="nb-mobile-nav__link">Bundle</a>
+        <a href="#features" class="nb-mobile-nav__link">Features</a>
+        <a href="#faq" class="nb-mobile-nav__link">FAQ</a>
+    </div>
     <nav class="cross-nav" aria-label="Neon Bazaar stores">
         <div class="cross-nav__inner">
             <span class="cross-nav__brand">Neon Bazaar</span>
@@ -43,320 +66,69 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="hero" id="top">
+    <section class="hero" id="top">
         <div class="container">
+            <div class="nb-hero-badge">
+                <span class="nb-pulse-dot"></span> Premium Digital Goods
+            </div>
             <h1 class="hero__title glitch" data-text="Pixel Forge">Pixel Forge</h1>
-            <p class="hero__subtitle">Drop-in pixel art assets for games that actually ship</p>
+            <p class="hero__subtitle">Your digital playground</p>
             <div class="hero__cta-row">
                 <a href="#products" class="btn btn--primary">Browse the goods</a>
                 <a href="#faq" class="btn btn--secondary">How it works</a>
             </div>
         </div>
-    </header>
+    </section>
 
     <!-- Products Section -->
     <section class="section" id="products">
         <div class="container">
             <h2 class="section__heading">What&rsquo;s in stock</h2>
             <p class="section__subheading">Everything here was made with care. No filler, no fluff.</p>
-        <div class="filter-bar">
-            <span class="filter-bar__label">Filter:</span>
-            <button class="filter-tag active" data-filter="all">All</button>
-            <button class="filter-tag" data-filter="game-assets">game-assets</button>
-            <button class="filter-tag" data-filter="sprites">sprites</button>
-            <button class="filter-tag" data-filter="animation">animation</button>
-            <button class="filter-tag" data-filter="bundle">bundle</button>
-            <button class="filter-tag" data-filter="characters">characters</button>
-            <button class="filter-tag" data-filter="mega-pack">mega-pack</button>
-            <button class="filter-tag" data-filter="pixel-art">pixel-art</button>
-            <button class="filter-tag" data-filter="tileset">tileset</button>
-            <button class="filter-tag" data-filter="fonts">fonts</button>
-            <button class="filter-tag" data-filter="inventory">inventory</button>
-            <button class="filter-tag" data-filter="nes-style">nes-style</button>
-            <button class="filter-tag" data-filter="outdoors">outdoors</button>
-            <select class="sort-select" aria-label="Sort products">
-                <option value="default">Sort: Featured</option>
-                <option value="price-asc">Price: Low → High</option>
-                <option value="price-desc">Price: High → Low</option>
-            </select>
-        </div>
+
             <div class="product-grid">
-        <article class="product-card product-card--bundle fade-in"
-                 data-tags="bundle,starter"
-                 data-price="900"
-                 data-slug="pixel-forge-starter-bundle">
-            <div class="product-card__inner">
-                <div>
-                    <span class="bundle-badge">BUNDLE DEAL</span>
-                    <h3 class="product-card__name" style="margin-top: 12px">Pixel Forge Starter Bundle</h3>
-                    <p class="product-card__desc">Get started fast — includes the Dungeon Tileset, Pixel Weapons Collection, and Explosion VFX Pack at a steep discount.</p>
-            <div class="product-card__tags"><span class="product-card__tag">bundle</span><span class="product-card__tag">starter</span></div>
-                    <ul class="product-card__bundle-list"><li>Dungeon Tileset</li><li>Pixel Weapons Collection</li><li>Explosion Vfx Pack</li></ul>
-                </div>
-                <div>
-                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$9.00</p>
-                    <div class="product-card__actions">
-                        <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/eVq14n22rflk24Wg0NgjG2v"
-                           data-product="pixel-forge-starter-bundle">
-                            Grab This Bundle
-                        </a>
-                        <button class="btn btn--crypto btn--card"
-                                data-crypto-product="Pixel Forge Starter Bundle"
-                                data-crypto-price="900">
-                            Pay with Crypto ($7.20)
-                        </button>
-                    </div>
-                </div>
+        <p style="text-align: center; color: var(--nb-text-muted); grid-column: 1/-1; padding: 60px 0;">Products are being forged... check back soon!</p>
             </div>
-        </article>
-        <article class="product-card product-card--bundle fade-in"
-                 data-tags="bundle,mega-pack"
-                 data-price="1900"
-                 data-slug="pixel-forge-ultimate-bundle">
-            <div class="product-card__inner">
-                <div>
-                    <span class="bundle-badge">BUNDLE DEAL</span>
-                    <h3 class="product-card__name" style="margin-top: 12px">Pixel Forge Ultimate Bundle</h3>
-                    <p class="product-card__desc">Every single Pixel Forge asset in one massive download. The whole armory, no compromises.</p>
-            <div class="product-card__tags"><span class="product-card__tag">bundle</span><span class="product-card__tag">mega-pack</span></div>
-                    <ul class="product-card__bundle-list"><li>Dungeon Tileset</li><li>Explosion Vfx Pack</li><li>Monster Bestiary Pack</li><li>Nature Tileset Mega</li><li>Pixel Font Pack</li><li>Pixel Weapons Collection</li><li>Retro Platformer Kit</li><li>Sci Fi Ui Kit</li><li>Space Shooter Assets</li><li>Warrior Sprite Pack</li></ul>
-                </div>
-                <div>
-                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$19.00</p>
-                    <div class="product-card__actions">
-                        <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/aFa9ATdL90qq9xo4i5gjG2w"
-                           data-product="pixel-forge-ultimate-bundle">
-                            Grab This Bundle
-                        </a>
-                        <button class="btn btn--crypto btn--card"
-                                data-crypto-product="Pixel Forge Ultimate Bundle"
-                                data-crypto-price="1900">
-                            Pay with Crypto ($15.20)
-                        </button>
-                    </div>
-                </div>
+        </div>
+    </section>
+
+
+
+    <section class="features-section section" id="features">
+        <div class="container">
+            <h2 class="section__heading glitch">Why the Neon Bazaar?</h2>
+            <p class="section__subheading">Six reasons this place hits different.</p>
+            <div class="features-grid">
+            <div class="feature-card fade-in">
+                <span class="feature-card__icon">&#9889;</span>
+                <h3 class="feature-card__title">Instant Download</h3>
+                <p class="feature-card__desc">Pay once, download immediately. No waiting, no hoops.</p>
             </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="pixel-art,tileset,game-assets"
-                 data-price="500"
-                 data-slug="dungeon-tileset">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Dungeon Tileset</h3>
-                <span class="product-card__price">$5.00</span>
+            <div class="feature-card fade-in">
+                <span class="feature-card__icon">&#128142;</span>
+                <h3 class="feature-card__title">Premium Quality</h3>
+                <p class="feature-card__desc">Every product hand-tested before it hits the shelf.</p>
             </div>
-            <p class="product-card__desc">Dark, moody dungeon tiles for RPGs and roguelikes. Walls, floors, doors, traps, and decorations.</p>
-            <div class="product-card__tags"><span class="product-card__tag">pixel-art</span><span class="product-card__tag">tileset</span><span class="product-card__tag">game-assets</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/7sYcN5ePd8WW5h84i5gjG2l"
-                   data-product="dungeon-tileset">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Dungeon Tileset"
-                        data-crypto-price="500">
-                    Pay with Crypto ($4.00)
-                </button>
+            <div class="feature-card fade-in">
+                <span class="feature-card__icon">&#128274;</span>
+                <h3 class="feature-card__title">Secure Checkout</h3>
+                <p class="feature-card__desc">Stripe-powered. Your card details never touch our servers.</p>
             </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="vfx,animation,game-assets"
-                 data-price="300"
-                 data-slug="explosion-vfx-pack">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Explosion VFX Pack</h3>
-                <span class="product-card__price">$3.00</span>
+            <div class="feature-card fade-in">
+                <span class="feature-card__icon">&#9940;</span>
+                <h3 class="feature-card__title">No Subscriptions</h3>
+                <p class="feature-card__desc">One-time purchase, yours forever. No recurring fees.</p>
             </div>
-            <p class="product-card__desc">Juicy explosion animations — fireballs, smoke puffs, energy bursts, and hit sparks.</p>
-            <div class="product-card__tags"><span class="product-card__tag">vfx</span><span class="product-card__tag">animation</span><span class="product-card__tag">game-assets</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/5kQ00j7mL6OO5h87uhgjG2m"
-                   data-product="explosion-vfx-pack">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Explosion VFX Pack"
-                        data-crypto-price="300">
-                    Pay with Crypto ($2.40)
-                </button>
+            <div class="feature-card fade-in">
+                <span class="feature-card__icon">&#128308;</span>
+                <h3 class="feature-card__title">Neon Quality</h3>
+                <p class="feature-card__desc">Cyberpunk-grade assets built to make your projects glow.</p>
             </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="sprites,rpg,characters"
-                 data-price="500"
-                 data-slug="monster-bestiary-pack">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Monster Bestiary Pack</h3>
-                <span class="product-card__price">$5.00</span>
+            <div class="feature-card fade-in">
+                <span class="feature-card__icon">&#128172;</span>
+                <h3 class="feature-card__title">24/7 Support</h3>
+                <p class="feature-card__desc">Got questions? We respond fast. Hit us up anytime.</p>
             </div>
-            <p class="product-card__desc">A full bestiary of pixel monsters — slimes, skeletons, dragons, and bosses with idle and attack animations.</p>
-            <div class="product-card__tags"><span class="product-card__tag">sprites</span><span class="product-card__tag">rpg</span><span class="product-card__tag">characters</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/bJe4gz8qP4GGeRI6qdgjG2n"
-                   data-product="monster-bestiary-pack">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Monster Bestiary Pack"
-                        data-crypto-price="500">
-                    Pay with Crypto ($4.00)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="tileset,outdoors,mega-pack"
-                 data-price="700"
-                 data-slug="nature-tileset-mega">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Nature Tileset Mega Pack</h3>
-                <span class="product-card__price">$7.00</span>
-            </div>
-            <p class="product-card__desc">Forests, rivers, mountains, caves, and seasonal variations. The outdoor tileset to end all outdoor tilesets.</p>
-            <div class="product-card__tags"><span class="product-card__tag">tileset</span><span class="product-card__tag">outdoors</span><span class="product-card__tag">mega-pack</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/9B69AT22r5KK10S5m9gjG2o"
-                   data-product="nature-tileset-mega">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Nature Tileset Mega Pack"
-                        data-crypto-price="700">
-                    Pay with Crypto ($5.60)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="fonts,typography,pixel-art"
-                 data-price="300"
-                 data-slug="pixel-font-pack">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Pixel Font Pack</h3>
-                <span class="product-card__price">$3.00</span>
-            </div>
-            <p class="product-card__desc">Crisp pixel fonts in multiple sizes — perfect for dialogue boxes, HUDs, and title screens.</p>
-            <div class="product-card__tags"><span class="product-card__tag">fonts</span><span class="product-card__tag">typography</span><span class="product-card__tag">pixel-art</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/bJe00j0YngpocJA15TgjG2p"
-                   data-product="pixel-font-pack">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Pixel Font Pack"
-                        data-crypto-price="300">
-                    Pay with Crypto ($2.40)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="weapons,inventory,game-assets"
-                 data-price="500"
-                 data-slug="pixel-weapons-collection">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Pixel Weapons Collection</h3>
-                <span class="product-card__price">$5.00</span>
-            </div>
-            <p class="product-card__desc">Swords, axes, bows, staves, daggers, and more. Each weapon includes inventory icons and swing animations.</p>
-            <div class="product-card__tags"><span class="product-card__tag">weapons</span><span class="product-card__tag">inventory</span><span class="product-card__tag">game-assets</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/4gM5kD22rflk24W4i5gjG2q"
-                   data-product="pixel-weapons-collection">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Pixel Weapons Collection"
-                        data-crypto-price="500">
-                    Pay with Crypto ($4.00)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="platformer,nes-style,sprites"
-                 data-price="500"
-                 data-slug="retro-platformer-kit">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Retro Platformer Kit</h3>
-                <span class="product-card__price">$5.00</span>
-            </div>
-            <p class="product-card__desc">NES-style platformer sprites — hero character, enemies, platforms, collectibles, and background tiles.</p>
-            <div class="product-card__tags"><span class="product-card__tag">platformer</span><span class="product-card__tag">nes-style</span><span class="product-card__tag">sprites</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/fZuaEXdL9a1010S4i5gjG2r"
-                   data-product="retro-platformer-kit">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Retro Platformer Kit"
-                        data-crypto-price="500">
-                    Pay with Crypto ($4.00)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="ui,sci-fi,game-assets"
-                 data-price="500"
-                 data-slug="sci-fi-ui-kit">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Sci-Fi UI Kit</h3>
-                <span class="product-card__price">$5.00</span>
-            </div>
-            <p class="product-card__desc">Sleek sci-fi interface elements — health bars, minimaps, inventory panels, and button styles.</p>
-            <div class="product-card__tags"><span class="product-card__tag">ui</span><span class="product-card__tag">sci-fi</span><span class="product-card__tag">game-assets</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/00w6oH6iH4GG9xobKxgjG2s"
-                   data-product="sci-fi-ui-kit">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Sci-Fi UI Kit"
-                        data-crypto-price="500">
-                    Pay with Crypto ($4.00)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="space,shooter,sprites"
-                 data-price="500"
-                 data-slug="space-shooter-assets">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Space Shooter Assets</h3>
-                <span class="product-card__price">$5.00</span>
-            </div>
-            <p class="product-card__desc">Ships, asteroids, projectiles, power-ups, and starfield backgrounds for space shooters and shmups.</p>
-            <div class="product-card__tags"><span class="product-card__tag">space</span><span class="product-card__tag">shooter</span><span class="product-card__tag">sprites</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/00w9AT4azehgfVM6qdgjG2t"
-                   data-product="space-shooter-assets">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Space Shooter Assets"
-                        data-crypto-price="500">
-                    Pay with Crypto ($4.00)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="sprites,characters,animation"
-                 data-price="500"
-                 data-slug="warrior-sprite-pack">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Warrior Sprite Pack</h3>
-                <span class="product-card__price">$5.00</span>
-            </div>
-            <p class="product-card__desc">Fully animated warrior characters — idle, run, attack, jump, and death sequences in four directions.</p>
-            <div class="product-card__tags"><span class="product-card__tag">sprites</span><span class="product-card__tag">characters</span><span class="product-card__tag">animation</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/fZuaEX36v3CCeRI29XgjG2u"
-                   data-product="warrior-sprite-pack">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Warrior Sprite Pack"
-                        data-crypto-price="500">
-                    Pay with Crypto ($4.00)
-                </button>
-            </div>
-        </article>
             </div>
         </div>
     </section>
@@ -369,29 +141,29 @@
             <div class="trust-card fade-in">
                 <div class="trust-card__icon">⚡</div>
                 <p class="trust-card__text">
-                    <strong>Instant digital download</strong>
-                    
+                    <strong>Instant Download</strong>
+                    Pay and get your files immediately. No waiting, no nonsense.
                 </p>
             </div>
             <div class="trust-card fade-in">
                 <div class="trust-card__icon">🔒</div>
                 <p class="trust-card__text">
-                    <strong>MIT License — use anywhere</strong>
-                    
+                    <strong>Secure Checkout</strong>
+                    Stripe-powered payments. We never see your card details.
                 </p>
             </div>
             <div class="trust-card fade-in">
                 <div class="trust-card__icon">💎</div>
                 <p class="trust-card__text">
-                    <strong>SVG + JSON format — engine-agnostic</strong>
-                    
+                    <strong>Quality Guaranteed</strong>
+                    Every product is tested and reviewed before we sell it.
                 </p>
             </div>
             <div class="trust-card fade-in">
                 <div class="trust-card__icon">🪙</div>
                 <p class="trust-card__text">
-                    <strong>Works with Godot, Unity, GameMaker, and more</strong>
-                    
+                    <strong>Crypto Accepted</strong>
+                    Pay with BTC, ETH, USDC, or LTC and get 20% off.
                 </p>
             </div>
             </div>
@@ -405,47 +177,47 @@
             <div class="faq-list">
             <div class="faq-item">
                 <button class="faq-question" aria-expanded="false">
-                    <span>What format are the files?</span>
+                    <span>How do I get my files after buying?</span>
                     <span class="faq-question__icon">+</span>
                 </button>
                 <div class="faq-answer" aria-hidden="true">
-                    <div class="faq-answer__inner">Everything ships as SVG + JSON. Sprites include animation metadata in JSON so you can drop them straight into your engine of choice.</div>
+                    <div class="faq-answer__inner">You&#x27;ll be redirected to a download page immediately after payment. We also send a download link to your email, so you can grab it again later.</div>
                 </div>
             </div>
             <div class="faq-item">
                 <button class="faq-question" aria-expanded="false">
-                    <span>Can I use these in my commercial game?</span>
+                    <span>Can I get a refund?</span>
                     <span class="faq-question__icon">+</span>
                 </button>
                 <div class="faq-answer" aria-hidden="true">
-                    <div class="faq-answer__inner">Yep, MIT license. Use them in free games, paid games, game jams, whatever. Credit is cool but not required.</div>
+                    <div class="faq-answer__inner">Since these are digital downloads, we can&#x27;t do refunds once you&#x27;ve downloaded the files. But if something&#x27;s broken or not what was described, hit us up and we&#x27;ll make it right.</div>
                 </div>
             </div>
             <div class="faq-item">
                 <button class="faq-question" aria-expanded="false">
-                    <span>How do I get my download?</span>
+                    <span>How does crypto payment work?</span>
                     <span class="faq-question__icon">+</span>
                 </button>
                 <div class="faq-answer" aria-hidden="true">
-                    <div class="faq-answer__inner">Instant download after payment. You&#x27;ll get a .zip with all the assets organized by category.</div>
+                    <div class="faq-answer__inner">Choose the crypto option, pick your coin (BTC, ETH, USDC, or LTC), and send the exact amount to the wallet address shown. Once confirmed on-chain, your download unlocks automatically. Plus you get 20% off!</div>
                 </div>
             </div>
             <div class="faq-item">
                 <button class="faq-question" aria-expanded="false">
-                    <span>Do these work with Godot / Unity / GameMaker?</span>
+                    <span>Can I use these in my own projects?</span>
                     <span class="faq-question__icon">+</span>
                 </button>
                 <div class="faq-answer" aria-hidden="true">
-                    <div class="faq-answer__inner">Yes to all three, and basically any other engine that can load SVG or PNG. The JSON metadata follows standard sprite-sheet conventions.</div>
+                    <div class="faq-answer__inner">Absolutely! All products come with a license that lets you use them in personal and commercial projects. The only thing you can&#x27;t do is resell the raw files as-is.</div>
                 </div>
             </div>
             <div class="faq-item">
                 <button class="faq-question" aria-expanded="false">
-                    <span>What if something&#x27;s broken or missing?</span>
+                    <span>Do you have free samples?</span>
                     <span class="faq-question__icon">+</span>
                 </button>
                 <div class="faq-answer" aria-hidden="true">
-                    <div class="faq-answer__inner">DM us on Discord and we&#x27;ll sort it out fast. If the product doesn&#x27;t work as described, you get a full refund — no drama.</div>
+                    <div class="faq-answer__inner">Yep! Most products have a free preview or demo you can try before buying. Check the product pages for preview links.</div>
                 </div>
             </div>
             </div>
@@ -454,17 +226,65 @@
 
     <footer class="footer">
         <div class="container">
-            <p class="footer__brand">Neon Bazaar</p>
-            <p class="footer__tagline">Your digital playground</p>
-            <nav class="footer__links" aria-label="Other stores">
-            <a href="../game-vault/storefront/index.html" class="footer__link">Game Vault</a>
-            <a href="../creator-kit/storefront/index.html" class="footer__link">Creator Kit</a>
-            <a href="../mod-lab/storefront/index.html" class="footer__link">Mod Lab</a>
-            <a href="../aesthetic-studio/storefront/index.html" class="footer__link">Aesthetic Studio</a>
-            </nav>
-            <p class="footer__copy">&copy; 2026 Neon Bazaar. All rights reserved.</p>
+            <div class="footer__grid">
+                <div>
+                    <p class="footer__brand-text">Neon Bazaar</p>
+                    <p class="footer__desc">
+                        Your digital playground for premium game assets, creator tools,
+                        mods, and aesthetic kits. Built by indie creators, for indie creators.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Products</h4>
+                    <ul class="footer__link-list">
+                <li><a href="#top">Pixel Forge</a></li>
+                <li><a href="../game-vault/storefront/index.html">Game Vault</a></li>
+                <li><a href="../creator-kit/storefront/index.html">Creator Kit</a></li>
+                <li><a href="../mod-lab/storefront/index.html">Mod Lab</a></li>
+                <li><a href="../aesthetic-studio/storefront/index.html">Aesthetic Studio</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Support</h4>
+                    <ul class="footer__link-list">
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="mailto:support@neonbazaar.gg">Contact Us</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                        <li><a href="#">License Terms</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Connect</h4>
+                    <ul class="footer__link-list">
+                        <li><a href="#">Twitter / X</a></li>
+                        <li><a href="#">Discord</a></li>
+                        <li><a href="#">GitHub</a></li>
+                        <li><a href="#">YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p class="footer__copy">&copy; 2026 Neon Bazaar. All rights reserved.</p>
+                <div class="footer__bottom-links">
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                </div>
+            </div>
         </div>
     </footer>
+
+    <div class="nb-email-bar nb-hidden" id="nb-email-bar">
+        <div class="nb-email-bar__inner">
+            <p class="nb-email-bar__text"><span>&#x26A1;</span> Get notified about drops &amp; deals</p>
+            <form class="nb-email-bar__form" autocomplete="off">
+                <input type="email" class="nb-email-bar__input"
+                       placeholder="your@email.com" required aria-label="Email address">
+                <button type="submit" class="btn btn--primary btn--sm">Subscribe</button>
+            </form>
+            <span class="nb-email-bar__msg"></span>
+            <button class="nb-email-bar__dismiss" aria-label="Dismiss">&times;</button>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="script.js"></script>

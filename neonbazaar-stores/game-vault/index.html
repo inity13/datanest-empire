@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Vault — Neon Bazaar</title>
-    <meta name="description" content="Pro gaming guides and strategy tools for Fortnite, Valorant, Minecraft, Genshin Impact, Apex Legends, and Roblox. Level up your gameplay today.">
+    <meta name="description" content="Neon Bazaar — Game Vault">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Game Vault — Neon Bazaar">
-    <meta property="og:description" content="Pro gaming guides and strategy tools for Fortnite, Valorant, Minecraft, Genshin Impact, Apex Legends, and Roblox. Level up your gameplay today.">
+    <meta property="og:description" content="Neon Bazaar — Game Vault">
     <meta property="og:site_name" content="Neon Bazaar">
 
-    <meta property="og:url" content="https://inity13.github.io/neon-game-vault/">
+    
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Game Vault — Neon Bazaar">
-    <meta name="twitter:description" content="Pro gaming guides and strategy tools for Fortnite, Valorant, Minecraft, Genshin Impact, Apex Legends, and Roblox. Level up your gameplay today.">
+    <meta name="twitter:description" content="Neon Bazaar — Game Vault">
 
     <!-- Favicon (inline SVG for no-dependency setup) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛍️</text></svg>">
@@ -26,11 +26,34 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- Theme color for mobile browsers -->
-    <meta name="theme-color" content="#39FF14">
+    <meta name="theme-color" content="#05FFA1">
 
 
 </head>
 <body>
+    <header class="site-header">
+        <div class="site-header__inner">
+            <a href="#top" class="site-header__brand">Game Vault</a>
+            <nav class="site-header__nav" aria-label="Main navigation">
+                <a href="#products" class="site-header__link">Products</a>
+                <a href="#bundles" class="site-header__link">Bundle</a>
+                <a href="#faq" class="site-header__link">FAQ</a>
+            </nav>
+            <div class="site-header__actions">
+                <button class="nb-theme-toggle" id="nb-theme-toggle" aria-label="Toggle theme">&#x1F319;</button>
+                <button class="nb-hamburger" id="nb-hamburger" aria-label="Open menu">&#9776;</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Nav Overlay -->
+    <div class="nb-mobile-nav" id="nb-mobile-nav">
+        <button class="nb-mobile-nav__close" aria-label="Close menu">&times;</button>
+        <a href="#products" class="nb-mobile-nav__link">Products</a>
+        <a href="#bundles" class="nb-mobile-nav__link">Bundle</a>
+        <a href="#features" class="nb-mobile-nav__link">Features</a>
+        <a href="#faq" class="nb-mobile-nav__link">FAQ</a>
+    </div>
     <nav class="cross-nav" aria-label="Neon Bazaar stores">
         <div class="cross-nav__inner">
             <span class="cross-nav__brand">Neon Bazaar</span>
@@ -43,320 +66,69 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="hero" id="top">
+    <section class="hero" id="top">
         <div class="container">
+            <div class="nb-hero-badge">
+                <span class="nb-pulse-dot"></span> Premium Digital Goods
+            </div>
             <h1 class="hero__title glitch" data-text="Game Vault">Game Vault</h1>
-            <p class="hero__subtitle">Pro strats, optimal settings, and guides that actually help you win</p>
+            <p class="hero__subtitle">Your digital playground</p>
             <div class="hero__cta-row">
                 <a href="#products" class="btn btn--primary">Browse the goods</a>
                 <a href="#faq" class="btn btn--secondary">How it works</a>
             </div>
         </div>
-    </header>
+    </section>
 
     <!-- Products Section -->
     <section class="section" id="products">
         <div class="container">
             <h2 class="section__heading">What&rsquo;s in stock</h2>
             <p class="section__subheading">Everything here was made with care. No filler, no fluff.</p>
-        <div class="filter-bar">
-            <span class="filter-bar__label">Filter:</span>
-            <button class="filter-tag active" data-filter="all">All</button>
-            <button class="filter-tag" data-filter="guide">guide</button>
-            <button class="filter-tag" data-filter="tool">tool</button>
-            <button class="filter-tag" data-filter="all-games">all-games</button>
-            <button class="filter-tag" data-filter="bundle">bundle</button>
-            <button class="filter-tag" data-filter="aim">aim</button>
-            <button class="filter-tag" data-filter="apex-legends">apex-legends</button>
-            <button class="filter-tag" data-filter="esports">esports</button>
-            <button class="filter-tag" data-filter="fortnite">fortnite</button>
-            <button class="filter-tag" data-filter="fps">fps</button>
-            <button class="filter-tag" data-filter="game-dev">game-dev</button>
-            <button class="filter-tag" data-filter="genshin-impact">genshin-impact</button>
-            <button class="filter-tag" data-filter="keybinds">keybinds</button>
-            <select class="sort-select" aria-label="Sort products">
-                <option value="default">Sort: Featured</option>
-                <option value="price-asc">Price: Low → High</option>
-                <option value="price-desc">Price: High → Low</option>
-            </select>
-        </div>
+
             <div class="product-grid">
-        <article class="product-card product-card--bundle fade-in"
-                 data-tags="bundle,starter"
-                 data-price="900"
-                 data-slug="game-vault-starter-bundle">
-            <div class="product-card__inner">
-                <div>
-                    <span class="bundle-badge">BUNDLE DEAL</span>
-                    <h3 class="product-card__name" style="margin-top: 12px">Game Vault Starter Bundle</h3>
-                    <p class="product-card__desc">The essential toolkit — FPS Settings Optimizer, Gaming Keybind Planner, and Esports Warmup Routine in one bundle.</p>
-            <div class="product-card__tags"><span class="product-card__tag">bundle</span><span class="product-card__tag">starter</span></div>
-                    <ul class="product-card__bundle-list"><li>Fps Settings Optimizer</li><li>Gaming Keybind Planner</li><li>Esports Warmup Routine</li></ul>
-                </div>
-                <div>
-                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$9.00</p>
-                    <div class="product-card__actions">
-                        <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/6oU6oH8qP1uugZQcOBgjG27"
-                           data-product="game-vault-starter-bundle">
-                            Grab This Bundle
-                        </a>
-                        <button class="btn btn--crypto btn--card"
-                                data-crypto-product="Game Vault Starter Bundle"
-                                data-crypto-price="900">
-                            Pay with Crypto ($7.20)
-                        </button>
-                    </div>
-                </div>
+        <p style="text-align: center; color: var(--nb-text-muted); grid-column: 1/-1; padding: 60px 0;">Products are being forged... check back soon!</p>
             </div>
-        </article>
-        <article class="product-card product-card--bundle fade-in"
-                 data-tags="bundle,mega-pack"
-                 data-price="1900"
-                 data-slug="game-vault-ultimate-bundle">
-            <div class="product-card__inner">
-                <div>
-                    <span class="bundle-badge">BUNDLE DEAL</span>
-                    <h3 class="product-card__name" style="margin-top: 12px">Game Vault Ultimate Bundle</h3>
-                    <p class="product-card__desc">Every guide, every tool, every strat — the complete Game Vault collection at a massive discount.</p>
-            <div class="product-card__tags"><span class="product-card__tag">bundle</span><span class="product-card__tag">mega-pack</span></div>
-                    <ul class="product-card__bundle-list"><li>Apex Movement Bible</li><li>Esports Warmup Routine</li><li>Fortnite Pro Guide</li><li>Fps Settings Optimizer</li><li>Game Progression Tracker</li><li>Gaming Keybind Planner</li><li>Genshin Team Builder</li><li>Minecraft Redstone Handbook</li><li>Roblox Dev Secrets</li><li>Valorant Aim Trainer</li></ul>
-                </div>
-                <div>
-                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$19.00</p>
-                    <div class="product-card__actions">
-                        <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/3cIaEX5eD1uudNE4i5gjG28"
-                           data-product="game-vault-ultimate-bundle">
-                            Grab This Bundle
-                        </a>
-                        <button class="btn btn--crypto btn--card"
-                                data-crypto-product="Game Vault Ultimate Bundle"
-                                data-crypto-price="1900">
-                            Pay with Crypto ($15.20)
-                        </button>
-                    </div>
-                </div>
+        </div>
+    </section>
+
+
+
+    <section class="features-section section" id="features">
+        <div class="container">
+            <h2 class="section__heading glitch">Why the Neon Bazaar?</h2>
+            <p class="section__subheading">Six reasons this place hits different.</p>
+            <div class="features-grid">
+            <div class="feature-card fade-in">
+                <span class="feature-card__icon">&#9889;</span>
+                <h3 class="feature-card__title">Instant Download</h3>
+                <p class="feature-card__desc">Pay once, download immediately. No waiting, no hoops.</p>
             </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="apex-legends,guide,movement"
-                 data-price="500"
-                 data-slug="apex-movement-bible">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Apex Movement Bible</h3>
-                <span class="product-card__price">$5.00</span>
+            <div class="feature-card fade-in">
+                <span class="feature-card__icon">&#128142;</span>
+                <h3 class="feature-card__title">Premium Quality</h3>
+                <p class="feature-card__desc">Every product hand-tested before it hits the shelf.</p>
             </div>
-            <p class="product-card__desc">Master tap-strafing, wall-bouncing, and advanced movement tech in Apex Legends. Frame data and input sequences included.</p>
-            <div class="product-card__tags"><span class="product-card__tag">apex-legends</span><span class="product-card__tag">guide</span><span class="product-card__tag">movement</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/dRmdR9cH5c98eRI15TgjG1X"
-                   data-product="apex-movement-bible">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Apex Movement Bible"
-                        data-crypto-price="500">
-                    Pay with Crypto ($4.00)
-                </button>
+            <div class="feature-card fade-in">
+                <span class="feature-card__icon">&#128274;</span>
+                <h3 class="feature-card__title">Secure Checkout</h3>
+                <p class="feature-card__desc">Stripe-powered. Your card details never touch our servers.</p>
             </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="warmup,esports,all-games"
-                 data-price="300"
-                 data-slug="esports-warmup-routine">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Esports Warmup Routine</h3>
-                <span class="product-card__price">$3.00</span>
+            <div class="feature-card fade-in">
+                <span class="feature-card__icon">&#9940;</span>
+                <h3 class="feature-card__title">No Subscriptions</h3>
+                <p class="feature-card__desc">One-time purchase, yours forever. No recurring fees.</p>
             </div>
-            <p class="product-card__desc">A structured 15-minute warmup routine used by pros. Aim drills, reaction tests, and hand stretches — works for any FPS.</p>
-            <div class="product-card__tags"><span class="product-card__tag">warmup</span><span class="product-card__tag">esports</span><span class="product-card__tag">all-games</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/4gM6oH6iH2yyaBs4i5gjG1Y"
-                   data-product="esports-warmup-routine">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Esports Warmup Routine"
-                        data-crypto-price="300">
-                    Pay with Crypto ($2.40)
-                </button>
+            <div class="feature-card fade-in">
+                <span class="feature-card__icon">&#128308;</span>
+                <h3 class="feature-card__title">Neon Quality</h3>
+                <p class="feature-card__desc">Cyberpunk-grade assets built to make your projects glow.</p>
             </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="fortnite,guide,strategy"
-                 data-price="500"
-                 data-slug="fortnite-pro-guide">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Fortnite Pro Guide</h3>
-                <span class="product-card__price">$5.00</span>
+            <div class="feature-card fade-in">
+                <span class="feature-card__icon">&#128172;</span>
+                <h3 class="feature-card__title">24/7 Support</h3>
+                <p class="feature-card__desc">Got questions? We respond fast. Hit us up anytime.</p>
             </div>
-            <p class="product-card__desc">Building techniques, edit plays, rotations, and loadout strategies from high-level competitive Fortnite.</p>
-            <div class="product-card__tags"><span class="product-card__tag">fortnite</span><span class="product-card__tag">guide</span><span class="product-card__tag">strategy</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/6oU28r5eDehg7pgeWJgjG1Z"
-                   data-product="fortnite-pro-guide">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Fortnite Pro Guide"
-                        data-crypto-price="500">
-                    Pay with Crypto ($4.00)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="settings,fps,tool"
-                 data-price="300"
-                 data-slug="fps-settings-optimizer">
-            <div class="product-card__header">
-                <h3 class="product-card__name">FPS Settings Optimizer</h3>
-                <span class="product-card__price">$3.00</span>
-            </div>
-            <p class="product-card__desc">Python tool that analyzes your system specs and recommends optimal settings for maximum FPS in popular shooters.</p>
-            <div class="product-card__tags"><span class="product-card__tag">settings</span><span class="product-card__tag">fps</span><span class="product-card__tag">tool</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/6oU4gzayXflkfVMaGtgjG20"
-                   data-product="fps-settings-optimizer">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="FPS Settings Optimizer"
-                        data-crypto-price="300">
-                    Pay with Crypto ($2.40)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="tracker,tool,all-games"
-                 data-price="300"
-                 data-slug="game-progression-tracker">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Game Progression Tracker</h3>
-                <span class="product-card__price">$3.00</span>
-            </div>
-            <p class="product-card__desc">Track quests, achievements, collectibles, and completionist goals across multiple games. JSON-powered, works offline.</p>
-            <div class="product-card__tags"><span class="product-card__tag">tracker</span><span class="product-card__tag">tool</span><span class="product-card__tag">all-games</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/8x2fZh0Ynehg9xo01PgjG21"
-                   data-product="game-progression-tracker">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Game Progression Tracker"
-                        data-crypto-price="300">
-                    Pay with Crypto ($2.40)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="keybinds,tool,utility"
-                 data-price="100"
-                 data-slug="gaming-keybind-planner">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Gaming Keybind Planner</h3>
-                <span class="product-card__price">$1.00</span>
-            </div>
-            <p class="product-card__desc">Visual keybind layout planner — map your controls, export configs, and find the optimal setup for your playstyle.</p>
-            <div class="product-card__tags"><span class="product-card__tag">keybinds</span><span class="product-card__tag">tool</span><span class="product-card__tag">utility</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/14AeVddL90qqbFw8ylgjG22"
-                   data-product="gaming-keybind-planner">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Gaming Keybind Planner"
-                        data-crypto-price="100">
-                    Pay with Crypto ($0.80)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="genshin-impact,guide,team-building"
-                 data-price="500"
-                 data-slug="genshin-team-builder">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Genshin Team Builder</h3>
-                <span class="product-card__price">$5.00</span>
-            </div>
-            <p class="product-card__desc">Interactive team composition tool for Genshin Impact. Elemental resonance calculator, artifact recommendations, and rotation guides.</p>
-            <div class="product-card__tags"><span class="product-card__tag">genshin-impact</span><span class="product-card__tag">guide</span><span class="product-card__tag">team-building</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/7sY5kDgXl8WW10S8ylgjG23"
-                   data-product="genshin-team-builder">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Genshin Team Builder"
-                        data-crypto-price="500">
-                    Pay with Crypto ($4.00)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="minecraft,redstone,guide"
-                 data-price="500"
-                 data-slug="minecraft-redstone-handbook">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Minecraft Redstone Handbook</h3>
-                <span class="product-card__price">$5.00</span>
-            </div>
-            <p class="product-card__desc">From basic circuits to flying machines — a complete redstone engineering reference with schematics and world downloads.</p>
-            <div class="product-card__tags"><span class="product-card__tag">minecraft</span><span class="product-card__tag">redstone</span><span class="product-card__tag">guide</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/00wbJ136va103907uhgjG24"
-                   data-product="minecraft-redstone-handbook">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Minecraft Redstone Handbook"
-                        data-crypto-price="500">
-                    Pay with Crypto ($4.00)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="roblox,guide,game-dev"
-                 data-price="700"
-                 data-slug="roblox-dev-secrets">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Roblox Dev Secrets</h3>
-                <span class="product-card__price">$7.00</span>
-            </div>
-            <p class="product-card__desc">Monetization strategies, Lua scripting patterns, and game design tips from successful Roblox developers.</p>
-            <div class="product-card__tags"><span class="product-card__tag">roblox</span><span class="product-card__tag">guide</span><span class="product-card__tag">game-dev</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/aFaeVd4az5KK7pgg0NgjG25"
-                   data-product="roblox-dev-secrets">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Roblox Dev Secrets"
-                        data-crypto-price="700">
-                    Pay with Crypto ($5.60)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="valorant,aim,training"
-                 data-price="300"
-                 data-slug="valorant-aim-trainer">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Valorant Aim Trainer</h3>
-                <span class="product-card__price">$3.00</span>
-            </div>
-            <p class="product-card__desc">Custom aim training routines mapped to Valorant&#x27;s mechanics — flicks, tracking, crosshair placement, and spray control.</p>
-            <div class="product-card__tags"><span class="product-card__tag">valorant</span><span class="product-card__tag">aim</span><span class="product-card__tag">training</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/dRm7sL4azehgeRI3e1gjG26"
-                   data-product="valorant-aim-trainer">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Valorant Aim Trainer"
-                        data-crypto-price="300">
-                    Pay with Crypto ($2.40)
-                </button>
-            </div>
-        </article>
             </div>
         </div>
     </section>
@@ -369,29 +141,29 @@
             <div class="trust-card fade-in">
                 <div class="trust-card__icon">⚡</div>
                 <p class="trust-card__text">
-                    <strong>Instant digital download</strong>
-                    
+                    <strong>Instant Download</strong>
+                    Pay and get your files immediately. No waiting, no nonsense.
                 </p>
             </div>
             <div class="trust-card fade-in">
                 <div class="trust-card__icon">🔒</div>
                 <p class="trust-card__text">
-                    <strong>MIT License — use anywhere</strong>
-                    
+                    <strong>Secure Checkout</strong>
+                    Stripe-powered payments. We never see your card details.
                 </p>
             </div>
             <div class="trust-card fade-in">
                 <div class="trust-card__icon">💎</div>
                 <p class="trust-card__text">
-                    <strong>Python stdlib only — no dependencies</strong>
-                    
+                    <strong>Quality Guaranteed</strong>
+                    Every product is tested and reviewed before we sell it.
                 </p>
             </div>
             <div class="trust-card fade-in">
                 <div class="trust-card__icon">🪙</div>
                 <p class="trust-card__text">
-                    <strong>Works with all major gaming platforms</strong>
-                    
+                    <strong>Crypto Accepted</strong>
+                    Pay with BTC, ETH, USDC, or LTC and get 20% off.
                 </p>
             </div>
             </div>
@@ -405,38 +177,11 @@
             <div class="faq-list">
             <div class="faq-item">
                 <button class="faq-question" aria-expanded="false">
-                    <span>What format are the guides in?</span>
+                    <span>How do I get my files after buying?</span>
                     <span class="faq-question__icon">+</span>
                 </button>
                 <div class="faq-answer" aria-hidden="true">
-                    <div class="faq-answer__inner">Guides are HTML + JSON so you can read them in any browser. Tools ship as standalone Python scripts — no installs, no dependencies.</div>
-                </div>
-            </div>
-            <div class="faq-item">
-                <button class="faq-question" aria-expanded="false">
-                    <span>Can I share these with my squad?</span>
-                    <span class="faq-question__icon">+</span>
-                </button>
-                <div class="faq-answer" aria-hidden="true">
-                    <div class="faq-answer__inner">Yep, MIT license. Share with your team, your Discord, your cousin — go wild. Just don&#x27;t resell them as-is.</div>
-                </div>
-            </div>
-            <div class="faq-item">
-                <button class="faq-question" aria-expanded="false">
-                    <span>How do I get my download?</span>
-                    <span class="faq-question__icon">+</span>
-                </button>
-                <div class="faq-answer" aria-hidden="true">
-                    <div class="faq-answer__inner">Instant download after payment. Unzip and you&#x27;re in business.</div>
-                </div>
-            </div>
-            <div class="faq-item">
-                <button class="faq-question" aria-expanded="false">
-                    <span>Are the guides kept up-to-date with patches?</span>
-                    <span class="faq-question__icon">+</span>
-                </button>
-                <div class="faq-answer" aria-hidden="true">
-                    <div class="faq-answer__inner">We update guides when major patches drop. If a guide is outdated, DM us on Discord and we&#x27;ll prioritize an update.</div>
+                    <div class="faq-answer__inner">You&#x27;ll be redirected to a download page immediately after payment. We also send a download link to your email, so you can grab it again later.</div>
                 </div>
             </div>
             <div class="faq-item">
@@ -445,7 +190,34 @@
                     <span class="faq-question__icon">+</span>
                 </button>
                 <div class="faq-answer" aria-hidden="true">
-                    <div class="faq-answer__inner">If the product doesn&#x27;t work as described, 100%. Hit us up on Discord and we&#x27;ll make it right.</div>
+                    <div class="faq-answer__inner">Since these are digital downloads, we can&#x27;t do refunds once you&#x27;ve downloaded the files. But if something&#x27;s broken or not what was described, hit us up and we&#x27;ll make it right.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    <span>How does crypto payment work?</span>
+                    <span class="faq-question__icon">+</span>
+                </button>
+                <div class="faq-answer" aria-hidden="true">
+                    <div class="faq-answer__inner">Choose the crypto option, pick your coin (BTC, ETH, USDC, or LTC), and send the exact amount to the wallet address shown. Once confirmed on-chain, your download unlocks automatically. Plus you get 20% off!</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    <span>Can I use these in my own projects?</span>
+                    <span class="faq-question__icon">+</span>
+                </button>
+                <div class="faq-answer" aria-hidden="true">
+                    <div class="faq-answer__inner">Absolutely! All products come with a license that lets you use them in personal and commercial projects. The only thing you can&#x27;t do is resell the raw files as-is.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    <span>Do you have free samples?</span>
+                    <span class="faq-question__icon">+</span>
+                </button>
+                <div class="faq-answer" aria-hidden="true">
+                    <div class="faq-answer__inner">Yep! Most products have a free preview or demo you can try before buying. Check the product pages for preview links.</div>
                 </div>
             </div>
             </div>
@@ -454,17 +226,65 @@
 
     <footer class="footer">
         <div class="container">
-            <p class="footer__brand">Neon Bazaar</p>
-            <p class="footer__tagline">Your digital playground</p>
-            <nav class="footer__links" aria-label="Other stores">
-            <a href="../pixel-forge/storefront/index.html" class="footer__link">Pixel Forge</a>
-            <a href="../creator-kit/storefront/index.html" class="footer__link">Creator Kit</a>
-            <a href="../mod-lab/storefront/index.html" class="footer__link">Mod Lab</a>
-            <a href="../aesthetic-studio/storefront/index.html" class="footer__link">Aesthetic Studio</a>
-            </nav>
-            <p class="footer__copy">&copy; 2026 Neon Bazaar. All rights reserved.</p>
+            <div class="footer__grid">
+                <div>
+                    <p class="footer__brand-text">Neon Bazaar</p>
+                    <p class="footer__desc">
+                        Your digital playground for premium game assets, creator tools,
+                        mods, and aesthetic kits. Built by indie creators, for indie creators.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Products</h4>
+                    <ul class="footer__link-list">
+                <li><a href="../pixel-forge/storefront/index.html">Pixel Forge</a></li>
+                <li><a href="#top">Game Vault</a></li>
+                <li><a href="../creator-kit/storefront/index.html">Creator Kit</a></li>
+                <li><a href="../mod-lab/storefront/index.html">Mod Lab</a></li>
+                <li><a href="../aesthetic-studio/storefront/index.html">Aesthetic Studio</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Support</h4>
+                    <ul class="footer__link-list">
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="mailto:support@neonbazaar.gg">Contact Us</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                        <li><a href="#">License Terms</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Connect</h4>
+                    <ul class="footer__link-list">
+                        <li><a href="#">Twitter / X</a></li>
+                        <li><a href="#">Discord</a></li>
+                        <li><a href="#">GitHub</a></li>
+                        <li><a href="#">YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p class="footer__copy">&copy; 2026 Neon Bazaar. All rights reserved.</p>
+                <div class="footer__bottom-links">
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                </div>
+            </div>
         </div>
     </footer>
+
+    <div class="nb-email-bar nb-hidden" id="nb-email-bar">
+        <div class="nb-email-bar__inner">
+            <p class="nb-email-bar__text"><span>&#x26A1;</span> Get notified about drops &amp; deals</p>
+            <form class="nb-email-bar__form" autocomplete="off">
+                <input type="email" class="nb-email-bar__input"
+                       placeholder="your@email.com" required aria-label="Email address">
+                <button type="submit" class="btn btn--primary btn--sm">Subscribe</button>
+            </form>
+            <span class="nb-email-bar__msg"></span>
+            <button class="nb-email-bar__dismiss" aria-label="Dismiss">&times;</button>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="script.js"></script>

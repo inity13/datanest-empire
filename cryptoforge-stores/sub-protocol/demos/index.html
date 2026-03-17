@@ -3,91 +3,336 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sub Protocol — Product Demos | CryptoForge</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<title>Sub Protocol — CryptoForge Storefront</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
+:root{--bg:#0a0f1e;--surface:#111a2e;--border:#1a2744;--blue:#00d4ff;--gold:#ffd700;--text:#e0e8f0;--text-dim:#8899aa;--hero-h:100vh}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0D0D1A;color:#E0E0E0;font-family:'Inter',sans-serif;min-height:100vh;padding:40px 32px}
-h1{font-family:'JetBrains Mono',monospace;font-size:1.6rem;color:#FF6B00;margin-bottom:6px}
-.tagline{font-size:.9rem;color:#E0E0E088;margin-bottom:32px}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+body.light{--bg:#f0f4f8;--surface:#ffffff;--border:#d0d8e0;--blue:#0088cc;--gold:#cc9900;--text:#1a2030;--text-dim:#556677}
+
+/* Hex grid background */
+body::before{content:'';position:fixed;inset:0;z-index:0;opacity:.04;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='52'%3E%3Cpath d='M30 0l26 15v30L30 60 4 45V15z' fill='none' stroke='%2300d4ff' stroke-width='.5'/%3E%3C/svg%3E");
+background-size:60px 52px;pointer-events:none}
+
+/* Header */
+.header{position:sticky;top:0;z-index:100;background:var(--bg)ee;backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:64px}
+.header .brand{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.2rem;color:var(--blue);margin-right:auto;text-decoration:none}
+.header .brand span{color:var(--gold)}
+.header nav{display:flex;gap:24px;align-items:center}
+.header nav a{color:var(--text-dim);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .2s}
+.header nav a:hover{color:var(--blue)}
+.theme-toggle{background:none;border:1px solid var(--border);color:var(--text-dim);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:.85rem;transition:all .2s}
+.theme-toggle:hover{border-color:var(--blue);color:var(--blue)}
+.mobile-menu-btn{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;cursor:pointer}
+@media(max-width:768px){
+  .mobile-menu-btn{display:block}
+  .header nav{display:none;position:absolute;top:64px;left:0;right:0;background:var(--bg);flex-direction:column;padding:16px 32px;border-bottom:1px solid var(--border)}
+  .header nav.open{display:flex}
+}
+
+/* Hero */
+.hero{position:relative;min-height:var(--hero-h);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px;
+background:linear-gradient(160deg,#0a0f1e 0%,#0d1a3a 40%,#1a0a2e 70%,#0a0f1e 100%);overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,#00d4ff11 0%,transparent 60%);pointer-events:none}
+.hero::after{content:'';position:absolute;top:50%;left:50%;width:600px;height:600px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,#ffd70008,transparent 70%);pointer-events:none}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.2rem,5vw,3.8rem);font-weight:700;color:#fff;margin-bottom:16px;position:relative;
+animation:heroFade 1s ease-out}
+.hero h1 .hl{color:var(--blue)}
+.hero h1 .hl2{color:var(--gold)}
+@keyframes heroFade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero .tagline{font-size:clamp(1rem,2vw,1.25rem);color:var(--text-dim);max-width:640px;line-height:1.6;margin-bottom:32px;animation:heroFade 1s .2s ease-out both}
+.trust-row{display:flex;gap:32px;flex-wrap:wrap;justify-content:center;margin-bottom:36px;animation:heroFade 1s .4s ease-out both}
+.trust-item{font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:var(--text-dim);display:flex;align-items:center;gap:6px}
+.trust-item .num{color:var(--gold);font-weight:700;font-size:1.1rem}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;animation:heroFade 1s .6s ease-out both}
+.btn-primary{display:inline-block;background:linear-gradient(135deg,var(--blue),#0088cc);color:#fff;padding:14px 32px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.95rem;font-family:'Space Grotesk',sans-serif;transition:all .2s;border:none;cursor:pointer}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px #00d4ff33}
+.btn-secondary{display:inline-block;background:transparent;color:var(--gold);padding:14px 32px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.95rem;font-family:'Space Grotesk',sans-serif;border:1px solid var(--gold);transition:all .2s}
+.btn-secondary:hover{background:#ffd70011;transform:translateY(-2px)}
+
+/* Products section */
+.section{padding:80px 32px;max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.section-label{font-family:'Space Grotesk',sans-serif;font-size:.8rem;text-transform:uppercase;letter-spacing:2px;color:var(--blue);margin-bottom:8px}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;margin-bottom:8px}
+body.light .section-title{color:#1a2030}
+.section-sub{font-size:.95rem;color:var(--text-dim);margin-bottom:40px;max-width:560px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
-.card{display:block;background:#111128;border:1px solid #1a1a3a;border-radius:10px;padding:24px;text-decoration:none;color:#E0E0E0;transition:all .2s}
-.card:hover{border-color:#FF6B00;transform:translateY(-3px);box-shadow:0 8px 32px #FF6B0022}
+.card{display:block;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 24px;text-decoration:none;color:var(--text);transition:all .3s;opacity:0;animation:cardReveal .5s ease-out forwards}
+@keyframes cardReveal{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.card:hover{border-color:var(--blue);transform:translateY(-4px);box-shadow:0 12px 40px #00d4ff15}
+.card-icon{font-size:1.4rem;color:var(--blue);margin-bottom:12px}
 .card-name{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:6px}
-.card-price{font-family:'JetBrains Mono',monospace;color:#FF6B00;font-weight:700;font-size:.95rem;margin-bottom:10px}
-.card-desc{font-size:.82rem;color:#E0E0E099;line-height:1.5;margin-bottom:14px}
-.card-cta{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:#FFD700;font-weight:500}
-.back{display:inline-block;margin-bottom:24px;color:#FF6B00;text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:.85rem}
-.back:hover{text-decoration:underline}
-.count{font-size:.8rem;color:#E0E0E055;margin-bottom:24px}
+body.light .card-name{color:#1a2030}
+.card-price{font-family:'Space Grotesk',sans-serif;color:var(--gold);font-weight:700;font-size:.95rem;margin-bottom:10px}
+.card-desc{font-size:.82rem;color:var(--text-dim);line-height:1.5;margin-bottom:14px}
+.card-cta{font-family:'Space Grotesk',sans-serif;font-size:.82rem;color:var(--blue);font-weight:600}
+
+/* Features grid */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.feat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 24px;transition:all .3s}
+.feat-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.feat-card .icon{font-size:1.6rem;margin-bottom:12px}
+.feat-card h3{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:#fff;margin-bottom:8px}
+body.light .feat-card h3{color:#1a2030}
+.feat-card p{font-size:.84rem;color:var(--text-dim);line-height:1.6}
+
+/* FAQ */
+.faq-item{border:1px solid var(--border);border-radius:10px;margin-bottom:12px;overflow:hidden;background:var(--surface)}
+.faq-q{padding:18px 24px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.95rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:#fff;transition:color .2s}
+body.light .faq-q{color:#1a2030}
+.faq-q:hover{color:var(--blue)}
+.faq-q .arrow{transition:transform .3s;color:var(--text-dim)}
+.faq-item.open .faq-q .arrow{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;padding:0 24px;font-size:.88rem;color:var(--text-dim);line-height:1.7}
+.faq-item.open .faq-a{max-height:300px;padding:0 24px 18px}
+
+/* Cross-sell */
+.empire-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:24px}
+.empire-link{display:inline-block;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 20px;text-decoration:none;color:var(--text-dim);font-size:.82rem;font-family:'Space Grotesk',sans-serif;font-weight:600;transition:all .2s}
+.empire-link:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-2px)}
+
+/* Footer */
+.footer{background:#060a14;border-top:1px solid var(--border);padding:60px 32px 32px;position:relative;z-index:1}
+body.light .footer{background:#e4e8ee}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;max-width:1200px;margin:0 auto}
+@media(max-width:768px){.footer-grid{grid-template-columns:1fr 1fr;gap:24px}}
+.footer-col h4{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:#fff;margin-bottom:16px}
+body.light .footer-col h4{color:#1a2030}
+.footer-col p,.footer-col a{font-size:.82rem;color:var(--text-dim);line-height:1.8;text-decoration:none;display:block}
+.footer-col a:hover{color:var(--blue)}
+.footer-bottom{max-width:1200px;margin:40px auto 0;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.78rem;color:var(--text-dim)}
+
+/* Email bar */
+.email-bar{position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--bg)f0;backdrop-filter:blur(12px);border-top:1px solid var(--border);padding:14px 32px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;transform:translateY(100%);animation:slideUp .5s 2s ease-out forwards}
+@keyframes slideUp{to{transform:translateY(0)}}
+.email-bar.hidden{display:none}
+.email-bar span{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;color:var(--gold)}
+.email-bar input{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 16px;color:var(--text);font-size:.88rem;font-family:'Inter',sans-serif;min-width:260px;outline:none;transition:border-color .2s}
+.email-bar input:focus{border-color:var(--blue)}
+.email-bar button{background:linear-gradient(135deg,var(--blue),#0088cc);color:#fff;border:none;border-radius:6px;padding:10px 24px;font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:.85rem;cursor:pointer;transition:all .2s}
+.email-bar button:hover{transform:translateY(-1px);box-shadow:0 4px 16px #00d4ff33}
+.email-bar .close-bar{background:none;border:none;color:var(--text-dim);font-size:1.2rem;cursor:pointer;padding:4px 8px;min-width:auto}
+.email-bar .msg{font-size:.82rem;color:var(--blue)}
+body{padding-bottom:64px}
 </style>
 </head>
 <body>
-<a href="../index.html" class="back">&larr; Back to Sub Protocol</a>
-<h1>Sub Protocol — Demos</h1>
-<div class="tagline">Subscription infrastructure and token-gating tools for Web3 builders.</div>
-<div class="count">10 interactive product demos</div>
-<div class="grid">
-<a href="membership-nft-factory.html" class="card">
+<!-- Header -->
+<header class="header">
+  <a href="#" class="brand">Crypto<span>Forge</span></a>
+  <button class="mobile-menu-btn" onclick="document.querySelector('.header nav').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+  <nav>
+    <a href="#products">Products</a>
+    <a href="#features">Features</a>
+    <a href="#faq">FAQ</a>
+    <button class="theme-toggle" onclick="document.body.classList.toggle('light');this.textContent=document.body.classList.contains('light')?'Dark':'Light'" aria-label="Toggle theme">Light</button>
+  </nav>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <h1><span class="hl">Crypto</span><span class="hl2">Forge</span><br>Sub Protocol</h1>
+  <div class="tagline">Subscription infrastructure and token-gating tools for Web3 builders.</div>
+  <div class="trust-row">
+    <div class="trust-item"><span class="num">10</span> Products</div>
+    <div class="trust-item"><span class="num">100%</span> Audited</div>
+    <div class="trust-item"><span class="num">10+</span> Chains</div>
+    <div class="trust-item"><span class="num">24/7</span> Monitoring</div>
+  </div>
+  <div class="hero-ctas">
+    <a href="#products" class="btn-primary">Browse Products</a>
+    <a href="#features" class="btn-secondary">Learn More</a>
+  </div>
+</section>
+
+<!-- Products -->
+<section class="section" id="products">
+  <div class="section-label">Product Catalog</div>
+  <div class="section-title">Sub Protocol</div>
+  <div class="section-sub">10 battle-tested products ready for deployment</div>
+  <div class="grid">
+<a href="membership-nft-factory.html" class="card" style="animation-delay:0.0s">
+  <div class="card-icon">&#x2B22;</div>
   <div class="card-name">Membership NFT Factory</div>
   <div class="card-price">$12.99</div>
   <div class="card-desc">NFT-based subscription contract with tiers and expiration.</div>
-  <div class="card-cta">Try Demo &rarr;</div>
+  <div class="card-cta">Explore Demo &rarr;</div>
 </a>
-<a href="yield-subscription.html" class="card">
+<a href="yield-subscription.html" class="card" style="animation-delay:0.08s">
+  <div class="card-icon">&#x2B22;</div>
   <div class="card-name">Yield Subscription</div>
   <div class="card-price">$19.99</div>
   <div class="card-desc">ERC-4626 vault where yield pays subscriptions, principal stays.</div>
-  <div class="card-cta">Try Demo &rarr;</div>
+  <div class="card-cta">Explore Demo &rarr;</div>
 </a>
-<a href="access-gate-middleware.html" class="card">
+<a href="access-gate-middleware.html" class="card" style="animation-delay:0.16s">
+  <div class="card-icon">&#x2B22;</div>
   <div class="card-name">Access Gate Middleware</div>
   <div class="card-price">$9.99</div>
   <div class="card-desc">Express/Next.js middleware checking NFT ownership for access.</div>
-  <div class="card-cta">Try Demo &rarr;</div>
+  <div class="card-cta">Explore Demo &rarr;</div>
 </a>
-<a href="renewal-automator.html" class="card">
+<a href="renewal-automator.html" class="card" style="animation-delay:0.24s">
+  <div class="card-icon">&#x2B22;</div>
   <div class="card-name">Renewal Automator</div>
   <div class="card-price">$9.99</div>
   <div class="card-desc">Automated subscription renewal via smart contract + Gelato.</div>
-  <div class="card-cta">Try Demo &rarr;</div>
+  <div class="card-cta">Explore Demo &rarr;</div>
 </a>
-<a href="fiat-onramp-bridge.html" class="card">
+<a href="fiat-onramp-bridge.html" class="card" style="animation-delay:0.32s">
+  <div class="card-icon">&#x2B22;</div>
   <div class="card-name">Fiat Onramp Bridge</div>
   <div class="card-price">$12.99</div>
   <div class="card-desc">Stripe-to-crypto bridge for purchasing subscription NFTs with card.</div>
-  <div class="card-cta">Try Demo &rarr;</div>
+  <div class="card-cta">Explore Demo &rarr;</div>
 </a>
-<a href="subscription-dashboard.html" class="card">
+<a href="subscription-dashboard.html" class="card" style="animation-delay:0.4s">
+  <div class="card-icon">&#x2B22;</div>
   <div class="card-name">Subscription Dashboard</div>
   <div class="card-price">$9.99</div>
   <div class="card-desc">Admin dashboard: active subs, churn, MRR, renewal rates.</div>
-  <div class="card-cta">Try Demo &rarr;</div>
+  <div class="card-cta">Explore Demo &rarr;</div>
 </a>
-<a href="tiered-access-contract.html" class="card">
+<a href="tiered-access-contract.html" class="card" style="animation-delay:0.48s">
+  <div class="card-icon">&#x2B22;</div>
   <div class="card-name">Tiered Access Contract</div>
   <div class="card-price">$7.99</div>
   <div class="card-desc">Smart contract for bronze/silver/gold tier access with upgrades.</div>
-  <div class="card-cta">Try Demo &rarr;</div>
+  <div class="card-cta">Explore Demo &rarr;</div>
 </a>
-<a href="referral-system.html" class="card">
+<a href="referral-system.html" class="card" style="animation-delay:0.56s">
+  <div class="card-icon">&#x2B22;</div>
   <div class="card-name">Referral System</div>
   <div class="card-price">$9.99</div>
   <div class="card-desc">On-chain referral tracking with commission payouts.</div>
-  <div class="card-cta">Try Demo &rarr;</div>
+  <div class="card-cta">Explore Demo &rarr;</div>
 </a>
-<a href="subscriber-crm.html" class="card">
+<a href="subscriber-crm.html" class="card" style="animation-delay:0.64s">
+  <div class="card-icon">&#x2B22;</div>
   <div class="card-name">Subscriber CRM</div>
   <div class="card-price">$12.99</div>
   <div class="card-desc">CRM tool for subscriber communication and retention.</div>
-  <div class="card-cta">Try Demo &rarr;</div>
+  <div class="card-cta">Explore Demo &rarr;</div>
 </a>
-<a href="aa-onboarding-kit.html" class="card">
+<a href="aa-onboarding-kit.html" class="card" style="animation-delay:0.72s">
+  <div class="card-icon">&#x2B22;</div>
   <div class="card-name">AA Onboarding Kit</div>
   <div class="card-price">$14.99</div>
   <div class="card-desc">ERC-4337 smart account creation + gas sponsorship for new users.</div>
-  <div class="card-cta">Try Demo &rarr;</div>
+  <div class="card-cta">Explore Demo &rarr;</div>
 </a>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section" id="features">
+  <div class="section-label">Why CryptoForge</div>
+  <div class="section-title">Built for Production</div>
+  <div class="section-sub">Enterprise-grade DeFi tooling with security at the core</div>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="icon">&#9878;</div><h3>DeFi Tools</h3><p>Production-ready smart contracts, SDKs, and monitoring dashboards for every DeFi primitive.</p></div>
+    <div class="feat-card"><div class="icon">&#9881;</div><h3>Smart Contracts</h3><p>Solidity contracts built on OpenZeppelin standards with Foundry test suites and gas benchmarks.</p></div>
+    <div class="feat-card"><div class="icon">&#128737;</div><h3>Security Audited</h3><p>Every product passes our 4-stage security audit pipeline before shipping to customers.</p></div>
+    <div class="feat-card"><div class="icon">&#9889;</div><h3>Gas Optimized</h3><p>Assembly-level optimizations and EIP-compliant patterns to minimize on-chain costs.</p></div>
+    <div class="feat-card"><div class="icon">&#128279;</div><h3>Open Source</h3><p>MIT-licensed core modules. Inspect, fork, and extend with confidence.</p></div>
+    <div class="feat-card"><div class="icon">&#128225;</div><h3>24/7 Monitoring</h3><p>Prometheus + Grafana dashboards included for real-time protocol health tracking.</p></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="section-label">FAQ</div>
+  <div class="section-title">Common Questions</div>
+  <div class="section-sub">Everything you need to know before deploying</div>
+  <div class="faq-list">
+    <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What chains are supported?<span class="arrow">&#9660;</span></div><div class="faq-a">All products support Ethereum mainnet, Arbitrum, Optimism, Base, and Polygon. Many also include configs for BSC, Avalanche, and zkSync Era.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Are the contracts audited?<span class="arrow">&#9660;</span></div><div class="faq-a">Every contract passes our internal 4-stage audit pipeline: automated analysis, manual review, invariant testing, and economic simulation. Audit reports are included with each purchase.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Can I pay with crypto?<span class="arrow">&#9660;</span></div><div class="faq-a">Yes. We accept BTC, ETH, and USDC via our integrated crypto checkout. Crypto payments receive a 20% discount automatically.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What&#39;s included in each product?<span class="arrow">&#9660;</span></div><div class="faq-a">Each product includes production Solidity contracts, Foundry test suites, deployment scripts, gas benchmarks, integration examples, and a comprehensive README with security notes.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Do you offer support after purchase?<span class="arrow">&#9660;</span></div><div class="faq-a">All purchases include 90 days of integration support via our Discord and email channels. Enterprise support with SLA guarantees is available separately.</div></div>
+  </div>
+</section>
+
+<!-- Cross-sell -->
+<section class="section" style="text-align:center">
+  <div class="section-label">Explore More</div>
+  <div class="section-title">Our Empires</div>
+  <div class="section-sub" style="margin:0 auto 24px">Premium digital products across five specialized storefronts</div>
+  <div class="empire-row">
+    <a href="https://pixelempire-stores.pages.dev/" target="_blank" rel="noopener" class="empire-link">Pixel Empire</a>
+    <a href="https://datanest-stores.pages.dev/" target="_blank" rel="noopener" class="empire-link">Digital Stores</a>
+    <a href="https://codevault-stores.pages.dev/" target="_blank" rel="noopener" class="empire-link">CodeVault</a>
+    <a href="https://neonbazaar-stores.pages.dev/" target="_blank" rel="noopener" class="empire-link">Neon Bazaar</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>CryptoForge</h4>
+      <p>Enterprise-grade DeFi tooling. Production smart contracts, monitoring dashboards, and deployment infrastructure for the decentralized economy.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Products</h4>
+      <a href="#products">All Products</a>
+      <a href="#">Vault Forge</a>
+      <a href="#">DeFi Router</a>
+      <a href="#">MEV Shield</a>
+      <a href="#">Staking Kit</a>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <a href="#">Documentation</a>
+      <a href="#">API Reference</a>
+      <a href="#">Security Audits</a>
+      <a href="#">Changelog</a>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <a href="#">GitHub</a>
+      <a href="#">Discord</a>
+      <a href="#">Twitter</a>
+      <a href="#">Email</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2025 CryptoForge. All rights reserved.</span>
+    <span>Built with &#9876; by DataNest</span>
+  </div>
+</footer>
+
+<!-- Email capture bar -->
+<div class="email-bar" id="emailBar">
+  <span>&#9889; Get early access to new products</span>
+  <input type="email" id="emailInput" placeholder="you@example.com" aria-label="Email">
+  <button onclick="submitEmail()">Subscribe</button>
+  <button class="close-bar" onclick="document.getElementById('emailBar').classList.add('hidden')" aria-label="Close">&times;</button>
+  <div class="msg" id="emailMsg"></div>
 </div>
+
+<script>
+async function submitEmail(){
+  var email=document.getElementById('emailInput').value.trim();
+  var msg=document.getElementById('emailMsg');
+  if(!email||!email.includes('@')){msg.textContent='Please enter a valid email.';return;}
+  msg.textContent='Subscribing...';
+  try{
+    var r=await fetch('https://ferovwapilhcpqozqinn.supabase.co/rest/v1/emails',{
+      method:'POST',headers:{
+        'Content-Type':'application/json',
+        'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY',
+        'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY',
+        'Prefer':'return=minimal'
+      },body:JSON.stringify({email:email,source:'crypto-forge',store:'sub-protocol'})
+    });
+    if(r.ok||r.status===201){msg.textContent='Subscribed!';document.getElementById('emailInput').value='';setTimeout(function(){document.getElementById('emailBar').classList.add('hidden')},2000);}
+    else{msg.textContent='Already subscribed or error. Try again.';}
+  }catch(e){msg.textContent='Network error. Try again.';}
+}
+</script>
 </body>
 </html>

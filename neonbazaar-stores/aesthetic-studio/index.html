@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aesthetic Studio — Neon Bazaar</title>
-    <meta name="description" content="Aesthetic wallpapers, icon sets, stickers, journal templates, and widget themes. Cottagecore, dark academia, Y2K, pastel, grunge, and anime vibes. Instant download.">
+    <meta name="description" content="Neon Bazaar — Aesthetic Studio">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Aesthetic Studio — Neon Bazaar">
-    <meta property="og:description" content="Aesthetic wallpapers, icon sets, stickers, journal templates, and widget themes. Cottagecore, dark academia, Y2K, pastel, grunge, and anime vibes. Instant download.">
+    <meta property="og:description" content="Neon Bazaar — Aesthetic Studio">
     <meta property="og:site_name" content="Neon Bazaar">
 
-    <meta property="og:url" content="https://inity13.github.io/neon-aesthetic-studio/">
+    
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Aesthetic Studio — Neon Bazaar">
-    <meta name="twitter:description" content="Aesthetic wallpapers, icon sets, stickers, journal templates, and widget themes. Cottagecore, dark academia, Y2K, pastel, grunge, and anime vibes. Instant download.">
+    <meta name="twitter:description" content="Neon Bazaar — Aesthetic Studio">
 
     <!-- Favicon (inline SVG for no-dependency setup) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛍️</text></svg>">
@@ -26,11 +26,34 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- Theme color for mobile browsers -->
-    <meta name="theme-color" content="#FF6B35">
+    <meta name="theme-color" content="#FFFB96">
 
 
 </head>
 <body>
+    <header class="site-header">
+        <div class="site-header__inner">
+            <a href="#top" class="site-header__brand">Aesthetic Studio</a>
+            <nav class="site-header__nav" aria-label="Main navigation">
+                <a href="#products" class="site-header__link">Products</a>
+                <a href="#bundles" class="site-header__link">Bundle</a>
+                <a href="#faq" class="site-header__link">FAQ</a>
+            </nav>
+            <div class="site-header__actions">
+                <button class="nb-theme-toggle" id="nb-theme-toggle" aria-label="Toggle theme">&#x1F319;</button>
+                <button class="nb-hamburger" id="nb-hamburger" aria-label="Open menu">&#9776;</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Nav Overlay -->
+    <div class="nb-mobile-nav" id="nb-mobile-nav">
+        <button class="nb-mobile-nav__close" aria-label="Close menu">&times;</button>
+        <a href="#products" class="nb-mobile-nav__link">Products</a>
+        <a href="#bundles" class="nb-mobile-nav__link">Bundle</a>
+        <a href="#features" class="nb-mobile-nav__link">Features</a>
+        <a href="#faq" class="nb-mobile-nav__link">FAQ</a>
+    </div>
     <nav class="cross-nav" aria-label="Neon Bazaar stores">
         <div class="cross-nav__inner">
             <span class="cross-nav__brand">Neon Bazaar</span>
@@ -43,320 +66,69 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="hero" id="top">
+    <section class="hero" id="top">
         <div class="container">
+            <div class="nb-hero-badge">
+                <span class="nb-pulse-dot"></span> Premium Digital Goods
+            </div>
             <h1 class="hero__title glitch" data-text="Aesthetic Studio">Aesthetic Studio</h1>
-            <p class="hero__subtitle">Wallpapers, icons, and vibes for every aesthetic — your devices deserve better</p>
+            <p class="hero__subtitle">Your digital playground</p>
             <div class="hero__cta-row">
                 <a href="#products" class="btn btn--primary">Browse the goods</a>
                 <a href="#faq" class="btn btn--secondary">How it works</a>
             </div>
         </div>
-    </header>
+    </section>
 
     <!-- Products Section -->
     <section class="section" id="products">
         <div class="container">
             <h2 class="section__heading">What&rsquo;s in stock</h2>
             <p class="section__subheading">Everything here was made with care. No filler, no fluff.</p>
-        <div class="filter-bar">
-            <span class="filter-bar__label">Filter:</span>
-            <button class="filter-tag active" data-filter="all">All</button>
-            <button class="filter-tag" data-filter="phone">phone</button>
-            <button class="filter-tag" data-filter="bundle">bundle</button>
-            <button class="filter-tag" data-filter="icons">icons</button>
-            <button class="filter-tag" data-filter="journal">journal</button>
-            <button class="filter-tag" data-filter="wallpapers">wallpapers</button>
-            <button class="filter-tag" data-filter="all-aesthetics">all-aesthetics</button>
-            <button class="filter-tag" data-filter="anime">anime</button>
-            <button class="filter-tag" data-filter="backgrounds">backgrounds</button>
-            <button class="filter-tag" data-filter="colors">colors</button>
-            <button class="filter-tag" data-filter="cottagecore">cottagecore</button>
-            <button class="filter-tag" data-filter="cozy">cozy</button>
-            <button class="filter-tag" data-filter="dark-academia">dark-academia</button>
-            <select class="sort-select" aria-label="Sort products">
-                <option value="default">Sort: Featured</option>
-                <option value="price-asc">Price: Low → High</option>
-                <option value="price-desc">Price: High → Low</option>
-            </select>
-        </div>
+
             <div class="product-grid">
-        <article class="product-card product-card--bundle fade-in"
-                 data-tags="bundle,starter"
-                 data-price="900"
-                 data-slug="aesthetic-starter-bundle">
-            <div class="product-card__inner">
-                <div>
-                    <span class="bundle-badge">BUNDLE DEAL</span>
-                    <h3 class="product-card__name" style="margin-top: 12px">Aesthetic Starter Bundle</h3>
-                    <p class="product-card__desc">Start your glow-up — Aesthetic Color Palettes, Cottagecore Wallpaper Pack, and Neon Glow Icon Set at a sweet discount.</p>
-            <div class="product-card__tags"><span class="product-card__tag">bundle</span><span class="product-card__tag">starter</span></div>
-                    <ul class="product-card__bundle-list"><li>Aesthetic Color Palettes</li><li>Cottagecore Wallpaper Pack</li><li>Neon Glow Icon Set</li></ul>
-                </div>
-                <div>
-                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$9.00</p>
-                    <div class="product-card__actions">
-                        <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/bJe8wP4az5KK7pg9CpgjG1J"
-                           data-product="aesthetic-starter-bundle">
-                            Grab This Bundle
-                        </a>
-                        <button class="btn btn--crypto btn--card"
-                                data-crypto-product="Aesthetic Starter Bundle"
-                                data-crypto-price="900">
-                            Pay with Crypto ($7.20)
-                        </button>
-                    </div>
-                </div>
+        <p style="text-align: center; color: var(--nb-text-muted); grid-column: 1/-1; padding: 60px 0;">Products are being forged... check back soon!</p>
             </div>
-        </article>
-        <article class="product-card product-card--bundle fade-in"
-                 data-tags="bundle,mega-pack"
-                 data-price="1900"
-                 data-slug="aesthetic-ultimate-bundle">
-            <div class="product-card__inner">
-                <div>
-                    <span class="bundle-badge">BUNDLE DEAL</span>
-                    <h3 class="product-card__name" style="margin-top: 12px">Aesthetic Ultimate Bundle</h3>
-                    <p class="product-card__desc">Every wallpaper, icon set, sticker pack, and template — the complete Aesthetic Studio collection. Maximum vibes.</p>
-            <div class="product-card__tags"><span class="product-card__tag">bundle</span><span class="product-card__tag">mega-pack</span></div>
-                    <ul class="product-card__bundle-list"><li>Aesthetic Color Palettes</li><li>Anime Wallpaper Collection</li><li>Cottagecore Wallpaper Pack</li><li>Dark Academia Icon Set</li><li>Digital Sticker Mega Pack</li><li>Grunge Aesthetic Pack</li><li>Mood Board Creator Kit</li><li>Neon Glow Icon Set</li><li>Pastel Dream Journal</li><li>Y2K Widget Theme</li></ul>
-                </div>
-                <div>
-                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$19.00</p>
-                    <div class="product-card__actions">
-                        <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/5kQbJ15eD0qqbFw15TgjG1K"
-                           data-product="aesthetic-ultimate-bundle">
-                            Grab This Bundle
-                        </a>
-                        <button class="btn btn--crypto btn--card"
-                                data-crypto-product="Aesthetic Ultimate Bundle"
-                                data-crypto-price="1900">
-                            Pay with Crypto ($15.20)
-                        </button>
-                    </div>
-                </div>
+        </div>
+    </section>
+
+
+
+    <section class="features-section section" id="features">
+        <div class="container">
+            <h2 class="section__heading glitch">Why the Neon Bazaar?</h2>
+            <p class="section__subheading">Six reasons this place hits different.</p>
+            <div class="features-grid">
+            <div class="feature-card fade-in">
+                <span class="feature-card__icon">&#9889;</span>
+                <h3 class="feature-card__title">Instant Download</h3>
+                <p class="feature-card__desc">Pay once, download immediately. No waiting, no hoops.</p>
             </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="colors,palettes,all-aesthetics"
-                 data-price="100"
-                 data-slug="aesthetic-color-palettes">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Aesthetic Color Palettes</h3>
-                <span class="product-card__price">$1.00</span>
+            <div class="feature-card fade-in">
+                <span class="feature-card__icon">&#128142;</span>
+                <h3 class="feature-card__title">Premium Quality</h3>
+                <p class="feature-card__desc">Every product hand-tested before it hits the shelf.</p>
             </div>
-            <p class="product-card__desc">Curated color palettes for every aesthetic — cottagecore, dark academia, Y2K, pastel, neon, and more. JSON + SVG swatches.</p>
-            <div class="product-card__tags"><span class="product-card__tag">colors</span><span class="product-card__tag">palettes</span><span class="product-card__tag">all-aesthetics</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/4gM00j8qPehg6lcg0NgjG1z"
-                   data-product="aesthetic-color-palettes">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Aesthetic Color Palettes"
-                        data-crypto-price="100">
-                    Pay with Crypto ($0.80)
-                </button>
+            <div class="feature-card fade-in">
+                <span class="feature-card__icon">&#128274;</span>
+                <h3 class="feature-card__title">Secure Checkout</h3>
+                <p class="feature-card__desc">Stripe-powered. Your card details never touch our servers.</p>
             </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="anime,wallpapers,phone"
-                 data-price="300"
-                 data-slug="anime-wallpaper-collection">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Anime Wallpaper Collection</h3>
-                <span class="product-card__price">$3.00</span>
+            <div class="feature-card fade-in">
+                <span class="feature-card__icon">&#9940;</span>
+                <h3 class="feature-card__title">No Subscriptions</h3>
+                <p class="feature-card__desc">One-time purchase, yours forever. No recurring fees.</p>
             </div>
-            <p class="product-card__desc">Anime-inspired wallpapers — lo-fi cityscapes, cherry blossoms, mecha silhouettes, and cozy room scenes.</p>
-            <div class="product-card__tags"><span class="product-card__tag">anime</span><span class="product-card__tag">wallpapers</span><span class="product-card__tag">phone</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/7sY14ndL96OO5h8bKxgjG1A"
-                   data-product="anime-wallpaper-collection">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Anime Wallpaper Collection"
-                        data-crypto-price="300">
-                    Pay with Crypto ($2.40)
-                </button>
+            <div class="feature-card fade-in">
+                <span class="feature-card__icon">&#128308;</span>
+                <h3 class="feature-card__title">Neon Quality</h3>
+                <p class="feature-card__desc">Cyberpunk-grade assets built to make your projects glow.</p>
             </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="cottagecore,wallpapers,cozy"
-                 data-price="300"
-                 data-slug="cottagecore-wallpaper-pack">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Cottagecore Wallpaper Pack</h3>
-                <span class="product-card__price">$3.00</span>
+            <div class="feature-card fade-in">
+                <span class="feature-card__icon">&#128172;</span>
+                <h3 class="feature-card__title">24/7 Support</h3>
+                <p class="feature-card__desc">Got questions? We respond fast. Hit us up anytime.</p>
             </div>
-            <p class="product-card__desc">Soft, dreamy wallpapers — wildflower fields, mushroom cottages, rain on windows, and warm candlelight scenes.</p>
-            <div class="product-card__tags"><span class="product-card__tag">cottagecore</span><span class="product-card__tag">wallpapers</span><span class="product-card__tag">cozy</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/7sY4gz4azehgeRIcOBgjG1B"
-                   data-product="cottagecore-wallpaper-pack">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Cottagecore Wallpaper Pack"
-                        data-crypto-price="300">
-                    Pay with Crypto ($2.40)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="dark-academia,icons,phone"
-                 data-price="300"
-                 data-slug="dark-academia-icon-set">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Dark Academia Icon Set</h3>
-                <span class="product-card__price">$3.00</span>
-            </div>
-            <p class="product-card__desc">Moody, scholarly icons for your phone — books, quills, candles, libraries, and vintage typography.</p>
-            <div class="product-card__tags"><span class="product-card__tag">dark-academia</span><span class="product-card__tag">icons</span><span class="product-card__tag">phone</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/6oUcN5fThehgcJA5m9gjG1C"
-                   data-product="dark-academia-icon-set">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Dark Academia Icon Set"
-                        data-crypto-price="300">
-                    Pay with Crypto ($2.40)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="stickers,kawaii,journal"
-                 data-price="500"
-                 data-slug="digital-sticker-mega-pack">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Digital Sticker Mega Pack</h3>
-                <span class="product-card__price">$5.00</span>
-            </div>
-            <p class="product-card__desc">Kawaii stickers for digital journals, planners, and mood boards. Transparent PNG, GoodNotes-ready.</p>
-            <div class="product-card__tags"><span class="product-card__tag">stickers</span><span class="product-card__tag">kawaii</span><span class="product-card__tag">journal</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/aFafZh9uTgpo6lcdSFgjG1D"
-                   data-product="digital-sticker-mega-pack">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Digital Sticker Mega Pack"
-                        data-crypto-price="500">
-                    Pay with Crypto ($4.00)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="grunge,textures,backgrounds"
-                 data-price="300"
-                 data-slug="grunge-aesthetic-pack">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Grunge Aesthetic Pack</h3>
-                <span class="product-card__price">$3.00</span>
-            </div>
-            <p class="product-card__desc">Raw textures, torn paper overlays, distressed type, and gritty backgrounds for that lived-in grunge look.</p>
-            <div class="product-card__tags"><span class="product-card__tag">grunge</span><span class="product-card__tag">textures</span><span class="product-card__tag">backgrounds</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/aFa28r6iHa108tk4i5gjG1E"
-                   data-product="grunge-aesthetic-pack">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Grunge Aesthetic Pack"
-                        data-crypto-price="300">
-                    Pay with Crypto ($2.40)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="mood-board,tool,interactive"
-                 data-price="500"
-                 data-slug="mood-board-creator-kit">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Mood Board Creator Kit</h3>
-                <span class="product-card__price">$5.00</span>
-            </div>
-            <p class="product-card__desc">Interactive mood board builder — drag-and-drop templates, texture swatches, and layout grids. HTML + JSON powered.</p>
-            <div class="product-card__tags"><span class="product-card__tag">mood-board</span><span class="product-card__tag">tool</span><span class="product-card__tag">interactive</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/eVq5kD9uT8WWcJAg0NgjG1F"
-                   data-product="mood-board-creator-kit">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Mood Board Creator Kit"
-                        data-crypto-price="500">
-                    Pay with Crypto ($4.00)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="neon,icons,phone"
-                 data-price="300"
-                 data-slug="neon-glow-icon-set">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Neon Glow Icon Set</h3>
-                <span class="product-card__price">$3.00</span>
-            </div>
-            <p class="product-card__desc">Glowing neon icons for your home screen — cyberpunk colors, smooth gradients, and that satisfying LED look.</p>
-            <div class="product-card__tags"><span class="product-card__tag">neon</span><span class="product-card__tag">icons</span><span class="product-card__tag">phone</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/aFa6oH7mL3CC7pgeWJgjG1G"
-                   data-product="neon-glow-icon-set">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Neon Glow Icon Set"
-                        data-crypto-price="300">
-                    Pay with Crypto ($2.40)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="pastel,journal,printable"
-                 data-price="300"
-                 data-slug="pastel-dream-journal">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Pastel Dream Journal</h3>
-                <span class="product-card__price">$3.00</span>
-            </div>
-            <p class="product-card__desc">A soft pastel journal template with daily prompts, habit trackers, and gratitude pages. Printable PDF + digital SVG.</p>
-            <div class="product-card__tags"><span class="product-card__tag">pastel</span><span class="product-card__tag">journal</span><span class="product-card__tag">printable</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/aFa3cv8qPa105h8dSFgjG1H"
-                   data-product="pastel-dream-journal">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Pastel Dream Journal"
-                        data-crypto-price="300">
-                    Pay with Crypto ($2.40)
-                </button>
-            </div>
-        </article>
-        <article class="product-card fade-in"
-                 data-tags="y2k,widgets,retro"
-                 data-price="300"
-                 data-slug="y2k-widget-theme">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Y2K Widget Theme</h3>
-                <span class="product-card__price">$3.00</span>
-            </div>
-            <p class="product-card__desc">Retro Y2K widget skins — metallic chrome, butterfly motifs, pixel hearts, and that early-2000s web energy.</p>
-            <div class="product-card__tags"><span class="product-card__tag">y2k</span><span class="product-card__tag">widgets</span><span class="product-card__tag">retro</span></div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card" data-stripe-link="https://buy.stripe.com/5kQ7sL9uTgpo8tkbKxgjG1I"
-                   data-product="y2k-widget-theme">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Y2K Widget Theme"
-                        data-crypto-price="300">
-                    Pay with Crypto ($2.40)
-                </button>
-            </div>
-        </article>
             </div>
         </div>
     </section>
@@ -369,29 +141,29 @@
             <div class="trust-card fade-in">
                 <div class="trust-card__icon">⚡</div>
                 <p class="trust-card__text">
-                    <strong>Instant digital download</strong>
-                    
+                    <strong>Instant Download</strong>
+                    Pay and get your files immediately. No waiting, no nonsense.
                 </p>
             </div>
             <div class="trust-card fade-in">
                 <div class="trust-card__icon">🔒</div>
                 <p class="trust-card__text">
-                    <strong>MIT License — use anywhere</strong>
-                    
+                    <strong>Secure Checkout</strong>
+                    Stripe-powered payments. We never see your card details.
                 </p>
             </div>
             <div class="trust-card fade-in">
                 <div class="trust-card__icon">💎</div>
                 <p class="trust-card__text">
-                    <strong>High-res SVG + PNG for any screen size</strong>
-                    
+                    <strong>Quality Guaranteed</strong>
+                    Every product is tested and reviewed before we sell it.
                 </p>
             </div>
             <div class="trust-card fade-in">
                 <div class="trust-card__icon">🪙</div>
                 <p class="trust-card__text">
-                    <strong>Works with iOS, Android, and desktop</strong>
-                    
+                    <strong>Crypto Accepted</strong>
+                    Pay with BTC, ETH, USDC, or LTC and get 20% off.
                 </p>
             </div>
             </div>
@@ -405,47 +177,47 @@
             <div class="faq-list">
             <div class="faq-item">
                 <button class="faq-question" aria-expanded="false">
-                    <span>What format are the files?</span>
+                    <span>How do I get my files after buying?</span>
                     <span class="faq-question__icon">+</span>
                 </button>
                 <div class="faq-answer" aria-hidden="true">
-                    <div class="faq-answer__inner">Wallpapers and icons are SVG + PNG at multiple resolutions. Stickers are transparent PNG. Journal templates are printable PDF + editable SVG.</div>
+                    <div class="faq-answer__inner">You&#x27;ll be redirected to a download page immediately after payment. We also send a download link to your email, so you can grab it again later.</div>
                 </div>
             </div>
             <div class="faq-item">
                 <button class="faq-question" aria-expanded="false">
-                    <span>Can I use these for my social media or blog?</span>
+                    <span>Can I get a refund?</span>
                     <span class="faq-question__icon">+</span>
                 </button>
                 <div class="faq-answer" aria-hidden="true">
-                    <div class="faq-answer__inner">Yep, MIT license. Use them as phone wallpapers, post backgrounds, blog assets, Notion covers — whatever you want. They&#x27;re yours.</div>
+                    <div class="faq-answer__inner">Since these are digital downloads, we can&#x27;t do refunds once you&#x27;ve downloaded the files. But if something&#x27;s broken or not what was described, hit us up and we&#x27;ll make it right.</div>
                 </div>
             </div>
             <div class="faq-item">
                 <button class="faq-question" aria-expanded="false">
-                    <span>How do I get my download?</span>
+                    <span>How does crypto payment work?</span>
                     <span class="faq-question__icon">+</span>
                 </button>
                 <div class="faq-answer" aria-hidden="true">
-                    <div class="faq-answer__inner">Instant download after payment. Everything is organized by aesthetic and resolution in a tidy .zip file.</div>
+                    <div class="faq-answer__inner">Choose the crypto option, pick your coin (BTC, ETH, USDC, or LTC), and send the exact amount to the wallet address shown. Once confirmed on-chain, your download unlocks automatically. Plus you get 20% off!</div>
                 </div>
             </div>
             <div class="faq-item">
                 <button class="faq-question" aria-expanded="false">
-                    <span>Will these fit my phone / tablet / desktop?</span>
+                    <span>Can I use these in my own projects?</span>
                     <span class="faq-question__icon">+</span>
                 </button>
                 <div class="faq-answer" aria-hidden="true">
-                    <div class="faq-answer__inner">Yes — SVG files scale to any resolution, and we include PNG exports for common sizes (iPhone, Android, iPad, 1080p, 1440p, 4K).</div>
+                    <div class="faq-answer__inner">Absolutely! All products come with a license that lets you use them in personal and commercial projects. The only thing you can&#x27;t do is resell the raw files as-is.</div>
                 </div>
             </div>
             <div class="faq-item">
                 <button class="faq-question" aria-expanded="false">
-                    <span>What if I have problems or need a different size?</span>
+                    <span>Do you have free samples?</span>
                     <span class="faq-question__icon">+</span>
                 </button>
                 <div class="faq-answer" aria-hidden="true">
-                    <div class="faq-answer__inner">DM us on Discord. Since everything is SVG, we can usually generate a custom size for you super fast.</div>
+                    <div class="faq-answer__inner">Yep! Most products have a free preview or demo you can try before buying. Check the product pages for preview links.</div>
                 </div>
             </div>
             </div>
@@ -454,17 +226,65 @@
 
     <footer class="footer">
         <div class="container">
-            <p class="footer__brand">Neon Bazaar</p>
-            <p class="footer__tagline">Your digital playground</p>
-            <nav class="footer__links" aria-label="Other stores">
-            <a href="../pixel-forge/storefront/index.html" class="footer__link">Pixel Forge</a>
-            <a href="../game-vault/storefront/index.html" class="footer__link">Game Vault</a>
-            <a href="../creator-kit/storefront/index.html" class="footer__link">Creator Kit</a>
-            <a href="../mod-lab/storefront/index.html" class="footer__link">Mod Lab</a>
-            </nav>
-            <p class="footer__copy">&copy; 2026 Neon Bazaar. All rights reserved.</p>
+            <div class="footer__grid">
+                <div>
+                    <p class="footer__brand-text">Neon Bazaar</p>
+                    <p class="footer__desc">
+                        Your digital playground for premium game assets, creator tools,
+                        mods, and aesthetic kits. Built by indie creators, for indie creators.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Products</h4>
+                    <ul class="footer__link-list">
+                <li><a href="../pixel-forge/storefront/index.html">Pixel Forge</a></li>
+                <li><a href="../game-vault/storefront/index.html">Game Vault</a></li>
+                <li><a href="../creator-kit/storefront/index.html">Creator Kit</a></li>
+                <li><a href="../mod-lab/storefront/index.html">Mod Lab</a></li>
+                <li><a href="#top">Aesthetic Studio</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Support</h4>
+                    <ul class="footer__link-list">
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="mailto:support@neonbazaar.gg">Contact Us</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                        <li><a href="#">License Terms</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Connect</h4>
+                    <ul class="footer__link-list">
+                        <li><a href="#">Twitter / X</a></li>
+                        <li><a href="#">Discord</a></li>
+                        <li><a href="#">GitHub</a></li>
+                        <li><a href="#">YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p class="footer__copy">&copy; 2026 Neon Bazaar. All rights reserved.</p>
+                <div class="footer__bottom-links">
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                </div>
+            </div>
         </div>
     </footer>
+
+    <div class="nb-email-bar nb-hidden" id="nb-email-bar">
+        <div class="nb-email-bar__inner">
+            <p class="nb-email-bar__text"><span>&#x26A1;</span> Get notified about drops &amp; deals</p>
+            <form class="nb-email-bar__form" autocomplete="off">
+                <input type="email" class="nb-email-bar__input"
+                       placeholder="your@email.com" required aria-label="Email address">
+                <button type="submit" class="btn btn--primary btn--sm">Subscribe</button>
+            </form>
+            <span class="nb-email-bar__msg"></span>
+            <button class="nb-email-bar__dismiss" aria-label="Dismiss">&times;</button>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="script.js"></script>
