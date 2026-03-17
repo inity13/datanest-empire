@@ -158,7 +158,7 @@
             var btn = form.querySelector('.newsletter-form__btn');
             if (input && btn) {
                 btn.textContent = 'Subscribed!';
-                btn.style.background = 'var(--nb-acid-green)';
+                btn.style.background = 'var(--cv-acid-green)';
                 btn.style.color = '#0A0E1A';
                 input.value = '';
                 setTimeout(function () {

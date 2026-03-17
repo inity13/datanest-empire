@@ -819,7 +819,7 @@
 </style>
 <div id="ec-bar" role="dialog" aria-label="Email signup">
   <button class="ec-close" aria-label="Close" onclick="document.getElementById('ec-bar').classList.remove('show');localStorage.setItem('datanest_email_captured','1')">&times;</button>
-  <p>Get free templates + <span>20% off</span> your first purchase &mdash; use code <span>COMMUNITY</span></p>
+  <p>Get free templates + <span>15% off</span> your first purchase &mdash; use code <span>COMMUNITY</span></p>
   <form id="ec-form">
     <input type="email" name="email" placeholder="you@example.com" required aria-label="Email address">
     <button type="submit">Subscribe</button>
@@ -843,9 +843,9 @@
     e.preventDefault();
     var email=e.target.email.value;
     if(!email)return;
-    fetch("https://ferovwapilhcpqozqinn.supabase.co/rest/v1/email_subscribers",{
+    fetch("/rest/v1/email_subscribers",{
       method:"POST",
-      headers:{"Content-Type":"application/json","apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Prefer":"return=minimal"},
+      headers:{"Content-Type":"application/json","apikey":"","Authorization":"Bearer ","Prefer":"return=minimal"},
       body:JSON.stringify({email:email,store_name:"No-Code Builder Pro",source:"popup"})
     }).then(function(r){
       if(r.ok){
@@ -869,9 +869,9 @@
 <script>
 (function(){
   try{
-    fetch("https://ferovwapilhcpqozqinn.supabase.co/rest/v1/page_views",{
+    fetch("/rest/v1/page_views",{
       method:"POST",
-      headers:{"Content-Type":"application/json","apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Prefer":"return=minimal"},
+      headers:{"Content-Type":"application/json","apikey":"","Authorization":"Bearer ","Prefer":"return=minimal"},
       body:JSON.stringify({store_name:"No-Code Builder Pro",page_path:location.pathname,referrer:document.referrer||null,user_agent:navigator.userAgent}),
       keepalive:true
     }).catch(function(){});

@@ -220,34 +220,6 @@
       .preview-price { font-size: 1.25rem; }
       .preview-actions { flex-direction: column; }
     }
-    .product-preview-section {
-      margin: 2rem 0;
-      padding: 1.5rem;
-      background: var(--surface-2, #141420);
-      border: 2px solid #10b98125;
-      border-radius: 12px;
-    }
-    .preview-section-title {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 0.7rem;
-      color: #10b981;
-      margin: 0 0 1rem 0;
-      letter-spacing: 1px;
-    }
-    .preview-image-container {
-      background: #0d0d15;
-      border-radius: 8px;
-      padding: 1rem;
-      display: flex;
-      justify-content: center;
-      overflow: hidden;
-    }
-    .preview-image-container svg {
-      max-width: 100%;
-      height: auto;
-      border-radius: 4px;
-      filter: drop-shadow(0 0 20px #10b98120);
-    }
   </style>
 </head>
 <body>
@@ -290,29 +262,6 @@
 
       <p class="preview-desc">20 ready-to-use Roblox scripts. Obby system, pet system, shop system, leaderboard, admin commands. Luau, documented.</p>
 
-      <div class="product-preview-section">
-        <h2 class="preview-section-title">PRODUCT PREVIEW</h2>
-        <div class="preview-image-container">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
-  <rect width="600" height="400" rx="16" fill="#0d0d1a"/>
-  <rect x="20" y="20" width="560" height="360" rx="12"
-        fill="none" stroke="#ff71ce" stroke-width="2" stroke-dasharray="8 4"/>
-  <text x="300" y="170" text-anchor="middle"
-        font-family="monospace" font-size="28" font-weight="bold" fill="#ff71ce">
-    Game Script Pack
-  </text>
-  <text x="300" y="210" text-anchor="middle"
-        font-family="monospace" font-size="16" fill="#ff71ce" opacity="0.8">
-    20 Luau Scripts
-  </text>
-  <text x="300" y="340" text-anchor="middle"
-        font-family="monospace" font-size="12" fill="#ff71ce" opacity="0.5">
-    ModVault by Pixel Empire
-  </text>
-</svg>
-        </div>
-      </div>
-
       <div class="whats-included">
         <h2>&#127873; WHAT'S INCLUDED</h2>
         <ul>
@@ -325,7 +274,6 @@
       <div class="preview-actions">
         <a href="https://buy.stripe.com/5kQeVdcH55KK10S5m9gjI0r" class="preview-buy-btn">&#9889; Buy Now &mdash; &euro;6.99</a>
         <a href="index.html#products" class="preview-back-btn">&#9668; Back to Store</a>
-        <button class="crypto-pay-btn" style="display:inline-block;margin-top:0.75rem;padding:0.75rem 1.5rem;border:2px solid #f7931a;background:transparent;color:#f7931a;border-radius:10px;font-weight:700;cursor:pointer;font-size:0.9375rem;" data-product-slug="osrs-skilling-overlay" data-store-slug="game-mods" data-product-name="OSRS Skilling Overlay Pack" data-price-usd="4.99">&#8383; Pay with Crypto &mdash; Save 20%</button>
       </div>
       <div class="pay-badges">
         <span class="pay-badge">Apple Pay</span>
@@ -345,6 +293,5 @@
   </footer>
 
   <script src="script.js"></script>
-  <script src="crypto-checkout.js"></script>
 </body>
 </html>

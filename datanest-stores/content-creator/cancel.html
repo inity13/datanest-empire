@@ -45,9 +45,9 @@
 <script>
 (function(){
   try{
-    fetch("https://ferovwapilhcpqozqinn.supabase.co/rest/v1/page_views",{
+    fetch("/rest/v1/page_views",{
       method:"POST",
-      headers:{"Content-Type":"application/json","apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Prefer":"return=minimal"},
+      headers:{"Content-Type":"application/json","apikey":"","Authorization":"Bearer ","Prefer":"return=minimal"},
       body:JSON.stringify({store_name:"Content Creator Toolkit",page_path:location.pathname,referrer:document.referrer||null,user_agent:navigator.userAgent}),
       keepalive:true
     }).catch(function(){});

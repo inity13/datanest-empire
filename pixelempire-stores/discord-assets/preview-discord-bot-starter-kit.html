@@ -220,34 +220,6 @@
       .preview-price { font-size: 1.25rem; }
       .preview-actions { flex-direction: column; }
     }
-    .product-preview-section {
-      margin: 2rem 0;
-      padding: 1.5rem;
-      background: var(--surface-2, #141420);
-      border: 2px solid #5865f225;
-      border-radius: 12px;
-    }
-    .preview-section-title {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 0.7rem;
-      color: #5865f2;
-      margin: 0 0 1rem 0;
-      letter-spacing: 1px;
-    }
-    .preview-image-container {
-      background: #0d0d15;
-      border-radius: 8px;
-      padding: 1rem;
-      display: flex;
-      justify-content: center;
-      overflow: hidden;
-    }
-    .preview-image-container svg {
-      max-width: 100%;
-      height: auto;
-      border-radius: 4px;
-      filter: drop-shadow(0 0 20px #5865f220);
-    }
   </style>
 </head>
 <body>
@@ -290,33 +262,6 @@
 
       <p class="preview-desc">Build your own Discord bot. Python code, hosting guide, 10 pre-built commands. Moderation, fun, utility. Tutorial included.</p>
 
-      <div class="product-preview-section">
-        <h2 class="preview-section-title">PRODUCT PREVIEW</h2>
-        <div class="preview-image-container">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" width="480" height="320">
-  <rect width="480" height="320" fill="#0A0A1A"/>
-  <text x="240" y="40" text-anchor="middle" font-family="monospace" font-size="20" fill="#FF00FF">Discord Bot Starter Kit</text>
-  <text x="240" y="65" text-anchor="middle" font-family="monospace" font-size="11" fill="#00FFFF">Python + discord.py</text>
-  <rect x="30" y="85" width="200" height="30" rx="4" fill="#FF336633"/>
-  <text x="40" y="103" font-family="monospace" font-size="11" fill="#FF3366">▸ Slash & prefix commands</text>
-  <rect x="250" y="85" width="200" height="30" rx="4" fill="#39FF1433"/>
-  <text x="260" y="103" font-family="monospace" font-size="11" fill="#39FF14">▸ Welcome messages</text>
-  <rect x="30" y="125" width="200" height="30" rx="4" fill="#FFFF0033"/>
-  <text x="40" y="143" font-family="monospace" font-size="11" fill="#FFFF00">▸ Moderation (kick/ban/mute)</text>
-  <rect x="250" y="125" width="200" height="30" rx="4" fill="#6600CC33"/>
-  <text x="260" y="143" font-family="monospace" font-size="11" fill="#6600CC">▸ Fun commands (8ball, roll)</text>
-  <rect x="30" y="165" width="200" height="30" rx="4" fill="#FF660033"/>
-  <text x="40" y="183" font-family="monospace" font-size="11" fill="#FF6600">▸ Server & user info</text>
-  <rect x="250" y="165" width="200" height="30" rx="4" fill="#0A0A1A33"/>
-  <text x="260" y="183" font-family="monospace" font-size="11" fill="#0A0A1A">▸ Error handling & logging</text>
-  <rect x="30" y="205" width="200" height="30" rx="4" fill="#FF00FF33"/>
-  <text x="40" y="223" font-family="monospace" font-size="11" fill="#FF00FF">▸ Reaction roles ready</text>
-  <rect x="250" y="205" width="200" height="30" rx="4" fill="#00FFFF33"/>
-  <text x="260" y="223" font-family="monospace" font-size="11" fill="#00FFFF">▸ Easy customization</text>
-</svg>
-        </div>
-      </div>
-
       <div class="whats-included">
         <h2>&#127873; WHAT'S INCLUDED</h2>
         <ul>
@@ -330,7 +275,6 @@
       <div class="preview-actions">
         <a href="https://buy.stripe.com/6oU5kD5eD5KK24WbKxgjH3Z" class="preview-buy-btn">&#9889; Buy Now &mdash; &euro;7.99</a>
         <a href="index.html#products" class="preview-back-btn">&#9668; Back to Store</a>
-        <button class="crypto-pay-btn" style="display:inline-block;margin-top:0.75rem;padding:0.75rem 1.5rem;border:2px solid #f7931a;background:transparent;color:#f7931a;border-radius:10px;font-weight:700;cursor:pointer;font-size:0.9375rem;" data-product-slug="gaming-server-template" data-store-slug="discord-assets" data-product-name="Gaming Server Template" data-price-usd="3.99">&#8383; Pay with Crypto &mdash; Save 20%</button>
       </div>
       <div class="pay-badges">
         <span class="pay-badge">Apple Pay</span>
@@ -350,6 +294,5 @@
   </footer>
 
   <script src="script.js"></script>
-  <script src="crypto-checkout.js"></script>
 </body>
 </html>

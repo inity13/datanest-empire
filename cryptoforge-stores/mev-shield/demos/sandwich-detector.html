@@ -1,109 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sandwich Detector — MEV Shield | CryptoForge</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0D0D1A;color:#E0E0E0;font-family:'Inter',sans-serif;min-height:100vh}
-.header{background:linear-gradient(135deg,#FF6B0022,#FFD70011);border-bottom:1px solid #FF6B0044;padding:24px 32px}
-.header h1{font-family:'JetBrains Mono',monospace;font-size:1.4rem;color:#FF6B00}
-.header .store-name{font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:#E0E0E088;margin-bottom:4px}
-.header .tagline{font-size:.8rem;color:#E0E0E066;margin-top:4px}
-.content{display:grid;grid-template-columns:340px 1fr;gap:0;min-height:calc(100vh - 180px)}
-.panel-left{background:#0D0D1A;border-right:1px solid #1a1a3a;padding:28px 24px;overflow-y:auto}
-.panel-right{background:#0a0a16;padding:24px;overflow:auto}
-.section-title{font-family:'JetBrains Mono',monospace;font-size:.75rem;text-transform:uppercase;letter-spacing:1.5px;color:#FF6B00;margin-bottom:12px;margin-top:20px}
-.section-title:first-child{margin-top:0}
-.desc{font-size:.88rem;line-height:1.6;color:#E0E0E0cc;margin-bottom:16px}
-.tag{display:inline-block;background:#FF6B0018;color:#FF6B00;border:1px solid #FF6B0033;border-radius:4px;padding:2px 8px;font-size:.75rem;font-family:'JetBrains Mono',monospace;margin:2px}
-.tag.chain{background:#FFD70018;color:#FFD700;border-color:#FFD70033}
-.meta-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #1a1a3a;font-size:.84rem}
-.meta-row .label{color:#E0E0E066}
-.meta-row .value{color:#E0E0E0;font-family:'JetBrains Mono',monospace}
-.features{list-style:none;margin-top:8px}
-.features li{padding:6px 0;font-size:.84rem;color:#E0E0E0cc;display:flex;align-items:flex-start;gap:8px}
-.features .check{color:#00E676;font-weight:bold;flex-shrink:0}
-.code-window{background:#0d0f1a;border:1px solid #1a1a3a;border-radius:8px;overflow:hidden}
-.code-titlebar{background:#141428;padding:8px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #1a1a3a}
-.code-dot{width:10px;height:10px;border-radius:50%}
-.code-dot.r{background:#ff5f56}.code-dot.y{background:#ffbd2e}.code-dot.g{background:#27c93f}
-.code-filename{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#E0E0E066;margin-left:8px}
-.code-body{padding:16px;overflow-x:auto}
-.code-body pre{font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.7;color:#a9b7c6;white-space:pre}
-.cta-bar{background:linear-gradient(135deg,#FF6B0011,#FFD70008);border-top:1px solid #FF6B0033;padding:20px 32px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.cta-btn{display:inline-block;background:linear-gradient(135deg,#FF6B00,#FFD700);color:#fff;padding:12px 28px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s;font-family:'Space Grotesk',sans-serif}
-.cta-btn:hover{opacity:.9;transform:translateY(-2px)}
-.crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:0;transition:all .2s;font-family:'Space Grotesk',sans-serif}
-.crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
-.price-tag{font-family:'JetBrains Mono',monospace;font-size:1.3rem;color:#FF6B00;font-weight:700}
-.cta-spacer{flex:1}
-@media(max-width:800px){.content{grid-template-columns:1fr}.panel-left{border-right:none;border-bottom:1px solid #1a1a3a}}
+body{background:#0a0a0a;color:#33ff33;font-family:'JetBrains Mono',monospace;min-height:100vh;padding:0}
+.term-window{max-width:900px;margin:24px auto;background:#0a0a0a;border:1px solid #33ff3344;border-radius:8px;overflow:hidden}
+.term-titlebar{background:#111;padding:8px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #33ff3322}
+.term-dot{width:10px;height:10px;border-radius:50%}
+.term-dot.r{background:#ff5f56}.term-dot.y{background:#ffbd2e}.term-dot.g{background:#27c93f}
+.term-title{font-size:.75rem;color:#33ff3366;margin-left:8px}
+.term-body{padding:20px 24px;overflow-x:auto}
+.term-body pre{font-size:.82rem;line-height:1.7;color:#33ff33;white-space:pre-wrap;word-break:break-word}
+.prompt{color:#FFD700}
+.dim{color:#33ff3366}
+.highlight{color:#FF6B00;font-weight:bold}
+.cta-section{max-width:900px;margin:0 auto 24px;padding:20px 24px;background:#0a0a0a;border:1px solid #33ff3322;border-radius:8px;text-align:center}
+.cta-btn{display:inline-block;background:#33ff33;color:#0a0a0a;padding:12px 28px;border-radius:4px;font-weight:700;text-decoration:none;font-size:.9rem;font-family:'JetBrains Mono',monospace;transition:all .2s;margin:0 8px}
+.cta-btn:hover{background:#66ff66}
+.crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:4px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;font-family:'JetBrains Mono',monospace;transition:all .2s;margin:0 8px}
+.crypto-pay-btn:hover{opacity:0.9}
+.back{display:block;text-align:center;padding:16px;color:#33ff33;font-size:.85rem;text-decoration:none}
+.back:hover{text-decoration:underline}
 </style>
 </head>
 <body>
-<div class="header">
-  <div class="store-name">MEV Shield &mdash; CryptoForge</div>
-  <h1>Sandwich Detector</h1>
-  <div class="tagline">Real-time mempool monitor detecting sandwich attacks on your txs.</div>
-</div>
-<div class="content">
-  <div class="panel-left">
-    <div class="section-title">Contract Details</div>
-    <div class="meta-row"><span class="label">Category</span><span class="value">monitoring</span></div>
-    <div class="meta-row"><span class="label">Files</span><span class="value">12</span></div>
-    <div class="meta-row"><span class="label">Price</span><span class="value">$7.99</span></div>
-
-    <div class="section-title">Tech Stack</div>
-    <div><span class="tag">Python 3.10+</span> <span class="tag">websockets</span> <span class="tag">web3.py</span> <span class="tag">asyncio</span></div>
-
-    <div class="section-title">Chains</div>
-    <div><span class="tag chain">Ethereum</span></div>
-
-    <div class="section-title">Description</div>
-    <div class="desc">Real-time mempool monitoring service that detects sandwich attacks targeting your transactions or contracts. Alerts via webhook, Telegram, or Discord when potential sandwich patterns are identified.</div>
-
-    <div class="section-title">Features</div>
-    <ul class="features"><li><span class="check">&#10003;</span> WebSocket mempool stream monitoring</li>
-<li><span class="check">&#10003;</span> Sandwich attack pattern detection algorithm</li>
-<li><span class="check">&#10003;</span> Configurable watch addresses and contract filters</li>
-<li><span class="check">&#10003;</span> Multi-channel alerts: webhook, Telegram, Discord</li>
-<li><span class="check">&#10003;</span> Historical attack logging with transaction details</li>
-<li><span class="check">&#10003;</span> Frontrun/backrun pair identification</li>
-<li><span class="check">&#10003;</span> Profit estimation for detected sandwiches</li>
-<li><span class="check">&#10003;</span> Pytest test suite with simulated mempool data</li></ul>
+<div class="term-window">
+  <div class="term-titlebar">
+    <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+    <span class="term-title">cryptoforge-terminal &mdash; MEV Shield</span>
   </div>
-  <div class="panel-right">
-    <div class="code-window">
-      <div class="code-titlebar">
-        <span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span>
-        <span class="code-filename">sandwich-detector.sol</span>
-      </div>
-      <div class="code-body"><pre><span style="color:#546e7a"># Sandwich Detector — Monitoring Dashboard</span>
-<span style="color:#546e7a"># Real-time mempool monitor detecting sandwich attacks on your txs.</span>
+  <div class="term-body"><pre>
+<span class="prompt">$</span> cryptoforge info sandwich-detector
 
-<span style="color:#c792ea">from</span> prometheus_client <span style="color:#c792ea">import</span> Gauge, start_http_server
-<span style="color:#c792ea">import</span> asyncio
+<span class="highlight">╔══════════════════════════════════════════════════╗
+║  Sandwich Detector                                ║
+╚══════════════════════════════════════════════════╝</span>
 
-metric = Gauge(<span style="color:#c3e88d">"sandwich_detector_health"</span>, <span style="color:#c3e88d">"Health score"</span>)
+<span class="dim">──────────────────────────────────────────────────</span>
+  Store:       MEV Shield
+  Category:    monitoring
+  Files:       12
+  Price:       <span class="highlight">$7.99</span>
+  Tech:        Python 3.10+, websockets, web3.py, asyncio
+  Chains:      Ethereum
+<span class="dim">──────────────────────────────────────────────────</span>
 
-<span style="color:#c792ea">async</span> <span style="color:#c792ea">def</span> monitor_loop():
-    <span style="color:#c792ea">while</span> <span style="color:#c792ea">True</span>:
-        <span style="color:#546e7a"># ... full implementation in purchased package</span>
-        metric.set(<span style="color:#f78c6c">1</span>.<span style="color:#f78c6c">0</span>)
-        <span style="color:#c792ea">await</span> asyncio.sleep(<span style="color:#f78c6c">30</span>)</pre></div>
-    </div>
+<span class="prompt">$</span> cryptoforge describe sandwich-detector
+
+  Real-time mempool monitoring service that detects sandwich attacks targeting your transactions or contracts. Alerts via webhook, Telegram, or Discord when potential sandwich patterns are identified.
+
+<span class="prompt">$</span> cryptoforge features sandwich-detector
+
+  [+] WebSocket mempool stream monitoring
+  [+] Sandwich attack pattern detection algorithm
+  [+] Configurable watch addresses and contract filters
+  [+] Multi-channel alerts: webhook, Telegram, Discord
+  [+] Historical attack logging with transaction details
+  [+] Frontrun/backrun pair identification
+  [+] Profit estimation for detected sandwiches
+  [+] Pytest test suite with simulated mempool data
+
+<span class="prompt">$</span> cryptoforge preview sandwich-detector
+<span class="dim">──────────────────────────────────────────────────</span>
+# Sandwich Detector — Monitoring Dashboard
+# Real-time mempool monitor detecting sandwich attacks on your txs.
+
+from prometheus_client import Gauge, start_http_server
+import asyncio
+
+metric = Gauge("sandwich_detector_health", "Health score")
+
+async def monitor_loop():
+    while True:
+        # ... full implementation in purchased package
+        metric.set(1.0)
+        await asyncio.sleep(30)
+<span class="dim">──────────────────────────────────────────────────</span>
+
+<span class="prompt">$</span> _</pre>
   </div>
 </div>
-<div class="cta-bar">
-  <span class="price-tag">$7.99</span>
-  <div class="cta-spacer"></div>
+<div class="cta-section">
   <a href="https://buy.stripe.com/cNi3cv5eD8WWbFwaGtgjI2l" target="_blank" rel="noopener" class="cta-btn">Buy Now &mdash; $7.99</a>
   <button class="crypto-pay-btn" data-product-slug="sandwich-detector" data-store-slug="mev-shield" data-product-name="Sandwich Detector" data-price-usd="7.99">Pay with Crypto (Save 20%)</button>
 </div>
+<a href="index.html" class="back">&larr; cd ../</a>
 <script src="../crypto-checkout.js"></script>
 </body>
 </html>

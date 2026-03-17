@@ -1,88 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Proof Verifier Contracts — Prover Market | CryptoForge</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0D0D1A;color:#E0E0E0;font-family:'Inter',sans-serif;min-height:100vh}
-.header{background:linear-gradient(135deg,#FF6B0022,#FFD70011);border-bottom:1px solid #FF6B0044;padding:24px 32px}
-.header h1{font-family:'JetBrains Mono',monospace;font-size:1.4rem;color:#FF6B00}
-.header .store-name{font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:#E0E0E088;margin-bottom:4px}
-.header .tagline{font-size:.8rem;color:#E0E0E066;margin-top:4px}
-.content{display:grid;grid-template-columns:340px 1fr;gap:0;min-height:calc(100vh - 180px)}
-.panel-left{background:#0D0D1A;border-right:1px solid #1a1a3a;padding:28px 24px;overflow-y:auto}
-.panel-right{background:#0a0a16;padding:24px;overflow:auto}
-.section-title{font-family:'JetBrains Mono',monospace;font-size:.75rem;text-transform:uppercase;letter-spacing:1.5px;color:#FF6B00;margin-bottom:12px;margin-top:20px}
-.section-title:first-child{margin-top:0}
-.desc{font-size:.88rem;line-height:1.6;color:#E0E0E0cc;margin-bottom:16px}
+body{background:#0a0a0a;color:#E0E0E0;font-family:'Inter',sans-serif;min-height:100vh}
+.topbar{background:#141414;border-bottom:1px solid #FF6B0044;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.topbar h1{font-family:'JetBrains Mono',monospace;font-size:1.2rem;color:#FF6B00}
+.topbar .store-label{font-size:.78rem;color:#E0E0E066;font-family:'Space Grotesk',sans-serif}
+.topbar .price-tag{font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:#FFD700;font-weight:700}
+.tabs{display:flex;background:#111;border-bottom:2px solid #222}
+.tab{padding:14px 28px;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:#E0E0E066;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none}
+.tab:hover{color:#E0E0E0}
+.tab.active{color:#FF6B00;border-bottom-color:#FF6B00}
+.tab-content{display:none;padding:32px;min-height:50vh}
+.tab-content.active{display:block}
+.overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.overview-grid{grid-template-columns:1fr}}
+.info-block{background:#141414;border:1px solid #1a1a3a;border-radius:8px;padding:24px}
+.info-block h3{font-family:'JetBrains Mono',monospace;font-size:.8rem;text-transform:uppercase;letter-spacing:1px;color:#FF6B00;margin-bottom:12px}
+.info-block p{font-size:.88rem;line-height:1.6;color:#E0E0E0aa}
+.feat-list{list-style:none}
+.feat-list li{padding:8px 0;border-bottom:1px solid #1a1a3a;font-size:.86rem;color:#E0E0E0cc}
+.feat-list li::before{content:"\2713 ";color:#00E676;font-weight:bold;margin-right:8px}
 .tag{display:inline-block;background:#FF6B0018;color:#FF6B00;border:1px solid #FF6B0033;border-radius:4px;padding:2px 8px;font-size:.75rem;font-family:'JetBrains Mono',monospace;margin:2px}
 .tag.chain{background:#FFD70018;color:#FFD700;border-color:#FFD70033}
-.meta-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #1a1a3a;font-size:.84rem}
-.meta-row .label{color:#E0E0E066}
-.meta-row .value{color:#E0E0E0;font-family:'JetBrains Mono',monospace}
-.features{list-style:none;margin-top:8px}
-.features li{padding:6px 0;font-size:.84rem;color:#E0E0E0cc;display:flex;align-items:flex-start;gap:8px}
-.features .check{color:#00E676;font-weight:bold;flex-shrink:0}
-.code-window{background:#0d0f1a;border:1px solid #1a1a3a;border-radius:8px;overflow:hidden}
+.code-window{background:#0d0f1a;border:1px solid #1a1a3a;border-radius:8px;overflow:hidden;max-width:800px}
 .code-titlebar{background:#141428;padding:8px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #1a1a3a}
 .code-dot{width:10px;height:10px;border-radius:50%}
 .code-dot.r{background:#ff5f56}.code-dot.y{background:#ffbd2e}.code-dot.g{background:#27c93f}
 .code-filename{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#E0E0E066;margin-left:8px}
 .code-body{padding:16px;overflow-x:auto}
 .code-body pre{font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.7;color:#a9b7c6;white-space:pre}
-.cta-bar{background:linear-gradient(135deg,#FF6B0011,#FFD70008);border-top:1px solid #FF6B0033;padding:20px 32px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.cta-bar{background:#141414;border-top:1px solid #FF6B0033;padding:20px 32px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .cta-btn{display:inline-block;background:linear-gradient(135deg,#FF6B00,#FFD700);color:#fff;padding:12px 28px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s;font-family:'Space Grotesk',sans-serif}
 .cta-btn:hover{opacity:.9;transform:translateY(-2px)}
-.crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:0;transition:all .2s;font-family:'Space Grotesk',sans-serif}
+.crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;transition:all .2s;font-family:'Space Grotesk',sans-serif}
 .crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
-.price-tag{font-family:'JetBrains Mono',monospace;font-size:1.3rem;color:#FF6B00;font-weight:700}
 .cta-spacer{flex:1}
-@media(max-width:800px){.content{grid-template-columns:1fr}.panel-left{border-right:none;border-bottom:1px solid #1a1a3a}}
+.back{display:block;text-align:center;padding:16px;color:#FF6B00;font-family:'JetBrains Mono',monospace;font-size:.85rem;text-decoration:none}
+.back:hover{text-decoration:underline}
 </style>
 </head>
 <body>
-<div class="header">
-  <div class="store-name">Prover Market &mdash; CryptoForge</div>
-  <h1>Proof Verifier Contracts</h1>
-  <div class="tagline">On-chain verifier contracts for common proof systems.</div>
+<div class="topbar">
+  <div><span class="store-label">Prover Market &mdash; CryptoForge</span><br><h1>Proof Verifier Contracts</h1></div>
+  <span class="price-tag">$9.99</span>
 </div>
-<div class="content">
-  <div class="panel-left">
-    <div class="section-title">Contract Details</div>
-    <div class="meta-row"><span class="label">Category</span><span class="value">contracts</span></div>
-    <div class="meta-row"><span class="label">Files</span><span class="value">14</span></div>
-    <div class="meta-row"><span class="label">Price</span><span class="value">$9.99</span></div>
-
-    <div class="section-title">Tech Stack</div>
-    <div><span class="tag">Solidity ^0.8.24</span> <span class="tag">OpenZeppelin v5</span> <span class="tag">Foundry</span></div>
-
-    <div class="section-title">Chains</div>
-    <div><span class="tag chain">Ethereum</span> <span class="tag chain">Arbitrum</span> <span class="tag chain">Base</span> <span class="tag chain">Optimism</span> <span class="tag chain">Polygon</span></div>
-
-    <div class="section-title">Description</div>
-    <div class="desc">Gas-optimized on-chain verifier contracts for common ZK proof systems. Includes Groth16 BN254 verifier, PLONK verifier with custom gates, and a FRI-based STARK verifier. Each contract is auditable, minimal, and designed for production deployment.</div>
-
-    <div class="section-title">Features</div>
-    <ul class="features"><li><span class="check">&#10003;</span> Groth16 BN254 verifier with precompile optimization</li>
-<li><span class="check">&#10003;</span> PLONK verifier with linearization and custom gates</li>
-<li><span class="check">&#10003;</span> FRI-based STARK verifier for recursive proofs</li>
-<li><span class="check">&#10003;</span> Unified IProofVerifier interface</li>
-<li><span class="check">&#10003;</span> Gas benchmarks for each proof system</li>
-<li><span class="check">&#10003;</span> Verification key registry for multi-circuit support</li>
-<li><span class="check">&#10003;</span> Ownable2Step for verification key management</li>
-<li><span class="check">&#10003;</span> Full Foundry test suite with real proof fixtures</li></ul>
+<div class="tabs">
+  <button class="tab active" onclick="switchTab(0)">Overview</button>
+  <button class="tab" onclick="switchTab(1)">Features</button>
+  <button class="tab" onclick="switchTab(2)">Code Preview</button>
+</div>
+<div class="tab-content active" id="tab0">
+  <div class="overview-grid">
+    <div class="info-block">
+      <h3>Description</h3>
+      <p>Gas-optimized on-chain verifier contracts for common ZK proof systems. Includes Groth16 BN254 verifier, PLONK verifier with custom gates, and a FRI-based STARK verifier. Each contract is auditable, minimal, and designed for production deployment.</p>
+    </div>
+    <div class="info-block">
+      <h3>Details</h3>
+      <p><strong>Category:</strong> contracts<br>
+         <strong>Files:</strong> 14<br>
+         <strong>Chains:</strong> Ethereum, Arbitrum, Base, Optimism, Polygon</p>
+      <div style="margin-top:12px"><span class="tag">Solidity ^0.8.24</span> <span class="tag">OpenZeppelin v5</span> <span class="tag">Foundry</span> <span class="tag chain">Ethereum</span> <span class="tag chain">Arbitrum</span> <span class="tag chain">Base</span> <span class="tag chain">Optimism</span> <span class="tag chain">Polygon</span></div>
+    </div>
   </div>
-  <div class="panel-right">
-    <div class="code-window">
-      <div class="code-titlebar">
-        <span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span>
-        <span class="code-filename">proof-verifier-contracts.sol</span>
-      </div>
-      <div class="code-body"><pre><span style="color:#546e7a">// SPDX-License-Identifier: MIT</span>
+</div>
+<div class="tab-content" id="tab1">
+  <ul class="feat-list"><li>Groth16 BN254 verifier with precompile optimization</li>
+<li>PLONK verifier with linearization and custom gates</li>
+<li>FRI-based STARK verifier for recursive proofs</li>
+<li>Unified IProofVerifier interface</li>
+<li>Gas benchmarks for each proof system</li>
+<li>Verification key registry for multi-circuit support</li>
+<li>Ownable2Step for verification key management</li>
+<li>Full Foundry test suite with real proof fixtures</li></ul>
+</div>
+<div class="tab-content" id="tab2">
+  <div class="code-window">
+    <div class="code-titlebar">
+      <span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span>
+      <span class="code-filename">proof-verifier-contracts.sol</span>
+    </div>
+    <div class="code-body"><pre><span style="color:#546e7a">// SPDX-License-Identifier: MIT</span>
 <span style="color:#c792ea">pragma</span> <span style="color:#c792ea">solidity</span> ^<span style="color:#f78c6c">0</span>.<span style="color:#f78c6c">8</span>.<span style="color:#f78c6c">24</span>;
 
 <span style="color:#c792ea">import</span> <span style="color:#c3e88d">"@openzeppelin/contracts/token/ERC20/IERC20.sol"</span>;
@@ -102,15 +106,23 @@ body{background:#0D0D1A;color:#E0E0E0;font-family:'Inter',sans-serif;min-height:
 
     <span style="color:#546e7a">// ... full implementation in purchased package</span>
 }</pre></div>
-    </div>
   </div>
 </div>
 <div class="cta-bar">
-  <span class="price-tag">$9.99</span>
+  <span style="font-family:'JetBrains Mono',monospace;font-size:1.3rem;color:#FF6B00;font-weight:700">$9.99</span>
   <div class="cta-spacer"></div>
   <a href="https://buy.stripe.com/bJecN56iHgpoeRI29XgjI3C" target="_blank" rel="noopener" class="cta-btn">Buy Now &mdash; $9.99</a>
   <button class="crypto-pay-btn" data-product-slug="proof-verifier-contracts" data-store-slug="prover-market" data-product-name="Proof Verifier Contracts" data-price-usd="9.99">Pay with Crypto (Save 20%)</button>
 </div>
+<a href="index.html" class="back">&larr; Back to store</a>
+<script>
+function switchTab(n){
+  document.querySelectorAll('.tab-content').forEach(function(el){el.classList.remove('active')});
+  document.querySelectorAll('.tab').forEach(function(el){el.classList.remove('active')});
+  document.getElementById('tab'+n).classList.add('active');
+  document.querySelectorAll('.tab')[n].classList.add('active');
+}
+</script>
 <script src="../crypto-checkout.js"></script>
 </body>
 </html>

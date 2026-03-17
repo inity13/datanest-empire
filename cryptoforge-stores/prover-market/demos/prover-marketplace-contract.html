@@ -1,118 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Prover Marketplace Contract — Prover Market | CryptoForge</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0D0D1A;color:#E0E0E0;font-family:'Inter',sans-serif;min-height:100vh}
-.header{background:linear-gradient(135deg,#FF6B0022,#FFD70011);border-bottom:1px solid #FF6B0044;padding:24px 32px}
-.header h1{font-family:'JetBrains Mono',monospace;font-size:1.4rem;color:#FF6B00}
-.header .store-name{font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:#E0E0E088;margin-bottom:4px}
-.header .tagline{font-size:.8rem;color:#E0E0E066;margin-top:4px}
-.content{display:grid;grid-template-columns:340px 1fr;gap:0;min-height:calc(100vh - 180px)}
-.panel-left{background:#0D0D1A;border-right:1px solid #1a1a3a;padding:28px 24px;overflow-y:auto}
-.panel-right{background:#0a0a16;padding:24px;overflow:auto}
-.section-title{font-family:'JetBrains Mono',monospace;font-size:.75rem;text-transform:uppercase;letter-spacing:1.5px;color:#FF6B00;margin-bottom:12px;margin-top:20px}
-.section-title:first-child{margin-top:0}
-.desc{font-size:.88rem;line-height:1.6;color:#E0E0E0cc;margin-bottom:16px}
+body{background:#0a0a0a;color:#E0E0E0;font-family:'Inter',sans-serif;min-height:100vh}
+.hero{background:linear-gradient(135deg,#FF6B0033,#FFD70011);padding:64px 40px;text-align:center;border-bottom:1px solid #FF6B0044}
+.hero h1{font-family:'JetBrains Mono',monospace;font-size:2.2rem;color:#FF6B00;margin-bottom:12px}
+.hero .sub{font-size:1rem;color:#E0E0E0aa;max-width:600px;margin:0 auto 8px}
+.hero .store-label{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:#E0E0E066;margin-bottom:16px}
+.hero .price-big{font-family:'JetBrains Mono',monospace;font-size:1.8rem;color:#FFD700;margin:20px 0 8px}
+.meta-line{font-size:.82rem;color:#E0E0E066;font-family:'JetBrains Mono',monospace;margin-bottom:4px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;padding:40px;max-width:960px;margin:0 auto}
+.feat-card{background:#141414;border:1px solid #FF6B0033;border-radius:10px;padding:28px 24px;text-align:center}
+.feat-icon{font-size:1.8rem;margin-bottom:12px}
+.feat-text{font-size:.88rem;color:#E0E0E0cc;line-height:1.6}
+.desc-section{max-width:720px;margin:0 auto;padding:0 40px 32px;font-size:.9rem;line-height:1.7;color:#E0E0E0aa}
+.cta-section{text-align:center;padding:32px 40px 48px;background:linear-gradient(135deg,#FF6B0008,#FFD70005)}
+.cta-btn{display:inline-block;background:linear-gradient(135deg,#FF6B00,#FFD700);color:#fff;padding:14px 32px;border-radius:8px;font-weight:700;text-decoration:none;font-size:1rem;transition:all .2s;font-family:'Space Grotesk',sans-serif;margin:0 8px}
+.cta-btn:hover{opacity:.9;transform:translateY(-2px)}
+.crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:14px 30px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:1rem;transition:all .2s;font-family:'Space Grotesk',sans-serif;margin:0 8px}
+.crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
+.back{display:block;text-align:center;padding:16px;color:#FF6B00;font-family:'JetBrains Mono',monospace;font-size:.85rem;text-decoration:none}
+.back:hover{text-decoration:underline}
+.tags{text-align:center;padding:0 40px 24px}
 .tag{display:inline-block;background:#FF6B0018;color:#FF6B00;border:1px solid #FF6B0033;border-radius:4px;padding:2px 8px;font-size:.75rem;font-family:'JetBrains Mono',monospace;margin:2px}
 .tag.chain{background:#FFD70018;color:#FFD700;border-color:#FFD70033}
-.meta-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #1a1a3a;font-size:.84rem}
-.meta-row .label{color:#E0E0E066}
-.meta-row .value{color:#E0E0E0;font-family:'JetBrains Mono',monospace}
-.features{list-style:none;margin-top:8px}
-.features li{padding:6px 0;font-size:.84rem;color:#E0E0E0cc;display:flex;align-items:flex-start;gap:8px}
-.features .check{color:#00E676;font-weight:bold;flex-shrink:0}
-.code-window{background:#0d0f1a;border:1px solid #1a1a3a;border-radius:8px;overflow:hidden}
-.code-titlebar{background:#141428;padding:8px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #1a1a3a}
-.code-dot{width:10px;height:10px;border-radius:50%}
-.code-dot.r{background:#ff5f56}.code-dot.y{background:#ffbd2e}.code-dot.g{background:#27c93f}
-.code-filename{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#E0E0E066;margin-left:8px}
-.code-body{padding:16px;overflow-x:auto}
-.code-body pre{font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.7;color:#a9b7c6;white-space:pre}
-.cta-bar{background:linear-gradient(135deg,#FF6B0011,#FFD70008);border-top:1px solid #FF6B0033;padding:20px 32px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.cta-btn{display:inline-block;background:linear-gradient(135deg,#FF6B00,#FFD700);color:#fff;padding:12px 28px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s;font-family:'Space Grotesk',sans-serif}
-.cta-btn:hover{opacity:.9;transform:translateY(-2px)}
-.crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:0;transition:all .2s;font-family:'Space Grotesk',sans-serif}
-.crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
-.price-tag{font-family:'JetBrains Mono',monospace;font-size:1.3rem;color:#FF6B00;font-weight:700}
-.cta-spacer{flex:1}
-@media(max-width:800px){.content{grid-template-columns:1fr}.panel-left{border-right:none;border-bottom:1px solid #1a1a3a}}
 </style>
 </head>
 <body>
-<div class="header">
-  <div class="store-name">Prover Market &mdash; CryptoForge</div>
+<div class="hero">
+  <div class="store-label">Prover Market &mdash; CryptoForge</div>
   <h1>Prover Marketplace Contract</h1>
-  <div class="tagline">Marketplace: job posting, bidding, staking, settlement.</div>
+  <div class="sub">Marketplace: job posting, bidding, staking, settlement.</div>
+  <div class="meta-line">contracts &bull; 14 files &bull; Ethereum / Arbitrum / Base</div>
+  <div class="price-big">$19.99</div>
 </div>
-<div class="content">
-  <div class="panel-left">
-    <div class="section-title">Contract Details</div>
-    <div class="meta-row"><span class="label">Category</span><span class="value">contracts</span></div>
-    <div class="meta-row"><span class="label">Files</span><span class="value">14</span></div>
-    <div class="meta-row"><span class="label">Price</span><span class="value">$19.99</span></div>
-
-    <div class="section-title">Tech Stack</div>
-    <div><span class="tag">Solidity ^0.8.24</span> <span class="tag">OpenZeppelin v5</span> <span class="tag">Foundry</span></div>
-
-    <div class="section-title">Chains</div>
-    <div><span class="tag chain">Ethereum</span> <span class="tag chain">Arbitrum</span> <span class="tag chain">Base</span></div>
-
-    <div class="section-title">Description</div>
-    <div class="desc">On-chain marketplace for ZK proof generation services. Protocols post proof jobs with bounties, provers bid and stake collateral, and the marketplace handles settlement with slashing for missed deadlines. Includes job queuing, prover registration, and fee distribution.</div>
-
-    <div class="section-title">Features</div>
-    <ul class="features"><li><span class="check">&#10003;</span> Job posting with proof type, deadline, and bounty</li>
-<li><span class="check">&#10003;</span> Prover registration with stake requirement</li>
-<li><span class="check">&#10003;</span> Competitive bidding with sealed-bid option</li>
-<li><span class="check">&#10003;</span> Escrow-based settlement on proof submission</li>
-<li><span class="check">&#10003;</span> Slashing for missed deadlines or invalid proofs</li>
-<li><span class="check">&#10003;</span> Fee distribution to marketplace and referrers</li>
-<li><span class="check">&#10003;</span> Job queue priority based on bounty amount</li>
-<li><span class="check">&#10003;</span> Emergency pause with Ownable2Step governance</li>
-<li><span class="check">&#10003;</span> ReentrancyGuard on all value transfers</li>
-<li><span class="check">&#10003;</span> Full Foundry test suite with simulation scenarios</li></ul>
-  </div>
-  <div class="panel-right">
-    <div class="code-window">
-      <div class="code-titlebar">
-        <span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span>
-        <span class="code-filename">prover-marketplace-contract.sol</span>
-      </div>
-      <div class="code-body"><pre><span style="color:#546e7a">// SPDX-License-Identifier: MIT</span>
-<span style="color:#c792ea">pragma</span> <span style="color:#c792ea">solidity</span> ^<span style="color:#f78c6c">0</span>.<span style="color:#f78c6c">8</span>.<span style="color:#f78c6c">24</span>;
-
-<span style="color:#c792ea">import</span> <span style="color:#c3e88d">"@openzeppelin/contracts/token/ERC20/IERC20.sol"</span>;
-
-<span style="color:#546e7a">/// @title Prover Marketplace Contract</span>
-<span style="color:#546e7a">/// @notice Marketplace: job posting, bidding, staking, settlement.</span>
-<span style="color:#c792ea">contract</span> ProverMarketplaceContract {
-    <span style="color:#c792ea">address</span> <span style="color:#c792ea">public</span> <span style="color:#c792ea">immutable</span> owner;
-    <span style="color:#c792ea">uint256</span> <span style="color:#c792ea">public</span> <span style="color:#c792ea">constant</span> VERSION = <span style="color:#f78c6c">1</span>;
-
-    <span style="color:#c792ea">event</span> Initialized(<span style="color:#c792ea">address</span> <span style="color:#c792ea">indexed</span> deployer);
-
-    <span style="color:#c792ea">constructor</span>() {
-        owner = msg.sender;
-        <span style="color:#c792ea">emit</span> Initialized(msg.sender);
-    }
-
-    <span style="color:#546e7a">// ... full implementation in purchased package</span>
-}</pre></div>
-    </div>
-  </div>
+<div class="tags"><span class="tag">Solidity ^0.8.24</span> <span class="tag">OpenZeppelin v5</span> <span class="tag">Foundry</span> <span class="tag chain">Ethereum</span> <span class="tag chain">Arbitrum</span> <span class="tag chain">Base</span></div>
+<div class="cards">
+<div class="feat-card"><div class="feat-icon">&#9881;</div><div class="feat-text">Job posting with proof type, deadline, and bounty</div></div>
+<div class="feat-card"><div class="feat-icon">&#9889;</div><div class="feat-text">Prover registration with stake requirement</div></div>
+<div class="feat-card"><div class="feat-icon">&#9878;</div><div class="feat-text">Competitive bidding with sealed-bid option</div></div>
 </div>
-<div class="cta-bar">
-  <span class="price-tag">$19.99</span>
-  <div class="cta-spacer"></div>
+<div class="desc-section">On-chain marketplace for ZK proof generation services. Protocols post proof jobs with bounties, provers bid and stake collateral, and the marketplace handles settlement with slashing for missed deadlines. Includes job queuing, prover registration, and fee distribution.</div>
+<div class="cta-section">
   <a href="https://buy.stripe.com/bJeaEXePd5KK10S15TgjI3B" target="_blank" rel="noopener" class="cta-btn">Buy Now &mdash; $19.99</a>
   <button class="crypto-pay-btn" data-product-slug="prover-marketplace-contract" data-store-slug="prover-market" data-product-name="Prover Marketplace Contract" data-price-usd="19.99">Pay with Crypto (Save 20%)</button>
 </div>
+<a href="index.html" class="back">&larr; Back to store</a>
 <script src="../crypto-checkout.js"></script>
 </body>
 </html>

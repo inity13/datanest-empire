@@ -1,116 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Trade Analytics Dashboard — DeFi Router | CryptoForge</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0D0D1A;color:#E0E0E0;font-family:'Inter',sans-serif;min-height:100vh}
-.header{background:linear-gradient(135deg,#FF6B0022,#FFD70011);border-bottom:1px solid #FF6B0044;padding:24px 32px}
-.header h1{font-family:'JetBrains Mono',monospace;font-size:1.4rem;color:#FF6B00}
-.header .store-name{font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:#E0E0E088;margin-bottom:4px}
-.header .tagline{font-size:.8rem;color:#E0E0E066;margin-top:4px}
-.content{display:grid;grid-template-columns:340px 1fr;gap:0;min-height:calc(100vh - 180px)}
-.panel-left{background:#0D0D1A;border-right:1px solid #1a1a3a;padding:28px 24px;overflow-y:auto}
-.panel-right{background:#0a0a16;padding:24px;overflow:auto}
-.section-title{font-family:'JetBrains Mono',monospace;font-size:.75rem;text-transform:uppercase;letter-spacing:1.5px;color:#FF6B00;margin-bottom:12px;margin-top:20px}
-.section-title:first-child{margin-top:0}
-.desc{font-size:.88rem;line-height:1.6;color:#E0E0E0cc;margin-bottom:16px}
-.tag{display:inline-block;background:#FF6B0018;color:#FF6B00;border:1px solid #FF6B0033;border-radius:4px;padding:2px 8px;font-size:.75rem;font-family:'JetBrains Mono',monospace;margin:2px}
-.tag.chain{background:#FFD70018;color:#FFD700;border-color:#FFD70033}
-.meta-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #1a1a3a;font-size:.84rem}
-.meta-row .label{color:#E0E0E066}
-.meta-row .value{color:#E0E0E0;font-family:'JetBrains Mono',monospace}
-.features{list-style:none;margin-top:8px}
-.features li{padding:6px 0;font-size:.84rem;color:#E0E0E0cc;display:flex;align-items:flex-start;gap:8px}
-.features .check{color:#00E676;font-weight:bold;flex-shrink:0}
-.code-window{background:#0d0f1a;border:1px solid #1a1a3a;border-radius:8px;overflow:hidden}
-.code-titlebar{background:#141428;padding:8px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #1a1a3a}
-.code-dot{width:10px;height:10px;border-radius:50%}
-.code-dot.r{background:#ff5f56}.code-dot.y{background:#ffbd2e}.code-dot.g{background:#27c93f}
-.code-filename{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#E0E0E066;margin-left:8px}
-.code-body{padding:16px;overflow-x:auto}
-.code-body pre{font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.7;color:#a9b7c6;white-space:pre}
-.cta-bar{background:linear-gradient(135deg,#FF6B0011,#FFD70008);border-top:1px solid #FF6B0033;padding:20px 32px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.cta-btn{display:inline-block;background:linear-gradient(135deg,#FF6B00,#FFD700);color:#fff;padding:12px 28px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s;font-family:'Space Grotesk',sans-serif}
-.cta-btn:hover{opacity:.9;transform:translateY(-2px)}
-.crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:8px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;margin-top:0;transition:all .2s;font-family:'Space Grotesk',sans-serif}
-.crypto-pay-btn:hover{opacity:0.9;transform:translateY(-2px)}
-.price-tag{font-family:'JetBrains Mono',monospace;font-size:1.3rem;color:#FF6B00;font-weight:700}
-.cta-spacer{flex:1}
-@media(max-width:800px){.content{grid-template-columns:1fr}.panel-left{border-right:none;border-bottom:1px solid #1a1a3a}}
+body{background:#0a0a0a;color:#33ff33;font-family:'JetBrains Mono',monospace;min-height:100vh;padding:0}
+.term-window{max-width:900px;margin:24px auto;background:#0a0a0a;border:1px solid #33ff3344;border-radius:8px;overflow:hidden}
+.term-titlebar{background:#111;padding:8px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #33ff3322}
+.term-dot{width:10px;height:10px;border-radius:50%}
+.term-dot.r{background:#ff5f56}.term-dot.y{background:#ffbd2e}.term-dot.g{background:#27c93f}
+.term-title{font-size:.75rem;color:#33ff3366;margin-left:8px}
+.term-body{padding:20px 24px;overflow-x:auto}
+.term-body pre{font-size:.82rem;line-height:1.7;color:#33ff33;white-space:pre-wrap;word-break:break-word}
+.prompt{color:#FFD700}
+.dim{color:#33ff3366}
+.highlight{color:#FF6B00;font-weight:bold}
+.cta-section{max-width:900px;margin:0 auto 24px;padding:20px 24px;background:#0a0a0a;border:1px solid #33ff3322;border-radius:8px;text-align:center}
+.cta-btn{display:inline-block;background:#33ff33;color:#0a0a0a;padding:12px 28px;border-radius:4px;font-weight:700;text-decoration:none;font-size:.9rem;font-family:'JetBrains Mono',monospace;transition:all .2s;margin:0 8px}
+.cta-btn:hover{background:#66ff66}
+.crypto-pay-btn{display:inline-block;background:linear-gradient(135deg,#f7931a,#627eea);color:#fff;padding:12px 26px;border-radius:4px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;font-family:'JetBrains Mono',monospace;transition:all .2s;margin:0 8px}
+.crypto-pay-btn:hover{opacity:0.9}
+.back{display:block;text-align:center;padding:16px;color:#33ff33;font-size:.85rem;text-decoration:none}
+.back:hover{text-decoration:underline}
 </style>
 </head>
 <body>
-<div class="header">
-  <div class="store-name">DeFi Router &mdash; CryptoForge</div>
-  <h1>Trade Analytics Dashboard</h1>
-  <div class="tagline">React dashboard for trade execution analytics and fee revenue.</div>
-</div>
-<div class="content">
-  <div class="panel-left">
-    <div class="section-title">Contract Details</div>
-    <div class="meta-row"><span class="label">Category</span><span class="value">frontend</span></div>
-    <div class="meta-row"><span class="label">Files</span><span class="value">24</span></div>
-    <div class="meta-row"><span class="label">Price</span><span class="value">$12.99</span></div>
-
-    <div class="section-title">Tech Stack</div>
-    <div><span class="tag">React</span> <span class="tag">TypeScript</span> <span class="tag">Vite</span> <span class="tag">TailwindCSS</span> <span class="tag">wagmi</span> <span class="tag">viem</span> <span class="tag">Recharts</span></div>
-
-    <div class="section-title">Chains</div>
-    <div><span class="tag chain">Ethereum</span> <span class="tag chain">Arbitrum</span> <span class="tag chain">Base</span> <span class="tag chain">Optimism</span></div>
-
-    <div class="section-title">Description</div>
-    <div class="desc">React dashboard for trade execution analytics. Visualizes fill rates, slippage, gas efficiency, provider performance, volume history, and fee revenue. Connects to on-chain data via wagmi/viem.</div>
-
-    <div class="section-title">Features</div>
-    <ul class="features"><li><span class="check">&#10003;</span> Volume chart with 7d/30d/90d toggle</li>
-<li><span class="check">&#10003;</span> Slippage scatter plot with P50/P95 reference lines</li>
-<li><span class="check">&#10003;</span> Provider comparison (volume + execution quality)</li>
-<li><span class="check">&#10003;</span> Gas efficiency analytics and cost trends</li>
-<li><span class="check">&#10003;</span> Fee revenue tracking by token</li>
-<li><span class="check">&#10003;</span> Sortable/paginated trade history table</li>
-<li><span class="check">&#10003;</span> KPI cards: volume, slippage, fees, trade count</li>
-<li><span class="check">&#10003;</span> CryptoForge dark theme, responsive</li></ul>
+<div class="term-window">
+  <div class="term-titlebar">
+    <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+    <span class="term-title">cryptoforge-terminal &mdash; DeFi Router</span>
   </div>
-  <div class="panel-right">
-    <div class="code-window">
-      <div class="code-titlebar">
-        <span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span>
-        <span class="code-filename">trade-analytics.sol</span>
-      </div>
-      <div class="code-body"><pre><span style="color:#546e7a">// SPDX-License-Identifier: MIT</span>
-<span style="color:#c792ea">pragma</span> <span style="color:#c792ea">solidity</span> ^<span style="color:#f78c6c">0</span>.<span style="color:#f78c6c">8</span>.<span style="color:#f78c6c">24</span>;
+  <div class="term-body"><pre>
+<span class="prompt">$</span> cryptoforge info trade-analytics
 
-<span style="color:#c792ea">import</span> <span style="color:#c3e88d">"@openzeppelin/contracts/token/ERC20/IERC20.sol"</span>;
+<span class="highlight">╔══════════════════════════════════════════════════╗
+║  Trade Analytics Dashboard                        ║
+╚══════════════════════════════════════════════════╝</span>
 
-<span style="color:#546e7a">/// @title Trade Analytics Dashboard</span>
-<span style="color:#546e7a">/// @notice React dashboard for trade execution analytics and fee revenue.</span>
-<span style="color:#c792ea">contract</span> TradeAnalytics {
-    <span style="color:#c792ea">address</span> <span style="color:#c792ea">public</span> <span style="color:#c792ea">immutable</span> owner;
-    <span style="color:#c792ea">uint256</span> <span style="color:#c792ea">public</span> <span style="color:#c792ea">constant</span> VERSION = <span style="color:#f78c6c">1</span>;
+<span class="dim">──────────────────────────────────────────────────</span>
+  Store:       DeFi Router
+  Category:    frontend
+  Files:       24
+  Price:       <span class="highlight">$12.99</span>
+  Tech:        React, TypeScript, Vite, TailwindCSS, wagmi, viem, Recharts
+  Chains:      Ethereum, Arbitrum, Base, Optimism
+<span class="dim">──────────────────────────────────────────────────</span>
 
-    <span style="color:#c792ea">event</span> Initialized(<span style="color:#c792ea">address</span> <span style="color:#c792ea">indexed</span> deployer);
+<span class="prompt">$</span> cryptoforge describe trade-analytics
 
-    <span style="color:#c792ea">constructor</span>() {
+  React dashboard for trade execution analytics. Visualizes fill rates, slippage, gas efficiency, provider performance, volume history, and fee revenue. Connects to on-chain data via wagmi/viem.
+
+<span class="prompt">$</span> cryptoforge features trade-analytics
+
+  [+] Volume chart with 7d/30d/90d toggle
+  [+] Slippage scatter plot with P50/P95 reference lines
+  [+] Provider comparison (volume + execution quality)
+  [+] Gas efficiency analytics and cost trends
+  [+] Fee revenue tracking by token
+  [+] Sortable/paginated trade history table
+  [+] KPI cards: volume, slippage, fees, trade count
+  [+] CryptoForge dark theme, responsive
+
+<span class="prompt">$</span> cryptoforge preview trade-analytics
+<span class="dim">──────────────────────────────────────────────────</span>
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
+/// @title Trade Analytics Dashboard
+/// @notice React dashboard for trade execution analytics and fee revenue.
+contract TradeAnalytics {
+    address public immutable owner;
+    uint256 public constant VERSION = 1;
+
+    event Initialized(address indexed deployer);
+
+    constructor() {
         owner = msg.sender;
-        <span style="color:#c792ea">emit</span> Initialized(msg.sender);
+        emit Initialized(msg.sender);
     }
 
-    <span style="color:#546e7a">// ... full implementation in purchased package</span>
-}</pre></div>
-    </div>
+    // ... full implementation in purchased package
+}
+<span class="dim">──────────────────────────────────────────────────</span>
+
+<span class="prompt">$</span> _</pre>
   </div>
 </div>
-<div class="cta-bar">
-  <span class="price-tag">$12.99</span>
-  <div class="cta-spacer"></div>
+<div class="cta-section">
   <a href="https://buy.stripe.com/bJe9AT9uT7SSaBscOBgjI2d" target="_blank" rel="noopener" class="cta-btn">Buy Now &mdash; $12.99</a>
   <button class="crypto-pay-btn" data-product-slug="trade-analytics" data-store-slug="defi-router" data-product-name="Trade Analytics Dashboard" data-price-usd="12.99">Pay with Crypto (Save 20%)</button>
 </div>
+<a href="index.html" class="back">&larr; cd ../</a>
 <script src="../crypto-checkout.js"></script>
 </body>
 </html>

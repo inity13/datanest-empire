@@ -200,9 +200,9 @@
 <script>
 (function(){
   try{
-    fetch("https://ferovwapilhcpqozqinn.supabase.co/rest/v1/page_views",{
+    fetch("/rest/v1/page_views",{
       method:"POST",
-      headers:{"Content-Type":"application/json","apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY","Prefer":"return=minimal"},
+      headers:{"Content-Type":"application/json","apikey":"","Authorization":"Bearer ","Prefer":"return=minimal"},
       body:JSON.stringify({store_name:"PM Toolkit Pro",page_path:location.pathname,referrer:document.referrer||null,user_agent:navigator.userAgent}),
       keepalive:true
     }).catch(function(){});
@@ -247,7 +247,7 @@
 
       <div class="preview-meta" style="display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;font-size:0.875rem;color:var(--color-text-muted,#94a3b8);"><span>&#128193; 7 files</span><span>&#127991; v1.0.0</span></div>
 
-      <div class="preview-badges"><span class="preview-badge" style="border-color: #083FA140; color: #083FA1;"><span class="dot" style="background: #083FA1;"></span>Markdown</span><span class="preview-badge" style="border-color: #3776AB40; color: #3776AB;"><span class="dot" style="background: #3776AB;"></span>Python</span><span class="preview-badge" style="border-color: #CB171E40; color: #CB171E;"><span class="dot" style="background: #CB171E;"></span>YAML</span><span class="preview-badge" style="border-color: #9C412140; color: #9C4121;"><span class="dot" style="background: #9C4121;"></span>TOML</span><span class="preview-badge" style="border-color: #29292940; color: #292929;"><span class="dot" style="background: #292929;"></span>JSON</span></div>
+      <div class="preview-badges"><span class="preview-badge" style="border-color: #3776AB40; color: #3776AB;"><span class="dot" style="background: #3776AB;"></span>Python</span><span class="preview-badge" style="border-color: #29292940; color: #292929;"><span class="dot" style="background: #292929;"></span>JSON</span><span class="preview-badge" style="border-color: #083FA140; color: #083FA1;"><span class="dot" style="background: #083FA1;"></span>Markdown</span><span class="preview-badge" style="border-color: #CB171E40; color: #CB171E;"><span class="dot" style="background: #CB171E;"></span>YAML</span><span class="preview-badge" style="border-color: #9C412140; color: #9C4121;"><span class="dot" style="background: #9C4121;"></span>TOML</span></div>
 
       
         <div class="preview-section open">
