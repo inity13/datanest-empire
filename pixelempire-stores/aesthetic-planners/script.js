@@ -251,4 +251,99 @@
   }
   initConfetti();
 
+  // ---- Supabase Config ----
+  var SUPABASE_URL = "https://ferovwapilhcpqozqinn.supabase.co";
+  var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY";
+
+  // ---- Page View Analytics ----
+  (function() {
+    fetch(SUPABASE_URL + "/rest/v1/page_views", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": "Bearer " + SUPABASE_ANON_KEY
+      },
+      body: JSON.stringify({
+        store_name: "StudyGlow",
+        page_path: window.location.pathname,
+        referrer: document.referrer,
+        user_agent: navigator.userAgent
+      })
+    });
+  })();
+
+  // ---- Email Capture Bar ----
+  (function() {
+    var bar = document.getElementById("email-bar");
+    var form = document.getElementById("email-bar-form");
+    var input = document.getElementById("email-bar-input");
+    var msg = document.getElementById("email-bar-msg");
+    var closeBtn = document.getElementById("email-bar-close");
+    if (!bar || !form) return;
+
+    var DISMISSED_KEY = "pe-email-bar-dismissed";
+
+    // Don't show if previously dismissed
+    if (localStorage.getItem(DISMISSED_KEY) === "1") return;
+
+    // Show bar after short delay
+    setTimeout(function() {
+      bar.classList.add("visible");
+    }, 2000);
+
+    // Dismiss handler
+    if (closeBtn) {
+      closeBtn.addEventListener("click", function() {
+        bar.classList.remove("visible");
+        bar.classList.add("dismissed");
+        localStorage.setItem(DISMISSED_KEY, "1");
+      });
+    }
+
+    // Submit handler
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      var email = input.value.trim();
+      if (!email) return;
+
+      var submitBtn = form.querySelector("button[type=submit]");
+      if (submitBtn) submitBtn.disabled = true;
+
+      fetch(SUPABASE_URL + "/rest/v1/email_subscribers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+          "Prefer": "return=minimal"
+        },
+        body: JSON.stringify({
+          email: email,
+          store_name: "StudyGlow",
+          source: "pixel-empire"
+        })
+      }).then(function(res) {
+        if (res.ok || res.status === 201) {
+          msg.textContent = "You're in! Watch your inbox.";
+          msg.className = "email-bar-msg success";
+          input.value = "";
+          setTimeout(function() {
+            bar.classList.remove("visible");
+            bar.classList.add("dismissed");
+            localStorage.setItem(DISMISSED_KEY, "1");
+          }, 3000);
+        } else {
+          msg.textContent = "Something went wrong. Try again.";
+          msg.className = "email-bar-msg error";
+          if (submitBtn) submitBtn.disabled = false;
+        }
+      }).catch(function() {
+        msg.textContent = "Network error. Try again.";
+        msg.className = "email-bar-msg error";
+        if (submitBtn) submitBtn.disabled = false;
+      });
+    });
+  })();
+
 })();

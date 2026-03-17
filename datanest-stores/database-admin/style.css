@@ -1775,3 +1775,7 @@ pre code {
     transform: none;
   }
 }
+
+/* Generator-injected styles */
+.reveal-delay-0 { transition-delay: 0s; }
+.hero-social-proof { text-align: center; margin-top: 1rem; font-size: 0.85rem; color: var(--color-text-muted, #94a3b8); letter-spacing: 0.01em; }

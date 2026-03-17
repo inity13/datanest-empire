@@ -1,757 +1,1235 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Automation Hub — Ship faster. Build smarter. | CodeVault</title>
-    <meta name="description" content="Python automation tools for developers: web scrapers, job schedulers, ETL pipelines, workflow engines, and more. Zero dependencies. Instant download.">
-    <meta name="keywords" content="python automation, web scraper, job scheduler, etl pipeline, workflow engine, cron manager, file watcher, api poller, python stdlib, automation tools">
-    <link rel="canonical" href="https://automation-hub.codevault.dev/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automation Hub — CodeVault</title>
+<meta name="description" content="Production-ready automation tools for indie hackers and developers. Web scraping, job scheduling, workflow engines, ETL pipelines, file watchers, and more — all Python stdlib, zero dependencies.">
+<meta property="og:title" content="Automation Hub — CodeVault">
+<meta property="og:description" content="Production-ready automation tools for indie hackers and developers. Web scraping, job scheduling, workflow engines, ETL pipelines, file watchers, and more — all Python stdlib, zero dependencies.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://automation-hub.codevault.dev">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>/* CodeVault Storefront — Automation Hub */
+/* Auto-generated — DO NOT EDIT */
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Automation Hub — Ship faster. Build smarter.">
-    <meta property="og:description" content="Python automation tools for developers: web scrapers, job schedulers, ETL pipelines, workflow engines, and more. Zero dependencies. Instant download.">
-    <meta property="og:site_name" content="CodeVault">
-    <meta property="og:url" content="https://automation-hub.codevault.dev/">
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Automation Hub — Ship faster. Build smarter.">
-    <meta name="twitter:description" content="Python automation tools for developers: web scrapers, job schedulers, ETL pipelines, workflow engines, and more. Zero dependencies. Instant download.">
+:root {
+  --cv-bg: #0b0e14;
+  --cv-surface: #111620;
+  --cv-card: #151b27;
+  --cv-border: #1e2636;
+  --cv-text: #e2e8f0;
+  --cv-muted: #7a8ba3;
+  --cv-accent: #18FFFF;
+  --cv-accent-dark: #10b2b2;
+  --cv-accent-light: #5dffff;
+  --cv-accent-rgb: 24,255,255;
+  --cv-success: #22c55e;
+  --cv-warning: #eab308;
+  --cv-danger: #ef4444;
+  --cv-radius: 8px;
+  --cv-font-body: 'Inter', system-ui, sans-serif;
+  --cv-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --cv-max-w: 1200px;
+  --cv-transition: 0.25s ease;
+}
 
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
+[data-theme="light"] {
+  --cv-bg: #f0f2f5;
+  --cv-surface: #ffffff;
+  --cv-card: #f8f9fb;
+  --cv-border: #d1d5db;
+  --cv-text: #1a1a2e;
+  --cv-muted: #6b7280;
+}
 
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css">
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-    <!-- Theme color -->
-    <meta name="theme-color" content="#18FFFF">
+html { scroll-behavior: smooth; }
 
-    <!-- Plausible Analytics -->
-    <script defer data-domain="automation-hub.codevault.dev" src="https://plausible.io/js/script.js"></script>
+body {
+  font-family: var(--cv-font-body);
+  background-color: var(--cv-bg);
+  color: var(--cv-text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  background-image: radial-gradient(circle, rgba(var(--cv-accent-rgb),0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
 
-    <!-- JSON-LD -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Store",
-        "name": "Automation Hub",
-        "description": "Python automation tools for developers. Web scrapers, schedulers, ETL pipelines, workflow engines, and more.",
-        "url": "https://automation-hub.codevault.dev/",
-        "offers": {
-            "@type": "AggregateOffer",
-            "lowPrice": "4.99",
-            "highPrice": "39.99",
-            "priceCurrency": "USD",
-            "offerCount": "12"
-        }
-    }
-    </script>
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(34,197,94,0.015) 0px,
+    rgba(34,197,94,0.015) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* ---------- scrollbar ---------- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--cv-bg); }
+::-webkit-scrollbar-thumb { background: var(--cv-accent-dark); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--cv-accent); }
+
+/* ---------- header ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 1000;
+  background: rgba(11,14,20,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--cv-border);
+  padding: 0 1.5rem;
+}
+[data-theme="light"] .site-header { background: rgba(255,255,255,0.85); }
+
+.header-inner {
+  max-width: var(--cv-max-w);
+  margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+
+.logo {
+  font-family: var(--cv-font-mono);
+  font-weight: 700; font-size: 1.2rem;
+  color: var(--cv-accent);
+  text-decoration: none;
+}
+.logo::before { content: '> '; opacity: 0.5; }
+
+/* desktop nav */
+.nav-links { display: flex; gap: 1.5rem; list-style: none; }
+.nav-links a {
+  color: var(--cv-muted); text-decoration: none; font-size: 0.9rem;
+  transition: color var(--cv-transition);
+}
+.nav-links a:hover { color: var(--cv-accent); }
+
+/* theme toggle */
+.theme-toggle {
+  background: none; border: 1px solid var(--cv-border); border-radius: var(--cv-radius);
+  color: var(--cv-muted); cursor: pointer; padding: 0.4rem 0.6rem;
+  font-family: var(--cv-font-mono); font-size: 0.85rem;
+  transition: all var(--cv-transition);
+}
+.theme-toggle:hover { color: var(--cv-accent); border-color: var(--cv-accent); }
+
+/* mobile menu */
+.mobile-toggle {
+  display: none; background: none; border: none; color: var(--cv-text);
+  font-size: 1.5rem; cursor: pointer;
+}
+.mobile-nav {
+  display: none;
+  flex-direction: column; gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  background: var(--cv-surface); border-bottom: 1px solid var(--cv-border);
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav a {
+  color: var(--cv-muted); text-decoration: none; padding: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+/* ---------- hero ---------- */
+.hero {
+  min-height: 80vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 4rem 1.5rem;
+  max-width: var(--cv-max-w); margin: 0 auto;
+}
+
+.hero h1 {
+  font-family: var(--cv-font-mono);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.hero h1::after {
+  content: '_';
+  animation: cv-blink 1s step-end infinite;
+  color: var(--cv-accent);
+}
+@keyframes cv-blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+
+.hero p { color: var(--cv-muted); max-width: 640px; font-size: 1.1rem; margin-bottom: 2rem; }
+
+/* ---------- badges ---------- */
+.cv-badge {
+  display: inline-block;
+  font-family: var(--cv-font-mono); font-size: 0.75rem;
+  background: rgba(var(--cv-accent-rgb),0.1);
+  color: var(--cv-accent);
+  border: 1px solid rgba(var(--cv-accent-rgb),0.25);
+  padding: 0.25rem 0.75rem; border-radius: 999px;
+  animation: cv-pulse 2.5s ease-in-out infinite;
+}
+@keyframes cv-pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(var(--cv-accent-rgb),0.25); }
+  50% { box-shadow: 0 0 0 8px rgba(var(--cv-accent-rgb),0); }
+}
+
+/* ---------- gradient text ---------- */
+.gradient-text {
+  background: linear-gradient(135deg, #22c55e, #14b8a6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-block;
+  font-family: var(--cv-font-mono); font-size: 0.9rem; font-weight: 500;
+  padding: 0.7rem 1.6rem; border-radius: var(--cv-radius);
+  text-decoration: none; cursor: pointer;
+  border: 1px solid var(--cv-accent);
+  transition: all var(--cv-transition);
+}
+.btn::before { content: '[ '; opacity: 0.6; }
+.btn::after  { content: ' ]'; opacity: 0.6; }
+.btn-primary {
+  background: var(--cv-accent); color: #000;
+}
+.btn-primary:hover { background: var(--cv-accent-light); }
+.btn-secondary {
+  background: transparent; color: var(--cv-accent);
+}
+.btn-secondary:hover { background: rgba(var(--cv-accent-rgb),0.1); }
+
+/* ---------- section ---------- */
+.section {
+  max-width: var(--cv-max-w); margin: 0 auto;
+  padding: 5rem 1.5rem;
+}
+.section-title {
+  font-family: var(--cv-font-mono); font-size: 1.8rem; font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.section-subtitle { color: var(--cv-muted); margin-bottom: 3rem; max-width: 600px; }
+
+/* ---------- product cards ---------- */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.product-card {
+  background: var(--cv-card);
+  border: 1px solid var(--cv-border);
+  border-left: 3px solid var(--cv-accent);
+  border-radius: var(--cv-radius);
+  overflow: hidden;
+  transition: transform var(--cv-transition), box-shadow var(--cv-transition);
+}
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+
+.card-header {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--cv-surface);
+  border-bottom: 1px solid var(--cv-border);
+  font-family: var(--cv-font-mono); font-size: 0.8rem;
+  color: var(--cv-muted);
+}
+.card-dots {
+  display: flex; gap: 5px;
+}
+.card-dots span {
+  width: 10px; height: 10px; border-radius: 50%;
+}
+.card-dots span:nth-child(1) { background: var(--cv-danger); }
+.card-dots span:nth-child(2) { background: var(--cv-warning); }
+.card-dots span:nth-child(3) { background: var(--cv-success); }
+
+.card-body {
+  padding: 1.25rem;
+  background: rgba(var(--cv-accent-rgb),0.02);
+}
+.card-body h3 {
+  font-family: var(--cv-font-mono); font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+.card-body p { color: var(--cv-muted); font-size: 0.9rem; margin-bottom: 1rem; }
+.card-price {
+  font-family: var(--cv-font-mono); font-size: 1.4rem; font-weight: 700;
+  color: var(--cv-accent); margin-bottom: 1rem;
+}
+.card-price .original {
+  text-decoration: line-through; color: var(--cv-muted); font-size: 0.9rem; margin-left: 0.5rem;
+}
+
+.card-features {
+  list-style: none; margin-bottom: 1.25rem;
+}
+.card-features li {
+  font-size: 0.85rem; color: var(--cv-muted); padding: 0.25rem 0;
+}
+.card-features li::before {
+  content: '+ '; color: var(--cv-accent); font-family: var(--cv-font-mono);
+}
+
+/* ---------- features grid ---------- */
+.features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+}
+.feature-card {
+  background: var(--cv-card); border: 1px solid var(--cv-border);
+  border-radius: var(--cv-radius); padding: 1.5rem;
+  transition: border-color var(--cv-transition);
+}
+.feature-card:hover { border-color: var(--cv-accent); }
+.feature-icon { font-size: 1.8rem; margin-bottom: 0.75rem; }
+.feature-card h3 { font-family: var(--cv-font-mono); font-size: 1rem; margin-bottom: 0.5rem; }
+.feature-card p { color: var(--cv-muted); font-size: 0.85rem; }
+
+/* ---------- bundle section ---------- */
+.bundle-card {
+  background: var(--cv-card);
+  border: 2px solid var(--cv-accent);
+  border-radius: var(--cv-radius);
+  padding: 2.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.bundle-card::before {
+  content: '';
+  position: absolute; inset: -2px;
+  border-radius: var(--cv-radius);
+  background: linear-gradient(135deg, rgba(var(--cv-accent-rgb),0.15), transparent 60%);
+  pointer-events: none;
+}
+.bundle-card h3 {
+  font-family: var(--cv-font-mono); font-size: 1.6rem; margin-bottom: 0.5rem;
+}
+.bundle-glow {
+  box-shadow: 0 0 40px rgba(var(--cv-accent-rgb),0.15),
+              0 0 80px rgba(var(--cv-accent-rgb),0.05);
+}
+
+/* ---------- FAQ accordion ---------- */
+.faq-list { max-width: 720px; }
+.faq-item {
+  border: 1px solid var(--cv-border); border-radius: var(--cv-radius);
+  margin-bottom: 0.75rem; overflow: hidden;
+}
+.faq-question {
+  width: 100%; background: var(--cv-card); border: none;
+  color: var(--cv-text); text-align: left;
+  font-family: var(--cv-font-mono); font-size: 0.95rem;
+  padding: 1rem 1.25rem; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  transition: background var(--cv-transition);
+}
+.faq-question:hover { background: var(--cv-surface); }
+.faq-question::after { content: '+'; color: var(--cv-accent); font-size: 1.2rem; }
+.faq-item.open .faq-question::after { content: '−'; }
+.faq-answer {
+  display: none; padding: 0 1.25rem 1rem;
+  color: var(--cv-muted); font-size: 0.9rem;
+  background: var(--cv-card);
+}
+.faq-item.open .faq-answer { display: block; }
+
+/* ---------- footer ---------- */
+.site-footer {
+  background: var(--cv-surface); border-top: 1px solid var(--cv-border);
+  padding: 3rem 1.5rem 2rem;
+}
+.footer-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
+  max-width: var(--cv-max-w); margin: 0 auto;
+}
+.footer-col h4 {
+  font-family: var(--cv-font-mono); font-size: 0.85rem;
+  color: var(--cv-accent); margin-bottom: 1rem; text-transform: uppercase;
+}
+.footer-col a {
+  display: block; color: var(--cv-muted); text-decoration: none;
+  font-size: 0.85rem; padding: 0.2rem 0;
+  transition: color var(--cv-transition);
+}
+.footer-col a:hover { color: var(--cv-text); }
+.footer-bottom {
+  text-align: center; color: var(--cv-muted); font-size: 0.8rem;
+  margin-top: 2rem; padding-top: 1.5rem;
+  border-top: 1px solid var(--cv-border);
+  max-width: var(--cv-max-w); margin-left: auto; margin-right: auto;
+}
+
+/* ---------- email capture bar ---------- */
+.email-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 900;
+  background: rgba(11,14,20,0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--cv-border);
+  padding: 0.75rem 1.5rem;
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
+}
+.email-bar.visible { transform: translateY(0); }
+[data-theme="light"] .email-bar { background: rgba(255,255,255,0.95); }
+.email-bar-inner {
+  max-width: var(--cv-max-w); margin: 0 auto;
+  display: flex; align-items: center; justify-content: center; gap: 1rem;
+  flex-wrap: wrap;
+}
+.email-bar input {
+  font-family: var(--cv-font-mono); font-size: 0.85rem;
+  background: var(--cv-card); border: 1px solid var(--cv-border);
+  color: var(--cv-text); padding: 0.5rem 1rem; border-radius: var(--cv-radius);
+  width: 280px; outline: none;
+  transition: border-color var(--cv-transition);
+}
+.email-bar input:focus { border-color: var(--cv-accent); }
+
+/* ---------- reveal animations ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.delay-0 { transition-delay: 0s; }
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+
+/* ---------- success page ---------- */
+.success-page {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 2rem;
+}
+.success-icon {
+  font-size: 4rem; margin-bottom: 1.5rem;
+  animation: cv-pulse 2s ease-in-out infinite;
+}
+.success-page h1 {
+  font-family: var(--cv-font-mono); font-size: 2rem; margin-bottom: 0.75rem;
+}
+.success-page p { color: var(--cv-muted); max-width: 480px; margin-bottom: 2rem; }
+
+/* ---------- typography scale ---------- */
+.text-xs  { font-size: 0.75rem; line-height: 1.5; }
+.text-sm  { font-size: 0.875rem; line-height: 1.5; }
+.text-base { font-size: 1rem; line-height: 1.6; }
+.text-lg  { font-size: 1.125rem; line-height: 1.5; }
+.text-xl  { font-size: 1.25rem; line-height: 1.4; }
+.text-2xl { font-size: 1.5rem; line-height: 1.3; }
+.text-3xl { font-size: 2rem; line-height: 1.2; }
+.text-4xl { font-size: 2.5rem; line-height: 1.1; }
+.text-mono { font-family: var(--cv-font-mono); }
+
+/* ---------- spacing helpers ---------- */
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+.gap-1 { gap: 0.5rem; }
+.gap-2 { gap: 1rem; }
+.gap-3 { gap: 1.5rem; }
+
+/* ---------- shadow scale ---------- */
+.shadow-sm { box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.shadow-md { box-shadow: 0 4px 16px rgba(0,0,0,0.25); }
+.shadow-lg { box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+.shadow-glow { box-shadow: 0 0 20px rgba(var(--cv-accent-rgb),0.2), 0 0 40px rgba(var(--cv-accent-rgb),0.1); }
+
+/* ---------- gradient helpers ---------- */
+.gradient-accent {
+  background: linear-gradient(135deg, var(--cv-accent), var(--cv-accent-light));
+}
+.gradient-hero {
+  background: linear-gradient(160deg, #0b0e14 0%, #0d1520 40%, #0f1d2a 70%, #0b0e14 100%);
+}
+[data-theme="light"] .gradient-hero {
+  background: linear-gradient(160deg, #e8ecf1 0%, #dde4ec 40%, #d5dce5 70%, #e8ecf1 100%);
+}
+
+/* ---------- hero enhancements ---------- */
+.hero {
+  position: relative;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(var(--cv-accent-rgb),0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 30%, rgba(34,197,94,0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(var(--cv-accent-rgb),0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--cv-accent-rgb),0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.4), transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.4), transparent 75%);
+}
+.hero-actions {
+  display: flex; gap: 1rem; margin-top: 1.5rem;
+  flex-wrap: wrap; justify-content: center;
+}
+
+/* ---------- terminal cursor prompt ---------- */
+.prompt-prefix {
+  color: var(--cv-accent); opacity: 0.7;
+  font-family: var(--cv-font-mono);
+}
+.prompt-prefix::before { content: '> '; }
+
+/* ---------- animated gradient border (bundle) ---------- */
+@keyframes cv-border-rotate {
+  0% { --cv-angle: 0deg; }
+  100% { --cv-angle: 360deg; }
+}
+@property --cv-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+.bundle-animated {
+  position: relative;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.bundle-animated::before {
+  content: '';
+  position: absolute; inset: -2px;
+  border-radius: var(--cv-radius);
+  padding: 2px;
+  background: conic-gradient(from var(--cv-angle, 0deg), var(--cv-accent), #22c55e, #14b8a6, var(--cv-accent));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: cv-border-rotate 4s linear infinite;
+}
+
+/* ---------- trust indicators ---------- */
+.trust-bar {
+  display: flex; justify-content: center; gap: 2rem;
+  flex-wrap: wrap; margin: 2rem 0;
+}
+.trust-item {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: var(--cv-font-mono); font-size: 0.8rem;
+  color: var(--cv-muted);
+}
+.trust-icon {
+  font-size: 1.2rem;
+}
+
+/* ---------- status bar ---------- */
+.status-bar {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: var(--cv-font-mono); font-size: 0.75rem;
+  color: var(--cv-accent); padding: 0.5rem 0;
+}
+.status-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--cv-success);
+  animation: cv-status-blink 2s ease-in-out infinite;
+}
+@keyframes cv-status-blink {
+  0%,100% { opacity:1; }
+  50% { opacity:0.4; }
+}
+
+/* ---------- crypto payment button ---------- */
+.crypto-pay-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #f7931a, #627eea);
+  color: #fff;
+  padding: 0.7rem 1.6rem;
+  border-radius: var(--cv-radius);
+  font-family: var(--cv-font-mono);
+  font-weight: 600; font-size: 0.9rem;
+  border: none; cursor: pointer;
+  transition: all var(--cv-transition);
+  text-decoration: none;
+}
+.crypto-pay-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(247,147,26,0.3);
+}
+.crypto-pay-btn::before { content: '₿ '; }
+
+/* ---------- payment actions ---------- */
+.payment-actions {
+  display: flex; gap: 0.75rem; flex-wrap: wrap;
+}
+.payment-actions .btn,
+.payment-actions .crypto-pay-btn {
+  flex: 1; min-width: 160px; text-align: center;
+}
+
+/* ---------- cross-sell / related ---------- */
+.cross-sell {
+  background: var(--cv-surface);
+  border: 1px solid var(--cv-border);
+  border-radius: var(--cv-radius);
+  padding: 2rem;
+}
+.cross-sell-title {
+  font-family: var(--cv-font-mono);
+  font-size: 1rem; color: var(--cv-accent);
+  margin-bottom: 1rem;
+}
+.cross-sell-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.cross-sell-card {
+  background: var(--cv-card);
+  border: 1px solid var(--cv-border);
+  border-radius: var(--cv-radius);
+  padding: 1rem;
+  transition: border-color var(--cv-transition);
+  text-decoration: none; color: inherit;
+  display: block;
+}
+.cross-sell-card:hover { border-color: var(--cv-accent); }
+.cross-sell-card h4 {
+  font-family: var(--cv-font-mono); font-size: 0.85rem; margin-bottom: 0.25rem;
+}
+.cross-sell-card p {
+  color: var(--cv-muted); font-size: 0.8rem;
+}
+
+/* ---------- terminal card scan line ---------- */
+.product-card::after {
+  content: '';
+  position: absolute; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(var(--cv-accent-rgb),0.15), transparent);
+  animation: cv-scan 4s linear infinite;
+  pointer-events: none;
+}
+.product-card { position: relative; }
+@keyframes cv-scan {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+/* ---------- tags / chips ---------- */
+.tag {
+  display: inline-block;
+  font-family: var(--cv-font-mono); font-size: 0.7rem;
+  background: rgba(var(--cv-accent-rgb),0.08);
+  color: var(--cv-accent);
+  border: 1px solid rgba(var(--cv-accent-rgb),0.2);
+  padding: 0.15rem 0.5rem; border-radius: 4px;
+  margin-right: 0.25rem; margin-bottom: 0.25rem;
+}
+
+/* ---------- loading skeleton ---------- */
+@keyframes cv-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--cv-card), var(--cv-surface), var(--cv-card));
+  background-size: 200% 100%;
+  animation: cv-shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--cv-radius);
+}
+
+/* ---------- tooltip ---------- */
+.cv-tooltip {
+  position: relative;
+}
+.cv-tooltip::after {
+  content: attr(data-tip);
+  position: absolute; bottom: 100%; left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  background: var(--cv-surface); color: var(--cv-text);
+  font-family: var(--cv-font-mono); font-size: 0.75rem;
+  padding: 0.35rem 0.6rem; border-radius: 4px;
+  border: 1px solid var(--cv-border);
+  white-space: nowrap;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.cv-tooltip:hover::after { opacity: 1; }
+
+/* ---------- code block ---------- */
+.code-block {
+  background: var(--cv-card);
+  border: 1px solid var(--cv-border);
+  border-radius: var(--cv-radius);
+  padding: 1rem 1.25rem;
+  font-family: var(--cv-font-mono); font-size: 0.85rem;
+  color: var(--cv-text); overflow-x: auto;
+  position: relative;
+}
+.code-block::before {
+  content: attr(data-lang);
+  position: absolute; top: 0.5rem; right: 0.75rem;
+  font-size: 0.65rem; color: var(--cv-muted);
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+/* ---------- notification / toast ---------- */
+.cv-toast {
+  position: fixed; bottom: 1.5rem; right: 1.5rem;
+  background: var(--cv-surface); color: var(--cv-text);
+  border: 1px solid var(--cv-accent);
+  border-radius: var(--cv-radius);
+  padding: 0.75rem 1.25rem;
+  font-family: var(--cv-font-mono); font-size: 0.85rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  z-index: 2000;
+  transform: translateY(120%);
+  transition: transform 0.3s ease;
+}
+.cv-toast.visible { transform: translateY(0); }
+
+/* ---------- counter / stat box ---------- */
+.stat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem; margin: 2rem 0;
+}
+.stat-box {
+  background: var(--cv-card); border: 1px solid var(--cv-border);
+  border-radius: var(--cv-radius);
+  padding: 1.25rem; text-align: center;
+}
+.stat-number {
+  font-family: var(--cv-font-mono); font-size: 2rem; font-weight: 700;
+  color: var(--cv-accent);
+}
+.stat-label {
+  font-size: 0.8rem; color: var(--cv-muted); margin-top: 0.25rem;
+}
+
+/* ---------- divider ---------- */
+.cv-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cv-border), transparent);
+  margin: 3rem 0;
+}
+
+/* ---------- skip link & sr-only ---------- */
+.skip-link {
+  position: absolute; top: -100%;
+  left: 0; padding: 0.75rem 1.5rem;
+  background: var(--cv-accent); color: #000;
+  font-family: var(--cv-font-mono); font-weight: 600;
+  z-index: 9999; text-decoration: none;
+  border-radius: 0 0 var(--cv-radius) 0;
+}
+.skip-link:focus-visible {
+  top: 0;
+}
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
+
+/* ---------- focus-visible ---------- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--cv-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- prefers-reduced-motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+  .cv-badge { animation: none; }
+  body::after { display: none; }
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 1024px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .mobile-toggle { display: block; }
+  .hero h1 { font-size: 1.8rem; }
+  .products-grid { grid-template-columns: 1fr; }
+  .bundle-card { padding: 1.5rem; }
+}
+
+@media (max-width: 640px) {
+  .features-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .email-bar-inner { flex-direction: column; }
+  .email-bar input { width: 100%; }
+}
+</style>
 </head>
-<body>
-    <!-- Cross-Store Navigation -->
-    <nav class="cross-nav" aria-label="CodeVault stores">
-        <div class="cross-nav__inner">
-            <span class="cross-nav__brand">CodeVault</span>
-            <a href="../seo-toolkit/storefront/index.html" class="cross-nav__link">SEO Toolkit</a>
-            <a href="../email-arsenal/storefront/index.html" class="cross-nav__link">Email Arsenal</a>
-            <a href="../form-forge/storefront/index.html" class="cross-nav__link">Form Forge</a>
-            <a href="../api-launchpad/storefront/index.html" class="cross-nav__link">API Launchpad</a>
-            <a href="../deploy-kit/storefront/index.html" class="cross-nav__link">Deploy Kit</a>
-            <a href="../auth-vault/storefront/index.html" class="cross-nav__link">Auth Vault</a>
-            <a href="../saas-starter/storefront/index.html" class="cross-nav__link">SaaS Starter</a>
-            <a href="../analytics-hub/storefront/index.html" class="cross-nav__link">Analytics Hub</a>
-            <a href="../payment-stack/storefront/index.html" class="cross-nav__link">Payment Stack</a>
-            <a href="../ai-toolkit/storefront/index.html" class="cross-nav__link">AI Toolkit</a>
-            <a href="../security-kit/storefront/index.html" class="cross-nav__link">Security Kit</a>
-            <a href="../landing-lab/storefront/index.html" class="cross-nav__link">Landing Lab</a>
-            <a href="#" class="cross-nav__link cross-nav__link--active">Automation Hub</a>
-        </div>
-    </nav>
+<body data-theme="dark">
 
-    <!-- Hero Section -->
-    <header class="hero" id="top">
-        <div class="container">
-            <p class="hero__tagline">Ship faster. Build smarter.</p>
-            <h1 class="hero__title glitch" data-text="Automation Hub">Automation Hub</h1>
-            <p class="hero__subtitle">Automate everything. Forget nothing. Python stdlib tools that do the heavy lifting.</p>
-            <div class="hero__cta-row">
-                <a href="#products" class="btn btn--primary">Browse Tools</a>
-                <a href="#faq" class="btn btn--secondary">How it works</a>
-            </div>
-        </div>
-    </header>
+<canvas id="matrix-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;"></canvas>
 
-    <!-- Products Section -->
-    <section class="section" id="products">
-        <div class="container">
-            <h2 class="section__heading">What&rsquo;s in the Hub</h2>
-            <p class="section__subheading">10 automation tools + 2 bundles. No filler, no fluff.</p>
+<!-- Header -->
+<header class="site-header">
+<div class="header-inner">
+  <a href="#" class="logo">Automation Hub</a>
+  <ul class="nav-links">
+    <li><a href="#products">Products</a></li>
+    <li><a href="#bundle">Bundle</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <button class="theme-toggle" aria-label="Toggle theme">theme</button>
+  <button class="mobile-toggle" aria-label="Menu" aria-expanded="false">&#9776;</button>
+</div>
+</header>
 
-            <div class="filter-bar">
-                <span class="filter-bar__label">Filter:</span>
-                <button class="filter-tag active" data-filter="all">All</button>
-                <button class="filter-tag" data-filter="bundle">bundle</button>
-                <button class="filter-tag" data-filter="scraping">scraping</button>
-                <button class="filter-tag" data-filter="workflow">workflow</button>
-                <button class="filter-tag" data-filter="etl">etl</button>
-                <button class="filter-tag" data-filter="scheduler">scheduler</button>
-                <button class="filter-tag" data-filter="monitoring">monitoring</button>
-                <button class="filter-tag" data-filter="events">events</button>
-                <select class="sort-select" aria-label="Sort products">
-                    <option value="default">Sort: Featured</option>
-                    <option value="price-asc">Price: Low &rarr; High</option>
-                    <option value="price-desc">Price: High &rarr; Low</option>
-                </select>
-            </div>
+<nav id="mobile-nav" class="mobile-nav">
+  <a href="#products">Products</a>
+  <a href="#bundle">Bundle</a>
+  <a href="#faq">FAQ</a>
+</nav>
 
-            <div class="product-grid" id="product-grid">
+<!-- Main -->
+<main>
 
-                <!-- Bundle: Automation Hub Starter Bundle -->
-                <article class="product-card product-card--bundle fade-in"
-                         data-tags="bundle,starter"
-                         data-price="1999"
-                         data-slug="automation-hub-starter-bundle">
-                    <div class="product-card__inner">
-                        <div>
-                            <span class="bundle-badge">&#128994; STARTER BUNDLE</span>
-                            <h3 class="product-card__name" style="margin-top:12px">Automation Hub Starter Bundle</h3>
-                            <p class="product-card__desc">The essential automation toolkit &mdash; Web Scraper, Job Scheduler, Cron Job Manager, and File Watcher in one bundle. Save 33%.</p>
-                            <div class="product-card__tags">
-                                <span class="product-card__tag">bundle</span>
-                                <span class="product-card__tag">starter</span>
-                            </div>
-                            <ul class="product-card__bundle-list">
-                                <li>Web Scraper</li>
-                                <li>Job Scheduler</li>
-                                <li>Cron Job Manager</li>
-                                <li>File Watcher</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <p class="product-card__price" style="font-size:1.6rem;margin-bottom:8px">$19.99</p>
-                            <p style="font-size:0.82rem;color:var(--cv-text-dim);margin-bottom:16px">Save 33% vs. $29.96 individually</p>
-                            <div class="product-card__actions">
-                                <a href="https://buy.stripe.com/7sY8wP4az2yyaBsg0NgjJ0y"
-                                   class="btn btn--primary btn--card"
-                                   data-product="automation-hub-starter-bundle">
-                                    Grab This Bundle
-                                </a>
-                                <button class="btn btn--crypto btn--card"
-                                        data-crypto-product="Automation Hub Starter Bundle"
-                                        data-crypto-price="1999">
-                                    Pay with Crypto ($15.99)
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </article>
+<!-- Hero -->
+<section class="hero">
+  <span class="cv-badge">Ship faster. Build smarter.</span>
+  <h1><span class="typing-text" data-text="Automation Hub">Automation Hub</span></h1>
+  <p>Automate everything. Forget nothing.</p>
+  <div style="margin-bottom:2rem;">
+    <a href="#products" class="btn btn-primary">Browse Products</a>
+    <a href="#bundle" class="btn btn-secondary" style="margin-left:0.5rem;">Get the Bundle</a>
+  </div>
+  <div><span class="cv-badge" style="margin:0.25rem;">Instant digital download</span><span class="cv-badge" style="margin:0.25rem;">MIT License — use anywhere</span><span class="cv-badge" style="margin:0.25rem;">Python stdlib only — zero pip installs</span><span class="cv-badge" style="margin:0.25rem;">Battle-tested by indie hackers</span></div>
+</section>
 
-                <!-- Bundle: Automation Hub Pro Bundle -->
-                <article class="product-card product-card--bundle fade-in"
-                         data-tags="bundle,pro"
-                         data-price="3999"
-                         data-slug="automation-hub-pro-bundle">
-                    <div class="product-card__inner">
-                        <div>
-                            <span class="bundle-badge">&#128142; PRO BUNDLE</span>
-                            <h3 class="product-card__name" style="margin-top:12px">Automation Hub Pro Bundle</h3>
-                            <p class="product-card__desc">Every tool in the Automation Hub &mdash; all 10 products at a massive discount. The complete automation infrastructure toolkit. Save 46%.</p>
-                            <div class="product-card__tags">
-                                <span class="product-card__tag">bundle</span>
-                                <span class="product-card__tag">pro</span>
-                            </div>
-                            <ul class="product-card__bundle-list">
-                                <li>Web Scraper + Job Scheduler + Workflow Engine</li>
-                                <li>Webhook Router + ETL Pipeline + Data Sync Tool</li>
-                                <li>Notification Dispatcher + Cron Job Manager</li>
-                                <li>File Watcher + API Poller</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <p class="product-card__price" style="font-size:1.6rem;margin-bottom:8px">$39.99</p>
-                            <p style="font-size:0.82rem;color:var(--cv-text-dim);margin-bottom:16px">Save 46% vs. $74.90 individually</p>
-                            <div class="product-card__actions">
-                                <a href="https://buy.stripe.com/4gM4gz22rb547pg29XgjJ0z"
-                                   class="btn btn--primary btn--card"
-                                   data-product="automation-hub-pro-bundle">
-                                    Grab This Bundle
-                                </a>
-                                <button class="btn btn--crypto btn--card"
-                                        data-crypto-product="Automation Hub Pro Bundle"
-                                        data-crypto-price="3999">
-                                    Pay with Crypto ($31.99)
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </article>
+<!-- Products -->
+<section id="products" class="section">
+  <h2 class="section-title">&gt;_ Products</h2>
+  <p class="section-subtitle">Production-ready code, delivered instantly.</p>
+  <div class="products-grid">
+    <div class="product-card reveal reveal-delay-0"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ Web Scraper</h3><p>Python web scraper framework: CSS selector and XPath extraction, pagination handling, rate limiting, proxy rotation, and multi-format data export.</p><div class="card-price">$9.99</div><a href="https://buy.stripe.com/28E5kDgXl6OO10Sg0NgjJ0o" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('Web Scraper', 7.99)">Pay with Crypto</button></div></div>
+<div class="product-card reveal reveal-delay-1"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ Job Scheduler</h3><p>Python job scheduler: cron-like scheduling with retry logic, dependency chains, structured logging, and health monitoring.</p><div class="card-price">$4.99</div><a href="https://buy.stripe.com/eVq14n5eDa105h8cOBgjJ0p" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('Job Scheduler', 3.99)">Pay with Crypto</button></div></div>
+<div class="product-card reveal reveal-delay-2"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ Workflow Engine</h3><p>Python workflow engine: DAG-based task execution with conditional branching, parallel tasks, state persistence, and retry policies.</p><div class="card-price">$9.99</div><a href="https://buy.stripe.com/4gM7sL8qPa105h8cOBgjJ0q" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('Workflow Engine', 7.99)">Pay with Crypto</button></div></div>
+<div class="product-card reveal reveal-delay-3"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ Webhook Router</h3><p>Python webhook router: URL routing, payload validation, event filtering, and retry with exponential backoff.</p><div class="card-price">$4.99</div><a href="https://buy.stripe.com/14AfZh8qPgpo6lc5m9gjJ0r" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('Webhook Router', 3.99)">Pay with Crypto</button></div></div>
+<div class="product-card reveal reveal-delay-4"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ ETL Pipeline</h3><p>Python ETL framework: extract from APIs, files, and databases, transform with a plugin system, load to multiple target formats.</p><div class="card-price">$9.99</div><a href="https://buy.stripe.com/eVqeVdcH5gpocJA7uhgjJ0s" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('ETL Pipeline', 7.99)">Pay with Crypto</button></div></div>
+<div class="product-card reveal reveal-delay-5"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ Data Sync Tool</h3><p>Python data synchronization: bidirectional sync, conflict resolution, delta detection, and audit logging for JSON and CSV sources.</p><div class="card-price">$4.99</div><a href="https://buy.stripe.com/5kQ7sL5eD2yyfVM3e1gjJ0t" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('Data Sync Tool', 3.99)">Pay with Crypto</button></div></div>
+<div class="product-card reveal reveal-delay-0"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ Notification Dispatcher</h3><p>Python notification system: multi-channel dispatch to email, Slack, webhook, and SMS endpoints with templates and scheduling.</p><div class="card-price">$4.99</div><a href="https://buy.stripe.com/5kQ7sLayXc9824WaGtgjJ0u" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('Notification Dispatcher', 3.99)">Pay with Crypto</button></div></div>
+<div class="product-card reveal reveal-delay-1"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ Cron Job Manager</h3><p>Python cron manager: human-readable schedule builder, execution logger, failure alerts, and dependency tracking between jobs.</p><div class="card-price">$4.99</div><a href="https://buy.stripe.com/cNi7sLayX3CC7pgcOBgjJ0v" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('Cron Job Manager', 3.99)">Pay with Crypto</button></div></div>
+<div class="product-card reveal reveal-delay-2"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ File Watcher</h3><p>Python file system watcher: directory monitoring, file change events, glob pattern matching, and configurable action triggers.</p><div class="card-price">$4.99</div><a href="https://buy.stripe.com/bJedR97mLa10aBs29XgjJ0w" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('File Watcher', 3.99)">Pay with Crypto</button></div></div>
+<div class="product-card reveal reveal-delay-3"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ API Poller</h3><p>Python API poller: scheduled endpoint checks, change detection, alerting on diffs, and automatic data archiving to JSON.</p><div class="card-price">$4.99</div><a href="https://buy.stripe.com/dRm28rgXlb5424W4i5gjJ0x" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('API Poller', 3.99)">Pay with Crypto</button></div></div>
+  </div>
+</section>
 
-                <!-- Product: Web Scraper -->
-                <article class="product-card fade-in"
-                         data-tags="scraping,http,extraction"
-                         data-price="999"
-                         data-slug="web-scraper">
-                    <div class="product-card__header">
-                        <div>
-                            <div class="product-card__icon">&#129716;</div>
-                            <h3 class="product-card__name">Web Scraper</h3>
-                        </div>
-                        <span class="product-card__price">$9.99</span>
-                    </div>
-                    <p class="product-card__desc">CSS selector and XPath extraction, pagination handling, rate limiting, proxy rotation, and multi-format data export. Pure stdlib.</p>
-                    <div class="product-card__tags">
-                        <span class="product-card__tag">scraping</span>
-                        <span class="product-card__tag">http</span>
-                        <span class="product-card__tag">stdlib</span>
-                    </div>
-                    <div class="product-card__actions">
-                        <a href="https://buy.stripe.com/28E5kDgXl6OO10Sg0NgjJ0o"
-                           class="btn btn--primary btn--card"
-                           data-product="web-scraper">
-                            Grab This
-                        </a>
-                        <button class="btn btn--crypto btn--card"
-                                data-crypto-product="Web Scraper"
-                                data-crypto-price="999">
-                            Pay with Crypto ($7.99)
-                        </button>
-                        <a href="preview-web-scraper.html" class="product-card__preview-link">Preview &rsaquo;</a>
-                    </div>
-                </article>
+<!-- Features -->
+<section id="features" class="section">
+  <h2 class="section-title">&gt;_ Why CodeVault</h2>
+  <p class="section-subtitle">Built for developers who ship.</p>
+  <div class="features-grid">
+    <div class="feature-card reveal reveal-delay-0"><div class="feature-icon">&#x1f4e6;</div><h3>Zero Dependencies</h3><p>Python stdlib only. No pip, no venv, no dependency conflicts.</p></div><div class="feature-card reveal reveal-delay-1"><div class="feature-icon">&#x26a1;</div><h3>Instant Download</h3><p>Buy, unzip, run. Every product ships with a quickstart README.</p></div><div class="feature-card reveal reveal-delay-2"><div class="feature-icon">&#x1f512;</div><h3>MIT Licensed</h3><p>Use in personal, commercial, or client projects. No strings.</p></div><div class="feature-card reveal reveal-delay-3"><div class="feature-icon">&#x1f527;</div><h3>Production Ready</h3><p>Battle-tested patterns used in real SaaS. Not toy code.</p></div><div class="feature-card reveal reveal-delay-4"><div class="feature-icon">&#x1f680;</div><h3>Ship Faster</h3><p>Stop re-inventing boilerplate. Start building your product.</p></div><div class="feature-card reveal reveal-delay-5"><div class="feature-icon">&#x1f4ac;</div><h3>Email Support</h3><p>Stuck? Email us. Real humans, real answers, real fast.</p></div>
+  </div>
+</section>
 
-                <!-- Product: Job Scheduler -->
-                <article class="product-card fade-in"
-                         data-tags="scheduler,cron,jobs"
-                         data-price="499"
-                         data-slug="job-scheduler">
-                    <div class="product-card__header">
-                        <div>
-                            <div class="product-card__icon">&#9201;</div>
-                            <h3 class="product-card__name">Job Scheduler</h3>
-                        </div>
-                        <span class="product-card__price">$4.99</span>
-                    </div>
-                    <p class="product-card__desc">Cron-like scheduling with retry logic, dependency chains, structured logging, and health monitoring. Drop-in Python stdlib solution.</p>
-                    <div class="product-card__tags">
-                        <span class="product-card__tag">scheduler</span>
-                        <span class="product-card__tag">cron</span>
-                        <span class="product-card__tag">stdlib</span>
-                    </div>
-                    <div class="product-card__actions">
-                        <a href="https://buy.stripe.com/eVq14n5eDa105h8cOBgjJ0p"
-                           class="btn btn--primary btn--card"
-                           data-product="job-scheduler">
-                            Grab This
-                        </a>
-                        <button class="btn btn--crypto btn--card"
-                                data-crypto-product="Job Scheduler"
-                                data-crypto-price="499">
-                            Pay with Crypto ($3.99)
-                        </button>
-                        <a href="preview-job-scheduler.html" class="product-card__preview-link">Preview &rsaquo;</a>
-                    </div>
-                </article>
+<!-- Bundle -->
+<section id="bundle" class="section" style="text-align:center;">
+  <h2 class="section-title">&gt;_ Bundles</h2>
+  <p class="section-subtitle">Save big. Get everything.</p>
+  <div class="bundle-card bundle-glow reveal"><h3>&gt;_ Automation Hub Starter Bundle</h3><p>The essential automation toolkit — Web Scraper, Job Scheduler, Cron Job Manager, and File Watcher in one bundle. Save 33%.</p><ul class="card-features"><li>Web Scraper</li><li>Job Scheduler</li><li>Cron Job Manager</li><li>File Watcher</li></ul><div class="card-price">$19.99 <span class="original">$24.96</span></div><p class="cv-badge">Save 20%</p><div style="margin-top:1.25rem;"><a href="https://buy.stripe.com/7sY8wP4az2yyaBsg0NgjJ0y" class="btn btn-primary">Buy Bundle</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('Automation Hub Starter Bundle', 15.99)">Pay with Crypto</button></div></div>
+<div class="bundle-card bundle-glow reveal"><h3>&gt;_ Automation Hub Pro Bundle</h3><p>Every tool in the Automation Hub — all 10 products at a massive discount. The complete automation infrastructure toolkit.</p><ul class="card-features"><li>Web Scraper</li><li>Job Scheduler</li><li>Workflow Engine</li><li>Webhook Router</li><li>ETL Pipeline</li><li>Data Sync Tool</li><li>Notification Dispatcher</li><li>Cron Job Manager</li><li>File Watcher</li><li>API Poller</li></ul><div class="card-price">$39.99 <span class="original">$64.90</span></div><p class="cv-badge">Save 38%</p><div style="margin-top:1.25rem;"><a href="https://buy.stripe.com/4gM4gz22rb547pg29XgjJ0z" class="btn btn-primary">Buy Bundle</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('Automation Hub Pro Bundle', 31.99)">Pay with Crypto</button></div></div>
+</section>
 
-                <!-- Product: Workflow Engine -->
-                <article class="product-card fade-in"
-                         data-tags="workflow,dag,orchestration"
-                         data-price="999"
-                         data-slug="workflow-engine">
-                    <div class="product-card__header">
-                        <div>
-                            <div class="product-card__icon">&#9881;</div>
-                            <h3 class="product-card__name">Workflow Engine</h3>
-                        </div>
-                        <span class="product-card__price">$9.99</span>
-                    </div>
-                    <p class="product-card__desc">DAG-based task execution with conditional branching, parallel tasks, state persistence, and retry policies. No Airflow required.</p>
-                    <div class="product-card__tags">
-                        <span class="product-card__tag">workflow</span>
-                        <span class="product-card__tag">dag</span>
-                        <span class="product-card__tag">stdlib</span>
-                    </div>
-                    <div class="product-card__actions">
-                        <a href="https://buy.stripe.com/4gM7sL8qPa105h8cOBgjJ0q"
-                           class="btn btn--primary btn--card"
-                           data-product="workflow-engine">
-                            Grab This
-                        </a>
-                        <button class="btn btn--crypto btn--card"
-                                data-crypto-product="Workflow Engine"
-                                data-crypto-price="999">
-                            Pay with Crypto ($7.99)
-                        </button>
-                        <a href="preview-workflow-engine.html" class="product-card__preview-link">Preview &rsaquo;</a>
-                    </div>
-                </article>
+<div style="text-align:center;margin-top:2rem;"><p class="section-subtitle">Get the companion app</p><a href="https://play.google.com/store/apps/details?id=com.codevault.automationhub" class="btn btn-secondary">Google Play</a></div>
 
-                <!-- Product: Webhook Router -->
-                <article class="product-card fade-in"
-                         data-tags="webhook,routing,events"
-                         data-price="499"
-                         data-slug="webhook-router">
-                    <div class="product-card__header">
-                        <div>
-                            <div class="product-card__icon">&#128251;</div>
-                            <h3 class="product-card__name">Webhook Router</h3>
-                        </div>
-                        <span class="product-card__price">$4.99</span>
-                    </div>
-                    <p class="product-card__desc">URL routing, payload validation, event filtering, and retry with exponential backoff. Handles Stripe, GitHub, and any generic HMAC source.</p>
-                    <div class="product-card__tags">
-                        <span class="product-card__tag">webhook</span>
-                        <span class="product-card__tag">routing</span>
-                        <span class="product-card__tag">events</span>
-                    </div>
-                    <div class="product-card__actions">
-                        <a href="https://buy.stripe.com/14AfZh8qPgpo6lc5m9gjJ0r"
-                           class="btn btn--primary btn--card"
-                           data-product="webhook-router">
-                            Grab This
-                        </a>
-                        <button class="btn btn--crypto btn--card"
-                                data-crypto-product="Webhook Router"
-                                data-crypto-price="499">
-                            Pay with Crypto ($3.99)
-                        </button>
-                        <a href="preview-webhook-router.html" class="product-card__preview-link">Preview &rsaquo;</a>
-                    </div>
-                </article>
+<!-- Cross-sell -->
+<section class="section cross-sell" style="text-align:center;"><h2 class="section-title">&gt;_ More from CodeVault</h2><p class="section-subtitle">Explore our other developer toolkits</p><div><a href="https://ai-toolkit.codevault.dev" class="btn btn-secondary" style="margin:0.25rem;">Ai Toolkit</a><a href="https://analytics-hub.codevault.dev" class="btn btn-secondary" style="margin:0.25rem;">Analytics Hub</a><a href="https://api-launchpad.codevault.dev" class="btn btn-secondary" style="margin:0.25rem;">Api Launchpad</a><a href="https://auth-vault.codevault.dev" class="btn btn-secondary" style="margin:0.25rem;">Auth Vault</a></div></section>
 
-                <!-- Product: ETL Pipeline -->
-                <article class="product-card fade-in"
-                         data-tags="etl,pipeline,transform"
-                         data-price="999"
-                         data-slug="etl-pipeline">
-                    <div class="product-card__header">
-                        <div>
-                            <div class="product-card__icon">&#128295;</div>
-                            <h3 class="product-card__name">ETL Pipeline</h3>
-                        </div>
-                        <span class="product-card__price">$9.99</span>
-                    </div>
-                    <p class="product-card__desc">Extract from APIs, files, and databases. Transform with a plugin system. Load to multiple target formats. Enterprise ETL without the enterprise price.</p>
-                    <div class="product-card__tags">
-                        <span class="product-card__tag">etl</span>
-                        <span class="product-card__tag">pipeline</span>
-                        <span class="product-card__tag">stdlib</span>
-                    </div>
-                    <div class="product-card__actions">
-                        <a href="https://buy.stripe.com/eVqeVdcH5gpocJA7uhgjJ0s"
-                           class="btn btn--primary btn--card"
-                           data-product="etl-pipeline">
-                            Grab This
-                        </a>
-                        <button class="btn btn--crypto btn--card"
-                                data-crypto-product="ETL Pipeline"
-                                data-crypto-price="999">
-                            Pay with Crypto ($7.99)
-                        </button>
-                        <a href="preview-etl-pipeline.html" class="product-card__preview-link">Preview &rsaquo;</a>
-                    </div>
-                </article>
+<!-- FAQ -->
+<section id="faq" class="section"><h2 class="section-title">&gt;_ FAQ</h2><div class="faq-list"><div class="faq-item"><button class="faq-question">Do these tools require any pip packages?</button><div class="faq-answer"><p>Nope. Every tool runs on Python 3.10+ stdlib only. No virtual environments, no requirements.txt, no dependency hell.</p></div></div><div class="faq-item"><button class="faq-question">Can I use these in my SaaS product?</button><div class="faq-answer"><p>Absolutely. MIT license — use them in personal projects, client work, SaaS products, whatever. Just don&#x27;t resell the tools as-is.</p></div></div><div class="faq-item"><button class="faq-question">How do I get my download?</button><div class="faq-answer"><p>Instant download after payment. Unzip, read the README, run the script.</p></div></div><div class="faq-item"><button class="faq-question">What Python version do I need?</button><div class="faq-answer"><p>Python 3.10 or newer. We use modern syntax like match statements, type hints, and the walrus operator where it makes sense.</p></div></div><div class="faq-item"><button class="faq-question">What&#x27;s the difference between bundles and individual tools?</button><div class="faq-answer"><p>Bundles give you multiple tools at a discount. The Starter Bundle covers the essentials, the Pro Bundle gets you everything.</p></div></div><div class="faq-item"><button class="faq-question">Can I get a refund?</button><div class="faq-answer"><p>If a tool doesn&#x27;t work as described, absolutely. Email support@codevault.dev and we&#x27;ll sort it out.</p></div></div></div></section>
 
-                <!-- Product: Data Sync Tool -->
-                <article class="product-card fade-in"
-                         data-tags="sync,data,replication"
-                         data-price="499"
-                         data-slug="data-sync-tool">
-                    <div class="product-card__header">
-                        <div>
-                            <div class="product-card__icon">&#128257;</div>
-                            <h3 class="product-card__name">Data Sync Tool</h3>
-                        </div>
-                        <span class="product-card__price">$4.99</span>
-                    </div>
-                    <p class="product-card__desc">Bidirectional sync, conflict resolution, delta detection, and audit logging for JSON and CSV sources. Keep your data consistent across systems.</p>
-                    <div class="product-card__tags">
-                        <span class="product-card__tag">sync</span>
-                        <span class="product-card__tag">data</span>
-                        <span class="product-card__tag">stdlib</span>
-                    </div>
-                    <div class="product-card__actions">
-                        <a href="https://buy.stripe.com/5kQ7sL5eD2yyfVM3e1gjJ0t"
-                           class="btn btn--primary btn--card"
-                           data-product="data-sync-tool">
-                            Grab This
-                        </a>
-                        <button class="btn btn--crypto btn--card"
-                                data-crypto-product="Data Sync Tool"
-                                data-crypto-price="499">
-                            Pay with Crypto ($3.99)
-                        </button>
-                        <a href="preview-data-sync-tool.html" class="product-card__preview-link">Preview &rsaquo;</a>
-                    </div>
-                </article>
+</main>
 
-                <!-- Product: Notification Dispatcher -->
-                <article class="product-card fade-in"
-                         data-tags="notifications,email,dispatch"
-                         data-price="499"
-                         data-slug="notification-dispatcher">
-                    <div class="product-card__header">
-                        <div>
-                            <div class="product-card__icon">&#128276;</div>
-                            <h3 class="product-card__name">Notification Dispatcher</h3>
-                        </div>
-                        <span class="product-card__price">$4.99</span>
-                    </div>
-                    <p class="product-card__desc">Multi-channel dispatch to email, Slack, webhook, and SMS endpoints with templates and scheduling. Send the right alert at the right time.</p>
-                    <div class="product-card__tags">
-                        <span class="product-card__tag">notifications</span>
-                        <span class="product-card__tag">email</span>
-                        <span class="product-card__tag">stdlib</span>
-                    </div>
-                    <div class="product-card__actions">
-                        <a href="https://buy.stripe.com/5kQ7sLayXc9824WaGtgjJ0u"
-                           class="btn btn--primary btn--card"
-                           data-product="notification-dispatcher">
-                            Grab This
-                        </a>
-                        <button class="btn btn--crypto btn--card"
-                                data-crypto-product="Notification Dispatcher"
-                                data-crypto-price="499">
-                            Pay with Crypto ($3.99)
-                        </button>
-                        <a href="preview-notification-dispatcher.html" class="product-card__preview-link">Preview &rsaquo;</a>
-                    </div>
-                </article>
+<!-- Email Capture -->
+<div class="email-bar">
+<div class="email-bar-inner">
+  <span style="font-family:var(--cv-font-mono);font-size:0.85rem;color:var(--cv-muted);">Get notified about new tools:</span>
+  <form>
+    <input type="email" placeholder="dev@example.com" required>
+    <button type="submit" class="btn btn-primary" style="padding:0.5rem 1rem;">Subscribe</button>
+  </form>
+  <span class="email-msg"></span>
+  <button class="email-dismiss" style="background:none;border:none;color:var(--cv-muted);cursor:pointer;font-size:1.2rem;">&times;</button>
+</div>
+</div>
 
-                <!-- Product: Cron Job Manager -->
-                <article class="product-card fade-in"
-                         data-tags="scheduler,cron,jobs"
-                         data-price="499"
-                         data-slug="cron-job-manager">
-                    <div class="product-card__header">
-                        <div>
-                            <div class="product-card__icon">&#128197;</div>
-                            <h3 class="product-card__name">Cron Job Manager</h3>
-                        </div>
-                        <span class="product-card__price">$4.99</span>
-                    </div>
-                    <p class="product-card__desc">Human-readable schedule builder, execution logger, failure alerts, and dependency tracking between jobs. Crontab made manageable.</p>
-                    <div class="product-card__tags">
-                        <span class="product-card__tag">cron</span>
-                        <span class="product-card__tag">schedule</span>
-                        <span class="product-card__tag">stdlib</span>
-                    </div>
-                    <div class="product-card__actions">
-                        <a href="https://buy.stripe.com/cNi7sLayX3CC7pgcOBgjJ0v"
-                           class="btn btn--primary btn--card"
-                           data-product="cron-job-manager">
-                            Grab This
-                        </a>
-                        <button class="btn btn--crypto btn--card"
-                                data-crypto-product="Cron Job Manager"
-                                data-crypto-price="499">
-                            Pay with Crypto ($3.99)
-                        </button>
-                        <a href="preview-cron-job-manager.html" class="product-card__preview-link">Preview &rsaquo;</a>
-                    </div>
-                </article>
+<!-- Footer -->
+<footer class="site-footer">
+<div class="footer-grid">
+  <div class="footer-col">
+    <h4>&gt;_ Automation Hub</h4>
+    <p style="color:var(--cv-muted);font-size:0.85rem;">Ship faster. Build smarter.</p>
+  </div>
+  <div class="footer-col">
+    <h4>Products</h4>
+    <a href="#products">All Products</a>
+    <a href="#bundle">Bundles</a>
+  </div>
+  <div class="footer-col">
+    <h4>Support</h4>
+    <a href="#faq">FAQ</a>
+    <a href="mailto:hello@codevault.dev">Contact</a>
+  </div>
+  <div class="footer-col">
+    <h4>Legal</h4>
+    <a href="/terms">Terms</a>
+    <a href="/privacy">Privacy</a>
+  </div>
+</div>
+<div class="footer-bottom">
+  <p>&copy; 2025 CodeVault. All rights reserved.</p>
+</div>
+</footer>
 
-                <!-- Product: File Watcher -->
-                <article class="product-card fade-in"
-                         data-tags="filesystem,watcher,events"
-                         data-price="499"
-                         data-slug="file-watcher">
-                    <div class="product-card__header">
-                        <div>
-                            <div class="product-card__icon">&#128065;</div>
-                            <h3 class="product-card__name">File Watcher</h3>
-                        </div>
-                        <span class="product-card__price">$4.99</span>
-                    </div>
-                    <p class="product-card__desc">Directory monitoring, file change events, glob pattern matching, and configurable action triggers. React to filesystem changes instantly.</p>
-                    <div class="product-card__tags">
-                        <span class="product-card__tag">filesystem</span>
-                        <span class="product-card__tag">events</span>
-                        <span class="product-card__tag">stdlib</span>
-                    </div>
-                    <div class="product-card__actions">
-                        <a href="https://buy.stripe.com/bJedR97mLa10aBs29XgjJ0w"
-                           class="btn btn--primary btn--card"
-                           data-product="file-watcher">
-                            Grab This
-                        </a>
-                        <button class="btn btn--crypto btn--card"
-                                data-crypto-product="File Watcher"
-                                data-crypto-price="499">
-                            Pay with Crypto ($3.99)
-                        </button>
-                        <a href="preview-file-watcher.html" class="product-card__preview-link">Preview &rsaquo;</a>
-                    </div>
-                </article>
+<script>// CodeVault Storefront JS — Automation Hub
+// Auto-generated — DO NOT EDIT
+(function() {
+  'use strict';
 
-                <!-- Product: API Poller -->
-                <article class="product-card fade-in"
-                         data-tags="api,polling,monitoring"
-                         data-price="499"
-                         data-slug="api-poller">
-                    <div class="product-card__header">
-                        <div>
-                            <div class="product-card__icon">&#128268;</div>
-                            <h3 class="product-card__name">API Poller</h3>
-                        </div>
-                        <span class="product-card__price">$4.99</span>
-                    </div>
-                    <p class="product-card__desc">Scheduled endpoint checks, change detection, alerting on diffs, and automatic data archiving to JSON. Never miss an API update again.</p>
-                    <div class="product-card__tags">
-                        <span class="product-card__tag">api</span>
-                        <span class="product-card__tag">monitoring</span>
-                        <span class="product-card__tag">stdlib</span>
-                    </div>
-                    <div class="product-card__actions">
-                        <a href="https://buy.stripe.com/dRm28rgXlb5424W4i5gjJ0x"
-                           class="btn btn--primary btn--card"
-                           data-product="api-poller">
-                            Grab This
-                        </a>
-                        <button class="btn btn--crypto btn--card"
-                                data-crypto-product="API Poller"
-                                data-crypto-price="499">
-                            Pay with Crypto ($3.99)
-                        </button>
-                        <a href="preview-api-poller.html" class="product-card__preview-link">Preview &rsaquo;</a>
-                    </div>
-                </article>
+  // ---- Theme Toggle ----
+  const htmlEl = document.documentElement;
+  const savedTheme = localStorage.getItem('cv-theme');
+  if (savedTheme) htmlEl.setAttribute('data-theme', savedTheme);
 
-            </div>
-        </div>
-    </section>
+  document.querySelectorAll('.theme-toggle').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const current = htmlEl.getAttribute('data-theme');
+      const next = current === 'light' ? 'dark' : 'light';
+      htmlEl.setAttribute('data-theme', next);
+      localStorage.setItem('cv-theme', next);
+    });
+  });
 
-    <!-- Trust Signals -->
-    <section class="trust-section" id="trust">
-        <div class="container">
-            <h2 class="section__heading">Built for automation engineers</h2>
-            <p class="section__subheading">Production-ready from day one. No surprises.</p>
-            <div class="trust-grid">
-                <div class="trust-card fade-in">
-                    <div class="trust-card__icon">&#9889;</div>
-                    <p class="trust-card__text">
-                        <strong>Zero Dependencies</strong>
-                        Every tool runs on Python 3.10+ stdlib only. No pip install, no venv, no dependency hell.
-                    </p>
-                </div>
-                <div class="trust-card fade-in">
-                    <div class="trust-card__icon">&#128187;</div>
-                    <p class="trust-card__text">
-                        <strong>Any OS with Python</strong>
-                        Works on Linux, macOS, and Windows. If Python 3.10+ runs on it, these tools run on it.
-                    </p>
-                </div>
-                <div class="trust-card fade-in">
-                    <div class="trust-card__icon">&#128274;</div>
-                    <p class="trust-card__text">
-                        <strong>MIT Licensed &mdash; use anywhere</strong>
-                        Personal projects, client work, SaaS products. Full commercial use. No strings attached.
-                    </p>
-                </div>
-                <div class="trust-card fade-in">
-                    <div class="trust-card__icon">&#9889;</div>
-                    <p class="trust-card__text">
-                        <strong>Instant Download</strong>
-                        Payment confirmed &rarr; download link in seconds. Unzip, read the README, run the script.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+  // ---- Mobile Menu ----
+  const mobileToggle = document.querySelector('.mobile-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+  if (mobileToggle && mobileNav) {
+    mobileToggle.addEventListener('click', function() {
+      const isOpen = mobileNav.classList.toggle('open');
+      mobileToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+  }
 
-    <!-- License Tiers -->
-    <section class="tier-section" id="tiers">
-        <div class="container">
-            <h2 class="section__heading">License tiers</h2>
-            <p class="section__subheading">Every purchase is MIT-licensed. Pick what fits.</p>
-            <div class="tier-grid">
-                <div class="tier-card fade-in">
-                    <h3 class="tier-card__name">Personal</h3>
-                    <p class="tier-card__desc">For solo devs and side projects</p>
-                    <ul class="tier-card__features">
-                        <li>Single developer use</li>
-                        <li>Unlimited personal projects</li>
-                        <li>12 months of updates</li>
-                        <li>Community support</li>
-                    </ul>
-                    <a href="#products" class="btn btn--secondary btn--sm">Browse tools</a>
-                </div>
-                <div class="tier-card tier-card--featured fade-in">
-                    <h3 class="tier-card__name">Team</h3>
-                    <p class="tier-card__desc">For small teams and startups (up to 5 devs)</p>
-                    <ul class="tier-card__features">
-                        <li>Up to 5 developers</li>
-                        <li>Unlimited commercial projects</li>
-                        <li>12 months of updates</li>
-                        <li>Email support (48h response)</li>
-                    </ul>
-                    <a href="#products" class="btn btn--primary btn--sm">Grab the Pro Bundle</a>
-                </div>
-                <div class="tier-card fade-in">
-                    <h3 class="tier-card__name">Enterprise</h3>
-                    <p class="tier-card__desc">For larger teams (unlimited devs)</p>
-                    <ul class="tier-card__features">
-                        <li>Unlimited developers</li>
-                        <li>Unlimited commercial projects</li>
-                        <li>24 months of updates</li>
-                        <li>Priority email support (24h)</li>
-                    </ul>
-                    <a href="mailto:support@codevault.dev" class="btn btn--secondary btn--sm">Contact us</a>
-                </div>
-            </div>
-        </div>
-    </section>
+  // ---- Matrix Rain ----
+  (function() {
+    const canvas = document.getElementById('matrix-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
 
-    <!-- Newsletter -->
-    <section class="newsletter-section" id="newsletter">
-        <div class="container">
-            <div class="newsletter-box fade-in">
-                <h2 class="newsletter-box__title">Get new automation tools first</h2>
-                <p class="newsletter-box__desc">Subscriber-only drops and early-bird pricing. No spam, ever.</p>
-                <!-- ConvertKit Form ID: PLACEHOLDER -->
-                <form class="newsletter-form"
-                      action="https://app.convertkit.com/forms/PLACEHOLDER/subscriptions"
-                      method="post"
-                      onsubmit="event.preventDefault(); alert('Newsletter coming soon!');">
-                    <input type="email" class="newsletter-form__input"
-                           name="email_address"
-                           placeholder="you@example.com"
-                           required
-                           aria-label="Email address">
-                    <button type="submit" class="newsletter-form__btn">Subscribe</button>
-                </form>
-            </div>
-        </div>
-    </section>
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
 
-    <!-- Companion App -->
-    <section class="app-section" id="app">
-        <div class="container">
-            <div class="app-promo fade-in">
-                <div class="app-promo__content">
-                    <span class="app-promo__badge">ANDROID APP</span>
-                    <h2 class="app-promo__title">Automation Hub Mobile</h2>
-                    <p class="app-promo__desc">Take your automation toolkit on the go. Dashboard, community templates, daily challenges, and streak rewards &mdash; all in a dark-themed Material&nbsp;3 interface.</p>
-                    <ul class="app-promo__features">
-                        <li>Workflow status dashboard with execution logs</li>
-                        <li>Visual workflow builder with triggers and actions</li>
-                        <li>Community sharing &amp; daily challenges</li>
-                        <li>Premium tools via in-app purchase ($0.99&ndash;$4.99)</li>
-                    </ul>
-                    <div class="app-promo__actions">
-                        <a href="https://play.google.com/store/apps/details?id=com.codevault.automationhub" class="btn btn--primary">Get on Google Play</a>
-                        <a href="https://github.com/codevault/automation-hub-android" class="btn btn--secondary">View Source</a>
-                    </div>
-                </div>
-                <div class="app-promo__visual">
-                    <div class="app-mockup" style="--app-color: #18FFFF">
-                        <div class="app-mockup__screen">
-                            <div class="app-mockup__header">Automation Hub</div>
-                            <div class="app-mockup__tabs">
-                                <span class="app-mockup__tab app-mockup__tab--active">Dashboard</span>
-                                <span class="app-mockup__tab">Workflows</span>
-                                <span class="app-mockup__tab">Community</span>
-                                <span class="app-mockup__tab">Store</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    const fontSize = 10;
+    let columns = Math.floor(canvas.width / fontSize);
+    const drops = new Array(columns).fill(1);
 
-    <!-- FAQ -->
-    <section class="faq-section" id="faq">
-        <div class="container">
-            <h2 class="section__heading">Got questions?</h2>
-            <p class="section__subheading">We got answers.</p>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        <span>Do these tools require any pip packages?</span>
-                        <span class="faq-question__icon">+</span>
-                    </button>
-                    <div class="faq-answer" aria-hidden="true">
-                        <div class="faq-answer__inner">Nope. Every tool runs on Python 3.10+ stdlib only. No virtual environments, no requirements.txt, no dependency hell.</div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        <span>Can I use these in my SaaS product?</span>
-                        <span class="faq-question__icon">+</span>
-                    </button>
-                    <div class="faq-answer" aria-hidden="true">
-                        <div class="faq-answer__inner">Absolutely. MIT license &mdash; use them in personal projects, client work, SaaS products, whatever. Just don't resell the tools as-is.</div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        <span>How do I get my download?</span>
-                        <span class="faq-question__icon">+</span>
-                    </button>
-                    <div class="faq-answer" aria-hidden="true">
-                        <div class="faq-answer__inner">Instant download after payment. Unzip, read the README, run the script. You'll also receive a backup link via email.</div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        <span>What Python version do I need?</span>
-                        <span class="faq-question__icon">+</span>
-                    </button>
-                    <div class="faq-answer" aria-hidden="true">
-                        <div class="faq-answer__inner">Python 3.10 or newer. We use modern syntax like match statements, type hints, and the walrus operator where it makes sense.</div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        <span>What&rsquo;s the difference between bundles and individual tools?</span>
-                        <span class="faq-question__icon">+</span>
-                    </button>
-                    <div class="faq-answer" aria-hidden="true">
-                        <div class="faq-answer__inner">Bundles give you multiple tools at a discount. The Starter Bundle covers the essentials (Web Scraper, Job Scheduler, Cron Job Manager, File Watcher), the Pro Bundle gets you all 10.</div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        <span>Can I get a refund?</span>
-                        <span class="faq-question__icon">+</span>
-                    </button>
-                    <div class="faq-answer" aria-hidden="true">
-                        <div class="faq-answer__inner">If a tool doesn't work as described, absolutely. Email support@codevault.dev and we'll sort it out. No hassle.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    const katakana = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+    const digits = '0123456789';
+    const chars = katakana + digits;
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p class="footer__brand">CodeVault</p>
-            <p class="footer__tagline">Ship faster. Build smarter.</p>
-            <nav class="footer__links" aria-label="Other stores">
-                <a href="../seo-toolkit/storefront/index.html" class="footer__link">SEO Toolkit</a>
-                <a href="../email-arsenal/storefront/index.html" class="footer__link">Email Arsenal</a>
-                <a href="../form-forge/storefront/index.html" class="footer__link">Form Forge</a>
-                <a href="../api-launchpad/storefront/index.html" class="footer__link">API Launchpad</a>
-                <a href="../deploy-kit/storefront/index.html" class="footer__link">Deploy Kit</a>
-                <a href="../auth-vault/storefront/index.html" class="footer__link">Auth Vault</a>
-                <a href="../saas-starter/storefront/index.html" class="footer__link">SaaS Starter</a>
-                <a href="../analytics-hub/storefront/index.html" class="footer__link">Analytics Hub</a>
-                <a href="../payment-stack/storefront/index.html" class="footer__link">Payment Stack</a>
-                <a href="../ai-toolkit/storefront/index.html" class="footer__link">AI Toolkit</a>
-                <a href="../security-kit/storefront/index.html" class="footer__link">Security Kit</a>
-                <a href="../landing-lab/storefront/index.html" class="footer__link">Landing Lab</a>
-            </nav>
-            <p class="footer__copy">&copy; 2026 CodeVault. All rights reserved.</p>
-        </div>
-    </footer>
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#00ff41';
+      ctx.font = fontSize + 'px monospace';
 
-    <!-- Scripts -->
-    <script src="payment-links.js"></script>
-  <script src="script.js"></script>
-    <script src="crypto-checkout.js"></script>
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+
+      // Recalculate columns on resize
+      const newCols = Math.floor(canvas.width / fontSize);
+      if (newCols !== columns) {
+        columns = newCols;
+        drops.length = columns;
+        for (let i = 0; i < columns; i++) {
+          if (drops[i] === undefined) drops[i] = 1;
+        }
+      }
+
+      requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+  })();
+
+  // ---- Typing Effect ----
+  (function() {
+    const el = document.querySelector('.typing-text');
+    if (!el) return;
+    const fullText = el.getAttribute('data-text') || '';
+    let idx = 0;
+
+    function type() {
+      if (idx <= fullText.length) {
+        el.textContent = fullText.slice(0, idx);
+        idx++;
+        setTimeout(type, 50);
+      } else {
+        setTimeout(function() {
+          idx = 0;
+          el.textContent = '';
+          type();
+        }, 2000);
+      }
+    }
+    type();
+  })();
+
+  // ---- Reveal on Scroll ----
+  (function() {
+    const reveals = document.querySelectorAll('.reveal');
+    if (!reveals.length) return;
+
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    reveals.forEach(function(el) { observer.observe(el); });
+  })();
+
+  // ---- FAQ Accordion ----
+  document.querySelectorAll('.faq-question').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+
+      // Close all other items
+      document.querySelectorAll('.faq-item.open').forEach(function(other) {
+        if (other !== item) other.classList.remove('open');
+      });
+
+      item.classList.toggle('open', !isOpen);
+    });
+  });
+
+  // ---- Email Capture Bar ----
+  (function() {
+    const bar = document.querySelector('.email-bar');
+    if (!bar) return;
+    if (localStorage.getItem('cv-email-dismissed')) return;
+
+    setTimeout(function() {
+      bar.classList.add('visible');
+    }, 3000);
+
+    const form = bar.querySelector('form');
+    const dismissBtn = bar.querySelector('.email-dismiss');
+
+    if (dismissBtn) {
+      dismissBtn.addEventListener('click', function() {
+        bar.classList.remove('visible');
+        localStorage.setItem('cv-email-dismissed', '1');
+      });
+    }
+
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const emailInput = form.querySelector('input[type="email"]');
+        const email = emailInput ? emailInput.value.trim() : '';
+        if (!email) return;
+
+        const msgEl = bar.querySelector('.email-msg');
+
+        fetch('https://ferovwapilhcpqozqinn.supabase.co/rest/v1/email_subscribers', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY'
+          },
+          body: JSON.stringify({
+            email: email,
+            store_name: 'Automation Hub',
+            source: 'code-vault'
+          })
+        })
+        .then(function(res) {
+          if (!res.ok) throw new Error('Request failed');
+          if (msgEl) {
+            msgEl.textContent = 'You\'re in! Check your inbox.';
+            msgEl.style.color = '#22c55e';
+          }
+          if (emailInput) emailInput.value = '';
+          setTimeout(function() {
+            bar.classList.remove('visible');
+            localStorage.setItem('cv-email-dismissed', '1');
+          }, 3000);
+        })
+        .catch(function() {
+          if (msgEl) {
+            msgEl.textContent = 'Something went wrong. Try again.';
+            msgEl.style.color = '#ef4444';
+          }
+        });
+      });
+    }
+  })();
+
+  // ---- Page View Analytics ----
+  (function() {
+    try {
+      fetch('https://ferovwapilhcpqozqinn.supabase.co/rest/v1/page_views', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY'
+        },
+        body: JSON.stringify({
+          store_name: 'Automation Hub',
+          page_path: window.location.pathname,
+          referrer: document.referrer || null,
+          user_agent: navigator.userAgent
+        })
+      });
+    } catch(e) {
+      // fire-and-forget
+    }
+  })();
+
+  // ---- Confetti for Success Page ----
+  (function() {
+    const canvas = document.getElementById('confetti-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const colors = ['#22c55e', '#14b8a6', '#eab308', '#ef4444', '#8b5cf6', '#00ff41'];
+    const particles = [];
+
+    for (let i = 0; i < 150; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        w: Math.random() * 6 + 4,
+        h: Math.random() * 6 + 4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        speed: Math.random() * 3 + 2,
+        drift: (Math.random() - 0.5) * 2,
+        opacity: Math.random() * 0.7 + 0.3
+      });
+    }
+
+    function render() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let active = false;
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        if (p.y > canvas.height + 20) continue;
+        active = true;
+        ctx.globalAlpha = p.opacity;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, p.w, p.h);
+        p.y += p.speed;
+        p.x += p.drift;
+        p.opacity -= 0.002;
+        if (p.opacity < 0) p.opacity = 0;
+      }
+
+      ctx.globalAlpha = 1;
+      if (active) requestAnimationFrame(render);
+    }
+    requestAnimationFrame(render);
+  })();
+
+})();
+</script>
+<script>
+(function() {
+  var wallets = {"btc": "bc1qzcll4um02pwyujhm00204hndzhf8vtsesa9paf", "eth": "0xAA7985525BeEd6785Aa7be0571108954C70bd302", "usdc": "0xAA7985525BeEd6785Aa7be0571108954C70bd302", "ltc": "ltc1q7cpnk7z0ewdc8n4yn2na2w0qugwl5xxz0thrw7"};
+  window.openCryptoModal = function(name, price) {
+    var existing = document.getElementById('crypto-modal');
+    if (existing) existing.remove();
+    var overlay = document.createElement('div');
+    overlay.id = 'crypto-modal';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;';
+    var box = document.createElement('div');
+    box.style.cssText = 'background:var(--cv-card,#151b27);border:1px solid var(--cv-border,#1e2636);border-radius:8px;padding:2rem;max-width:480px;width:90%;color:#e2e8f0;font-family:monospace;';
+    var h = '<h3 style="margin-bottom:1rem;color:var(--cv-accent,#22c55e);">&gt;_ Pay with Crypto</h3>';
+    h += '<p style="margin-bottom:0.5rem;">' + name + '</p>';
+    h += '<p style="font-size:1.4rem;font-weight:700;margin-bottom:1rem;">$' + price.toFixed(2) + ' <span style="font-size:0.8rem;color:#7a8ba3;">(20% off)</span></p>';
+    for (var k in wallets) {
+      h += '<div style="margin-bottom:0.75rem;"><strong style="text-transform:uppercase;">' + k + '</strong>';
+      h += '<input readonly value="' + wallets[k] + '" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem;background:#0b0e14;border:1px solid #1e2636;color:#e2e8f0;border-radius:4px;font-size:0.75rem;" onclick="this.select()"></div>';
+    }
+    h += '<p style="font-size:0.8rem;color:#7a8ba3;margin-top:1rem;">Send exact amount &amp; email receipt to hello@codevault.dev</p>';
+    h += '<button onclick="this.closest(\'#crypto-modal\').remove()" style="margin-top:1rem;padding:0.5rem 1.2rem;background:transparent;border:1px solid #1e2636;color:#e2e8f0;border-radius:4px;cursor:pointer;font-family:monospace;">[ Close ]</button>';
+    box.innerHTML = h;
+    overlay.appendChild(box);
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+    document.body.appendChild(overlay);
+  };
+})();
+</script>
 </body>
 </html>

@@ -117,6 +117,11 @@ body.light .footer-col h4{color:#1a2030}
 .email-bar .close-bar{background:none;border:none;color:var(--text-dim);font-size:1.2rem;cursor:pointer;padding:4px 8px;min-width:auto}
 .email-bar .msg{font-size:.82rem;color:var(--blue)}
 body{padding-bottom:64px}
+.skip-link{position:absolute;top:-100%;left:0;padding:10px 20px;background:var(--blue);color:#000;font-weight:700;z-index:9999;text-decoration:none;border-radius:0 0 8px 0}
+.skip-link:focus-visible{top:0}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.card{opacity:1;animation:none}}
 </style>
 </head>
 <body>

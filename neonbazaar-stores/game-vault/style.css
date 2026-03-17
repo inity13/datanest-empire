@@ -1,6 +1,6 @@
 /* ============================================================
    Neon Bazaar — Game Vault Storefront
-   Generated 2026-03-17 13:05 UTC — DO NOT EDIT BY HAND
+   Generated 2026-03-17 13:33 UTC — DO NOT EDIT BY HAND
    ============================================================ */
 
 /* ----- Google Fonts import ----- */
@@ -1278,4 +1278,74 @@ body.nb-light {
         gap: 24px;
     }
     .nb-email-bar__form { min-width: auto; }
+}
+
+/* ----- Skip Link ----- */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    padding: 12px 24px;
+    background: var(--nb-accent);
+    color: #000;
+    font-family: var(--nb-font-heading);
+    font-weight: 700;
+    z-index: 9999;
+    text-decoration: none;
+    border-radius: 0 0 var(--nb-radius-md) 0;
+    transition: top 0.2s;
+}
+.skip-link:focus-visible {
+    top: 0;
+}
+
+/* ----- Focus Visible ----- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--nb-accent);
+    outline-offset: 2px;
+}
+
+/* ----- Crypto Pay Button ----- */
+.crypto-pay-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #f7931a, #627eea);
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: var(--nb-radius-md);
+    font-family: var(--nb-font-heading);
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all var(--nb-duration) var(--nb-ease);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.crypto-pay-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(247,147,26,0.3);
+}
+
+/* ----- Prefers Reduced Motion ----- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    .fade-in {
+        opacity: 1;
+        transform: none;
+    }
+    .glitch::before,
+    .glitch::after {
+        display: none;
+    }
 }

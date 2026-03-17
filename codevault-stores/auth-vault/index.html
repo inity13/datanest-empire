@@ -1,674 +1,1234 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auth Vault &mdash; CodeVault</title>
-    <link rel="canonical" href="https://auth-vault.codevault.dev/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auth Vault — CodeVault | Ship faster. Build smarter.</title>
+<meta name="description" content="Production-ready Python authentication tools for indie hackers and solo developers. OAuth2, JWT, RBAC, 2FA, sessions, password hashing, magic links, social login, API auth middleware, and audit logging — all stdlib-only, zero-dependency, and ready to ship.">
+<meta property="og:title" content="Auth Vault — CodeVault | Ship faster. Build smarter.">
+<meta property="og:description" content="Production-ready Python authentication tools for indie hackers and solo developers. OAuth2, JWT, RBAC, 2FA, sessions, password hashing, magic links, social login, API auth middleware, and audit logging — all stdlib-only, zero-dependency, and ready to ship.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://codevault-stores.pages.dev/auth-vault">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>/* CodeVault Storefront — Auth Vault */
+/* Auto-generated — DO NOT EDIT */
 
-    <meta name="description" content="Production-ready authentication tools for indie hackers and developers. OAuth2, JWT, RBAC, 2FA, sessions, password hashing, and more — all Python stdlib, zero dependencies.">
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Auth Vault — CodeVault">
-    <meta property="og:description" content="Production-ready authentication tools for indie hackers and developers. OAuth2, JWT, RBAC, 2FA, sessions, password hashing, and more.">
-    <meta property="og:site_name" content="CodeVault">
-    <meta property="og:url" content="https://auth-vault.codevault.dev/">
+:root {
+  --cv-bg: #0b0e14;
+  --cv-surface: #111620;
+  --cv-card: #151b27;
+  --cv-border: #1e2636;
+  --cv-text: #e2e8f0;
+  --cv-muted: #7a8ba3;
+  --cv-accent: #E91E63;
+  --cv-accent-dark: #a31545;
+  --cv-accent-light: #ef6191;
+  --cv-accent-rgb: 233,30,99;
+  --cv-success: #22c55e;
+  --cv-warning: #eab308;
+  --cv-danger: #ef4444;
+  --cv-radius: 8px;
+  --cv-font-body: 'Inter', system-ui, sans-serif;
+  --cv-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --cv-max-w: 1200px;
+  --cv-transition: 0.25s ease;
+}
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Auth Vault — CodeVault">
-    <meta name="twitter:description" content="Production-ready authentication tools for indie hackers and developers. OAuth2, JWT, RBAC, 2FA, sessions, password hashing, and more.">
+[data-theme="light"] {
+  --cv-bg: #f0f2f5;
+  --cv-surface: #ffffff;
+  --cv-card: #f8f9fb;
+  --cv-border: #d1d5db;
+  --cv-text: #1a1a2e;
+  --cv-muted: #6b7280;
+}
 
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F510;</text></svg>">
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css">
+html { scroll-behavior: smooth; }
 
-    <!-- Theme color for mobile browsers -->
-    <meta name="theme-color" content="#E91E63">
+body {
+  font-family: var(--cv-font-body);
+  background-color: var(--cv-bg);
+  color: var(--cv-text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  background-image: radial-gradient(circle, rgba(var(--cv-accent-rgb),0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
 
-    <!-- Plausible Analytics -->
-    <script defer data-domain="auth-vault.codevault.dev" src="https://plausible.io/js/script.js"></script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Auth Vault",
-      "description": "Python authentication and authorization tools for developers.",
-      "url": "https://auth-vault.codevault.dev/",
-      "applicationCategory": "DeveloperApplication",
-      "operatingSystem": "Any (Python 3.10+)",
-      "offers": {
-        "@type": "AggregateOffer",
-        "priceCurrency": "USD",
-        "lowPrice": "4.99",
-        "highPrice": "39.99",
-        "offerCount": "12"
-      },
-      "creator": {
-        "@type": "Organization",
-        "name": "CodeVault",
-        "url": "https://codevault.dev"
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(34,197,94,0.015) 0px,
+    rgba(34,197,94,0.015) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* ---------- scrollbar ---------- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--cv-bg); }
+::-webkit-scrollbar-thumb { background: var(--cv-accent-dark); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--cv-accent); }
+
+/* ---------- header ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 1000;
+  background: rgba(11,14,20,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--cv-border);
+  padding: 0 1.5rem;
+}
+[data-theme="light"] .site-header { background: rgba(255,255,255,0.85); }
+
+.header-inner {
+  max-width: var(--cv-max-w);
+  margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+
+.logo {
+  font-family: var(--cv-font-mono);
+  font-weight: 700; font-size: 1.2rem;
+  color: var(--cv-accent);
+  text-decoration: none;
+}
+.logo::before { content: '> '; opacity: 0.5; }
+
+/* desktop nav */
+.nav-links { display: flex; gap: 1.5rem; list-style: none; }
+.nav-links a {
+  color: var(--cv-muted); text-decoration: none; font-size: 0.9rem;
+  transition: color var(--cv-transition);
+}
+.nav-links a:hover { color: var(--cv-accent); }
+
+/* theme toggle */
+.theme-toggle {
+  background: none; border: 1px solid var(--cv-border); border-radius: var(--cv-radius);
+  color: var(--cv-muted); cursor: pointer; padding: 0.4rem 0.6rem;
+  font-family: var(--cv-font-mono); font-size: 0.85rem;
+  transition: all var(--cv-transition);
+}
+.theme-toggle:hover { color: var(--cv-accent); border-color: var(--cv-accent); }
+
+/* mobile menu */
+.mobile-toggle {
+  display: none; background: none; border: none; color: var(--cv-text);
+  font-size: 1.5rem; cursor: pointer;
+}
+.mobile-nav {
+  display: none;
+  flex-direction: column; gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  background: var(--cv-surface); border-bottom: 1px solid var(--cv-border);
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav a {
+  color: var(--cv-muted); text-decoration: none; padding: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+/* ---------- hero ---------- */
+.hero {
+  min-height: 80vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 4rem 1.5rem;
+  max-width: var(--cv-max-w); margin: 0 auto;
+}
+
+.hero h1 {
+  font-family: var(--cv-font-mono);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.hero h1::after {
+  content: '_';
+  animation: cv-blink 1s step-end infinite;
+  color: var(--cv-accent);
+}
+@keyframes cv-blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+
+.hero p { color: var(--cv-muted); max-width: 640px; font-size: 1.1rem; margin-bottom: 2rem; }
+
+/* ---------- badges ---------- */
+.cv-badge {
+  display: inline-block;
+  font-family: var(--cv-font-mono); font-size: 0.75rem;
+  background: rgba(var(--cv-accent-rgb),0.1);
+  color: var(--cv-accent);
+  border: 1px solid rgba(var(--cv-accent-rgb),0.25);
+  padding: 0.25rem 0.75rem; border-radius: 999px;
+  animation: cv-pulse 2.5s ease-in-out infinite;
+}
+@keyframes cv-pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(var(--cv-accent-rgb),0.25); }
+  50% { box-shadow: 0 0 0 8px rgba(var(--cv-accent-rgb),0); }
+}
+
+/* ---------- gradient text ---------- */
+.gradient-text {
+  background: linear-gradient(135deg, #22c55e, #14b8a6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-block;
+  font-family: var(--cv-font-mono); font-size: 0.9rem; font-weight: 500;
+  padding: 0.7rem 1.6rem; border-radius: var(--cv-radius);
+  text-decoration: none; cursor: pointer;
+  border: 1px solid var(--cv-accent);
+  transition: all var(--cv-transition);
+}
+.btn::before { content: '[ '; opacity: 0.6; }
+.btn::after  { content: ' ]'; opacity: 0.6; }
+.btn-primary {
+  background: var(--cv-accent); color: #000;
+}
+.btn-primary:hover { background: var(--cv-accent-light); }
+.btn-secondary {
+  background: transparent; color: var(--cv-accent);
+}
+.btn-secondary:hover { background: rgba(var(--cv-accent-rgb),0.1); }
+
+/* ---------- section ---------- */
+.section {
+  max-width: var(--cv-max-w); margin: 0 auto;
+  padding: 5rem 1.5rem;
+}
+.section-title {
+  font-family: var(--cv-font-mono); font-size: 1.8rem; font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.section-subtitle { color: var(--cv-muted); margin-bottom: 3rem; max-width: 600px; }
+
+/* ---------- product cards ---------- */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.product-card {
+  background: var(--cv-card);
+  border: 1px solid var(--cv-border);
+  border-left: 3px solid var(--cv-accent);
+  border-radius: var(--cv-radius);
+  overflow: hidden;
+  transition: transform var(--cv-transition), box-shadow var(--cv-transition);
+}
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+
+.card-header {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--cv-surface);
+  border-bottom: 1px solid var(--cv-border);
+  font-family: var(--cv-font-mono); font-size: 0.8rem;
+  color: var(--cv-muted);
+}
+.card-dots {
+  display: flex; gap: 5px;
+}
+.card-dots span {
+  width: 10px; height: 10px; border-radius: 50%;
+}
+.card-dots span:nth-child(1) { background: var(--cv-danger); }
+.card-dots span:nth-child(2) { background: var(--cv-warning); }
+.card-dots span:nth-child(3) { background: var(--cv-success); }
+
+.card-body {
+  padding: 1.25rem;
+  background: rgba(var(--cv-accent-rgb),0.02);
+}
+.card-body h3 {
+  font-family: var(--cv-font-mono); font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+.card-body p { color: var(--cv-muted); font-size: 0.9rem; margin-bottom: 1rem; }
+.card-price {
+  font-family: var(--cv-font-mono); font-size: 1.4rem; font-weight: 700;
+  color: var(--cv-accent); margin-bottom: 1rem;
+}
+.card-price .original {
+  text-decoration: line-through; color: var(--cv-muted); font-size: 0.9rem; margin-left: 0.5rem;
+}
+
+.card-features {
+  list-style: none; margin-bottom: 1.25rem;
+}
+.card-features li {
+  font-size: 0.85rem; color: var(--cv-muted); padding: 0.25rem 0;
+}
+.card-features li::before {
+  content: '+ '; color: var(--cv-accent); font-family: var(--cv-font-mono);
+}
+
+/* ---------- features grid ---------- */
+.features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+}
+.feature-card {
+  background: var(--cv-card); border: 1px solid var(--cv-border);
+  border-radius: var(--cv-radius); padding: 1.5rem;
+  transition: border-color var(--cv-transition);
+}
+.feature-card:hover { border-color: var(--cv-accent); }
+.feature-icon { font-size: 1.8rem; margin-bottom: 0.75rem; }
+.feature-card h3 { font-family: var(--cv-font-mono); font-size: 1rem; margin-bottom: 0.5rem; }
+.feature-card p { color: var(--cv-muted); font-size: 0.85rem; }
+
+/* ---------- bundle section ---------- */
+.bundle-card {
+  background: var(--cv-card);
+  border: 2px solid var(--cv-accent);
+  border-radius: var(--cv-radius);
+  padding: 2.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.bundle-card::before {
+  content: '';
+  position: absolute; inset: -2px;
+  border-radius: var(--cv-radius);
+  background: linear-gradient(135deg, rgba(var(--cv-accent-rgb),0.15), transparent 60%);
+  pointer-events: none;
+}
+.bundle-card h3 {
+  font-family: var(--cv-font-mono); font-size: 1.6rem; margin-bottom: 0.5rem;
+}
+.bundle-glow {
+  box-shadow: 0 0 40px rgba(var(--cv-accent-rgb),0.15),
+              0 0 80px rgba(var(--cv-accent-rgb),0.05);
+}
+
+/* ---------- FAQ accordion ---------- */
+.faq-list { max-width: 720px; }
+.faq-item {
+  border: 1px solid var(--cv-border); border-radius: var(--cv-radius);
+  margin-bottom: 0.75rem; overflow: hidden;
+}
+.faq-question {
+  width: 100%; background: var(--cv-card); border: none;
+  color: var(--cv-text); text-align: left;
+  font-family: var(--cv-font-mono); font-size: 0.95rem;
+  padding: 1rem 1.25rem; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  transition: background var(--cv-transition);
+}
+.faq-question:hover { background: var(--cv-surface); }
+.faq-question::after { content: '+'; color: var(--cv-accent); font-size: 1.2rem; }
+.faq-item.open .faq-question::after { content: '−'; }
+.faq-answer {
+  display: none; padding: 0 1.25rem 1rem;
+  color: var(--cv-muted); font-size: 0.9rem;
+  background: var(--cv-card);
+}
+.faq-item.open .faq-answer { display: block; }
+
+/* ---------- footer ---------- */
+.site-footer {
+  background: var(--cv-surface); border-top: 1px solid var(--cv-border);
+  padding: 3rem 1.5rem 2rem;
+}
+.footer-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
+  max-width: var(--cv-max-w); margin: 0 auto;
+}
+.footer-col h4 {
+  font-family: var(--cv-font-mono); font-size: 0.85rem;
+  color: var(--cv-accent); margin-bottom: 1rem; text-transform: uppercase;
+}
+.footer-col a {
+  display: block; color: var(--cv-muted); text-decoration: none;
+  font-size: 0.85rem; padding: 0.2rem 0;
+  transition: color var(--cv-transition);
+}
+.footer-col a:hover { color: var(--cv-text); }
+.footer-bottom {
+  text-align: center; color: var(--cv-muted); font-size: 0.8rem;
+  margin-top: 2rem; padding-top: 1.5rem;
+  border-top: 1px solid var(--cv-border);
+  max-width: var(--cv-max-w); margin-left: auto; margin-right: auto;
+}
+
+/* ---------- email capture bar ---------- */
+.email-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 900;
+  background: rgba(11,14,20,0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--cv-border);
+  padding: 0.75rem 1.5rem;
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
+}
+.email-bar.visible { transform: translateY(0); }
+[data-theme="light"] .email-bar { background: rgba(255,255,255,0.95); }
+.email-bar-inner {
+  max-width: var(--cv-max-w); margin: 0 auto;
+  display: flex; align-items: center; justify-content: center; gap: 1rem;
+  flex-wrap: wrap;
+}
+.email-bar input {
+  font-family: var(--cv-font-mono); font-size: 0.85rem;
+  background: var(--cv-card); border: 1px solid var(--cv-border);
+  color: var(--cv-text); padding: 0.5rem 1rem; border-radius: var(--cv-radius);
+  width: 280px; outline: none;
+  transition: border-color var(--cv-transition);
+}
+.email-bar input:focus { border-color: var(--cv-accent); }
+
+/* ---------- reveal animations ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.delay-0 { transition-delay: 0s; }
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+
+/* ---------- success page ---------- */
+.success-page {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 2rem;
+}
+.success-icon {
+  font-size: 4rem; margin-bottom: 1.5rem;
+  animation: cv-pulse 2s ease-in-out infinite;
+}
+.success-page h1 {
+  font-family: var(--cv-font-mono); font-size: 2rem; margin-bottom: 0.75rem;
+}
+.success-page p { color: var(--cv-muted); max-width: 480px; margin-bottom: 2rem; }
+
+/* ---------- typography scale ---------- */
+.text-xs  { font-size: 0.75rem; line-height: 1.5; }
+.text-sm  { font-size: 0.875rem; line-height: 1.5; }
+.text-base { font-size: 1rem; line-height: 1.6; }
+.text-lg  { font-size: 1.125rem; line-height: 1.5; }
+.text-xl  { font-size: 1.25rem; line-height: 1.4; }
+.text-2xl { font-size: 1.5rem; line-height: 1.3; }
+.text-3xl { font-size: 2rem; line-height: 1.2; }
+.text-4xl { font-size: 2.5rem; line-height: 1.1; }
+.text-mono { font-family: var(--cv-font-mono); }
+
+/* ---------- spacing helpers ---------- */
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+.gap-1 { gap: 0.5rem; }
+.gap-2 { gap: 1rem; }
+.gap-3 { gap: 1.5rem; }
+
+/* ---------- shadow scale ---------- */
+.shadow-sm { box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.shadow-md { box-shadow: 0 4px 16px rgba(0,0,0,0.25); }
+.shadow-lg { box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+.shadow-glow { box-shadow: 0 0 20px rgba(var(--cv-accent-rgb),0.2), 0 0 40px rgba(var(--cv-accent-rgb),0.1); }
+
+/* ---------- gradient helpers ---------- */
+.gradient-accent {
+  background: linear-gradient(135deg, var(--cv-accent), var(--cv-accent-light));
+}
+.gradient-hero {
+  background: linear-gradient(160deg, #0b0e14 0%, #0d1520 40%, #0f1d2a 70%, #0b0e14 100%);
+}
+[data-theme="light"] .gradient-hero {
+  background: linear-gradient(160deg, #e8ecf1 0%, #dde4ec 40%, #d5dce5 70%, #e8ecf1 100%);
+}
+
+/* ---------- hero enhancements ---------- */
+.hero {
+  position: relative;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(var(--cv-accent-rgb),0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 30%, rgba(34,197,94,0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(var(--cv-accent-rgb),0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--cv-accent-rgb),0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.4), transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.4), transparent 75%);
+}
+.hero-actions {
+  display: flex; gap: 1rem; margin-top: 1.5rem;
+  flex-wrap: wrap; justify-content: center;
+}
+
+/* ---------- terminal cursor prompt ---------- */
+.prompt-prefix {
+  color: var(--cv-accent); opacity: 0.7;
+  font-family: var(--cv-font-mono);
+}
+.prompt-prefix::before { content: '> '; }
+
+/* ---------- animated gradient border (bundle) ---------- */
+@keyframes cv-border-rotate {
+  0% { --cv-angle: 0deg; }
+  100% { --cv-angle: 360deg; }
+}
+@property --cv-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+.bundle-animated {
+  position: relative;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.bundle-animated::before {
+  content: '';
+  position: absolute; inset: -2px;
+  border-radius: var(--cv-radius);
+  padding: 2px;
+  background: conic-gradient(from var(--cv-angle, 0deg), var(--cv-accent), #22c55e, #14b8a6, var(--cv-accent));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: cv-border-rotate 4s linear infinite;
+}
+
+/* ---------- trust indicators ---------- */
+.trust-bar {
+  display: flex; justify-content: center; gap: 2rem;
+  flex-wrap: wrap; margin: 2rem 0;
+}
+.trust-item {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: var(--cv-font-mono); font-size: 0.8rem;
+  color: var(--cv-muted);
+}
+.trust-icon {
+  font-size: 1.2rem;
+}
+
+/* ---------- status bar ---------- */
+.status-bar {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: var(--cv-font-mono); font-size: 0.75rem;
+  color: var(--cv-accent); padding: 0.5rem 0;
+}
+.status-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--cv-success);
+  animation: cv-status-blink 2s ease-in-out infinite;
+}
+@keyframes cv-status-blink {
+  0%,100% { opacity:1; }
+  50% { opacity:0.4; }
+}
+
+/* ---------- crypto payment button ---------- */
+.crypto-pay-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #f7931a, #627eea);
+  color: #fff;
+  padding: 0.7rem 1.6rem;
+  border-radius: var(--cv-radius);
+  font-family: var(--cv-font-mono);
+  font-weight: 600; font-size: 0.9rem;
+  border: none; cursor: pointer;
+  transition: all var(--cv-transition);
+  text-decoration: none;
+}
+.crypto-pay-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(247,147,26,0.3);
+}
+.crypto-pay-btn::before { content: '₿ '; }
+
+/* ---------- payment actions ---------- */
+.payment-actions {
+  display: flex; gap: 0.75rem; flex-wrap: wrap;
+}
+.payment-actions .btn,
+.payment-actions .crypto-pay-btn {
+  flex: 1; min-width: 160px; text-align: center;
+}
+
+/* ---------- cross-sell / related ---------- */
+.cross-sell {
+  background: var(--cv-surface);
+  border: 1px solid var(--cv-border);
+  border-radius: var(--cv-radius);
+  padding: 2rem;
+}
+.cross-sell-title {
+  font-family: var(--cv-font-mono);
+  font-size: 1rem; color: var(--cv-accent);
+  margin-bottom: 1rem;
+}
+.cross-sell-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.cross-sell-card {
+  background: var(--cv-card);
+  border: 1px solid var(--cv-border);
+  border-radius: var(--cv-radius);
+  padding: 1rem;
+  transition: border-color var(--cv-transition);
+  text-decoration: none; color: inherit;
+  display: block;
+}
+.cross-sell-card:hover { border-color: var(--cv-accent); }
+.cross-sell-card h4 {
+  font-family: var(--cv-font-mono); font-size: 0.85rem; margin-bottom: 0.25rem;
+}
+.cross-sell-card p {
+  color: var(--cv-muted); font-size: 0.8rem;
+}
+
+/* ---------- terminal card scan line ---------- */
+.product-card::after {
+  content: '';
+  position: absolute; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(var(--cv-accent-rgb),0.15), transparent);
+  animation: cv-scan 4s linear infinite;
+  pointer-events: none;
+}
+.product-card { position: relative; }
+@keyframes cv-scan {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+/* ---------- tags / chips ---------- */
+.tag {
+  display: inline-block;
+  font-family: var(--cv-font-mono); font-size: 0.7rem;
+  background: rgba(var(--cv-accent-rgb),0.08);
+  color: var(--cv-accent);
+  border: 1px solid rgba(var(--cv-accent-rgb),0.2);
+  padding: 0.15rem 0.5rem; border-radius: 4px;
+  margin-right: 0.25rem; margin-bottom: 0.25rem;
+}
+
+/* ---------- loading skeleton ---------- */
+@keyframes cv-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--cv-card), var(--cv-surface), var(--cv-card));
+  background-size: 200% 100%;
+  animation: cv-shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--cv-radius);
+}
+
+/* ---------- tooltip ---------- */
+.cv-tooltip {
+  position: relative;
+}
+.cv-tooltip::after {
+  content: attr(data-tip);
+  position: absolute; bottom: 100%; left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  background: var(--cv-surface); color: var(--cv-text);
+  font-family: var(--cv-font-mono); font-size: 0.75rem;
+  padding: 0.35rem 0.6rem; border-radius: 4px;
+  border: 1px solid var(--cv-border);
+  white-space: nowrap;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.cv-tooltip:hover::after { opacity: 1; }
+
+/* ---------- code block ---------- */
+.code-block {
+  background: var(--cv-card);
+  border: 1px solid var(--cv-border);
+  border-radius: var(--cv-radius);
+  padding: 1rem 1.25rem;
+  font-family: var(--cv-font-mono); font-size: 0.85rem;
+  color: var(--cv-text); overflow-x: auto;
+  position: relative;
+}
+.code-block::before {
+  content: attr(data-lang);
+  position: absolute; top: 0.5rem; right: 0.75rem;
+  font-size: 0.65rem; color: var(--cv-muted);
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+/* ---------- notification / toast ---------- */
+.cv-toast {
+  position: fixed; bottom: 1.5rem; right: 1.5rem;
+  background: var(--cv-surface); color: var(--cv-text);
+  border: 1px solid var(--cv-accent);
+  border-radius: var(--cv-radius);
+  padding: 0.75rem 1.25rem;
+  font-family: var(--cv-font-mono); font-size: 0.85rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  z-index: 2000;
+  transform: translateY(120%);
+  transition: transform 0.3s ease;
+}
+.cv-toast.visible { transform: translateY(0); }
+
+/* ---------- counter / stat box ---------- */
+.stat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem; margin: 2rem 0;
+}
+.stat-box {
+  background: var(--cv-card); border: 1px solid var(--cv-border);
+  border-radius: var(--cv-radius);
+  padding: 1.25rem; text-align: center;
+}
+.stat-number {
+  font-family: var(--cv-font-mono); font-size: 2rem; font-weight: 700;
+  color: var(--cv-accent);
+}
+.stat-label {
+  font-size: 0.8rem; color: var(--cv-muted); margin-top: 0.25rem;
+}
+
+/* ---------- divider ---------- */
+.cv-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cv-border), transparent);
+  margin: 3rem 0;
+}
+
+/* ---------- skip link & sr-only ---------- */
+.skip-link {
+  position: absolute; top: -100%;
+  left: 0; padding: 0.75rem 1.5rem;
+  background: var(--cv-accent); color: #000;
+  font-family: var(--cv-font-mono); font-weight: 600;
+  z-index: 9999; text-decoration: none;
+  border-radius: 0 0 var(--cv-radius) 0;
+}
+.skip-link:focus-visible {
+  top: 0;
+}
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
+
+/* ---------- focus-visible ---------- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--cv-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- prefers-reduced-motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+  .cv-badge { animation: none; }
+  body::after { display: none; }
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 1024px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .mobile-toggle { display: block; }
+  .hero h1 { font-size: 1.8rem; }
+  .products-grid { grid-template-columns: 1fr; }
+  .bundle-card { padding: 1.5rem; }
+}
+
+@media (max-width: 640px) {
+  .features-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .email-bar-inner { flex-direction: column; }
+  .email-bar input { width: 100%; }
+}
+</style>
+</head>
+<body data-theme="dark">
+
+<canvas id="matrix-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;"></canvas>
+
+<!-- Header -->
+<header class="site-header">
+<div class="header-inner">
+  <a href="#" class="logo">Auth Vault</a>
+  <ul class="nav-links">
+    <li><a href="#products">Products</a></li>
+    <li><a href="#bundle">Bundle</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <button class="theme-toggle" aria-label="Toggle theme">theme</button>
+  <button class="mobile-toggle" aria-label="Menu" aria-expanded="false">&#9776;</button>
+</div>
+</header>
+
+<nav id="mobile-nav" class="mobile-nav">
+  <a href="#products">Products</a>
+  <a href="#bundle">Bundle</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<!-- Main -->
+<main>
+
+<!-- Hero -->
+<section class="hero">
+  <span class="cv-badge">Secure authentication. Zero vendor lock-in.</span>
+  <h1><span class="typing-text" data-text="Secure Authentication&lt;br&gt;&lt;span class=&#x27;gradient-text&#x27;&gt;Zero Vendor Lock-In&lt;/span&gt;">Secure Authentication&lt;br&gt;&lt;span class=&#x27;gradient-text&#x27;&gt;Zero Vendor Lock-In&lt;/span&gt;</span></h1>
+  <p>Secure authentication. Zero vendor lock-in.</p>
+  <div style="margin-bottom:2rem;">
+    <a href="#products" class="btn btn-primary">Browse Products</a>
+    <a href="#bundle" class="btn btn-secondary" style="margin-left:0.5rem;">Get the Bundle</a>
+  </div>
+  <div><span class="cv-badge" style="margin:0.25rem;">Pure Python</span><span class="cv-badge" style="margin:0.25rem;">Zero Dependencies</span><span class="cv-badge" style="margin:0.25rem;">Production-Ready</span><span class="cv-badge" style="margin:0.25rem;">Instant Download</span></div>
+</section>
+
+<!-- Products -->
+<section id="products" class="section">
+  <h2 class="section-title">&gt;_ Products</h2>
+  <p class="section-subtitle">Production-ready code, delivered instantly.</p>
+  <div class="products-grid">
+    <div class="product-card reveal reveal-delay-0"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ OAuth2 Implementation</h3><p>A complete Python OAuth2 implementation covering the authorization code grant, PKCE (Proof Key for Code Exchange), client credentials, and token refresh flows. Includes an authorization server, token endpoint, client library, and CSRF protection. Zero dependencies — just unzip and run.</p><div class="card-price">$9.99</div><a href="https://buy.stripe.com/3cIfZh7mL8WWeRI15TgjJ0c" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('OAuth2 Implementation', 7.99)">Pay with Crypto</button></div></div>
+<div class="product-card reveal reveal-delay-1"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ JWT Library</h3><p>A lightweight JSON Web Token library supporting HS256 (HMAC-SHA256) and RS256 (RSA-SHA256) signing algorithms. Includes standard claims validation (exp, nbf, iss, aud), custom claims, token refresh patterns, and JWK key management. Zero dependencies.</p><div class="card-price">$4.99</div><a href="https://buy.stripe.com/14A8wPePd5KK4d4bKxgjJ0d" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('JWT Library', 3.99)">Pay with Crypto</button></div></div>
+<div class="product-card reveal reveal-delay-2"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ RBAC System</h3><p>A complete role-based access control system with hierarchical roles, granular permissions, resource-level policies, and an enforcement engine. Supports role inheritance, wildcard permissions, deny-overrides, and audit logging. JSON-based policy storage.</p><div class="card-price">$9.99</div><a href="https://buy.stripe.com/8x2aEX6iH1uufVM6qdgjJ0e" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('RBAC System', 7.99)">Pay with Crypto</button></div></div>
+<div class="product-card reveal reveal-delay-3"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ Two-Factor Auth</h3><p>Complete two-factor authentication implementation with TOTP (Time-based One-Time Passwords per RFC 6238), backup code generation, QR code generation for authenticator apps, SMS/email hooks, and recovery flow. Compatible with Google Authenticator and Authy.</p><div class="card-price">$9.99</div><a href="https://buy.stripe.com/9B69AT36vc98eRI7uhgjJ0f" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('Two-Factor Auth', 7.99)">Pay with Crypto</button></div></div>
+<div class="product-card reveal reveal-delay-4"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ Session Manager</h3><p>Production-ready session management with cryptographically signed cookies, pluggable storage backends (in-memory with Redis-compatible interface), automatic expiration, session fingerprinting (IP + User-Agent), and CSRF token generation. Includes HTTP middleware.</p><div class="card-price">$4.99</div><a href="https://buy.stripe.com/00w28rePd2yyfVMcOBgjJ0g" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('Session Manager', 3.99)">Pay with Crypto</button></div></div>
+<div class="product-card reveal reveal-delay-5"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ Password Hasher</h3><p>Secure password hashing toolkit with PBKDF2 (bcrypt-compatible work factors), scrypt (Argon2-compatible memory hardness), strength validation, breach detection via k-anonymity, and migration helpers for upgrading hash algorithms. Timing-safe comparisons throughout.</p><div class="card-price">$4.99</div><a href="https://buy.stripe.com/eVq14n6iH7SSfVM29XgjJ0h" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('Password Hasher', 3.99)">Pay with Crypto</button></div></div>
+<div class="product-card reveal reveal-delay-0"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ Magic Link Auth</h3><p>Passwordless authentication via magic links. Generates cryptographically secure tokens, embeds them in customizable email templates, enforces single-use and expiration policies, and includes rate limiting to prevent abuse. Includes an HTTP server for the complete login flow.</p><div class="card-price">$4.99</div><a href="https://buy.stripe.com/dRmbJ122ra104d43e1gjJ0i" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('Magic Link Auth', 3.99)">Pay with Crypto</button></div></div>
+<div class="product-card reveal reveal-delay-1"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ Social Login Integrator</h3><p>Social login handler supporting Google, GitHub, and Discord OAuth2 flows. Handles authorization URL generation, callback token exchange, user profile fetching, and unified profile normalization. Includes CSRF protection and state parameter validation.</p><div class="card-price">$9.99</div><a href="https://buy.stripe.com/cNicN55eDa10cJA8ylgjJ0j" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('Social Login Integrator', 7.99)">Pay with Crypto</button></div></div>
+<div class="product-card reveal reveal-delay-2"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ API Auth Middleware</h3><p>Multi-strategy API authentication middleware supporting bearer token validation, API key lookup, and HMAC request signature verification. Includes middleware chaining, per-route auth configuration, and structured error responses.</p><div class="card-price">$4.99</div><a href="https://buy.stripe.com/cNieVddL93CCeRI7uhgjJ0k" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('API Auth Middleware', 3.99)">Pay with Crypto</button></div></div>
+<div class="product-card reveal reveal-delay-3"><div class="card-header"><div class="card-dots"><span></span><span></span><span></span></div></div><div class="card-body"><h3>&gt;_ Auth Audit Logger</h3><p>Authentication event audit logger that tracks login attempts, failures, account lockouts, password changes, and suspicious activity patterns. Includes rate-based anomaly detection, geo-impossible travel alerts, and structured JSON logging with rotation.</p><div class="card-price">$4.99</div><a href="https://buy.stripe.com/fZu14n7mL2yyfVM4i5gjJ0l" class="btn btn-primary">Buy Now</a> <button class="btn btn-secondary btn-crypto" onclick="openCryptoModal('Auth Audit Logger', 3.99)">Pay with Crypto</button></div></div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features" class="section">
+  <h2 class="section-title">&gt;_ Why CodeVault</h2>
+  <p class="section-subtitle">Built for developers who ship.</p>
+  <div class="features-grid">
+    <div class="feature-card reveal reveal-delay-0"><div class="feature-icon">&#x1f4e6;</div><h3>Zero Dependencies</h3><p>Python stdlib only. No pip, no venv, no dependency conflicts.</p></div><div class="feature-card reveal reveal-delay-1"><div class="feature-icon">&#x26a1;</div><h3>Instant Download</h3><p>Buy, unzip, run. Every product ships with a quickstart README.</p></div><div class="feature-card reveal reveal-delay-2"><div class="feature-icon">&#x1f512;</div><h3>MIT Licensed</h3><p>Use in personal, commercial, or client projects. No strings.</p></div><div class="feature-card reveal reveal-delay-3"><div class="feature-icon">&#x1f527;</div><h3>Production Ready</h3><p>Battle-tested patterns used in real SaaS. Not toy code.</p></div><div class="feature-card reveal reveal-delay-4"><div class="feature-icon">&#x1f680;</div><h3>Ship Faster</h3><p>Stop re-inventing boilerplate. Start building your product.</p></div><div class="feature-card reveal reveal-delay-5"><div class="feature-icon">&#x1f4ac;</div><h3>Email Support</h3><p>Stuck? Email us. Real humans, real answers, real fast.</p></div>
+  </div>
+</section>
+
+<!-- Bundle -->
+<section id="bundle" class="section" style="text-align:center;">
+  <h2 class="section-title">&gt;_ Bundles</h2>
+  <p class="section-subtitle">Save big. Get everything.</p>
+  
+</section>
+
+<div style="text-align:center;margin-top:2rem;"><p class="section-subtitle">Get the companion app</p><a href="https://play.google.com/store/apps/details?id=com.codevault.authvault" class="btn btn-secondary">Google Play</a></div>
+
+<!-- Cross-sell -->
+<section class="section cross-sell" style="text-align:center;"><h2 class="section-title">&gt;_ More from CodeVault</h2><p class="section-subtitle">Explore our other developer toolkits</p><div><a href="https://ai-toolkit.codevault.dev" class="btn btn-secondary" style="margin:0.25rem;">Ai Toolkit</a><a href="https://analytics-hub.codevault.dev" class="btn btn-secondary" style="margin:0.25rem;">Analytics Hub</a><a href="https://api-launchpad.codevault.dev" class="btn btn-secondary" style="margin:0.25rem;">Api Launchpad</a><a href="https://automation-hub.codevault.dev" class="btn btn-secondary" style="margin:0.25rem;">Automation Hub</a></div></section>
+
+<!-- FAQ -->
+<section id="faq" class="section"><h2 class="section-title">&gt;_ FAQ</h2><div class="faq-list"><div class="faq-item"><button class="faq-question">What format are the products?</button><div class="faq-answer"><p>All products are downloadable Python packages with complete source code, tests, and documentation.</p></div></div><div class="faq-item"><button class="faq-question">Do I need any external dependencies?</button><div class="faq-answer"><p>No. Every product is built with Python stdlib only — zero pip dependencies required.</p></div></div><div class="faq-item"><button class="faq-question">Can I use these commercially?</button><div class="faq-answer"><p>Yes! All products come with a commercial license for unlimited projects.</p></div></div><div class="faq-item"><button class="faq-question">How do I get updates?</button><div class="faq-answer"><p>You get lifetime access to the product repository with all future updates included.</p></div></div></div></section>
+
+</main>
+
+<!-- Email Capture -->
+<div class="email-bar">
+<div class="email-bar-inner">
+  <span style="font-family:var(--cv-font-mono);font-size:0.85rem;color:var(--cv-muted);">Get notified about new tools:</span>
+  <form>
+    <input type="email" placeholder="dev@example.com" required>
+    <button type="submit" class="btn btn-primary" style="padding:0.5rem 1rem;">Subscribe</button>
+  </form>
+  <span class="email-msg"></span>
+  <button class="email-dismiss" style="background:none;border:none;color:var(--cv-muted);cursor:pointer;font-size:1.2rem;">&times;</button>
+</div>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+<div class="footer-grid">
+  <div class="footer-col">
+    <h4>&gt;_ Auth Vault</h4>
+    <p style="color:var(--cv-muted);font-size:0.85rem;">Secure authentication. Zero vendor lock-in.</p>
+  </div>
+  <div class="footer-col">
+    <h4>Products</h4>
+    <a href="#products">All Products</a>
+    <a href="#bundle">Bundles</a>
+  </div>
+  <div class="footer-col">
+    <h4>Support</h4>
+    <a href="#faq">FAQ</a>
+    <a href="mailto:hello@codevault.dev">Contact</a>
+  </div>
+  <div class="footer-col">
+    <h4>Legal</h4>
+    <a href="/terms">Terms</a>
+    <a href="/privacy">Privacy</a>
+  </div>
+</div>
+<div class="footer-bottom">
+  <p>&copy; 2025 CodeVault. All rights reserved.</p>
+</div>
+</footer>
+
+<script>// CodeVault Storefront JS — Auth Vault
+// Auto-generated — DO NOT EDIT
+(function() {
+  'use strict';
+
+  // ---- Theme Toggle ----
+  const htmlEl = document.documentElement;
+  const savedTheme = localStorage.getItem('cv-theme');
+  if (savedTheme) htmlEl.setAttribute('data-theme', savedTheme);
+
+  document.querySelectorAll('.theme-toggle').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const current = htmlEl.getAttribute('data-theme');
+      const next = current === 'light' ? 'dark' : 'light';
+      htmlEl.setAttribute('data-theme', next);
+      localStorage.setItem('cv-theme', next);
+    });
+  });
+
+  // ---- Mobile Menu ----
+  const mobileToggle = document.querySelector('.mobile-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+  if (mobileToggle && mobileNav) {
+    mobileToggle.addEventListener('click', function() {
+      const isOpen = mobileNav.classList.toggle('open');
+      mobileToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+  }
+
+  // ---- Matrix Rain ----
+  (function() {
+    const canvas = document.getElementById('matrix-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const fontSize = 10;
+    let columns = Math.floor(canvas.width / fontSize);
+    const drops = new Array(columns).fill(1);
+
+    const katakana = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+    const digits = '0123456789';
+    const chars = katakana + digits;
+
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#00ff41';
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+
+      // Recalculate columns on resize
+      const newCols = Math.floor(canvas.width / fontSize);
+      if (newCols !== columns) {
+        columns = newCols;
+        drops.length = columns;
+        for (let i = 0; i < columns; i++) {
+          if (drops[i] === undefined) drops[i] = 1;
+        }
+      }
+
+      requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+  })();
+
+  // ---- Typing Effect ----
+  (function() {
+    const el = document.querySelector('.typing-text');
+    if (!el) return;
+    const fullText = el.getAttribute('data-text') || '';
+    let idx = 0;
+
+    function type() {
+      if (idx <= fullText.length) {
+        el.textContent = fullText.slice(0, idx);
+        idx++;
+        setTimeout(type, 50);
+      } else {
+        setTimeout(function() {
+          idx = 0;
+          el.textContent = '';
+          type();
+        }, 2000);
       }
     }
-    </script>
-</head>
-<body>
-    <nav class="cross-nav" aria-label="CodeVault stores">
-        <div class="cross-nav__inner">
-            <span class="cross-nav__brand">CodeVault</span>
-            <a href="../email-arsenal/storefront/index.html" class="cross-nav__link">Email Arsenal</a>
-            <a href="../seo-toolkit/storefront/index.html" class="cross-nav__link">SEO Toolkit</a>
-            <a href="../form-forge/storefront/index.html" class="cross-nav__link">Form Forge</a>
-            <a href="../api-launchpad/storefront/index.html" class="cross-nav__link">API Launchpad</a>
-            <a href="../deploy-kit/storefront/index.html" class="cross-nav__link">Deploy Kit</a>
-            <a href="#" class="cross-nav__link cross-nav__link--active">Auth Vault</a>
-            <a href="../saas-starter/storefront/index.html" class="cross-nav__link">SaaS Starter</a>
-            <a href="../analytics-hub/storefront/index.html" class="cross-nav__link">Analytics Hub</a>
-            <a href="../payment-stack/storefront/index.html" class="cross-nav__link">Payment Stack</a>
-            <a href="../ai-toolkit/storefront/index.html" class="cross-nav__link">AI Toolkit</a>
-            <a href="../security-kit/storefront/index.html" class="cross-nav__link">Security Kit</a>
-            <a href="../landing-lab/storefront/index.html" class="cross-nav__link">Landing Lab</a>
-            <a href="../automation-hub/storefront/index.html" class="cross-nav__link">Automation Hub</a>
-        </div>
-    </nav>
+    type();
+  })();
 
-    <!-- Hero Section -->
-    <header class="hero" id="top">
-        <div class="container">
-            <h1 class="hero__title glitch" data-text="Auth Vault">Auth Vault</h1>
-            <p class="hero__subtitle">Secure authentication. Zero vendor lock-in.</p>
-            <div class="hero__cta-row">
-                <a href="#products" class="btn btn--primary">Browse tools</a>
-                <a href="#faq" class="btn btn--secondary">How it works</a>
-            </div>
-        </div>
-    </header>
+  // ---- Reveal on Scroll ----
+  (function() {
+    const reveals = document.querySelectorAll('.reveal');
+    if (!reveals.length) return;
 
-    <!-- Products Section -->
-    <section class="section" id="products">
-        <div class="container">
-            <h2 class="section__heading">The toolkit</h2>
-            <p class="section__subheading">Production-ready Python auth scripts. No pip installs. No fluff.</p>
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
 
-            <div class="filter-bar">
-                <span class="filter-bar__label">Filter:</span>
-                <button class="filter-tag active" data-filter="all">All</button>
-                <button class="filter-tag" data-filter="bundle">bundle</button>
-                <button class="filter-tag" data-filter="auth">auth</button>
-                <button class="filter-tag" data-filter="token">token</button>
-                <button class="filter-tag" data-filter="access-control">access-control</button>
-                <button class="filter-tag" data-filter="session">session</button>
-                <button class="filter-tag" data-filter="password">password</button>
-                <button class="filter-tag" data-filter="middleware">middleware</button>
-                <button class="filter-tag" data-filter="logging">logging</button>
-                <select class="sort-select" aria-label="Sort products">
-                    <option value="default">Sort: Featured</option>
-                    <option value="price-asc">Price: Low &rarr; High</option>
-                    <option value="price-desc">Price: High &rarr; Low</option>
-                </select>
-            </div>
+    reveals.forEach(function(el) { observer.observe(el); });
+  })();
 
-            <div class="product-grid">
+  // ---- FAQ Accordion ----
+  document.querySelectorAll('.faq-question').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
 
-        <!-- ===== BUNDLES ===== -->
-        <article class="product-card product-card--bundle fade-in"
-                 data-tags="bundle,starter"
-                 data-price="1999"
-                 data-slug="auth-vault-starter-bundle">
-            <div class="product-card__inner">
-                <div>
-                    <span class="bundle-badge">BUNDLE DEAL</span>
-                    <h3 class="product-card__name" style="margin-top: 12px">Auth Vault Starter Bundle</h3>
-                    <p class="product-card__desc">The essential auth toolkit &mdash; JWT Library, Password Hasher, Session Manager, and API Auth Middleware in one bundle.</p>
-                    <div class="product-card__tags">
-                        <span class="product-card__tag">bundle</span>
-                        <span class="product-card__tag">starter</span>
-                    </div>
-                    <ul class="product-card__bundle-list">
-                        <li>JWT Library</li>
-                        <li>Password Hasher</li>
-                        <li>Session Manager</li>
-                        <li>API Auth Middleware</li>
-                    </ul>
-                </div>
-                <div>
-                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$19.99</p>
-                    <div class="product-card__actions">
-                        <a href="#" class="btn btn--primary btn--card"
-                           data-stripe-link="https://buy.stripe.com/placeholder_starter_bundle"
-                           data-product="auth-vault-starter-bundle">
-                            Grab This Bundle
-                        </a>
-                        <button class="btn btn--crypto btn--card"
-                                data-crypto-product="Auth Vault Starter Bundle"
-                                data-crypto-price="1699">
-                            Pay with Crypto ($16.99)
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </article>
+      // Close all other items
+      document.querySelectorAll('.faq-item.open').forEach(function(other) {
+        if (other !== item) other.classList.remove('open');
+      });
 
-        <article class="product-card product-card--bundle fade-in"
-                 data-tags="bundle,pro"
-                 data-price="3999"
-                 data-slug="auth-vault-pro-bundle">
-            <div class="product-card__inner">
-                <div>
-                    <span class="bundle-badge">BUNDLE DEAL</span>
-                    <h3 class="product-card__name" style="margin-top: 12px">Auth Vault Pro Bundle</h3>
-                    <p class="product-card__desc">Every tool in the Auth Vault &mdash; all 10 products at a massive discount. The complete authentication engineering toolkit.</p>
-                    <div class="product-card__tags">
-                        <span class="product-card__tag">bundle</span>
-                        <span class="product-card__tag">pro</span>
-                    </div>
-                    <ul class="product-card__bundle-list">
-                        <li>OAuth2 Implementation</li>
-                        <li>JWT Library</li>
-                        <li>RBAC System</li>
-                        <li>Two-Factor Auth</li>
-                        <li>Session Manager</li>
-                        <li>Password Hasher</li>
-                        <li>Magic Link Auth</li>
-                        <li>Social Login Integrator</li>
-                        <li>API Auth Middleware</li>
-                        <li>Auth Audit Logger</li>
-                    </ul>
-                </div>
-                <div>
-                    <p class="product-card__price" style="font-size: 1.6rem; margin-bottom: 16px">$39.99</p>
-                    <div class="product-card__actions">
-                        <a href="#" class="btn btn--primary btn--card"
-                           data-stripe-link="https://buy.stripe.com/placeholder_pro_bundle"
-                           data-product="auth-vault-pro-bundle">
-                            Grab This Bundle
-                        </a>
-                        <button class="btn btn--crypto btn--card"
-                                data-crypto-product="Auth Vault Pro Bundle"
-                                data-crypto-price="3399">
-                            Pay with Crypto ($33.99)
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </article>
+      item.classList.toggle('open', !isOpen);
+    });
+  });
 
-        <!-- ===== INDIVIDUAL PRODUCTS ===== -->
-        <article class="product-card fade-in"
-                 data-tags="auth,oauth,token"
-                 data-price="999"
-                 data-slug="oauth2-implementation">
-            <div class="product-card__header">
-                <h3 class="product-card__name">OAuth2 Implementation</h3>
-                <span class="product-card__price">$9.99</span>
-            </div>
-            <p class="product-card__desc">Complete Python OAuth2 server/client with authorization code grant, PKCE, client credentials, and token refresh flows. Zero dependencies.</p>
-            <div class="product-card__tags">
-                <span class="product-card__tag">auth</span>
-                <span class="product-card__tag">oauth</span>
-                <span class="product-card__tag">token</span>
-            </div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card"
-                   data-stripe-link="https://buy.stripe.com/placeholder_oauth2_implementation"
-                   data-product="oauth2-implementation">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="OAuth2 Implementation"
-                        data-crypto-price="849">
-                    Pay with Crypto ($8.49)
-                </button>
-                <a href="preview-oauth2-implementation.html" class="product-card__preview">Preview &rarr;</a>
-            </div>
-        </article>
+  // ---- Email Capture Bar ----
+  (function() {
+    const bar = document.querySelector('.email-bar');
+    if (!bar) return;
+    if (localStorage.getItem('cv-email-dismissed')) return;
 
-        <article class="product-card fade-in"
-                 data-tags="token,jwt"
-                 data-price="499"
-                 data-slug="jwt-library">
-            <div class="product-card__header">
-                <h3 class="product-card__name">JWT Library</h3>
-                <span class="product-card__price">$4.99</span>
-            </div>
-            <p class="product-card__desc">Lightweight JSON Web Token library with HS256/RS256 signing, standard claims validation, token refresh patterns, and a CLI tool.</p>
-            <div class="product-card__tags">
-                <span class="product-card__tag">token</span>
-                <span class="product-card__tag">jwt</span>
-            </div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card"
-                   data-stripe-link="https://buy.stripe.com/placeholder_jwt_library"
-                   data-product="jwt-library">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="JWT Library"
-                        data-crypto-price="424">
-                    Pay with Crypto ($4.24)
-                </button>
-                <a href="preview-jwt-library.html" class="product-card__preview">Preview &rarr;</a>
-            </div>
-        </article>
+    setTimeout(function() {
+      bar.classList.add('visible');
+    }, 3000);
 
-        <article class="product-card fade-in"
-                 data-tags="access-control,rbac"
-                 data-price="999"
-                 data-slug="rbac-system">
-            <div class="product-card__header">
-                <h3 class="product-card__name">RBAC System</h3>
-                <span class="product-card__price">$9.99</span>
-            </div>
-            <p class="product-card__desc">Complete role-based access control with hierarchical roles, granular permissions, deny-override policies, and JSON-based storage.</p>
-            <div class="product-card__tags">
-                <span class="product-card__tag">access-control</span>
-                <span class="product-card__tag">rbac</span>
-            </div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card"
-                   data-stripe-link="https://buy.stripe.com/placeholder_rbac_system"
-                   data-product="rbac-system">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="RBAC System"
-                        data-crypto-price="849">
-                    Pay with Crypto ($8.49)
-                </button>
-                <a href="preview-rbac-system.html" class="product-card__preview">Preview &rarr;</a>
-            </div>
-        </article>
+    const form = bar.querySelector('form');
+    const dismissBtn = bar.querySelector('.email-dismiss');
 
-        <article class="product-card fade-in"
-                 data-tags="auth,2fa,mfa"
-                 data-price="999"
-                 data-slug="two-factor-auth">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Two-Factor Auth</h3>
-                <span class="product-card__price">$9.99</span>
-            </div>
-            <p class="product-card__desc">Complete 2FA with TOTP generation (RFC 6238), QR code SVG output, backup codes, SMS/email hooks, and recovery flow.</p>
-            <div class="product-card__tags">
-                <span class="product-card__tag">auth</span>
-                <span class="product-card__tag">2fa</span>
-                <span class="product-card__tag">mfa</span>
-            </div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card"
-                   data-stripe-link="https://buy.stripe.com/placeholder_two_factor_auth"
-                   data-product="two-factor-auth">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Two-Factor Auth"
-                        data-crypto-price="849">
-                    Pay with Crypto ($8.49)
-                </button>
-                <a href="preview-two-factor-auth.html" class="product-card__preview">Preview &rarr;</a>
-            </div>
-        </article>
+    if (dismissBtn) {
+      dismissBtn.addEventListener('click', function() {
+        bar.classList.remove('visible');
+        localStorage.setItem('cv-email-dismissed', '1');
+      });
+    }
 
-        <article class="product-card fade-in"
-                 data-tags="session,cookie"
-                 data-price="499"
-                 data-slug="session-manager">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Session Manager</h3>
-                <span class="product-card__price">$4.99</span>
-            </div>
-            <p class="product-card__desc">Production-ready session management with HMAC-signed cookies, pluggable storage, automatic expiration, and CSRF protection.</p>
-            <div class="product-card__tags">
-                <span class="product-card__tag">session</span>
-                <span class="product-card__tag">cookie</span>
-            </div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card"
-                   data-stripe-link="https://buy.stripe.com/placeholder_session_manager"
-                   data-product="session-manager">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Session Manager"
-                        data-crypto-price="424">
-                    Pay with Crypto ($4.24)
-                </button>
-                <a href="preview-session-manager.html" class="product-card__preview">Preview &rarr;</a>
-            </div>
-        </article>
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const emailInput = form.querySelector('input[type="email"]');
+        const email = emailInput ? emailInput.value.trim() : '';
+        if (!email) return;
 
-        <article class="product-card fade-in"
-                 data-tags="password,hashing"
-                 data-price="499"
-                 data-slug="password-hasher">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Password Hasher</h3>
-                <span class="product-card__price">$4.99</span>
-            </div>
-            <p class="product-card__desc">Secure password hashing with PBKDF2 and scrypt, strength validation, timing-safe comparisons, and hash algorithm migration helpers.</p>
-            <div class="product-card__tags">
-                <span class="product-card__tag">password</span>
-                <span class="product-card__tag">hashing</span>
-            </div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card"
-                   data-stripe-link="https://buy.stripe.com/placeholder_password_hasher"
-                   data-product="password-hasher">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Password Hasher"
-                        data-crypto-price="424">
-                    Pay with Crypto ($4.24)
-                </button>
-                <a href="preview-password-hasher.html" class="product-card__preview">Preview &rarr;</a>
-            </div>
-        </article>
+        const msgEl = bar.querySelector('.email-msg');
 
-        <article class="product-card fade-in"
-                 data-tags="auth,magic-link,passwordless"
-                 data-price="499"
-                 data-slug="magic-link-auth">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Magic Link Auth</h3>
-                <span class="product-card__price">$4.99</span>
-            </div>
-            <p class="product-card__desc">Passwordless authentication via magic links with secure token generation, email templates, rate limiting, and a complete HTTP login flow.</p>
-            <div class="product-card__tags">
-                <span class="product-card__tag">auth</span>
-                <span class="product-card__tag">magic-link</span>
-                <span class="product-card__tag">passwordless</span>
-            </div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card"
-                   data-stripe-link="https://buy.stripe.com/placeholder_magic_link_auth"
-                   data-product="magic-link-auth">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Magic Link Auth"
-                        data-crypto-price="424">
-                    Pay with Crypto ($4.24)
-                </button>
-                <a href="preview-magic-link-auth.html" class="product-card__preview">Preview &rarr;</a>
-            </div>
-        </article>
+        fetch('https://ferovwapilhcpqozqinn.supabase.co/rest/v1/email_subscribers', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY'
+          },
+          body: JSON.stringify({
+            email: email,
+            store_name: 'Auth Vault',
+            source: 'code-vault'
+          })
+        })
+        .then(function(res) {
+          if (!res.ok) throw new Error('Request failed');
+          if (msgEl) {
+            msgEl.textContent = 'You\'re in! Check your inbox.';
+            msgEl.style.color = '#22c55e';
+          }
+          if (emailInput) emailInput.value = '';
+          setTimeout(function() {
+            bar.classList.remove('visible');
+            localStorage.setItem('cv-email-dismissed', '1');
+          }, 3000);
+        })
+        .catch(function() {
+          if (msgEl) {
+            msgEl.textContent = 'Something went wrong. Try again.';
+            msgEl.style.color = '#ef4444';
+          }
+        });
+      });
+    }
+  })();
 
-        <article class="product-card fade-in"
-                 data-tags="auth,social,oauth"
-                 data-price="999"
-                 data-slug="social-login-integrator">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Social Login Integrator</h3>
-                <span class="product-card__price">$9.99</span>
-            </div>
-            <p class="product-card__desc">Social login for Google, GitHub, and Discord with OAuth2 flows, unified user profile normalization, and CSRF protection.</p>
-            <div class="product-card__tags">
-                <span class="product-card__tag">auth</span>
-                <span class="product-card__tag">social</span>
-                <span class="product-card__tag">oauth</span>
-            </div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card"
-                   data-stripe-link="https://buy.stripe.com/placeholder_social_login_integrator"
-                   data-product="social-login-integrator">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Social Login Integrator"
-                        data-crypto-price="849">
-                    Pay with Crypto ($8.49)
-                </button>
-                <a href="preview-social-login-integrator.html" class="product-card__preview">Preview &rarr;</a>
-            </div>
-        </article>
+  // ---- Page View Analytics ----
+  (function() {
+    try {
+      fetch('https://ferovwapilhcpqozqinn.supabase.co/rest/v1/page_views', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlcm92d2FwaWxoY3Bxb3pxaW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTU3NTYsImV4cCI6MjA4ODU5MTc1Nn0.RhBBxPaAw5Fyzal5m3GY_sdxiIAp_RVJ_ki8CUgPnRY'
+        },
+        body: JSON.stringify({
+          store_name: 'Auth Vault',
+          page_path: window.location.pathname,
+          referrer: document.referrer || null,
+          user_agent: navigator.userAgent
+        })
+      });
+    } catch(e) {
+      // fire-and-forget
+    }
+  })();
 
-        <article class="product-card fade-in"
-                 data-tags="middleware,api-key,bearer"
-                 data-price="499"
-                 data-slug="api-auth-middleware">
-            <div class="product-card__header">
-                <h3 class="product-card__name">API Auth Middleware</h3>
-                <span class="product-card__price">$4.99</span>
-            </div>
-            <p class="product-card__desc">Multi-strategy API authentication middleware: bearer tokens, API keys, and HMAC signatures with per-route configuration.</p>
-            <div class="product-card__tags">
-                <span class="product-card__tag">middleware</span>
-                <span class="product-card__tag">api-key</span>
-                <span class="product-card__tag">bearer</span>
-            </div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card"
-                   data-stripe-link="https://buy.stripe.com/placeholder_api_auth_middleware"
-                   data-product="api-auth-middleware">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="API Auth Middleware"
-                        data-crypto-price="424">
-                    Pay with Crypto ($4.24)
-                </button>
-                <a href="preview-api-auth-middleware.html" class="product-card__preview">Preview &rarr;</a>
-            </div>
-        </article>
+  // ---- Confetti for Success Page ----
+  (function() {
+    const canvas = document.getElementById('confetti-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-        <article class="product-card fade-in"
-                 data-tags="logging,audit,security"
-                 data-price="499"
-                 data-slug="auth-audit-logger">
-            <div class="product-card__header">
-                <h3 class="product-card__name">Auth Audit Logger</h3>
-                <span class="product-card__price">$4.99</span>
-            </div>
-            <p class="product-card__desc">Authentication event audit logger with structured JSON logging, anomaly detection, account lockout, and IP-based tracking.</p>
-            <div class="product-card__tags">
-                <span class="product-card__tag">logging</span>
-                <span class="product-card__tag">audit</span>
-                <span class="product-card__tag">security</span>
-            </div>
-            <div class="product-card__actions">
-                <a href="#" class="btn btn--primary btn--card"
-                   data-stripe-link="https://buy.stripe.com/placeholder_auth_audit_logger"
-                   data-product="auth-audit-logger">
-                    Grab This
-                </a>
-                <button class="btn btn--crypto btn--card"
-                        data-crypto-product="Auth Audit Logger"
-                        data-crypto-price="424">
-                    Pay with Crypto ($4.24)
-                </button>
-                <a href="preview-auth-audit-logger.html" class="product-card__preview">Preview &rarr;</a>
-            </div>
-        </article>
+    const colors = ['#22c55e', '#14b8a6', '#eab308', '#ef4444', '#8b5cf6', '#00ff41'];
+    const particles = [];
 
-            </div>
-        </div>
-    </section>
+    for (let i = 0; i < 150; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        w: Math.random() * 6 + 4,
+        h: Math.random() * 6 + 4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        speed: Math.random() * 3 + 2,
+        drift: (Math.random() - 0.5) * 2,
+        opacity: Math.random() * 0.7 + 0.3
+      });
+    }
 
-    <!-- Trust Signals -->
-    <section class="trust-section" id="trust">
-        <div class="container">
-            <h2 class="section__heading">Why devs grab from here</h2>
-            <p class="section__subheading">No fluff &mdash; here&rsquo;s why this store ships</p>
-            <div class="trust-grid">
-                <div class="trust-card fade-in">
-                    <div class="trust-card__icon">&#x26A1;</div>
-                    <p class="trust-card__text">
-                        <strong>Instant digital download</strong>
-                        Pay, unzip, run. Your auth tools are ready in seconds.
-                    </p>
-                </div>
-                <div class="trust-card fade-in">
-                    <div class="trust-card__icon">&#x1F512;</div>
-                    <p class="trust-card__text">
-                        <strong>MIT License &mdash; use anywhere</strong>
-                        SaaS, client work, side projects. No restrictions.
-                    </p>
-                </div>
-                <div class="trust-card fade-in">
-                    <div class="trust-card__icon">&#x1F48E;</div>
-                    <p class="trust-card__text">
-                        <strong>Python stdlib only &mdash; zero pip installs</strong>
-                        No virtual envs, no requirements.txt, no dependency hell.
-                    </p>
-                </div>
-                <div class="trust-card fade-in">
-                    <div class="trust-card__icon">&#x1F6E0;&#xFE0F;</div>
-                    <p class="trust-card__text">
-                        <strong>Security-first by design</strong>
-                        Timing-safe comparisons, HMAC signing, and CSRF protection baked in.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+    function render() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let active = false;
 
-    <!-- Companion App -->
-    <section class="app-section" id="app">
-        <div class="container">
-            <div class="app-promo fade-in">
-                <div class="app-promo__content">
-                    <span class="app-promo__badge">ANDROID APP</span>
-                    <h2 class="app-promo__title">Auth Vault Mobile</h2>
-                    <p class="app-promo__desc">Take your authentication toolkit on the go. Dashboard, community templates, daily challenges, and streak rewards &mdash; all in a dark-themed Material&nbsp;3 interface.</p>
-                    <ul class="app-promo__features">
-                        <li>Auth vulnerability scanner and auditor</li>
-                        <li>OAuth2, JWT, RBAC, and 2FA implementation tools</li>
-                        <li>Community sharing &amp; daily challenges</li>
-                        <li>Premium tools via in-app purchase ($0.99&ndash;$4.99)</li>
-                    </ul>
-                    <div class="app-promo__actions">
-                        <a href="https://play.google.com/store/apps/details?id=com.codevault.authvault" class="btn btn--primary">Get on Google Play</a>
-                        <a href="https://github.com/codevault/auth-vault-android" class="btn btn--secondary">View Source</a>
-                    </div>
-                </div>
-                <div class="app-promo__visual">
-                    <div class="app-mockup" style="--app-color: #E91E63">
-                        <div class="app-mockup__screen">
-                            <div class="app-mockup__header">Auth Vault</div>
-                            <div class="app-mockup__tabs">
-                                <span class="app-mockup__tab app-mockup__tab--active">Scanner</span>
-                                <span class="app-mockup__tab">Tools</span>
-                                <span class="app-mockup__tab">Community</span>
-                                <span class="app-mockup__tab">Store</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        if (p.y > canvas.height + 20) continue;
+        active = true;
+        ctx.globalAlpha = p.opacity;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, p.w, p.h);
+        p.y += p.speed;
+        p.x += p.drift;
+        p.opacity -= 0.002;
+        if (p.opacity < 0) p.opacity = 0;
+      }
 
-    <!-- FAQ -->
-    <section class="faq-section" id="faq">
-        <div class="container">
-            <h2 class="section__heading">Got questions?</h2>
-            <p class="section__subheading">Straight answers. No runaround.</p>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        <span>Do these tools require any pip packages?</span>
-                        <span class="faq-question__icon">+</span>
-                    </button>
-                    <div class="faq-answer" aria-hidden="true">
-                        <div class="faq-answer__inner">No. Every product uses Python&rsquo;s standard library only. No pip install needed. Just unzip, read the README, and run. Zero-dependency tools don&rsquo;t break when you upgrade Python or change environments.</div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        <span>What Python version do I need?</span>
-                        <span class="faq-question__icon">+</span>
-                    </button>
-                    <div class="faq-answer" aria-hidden="true">
-                        <div class="faq-answer__inner">Python 3.10 or newer. We use modern Python features like match statements, type unions (X | Y), and structural pattern matching. All code includes type hints for IDE autocompletion.</div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        <span>Can I use these in commercial projects?</span>
-                        <span class="faq-question__icon">+</span>
-                    </button>
-                    <div class="faq-answer" aria-hidden="true">
-                        <div class="faq-answer__inner">Yes. All products are MIT licensed &mdash; use them in personal projects, client work, SaaS products, or internal tools. No attribution required (though we appreciate it).</div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        <span>What&rsquo;s the difference between Starter and Pro bundles?</span>
-                        <span class="faq-question__icon">+</span>
-                    </button>
-                    <div class="faq-answer" aria-hidden="true">
-                        <div class="faq-answer__inner">The Starter Bundle ($19.99) includes 4 core tools: JWT Library, Password Hasher, Session Manager, and API Auth Middleware. The Pro Bundle ($39.99) includes all 10 products &mdash; everything from OAuth2 to audit logging. Save 43%.</div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        <span>Are these production-ready or just demos?</span>
-                        <span class="faq-question__icon">+</span>
-                    </button>
-                    <div class="faq-answer" aria-hidden="true">
-                        <div class="faq-answer__inner">Production-ready. Every tool uses cryptographically secure primitives from Python&rsquo;s stdlib (secrets, hmac, hashlib). Timing-safe comparisons, proper error handling, and structured logging are built in. That said, always review security-critical code for your specific requirements.</div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        <span>How do I get my download?</span>
-                        <span class="faq-question__icon">+</span>
-                    </button>
-                    <div class="faq-answer" aria-hidden="true">
-                        <div class="faq-answer__inner">Immediately after payment, you&rsquo;ll be redirected to a download page with a secure, time-limited download link. You&rsquo;ll also receive an email with the same link as a backup.</div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        <span>Do I get updates?</span>
-                        <span class="faq-question__icon">+</span>
-                    </button>
-                    <div class="faq-answer" aria-hidden="true">
-                        <div class="faq-answer__inner">Yes. All purchases include 12 months of free updates. You&rsquo;ll receive email notifications when products are updated with new features or security fixes.</div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        <span>Can I get a refund?</span>
-                        <span class="faq-question__icon">+</span>
-                    </button>
-                    <div class="faq-answer" aria-hidden="true">
-                        <div class="faq-answer__inner">30-day money-back guarantee. If the products don&rsquo;t meet your expectations, email <a href="mailto:support@codevault.dev">support@codevault.dev</a> for a full refund. No questions asked.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+      ctx.globalAlpha = 1;
+      if (active) requestAnimationFrame(render);
+    }
+    requestAnimationFrame(render);
+  })();
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p class="footer__brand">CodeVault</p>
-            <p class="footer__tagline">Ship faster. Build smarter.</p>
-            <nav class="footer__links" aria-label="Other stores">
-                <a href="../email-arsenal/storefront/index.html" class="footer__link">Email Arsenal</a>
-                <a href="../seo-toolkit/storefront/index.html" class="footer__link">SEO Toolkit</a>
-                <a href="../form-forge/storefront/index.html" class="footer__link">Form Forge</a>
-                <a href="../api-launchpad/storefront/index.html" class="footer__link">API Launchpad</a>
-                <a href="../deploy-kit/storefront/index.html" class="footer__link">Deploy Kit</a>
-                <a href="../saas-starter/storefront/index.html" class="footer__link">SaaS Starter</a>
-                <a href="../analytics-hub/storefront/index.html" class="footer__link">Analytics Hub</a>
-                <a href="../payment-stack/storefront/index.html" class="footer__link">Payment Stack</a>
-                <a href="../ai-toolkit/storefront/index.html" class="footer__link">AI Toolkit</a>
-                <a href="../security-kit/storefront/index.html" class="footer__link">Security Kit</a>
-                <a href="../landing-lab/storefront/index.html" class="footer__link">Landing Lab</a>
-                <a href="../automation-hub/storefront/index.html" class="footer__link">Automation Hub</a>
-            </nav>
-            <p class="footer__copy">&copy; 2026 CodeVault. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="payment-links.js"></script>
-  <script src="script.js"></script>
-    <script src="crypto-checkout.js"></script>
+})();
+</script>
+<script>
+(function() {
+  var wallets = {"btc": "bc1qzcll4um02pwyujhm00204hndzhf8vtsesa9paf", "eth": "0xAA7985525BeEd6785Aa7be0571108954C70bd302", "usdc": "0xAA7985525BeEd6785Aa7be0571108954C70bd302", "ltc": "ltc1q7cpnk7z0ewdc8n4yn2na2w0qugwl5xxz0thrw7"};
+  window.openCryptoModal = function(name, price) {
+    var existing = document.getElementById('crypto-modal');
+    if (existing) existing.remove();
+    var overlay = document.createElement('div');
+    overlay.id = 'crypto-modal';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;';
+    var box = document.createElement('div');
+    box.style.cssText = 'background:var(--cv-card,#151b27);border:1px solid var(--cv-border,#1e2636);border-radius:8px;padding:2rem;max-width:480px;width:90%;color:#e2e8f0;font-family:monospace;';
+    var h = '<h3 style="margin-bottom:1rem;color:var(--cv-accent,#22c55e);">&gt;_ Pay with Crypto</h3>';
+    h += '<p style="margin-bottom:0.5rem;">' + name + '</p>';
+    h += '<p style="font-size:1.4rem;font-weight:700;margin-bottom:1rem;">$' + price.toFixed(2) + ' <span style="font-size:0.8rem;color:#7a8ba3;">(20% off)</span></p>';
+    for (var k in wallets) {
+      h += '<div style="margin-bottom:0.75rem;"><strong style="text-transform:uppercase;">' + k + '</strong>';
+      h += '<input readonly value="' + wallets[k] + '" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem;background:#0b0e14;border:1px solid #1e2636;color:#e2e8f0;border-radius:4px;font-size:0.75rem;" onclick="this.select()"></div>';
+    }
+    h += '<p style="font-size:0.8rem;color:#7a8ba3;margin-top:1rem;">Send exact amount &amp; email receipt to hello@codevault.dev</p>';
+    h += '<button onclick="this.closest(\'#crypto-modal\').remove()" style="margin-top:1rem;padding:0.5rem 1.2rem;background:transparent;border:1px solid #1e2636;color:#e2e8f0;border-radius:4px;cursor:pointer;font-family:monospace;">[ Close ]</button>';
+    box.innerHTML = h;
+    overlay.appendChild(box);
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+    document.body.appendChild(overlay);
+  };
+})();
+</script>
 </body>
 </html>
