@@ -5,89 +5,513 @@
 <title>Neon Bazaar Demo Hub | Datanest</title>
 <meta name="description" content="Explore 26+ interactive demos across 5 stores in Neon Bazaar. Aesthetic digital goods, wallpapers, mods & creative assets">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root { --accent:#FF2D9B; --accent2:#ff6bc0; --glow1:#FF2D9B10; --glow2:#ff6bc008; }
+/* ============================================
+   NEON BAZAAR - Cyberpunk / Neon Visual Identity
+   ============================================ */
 
-* { margin:0; padding:0; box-sizing:border-box; }
-body { background:#08080d; color:#e2e8f0; font-family:'Inter',system-ui,-apple-system,sans-serif; line-height:1.6; min-height:100vh; overflow-x:hidden; }
-a { text-decoration:none; color:inherit; }
+/* --- Custom properties --- */
+:root {
+  --neon-pink: #FF2D9B;
+  --neon-pink-soft: #ff6bc0;
+  --neon-cyan: #00f0ff;
+  --neon-yellow: #f0ff00;
+  --dark-bg: #08060e;
+  --card-bg: rgba(12, 8, 24, 0.55);
+  --border-dim: rgba(255, 255, 255, 0.06);
+  --text-primary: #e2e8f0;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+}
 
-.bg-grid { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; opacity:0.03;
-  background-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px);
-  background-size: 60px 60px; }
-.bg-glow { position:fixed; top:-50%; left:-50%; width:200%; height:200%; z-index:0; pointer-events:none;
-  background: radial-gradient(ellipse at 30% 20%, var(--glow1, rgba(168,85,247,0.06)) 0%, transparent 50%),
-              radial-gradient(ellipse at 70% 80%, var(--glow2, rgba(59,130,246,0.04)) 0%, transparent 50%);
-  animation: glowDrift 20s ease-in-out infinite alternate; }
-@keyframes glowDrift { 0%{transform:translate(0,0)} 100%{transform:translate(-5%,3%)} }
+/* --- Reset --- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--dark-bg);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
 
-.container { max-width:1200px; margin:0 auto; padding:40px 20px; position:relative; z-index:1; }
+/* --- Accessibility --- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 9999;
+  padding: 12px 24px;
+  background: var(--neon-pink);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 0 0 8px 8px;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 0;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
-.empire-nav { display:flex; align-items:center; justify-content:center; gap:6px; padding:12px 20px;
-  background:rgba(15,15,25,0.8); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,0.06);
-  border-radius:12px; margin-bottom:40px; flex-wrap:wrap; }
-.empire-nav a, .empire-nav span { font-size:12px; font-weight:600; padding:6px 14px; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
-.empire-nav a:hover { background:rgba(255,255,255,0.06); }
+/* --- Cyberpunk perspective grid background --- */
+.cyber-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  perspective: 400px;
+}
+.cyber-grid::before {
+  content: '';
+  position: absolute;
+  bottom: -50%;
+  left: -25%;
+  width: 150%;
+  height: 150%;
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 45, 155, 0.07) 1px, transparent 1px);
+  background-size: 60px 60px;
+  transform: rotateX(55deg);
+  transform-origin: center top;
+  animation: gridScroll 18s linear infinite;
+}
+.cyber-grid::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--dark-bg) 0%, transparent 30%, transparent 70%, var(--dark-bg) 100%);
+}
 
-.hero { text-align:center; margin-bottom:48px; padding:32px 0; }
-.hero-icon { font-size:48px; margin-bottom:16px; display:block; filter:drop-shadow(0 0 20px var(--accent,#a855f7)); }
-.hero h1 { font-size:clamp(24px,4vw,40px); font-weight:800; margin-bottom:8px;
-  background:linear-gradient(135deg, var(--accent,#a855f7), var(--accent2,#60a5fa));
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-.hero p { color:#94a3b8; font-size:15px; max-width:600px; margin:0 auto 24px; }
-.hero-stats { display:flex; justify-content:center; gap:40px; flex-wrap:wrap; }
-.hero-stat .num { font-size:32px; font-weight:800; color:#fff; }
-.hero-stat .label { font-size:11px; color:#64748b; text-transform:uppercase; letter-spacing:1.5px; margin-top:2px; }
+/* --- Neon glow overlay --- */
+.neon-glow {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 25% 15%, rgba(255, 45, 155, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 75% 80%, rgba(0, 240, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(240, 255, 0, 0.02) 0%, transparent 40%);
+  animation: neonPulse 8s ease-in-out infinite alternate;
+}
 
-.store-section { margin-bottom:48px; }
-.store-header { display:flex; align-items:center; gap:16px; margin-bottom:20px; padding-bottom:16px;
-  border-bottom:1px solid rgba(255,255,255,0.06); }
-.store-badge { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;
-  font-size:20px; font-weight:800; color:#fff; flex-shrink:0; }
-.store-header h2 { font-size:20px; font-weight:700; color:#f1f5f9; }
-.store-header .store-meta { font-size:12px; color:#64748b; margin-top:2px; }
+/* --- Container --- */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  position: relative;
+  z-index: 1;
+}
 
-.product-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
-.product-card { background:rgba(15,15,25,0.6); border:1px solid rgba(255,255,255,0.06); border-radius:12px;
-  padding:16px; transition:all 0.25s; position:relative; overflow:hidden; display:block; }
-.product-card:hover { border-color:var(--accent,#a855f7); transform:translateY(-2px);
-  box-shadow:0 8px 30px rgba(0,0,0,0.3), 0 0 20px color-mix(in srgb, var(--accent,#a855f7) 15%, transparent); }
-.product-thumb { width:100%; height:80px; border-radius:8px; margin-bottom:12px; overflow:hidden; }
-.product-thumb img { width:100%; height:100%; object-fit:cover; }
-.product-card h3 { font-size:13px; font-weight:600; color:#e2e8f0; margin-bottom:8px; line-height:1.3; }
-.product-card .price-row { display:flex; align-items:center; justify-content:space-between; }
-.product-card .price { font-size:16px; font-weight:700; color:var(--accent,#a855f7); }
-.product-card .view-demo { font-size:11px; font-weight:600; color:#94a3b8; padding:4px 10px;
-  border:1px solid rgba(255,255,255,0.1); border-radius:6px; transition:all 0.2s; }
-.product-card:hover .view-demo { border-color:var(--accent,#a855f7); color:var(--accent,#a855f7); }
+/* --- Empire nav --- */
+.empire-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 20px;
+  background: rgba(12, 8, 24, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-dim);
+  border-radius: 12px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+.empire-nav a,
+.empire-nav span {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+.empire-nav a:hover {
+  background: rgba(255, 45, 155, 0.1);
+  text-shadow: 0 0 8px currentColor;
+}
+.empire-nav a:focus-visible,
+.empire-nav span:focus-visible {
+  outline: 2px solid var(--neon-cyan);
+  outline-offset: 2px;
+}
 
-.footer { text-align:center; padding:40px 0 20px; border-top:1px solid rgba(255,255,255,0.06); margin-top:48px; }
-.footer p { color:#475569; font-size:12px; }
-.footer .brand { font-weight:700; color:var(--accent,#a855f7); }
+/* --- Hero section --- */
+.hero {
+  text-align: center;
+  margin-bottom: 48px;
+  padding: 40px 0;
+  position: relative;
+}
+.hero-icon {
+  font-size: 52px;
+  margin-bottom: 16px;
+  display: block;
+  filter: drop-shadow(0 0 24px var(--neon-pink));
+  animation: neonFlicker 4s ease-in-out infinite;
+}
+.hero h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  color: #fff;
+  text-shadow:
+    0 0 10px var(--neon-pink),
+    0 0 30px var(--neon-pink),
+    0 0 60px rgba(255, 45, 155, 0.4);
+  position: relative;
+  display: inline-block;
+}
+/* Glitch pseudo-elements */
+.hero h1::before,
+.hero h1::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.hero h1::before {
+  color: var(--neon-cyan);
+  z-index: -1;
+  animation: glitchText 3s infinite linear alternate-reverse;
+  clip-path: inset(0 0 65% 0);
+}
+.hero h1::after {
+  color: var(--neon-pink-soft);
+  z-index: -1;
+  animation: glitchText 2s infinite linear alternate;
+  clip-path: inset(60% 0 0 0);
+}
+/* Neon underline pulse */
+.hero h1 span.neon-underline,
+.hero h1 + .neon-underline-bar {
+  display: block;
+  width: 120px;
+  height: 3px;
+  margin: 8px auto 0;
+  background: var(--neon-pink);
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--neon-pink), 0 0 20px var(--neon-pink);
+  animation: neonPulse 2s ease-in-out infinite alternate;
+}
+.hero p {
+  color: var(--text-muted);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  max-width: 600px;
+  margin: 0 auto 28px;
+  letter-spacing: 0.5px;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.hero-stat .num {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 0 12px var(--neon-cyan);
+}
+.hero-stat .label {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 2px;
+}
 
-.store-nav { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:32px; padding:16px 20px;
-  background:rgba(15,15,25,0.6); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.04);
-  border-radius:12px; }
-.store-nav a { font-size:12px; font-weight:600; padding:6px 14px; border-radius:8px;
-  background:rgba(255,255,255,0.04); color:#94a3b8; transition:all 0.2s; white-space:nowrap; }
-.store-nav a:hover { background:color-mix(in srgb, var(--accent,#a855f7) 15%, transparent); color:var(--accent,#a855f7); }
+/* --- Store nav --- */
+.store-nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+  padding: 16px 20px;
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
+  border-radius: 12px;
+}
+.store-nav a {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-muted);
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+.store-nav a:hover {
+  background: rgba(255, 45, 155, 0.15);
+  color: var(--neon-pink);
+  text-shadow: 0 0 6px var(--neon-pink);
+}
+.store-nav a:focus-visible {
+  outline: 2px solid var(--neon-cyan);
+  outline-offset: 2px;
+}
 
-@media (max-width:640px) {
-  .product-grid { grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px; }
-  .product-card { padding:12px; }
-  .product-thumb { height:60px; }
-  .hero-stats { gap:24px; }
-  .hero-stat .num { font-size:24px; }
-  .empire-nav { gap:4px; padding:8px 12px; }
-  .empire-nav a, .empire-nav span { font-size:11px; padding:5px 10px; }
+/* --- Store sections --- */
+.store-section {
+  margin-bottom: 48px;
+}
+.store-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-dim);
+}
+.store-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 0 14px rgba(255, 45, 155, 0.3);
+}
+.store-header h2 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: 0.5px;
+}
+.store-header .store-meta {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+/* --- Product grid & cards (glassmorphism) --- */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+.product-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-dim);
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: block;
+}
+.product-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 1px;
+  background: linear-gradient(135deg, transparent, rgba(255, 45, 155, 0.15), transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.product-card:hover {
+  border-color: var(--neon-pink);
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 12px rgba(255, 45, 155, 0.25),
+    0 0 30px rgba(255, 45, 155, 0.1),
+    0 0 8px rgba(0, 240, 255, 0.1),
+    0 12px 40px rgba(0, 0, 0, 0.4);
+}
+.product-card:hover::before {
+  opacity: 1;
+}
+.product-card:focus-visible {
+  outline: 2px solid var(--neon-cyan);
+  outline-offset: 2px;
+}
+.product-thumb {
+  width: 100%;
+  height: 80px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.product-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+.product-card:hover .product-thumb img {
+  transform: scale(1.05);
+}
+.product-card h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.product-card .price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.product-card .price {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--neon-pink);
+  text-shadow: 0 0 8px rgba(255, 45, 155, 0.3);
+}
+.product-card .view-demo {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 4px 10px;
+  border: 1px solid var(--border-dim);
+  border-radius: 6px;
+  transition: all 0.25s;
+}
+.product-card:hover .view-demo {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
+}
+
+/* --- Footer --- */
+.footer {
+  text-align: center;
+  padding: 40px 0 20px;
+  border-top: 1px solid var(--border-dim);
+  margin-top: 48px;
+}
+.footer p {
+  color: #475569;
+  font-size: 12px;
+}
+.footer .brand {
+  font-weight: 700;
+  color: var(--neon-pink);
+  text-shadow: 0 0 6px rgba(255, 45, 155, 0.3);
+}
+
+/* --- Scroll reveal --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Keyframe animations --- */
+@keyframes gridScroll {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 60px; }
+}
+@keyframes neonPulse {
+  0%   { opacity: 0.6; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.75; }
+}
+@keyframes glitchText {
+  0%   { transform: translate(0); }
+  20%  { transform: translate(-2px, 1px); }
+  40%  { transform: translate(2px, -1px); }
+  60%  { transform: translate(-1px, -1px); }
+  80%  { transform: translate(1px, 2px); }
+  100% { transform: translate(0); }
+}
+@keyframes neonFlicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+  }
+  20%, 24%, 55% {
+    opacity: 0.6;
+  }
+}
+
+/* --- Responsive --- */
+@media (max-width: 640px) {
+  .product-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+  .product-card { padding: 12px; }
+  .product-thumb { height: 60px; }
+  .hero-stats { gap: 24px; }
+  .hero-stat .num { font-size: 24px; }
+  .hero h1 { letter-spacing: 1px; }
+  .empire-nav { gap: 4px; padding: 8px 12px; }
+  .empire-nav a, .empire-nav span { font-size: 11px; padding: 5px 10px; }
+  .store-nav { padding: 12px 14px; gap: 6px; }
+}
+
+/* --- Reduced motion --- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .cyber-grid::before { animation: none; }
+  .neon-glow { animation: none; }
+  .hero h1::before,
+  .hero h1::after { animation: none; }
+  .hero-icon { animation: none; }
+  .reveal { opacity: 1; transform: none; }
 }
 
 </style>
 </head>
 <body>
-<div class="bg-grid"></div>
-<div class="bg-glow"></div>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<div class="cyber-grid" aria-hidden="true"></div>
+<div class="neon-glow" aria-hidden="true"></div>
 <div class="container">
 
 <nav class="empire-nav">
@@ -283,5 +707,10 @@ a { text-decoration:none; color:inherit; }
 </footer>
 
 </div>
+<script>
+document.querySelectorAll('.store-section,.hero,.store-nav,.footer').forEach(el=>el.classList.add('reveal'));
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
 </body>
 </html>
