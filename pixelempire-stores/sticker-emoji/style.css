@@ -25,8 +25,8 @@
   --shadow-glow-strong: 0 0 40px rgba(var(--accent-rgb), 0.3);
 
   /* Pixel grid */
-  --grid-color: rgba(255, 255, 255, 0.02);
-  --grid-size: 24px;
+  --grid-color: rgba(255, 255, 255, 0.035);
+  --grid-size: 20px;
 
   /* Typography */
   --font-pixel: "Press Start 2P", monospace;
@@ -110,6 +110,12 @@ body::after {
     rgba(0, 0, 0, 0.03) 2px,
     rgba(0, 0, 0, 0.03) 4px
   );
+  animation: crt-flicker 0.15s infinite alternate;
+}
+
+@keyframes crt-flicker {
+  0%   { opacity: 0.97; }
+  100% { opacity: 1; }
 }
 
 [data-theme="light"] body::after {

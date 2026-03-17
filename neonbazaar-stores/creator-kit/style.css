@@ -1,26 +1,26 @@
 /* ============================================================
    Neon Bazaar — Creator Kit Storefront
-   Generated 2026-03-13 09:46 UTC — DO NOT EDIT BY HAND
+   Generated 2026-03-17 10:03 UTC — DO NOT EDIT BY HAND
    ============================================================ */
 
 /* ----- Google Fonts import ----- */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* ----- CSS Custom Properties ----- */
 :root {
     /* Backgrounds */
-    --nb-bg:                #0a0a12;
-    --nb-surface:           #12122a;
-    --nb-surface-variant:   #1a1a3a;
-    --nb-surface-elevated:  #222244;
+    --nb-bg:                #0d0221;
+    --nb-surface:           #1a0a3e;
+    --nb-surface-variant:   #2b1055;
+    --nb-surface-elevated:  #3c1a6e;
 
     /* Text */
-    --nb-text:              #eaeaff;
-    --nb-text-muted:        #8888aa;
+    --nb-text:              #f0e6ff;
+    --nb-text-muted:        #9b8ec4;
 
     /* Borders */
-    --nb-border:            #2a2a4a;
-    --nb-border-light:      #3a3a5a;
+    --nb-border:            #3d2a6e;
+    --nb-border-light:      #5a3d8a;
 
     /* Brand accent (per-store) */
     --nb-accent:            #00D4FF;
@@ -28,15 +28,15 @@
     --nb-accent-glow:       #00D4FF33;
 
     /* Neon palette */
-    --nb-neon-pink:         #FF2D9B;
-    --nb-electric-blue:     #00D4FF;
-    --nb-acid-green:        #39FF14;
-    --nb-purple-haze:       #9D4EDD;
-    --nb-sunset-orange:     #FF6B35;
+    --nb-neon-pink:         #FF71CE;
+    --nb-electric-blue:     #01CDFE;
+    --nb-acid-green:        #05FFA1;
+    --nb-purple-haze:       #B967FF;
+    --nb-sunset-orange:     #FFFB96;
 
     /* Typography */
-    --nb-font-heading:      'Space Grotesk', system-ui, sans-serif;
-    --nb-font-body:         'Inter', system-ui, sans-serif;
+    --nb-font-heading:      'Orbitron', system-ui, sans-serif;
+    --nb-font-body:         'Rajdhani', system-ui, sans-serif;
     --nb-font-mono:         'JetBrains Mono', ui-monospace, monospace;
 
     /* Radii */
@@ -150,40 +150,20 @@ code, pre {
     transform: translateY(0);
 }
 
-/* ----- Glitch Effect (CSS-only) ----- */
-@keyframes glitch-shift {
-    0%, 100% { transform: translate(0); }
-    20%      { transform: translate(-2px, 2px); }
-    40%      { transform: translate(-2px, -2px); }
-    60%      { transform: translate(2px, 2px); }
-    80%      { transform: translate(2px, -2px); }
+/* ----- Vaporwave Gradient Text Effect ----- */
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .glitch {
-    position: relative;
-    display: inline-block;
-}
-.glitch::before,
-.glitch::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
-.glitch::before {
-    color: var(--nb-electric-blue);
-    animation: glitch-shift 3s infinite linear alternate-reverse;
-    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
-    opacity: 0.6;
-}
-.glitch::after {
-    color: var(--nb-neon-pink);
-    animation: glitch-shift 2s infinite linear alternate;
-    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
-    opacity: 0.6;
+    background: linear-gradient(135deg, #FF71CE, #01CDFE, #B967FF, #FFFB96);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 4s ease infinite;
+    background-size: 300% 300%;
 }
 
 /* ----- Cross-Store Nav Bar ----- */
@@ -196,7 +176,7 @@ code, pre {
     z-index: 100;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    background: rgba(18, 18, 42, 0.85);
+    background: rgba(26, 10, 62, 0.85);
 }
 .cross-nav__inner {
     display: flex;
@@ -262,25 +242,28 @@ code, pre {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        135deg,
-        var(--nb-accent-glow) 0%,
-        transparent 40%,
-        transparent 60%,
-        var(--nb-accent-glow) 100%
+    background: linear-gradient(180deg, 
+        rgba(255,113,206,0.15) 0%,
+        rgba(1,205,254,0.1) 30%,
+        rgba(185,103,255,0.05) 60%,
+        transparent 100%
     );
-    background-size: 300% 300%;
-    animation: hero-gradient 8s ease infinite;
     pointer-events: none;
 }
 .hero::after {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 0;
-    right: 0;
-    height: 120px;
-    background: linear-gradient(to top, var(--nb-bg), transparent);
+    left: -20%;
+    right: -20%;
+    height: 200px;
+    background: 
+        linear-gradient(to bottom, transparent, var(--nb-bg)),
+        linear-gradient(90deg, rgba(185,103,255,0.2) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(185,103,255,0.2) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 40px, 40px 40px;
+    transform: perspective(300px) rotateX(60deg);
+    transform-origin: bottom;
     pointer-events: none;
 }
 .hero__title {
@@ -361,12 +344,12 @@ code, pre {
 .btn--crypto {
     background: transparent;
     color: var(--nb-acid-green);
-    border: 1px solid rgba(57, 255, 20, 0.3);
+    border: 1px solid rgba(5, 255, 161, 0.3);
     font-size: 13px;
 }
 .btn--crypto:hover {
-    background: rgba(57, 255, 20, 0.08);
-    box-shadow: 0 0 20px rgba(57, 255, 20, 0.15);
+    background: rgba(5, 255, 161, 0.08);
+    box-shadow: 0 0 20px rgba(5, 255, 161, 0.15);
     color: var(--nb-acid-green);
     text-decoration: none;
 }
@@ -452,7 +435,7 @@ code, pre {
 /* ----- Product Card ----- */
 .product-card {
     position: relative;
-    background: rgba(18, 18, 42, 0.6);
+    background: rgba(26, 10, 62, 0.6);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--nb-border);
@@ -489,7 +472,7 @@ code, pre {
     transform: translateY(-4px);
     border-color: var(--nb-accent-dim);
     box-shadow:
-        0 0 30px var(--nb-accent-glow),
+        0 0 30px rgba(185,103,255,0.15),
         0 8px 32px rgba(0,0,0,.4);
 }
 .product-card:hover::before {
@@ -501,11 +484,11 @@ code, pre {
     grid-column: 1 / -1;
     background: linear-gradient(
         135deg,
-        rgba(18, 18, 42, 0.8),
-        rgba(26, 26, 58, 0.6)
+        rgba(26, 10, 62, 0.8),
+        rgba(43, 16, 85, 0.6)
     );
     border-color: var(--nb-accent-dim);
-    box-shadow: 0 0 40px var(--nb-accent-glow);
+    box-shadow: 0 0 40px rgba(185,103,255,0.15);
 }
 .product-card--bundle .product-card__inner {
     display: grid;

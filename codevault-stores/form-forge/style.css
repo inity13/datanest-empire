@@ -26,6 +26,7 @@
     --cv-accent:            #7C4DFF;
     --cv-accent-dim:        #7C4DFF66;
     --cv-accent-glow:       #7C4DFF33;
+    --cv-accent-rgb:        124, 77, 255;
 
     /* Palette */
     --cv-violet:            #7C4DFF;
@@ -151,39 +152,43 @@ code, pre {
 }
 
 /* ----- Glitch Effect (CSS-only) ----- */
-@keyframes glitch-shift {
-    0%, 100% { transform: translate(0); }
-    20%      { transform: translate(-2px, 2px); }
-    40%      { transform: translate(-2px, -2px); }
-    60%      { transform: translate(2px, 2px); }
-    80%      { transform: translate(2px, -2px); }
+
+.glitch::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(transparent 50%, rgba(var(--cv-accent-rgb), 0.08) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    animation: scan-line 8s linear infinite;
+}
+@keyframes scan-line {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(20px); }
 }
 
 .glitch {
     position: relative;
     display: inline-block;
 }
-.glitch::before,
 .glitch::after {
-    content: attr(data-text);
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    background: linear-gradient(transparent 50%, rgba(var(--cv-accent-rgb), 0.08) 50%);
+    background-size: 100% 4px;
     pointer-events: none;
+    animation: scan-line 8s linear infinite;
 }
-.glitch::before {
-    color: var(--cv-electric-blue);
-    animation: glitch-shift 3s infinite linear alternate-reverse;
-    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
-    opacity: 0.6;
-}
-.glitch::after {
-    color: var(--cv-neon-pink);
-    animation: glitch-shift 2s infinite linear alternate;
-    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
-    opacity: 0.6;
+@keyframes scan-line {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(20px); }
 }
 
 /* ----- Cross-Store Nav Bar ----- */
@@ -196,7 +201,7 @@ code, pre {
     z-index: 100;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    background: rgba(18, 18, 42, 0.85);
+    background: rgba(15, 21, 32, 0.92);
 }
 .cross-nav__inner {
     display: flex;
@@ -452,7 +457,7 @@ code, pre {
 /* ----- Product Card ----- */
 .product-card {
     position: relative;
-    background: rgba(18, 18, 42, 0.6);
+    background: rgba(15, 21, 32, 0.65);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--cv-border);
@@ -494,6 +499,18 @@ code, pre {
 }
 .product-card:hover::before {
     opacity: 1;
+}
+
+.product-card::after {
+    content: '\25CF  \25CF  \25CF';
+    position: absolute;
+    top: 8px;
+    left: 16px;
+    font-size: 8px;
+    letter-spacing: 4px;
+    color: var(--cv-text-muted);
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 /* Bundle featured treatment */
